@@ -74,7 +74,7 @@ impl ::std::string::ToString for MultipartRelatedRequest {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for MultipartRelatedRequest {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -94,15 +94,15 @@ impl ::std::str::FromStr for MultipartRelatedRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing MultipartRelatedRequest".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| ())?),
-                    "optional_binary_field" => return Err(()), // Parsing binary data in this style is not supported yet
-                    "required_binary_field" => return Err(()), // Parsing binary data in this style is not supported yet
-                    _ => return Err(()) // Parse error - unexpected key
+                    "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| format!("{}", x))?),
+                    "optional_binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
+                    "required_binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
+                    _ => return Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
                 }
             }
 
@@ -114,7 +114,7 @@ impl ::std::str::FromStr for MultipartRelatedRequest {
         Ok(MultipartRelatedRequest {
             object_field: intermediate_rep.object_field.into_iter().next(),
             optional_binary_field: intermediate_rep.optional_binary_field.into_iter().next(),
-            required_binary_field: intermediate_rep.required_binary_field.into_iter().next().ok_or(())?,
+            required_binary_field: intermediate_rep.required_binary_field.into_iter().next().ok_or("required_binary_field missing in MultipartRelatedRequest".to_string())?,
         })
     }
 }
@@ -195,7 +195,7 @@ impl ::std::string::ToString for MultipartRequest {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for MultipartRequest {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -216,16 +216,16 @@ impl ::std::str::FromStr for MultipartRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing MultipartRequest".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "string_field" => intermediate_rep.string_field.push(String::from_str(val).map_err(|x| ())?),
-                    "optional_string_field" => intermediate_rep.optional_string_field.push(String::from_str(val).map_err(|x| ())?),
-                    "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| ())?),
-                    "binary_field" => return Err(()), // Parsing binary data in this style is not supported yet
-                    _ => return Err(()) // Parse error - unexpected key
+                    "string_field" => intermediate_rep.string_field.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "optional_string_field" => intermediate_rep.optional_string_field.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| format!("{}", x))?),
+                    "binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRequest".to_string()),
+                    _ => return Err("Unexpected key while parsing MultipartRequest".to_string())
                 }
             }
 
@@ -235,10 +235,10 @@ impl ::std::str::FromStr for MultipartRequest {
 
         // Use the intermediate representation to return the struct
         Ok(MultipartRequest {
-            string_field: intermediate_rep.string_field.into_iter().next().ok_or(())?,
+            string_field: intermediate_rep.string_field.into_iter().next().ok_or("string_field missing in MultipartRequest".to_string())?,
             optional_string_field: intermediate_rep.optional_string_field.into_iter().next(),
             object_field: intermediate_rep.object_field.into_iter().next(),
-            binary_field: intermediate_rep.binary_field.into_iter().next().ok_or(())?,
+            binary_field: intermediate_rep.binary_field.into_iter().next().ok_or("binary_field missing in MultipartRequest".to_string())?,
         })
     }
 }
@@ -305,7 +305,7 @@ impl ::std::string::ToString for MultipartRequestObjectField {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for MultipartRequestObjectField {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -324,14 +324,14 @@ impl ::std::str::FromStr for MultipartRequestObjectField {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing MultipartRequestObjectField".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "field_a" => intermediate_rep.field_a.push(String::from_str(val).map_err(|x| ())?),
-                    "field_b" => return Err(()), // Parsing a container in this style is not supported yet
-                    _ => return Err(()) // Parse error - unexpected key
+                    "field_a" => intermediate_rep.field_a.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "field_b" => return Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
+                    _ => return Err("Unexpected key while parsing MultipartRequestObjectField".to_string())
                 }
             }
 
@@ -341,7 +341,7 @@ impl ::std::str::FromStr for MultipartRequestObjectField {
 
         // Use the intermediate representation to return the struct
         Ok(MultipartRequestObjectField {
-            field_a: intermediate_rep.field_a.into_iter().next().ok_or(())?,
+            field_a: intermediate_rep.field_a.into_iter().next().ok_or("field_a missing in MultipartRequestObjectField".to_string())?,
             field_b: intermediate_rep.field_b.into_iter().next(),
         })
     }

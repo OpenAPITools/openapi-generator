@@ -234,7 +234,7 @@ impl ::std::string::ToString for AnotherXmlObject {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for AnotherXmlObject {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -252,13 +252,13 @@ impl ::std::str::FromStr for AnotherXmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing AnotherXmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| ())?),
-                    _ => return Err(()) // Parse error - unexpected key
+                    "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return Err("Unexpected key while parsing AnotherXmlObject".to_string())
                 }
             }
 
@@ -353,7 +353,7 @@ impl ::std::string::ToString for DuplicateXmlObject {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for DuplicateXmlObject {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -372,14 +372,14 @@ impl ::std::str::FromStr for DuplicateXmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing DuplicateXmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| ())?),
-                    "inner_array" => intermediate_rep.inner_array.push(models::XmlArray::from_str(val).map_err(|x| ())?),
-                    _ => return Err(()) // Parse error - unexpected key
+                    "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "inner_array" => intermediate_rep.inner_array.push(models::XmlArray::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return Err("Unexpected key while parsing DuplicateXmlObject".to_string())
                 }
             }
 
@@ -390,7 +390,7 @@ impl ::std::str::FromStr for DuplicateXmlObject {
         // Use the intermediate representation to return the struct
         Ok(DuplicateXmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
-            inner_array: intermediate_rep.inner_array.into_iter().next().ok_or(())?,
+            inner_array: intermediate_rep.inner_array.into_iter().next().ok_or("inner_array missing in DuplicateXmlObject".to_string())?,
         })
     }
 }
@@ -442,13 +442,14 @@ impl ::std::fmt::Display for EnumWithStarObject {
 }
 
 impl ::std::str::FromStr for EnumWithStarObject {
-    type Err = ();
+    type Err = String;
+
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "FOO" => Ok(EnumWithStarObject::FOO),
             "BAR" => Ok(EnumWithStarObject::BAR),
             "*" => Ok(EnumWithStarObject::STAR),
-            _ => Err(()),
+            _ => Err(format!("Value not valid: {}", s)),
         }
     }
 }
@@ -514,7 +515,7 @@ impl ::std::string::ToString for InlineResponse201 {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for InlineResponse201 {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -532,13 +533,13 @@ impl ::std::str::FromStr for InlineResponse201 {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing InlineResponse201".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "foo" => intermediate_rep.foo.push(String::from_str(val).map_err(|x| ())?),
-                    _ => return Err(()) // Parse error - unexpected key
+                    "foo" => intermediate_rep.foo.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return Err("Unexpected key while parsing InlineResponse201".to_string())
                 }
             }
 
@@ -815,7 +816,7 @@ impl ::std::string::ToString for NullableTest {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for NullableTest {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -837,17 +838,17 @@ impl ::std::str::FromStr for NullableTest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing NullableTest".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "nullable" => return Err(()), // Parsing a nullable type in this style is not supported yet
-                    "nullableWithNullDefault" => return Err(()), // Parsing a nullable type in this style is not supported yet
-                    "nullableWithPresentDefault" => return Err(()), // Parsing a nullable type in this style is not supported yet
-                    "nullableWithNoDefault" => return Err(()), // Parsing a nullable type in this style is not supported yet
-                    "nullableArray" => return Err(()), // Parsing a container in this style is not supported yet
-                    _ => return Err(()) // Parse error - unexpected key
+                    "nullable" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithNullDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithPresentDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithNoDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableArray" => return Err("Parsing a container in this style is not supported in NullableTest".to_string()),
+                    _ => return Err("Unexpected key while parsing NullableTest".to_string())
                 }
             }
 
@@ -857,11 +858,11 @@ impl ::std::str::FromStr for NullableTest {
 
         // Use the intermediate representation to return the struct
         Ok(NullableTest {
-            nullable: Err(())?,
-            nullable_with_null_default: Err(())?,
-            nullable_with_present_default: Err(())?,
-            nullable_with_no_default: Err(())?,
-            nullable_array: Err(())?,
+            nullable: Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_null_default: Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_present_default: Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_no_default: Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_array: Err("Nullable types not supported in NullableTest".to_string())?,
         })
     }
 }
@@ -936,7 +937,7 @@ impl ::std::string::ToString for ObjectHeader {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for ObjectHeader {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -955,14 +956,14 @@ impl ::std::str::FromStr for ObjectHeader {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing ObjectHeader".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "requiredObjectHeader" => intermediate_rep.required_object_header.push(bool::from_str(val).map_err(|x| ())?),
-                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(isize::from_str(val).map_err(|x| ())?),
-                    _ => return Err(()) // Parse error - unexpected key
+                    "requiredObjectHeader" => intermediate_rep.required_object_header.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
+                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return Err("Unexpected key while parsing ObjectHeader".to_string())
                 }
             }
 
@@ -972,7 +973,7 @@ impl ::std::str::FromStr for ObjectHeader {
 
         // Use the intermediate representation to return the struct
         Ok(ObjectHeader {
-            required_object_header: intermediate_rep.required_object_header.into_iter().next().ok_or(())?,
+            required_object_header: intermediate_rep.required_object_header.into_iter().next().ok_or("requiredObjectHeader missing in ObjectHeader".to_string())?,
             optional_object_header: intermediate_rep.optional_object_header.into_iter().next(),
         })
     }
@@ -1048,7 +1049,7 @@ impl ::std::string::ToString for ObjectParam {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for ObjectParam {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -1067,14 +1068,14 @@ impl ::std::str::FromStr for ObjectParam {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing ObjectParam".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "requiredParam" => intermediate_rep.required_param.push(bool::from_str(val).map_err(|x| ())?),
-                    "optionalParam" => intermediate_rep.optional_param.push(isize::from_str(val).map_err(|x| ())?),
-                    _ => return Err(()) // Parse error - unexpected key
+                    "requiredParam" => intermediate_rep.required_param.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
+                    "optionalParam" => intermediate_rep.optional_param.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return Err("Unexpected key while parsing ObjectParam".to_string())
                 }
             }
 
@@ -1084,7 +1085,7 @@ impl ::std::str::FromStr for ObjectParam {
 
         // Use the intermediate representation to return the struct
         Ok(ObjectParam {
-            required_param: intermediate_rep.required_param.into_iter().next().ok_or(())?,
+            required_param: intermediate_rep.required_param.into_iter().next().ok_or("requiredParam missing in ObjectParam".to_string())?,
             optional_param: intermediate_rep.optional_param.into_iter().next(),
         })
     }
@@ -1167,7 +1168,7 @@ impl ::std::string::ToString for ObjectUntypedProps {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for ObjectUntypedProps {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -1188,16 +1189,16 @@ impl ::std::str::FromStr for ObjectUntypedProps {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing ObjectUntypedProps".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "required_untyped" => intermediate_rep.required_untyped.push(serde_json::Value::from_str(val).map_err(|x| ())?),
-                    "required_untyped_nullable" => intermediate_rep.required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| ())?),
-                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(serde_json::Value::from_str(val).map_err(|x| ())?),
-                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| ())?),
-                    _ => return Err(()) // Parse error - unexpected key
+                    "required_untyped" => intermediate_rep.required_untyped.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
+                    "required_untyped_nullable" => intermediate_rep.required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
+                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
+                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
             }
 
@@ -1207,8 +1208,8 @@ impl ::std::str::FromStr for ObjectUntypedProps {
 
         // Use the intermediate representation to return the struct
         Ok(ObjectUntypedProps {
-            required_untyped: intermediate_rep.required_untyped.into_iter().next().ok_or(())?,
-            required_untyped_nullable: intermediate_rep.required_untyped_nullable.into_iter().next().ok_or(())?,
+            required_untyped: intermediate_rep.required_untyped.into_iter().next().ok_or("required_untyped missing in ObjectUntypedProps".to_string())?,
+            required_untyped_nullable: intermediate_rep.required_untyped_nullable.into_iter().next().ok_or("required_untyped_nullable missing in ObjectUntypedProps".to_string())?,
             not_required_untyped: intermediate_rep.not_required_untyped.into_iter().next(),
             not_required_untyped_nullable: intermediate_rep.not_required_untyped_nullable.into_iter().next(),
         })
@@ -1277,7 +1278,7 @@ impl ::std::string::ToString for ObjectWithArrayOfObjects {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for ObjectWithArrayOfObjects {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -1295,13 +1296,13 @@ impl ::std::str::FromStr for ObjectWithArrayOfObjects {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing ObjectWithArrayOfObjects".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "objectArray" => return Err(()), // Parsing a container in this style is not supported yet
-                    _ => return Err(()) // Parse error - unexpected key
+                    "objectArray" => return Err("Parsing a container in this style is not supported in ObjectWithArrayOfObjects".to_string()),
+                    _ => return Err("Unexpected key while parsing ObjectWithArrayOfObjects".to_string())
                 }
             }
 
@@ -1398,6 +1399,50 @@ impl ::std::ops::DerefMut for RequiredObjectHeader {
 
 
 impl RequiredObjectHeader {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]
+pub enum StringEnum { 
+    #[serde(rename = "FOO")]
+    FOO,
+    #[serde(rename = "BAR")]
+    BAR,
+}
+
+impl ::std::fmt::Display for StringEnum {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        match *self { 
+            StringEnum::FOO => write!(f, "{}", "FOO"),
+            StringEnum::BAR => write!(f, "{}", "BAR"),
+        }
+    }
+}
+
+impl ::std::str::FromStr for StringEnum {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "FOO" => Ok(StringEnum::FOO),
+            "BAR" => Ok(StringEnum::BAR),
+            _ => Err(format!("Value not valid: {}", s)),
+        }
+    }
+}
+
+impl StringEnum {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -1725,7 +1770,7 @@ impl ::std::string::ToString for XmlObject {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for XmlObject {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -1744,14 +1789,14 @@ impl ::std::str::FromStr for XmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing XmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "innerString" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| ())?),
-                    "other_inner_rename" => intermediate_rep.other_inner_rename.push(isize::from_str(val).map_err(|x| ())?),
-                    _ => return Err(()) // Parse error - unexpected key
+                    "innerString" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "other_inner_rename" => intermediate_rep.other_inner_rename.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return Err("Unexpected key while parsing XmlObject".to_string())
                 }
             }
 

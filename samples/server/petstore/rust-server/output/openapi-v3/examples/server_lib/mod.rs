@@ -17,6 +17,7 @@ use swagger;
 use swagger::{Has, XSpanIdString};
 
 use openapi_v3::{Api, ApiError,
+                      EnumInPathPathParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
@@ -48,6 +49,13 @@ impl<C> Server<C> {
 }
 
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
+
+
+    fn enum_in_path_path_param_get(&self, path_param: models::StringEnum, context: &C) -> Box<Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("enum_in_path_path_param_get({:?}) - X-Span-ID: {:?}", path_param, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
 
 
     fn mandatory_request_header_get(&self, x_header: String, context: &C) -> Box<Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send> {

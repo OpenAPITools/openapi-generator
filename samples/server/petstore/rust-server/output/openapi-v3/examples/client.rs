@@ -14,6 +14,7 @@ use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
 use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
+                      EnumInPathPathParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
@@ -114,6 +115,16 @@ fn main() {
     let client = client.with_context(context);
 
     match matches.value_of("operation") {
+
+        /* Disabled because there's no example.
+        Some("EnumInPathPathParamGet") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.enum_in_path_path_param_get(
+                  ???
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
 
         Some("MandatoryRequestHeaderGet") => {
             let mut rt = tokio::runtime::Runtime::new().unwrap();

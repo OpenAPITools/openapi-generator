@@ -75,6 +75,12 @@ pub const API_VERSION: &'static str = "1.0.7";
 
 
 #[derive(Debug, PartialEq)]
+pub enum EnumInPathPathParamGetResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum MandatoryRequestHeaderGetResponse {
     /// Success
     Success
@@ -239,6 +245,9 @@ pub enum XmlPutResponse {
 pub trait Api<C> {
 
 
+    fn enum_in_path_path_param_get(&self, path_param: models::StringEnum, context: &C) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>;
+
+
     fn mandatory_request_header_get(&self, x_header: String, context: &C) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
 
 
@@ -290,6 +299,9 @@ pub trait Api<C> {
 
 /// API without a `Context`
 pub trait ApiNoContext {
+
+
+    fn enum_in_path_path_param_get(&self, path_param: models::StringEnum) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>;
 
 
     fn mandatory_request_header_get(&self, x_header: String) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
@@ -354,6 +366,11 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 }
 
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+
+
+    fn enum_in_path_path_param_get(&self, path_param: models::StringEnum) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send> {
+        self.api().enum_in_path_path_param_get(path_param, &self.context())
+    }
 
 
     fn mandatory_request_header_get(&self, x_header: String) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send> {
