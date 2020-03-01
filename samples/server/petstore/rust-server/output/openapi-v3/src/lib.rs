@@ -86,6 +86,13 @@ pub enum MandatoryRequestHeaderGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum MergePatchJsonGetResponse {
+    /// merge-patch+json-encoded response
+    Merge
+    (models::AnotherXmlObject)
+}
+
+#[derive(Debug, PartialEq)]
 pub enum MultigetGetResponse {
     /// JSON rsp
     JSONRsp
@@ -166,6 +173,21 @@ pub enum ResponsesWithHeadersGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum Rfc7807GetResponse {
+    /// OK
+    OK
+    (models::ObjectWithArrayOfObjects)
+    ,
+    /// NotFound
+    NotFound
+    (models::ObjectWithArrayOfObjects)
+    ,
+    /// NotAcceptable
+    NotAcceptable
+    (models::ObjectWithArrayOfObjects)
+}
+
+#[derive(Debug, PartialEq)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
     CheckThatUntypedPropertiesWorks
@@ -235,6 +257,10 @@ pub trait Api<C> {
         x_header: String,
         context: &C) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
 
+    fn merge_patch_json_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>;
+
     /// Get some stuff.
     fn multiget_get(
         &self,
@@ -269,6 +295,10 @@ pub trait Api<C> {
     fn responses_with_headers_get(
         &self,
         context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>;
+
+    fn rfc7807_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>;
 
     fn untyped_property_get(
         &self,
@@ -319,6 +349,10 @@ pub trait ApiNoContext {
         x_header: String,
         ) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
 
+    fn merge_patch_json_get(
+        &self,
+        ) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>;
+
     /// Get some stuff.
     fn multiget_get(
         &self,
@@ -353,6 +387,10 @@ pub trait ApiNoContext {
     fn responses_with_headers_get(
         &self,
         ) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>;
+
+    fn rfc7807_get(
+        &self,
+        ) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>;
 
     fn untyped_property_get(
         &self,
@@ -420,6 +458,13 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         self.api().mandatory_request_header_get(x_header, &self.context())
     }
 
+    fn merge_patch_json_get(
+        &self,
+        ) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>
+    {
+        self.api().merge_patch_json_get(&self.context())
+    }
+
     /// Get some stuff.
     fn multiget_get(
         &self,
@@ -474,6 +519,13 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>
     {
         self.api().responses_with_headers_get(&self.context())
+    }
+
+    fn rfc7807_get(
+        &self,
+        ) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>
+    {
+        self.api().rfc7807_get(&self.context())
     }
 
     fn untyped_property_get(

@@ -89,6 +89,7 @@ use openapi_v3::{
     ApiError,
     CallbackWithHeaderPostResponse,
     MandatoryRequestHeaderGetResponse,
+    MergePatchJsonGetResponse,
     MultigetGetResponse,
     MultipleAuthSchemeGetResponse,
     ParamgetGetResponse,
@@ -96,6 +97,7 @@ use openapi_v3::{
     RegisterCallbackPostResponse,
     RequiredOctetStreamPutResponse,
     ResponsesWithHeadersGetResponse,
+    Rfc7807GetResponse,
     UntypedPropertyGetResponse,
     UuidGetResponse,
     XmlExtraPostResponse,
@@ -124,6 +126,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("mandatory_request_header_get(\"{}\") - X-Span-ID: {:?}", x_header, context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn merge_patch_json_get(
+        &self,
+        context: &C) -> Box<Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("merge_patch_json_get() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 
@@ -194,6 +205,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("responses_with_headers_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn rfc7807_get(
+        &self,
+        context: &C) -> Box<Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("rfc7807_get() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 

@@ -26,6 +26,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       CallbackWithHeaderPostResponse,
                       MandatoryRequestHeaderGetResponse,
+                      MergePatchJsonGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
                       ParamgetGetResponse,
@@ -33,6 +34,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       RegisterCallbackPostResponse,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
+                      Rfc7807GetResponse,
                       UntypedPropertyGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
@@ -53,6 +55,7 @@ fn main() {
             .possible_values(&[
                 "CallbackWithHeaderPost",
                 "MandatoryRequestHeaderGet",
+                "MergePatchJsonGet",
                 "MultigetGet",
                 "MultipleAuthSchemeGet",
                 "ParamgetGet",
@@ -60,6 +63,7 @@ fn main() {
                 "RegisterCallbackPost",
                 "RequiredOctetStreamPut",
                 "ResponsesWithHeadersGet",
+                "Rfc7807Get",
                 "UntypedPropertyGet",
                 "UuidGet",
                 "XmlExtraPost",
@@ -127,6 +131,11 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
+        Some("MergePatchJsonGet") => {
+            let result = rt.block_on(client.merge_patch_json_get(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
         Some("MultigetGet") => {
             let result = rt.block_on(client.multiget_get(
             ));
@@ -164,6 +173,11 @@ fn main() {
         },
         Some("ResponsesWithHeadersGet") => {
             let result = rt.block_on(client.responses_with_headers_get(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
+        Some("Rfc7807Get") => {
+            let result = rt.block_on(client.rfc7807_get(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },

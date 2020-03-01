@@ -98,7 +98,9 @@ pub use swagger::{ApiError, ContextWrapper};
 pub use futures::Future;
 
 pub const BASE_PATH: &'static str = "{{{basePathWithoutHost}}}";
+{{#appVersion}}
 pub const API_VERSION: &'static str = "{{{appVersion}}}";
+{{/appVersion}}
 
 {{#apiInfo}}
   {{#apis}}

@@ -4,6 +4,7 @@ pub mod responses {
     /// Create &str objects for the response content types for TestSpecialTags
     pub static TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION: &str = "application/json";
 
+
     /// Create &str objects for the response content types for FakeOuterBooleanSerialize
     pub static FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN: &str = "*/*";
 
@@ -15,6 +16,7 @@ pub mod responses {
 
     /// Create &str objects for the response content types for FakeOuterStringSerialize
     pub static FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING: &str = "*/*";
+
 
 
 
@@ -72,6 +74,7 @@ pub mod requests {
     /// Create &str objects for the request content types for TestSpecialTags
     pub static TEST_SPECIAL_TAGS: &str = "application/json";
 
+
     /// Create &str objects for the request content types for FakeOuterBooleanSerialize
     pub static FAKE_OUTER_BOOLEAN_SERIALIZE: &str = "application/json";
 
@@ -83,6 +86,7 @@ pub mod requests {
 
     /// Create &str objects for the request content types for FakeOuterStringSerialize
     pub static FAKE_OUTER_STRING_SERIALIZE: &str = "application/json";
+
 
 
     /// Create &str objects for the request content types for TestBodyWithQueryParams

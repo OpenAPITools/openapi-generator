@@ -27,6 +27,7 @@ pub use crate::context;
 use {Api,
      CallbackWithHeaderPostResponse,
      MandatoryRequestHeaderGetResponse,
+     MergePatchJsonGetResponse,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
      ParamgetGetResponse,
@@ -34,6 +35,7 @@ use {Api,
      RegisterCallbackPostResponse,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
+     Rfc7807GetResponse,
      UntypedPropertyGetResponse,
      UuidGetResponse,
      XmlExtraPostResponse,
@@ -52,6 +54,7 @@ mod paths {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/callback-with-header$",
             r"^/mandatory-request-header$",
+            r"^/merge-patch-json$",
             r"^/multiget$",
             r"^/multiple_auth_scheme$",
             r"^/paramget$",
@@ -59,6 +62,7 @@ mod paths {
             r"^/register-callback$",
             r"^/required_octet_stream$",
             r"^/responses_with_headers$",
+            r"^/rfc7807$",
             r"^/untyped_property$",
             r"^/uuid$",
             r"^/xml$",
@@ -69,18 +73,20 @@ mod paths {
     }
     pub static ID_CALLBACK_WITH_HEADER: usize = 0;
     pub static ID_MANDATORY_REQUEST_HEADER: usize = 1;
-    pub static ID_MULTIGET: usize = 2;
-    pub static ID_MULTIPLE_AUTH_SCHEME: usize = 3;
-    pub static ID_PARAMGET: usize = 4;
-    pub static ID_READONLY_AUTH_SCHEME: usize = 5;
-    pub static ID_REGISTER_CALLBACK: usize = 6;
-    pub static ID_REQUIRED_OCTET_STREAM: usize = 7;
-    pub static ID_RESPONSES_WITH_HEADERS: usize = 8;
-    pub static ID_UNTYPED_PROPERTY: usize = 9;
-    pub static ID_UUID: usize = 10;
-    pub static ID_XML: usize = 11;
-    pub static ID_XML_EXTRA: usize = 12;
-    pub static ID_XML_OTHER: usize = 13;
+    pub static ID_MERGE_PATCH_JSON: usize = 2;
+    pub static ID_MULTIGET: usize = 3;
+    pub static ID_MULTIPLE_AUTH_SCHEME: usize = 4;
+    pub static ID_PARAMGET: usize = 5;
+    pub static ID_READONLY_AUTH_SCHEME: usize = 6;
+    pub static ID_REGISTER_CALLBACK: usize = 7;
+    pub static ID_REQUIRED_OCTET_STREAM: usize = 8;
+    pub static ID_RESPONSES_WITH_HEADERS: usize = 9;
+    pub static ID_RFC7807: usize = 10;
+    pub static ID_UNTYPED_PROPERTY: usize = 11;
+    pub static ID_UUID: usize = 12;
+    pub static ID_XML: usize = 13;
+    pub static ID_XML_EXTRA: usize = 14;
+    pub static ID_XML_OTHER: usize = 15;
 }
 
 pub struct MakeService<T, RC> {
@@ -243,6 +249,49 @@ where
                                                 MandatoryRequestHeaderGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
+            // MergePatchJsonGet - GET /merge-patch-json
+            &hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => {
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.merge_patch_json_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                MergePatchJsonGetResponse::Merge
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::MERGE_PATCH_JSON_GET_MERGE)
+                                                            .expect("Unable to create Content-Type header for MERGE_PATCH_JSON_GET_MERGE"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
@@ -728,6 +777,71 @@ where
                                                         HeaderName::from_static("failure-info"),
                                                         header::IntoHeaderValue(failure_info).into()
                                                     );
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
+            // Rfc7807Get - GET /rfc7807
+            &hyper::Method::GET if path.matched(paths::ID_RFC7807) => {
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.rfc7807_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Rfc7807GetResponse::OK
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_OK)
+                                                            .expect("Unable to create Content-Type header for RFC7807_GET_OK"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                Rfc7807GetResponse::NotFound
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_NOT_FOUND)
+                                                            .expect("Unable to create Content-Type header for RFC7807_GET_NOT_FOUND"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                Rfc7807GetResponse::NotAcceptable
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(406).expect("Unable to turn 406 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_NOT_ACCEPTABLE)
+                                                            .expect("Unable to create Content-Type header for RFC7807_GET_NOT_ACCEPTABLE"));
+                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
@@ -1251,6 +1365,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Ok("CallbackWithHeaderPost"),
             // MandatoryRequestHeaderGet - GET /mandatory-request-header
             &hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => Ok("MandatoryRequestHeaderGet"),
+            // MergePatchJsonGet - GET /merge-patch-json
+            &hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => Ok("MergePatchJsonGet"),
             // MultigetGet - GET /multiget
             &hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Ok("MultigetGet"),
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
@@ -1265,6 +1381,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Ok("RequiredOctetStreamPut"),
             // ResponsesWithHeadersGet - GET /responses_with_headers
             &hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
+            // Rfc7807Get - GET /rfc7807
+            &hyper::Method::GET if path.matched(paths::ID_RFC7807) => Ok("Rfc7807Get"),
             // UntypedPropertyGet - GET /untyped_property
             &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => Ok("UntypedPropertyGet"),
             // UuidGet - GET /uuid

@@ -4,6 +4,9 @@ pub mod responses {
 
 
 
+    /// Create &str objects for the response content types for MergePatchJsonGet
+    pub static MERGE_PATCH_JSON_GET_MERGE: &str = "application/merge-patch+json";
+
     /// Create &str objects for the response content types for MultigetGet
     pub static MULTIGET_GET_JSON_RSP: &str = "application/json";
     /// Create &str objects for the response content types for MultigetGet
@@ -30,6 +33,13 @@ pub mod responses {
     /// Create &str objects for the response content types for ResponsesWithHeadersGet
     pub static RESPONSES_WITH_HEADERS_GET_SUCCESS: &str = "application/json";
 
+    /// Create &str objects for the response content types for Rfc7807Get
+    pub static RFC7807_GET_OK: &str = "application/json";
+    /// Create &str objects for the response content types for Rfc7807Get
+    pub static RFC7807_GET_NOT_FOUND: &str = "application/problem+json";
+    /// Create &str objects for the response content types for Rfc7807Get
+    pub static RFC7807_GET_NOT_ACCEPTABLE: &str = "application/problem+xml";
+
 
     /// Create &str objects for the response content types for UuidGet
     pub static UUID_GET_DUPLICATE_RESPONSE_LONG_TEXT: &str = "application/json";
@@ -51,8 +61,10 @@ pub mod requests {
 
 
 
+
     /// Create &str objects for the request content types for RequiredOctetStreamPut
     pub static REQUIRED_OCTET_STREAM_PUT: &str = "application/octet-stream";
+
 
 
     /// Create &str objects for the request content types for UntypedPropertyGet

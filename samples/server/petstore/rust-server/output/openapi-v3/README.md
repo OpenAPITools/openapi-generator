@@ -63,6 +63,7 @@ To run a client, follow one of the following simple steps:
 ```
 cargo run --example client CallbackWithHeaderPost
 cargo run --example client MandatoryRequestHeaderGet
+cargo run --example client MergePatchJsonGet
 cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
 cargo run --example client ParamgetGet
@@ -70,6 +71,7 @@ cargo run --example client ReadonlyAuthSchemeGet
 cargo run --example client RegisterCallbackPost
 cargo run --example client RequiredOctetStreamPut
 cargo run --example client ResponsesWithHeadersGet
+cargo run --example client Rfc7807Get
 cargo run --example client UntypedPropertyGet
 cargo run --example client UuidGet
 cargo run --example client XmlExtraPost
@@ -112,6 +114,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [****](docs/default_api.md#) | **POST** /callback-with-header | 
 [****](docs/default_api.md#) | **GET** /mandatory-request-header | 
+[****](docs/default_api.md#) | **GET** /merge-patch-json | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
@@ -119,6 +122,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **POST** /register-callback | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
+[****](docs/default_api.md#) | **GET** /rfc7807 | 
 [****](docs/default_api.md#) | **GET** /untyped_property | 
 [****](docs/default_api.md#) | **GET** /uuid | 
 [****](docs/default_api.md#) | **POST** /xml_extra | 
@@ -138,6 +142,7 @@ Method | HTTP request | Description
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [NullableTest](docs/NullableTest.md)
  - [ObjectHeader](docs/ObjectHeader.md)
  - [ObjectParam](docs/ObjectParam.md)
  - [ObjectUntypedProps](docs/ObjectUntypedProps.md)

@@ -257,9 +257,7 @@ impl ::std::str::FromStr for AnotherXmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -379,12 +377,8 @@ impl ::std::str::FromStr for DuplicateXmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "inner_array" => intermediate_rep.inner_array.push(models::XmlArray::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -543,9 +537,7 @@ impl ::std::str::FromStr for InlineResponse201 {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "foo" => intermediate_rep.foo.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -722,6 +714,168 @@ impl MyIdList {
     }
 }
 
+// Methods for converting between IntoHeaderValue<NullableTest> and HeaderValue
+
+impl From<IntoHeaderValue<NullableTest>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<NullableTest>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<NullableTest> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(NullableTest::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct NullableTest {
+    #[serde(rename = "nullable")]
+    pub nullable: swagger::Nullable<String>,
+
+    #[serde(rename = "nullableWithNullDefault")]
+    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
+    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub nullable_with_null_default: Option<swagger::Nullable<String>>,
+
+    #[serde(rename = "nullableWithPresentDefault")]
+    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
+    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub nullable_with_present_default: Option<swagger::Nullable<String>>,
+
+    #[serde(rename = "nullableWithNoDefault")]
+    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
+    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub nullable_with_no_default: Option<swagger::Nullable<String>>,
+
+    #[serde(rename = "nullableArray")]
+    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
+    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub nullable_array: Option<swagger::Nullable<Vec<String>>>,
+
+}
+
+impl NullableTest {
+    pub fn new(nullable: swagger::Nullable<String>, ) -> NullableTest {
+        NullableTest {
+            nullable: nullable,
+            nullable_with_null_default: Some(swagger::Nullable::Null),
+            nullable_with_present_default: Some(swagger::Nullable::Present("default".to_string())),
+            nullable_with_no_default: None,
+            nullable_array: None,
+        }
+    }
+}
+
+/// Converts the NullableTest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for NullableTest {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        params.push("nullable".to_string());
+        params.push(self.nullable.as_ref().map_or("null".to_string(), |x| x.to_string()));
+
+
+        if let Some(ref nullable_with_null_default) = self.nullable_with_null_default {
+            params.push("nullableWithNullDefault".to_string());
+            params.push(nullable_with_null_default.as_ref().map_or("null".to_string(), |x| x.to_string()));
+        }
+
+
+        if let Some(ref nullable_with_present_default) = self.nullable_with_present_default {
+            params.push("nullableWithPresentDefault".to_string());
+            params.push(nullable_with_present_default.as_ref().map_or("null".to_string(), |x| x.to_string()));
+        }
+
+
+        if let Some(ref nullable_with_no_default) = self.nullable_with_no_default {
+            params.push("nullableWithNoDefault".to_string());
+            params.push(nullable_with_no_default.as_ref().map_or("null".to_string(), |x| x.to_string()));
+        }
+
+
+        if let Some(ref nullable_array) = self.nullable_array {
+            params.push("nullableArray".to_string());
+            params.push(nullable_array.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a NullableTest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for NullableTest {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub nullable: Vec<String>,
+            pub nullable_with_null_default: Vec<String>,
+            pub nullable_with_present_default: Vec<String>,
+            pub nullable_with_no_default: Vec<String>,
+            pub nullable_array: Vec<Vec<String>>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return Err(())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "nullable" => return Err(()), // Parsing a nullable type in this style is not supported yet
+                    "nullableWithNullDefault" => return Err(()), // Parsing a nullable type in this style is not supported yet
+                    "nullableWithPresentDefault" => return Err(()), // Parsing a nullable type in this style is not supported yet
+                    "nullableWithNoDefault" => return Err(()), // Parsing a nullable type in this style is not supported yet
+                    "nullableArray" => return Err(()), // Parsing a container in this style is not supported yet
+                    _ => return Err(()) // Parse error - unexpected key
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        Ok(NullableTest {
+            nullable: Err(())?,
+            nullable_with_null_default: Err(())?,
+            nullable_with_present_default: Err(())?,
+            nullable_with_no_default: Err(())?,
+            nullable_array: Err(())?,
+        })
+    }
+}
+
+
+impl NullableTest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 // Methods for converting between IntoHeaderValue<ObjectHeader> and HeaderValue
 
 impl From<IntoHeaderValue<ObjectHeader>> for HeaderValue {
@@ -806,12 +960,8 @@ impl ::std::str::FromStr for ObjectHeader {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "requiredObjectHeader" => intermediate_rep.required_object_header.push(bool::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "optionalObjectHeader" => intermediate_rep.optional_object_header.push(isize::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -922,12 +1072,8 @@ impl ::std::str::FromStr for ObjectParam {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "requiredParam" => intermediate_rep.required_param.push(bool::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "optionalParam" => intermediate_rep.optional_param.push(isize::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1047,18 +1193,10 @@ impl ::std::str::FromStr for ObjectUntypedProps {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "required_untyped" => intermediate_rep.required_untyped.push(serde_json::Value::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "required_untyped_nullable" => intermediate_rep.required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "not_required_untyped" => intermediate_rep.not_required_untyped.push(serde_json::Value::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1163,7 +1301,6 @@ impl ::std::str::FromStr for ObjectWithArrayOfObjects {
             if let Some(key) = key_result {
                 match key {
                     "objectArray" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1612,12 +1749,8 @@ impl ::std::str::FromStr for XmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "innerString" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "other_inner_rename" => intermediate_rep.other_inner_rename.push(isize::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }

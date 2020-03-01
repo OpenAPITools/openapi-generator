@@ -289,6 +289,36 @@ paths:
       responses:
         '204':
           description: OK
+  /rfc7807:
+    get:
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+        '404':
+          description: NotFound
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+        '406':
+          description: NotAcceptable
+          content:
+            application/problem+xml:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+  /merge-patch-json:
+    get:
+      responses:
+        200:
+          description: merge-patch+json-encoded response
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
 
 components:
   securitySchemes:
@@ -420,3 +450,27 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    NullableTest:
+      type: object
+      required:
+      - nullable
+      properties:
+        nullable:
+          type: string
+          nullable: true
+        nullableWithNullDefault:
+          type: string
+          nullable: true
+          default: null
+        nullableWithPresentDefault:
+          type: string
+          nullable: true
+          default: "default"
+        nullableWithNoDefault:
+          type: string
+          nullable: true
+        nullableArray:
+          type: array
+          items:
+            type: string
+          nullable: true

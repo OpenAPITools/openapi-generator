@@ -15,10 +15,12 @@ use futures::{Future, future, Stream, stream};
 use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       TestSpecialTagsResponse,
+                      Call123exampleResponse,
                       FakeOuterBooleanSerializeResponse,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
                       FakeOuterStringSerializeResponse,
+                      FakeResponseWithNumericalDescriptionResponse,
                       HyphenParamResponse,
                       TestBodyWithQueryParamsResponse,
                       TestClientModelResponse,
@@ -58,10 +60,12 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+                "Call123example",
                 "FakeOuterBooleanSerialize",
                 "FakeOuterCompositeSerialize",
                 "FakeOuterNumberSerialize",
                 "FakeOuterStringSerialize",
+                "FakeResponseWithNumericalDescription",
                 "HyphenParam",
                 "TestEndpointParameters",
                 "TestEnumParameters",
@@ -134,6 +138,11 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
         */
+        Some("Call123example") => {
+            let result = rt.block_on(client.call123example(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
         Some("FakeOuterBooleanSerialize") => {
             let result = rt.block_on(client.fake_outer_boolean_serialize(
                   None
@@ -155,6 +164,11 @@ fn main() {
         Some("FakeOuterStringSerialize") => {
             let result = rt.block_on(client.fake_outer_string_serialize(
                   None
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
+        Some("FakeResponseWithNumericalDescription") => {
+            let result = rt.block_on(client.fake_response_with_numerical_description(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },

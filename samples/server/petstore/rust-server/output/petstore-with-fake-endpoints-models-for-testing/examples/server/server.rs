@@ -88,10 +88,12 @@ use petstore_with_fake_endpoints_models_for_testing::{
     Api,
     ApiError,
     TestSpecialTagsResponse,
+    Call123exampleResponse,
     FakeOuterBooleanSerializeResponse,
     FakeOuterCompositeSerializeResponse,
     FakeOuterNumberSerializeResponse,
     FakeOuterStringSerializeResponse,
+    FakeResponseWithNumericalDescriptionResponse,
     HyphenParamResponse,
     TestBodyWithQueryParamsResponse,
     TestClientModelResponse,
@@ -135,6 +137,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         Box::new(future::err("Generic failure".into()))
     }
 
+    fn call123example(
+        &self,
+        context: &C) -> Box<Future<Item=Call123exampleResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("call123example() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
     fn fake_outer_boolean_serialize(
         &self,
         body: Option<models::OuterBoolean>,
@@ -172,6 +183,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("fake_outer_string_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn fake_response_with_numerical_description(
+        &self,
+        context: &C) -> Box<Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("fake_response_with_numerical_description() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 
