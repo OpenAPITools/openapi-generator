@@ -99,13 +99,9 @@ impl ::std::str::FromStr for MultipartRelatedRequest {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| ())?),
-                    
                     "optional_binary_field" => return Err(()), // Parsing binary data in this style is not supported yet
-                    
                     "required_binary_field" => return Err(()), // Parsing binary data in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -225,17 +221,10 @@ impl ::std::str::FromStr for MultipartRequest {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "string_field" => intermediate_rep.string_field.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "optional_string_field" => intermediate_rep.optional_string_field.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| ())?),
-                    
                     "binary_field" => return Err(()), // Parsing binary data in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -340,11 +329,8 @@ impl ::std::str::FromStr for MultipartRequestObjectField {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "field_a" => intermediate_rep.field_a.push(String::from_str(val).map_err(|x| ())?),
-                    
                     "field_b" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }

@@ -3,6 +3,9 @@
 pub mod responses {
 
 
+    /// Create &str objects for the response content types for MergePatchJsonGet
+    pub static MERGE_PATCH_JSON_GET_MERGE: &str = "application/merge-patch+json";
+
     /// Create &str objects for the response content types for MultigetGet
     pub static MULTIGET_GET_JSON_RSP: &str = "application/json";
 

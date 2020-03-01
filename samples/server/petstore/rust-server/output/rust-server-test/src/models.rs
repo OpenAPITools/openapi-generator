@@ -98,9 +98,7 @@ impl ::std::str::FromStr for ANullableContainer {
             if let Some(key) = key_result {
                 match key {
                     "NullableThing" => return Err(()), // Parsing a nullable type in this style is not supported yet
-                    
                     "RequiredNullableThing" => return Err(()), // Parsing a nullable type in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -456,9 +454,7 @@ impl ::std::str::FromStr for GetYamlResponse {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "value" => intermediate_rep.value.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -560,12 +556,8 @@ impl ::std::str::FromStr for InlineObject {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "id" => intermediate_rep.id.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "password" => intermediate_rep.password.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -656,9 +648,7 @@ impl ::std::str::FromStr for ObjectOfObjects {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "inner" => intermediate_rep.inner.push(models::ObjectOfObjectsInner::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -760,12 +750,8 @@ impl ::std::str::FromStr for ObjectOfObjectsInner {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "required_thing" => intermediate_rep.required_thing.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "optional_thing" => intermediate_rep.optional_thing.push(isize::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }

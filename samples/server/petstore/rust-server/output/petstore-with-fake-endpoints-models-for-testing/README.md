@@ -62,10 +62,12 @@ To run a client, follow one of the following simple steps:
 
 ```
 cargo run --example client TestSpecialTags
+cargo run --example client Call123example
 cargo run --example client FakeOuterBooleanSerialize
 cargo run --example client FakeOuterCompositeSerialize
 cargo run --example client FakeOuterNumberSerialize
 cargo run --example client FakeOuterStringSerialize
+cargo run --example client FakeResponseWithNumericalDescription
 cargo run --example client HyphenParam
 cargo run --example client TestBodyWithQueryParams
 cargo run --example client TestClientModel
@@ -128,10 +130,12 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**test_special_tags**](docs/another_fake_api.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+[**123example**](docs/fake_api.md#123example) | **GET** /fake/operation-with-numeric-id | 
 [**fakeOuterBooleanSerialize**](docs/fake_api.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](docs/fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](docs/fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](docs/fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**fake_response_with_numerical_description**](docs/fake_api.md#fake_response_with_numerical_description) | **GET** /fake/response-with-numerical-description | 
 [**hyphenParam**](docs/fake_api.md#hyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
 [**testBodyWithQueryParams**](docs/fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](docs/fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model
