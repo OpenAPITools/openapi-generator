@@ -368,7 +368,7 @@ pub struct ApiResponse {
 
     #[serde(rename = "type")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub _type: Option<String>,
+    pub type_: Option<String>,
 
     #[serde(rename = "message")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -380,7 +380,7 @@ impl ApiResponse {
     pub fn new() -> ApiResponse {
         ApiResponse {
             code: None,
-            _type: None,
+            type_: None,
             message: None,
         }
     }
@@ -399,9 +399,9 @@ impl ::std::string::ToString for ApiResponse {
         }
 
 
-        if let Some(ref _type) = self._type {
+        if let Some(ref type_) = self.type_ {
             params.push("type".to_string());
-            params.push(_type.to_string());
+            params.push(type_.to_string());
         }
 
 
@@ -425,7 +425,7 @@ impl ::std::str::FromStr for ApiResponse {
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
             pub code: Vec<i32>,
-            pub _type: Vec<String>,
+            pub type_: Vec<String>,
             pub message: Vec<String>,
         }
 
@@ -444,7 +444,7 @@ impl ::std::str::FromStr for ApiResponse {
             if let Some(key) = key_result {
                 match key {
                     "code" => intermediate_rep.code.push(i32::from_str(val).map_err(|x| ())?),
-                    "type" => intermediate_rep._type.push(String::from_str(val).map_err(|x| ())?),
+                    "type" => intermediate_rep.type_.push(String::from_str(val).map_err(|x| ())?),
                     "message" => intermediate_rep.message.push(String::from_str(val).map_err(|x| ())?),
                     _ => return Err(()) // Parse error - unexpected key
                 }
@@ -457,7 +457,7 @@ impl ::std::str::FromStr for ApiResponse {
         // Use the intermediate representation to return the struct
         Ok(ApiResponse {
             code: intermediate_rep.code.into_iter().next(),
-            _type: intermediate_rep._type.into_iter().next(),
+            type_: intermediate_rep.type_.into_iter().next(),
             message: intermediate_rep.message.into_iter().next(),
         })
     }
@@ -2459,14 +2459,14 @@ impl From<HeaderValue> for IntoHeaderValue<List> {
 pub struct List {
     #[serde(rename = "123-list")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub _123_list: Option<String>,
+    pub param_123_list: Option<String>,
 
 }
 
 impl List {
     pub fn new() -> List {
         List {
-            _123_list: None,
+            param_123_list: None,
         }
     }
 }
@@ -2478,9 +2478,9 @@ impl ::std::string::ToString for List {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
-        if let Some(ref _123_list) = self._123_list {
+        if let Some(ref param_123_list) = self.param_123_list {
             params.push("123-list".to_string());
-            params.push(_123_list.to_string());
+            params.push(param_123_list.to_string());
         }
 
         params.join(",").to_string()
@@ -2497,7 +2497,7 @@ impl ::std::str::FromStr for List {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub _123_list: Vec<String>,
+            pub param_123_list: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2514,7 +2514,7 @@ impl ::std::str::FromStr for List {
 
             if let Some(key) = key_result {
                 match key {
-                    "123-list" => intermediate_rep._123_list.push(String::from_str(val).map_err(|x| ())?),
+                    "123-list" => intermediate_rep.param_123_list.push(String::from_str(val).map_err(|x| ())?),
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2525,7 +2525,7 @@ impl ::std::str::FromStr for List {
 
         // Use the intermediate representation to return the struct
         Ok(List {
-            _123_list: intermediate_rep._123_list.into_iter().next(),
+            param_123_list: intermediate_rep.param_123_list.into_iter().next(),
         })
     }
 }
@@ -2918,14 +2918,14 @@ impl From<HeaderValue> for IntoHeaderValue<ModelReturn> {
 pub struct ModelReturn {
     #[serde(rename = "return")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub _return: Option<i32>,
+    pub return_: Option<i32>,
 
 }
 
 impl ModelReturn {
     pub fn new() -> ModelReturn {
         ModelReturn {
-            _return: None,
+            return_: None,
         }
     }
 }
@@ -2937,9 +2937,9 @@ impl ::std::string::ToString for ModelReturn {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
-        if let Some(ref _return) = self._return {
+        if let Some(ref return_) = self.return_ {
             params.push("return".to_string());
-            params.push(_return.to_string());
+            params.push(return_.to_string());
         }
 
         params.join(",").to_string()
@@ -2956,7 +2956,7 @@ impl ::std::str::FromStr for ModelReturn {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub _return: Vec<i32>,
+            pub return_: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2973,7 +2973,7 @@ impl ::std::str::FromStr for ModelReturn {
 
             if let Some(key) = key_result {
                 match key {
-                    "return" => intermediate_rep._return.push(i32::from_str(val).map_err(|x| ())?),
+                    "return" => intermediate_rep.return_.push(i32::from_str(val).map_err(|x| ())?),
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2984,7 +2984,7 @@ impl ::std::str::FromStr for ModelReturn {
 
         // Use the intermediate representation to return the struct
         Ok(ModelReturn {
-            _return: intermediate_rep._return.into_iter().next(),
+            return_: intermediate_rep.return_.into_iter().next(),
         })
     }
 }
@@ -3032,7 +3032,7 @@ pub struct Name {
 
     #[serde(rename = "123Number")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub _123_number: Option<isize>,
+    pub param_123_number: Option<isize>,
 
 }
 
@@ -3042,7 +3042,7 @@ impl Name {
             name: name,
             snake_case: None,
             property: None,
-            _123_number: None,
+            param_123_number: None,
         }
     }
 }
@@ -3070,9 +3070,9 @@ impl ::std::string::ToString for Name {
         }
 
 
-        if let Some(ref _123_number) = self._123_number {
+        if let Some(ref param_123_number) = self.param_123_number {
             params.push("123Number".to_string());
-            params.push(_123_number.to_string());
+            params.push(param_123_number.to_string());
         }
 
         params.join(",").to_string()
@@ -3092,7 +3092,7 @@ impl ::std::str::FromStr for Name {
             pub name: Vec<i32>,
             pub snake_case: Vec<i32>,
             pub property: Vec<String>,
-            pub _123_number: Vec<isize>,
+            pub param_123_number: Vec<isize>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -3112,7 +3112,7 @@ impl ::std::str::FromStr for Name {
                     "name" => intermediate_rep.name.push(i32::from_str(val).map_err(|x| ())?),
                     "snake_case" => intermediate_rep.snake_case.push(i32::from_str(val).map_err(|x| ())?),
                     "property" => intermediate_rep.property.push(String::from_str(val).map_err(|x| ())?),
-                    "123Number" => intermediate_rep._123_number.push(isize::from_str(val).map_err(|x| ())?),
+                    "123Number" => intermediate_rep.param_123_number.push(isize::from_str(val).map_err(|x| ())?),
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -3126,7 +3126,7 @@ impl ::std::str::FromStr for Name {
             name: intermediate_rep.name.into_iter().next().ok_or(())?,
             snake_case: intermediate_rep.snake_case.into_iter().next(),
             property: intermediate_rep.property.into_iter().next(),
-            _123_number: intermediate_rep._123_number.into_iter().next(),
+            param_123_number: intermediate_rep.param_123_number.into_iter().next(),
         })
     }
 }
