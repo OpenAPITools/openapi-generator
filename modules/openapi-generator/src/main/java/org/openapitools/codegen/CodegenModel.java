@@ -18,9 +18,11 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.ImmutableList;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel implements IJsonSchemaValidationProperties {
@@ -616,9 +618,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
         sb.append(", allParents=").append(allParents);
-        sb.append(", parentModel=").append(parentModel);
+        // although unlikely, this will avoid stack overflow if parentModel refers to this instance.
+        sb.append(", parentModel=").append( !this.equals(parentModel) ? parentModel : null);
         sb.append(", interfaceModels=").append(interfaceModels);
-        sb.append(", children=").append(children);
+        if (children != null) {
+            // avoid stack overflow with back-referencing children
+            ImmutableList<CodegenModel> childModels = ImmutableList.copyOf(children.stream().filter(i -> !this.equals(i)).collect(Collectors.toList()));
+            sb.append(", children=").append(childModels);
+        } else {
+            sb.append(", children=").append(children);
+        }
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);
