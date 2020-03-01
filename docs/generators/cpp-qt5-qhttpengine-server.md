@@ -14,6 +14,7 @@ sidebar_label: cpp-qt5-qhttpengine-server
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
 
 ## IMPORT MAPPING
 
