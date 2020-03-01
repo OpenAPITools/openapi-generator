@@ -375,7 +375,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
-        } else if (openAPIType == "object" && ModelUtils.isAnyTypeSchema(p)) {
+        } else if ("object".equals(openAPIType) && ModelUtils.isAnyTypeSchema(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
             type = "interface{}";
         } else if (typeMapping.containsKey(openAPIType)) {
