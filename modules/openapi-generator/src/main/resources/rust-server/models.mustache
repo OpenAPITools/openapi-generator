@@ -45,11 +45,16 @@ impl ::std::fmt::Display for {{{classname}}} {
 }
 
 impl ::std::str::FromStr for {{{classname}}} {
-    type Err = ();
+    type Err = String;
+
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-{{#allowableValues}}{{#enumVars}}            {{{value}}} => Ok({{{classname}}}::{{{name}}}),
-{{/enumVars}}{{/allowableValues}}            _ => Err(()),
+{{#allowableValues}}
+  {{#enumVars}}
+            {{{value}}} => Ok({{{classname}}}::{{{name}}}),
+  {{/enumVars}}
+{{/allowableValues}}
+            _ => Err(format!("Value not valid: {}", s)),
         }
     }
 }
@@ -117,11 +122,10 @@ impl ::std::string::ToString for {{{classname}}} {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for {{{classname}}} {
-    type Err = ();
+    type Err = &'static str;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        // Parsing additionalProperties in this style is not supported yet
-        Err(())
+        Err("Parsing additionalProperties for {{{classname}}} is not supported")
     }
 }
 {{/additionalPropertiesType}}
@@ -338,7 +342,7 @@ impl ::std::string::ToString for {{{classname}}} {
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for {{{classname}}} {
-    type Err = ();
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
@@ -358,35 +362,35 @@ impl ::std::str::FromStr for {{{classname}}} {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err(())
+                None => return Err("Missing value while parsing {{{classname}}}".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
           {{#vars}}
             {{#isBinary}}
-                    "{{{baseName}}}" => return Err(()), // Parsing binary data in this style is not supported yet
+                    "{{{baseName}}}" => return Err("Parsing binary data in this style is not supported in {{{classname}}}".to_string()),
             {{/isBinary}}
             {{^isBinary}}
               {{#isByteArray}}
-                    "{{{baseName}}}" => return Err(()), // Parsing binary data in this style is not supported yet
+                    "{{{baseName}}}" => return Err("Parsing binary data in this style is not supported in {{{classname}}}".to_string()),
               {{/isByteArray}}
               {{^isByteArray}}
                 {{#isContainer}}
-                    "{{{baseName}}}" => return Err(()), // Parsing a container in this style is not supported yet
+                    "{{{baseName}}}" => return Err("Parsing a container in this style is not supported in {{{classname}}}".to_string()),
                 {{/isContainer}}
                 {{^isContainer}}
                   {{#isNullable}}
-                    "{{{baseName}}}" => return Err(()), // Parsing a nullable type in this style is not supported yet
+                    "{{{baseName}}}" => return Err("Parsing a nullable type in this style is not supported in {{{classname}}}".to_string()),
                   {{/isNullable}}
                   {{^isNullable}}
-                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push({{{dataType}}}::from_str(val).map_err(|x| ())?),
+                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push({{{dataType}}}::from_str(val).map_err(|x| format!("{}", x))?),
                   {{/isNullable}}
                 {{/isContainer}}
               {{/isByteArray}}
             {{/isBinary}}
           {{/vars}}
-                    _ => return Err(()) // Parse error - unexpected key
+                    _ => return Err("Unexpected key while parsing {{{classname}}}".to_string())
                 }
             }
 
@@ -398,10 +402,10 @@ impl ::std::str::FromStr for {{{classname}}} {
         Ok({{{classname}}} {
             {{#vars}}
             {{#isNullable}}
-            {{{name}}}: Err(())?,
+            {{{name}}}: Err("Nullable types not supported in {{{classname}}}".to_string())?,
             {{/isNullable}}
             {{^isNullable}}
-            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or(())?{{/required}},
+            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or("{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
             {{/isNullable}}
             {{/vars}}
         })
