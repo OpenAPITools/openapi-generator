@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>scala-http-client-petstore-client</artifactId>
+    <artifactId>openapi-scala-client</artifactId>
     <packaging>jar</packaging>
-    <name>scala-http-client-petstore-client</name>
+    <name>openapi-scala-client</name>
     <version>1.0.0</version>
 
     <pluginRepositories>

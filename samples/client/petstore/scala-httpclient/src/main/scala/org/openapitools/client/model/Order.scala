@@ -12,13 +12,13 @@
 
 package org.openapitools.client.model
 
-import java.time.OffsetDateTime
+import java.util.Date
 
 case class Order (
   id: Option[Long] = None,
   petId: Option[Long] = None,
   quantity: Option[Integer] = None,
-  shipDate: Option[OffsetDateTime] = None,
+  shipDate: Option[Date] = None,
   // Order Status
   status: Option[String] = None,
   complete: Option[Boolean] = None

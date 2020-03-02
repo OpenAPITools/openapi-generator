@@ -131,7 +131,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         importMapping.remove("Set");
         importMapping.remove("Map");
 
-        setDateLibrary("legacy");
+        setDateLibrary("legacy",true);
         importMapping.put("Date", "java.util.Date");
 
         typeMapping = new HashMap<String, String>();

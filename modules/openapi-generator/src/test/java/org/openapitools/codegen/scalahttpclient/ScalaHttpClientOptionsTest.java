@@ -47,6 +47,6 @@ public class ScalaHttpClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setModelPropertyNaming(ScalaHttpClientOptionsProvider.MODEL_PROPERTY_NAMING);
         verify(clientCodegen).setSourceFolder(ScalaHttpClientOptionsProvider.SOURCE_FOLDER_VALUE);
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(ScalaHttpClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-        verify(clientCodegen).setDateLibrary(ScalaHttpClientOptionsProvider.DATE_LIBRARY);
+        verify(clientCodegen).setDateLibrary(ScalaHttpClientOptionsProvider.DATE_LIBRARY,false);
     }
 }

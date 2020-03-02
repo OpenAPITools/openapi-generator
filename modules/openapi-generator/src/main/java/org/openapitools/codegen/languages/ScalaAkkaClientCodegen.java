@@ -44,7 +44,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected String resourcesFolder = "src/main/resources";
-    protected String dateLibrary = "joda";
     protected String configKey = "apiRequest";
     protected int defaultTimeoutInMs = 5000;
     protected String configKeyPath = mainPackage;

@@ -46,7 +46,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     protected enum DateLibraries {
         java8("Java 8 native JSR310 (prefered for JDK 1.8+)"),
-        joda( "Joda (for legacy app)");
+        joda( "Joda (for legacy app)"),
+        legacy( "Backport to http-client (deprecated)");
 
         private final String description;
 
@@ -162,7 +163,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
-            this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+            this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString(), false);
         }
         if (DateLibraries.java8.name().equals(dateLibrary)) {
             this.importMapping.put("LocalDate", "java.time.LocalDate");
@@ -181,7 +182,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
     }
 
-    public void setDateLibrary(String dateLibrary) {
+    public void setDateLibrary(String dateLibrary, boolean withLegacy) {
+        if (withLegacy && dateLibrary.equals(DateLibraries.legacy.name())) {
+            this.dateLibrary = dateLibrary;
+            return;
+        }
         for ( DateLibraries dateLib : DateLibraries.values()) {
             if (dateLib.name().equals(dateLibrary)) {
                 this.dateLibrary = dateLibrary;
