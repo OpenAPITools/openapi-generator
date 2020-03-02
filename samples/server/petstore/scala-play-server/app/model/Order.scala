@@ -7,7 +7,7 @@ import java.time.OffsetDateTime
   * An order for a pets from the pet store
   * @param status Order Status
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2020-02-29T14:21:53.710+07:00[Asia/Bangkok]")
+
 case class Order(
   id: Option[Long],
   petId: Option[Long],
