@@ -7,7 +7,7 @@ sidebar_label: scala-sttp
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
-|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (prefered for JDK 1.8+</dd></dl>|joda|
+|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (prefered for JDK 1.8+)</dd></dl>|joda|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |mainPackage|Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage'| |org.openapitools.client|
 |modelPackage|package for generated models| |null|
