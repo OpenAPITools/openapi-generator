@@ -39,7 +39,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@Api(value = "Pet", description = "The Pet API")
+@Api(value = "pet", description = "The pet API")
 @RequestMapping("\${api.base-path:/v2}")
 class PetApiController(@Autowired(required = true) val service: PetApiService) {
 
