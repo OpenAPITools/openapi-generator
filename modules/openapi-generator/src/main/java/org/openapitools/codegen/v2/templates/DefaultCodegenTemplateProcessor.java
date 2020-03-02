@@ -28,7 +28,6 @@ public class DefaultCodegenTemplateProcessor implements CodegenTemplateProcessor
                 String content = engine.process(o, template);
                 outputs.add(new CodegenOutput(name, content));
             }
-            o.setTag(CodegenOutputTags.AVAILABLE, true);
         };
 
         visitor.visit(object);

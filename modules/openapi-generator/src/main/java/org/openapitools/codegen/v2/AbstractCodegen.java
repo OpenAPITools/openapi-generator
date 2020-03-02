@@ -1,14 +1,11 @@
 package org.openapitools.codegen.v2;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import org.openapitools.codegen.v2.commons.CodegenCodeTags;
-import org.openapitools.codegen.v2.commons.StringCaseUtils;
 import org.openapitools.codegen.v2.outputs.CodegenOutputProcessor;
 import org.openapitools.codegen.v2.templates.CodegenTemplateProcessor;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -57,7 +54,6 @@ public abstract class AbstractCodegen implements Codegen {
         CodegenSdk sdk = new CodegenSdk(options.getProject());
         sdk.setTag(OPTIONS, options);
         sdk.setTag(TIMESTAMP, Instant.now());
-        sdk.setTag(CodegenCodeTags.GENERIC_TYPES, Arrays.asList("String", "Object"));
 
         // TODO build graph from OpenAPI spec
 

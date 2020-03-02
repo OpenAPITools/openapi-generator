@@ -12,10 +12,6 @@ public final class StringCaseUtils {
             .negate()
             .precomputed();
 
-//    private static final CharMatcher WORD_CASING_MATCHER = CharMatcher
-//            .inRange('A', 'Z')
-//            .precomputed();
-
     private StringCaseUtils() { }
 
     public static String camelCase(String string) {
@@ -100,78 +96,5 @@ public final class StringCaseUtils {
             curatedWords.add(acronymBuilder.toString());
         }
         return curatedWords;
-//        int lastUpperIndex = -1;
-//        List<String> words = new ArrayList<>();
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (int i = 0; i < string.length(); i++) {
-//            char c = string.charAt(i);
-//            if (Character.isLetterOrDigit(c)) {
-//                if (Character.isUpperCase(c)) {
-//                    if (lastUpperIndex < 0) {
-//                        lastUpperIndex = i;
-//                    }
-//                } else {
-//                    if (lastUpperIndex >= 0) {
-//                        int diff = i - lastUpperIndex;
-//                        if (diff > 1) {
-//                            // someACRONYMId
-//                            stringBuilder.append(string, lastUpperIndex, i - 2);
-//                            words.add(stringBuilder.toString());
-//                            stringBuilder = new StringBuilder();
-//                            stringBuilder.append(c);
-//                        }
-//                    }
-//                    stringBuilder.append(c);
-//                }
-//            } else if (stringBuilder.length() > 0) {
-//                words.add(stringBuilder.toString());
-//            }
-//        }
-//        if (stringBuilder.length() > 0) {
-//            words.add(stringBuilder.toString());
-//        }
-//        return words;
-
-
-//        List<String> words = new ArrayList<>();
-//        Iterable<String> split = Splitter.on(WORD_MATCHER).omitEmptyStrings().split(string);
-//        Iterator<String> it = split.iterator();
-//
-//        while (it.hasNext()) {
-//            String word = it.next();
-//
-//
-//            if (Character.isUpperCase(word.charAt(0))) {
-//
-//
-//                StringBuilder stringBuilder = null;
-//                boolean acronym = false;
-//                while (word.length() == 1 && Character.isUpperCase(word.charAt(0))) {
-//                    if (stringBuilder == null) {
-//                        stringBuilder = new StringBuilder();
-//                    }
-//                    stringBuilder.append(word);
-//                    word = it.next();
-//                    acronym = true;
-//                }
-//                if (acronym) {
-//                    word = stringBuilder.toString();
-//                }
-//            }
-////            while (word.length() == 1 && Character.isUpperCase(word.charAt(0))) {
-////                if (stringBuilder == null) {
-////                    stringBuilder = new StringBuilder();
-////                }
-////                stringBuilder.append(word);
-////                word = it.next();
-////                acronym = true;
-////            }
-////            if (acronym) {
-////                word = stringBuilder.toString();
-////            }
-//            words.add(word);
-//        }
-
-//        return words;
     }
 }

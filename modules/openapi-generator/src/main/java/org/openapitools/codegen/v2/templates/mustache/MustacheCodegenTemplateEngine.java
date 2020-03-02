@@ -1,12 +1,8 @@
 package org.openapitools.codegen.v2.templates.mustache;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.v2.CodegenObject;
-import org.openapitools.codegen.v2.CodegenTag;
 import org.openapitools.codegen.v2.templates.CodegenTemplate;
 import org.openapitools.codegen.v2.templates.CodegenTemplateEngine;
 
@@ -18,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 
 public class MustacheCodegenTemplateEngine implements CodegenTemplateEngine {
 
@@ -66,15 +61,5 @@ public class MustacheCodegenTemplateEngine implements CodegenTemplateEngine {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Map<String, Object> buildContext(CodegenObject object) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        Map<String, Object> context = mapper.convertValue(object, new TypeReference<Map<String, Object>>() {});
-        for (Map.Entry<CodegenTag, Object> entry : object.getTags().entrySet()) {
-            context.putIfAbsent(entry.getKey().getName(), entry.getValue());
-        }
-        return context;
     }
 }

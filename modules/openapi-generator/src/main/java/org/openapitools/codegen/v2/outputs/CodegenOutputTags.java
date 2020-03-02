@@ -7,6 +7,6 @@ import java.util.Collection;
 
 public final class CodegenOutputTags {
     private CodegenOutputTags() { }
-    public static final CodegenTag AVAILABLE = CodegenTag.of("output.available", Boolean.class);
+
     public static final CodegenTag OUTPUTS = CodegenTag.of("output.outputs", new GenericClass<Collection<CodegenOutput>>(){});
 }
