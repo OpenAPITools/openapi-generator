@@ -84,7 +84,7 @@ if(hasProperty('target') && target == 'android') {
     
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'openapi-scala-client'
+            pom.artifactId = 'scala-http-client-petstore-client'
         }
     }
     

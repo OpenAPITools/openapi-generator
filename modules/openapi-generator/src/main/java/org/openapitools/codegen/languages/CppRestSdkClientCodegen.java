@@ -132,6 +132,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         addOption(RESERVED_WORD_PREFIX_OPTION,
                 RESERVED_WORD_PREFIX_DESC,
                 this.reservedWordPrefix);
+        addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
+                VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                Boolean.toString(this.variableNameFirstCharacterUppercase));
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));

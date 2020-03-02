@@ -1,5 +1,5 @@
 version := "1.0.0"
-name := "openapi-scala-client"
+name := "scala-http-client-petstore-client"
 organization := "org.openapitools"
 scalaVersion := "2.11.12"
 

@@ -33,25 +33,24 @@ import java.util.*;
 
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
-    protected String modelPropertyNaming = "camelCase";
+    protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected boolean stripPackageName = true;
-    protected String dateLibrary = DateLibraries.JODA.name;
+    protected String dateLibrary = DateLibraries.joda.name();
 
     protected enum DateLibraries {
-        JAVA8("java8", "Java 8 native JSR310 (prefered for JDK 1.8+)"),
-        JODA("joda", "Joda (for legacy app)");
+        java8("Java 8 native JSR310 (prefered for JDK 1.8+)"),
+        joda( "Joda (for legacy app)");
 
-        private final String name;
         private final String description;
 
-        DateLibraries(String name, String description) {
-            this.name = name;
+        DateLibraries(String description) {
             this.description = description;
         }
     }
@@ -127,11 +126,12 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(modelPropertyNaming));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.dateLibrary);
         Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put(DateLibraries.JAVA8.name, DateLibraries.JAVA8.description);
-        dateOptions.put(DateLibraries.JODA.name, DateLibraries.JODA.description);
+        dateOptions.put(DateLibraries.java8.name(), DateLibraries.java8.description);
+        dateOptions.put(DateLibraries.joda.name(), DateLibraries.joda.description);
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
@@ -156,16 +156,21 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             LOGGER.warn("stripPackageName=false. Compilation errors may occur if API type names clash with types " +
                     "in the default imports");
         }
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
             this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
         }
-        if (DateLibraries.JAVA8.name.equals(dateLibrary)) {
+        if (DateLibraries.java8.name().equals(dateLibrary)) {
             this.importMapping.put("LocalDate", "java.time.LocalDate");
             this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
             this.typeMapping.put("date", "LocalDate");
             this.typeMapping.put("DateTime", "OffsetDateTime");
             additionalProperties.put("java8", "true");
-        } else if (DateLibraries.JODA.name.equals(dateLibrary)) {
+        } else if (DateLibraries.joda.name().equals(dateLibrary)) {
             this.importMapping.put("LocalDate", "org.joda.time.LocalDate");
             this.importMapping.put("DateTime", "org.joda.time.DateTime");
             this.importMapping.put("LocalDateTime", "org.joda.time.LocalDateTime");
@@ -177,11 +182,69 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     public void setDateLibrary(String dateLibrary) {
-        this.dateLibrary = dateLibrary;
+        for ( DateLibraries dateLib : DateLibraries.values()) {
+            if (dateLib.name().equals(dateLibrary)) {
+                this.dateLibrary = dateLibrary;
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Invalid dateLibrary. Must be 'java8' or 'joda'");
     }
 
     public String getDateLibrary() {
         return this.dateLibrary;
+    }
+
+    public void setModelPropertyNaming(String naming) {
+        try {
+            this.modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(naming).name();
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+
+    @Override
+    public String toVarName(String name) {
+        String varName = sanitizeName(name);
+
+        if ("_".equals(varName)) {
+            varName = "_u";
+        }
+
+        // if it's all uppper case, do nothing
+        if (!varName.matches("^[A-Z_0-9]*$")) {
+            varName = getNameUsingModelPropertyNaming(varName);
+        }
+
+        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+            varName = escapeReservedWord(varName);
+        }
+
+        return varName;
+    }
+
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
+        }
     }
 
     public String getSourceFolder() {
@@ -275,7 +338,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return (ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
+            return ( ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array") ) + "[" + inner + "]";
         } else {
             return null;
         }
@@ -313,13 +376,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
             // test for immutable Monoids with .empty method for idiomatic defaults
             if ("List".equals(genericType) ||
-                    "Set".equals(genericType) ||
-                    "Seq".equals(genericType) ||
-                    "Array".equals(genericType) ||
-                    "Vector".equals(genericType) ||
-                    "IndexedSeq".equals(genericType) ||
-                    "Iterable".equals(genericType) ||
-                    "ListSet".equals(genericType)
+                "Set".equals(genericType) ||
+                "Seq".equals(genericType) ||
+                "Array".equals(genericType) ||
+                "Vector".equals(genericType) ||
+                "IndexedSeq".equals(genericType) ||
+                "Iterable".equals(genericType) ||
+                "ListSet".equals(genericType)
             ) {
                 return genericType + "[" + inner + "].empty ";
             }
