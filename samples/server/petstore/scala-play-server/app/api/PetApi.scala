@@ -4,7 +4,7 @@ import model.ApiResponse
 import model.Pet
 import play.api.libs.Files.TemporaryFile
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2020-02-25T23:20:59.671788+07:00[Asia/Bangkok]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2020-02-29T14:21:53.710+07:00[Asia/Bangkok]")
 trait PetApi {
   /**
     * Add a new pet to the store
