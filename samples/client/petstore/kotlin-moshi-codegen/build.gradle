@@ -30,10 +30,10 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "com.squareup.moshi:moshi-adapters:1.9.2"
     compile "com.squareup.moshi:moshi:1.9.2"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"
+    
     compile "com.squareup.okhttp3:okhttp:4.2.2"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }

@@ -173,12 +173,6 @@ open class ApiClient(val baseUrl: String) {
     }
 
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
-        /*
-        .replace("\"", "") converts the json object string to an actual string for the query parameter.
-        The moshi or gson adapter allows a more generic solution instead of trying to use a native
-        formatter. It also easily allows to provide a simple way to define a custom date format pattern
-        inside a gson/moshi adapter.
-        */
-        return Serializer.gson.toJson(value, T::class.java).replace("\"", "")
+        return value.toString()
     }
 }
