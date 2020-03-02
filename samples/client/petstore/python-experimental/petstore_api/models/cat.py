@@ -15,6 +15,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
+import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -31,11 +32,13 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import animal
 except ImportError:
-    animal = sys.modules['petstore_api.models.animal']
+    animal = sys.modules[
+        'petstore_api.models.animal']
 try:
     from petstore_api.models import cat_all_of
 except ImportError:
-    cat_all_of = sys.modules['petstore_api.models.cat_all_of']
+    cat_all_of = sys.modules[
+        'petstore_api.models.cat_all_of']
 
 
 class Cat(ModelComposed):
@@ -143,18 +146,33 @@ class Cat(ModelComposed):
             '_from_server': _from_server,
             '_configuration': _configuration,
         }
-        model_args = {
+        required_args = {
             'class_name': class_name,
         }
+        # remove args whose value is Null because they are unset
+        required_arg_names = list(required_args.keys())
+        for required_arg_name in required_arg_names:
+            if required_args[required_arg_name] is nulltype.Null:
+                del required_args[required_arg_name]
+        model_args = {}
+        model_args.update(required_args)
         model_args.update(kwargs)
         composed_info = validate_get_composed_info(
             constant_args, model_args, self)
         self._composed_instances = composed_info[0]
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
+        unused_args = composed_info[3]
 
-        self.class_name = class_name
+        for var_name, var_value in required_args.items():
+            setattr(self, var_name, var_value)
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name in unused_args and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        not self._additional_properties_model_instances:
+                # discard variable.
+                continue
             setattr(self, var_name, var_value)
 
     @staticmethod

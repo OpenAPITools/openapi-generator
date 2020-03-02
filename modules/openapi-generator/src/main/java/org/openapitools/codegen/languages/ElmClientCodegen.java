@@ -35,6 +35,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -47,10 +48,14 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ELM_PREFIX_CUSTOM_TYPE_VARIANTS = "elmPrefixCustomTypeVariants";
     private static final String ELM_ENABLE_CUSTOM_BASE_PATHS = "elmEnableCustomBasePaths";
     private static final String ELM_ENABLE_HTTP_REQUEST_TRACKERS = "elmEnableHttpRequestTrackers";
-    private static final String ENCODER = "elmEncoder";
-    private static final String DECODER = "elmDecoder";
-    private static final String DISCRIMINATOR_NAME = "discriminatorName";
-    private static final String CUSTOM_TYPE = "elmCustomType";
+    private static final String ENCODER = "elmEncoder"; // TODO: 5.0 Remove
+    private static final String VENDOR_EXTENSION_ENCODER = "x-elm-encoder";
+    private static final String DECODER = "elmDecoder"; // TODO: 5.0 Remove
+    private static final String VENDOR_EXTENSION_DECODER = "x-elm-decoder";
+    private static final String DISCRIMINATOR_NAME = "discriminatorName"; // TODO: 5.0 Remove
+    private static final String VENDOR_EXTENSION_DISCRIMINATOR_NAME = "x-discriminator-name";
+    private static final String CUSTOM_TYPE = "elmCustomType"; // TODO: 5.0 Remove
+    private static final String VENDOR_EXTENSION_CUSTOM_TYPE = "x-elm-custom-type";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -71,7 +76,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public ElmClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -90,7 +95,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/elm";
         modelTemplateFiles.put("model.mustache", ".elm");
@@ -341,6 +346,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
@@ -378,7 +387,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (cm.isEnum) {
                     addEncoderAndDecoder(cm.vendorExtensions, cm.classname, DataTypeExposure.EXPOSED);
-                    cm.vendorExtensions.put(CUSTOM_TYPE, cm.classname);
+                    cm.vendorExtensions.put(CUSTOM_TYPE, cm.classname); // TODO: 5.0 Remove
+                    cm.vendorExtensions.put(VENDOR_EXTENSION_CUSTOM_TYPE, cm.classname);
                 } else if (cm.isAlias) {
                     addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, DataTypeExposure.EXPOSED);
                 }
@@ -416,7 +426,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                         child.allVars.clear();
                         child.allVars.addAll(allVars);
 
-                        child.vendorExtensions.put(DISCRIMINATOR_NAME, propertyName);
+                        child.vendorExtensions.put(DISCRIMINATOR_NAME, propertyName); // TODO: 5.0 Remove
+                        child.vendorExtensions.put(VENDOR_EXTENSION_DISCRIMINATOR_NAME, propertyName);
                     }
                 }
                 inner.put("elmImports", elmImports);
@@ -464,6 +475,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         final Set<String> dependencies = new HashSet<>();
 
         for (CodegenOperation op : ops) {
@@ -484,7 +498,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                             }
                         })
                         .collect(Collectors.toList());
-                op.vendorExtensions.put("pathParams", pathParams);
+                op.vendorExtensions.put("pathParams", pathParams); // TODO: 5.0 Remove
+                op.vendorExtensions.put("x-path-params", pathParams);
             }
 
             for (CodegenParameter param : op.allParams) {
@@ -677,9 +692,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public CodegenProperty fromProperty(String name, Schema p) {
         final CodegenProperty property = super.fromProperty(name, p);
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         if (property.isEnum) {
             addEncoderAndDecoder(property.vendorExtensions, property.baseName, DataTypeExposure.INTERNAL);
-            property.vendorExtensions.put(CUSTOM_TYPE, property.datatypeWithEnum);
+            property.vendorExtensions.put(CUSTOM_TYPE, property.datatypeWithEnum); // TODO: 5.0 Remove
+            property.vendorExtensions.put(VENDOR_EXTENSION_CUSTOM_TYPE, property.datatypeWithEnum);
         } else {
             final boolean isPrimitiveType = property.isMapContainer ? isPrimitiveDataType(property.dataType) : property.isPrimitiveType;
             addEncoderAndDecoder(property.vendorExtensions, property.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);
@@ -758,12 +777,12 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 encodeName = "";
                 decoderName = "";
         }
-        if (!vendorExtensions.containsKey(ENCODER)) {
-            vendorExtensions.put(ENCODER, encodeName);
-        }
-        if (!vendorExtensions.containsKey(DECODER)) {
-            vendorExtensions.put(DECODER, decoderName);
-        }
+
+        vendorExtensions.putIfAbsent(ENCODER, encodeName); // TODO: 5.0 Remove
+        vendorExtensions.putIfAbsent(VENDOR_EXTENSION_ENCODER, encodeName);
+
+        vendorExtensions.putIfAbsent(DECODER, decoderName); // TODO: 5.0 Remove
+        vendorExtensions.putIfAbsent(VENDOR_EXTENSION_DECODER, decoderName);
     }
 
     private enum DataTypeExposure {

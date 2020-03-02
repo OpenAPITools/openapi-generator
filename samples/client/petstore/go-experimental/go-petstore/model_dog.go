@@ -16,57 +16,25 @@ import (
 
 // Dog struct for Dog
 type Dog struct {
-	ClassName string `json:"className"`
-	Color *string `json:"color,omitempty"`
+	Animal
 	Breed *string `json:"breed,omitempty"`
 }
 
-// GetClassName returns the ClassName field value
-func (o *Dog) GetClassName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.ClassName
+// NewDog instantiates a new Dog object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewDog() *Dog {
+    this := Dog{}
+    return &this
 }
 
-// SetClassName sets field value
-func (o *Dog) SetClassName(v string) {
-	o.ClassName = v
-}
-
-// GetColor returns the Color field value if set, zero value otherwise.
-func (o *Dog) GetColor() string {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret
-	}
-	return *o.Color
-}
-
-// GetColorOk returns a tuple with the Color field value if set, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Dog) GetColorOk() (string, bool) {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.Color, true
-}
-
-// HasColor returns a boolean if a field has been set.
-func (o *Dog) HasColor() bool {
-	if o != nil && o.Color != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *Dog) SetColor(v string) {
-	o.Color = &v
+// NewDogWithDefaults instantiates a new Dog object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewDogWithDefaults() *Dog {
+    this := Dog{}
+    return &this
 }
 
 // GetBreed returns the Breed field value if set, zero value otherwise.

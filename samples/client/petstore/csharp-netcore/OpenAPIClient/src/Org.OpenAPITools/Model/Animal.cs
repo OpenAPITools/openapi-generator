@@ -53,24 +53,9 @@ namespace Org.OpenAPITools.Model
         public Animal(string className = default(string), string color = "red")
         {
             // to ensure "className" is required (not null)
-            if (className == null)
-            {
-                throw new InvalidDataException("className is a required property for Animal and cannot be null");
-            }
-            else
-            {
-                this.ClassName = className;
-            }
-
+            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Animal and cannot be null");;
             // use default value if no "color" provided
-            if (color == null)
-            {
-                this.Color = "red";
-            }
-            else
-            {
-                this.Color = color;
-            }
+            this.Color = color ?? "red";
         }
         
         /// <summary>

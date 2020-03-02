@@ -439,6 +439,9 @@ public class CodegenConfigurator {
             GlobalSettings.setProperty("debugModels", "");
             GlobalSettings.setProperty("debugOperations", "");
             GlobalSettings.setProperty("debugSupportingFiles", "");
+            GlobalSettings.setProperty("verbose", "true");
+        } else {
+            GlobalSettings.setProperty("verbose", "false");
         }
 
         for (Map.Entry<String, String> entry : workflowSettings.getSystemProperties().entrySet()) {

@@ -25,6 +25,23 @@ type Capitalization struct {
 	ATT_NAME *string `json:"ATT_NAME,omitempty"`
 }
 
+// NewCapitalization instantiates a new Capitalization object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewCapitalization() *Capitalization {
+    this := Capitalization{}
+    return &this
+}
+
+// NewCapitalizationWithDefaults instantiates a new Capitalization object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewCapitalizationWithDefaults() *Capitalization {
+    this := Capitalization{}
+    return &this
+}
+
 // GetSmallCamel returns the SmallCamel field value if set, zero value otherwise.
 func (o *Capitalization) GetSmallCamel() string {
 	if o == nil || o.SmallCamel == nil {

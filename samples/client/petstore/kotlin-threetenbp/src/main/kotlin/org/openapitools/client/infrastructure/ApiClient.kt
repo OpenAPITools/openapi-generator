@@ -85,7 +85,7 @@ open class ApiClient(val baseUrl: String) {
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer " + accessToken
+                requestConfig.headers[Authorization] = "Bearer $accessToken "
             }
         }
     }
@@ -158,12 +158,13 @@ open class ApiClient(val baseUrl: String) {
                     response.headers.toMultimap()
             )
             response.isClientError -> return ClientError(
+                    response.message,
                     response.body?.string(),
                     response.code,
                     response.headers.toMultimap()
             )
             else -> return ServerError(
-                    null,
+                    response.message,
                     response.body?.string(),
                     response.code,
                     response.headers.toMultimap()
@@ -172,6 +173,12 @@ open class ApiClient(val baseUrl: String) {
     }
 
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
-        return value.toString()
+        /*
+        .replace("\"", "") converts the json object string to an actual string for the query parameter.
+        The moshi or gson adapter allows a more generic solution instead of trying to use a native
+        formatter. It also easily allows to provide a simple way to define a custom date format pattern
+        inside a gson/moshi adapter.
+        */
+        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
     }
 }

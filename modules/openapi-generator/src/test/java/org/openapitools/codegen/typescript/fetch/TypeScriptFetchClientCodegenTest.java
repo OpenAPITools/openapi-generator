@@ -1,6 +1,7 @@
 package org.openapitools.codegen.typescript.fetch;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.testng.Assert;
@@ -54,6 +55,18 @@ public class TypeScriptFetchClientCodegenTest {
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
 
+    }
+
+    @Test
+    public void toVarName() {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("valid_var"), "validVar");
+
+        codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
     }
 
 }

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class GenericValidatorTest {
-    class Person {
+    static class Person {
         private int age;
         private String name;
 
@@ -35,33 +35,33 @@ public class GenericValidatorTest {
         }
     }
 
-    private static boolean isValidAge(Person person) {
-        return person.age > 0;
+    private static ValidationRule.Result checkAge(Person person) {
+        return person.age > 0 ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
-    private static boolean isAdult(Person person) {
-        return person.age > 18;
+    private static ValidationRule.Result checkAdult(Person person) {
+        return person.age > 18 ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
-    private static boolean isNameSet(Person person) {
-        return person.name != null && person.name.length() > 0;
+    private static ValidationRule.Result checkName(Person person) {
+        return (person.name != null && person.name.length() > 0) ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
-    private static boolean isNameValid(Person person) {
+    private static ValidationRule.Result checkNamePattern(Person person) {
         String pattern = "^[A-Z][a-z]*$";
-        return person.name.matches(pattern);
+        return person.name.matches(pattern) ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
-    private static boolean isNameNormalLength(Person person) {
-        return person.name.length() < 10;
+    private static ValidationRule.Result checkNameNormalLength(Person person) {
+        return person.name.length() < 10? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
     private List<ValidationRule> validationRules = Arrays.asList(
-            ValidationRule.error("Age must be positive and more than zero", GenericValidatorTest::isValidAge),
-            ValidationRule.error("Only adults (18 years old and older)", GenericValidatorTest::isAdult),
-            ValidationRule.error("Name isn't set!", GenericValidatorTest::isNameSet),
-            ValidationRule.error("Name isn't formatted correct", GenericValidatorTest::isNameValid),
-            ValidationRule.warn("Name too long?", "Name may be too long.", GenericValidatorTest::isNameNormalLength)
+            ValidationRule.error("Age must be positive and more than zero", GenericValidatorTest::checkAge),
+            ValidationRule.error("Only adults (18 years old and older)", GenericValidatorTest::checkAdult),
+            ValidationRule.error("Name isn't set!", GenericValidatorTest::checkName),
+            ValidationRule.error("Name isn't formatted correct", GenericValidatorTest::checkNamePattern),
+            ValidationRule.warn("Name too long?", "Name may be too long.", GenericValidatorTest::checkNameNormalLength)
     );
 
     @Test

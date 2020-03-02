@@ -8,6 +8,23 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewAdditionalPropertiesBoolean
+
+`func NewAdditionalPropertiesBoolean() *AdditionalPropertiesBoolean`
+
+NewAdditionalPropertiesBoolean instantiates a new AdditionalPropertiesBoolean object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewAdditionalPropertiesBooleanWithDefaults
+
+`func NewAdditionalPropertiesBooleanWithDefaults() *AdditionalPropertiesBoolean`
+
+NewAdditionalPropertiesBooleanWithDefaults instantiates a new AdditionalPropertiesBoolean object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
 ### GetName
 
 `func (o *AdditionalPropertiesBoolean) GetName() string`

@@ -133,7 +133,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 Arrays.asList(
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary"
+                        "NSError", "NSDictionary",
+                        // Cannot override with a stored property 'className'
+                        "className"
                 )
         );
 
@@ -993,7 +995,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                     return "\"" + codegenParameter.paramName + "_example\"";
                 }
             } else if ("Bool".equals(codegenParameter.dataType)) { // boolean
-                if (Boolean.TRUE.equals(codegenParameter.example)) {
+                if (Boolean.parseBoolean(codegenParameter.example)) {
                     return "true";
                 } else {
                     return "false";
@@ -1033,7 +1035,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                     return "\"" + codegenProperty.name + "_example\"";
                 }
             } else if ("Bool".equals(codegenProperty.dataType)) { // boolean
-                if (Boolean.TRUE.equals(codegenProperty.example)) {
+                if (Boolean.parseBoolean(codegenProperty.example)) {
                     return "true";
                 } else {
                     return "false";

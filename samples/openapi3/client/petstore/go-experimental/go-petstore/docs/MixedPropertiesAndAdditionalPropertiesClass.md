@@ -10,6 +10,23 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewMixedPropertiesAndAdditionalPropertiesClass
+
+`func NewMixedPropertiesAndAdditionalPropertiesClass() *MixedPropertiesAndAdditionalPropertiesClass`
+
+NewMixedPropertiesAndAdditionalPropertiesClass instantiates a new MixedPropertiesAndAdditionalPropertiesClass object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewMixedPropertiesAndAdditionalPropertiesClassWithDefaults
+
+`func NewMixedPropertiesAndAdditionalPropertiesClassWithDefaults() *MixedPropertiesAndAdditionalPropertiesClass`
+
+NewMixedPropertiesAndAdditionalPropertiesClassWithDefaults instantiates a new MixedPropertiesAndAdditionalPropertiesClass object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
 ### GetUuid
 
 `func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string`

@@ -2,7 +2,7 @@ import akka.actor.ActorSystem
 import org.junit.runner.RunWith
 import org.openapitools.client._
 import org.openapitools.client.api._
-import org.openapitools.client.core.{ ApiInvoker, ApiKeyValue }
+import org.openapitools.client.core.{ApiInvoker, ApiKeyValue}
 import org.openapitools.client.model._
 import org.scalatest.Inspectors._
 import org.scalatest._
@@ -14,8 +14,8 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
   private implicit val system: ActorSystem = ActorSystem()
 
   behavior of "PetApi"
-  val api = PetApi()
-  val invoker = ApiInvoker()
+  val api: PetApi = PetApi()
+  val invoker: ApiInvoker = ApiInvoker(EnumsSerializers.all)
   private implicit val apiKey: ApiKeyValue = ApiKeyValue("special-key")
 
   it should "add and fetch a pet" in {
@@ -54,7 +54,7 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
   }
 
   it should "update a pet" in {
-    val petId = Math.random().toInt
+    val petId = (Math.random()*1000000000).toLong
     val createdPet = Pet(
       Some(petId),
       Some(Category(Some(1), Some("sold"))),
@@ -64,19 +64,24 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
       Some(PetEnums.Status.Available)
     )
 
-    for {
-      _ <- invoker.execute(api.addPet(createdPet))
-      pet: core.ApiResponse[Pet] <- invoker.execute(api.getPetById(petId))
-      updatedPet = pet.content.copy(status = Some(PetEnums.Status.Sold))
-      _ <- invoker.execute(api.updatePet(updatedPet))
-      updatedRequested <- invoker.execute(api.getPetById(petId))
+     for {
+      createdPet <- invoker.execute(api.addPet(createdPet))
+      pet: core.ApiResponse[Pet] <- invoker.execute(api.getPetById(createdPet.content.id.get))
+      updatedPet = pet.content.copy(status = Some(PetEnums.Status.Sold), name = "developer")
+      updatedPetResponse: core.ApiResponse[Pet] <- invoker.execute(api.updatePet(updatedPet))
+      updatedRequested: core.ApiResponse[Pet] <- invoker.execute(api.getPetById(createdPet.content.id.get))
     } yield {
       pet.content.name should be("programmer")
       pet.content.status should be(Some(PetEnums.Status.Available))
 
-      updatedRequested.content.name should be("programmer")
+      updatedPetResponse.content.name should be("developer")
+      updatedPetResponse.content.status should be(Some(PetEnums.Status.Sold))
+
+      updatedRequested.content.name should be("developer")
       updatedRequested.content.status should be(Some(PetEnums.Status.Sold))
+
     }
+
   }
 
   it should "find pets by status" in {
@@ -90,7 +95,7 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
         pets should not be empty
 
         forAll(pets) { pet =>
-          pet.status should contain("available")
+          pet.status should contain(PetEnums.Status.Available)
         }
       }
   }

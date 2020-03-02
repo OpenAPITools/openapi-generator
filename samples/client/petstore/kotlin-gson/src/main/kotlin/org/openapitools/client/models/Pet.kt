@@ -27,26 +27,31 @@ import com.google.gson.annotations.SerializedName
 
 data class Pet (
     @SerializedName("name")
-    val name: kotlin.String,
+    val name: kotlin.String
+,
     @SerializedName("photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.Array<kotlin.String>
+,
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long? = null
+,
     @SerializedName("category")
-    val category: Category? = null,
+    val category: Category? = null
+,
     @SerializedName("tags")
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: kotlin.Array<Tag>? = null
+,
     /* pet status in the store */
     @SerializedName("status")
     val status: Pet.Status? = null
-) 
 
+) {
 
-{
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
+    
     
     enum class Status(val value: kotlin.String){
         @SerializedName(value="available")  available("available"),

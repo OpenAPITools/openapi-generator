@@ -9,6 +9,7 @@ sidebar_label: csharp-netcore
 |caseInsensitiveResponseHeaders|Make API response's headers case-insensitive| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |interfacePrefix|Prefix interfaces with a community standard or widely accepted prefix.| |I|
+|licenseId|The identifier of the license| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |PascalCase|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
@@ -18,11 +19,13 @@ sidebar_label: csharp-netcore
 |optionalProjectFile|Generate {PackageName}.csproj.| |true|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
+|packageTags|Tags to identify the package| |null|
 |packageVersion|C# package version.| |1.0.0|
+|releaseNote|Release note, default to 'Minor update'.| |Minor update|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|targetFramework|The target .NET framework version.|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4 compatible</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5 compatible</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6 compatible</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0 compatible</dd><dt>**netcoreapp2.0**</dt><dd>.NET Core 2.0 compatible</dd><dl>|netstandard2.0|
+|targetFramework|The target .NET framework version.|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4 compatible</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5 compatible</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6 compatible</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0 compatible</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1 compatible</dd><dt>**netcoreapp2.0**</dt><dd>.NET Core 2.0 compatible</dd><dt>**netcoreapp2.1**</dt><dd>.NET Core 2.1 compatible</dd><dt>**netcoreapp3.0**</dt><dd>.NET Core 3.0 compatible</dd><dt>**netcoreapp3.1**</dt><dd>.NET Core 3.1 compatible</dd></dl>|netstandard2.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |validatable|Generates self-validatable models.| |true|
@@ -44,7 +47,8 @@ sidebar_label: csharp-netcore
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Boolean</li>
+<ul class="column-ul">
+<li>Boolean</li>
 <li>Collection</li>
 <li>DateTime</li>
 <li>DateTime?</li>
@@ -80,7 +84,8 @@ sidebar_label: csharp-netcore
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Client</li>
+<ul class="column-ul">
+<li>Client</li>
 <li>abstract</li>
 <li>as</li>
 <li>base</li>
@@ -174,3 +179,111 @@ sidebar_label: csharp-netcore
 <li>volatile</li>
 <li>while</li>
 </ul>
+
+## FEATURE SET
+
+
+### Client Modification Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasePath|✓|ToolingExtension
+|Authorizations|✗|ToolingExtension
+|UserAgent|✓|ToolingExtension
+
+### Data Type Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Custom|✗|OAS2,OAS3
+|Int32|✓|OAS2,OAS3
+|Int64|✓|OAS2,OAS3
+|Float|✓|OAS2,OAS3
+|Double|✓|OAS2,OAS3
+|Decimal|✓|ToolingExtension
+|String|✓|OAS2,OAS3
+|Byte|✓|OAS2,OAS3
+|Binary|✓|OAS2,OAS3
+|Boolean|✓|OAS2,OAS3
+|Date|✓|OAS2,OAS3
+|DateTime|✓|OAS2,OAS3
+|Password|✓|OAS2,OAS3
+|File|✓|OAS2
+|Array|✓|OAS2,OAS3
+|Maps|✓|ToolingExtension
+|CollectionFormat|✓|OAS2
+|CollectionFormatMulti|✓|OAS2
+|Enum|✓|OAS2,OAS3
+|ArrayOfEnum|✓|ToolingExtension
+|ArrayOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfPrimitives|✓|ToolingExtension
+|ArrayOfCollectionOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfEnum|✓|ToolingExtension
+|MapOfEnum|✓|ToolingExtension
+|MapOfModel|✓|ToolingExtension
+|MapOfCollectionOfPrimitives|✓|ToolingExtension
+|MapOfCollectionOfModel|✓|ToolingExtension
+|MapOfCollectionOfEnum|✓|ToolingExtension
+
+### Documentation Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Readme|✓|ToolingExtension
+|Model|✓|ToolingExtension
+|Api|✓|ToolingExtension
+
+### Global Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Host|✓|OAS2,OAS3
+|BasePath|✓|OAS2,OAS3
+|Info|✓|OAS2,OAS3
+|Schemes|✗|OAS2,OAS3
+|PartialSchemes|✓|OAS2,OAS3
+|Consumes|✓|OAS2
+|Produces|✓|OAS2
+|ExternalDocumentation|✓|OAS2,OAS3
+|Examples|✓|OAS2,OAS3
+|XMLStructureDefinitions|✗|OAS2,OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
+|Callbacks|✗|OAS3
+|LinkObjects|✗|OAS3
+
+### Parameter Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Path|✓|OAS2,OAS3
+|Query|✓|OAS2,OAS3
+|Header|✓|OAS2,OAS3
+|Body|✓|OAS2
+|FormUnencoded|✓|OAS2
+|FormMultipart|✓|OAS2
+|Cookie|✓|OAS3
+
+### Schema Support Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Simple|✓|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
+|Polymorphism|✓|OAS2,OAS3
+|Union|✗|OAS3
+
+### Security Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
+|OpenIDConnect|✗|OAS3
+|BearerToken|✗|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+
+### Wire Format Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|JSON|✓|OAS2,OAS3
+|XML|✓|OAS2,OAS3
+|PROTOBUF|✗|ToolingExtension
+|Custom|✗|OAS2,OAS3

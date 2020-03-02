@@ -25,6 +25,7 @@ internal enum DownloadException: Error {
 internal enum DecodableRequestBuilderError: Error {
     case emptyDataResponse
     case nilHTTPResponse
+    case unsuccessfulHTTPStatusCode(Error?)
     case jsonDecoding(DecodingError)
     case generalError(Error)
 }

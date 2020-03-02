@@ -9,6 +9,23 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewModel200Response
+
+`func NewModel200Response() *Model200Response`
+
+NewModel200Response instantiates a new Model200Response object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewModel200ResponseWithDefaults
+
+`func NewModel200ResponseWithDefaults() *Model200Response`
+
+NewModel200ResponseWithDefaults instantiates a new Model200Response object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
 ### GetName
 
 `func (o *Model200Response) GetName() int32`

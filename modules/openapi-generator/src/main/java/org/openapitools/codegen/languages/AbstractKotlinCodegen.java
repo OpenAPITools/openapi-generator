@@ -41,9 +41,9 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
 
-    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson'";
+    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'";
 
-    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson}
+    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson}
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
@@ -335,6 +335,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+            if (cm.getDiscriminator() != null) {
+                cm.vendorExtensions.put("x-has-data-class-body", true);
+                break;
+            }
 
             for (CodegenProperty var : cm.vars) {
                 if (var.isEnum || isSerializableModel()) {

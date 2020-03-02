@@ -42,7 +42,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
     public GoGinServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(
@@ -60,7 +60,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         // set the output folder here
         outputFolder = "generated-code/go";
@@ -131,16 +131,30 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
             setPackageName("openapi");
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
         }
 
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
-        additionalProperties.put("apiVersion", apiVersion);
-        additionalProperties.put("serverPort", serverPort);
-        additionalProperties.put("apiPath", apiPath);
-        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        if (additionalProperties.containsKey("apiVersion")) {
+            this.apiVersion = (String)additionalProperties.get("apiVersion");
+        } else {
+            additionalProperties.put("apiVersion", apiVersion);
+        }
+
+        if (additionalProperties.containsKey("serverPort")) {
+            this.serverPort = Integer.parseInt((String)additionalProperties.get("serverPort"));
+        } else {
+            additionalProperties.put("serverPort", serverPort);
+        }
+
+        if (additionalProperties.containsKey("apiPath")) {
+            this.apiPath = (String)additionalProperties.get("apiPath");
+        } else {
+            additionalProperties.put("apiPath", apiPath);
+        }
 
         modelPackage = packageName;
         apiPackage = packageName;

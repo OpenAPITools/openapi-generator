@@ -90,6 +90,7 @@ public class ApiClient {
      */
     public ApiClient() {
         init();
+        initHttpClient();
 
         // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
@@ -129,7 +130,7 @@ public class ApiClient {
                 "{{name}}",
                 retryingOAuth
         );
-        httpClient.interceptors().add(retryingOAuth);
+        initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
 {{/hasOAuthMethods}}
 
         // Prevent the authentications from being modified.
@@ -139,16 +140,25 @@ public class ApiClient {
     {{/-first}}
     {{/oauthMethods}}
     {{/hasOAuthMethods}}
-    private void init() {
+    private void initHttpClient() {
+        initHttpClient(Collections.<Interceptor>emptyList());
+    }
+
+    private void initHttpClient(List<Interceptor> interceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addNetworkInterceptor(getProgressInterceptor());
-        httpClient = builder.build();
-
+        for (Interceptor interceptor: interceptors) {
+            builder.addInterceptor(interceptor);
+        }
         {{#useGzipFeature}}
         // Enable gzip request compression
-        httpClient.interceptors().add(new GzipRequestInterceptor());
+        builder.addInterceptor(new GzipRequestInterceptor());
         {{/useGzipFeature}}
 
+        httpClient = builder.build();
+    }
+
+    private void init() {
         verifyingSsl = true;
 
         json = new JSON();

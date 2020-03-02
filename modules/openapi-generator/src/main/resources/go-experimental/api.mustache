@@ -27,7 +27,7 @@ type api{{operationId}}Request struct {
 }
 
 {{#allParams}}{{^isPathParam}}
-func (r api{{operationId}}Request) {{vendorExtensions.x-exportParamName}}({{paramName}} {{{dataType}}}) api{{operationId}}Request {
+func (r api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
 }
@@ -127,14 +127,16 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	{{#queryParams}}
 	{{#required}}
 	{{#isCollectionFormatMulti}}
-	t := *r.{{paramName}}
-	if reflect.TypeOf(t).Kind() == reflect.Slice {
-		s := reflect.ValueOf(t)
-		for i := 0; i < s.Len(); i++ {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	{
+		t := *r.{{paramName}}
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+			}
+		} else {
+			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
 		}
-	} else {
-		localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
 	}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
@@ -242,7 +244,7 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if auth, ok := auth["{{keyParamName}}"]; ok {
+			if auth, ok := auth["{{#vendorExtensions.x-auth-id-alias}}{{.}}{{/vendorExtensions.x-auth-id-alias}}{{^vendorExtensions.x-auth-id-alias}}{{name}}{{/vendorExtensions.x-auth-id-alias}}"]; ok {
 				var key string
 				if auth.Prefix != "" {
 					key = auth.Prefix + " " + auth.Key

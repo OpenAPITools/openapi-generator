@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MapTest: Codable {
+@objc public class MapTest: NSObject, Codable {
 
     public enum MapOfEnumString: String, Codable {
         case upper = "UPPER"

@@ -187,13 +187,13 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         super();
 
         // TODO: Asciidoc maintainer review.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
                 .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
                 .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
                 .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-                .build();
+        );
 
         LOGGER.trace("start asciidoc codegen");
 
