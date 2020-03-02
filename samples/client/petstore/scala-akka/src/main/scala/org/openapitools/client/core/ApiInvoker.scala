@@ -36,10 +36,10 @@ import scala.reflect.ClassTag
 object ApiInvoker {
 
   def apply()(implicit system: ActorSystem): ApiInvoker =
-    apply(DefaultFormats ++ DatesSerializers.all)
+    apply(DefaultFormats ++ Serializers.all)
 
   def apply(serializers: Iterable[Serializer[_]])(implicit system: ActorSystem): ApiInvoker =
-    apply(DefaultFormats ++ DatesSerializers.all ++ serializers)
+    apply(DefaultFormats ++ Serializers.all ++ serializers)
 
   def apply(formats: Formats)(implicit system: ActorSystem): ApiInvoker = new ApiInvoker(formats)
 
