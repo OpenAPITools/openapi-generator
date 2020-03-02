@@ -566,6 +566,7 @@ Here is a list of community-conitributed IDE plug-ins that integrate with OpenAP
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [Adaptant Solutions AG](https://www.adaptant.io/)
+- [Agoda](https://www.agoda.com/)
 - [Angular.Schule](https://angular.schule/)
 - [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [ASKUL](https://www.askul.co.jp)
