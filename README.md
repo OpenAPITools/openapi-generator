@@ -738,6 +738,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-02-07 - [Why you should use OpenAPI for your API design](https://www.youtube.com/watch?v=zhb7vUApLW8&t=927s) by [Nick Van Hoof](https://apiconference.net/speaker/nick-van-hoof/) at [API Conference](https://apiconference.net/)
 - 2020-02-17 - [Rubynetes: using OpenAPI to validate Kubernetes configs](https://www.brightbox.com/blog/2020/02/17/using-openapi-to-validate-kubernetes-configs/) by Neil Wilson at [Brightbox](https://www.brightbox.com/)
 - 2020-02-20 - [Building SDKs for the future](https://devblog.xero.com/building-sdks-for-the-future-b79ff726dfd6) by [Sid Maestre (Xero)](https://twitter.com/sidneyallen)
+- 2020-02-27 - [Nuxt利用プロダクトでIE11と仲良くするためのE2E](https://tech.medpeer.co.jp/entry/e2e-ie11) at [Medpeer.co.jp Tech Blog](https://tech.medpeer.co.jp/)
 
 ## [6 - About Us](#table-of-contents)
 
