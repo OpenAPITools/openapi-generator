@@ -41,7 +41,20 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected boolean stripPackageName = true;
-    protected String dateLibrary = "joda";
+    protected String dateLibrary = DateLibraries.JODA.name;
+
+    protected enum DateLibraries {
+        JAVA8("java8", "Java 8 native JSR310 (prefered for JDK 1.8+)"),
+        JODA("joda", "Joda (for legacy app)");
+
+        private final String name;
+        private final String description;
+
+        DateLibraries(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+    }
 
     public AbstractScalaCodegen() {
         super();
@@ -117,8 +130,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.dateLibrary);
         Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put("java8", "Java 8 native JSR310 (prefered for JDK 1.8+");
-        dateOptions.put("joda", "Joda (for legacy app)");
+        dateOptions.put(DateLibraries.JAVA8.name, DateLibraries.JAVA8.description);
+        dateOptions.put(DateLibraries.JODA.name, DateLibraries.JODA.description);
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
@@ -143,16 +156,16 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             LOGGER.warn("stripPackageName=false. Compilation errors may occur if API type names clash with types " +
                     "in the default imports");
         }
-        if(additionalProperties.containsKey(DATE_LIBRARY)) {
+        if (additionalProperties.containsKey(DATE_LIBRARY)) {
             this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
         }
-        if("java8".equals(dateLibrary)) {
+        if (DateLibraries.JAVA8.name.equals(dateLibrary)) {
             this.importMapping.put("LocalDate", "java.time.LocalDate");
             this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
             this.typeMapping.put("date", "LocalDate");
             this.typeMapping.put("DateTime", "OffsetDateTime");
             additionalProperties.put("java8", "true");
-        } else if("joda".equals(dateLibrary)) {
+        } else if (DateLibraries.JODA.name.equals(dateLibrary)) {
             this.importMapping.put("LocalDate", "org.joda.time.LocalDate");
             this.importMapping.put("DateTime", "org.joda.time.DateTime");
             this.importMapping.put("LocalDateTime", "org.joda.time.LocalDateTime");
@@ -262,7 +275,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return ( ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array") ) + "[" + inner + "]";
+            return (ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
         } else {
             return null;
         }
@@ -300,13 +313,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
             // test for immutable Monoids with .empty method for idiomatic defaults
             if ("List".equals(genericType) ||
-                "Set".equals(genericType) ||
-                "Seq".equals(genericType) ||
-                "Array".equals(genericType) ||
-                "Vector".equals(genericType) ||
-                "IndexedSeq".equals(genericType) ||
-                "Iterable".equals(genericType) ||
-                "ListSet".equals(genericType)
+                    "Set".equals(genericType) ||
+                    "Seq".equals(genericType) ||
+                    "Array".equals(genericType) ||
+                    "Vector".equals(genericType) ||
+                    "IndexedSeq".equals(genericType) ||
+                    "Iterable".equals(genericType) ||
+                    "ListSet".equals(genericType)
             ) {
                 return genericType + "[" + inner + "].empty ";
             }
