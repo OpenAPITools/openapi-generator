@@ -1,11 +1,16 @@
-class Service {
-  static rejectResponse(error, code = 500) {
-    return { error, code };
-  }
+/**
+ * Filler File. Handling responses are usually similar across the application. This is where the
+ * business logic should go, instead of in each operation separately.
+ * @param error
+ * @param code
+ * @returns {{code: number, error: *}}
+ */
 
-  static successResponse(payload, code = 200) {
-    return { payload, code };
-  }
-}
+const rejectResponse = (error, code = 500) => ({ error, code });
 
-module.exports = Service;
+const successResponse = (payload, code = 200) => ({ payload, code });
+
+module.exports = {
+  rejectResponse,
+  successResponse,
+};

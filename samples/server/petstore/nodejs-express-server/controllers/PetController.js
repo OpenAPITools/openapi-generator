@@ -1,42 +1,54 @@
 const Controller = require('./Controller');
+const service = require('../services/PetService');
 
-class PetController {
-  constructor(Service) {
-    this.service = Service;
-  }
+/**
+ * The {tag}Controller file is a very simple one, which does not need to be changed manually,
+ * unless there's a case where business logic reoutes the request to an entity which is not
+ * the service.
+ * The heavy lifting of the Controller item is done in Request.js - that is where request
+ * parameters are extracted and sent to the service, and where response is handled.
+ */
 
-  async addPet(request, response) {
-    await Controller.handleRequest(request, response, this.service.addPet);
-  }
+const addPet = async (request, response) => {
+  await Controller.handleRequest(request, response, service.addPet);
+};
 
-  async deletePet(request, response) {
-    await Controller.handleRequest(request, response, this.service.deletePet);
-  }
+const deletePet = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deletePet);
+};
 
-  async findPetsByStatus(request, response) {
-    await Controller.handleRequest(request, response, this.service.findPetsByStatus);
-  }
+const findPetsByStatus = async (request, response) => {
+  await Controller.handleRequest(request, response, service.findPetsByStatus);
+};
 
-  async findPetsByTags(request, response) {
-    await Controller.handleRequest(request, response, this.service.findPetsByTags);
-  }
+const findPetsByTags = async (request, response) => {
+  await Controller.handleRequest(request, response, service.findPetsByTags);
+};
 
-  async getPetById(request, response) {
-    await Controller.handleRequest(request, response, this.service.getPetById);
-  }
+const getPetById = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getPetById);
+};
 
-  async updatePet(request, response) {
-    await Controller.handleRequest(request, response, this.service.updatePet);
-  }
+const updatePet = async (request, response) => {
+  await Controller.handleRequest(request, response, this.service.updatePet);
+};
 
-  async updatePetWithForm(request, response) {
-    await Controller.handleRequest(request, response, this.service.updatePetWithForm);
-  }
+const updatePetWithForm = async (request, response) => {
+  await Controller.handleRequest(request, response, this.service.updatePetWithForm);
+};
 
-  async uploadFile(request, response) {
-    await Controller.handleRequest(request, response, this.service.uploadFile);
-  }
+const uploadFile = async (request, response) => {
+  await Controller.handleRequest(request, response, this.service.uploadFile);
+};
 
-}
 
-module.exports = PetController;
+module.exports = {
+  addPet,
+  deletePet,
+  findPetsByStatus,
+  findPetsByTags,
+  getPetById,
+  updatePet,
+  updatePetWithForm,
+  uploadFile,
+};
