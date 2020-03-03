@@ -726,6 +726,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {
+            schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+            if (schema.getDefault() != null) {
+                return schema.getDefault().toString();
+            }
             return null;
         }
     }
