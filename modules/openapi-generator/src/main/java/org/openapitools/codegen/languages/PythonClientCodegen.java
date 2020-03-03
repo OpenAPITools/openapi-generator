@@ -127,6 +127,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
         typeMapping.put("array", "list");
+        typeMapping.put("set", "list");
         typeMapping.put("map", "dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
