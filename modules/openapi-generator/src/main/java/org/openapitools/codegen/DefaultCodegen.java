@@ -1734,12 +1734,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected Schema<?> getSchemaItems(ArraySchema schema) {
-        if (schema.getItems() != null) {
-            return schema.getItems();
-        } else {
+        Schema<?> items = schema.getItems();
+        if (items == null) {
             LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
-            return new StringSchema().description("TODO default missing array inner type to string");
+            items = new StringSchema().description("TODO default missing array inner type to string");
+            schema.setItems(items);
         }
+        return items;
+    }
+
+    protected Schema<?> getSchemaAdditionalProperties(Schema schema) {
+        Schema<?> inner = ModelUtils.getAdditionalProperties(schema);
+        if (inner == null) {
+            LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", schema.getName());
+            inner = new StringSchema().description("TODO default missing map inner type to string");
+            schema.setAdditionalProperties(inner);
+        }
+        return inner;
     }
 
     /**
@@ -2534,9 +2545,6 @@ public class DefaultCodegen implements CodegenConfig {
             // default to string if inner item is undefined
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(arraySchema), importMapping);
-            if (arraySchema.getItems() == null) {
-                arraySchema.setItems(innerSchema);
-            }
         } else if (ModelUtils.isMapSchema(p)) {
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(p),
                     importMapping);
@@ -2616,9 +2624,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(arraySchema), importMapping);
-            if (arraySchema.getItems() == null) {
-                arraySchema.setItems(innerSchema);
-            }
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isMapSchema(p)) {
@@ -3499,9 +3504,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
                 Schema inner = getSchemaItems(arraySchema);
-                if (arraySchema.getItems() == null) {
-                    arraySchema.setItems(inner);
-                }
 
                 collectionFormat = getCollectionFormat(parameter);
                 // default to csv:
@@ -5098,9 +5100,6 @@ public class DefaultCodegen implements CodegenConfig {
                 if (ModelUtils.isArraySchema(s)) {
                     final ArraySchema arraySchema = (ArraySchema) s;
                     Schema inner = getSchemaItems(arraySchema);
-                    if (arraySchema.getItems() == null) {
-                        arraySchema.setItems(inner);
-                    }
 
                     codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
                     CodegenProperty codegenProperty = fromProperty("inner", inner);
@@ -5300,9 +5299,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
-            if (arraySchema.getItems() == null) {
-                arraySchema.setItems(inner);
-            }
             CodegenProperty codegenProperty = fromProperty("property", arraySchema);
             imports.add(codegenProperty.baseType);
             CodegenProperty innerCp = codegenProperty;
