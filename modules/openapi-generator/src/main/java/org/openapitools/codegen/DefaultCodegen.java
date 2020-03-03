@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.Ticker;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -67,6 +70,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,6 +83,10 @@ public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     public static FeatureSet DefaultFeatureSet;
+
+    // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
+    // arguments, this cache is used to optimized performance.
+    private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -122,6 +130,12 @@ public class DefaultCodegen implements CodegenConfig {
                         WireFormatFeature.JSON, WireFormatFeature.XML
                         // PROTOBUF and Custom are generator specific
                 )
+                .build();
+
+        sanitizedNameCache = Caffeine.newBuilder()
+                .maximumSize(500)
+                .expireAfterAccess(10, TimeUnit.SECONDS)
+                .ticker(Ticker.systemTicker())
                 .build();
     }
 
@@ -4505,21 +4519,16 @@ public class DefaultCodegen implements CodegenConfig {
         return sanitizeName(name, removeCharRegEx, new ArrayList<String>());
     }
 
-    // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
-    // arguments, this cache is used to optimized performance.
-    private static Map<String, Map<String, Map<List<String>, String>>> sanitizedNames =
-        new HashMap<String, Map<String, Map<List<String>, String>>>();
-
     /**
      * Sanitize name (parameter, property, method, etc)
      *
      * @param name            string to be sanitize
      * @param removeCharRegEx a regex containing all char that will be removed
-     * @param exceptionList   a list of matches which should not be sanitized (i.e expections)
+     * @param exceptionList   a list of matches which should not be sanitized (i.e exception)
      * @return sanitized string
      */
     @SuppressWarnings("static-method")
-    public String sanitizeName(String name, String removeCharRegEx, ArrayList<String> exceptionList) {
+    public String sanitizeName(final String name, String removeCharRegEx, ArrayList<String> exceptionList) {
         // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
         // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
@@ -4536,61 +4545,51 @@ public class DefaultCodegen implements CodegenConfig {
             return "value";
         }
 
-        Map<String, Map<List<String>, String>> m1 = sanitizedNames.get(name);
-        if (m1 == null) {
-            m1 = new HashMap<String, Map<List<String>, String>>();
-            sanitizedNames.put(name, m1);
-        }
-        Map<List<String>, String> m2 = m1.get(removeCharRegEx);
-        if (m2 == null) {
-            m2 = new HashMap<List<String>, String>();
-            m1.put(removeCharRegEx, m2);
-        }
-        List<String> l = Collections.unmodifiableList(exceptionList);
-        if (m2.containsKey(l)) {
-            return m2.get(l);
-        }
+        SanitizeNameOptions opts = new SanitizeNameOptions(name, removeCharRegEx, exceptionList);
 
-        // input[] => input
-        name = this.sanitizeValue(name, "\\[\\]", "", exceptionList);
+        return sanitizedNameCache.get(opts, sanitizeNameOptions -> {
+            String modifiable = sanitizeNameOptions.getName();
+            List<String> exceptions = sanitizeNameOptions.getExceptions();
+            // input[] => input
+            modifiable = this.sanitizeValue(modifiable, "\\[\\]", "", exceptions);
 
-        // input[a][b] => input_a_b
-        name = this.sanitizeValue(name, "\\[", "_", exceptionList);
-        name = this.sanitizeValue(name, "\\]", "", exceptionList);
+            // input[a][b] => input_a_b
+            modifiable = this.sanitizeValue(modifiable, "\\[", "_", exceptions);
+            modifiable = this.sanitizeValue(modifiable, "\\]", "", exceptions);
 
-        // input(a)(b) => input_a_b
-        name = this.sanitizeValue(name, "\\(", "_", exceptionList);
-        name = this.sanitizeValue(name, "\\)", "", exceptionList);
+            // input(a)(b) => input_a_b
+            modifiable = this.sanitizeValue(modifiable, "\\(", "_", exceptions);
+            modifiable = this.sanitizeValue(modifiable, "\\)", "", exceptions);
 
-        // input.name => input_name
-        name = this.sanitizeValue(name, "\\.", "_", exceptionList);
+            // input.name => input_name
+            modifiable = this.sanitizeValue(modifiable, "\\.", "_", exceptions);
 
-        // input-name => input_name
-        name = this.sanitizeValue(name, "-", "_", exceptionList);
+            // input-name => input_name
+            modifiable = this.sanitizeValue(modifiable, "-", "_", exceptions);
 
-        // a|b => a_b
-        name = this.sanitizeValue(name, "\\|", "_", exceptionList);
+            // a|b => a_b
+            modifiable = this.sanitizeValue(modifiable, "\\|", "_", exceptions);
 
-        // input name and age => input_name_and_age
-        name = this.sanitizeValue(name, " ", "_", exceptionList);
+            // input name and age => input_name_and_age
+            modifiable = this.sanitizeValue(modifiable, " ", "_", exceptions);
 
-        // /api/films/get => _api_films_get
-        // \api\films\get => _api_films_get
-        name = name.replaceAll("/", "_");
-        name = name.replaceAll("\\\\", "_");
+            // /api/films/get => _api_films_get
+            // \api\films\get => _api_films_get
+            modifiable = modifiable.replaceAll("/", "_");
+            modifiable = modifiable.replaceAll("\\\\", "_");
 
-        // remove everything else other than word, number and _
-        // $php_variable => php_variable
-        if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
-            name = Pattern.compile(removeCharRegEx, Pattern.UNICODE_CHARACTER_CLASS).matcher(name).replaceAll("");
-        } else {
-            name = name.replaceAll(removeCharRegEx, "");
-        }
-        m2.put(l, name);
-        return name;
+            // remove everything else other than word, number and _
+            // $php_variable => php_variable
+            if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
+                modifiable = Pattern.compile(sanitizeNameOptions.getRemoveCharRegEx(), Pattern.UNICODE_CHARACTER_CLASS).matcher(modifiable).replaceAll("");
+            } else {
+                modifiable = modifiable.replaceAll(sanitizeNameOptions.getRemoveCharRegEx(), "");
+            }
+            return modifiable;
+        });
     }
 
-    private String sanitizeValue(String value, String replaceMatch, String replaceValue, ArrayList<String> exceptionList) {
+    private String sanitizeValue(String value, String replaceMatch, String replaceValue, List<String> exceptionList) {
         if (exceptionList.size() == 0 || !exceptionList.contains(replaceMatch)) {
             return value.replaceAll(replaceMatch, replaceValue);
         }
@@ -5747,5 +5746,48 @@ public class DefaultCodegen implements CodegenConfig {
         processor.accept(builder);
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .featureSet(builder.build()).build();
+    }
+
+    private static class SanitizeNameOptions {
+        public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
+            this.name = name;
+            this.removeCharRegEx = removeCharRegEx;
+            if (exceptions != null) {
+                this.exceptions = Collections.unmodifiableList(exceptions);
+            } else {
+                this.exceptions = Collections.unmodifiableList(new ArrayList<>());
+            }
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getRemoveCharRegEx() {
+            return removeCharRegEx;
+        }
+
+        public List<String> getExceptions() {
+            return exceptions;
+        }
+
+        private String name;
+        private String removeCharRegEx;
+        private List<String> exceptions;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            SanitizeNameOptions that = (SanitizeNameOptions) o;
+            return Objects.equals(getName(), that.getName()) &&
+                    Objects.equals(getRemoveCharRegEx(), that.getRemoveCharRegEx()) &&
+                    Objects.equals(getExceptions(), that.getExceptions());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getName(), getRemoveCharRegEx(), getExceptions());
+        }
     }
 }
