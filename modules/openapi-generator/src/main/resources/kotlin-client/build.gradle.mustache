@@ -58,18 +58,22 @@ dependencies {
     {{^moshi}}
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     {{/moshi}}
-    {{#moshi}}{{#modeCodeGen}}
+    {{#moshi}}
+    {{#modeCodeGen}}
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    {{/modeCodeGen}}{{/moshi}}
+    {{/modeCodeGen}}
+    {{/moshi}}
     compile "com.squareup.okhttp3:okhttp:3.12.6"
     {{/jvm-okhttp3}}
     {{#jvm-okhttp4}}
     {{^moshi}}
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     {{/moshi}}
-    {{#moshi}}{{#modeCodeGen}}
+    {{#moshi}}
+    {{#modeCodeGen}}
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    {{/modeCodeGen}}{{/moshi}}
+    {{/modeCodeGen}}
+    {{/moshi}}
     compile "com.squareup.okhttp3:okhttp:4.2.2"
     {{/jvm-okhttp4}}
     {{#threetenbp}}

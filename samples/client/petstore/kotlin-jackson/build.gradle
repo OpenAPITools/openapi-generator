@@ -33,7 +33,6 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.2"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    
     compile "com.squareup.okhttp3:okhttp:4.2.2"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }
