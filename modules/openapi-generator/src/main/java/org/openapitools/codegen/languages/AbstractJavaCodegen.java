@@ -167,7 +167,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "byte[]")
         );
         instantiationTypes.put("array", "ArrayList");
-        instantiationTypes.put("set", "HashSet");
+        instantiationTypes.put("set", "LinkedHashSet");
         instantiationTypes.put("map", "HashMap");
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
@@ -451,7 +451,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             importMapping.remove("DateTime");
             importMapping.remove("UUID");
             instantiationTypes.put("array", "java.util.ArrayList");
-            instantiationTypes.put("set", "java.util.HashSet");
+            instantiationTypes.put("set", "java.util.LinkedHashSet");
             instantiationTypes.put("map", "java.util.HashMap");
         }
 
@@ -780,9 +780,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             final String pattern;
             if (ModelUtils.isSet(schema)) {
                 if (fullJavaUtil) {
-                    pattern = "new java.util.HashSet<%s>()";
+                    pattern = "new java.util.LinkedHashSet<%s>()";
                 } else {
-                    pattern = "new HashSet<%s>()";
+                    pattern = "new LinkedHashSet<%s>()";
                 }
             } else {
                 if (fullJavaUtil) {
@@ -1050,7 +1050,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if ("array".equals(property.containerType)) {
                 model.imports.add("ArrayList");
             } else if ("set".equals(property.containerType)) {
-                model.imports.add("HashSet");
+                model.imports.add("LinkedHashSet");
             } else if ("map".equals(property.containerType)) {
                 model.imports.add("HashMap");
             }
