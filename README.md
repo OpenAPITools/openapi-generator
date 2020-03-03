@@ -739,6 +739,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-02-17 - [Rubynetes: using OpenAPI to validate Kubernetes configs](https://www.brightbox.com/blog/2020/02/17/using-openapi-to-validate-kubernetes-configs/) by Neil Wilson at [Brightbox](https://www.brightbox.com/)
 - 2020-02-20 - [Building SDKs for the future](https://devblog.xero.com/building-sdks-for-the-future-b79ff726dfd6) by [Sid Maestre (Xero)](https://twitter.com/sidneyallen)
 - 2020-02-27 - [Nuxt利用プロダクトでIE11と仲良くするためのE2E](https://tech.medpeer.co.jp/entry/e2e-ie11) at [Medpeer.co.jp Tech Blog](https://tech.medpeer.co.jp/)
+- 2020-03-02 - [How To Generate Angular & Spring Code From OpenAPI Specification](https://www.mokkapps.de/blog/how-to-generate-angular-and-spring-code-from-open-api-specification/) by [Michael Hoffmann](https://www.mokkapps.de/)
+- 2020-03-02 - [OpenAPI Generator + TypeScript で始める自動生成の型に守られた豊かなクライアント生活](https://gift-tech.co.jp/articles/openapi-generator-typescript) by [五百蔵 直樹](https://gift-tech.co.jp/members/naokiioroi) at [GiFT株式会社
+](https://gift-tech.co.jp/)
+
 
 ## [6 - About Us](#table-of-contents)
 
