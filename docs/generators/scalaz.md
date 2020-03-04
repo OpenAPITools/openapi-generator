@@ -21,7 +21,6 @@ sidebar_label: scalaz
 | ---------- | ------- |
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.DateTime|
 |File|java.io.File|
