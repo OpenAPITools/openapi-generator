@@ -17,17 +17,17 @@
 
 package org.openapitools.codegen.typescript.typescriptnestjs;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen;
 import org.openapitools.codegen.options.TypeScriptNestjsClientOptionsProvider;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 public class TypeScriptNestjsClientOptionsTest extends AbstractOptionsTest {
 
-    @Tested
-    private TypeScriptNestjsClientCodegen clientCodegen;
+    private TypeScriptNestjsClientCodegen clientCodegen = mock(TypeScriptNestjsClientCodegen.class, mockSettings);
 
     public TypeScriptNestjsClientOptionsTest() {
         super(new TypeScriptNestjsClientOptionsProvider());
@@ -41,17 +41,10 @@ public class TypeScriptNestjsClientOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setModelPropertyNaming(TypeScriptNestjsClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
-            times = 1;
-            clientCodegen.setSupportsES6(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SUPPORTS_ES6_VALUE));
-            times = 1;
-            clientCodegen.setStringEnums(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.STRING_ENUMS_VALUE));
-            times = 1;
-            clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-            times = 1;
-        }};
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setModelPropertyNaming(TypeScriptNestjsClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+        verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SUPPORTS_ES6_VALUE));
+        verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptNestjsClientOptionsProvider.STRING_ENUMS_VALUE));
+        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
     }
 }
