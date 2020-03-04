@@ -472,16 +472,24 @@ use {{invokerPackage}}\ObjectSerializer;
         $multipart = false;
 
         {{#queryParams}}
+
         // query params
-        {{#collectionFormat}}
-        if (is_array(${{paramName}})) {
-            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{collectionFormat}}', true);
-        }
-        {{/collectionFormat}}
+        {{#isExplode}}
         if (${{paramName}} !== null) {
-            $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}});
+            $queryParams['{{baseName}}'] = ${{paramName}};
         }
+        {{/isExplode}}
+        {{^isExplode}}
+        if (is_array(${{paramName}})) {
+            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{#style}}{{style}}{{/style}}{{^style}}{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{/style}}', true);
+        }
+        if (${{paramName}} !== null) {
+            $queryParams['{{baseName}}'] = ${{paramName}};
+        }
+        {{/isExplode}}
+
         {{/queryParams}}
+
         {{#headerParams}}
         // header params
         {{#collectionFormat}}

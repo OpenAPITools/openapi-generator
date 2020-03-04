@@ -35,11 +35,12 @@ import java.util.List;
 import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
-    protected String modelPropertyNaming = "camelCase";
+    protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected boolean stripPackageName = true;
@@ -115,6 +116,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(modelPropertyNaming));
 
     }
 
@@ -136,6 +138,62 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             additionalProperties.put(CodegenConstants.STRIP_PACKAGE_NAME, false);
             LOGGER.warn("stripPackageName=false. Compilation errors may occur if API type names clash with types " +
                     "in the default imports");
+        }
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+    }
+
+    public void setModelPropertyNaming(String naming) {
+        try {
+            this.modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(naming).name();
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+
+    @Override
+    public String toVarName(String name) {
+        String varName = sanitizeName(name);
+
+        if ("_".equals(varName)) {
+            varName = "_u";
+        }
+
+        // if it's all uppper case, do nothing
+        if (!varName.matches("^[A-Z_0-9]*$")) {
+            varName = getNameUsingModelPropertyNaming(varName);
+        }
+
+        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+            varName = escapeReservedWord(varName);
+        }
+
+        return varName;
+    }
+
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
         }
     }
 
