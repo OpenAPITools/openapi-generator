@@ -163,7 +163,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setUrls");
         Assert.assertEquals(property.dataType, "Set<String>");
         Assert.assertEquals(property.name, "urls");
-        Assert.assertEquals(property.defaultValue, "new HashSet<String>()");
+        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<String>()");
         Assert.assertEquals(property.baseType, "Set");
         Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
@@ -449,9 +449,9 @@ public class JavaModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "HashSet<Children>");
+        Assert.assertEquals(cm.parent, "LinkedHashSet<Children>");
         Assert.assertEquals(cm.imports.size(), 4);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "Set", "HashSet", "Children")).size(), 4);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "Set", "LinkedHashSet", "Children")).size(), 4);
     }
 
     @Test(description = "convert a map model")

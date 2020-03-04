@@ -1237,7 +1237,7 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping.put("HashMap", "java.util.HashMap");
         importMapping.put("Array", "java.util.List");
         importMapping.put("ArrayList", "java.util.ArrayList");
-        importMapping.put("HashSet", "java.util.HashSet");
+        importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
         importMapping.put("List", "java.util.*");
         importMapping.put("Set", "java.util.*");
         importMapping.put("DateTime", "org.joda.time.*");
