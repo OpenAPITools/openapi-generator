@@ -3778,7 +3778,7 @@ class FakeApi
 
         // query params
         if (is_array($ioutil)) {
-            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'csv', true);
+            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'form', true);
         }
         if ($ioutil !== null) {
             $queryParams['ioutil'] = $ioutil;
@@ -3787,7 +3787,7 @@ class FakeApi
 
         // query params
         if (is_array($http)) {
-            $http = ObjectSerializer::serializeCollection($http, 'space', true);
+            $http = ObjectSerializer::serializeCollection($http, 'spaceDelimited', true);
         }
         if ($http !== null) {
             $queryParams['http'] = $http;
@@ -3796,7 +3796,7 @@ class FakeApi
 
         // query params
         if (is_array($url)) {
-            $url = ObjectSerializer::serializeCollection($url, 'csv', true);
+            $url = ObjectSerializer::serializeCollection($url, 'form', true);
         }
         if ($url !== null) {
             $queryParams['url'] = $url;
