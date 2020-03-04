@@ -2677,7 +2677,7 @@ class FakeApi
 
         // query params
         if (is_array($enum_query_string_array)) {
-            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'csv', true);
+            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'form', true);
         }
         if ($enum_query_string_array !== null) {
             $queryParams['enum_query_string_array'] = $enum_query_string_array;
@@ -3761,7 +3761,7 @@ class FakeApi
 
         // query params
         if (is_array($pipe)) {
-            $pipe = ObjectSerializer::serializeCollection($pipe, 'csv', true);
+            $pipe = ObjectSerializer::serializeCollection($pipe, 'form', true);
         }
         if ($pipe !== null) {
             $queryParams['pipe'] = $pipe;
@@ -3779,7 +3779,7 @@ class FakeApi
 
         // query params
         if (is_array($http)) {
-            $http = ObjectSerializer::serializeCollection($http, 'space', true);
+            $http = ObjectSerializer::serializeCollection($http, 'spaceDelimited', true);
         }
         if ($http !== null) {
             $queryParams['http'] = $http;
@@ -3788,7 +3788,7 @@ class FakeApi
 
         // query params
         if (is_array($url)) {
-            $url = ObjectSerializer::serializeCollection($url, 'csv', true);
+            $url = ObjectSerializer::serializeCollection($url, 'form', true);
         }
         if ($url !== null) {
             $queryParams['url'] = $url;
