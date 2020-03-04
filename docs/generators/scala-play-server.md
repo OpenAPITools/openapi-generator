@@ -32,13 +32,11 @@ sidebar_label: scala-play-server
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
-|List|java.util.*|
 |ListBuffer|scala.collection.mutable.ListBuffer|
 |ListSet|scala.collection.immutable.ListSet|
 |LocalDate|java.time.LocalDate|
 |LocalDateTime|org.joda.time.*|
 |LocalTime|org.joda.time.*|
-|Map|java.util.Map|
 |OffsetDateTime|java.time.OffsetDateTime|
 |Seq|scala.collection.immutable.Seq|
 |Set|scala.collection.immutable.Set|
