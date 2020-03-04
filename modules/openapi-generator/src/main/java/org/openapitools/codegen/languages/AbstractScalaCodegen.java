@@ -42,7 +42,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected boolean stripPackageName = true;
-    protected String dateLibrary = DateLibraries.joda.name();
+    protected String dateLibrary = DateLibraries.java8.name();
 
     protected enum DateLibraries {
         java8("Java 8 native JSR310 (prefered for JDK 1.8+)"),

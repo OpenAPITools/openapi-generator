@@ -335,10 +335,11 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 1);
     }
 
-    @Test(description = "validate codegen output")
+    @Test(description = "validate codegen joda output")
     public void codeGenerationTest() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put("mainPackage", "hello.world");
+        properties.put("dateLibrary", "joda");
 
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
