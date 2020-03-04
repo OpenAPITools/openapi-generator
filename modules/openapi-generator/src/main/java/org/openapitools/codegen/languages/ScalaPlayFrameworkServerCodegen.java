@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -102,6 +103,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         importMapping.remove("BigDecimal");
         importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
+        cliOptions.removeIf(opt -> DATE_LIBRARY.equals(opt.getOpt()));
         cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Name of the routes file to generate.").defaultValue(routesFileName));
         cliOptions.add(new CliOption(BASE_PACKAGE, "Base package in which supporting classes are generated.").defaultValue(basePackage));
 
