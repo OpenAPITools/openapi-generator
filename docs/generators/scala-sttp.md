@@ -22,7 +22,6 @@ sidebar_label: scala-sttp
 | ---------- | ------- |
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.DateTime|
 |File|java.io.File|
