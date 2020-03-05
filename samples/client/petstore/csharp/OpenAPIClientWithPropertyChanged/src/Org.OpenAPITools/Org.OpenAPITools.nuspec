@@ -20,7 +20,11 @@
         <!-- The description can be used in package manager UI. Note that the
              nuget.org gallery uses information you add in the portal. -->
         <description>A library generated from a OpenAPI doc</description>
+        <!--<license type="expression">BSD-2-Clause OR MIT</license>-->
+        <!-- licenseUrl has been deprecated and replaced with `license`
+            ref: https://docs.microsoft.com/en-us/nuget/reference/nuspec#license
         <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+        -->
 
         <!-- Dependencies are automatically installed when the package is installed -->
         <dependencies>

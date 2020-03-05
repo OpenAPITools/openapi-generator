@@ -23,8 +23,12 @@
         {{#termsOfService}}
         <copyright>{{termsOfService}}</copyright>
         {{/termsOfService}}
+        <!--<license type="expression">BSD-2-Clause OR MIT</license>-->
         {{#licenseUrl}}
+        <!-- licenseUrl has been deprecated and replaced with `license`
+            ref: https://docs.microsoft.com/en-us/nuget/reference/nuspec#license
         <licenseUrl>{{licenseUrl}}</licenseUrl>
+        -->
         {{/licenseUrl}}
 
         <!-- Dependencies are automatically installed when the package is installed -->
