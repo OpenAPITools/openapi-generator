@@ -1,6 +1,7 @@
 {{>licenseInfo}}
 package {{apiPackage}}
 
+import io.ktor.client.features.HttpRequestTimeoutException
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.ResponseException
 import io.ktor.client.features.logging.LogLevel

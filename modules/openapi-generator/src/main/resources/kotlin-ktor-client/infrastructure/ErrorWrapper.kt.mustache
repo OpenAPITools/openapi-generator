@@ -2,6 +2,7 @@ package {{packageName}}.infrastructure
 
 import io.ktor.client.call.receive
 import io.ktor.client.features.ResponseException
+import io.ktor.utils.io.CancellationException
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ErrorWrapper(
     val originalException: ResponseException,
@@ -17,6 +18,6 @@ internal suspend inline fun <reified E: Any>ResponseException.toErrorWrapper(): 
     return ErrorWrapper(originalException = this, error = error)
 }
 
-internal class TimeoutErrorWrapper(
+{{#nonPublicApi}}internal {{/nonPublicApi}}class TimeoutErrorWrapper(
     val originalException: CancellationException
 ): Exception()
