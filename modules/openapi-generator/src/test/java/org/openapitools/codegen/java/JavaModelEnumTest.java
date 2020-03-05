@@ -167,7 +167,7 @@ public class JavaModelEnumTest {
 
     @Test
     public void testEnumTestSchema() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 

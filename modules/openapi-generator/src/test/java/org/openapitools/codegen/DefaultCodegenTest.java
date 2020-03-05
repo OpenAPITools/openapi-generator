@@ -138,7 +138,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testGetProducesInfo() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/produces.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/produces.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -210,7 +210,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testFormParameterHasDefaultValue() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -222,7 +222,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testEnsureNoDuplicateProduces() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/two-responses.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/two-responses.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -257,7 +257,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithOneOf() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/composed-oneof.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-oneof.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
@@ -270,7 +270,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testComposedSchemaOneOfWithProperties() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
@@ -483,7 +483,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testExample1() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/example1/singular").getGet();
@@ -501,7 +501,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testExample2() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/example2/singular").getGet();
@@ -513,7 +513,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testExample3() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/example3/singular").getGet();
@@ -531,7 +531,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testExample4() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/example4/singular").getPost();
@@ -549,7 +549,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testDiscriminator() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema animal = openAPI.getComponents().getSchemas().get("Animal");
@@ -567,7 +567,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testDiscriminatorWithCustomMapping() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -584,7 +584,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testParentName() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema child = openAPI.getComponents().getSchemas().get("Child");
@@ -595,7 +595,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAllOfRequired() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf-required.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-required.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema child = openAPI.getComponents().getSchemas().get("clubForCreation");
@@ -606,7 +606,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAllOfSingleRefNoOwnProps() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
         final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
 
         Schema schema = openAPI.getComponents().getSchemas().get("NewMessageEventCoreNoOwnProps");
@@ -628,7 +628,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAllOfParent() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf-required-parent.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-required-parent.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -656,7 +656,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testCallbacks() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/callbacks.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/callbacks.yaml");
         final CodegenConfig codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -764,7 +764,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testNullableProperty() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -776,7 +776,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testDeprecatedProperty() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/property-deplicated.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/property-deplicated.yaml");
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -952,7 +952,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAlias() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/type_alias.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/type_alias.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -1052,7 +1052,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void objectQueryParamIdentifyAsObject() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/objectQueryParam.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/objectQueryParam.yaml");
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -1060,6 +1060,7 @@ public class DefaultCodegenTest {
         Set<String> imports = new HashSet<>();
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
 
+        // TODO: This must be updated to work with flattened inline models
         Assert.assertEquals(parameter.dataType, "PageQuery");
         Assert.assertEquals(imports.size(), 1);
         Assert.assertEquals(imports.iterator().next(), "PageQuery");
@@ -1067,7 +1068,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void mapParamImportInnerObject() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/mapArgs.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/mapArgs.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -1142,7 +1143,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void arrayInnerReferencedSchemaMarkedAsModel_20() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/arrayRefBody.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/arrayRefBody.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -1159,7 +1160,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void arrayInnerReferencedSchemaMarkedAsModel_30() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/arrayRefBody.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/arrayRefBody.yaml");
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -1213,7 +1214,7 @@ public class DefaultCodegenTest {
 
     public static class FromParameter {
         private CodegenParameter codegenParameter(String path) {
-            final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/fromParameter.yaml");
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/fromParameter.yaml");
             new InlineModelResolver().flatten(openAPI);
             final DefaultCodegen codegen = new DefaultCodegen();
             codegen.setOpenAPI(openAPI);
@@ -1341,7 +1342,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testUseOneOfInterfaces() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/composed-oneof.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-oneof.yaml");
         final DefaultCodegen cg = new DefaultCodegen();
         cg.setUseOneOfInterfaces(true);
         cg.preprocessOpenAPI(openAPI);
