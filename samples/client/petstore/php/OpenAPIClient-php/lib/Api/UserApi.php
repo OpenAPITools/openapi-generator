@@ -1482,7 +1482,6 @@ class UserApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if (is_array($username)) {
             $username = ObjectSerializer::serializeCollection($username, '', true);
@@ -1490,8 +1489,6 @@ class UserApi
         if ($username !== null) {
             $queryParams['username'] = $username;
         }
-
-
         // query params
         if (is_array($password)) {
             $password = ObjectSerializer::serializeCollection($password, '', true);
@@ -1499,7 +1496,6 @@ class UserApi
         if ($password !== null) {
             $queryParams['password'] = $password;
         }
-
 
 
 

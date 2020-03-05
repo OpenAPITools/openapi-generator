@@ -1774,12 +1774,17 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if ($query !== null) {
-            $queryParams['query'] = $query;
+            if('form' === 'form' && is_array($query)) {
+                foreach($query as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['query'] = $query;
+            }
         }
-
 
 
 
@@ -2705,30 +2710,50 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if ($enum_query_string_array !== null) {
-            $queryParams['enum_query_string_array'] = $enum_query_string_array;
+            if('form' === 'form' && is_array($enum_query_string_array)) {
+                foreach($enum_query_string_array as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['enum_query_string_array'] = $enum_query_string_array;
+            }
         }
-
-
         // query params
         if ($enum_query_string !== null) {
-            $queryParams['enum_query_string'] = $enum_query_string;
+            if('form' === 'form' && is_array($enum_query_string)) {
+                foreach($enum_query_string as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['enum_query_string'] = $enum_query_string;
+            }
         }
-
-
         // query params
         if ($enum_query_integer !== null) {
-            $queryParams['enum_query_integer'] = $enum_query_integer;
+            if('form' === 'form' && is_array($enum_query_integer)) {
+                foreach($enum_query_integer as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['enum_query_integer'] = $enum_query_integer;
+            }
         }
-
-
         // query params
         if ($enum_query_double !== null) {
-            $queryParams['enum_query_double'] = $enum_query_double;
+            if('form' === 'form' && is_array($enum_query_double)) {
+                foreach($enum_query_double as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['enum_query_double'] = $enum_query_double;
+            }
         }
-
 
         // header params
         if (is_array($enum_header_string_array)) {
@@ -3020,30 +3045,50 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if ($required_string_group !== null) {
-            $queryParams['required_string_group'] = $required_string_group;
+            if('form' === 'form' && is_array($required_string_group)) {
+                foreach($required_string_group as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['required_string_group'] = $required_string_group;
+            }
         }
-
-
         // query params
         if ($required_int64_group !== null) {
-            $queryParams['required_int64_group'] = $required_int64_group;
+            if('form' === 'form' && is_array($required_int64_group)) {
+                foreach($required_int64_group as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['required_int64_group'] = $required_int64_group;
+            }
         }
-
-
         // query params
         if ($string_group !== null) {
-            $queryParams['string_group'] = $string_group;
+            if('form' === 'form' && is_array($string_group)) {
+                foreach($string_group as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['string_group'] = $string_group;
+            }
         }
-
-
         // query params
         if ($int64_group !== null) {
-            $queryParams['int64_group'] = $int64_group;
+            if('form' === 'form' && is_array($int64_group)) {
+                foreach($int64_group as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['int64_group'] = $int64_group;
+            }
         }
-
 
         // header params
         if ($required_boolean_group !== null) {
@@ -3769,45 +3814,49 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if ($pipe !== null) {
-            $queryParams['pipe'] = $pipe;
+            if('form' === 'form' && is_array($pipe)) {
+                foreach($pipe as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['pipe'] = $pipe;
+            }
         }
-
-
         // query params
         if (is_array($ioutil)) {
-            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'csv', true);
+            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'form', true);
         }
         if ($ioutil !== null) {
             $queryParams['ioutil'] = $ioutil;
         }
-
-
         // query params
         if (is_array($http)) {
-            $http = ObjectSerializer::serializeCollection($http, 'space', true);
+            $http = ObjectSerializer::serializeCollection($http, 'spaceDelimited', true);
         }
         if ($http !== null) {
             $queryParams['http'] = $http;
         }
-
-
         // query params
         if (is_array($url)) {
-            $url = ObjectSerializer::serializeCollection($url, 'csv', true);
+            $url = ObjectSerializer::serializeCollection($url, 'form', true);
         }
         if ($url !== null) {
             $queryParams['url'] = $url;
         }
-
-
         // query params
         if ($context !== null) {
-            $queryParams['context'] = $context;
+            if('form' === 'form' && is_array($context)) {
+                foreach($context as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['context'] = $context;
+            }
         }
-
 
 
 
