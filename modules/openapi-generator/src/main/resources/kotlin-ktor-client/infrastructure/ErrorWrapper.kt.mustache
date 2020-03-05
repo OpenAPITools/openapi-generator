@@ -16,3 +16,7 @@ internal suspend inline fun <reified E: Any>ResponseException.toErrorWrapper(): 
     }
     return ErrorWrapper(originalException = this, error = error)
 }
+
+internal class TimeoutErrorWrapper(
+    val originalException: CancellationException
+): Exception()

@@ -1,6 +1,7 @@
 package {{packageName}}.infrastructure
 
 import io.ktor.client.HttpClient
+import io.ktor.client.features.HttpTimeout
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.LogLevel
@@ -50,6 +51,7 @@ internal suspend inline fun <reified T, B> request(
     formParameters: List<Pair<String, String?>>,
     serializer: KotlinxSerializer,
     authProviders: List<AuthProvider>,
+    requestTimeoutMillis: Long? = null,
     logger: Logger,
     logLevel: LogLevel,
     bodyObject: B,
@@ -67,6 +69,7 @@ internal suspend inline fun <reified T, B> request(
         formParameters = formParameters,
         serializer = serializer,
         authProviders = authProviders,
+        requestTimeoutMillis = requestTimeoutMillis,
         logger = logger,
         logLevel = logLevel,
         bodyObject = serializedBody
@@ -81,6 +84,7 @@ internal suspend inline fun <reified T> request(
     formParameters: List<Pair<String, String?>>,
     serializer: KotlinxSerializer,
     authProviders: List<AuthProvider>,
+    requestTimeoutMillis: Long? = null,
     logger: Logger,
     logLevel: LogLevel,
     bodyObject: Any? = null
@@ -95,6 +99,9 @@ internal suspend inline fun <reified T> request(
         install(Logging) {
             this.logger = logger
             this.level = logLevel
+        }
+        install(HttpTimeout) {
+            this.requestTimeoutMillis = requestTimeoutMillis
         }
     }
 

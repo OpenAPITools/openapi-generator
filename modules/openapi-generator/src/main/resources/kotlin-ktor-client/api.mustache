@@ -19,6 +19,7 @@ import {{import}}
     private val basePath: kotlin.String = "{{{basePath}}}",
     private val logger: Logger = Logger.SIMPLE,
     private val logLevel: LogLevel = LogLevel.NONE,
+    private val requestTimeoutMillis: Long? = null,
     private val sanitizePaths: Boolean = false
 ) {
     {{#operation}}
@@ -111,6 +112,7 @@ import {{import}}
                 formParameters = formParameters,
                 serializer = mySerializer,
                 authProviders = authProviders,
+                requestTimeoutMillis = requestTimeoutMillis,
                 logger = this@{{classname}}.logger,
                 logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
                 bodyObject = {{paramName}},
@@ -122,22 +124,29 @@ import {{import}}
                 {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
                 else -> throw exception
             }
+        } catch (timeoutException: HttpRequestTimeoutException) {
+            throw TimeoutErrorWrapper(timeoutException)
         }
         {{/hasErrorResponseDataTypes}}
         {{^hasErrorResponseDataTypes}}
-        return request(
-            url = "$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
-            methodString =  "{{httpMethod}}",
-            queryParameters = queryParameters,
-            headerParameters = headerParameters,
-            formParameters = formParameters,
-            serializer = mySerializer,
-            authProviders = authProviders,
-            logger = this@{{classname}}.logger,
-            logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
-            bodyObject = {{paramName}},
-            bodySerializer = {{>param_serializer}}{{/bodyParam}}{{/hasBodyParam}}
-        )
+        try {
+            return request(
+                url = "$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+                methodString =  "{{httpMethod}}",
+                queryParameters = queryParameters,
+                headerParameters = headerParameters,
+                formParameters = formParameters,
+                serializer = mySerializer,
+                authProviders = authProviders,
+                requestTimeoutMillis = requestTimeoutMillis,
+                logger = this@{{classname}}.logger,
+                logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
+                bodyObject = {{paramName}},
+                bodySerializer = {{>param_serializer}}{{/bodyParam}}{{/hasBodyParam}}
+            )
+        } catch (timeoutException: HttpRequestTimeoutException) {
+            throw TimeoutErrorWrapper(timeoutException)
+        }
         {{/hasErrorResponseDataTypes}}
     }
     {{^-last}}
