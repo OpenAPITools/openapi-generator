@@ -68,35 +68,32 @@ export class BaseAPI {
         this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
     protected request<T>(requestOpts: RequestOpts): Observable<T>
-    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<ResponseWithExtras<T>>
-    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | ResponseWithExtras<T>> {
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<RawAjaxResponse<T>>
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | RawAjaxResponse<T>> {
         return this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
             map((res) => {
                 const { status, response } = res;
                 if (status >= 200 && status < 300) {
-                    return responseOpts?.withStatusCode ? { data: response, statusCode: status } : response;
+                    return responseOpts?.respone === 'raw' ? res : response;
                 }
                 throw res;
             })
         );
     }
 
-    private createRequestArgs = (requestOpts: RequestOpts): RequestArgs => {
-        let url = this.configuration.basePath + requestOpts.path;
-        if (requestOpts.query !== undefined && Object.keys(requestOpts.query).length !== 0) {
-            // only add the queryString to the URL if there are query parameters.
-            // this is done to avoid urls ending with a '?' character which buggy webservers
-            // do not handle correctly sometimes.
-            url += '?' + queryString(requestOpts.query);
-        }
+    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType, progressSubscriber }: RequestOpts): RequestArgs => {
+        // only add the queryString to the URL if there are query parameters.
+        // this is done to avoid urls ending with a '?' character which buggy webservers
+        // do not handle correctly sometimes.
+        const url = `${this.configuration.basePath}${baseUrl}${query && Object.keys(query).length ? `?${queryString(query)}`: ''}`;
 
         return {
             url,
-            method: requestOpts.method,
-            headers: requestOpts.headers,
-            body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
-            responseType: requestOpts.responseType ?? 'json',
-            progressSubscriber: requestOpts.progressSubscriber,
+            method,
+            headers,
+            body: body instanceof FormData ? body : JSON.stringify(body),
+            responseType: responseType ?? 'json',
+            progressSubscriber,
         };
     }
 
@@ -145,18 +142,18 @@ export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = Partial<{ [key: string]: string | number | null | boolean | Array<string | number | null | boolean> }>; // partial is needed for strict mode
 export type HttpBody = Json | FormData;
 
-export interface RequestOpts {
-    path: string;
+export interface RequestOpts extends AjaxRequest {
+    query?: HttpQuery; // additional prop
+    // the following props have improved types over AjaxRequest 
     method: HttpMethod;
     headers?: HttpHeaders;
-    query?: HttpQuery;
     body?: HttpBody;
     responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
     progressSubscriber?: Subscriber<ProgressEvent>;
 }
 
 export interface ResponseOpts {
-    withStatusCode?: boolean;
+    respone?: 'raw';
 }
 
 export interface OperationOpts {
@@ -164,9 +161,9 @@ export interface OperationOpts {
     responseOpts?: ResponseOpts;
 }
 
-export interface ResponseWithExtras<T> {
-    data: T;
-    statusCode: number;
+// AjaxResponse with typed response 
+export interface RawAjaxResponse<T> extends AjaxResponse {
+    response: T;
 }
 
 export const encodeURI = (value: any) => encodeURIComponent(String(value));

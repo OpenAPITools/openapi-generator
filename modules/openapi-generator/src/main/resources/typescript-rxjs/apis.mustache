@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}}, OperationOpts, ResponseWithExtras } from '../runtime';
+import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}}, OperationOpts, RawAjaxResponse } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
@@ -39,8 +39,8 @@ export class {{classname}} extends BaseAPI {
      */
     {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>
     {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>
-    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}ResponseWithExtras<{{{returnType}}}>{{/returnType}}{{^returnType}}void | ResponseWithExtras<void>{{/returnType}}>
-    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}{{{returnType}}} | ResponseWithExtras<{{{returnType}}}>{{/returnType}}{{^returnType}}void | ResponseWithExtras<void>{{/returnType}}> {
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}RawAjaxResponse<{{{returnType}}}>{{/returnType}}{{^returnType}}void | RawAjaxResponse<void>{{/returnType}}>
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}{{{returnType}}} | RawAjaxResponse<{{{returnType}}}>{{/returnType}}{{^returnType}}void | RawAjaxResponse<void>{{/returnType}}> {
         {{#hasParams}}
         {{#allParams}}
         {{#required}}
@@ -180,7 +180,7 @@ export class {{classname}} extends BaseAPI {
 
         {{/hasFormParams}}
         return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
-            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI({{> paramNamePartial}})){{/pathParams}},
+            url: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI({{> paramNamePartial}})){{/pathParams}},
             method: '{{httpMethod}}',
             {{#hasHttpHeaders}}
             headers,
