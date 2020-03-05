@@ -337,7 +337,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
             op.httpMethod = httpMethodDeclaration;
             //Producing content with media type "*/*" is not supported
             if (op.produces != null) {
-                for (Map<String, String> p: op.produces) {
+                for (Map<String, String> p : op.produces) {
                     if (p.replace("mediaType", "*/*", "n/a")) {
                         LOGGER.warn("Media type range '*/*' is not supported, using 'n/a' for code generation instead");
                     }
