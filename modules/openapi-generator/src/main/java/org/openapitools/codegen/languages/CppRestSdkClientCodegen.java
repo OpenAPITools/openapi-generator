@@ -80,7 +80,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         super();
 
         // TODO: cpp-restsdk maintainer review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
@@ -100,7 +100,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
@@ -132,6 +132,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         addOption(RESERVED_WORD_PREFIX_OPTION,
                 RESERVED_WORD_PREFIX_DESC,
                 this.reservedWordPrefix);
+        addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
+                VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                Boolean.toString(this.variableNameFirstCharacterUppercase));
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));

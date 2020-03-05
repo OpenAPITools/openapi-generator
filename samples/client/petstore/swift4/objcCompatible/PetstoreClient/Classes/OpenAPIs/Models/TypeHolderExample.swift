@@ -7,12 +7,22 @@
 
 import Foundation
 
-public struct TypeHolderExample: Codable {
+@objc public class TypeHolderExample: NSObject, Codable {
 
     public var stringItem: String
     public var numberItem: Double
     public var integerItem: Int
+    public var integerItemNum: NSNumber? {
+        get {
+            return integerItem as NSNumber?
+        }
+    }
     public var boolItem: Bool
+    public var boolItemNum: NSNumber? {
+        get {
+            return boolItem as NSNumber?
+        }
+    }
     public var arrayItem: [Int]
 
     public init(stringItem: String, numberItem: Double, integerItem: Int, boolItem: Bool, arrayItem: [Int]) {

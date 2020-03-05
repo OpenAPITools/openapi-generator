@@ -39,9 +39,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public JavaMSF4JServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/JavaJaxRS-MSF4J";
         apiTemplateFiles.put("apiService.mustache", ".java");

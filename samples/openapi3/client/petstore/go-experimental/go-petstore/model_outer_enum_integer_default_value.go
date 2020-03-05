@@ -24,6 +24,12 @@ const (
 	OUTERENUMINTEGERDEFAULTVALUE__2 OuterEnumIntegerDefaultValue = 2
 )
 
+// Ptr returns reference to OuterEnumIntegerDefaultValue value
+func (v OuterEnumIntegerDefaultValue) Ptr() *OuterEnumIntegerDefaultValue {
+	return &v
+}
+
+
 type NullableOuterEnumIntegerDefaultValue struct {
 	Value OuterEnumIntegerDefaultValue
 	ExplicitNull bool

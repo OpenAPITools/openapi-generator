@@ -8,7 +8,6 @@
 import Foundation
 
 /** This is a card object for a Person derived from BaseCard. */
-
 public struct PlaceCard: Codable {
 
     public var cardType: String

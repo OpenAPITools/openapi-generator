@@ -170,7 +170,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public HaskellHttpClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -194,7 +194,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         this.prependFormOrBodyParameters = true;
 

@@ -24,6 +24,12 @@ const (
 	XYZ EnumClass = "(xyz)"
 )
 
+// Ptr returns reference to EnumClass value
+func (v EnumClass) Ptr() *EnumClass {
+	return &v
+}
+
+
 type NullableEnumClass struct {
 	Value EnumClass
 	ExplicitNull bool
