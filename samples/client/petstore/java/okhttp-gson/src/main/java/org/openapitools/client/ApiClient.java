@@ -116,16 +116,16 @@ public class ApiClient {
     public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
         init();
 
-        // Setup authentications (key: authentication name, value: authentication).
-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("http_basic_test", new HttpBasicAuth());
         RetryingOAuth retryingOAuth = new RetryingOAuth("", clientId, OAuthFlow.implicit, clientSecret, parameters);
         authentications.put(
                 "petstore_auth",
                 retryingOAuth
         );
         initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
+        // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+        authentications.put("http_basic_test", new HttpBasicAuth());
 
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
