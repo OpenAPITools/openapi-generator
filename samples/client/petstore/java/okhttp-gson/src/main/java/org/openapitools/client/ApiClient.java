@@ -128,8 +128,12 @@ public class ApiClient {
         }
 
         String tokenUrl = "";
-        if (! "".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
-            tokenUrl = getBasePath() + tokenUrl;
+        URI uri = URI.create(tokenUrl);
+        if (!"".equals(tokenUrl) && !uri.isAbsolute()) {
+            URI uri = URI.create(getBasePath());
+            tokenUrl = uri.getScheme() + ":" +
+                (uri.getAuthority() != null ? "//" + uri.getAuthority() : "") +
+                tokenUrl;
             if (!URI.create(tokenUrl).isAbsolute()) {
                 throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
             }
