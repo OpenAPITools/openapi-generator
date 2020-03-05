@@ -1740,7 +1740,6 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if (is_array($query)) {
             $query = ObjectSerializer::serializeCollection($query, '', true);
@@ -1748,7 +1747,6 @@ class FakeApi
         if ($query !== null) {
             $queryParams['query'] = $query;
         }
-
 
 
 
@@ -2674,16 +2672,13 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if (is_array($enum_query_string_array)) {
-            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'csv', true);
+            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'form', true);
         }
         if ($enum_query_string_array !== null) {
             $queryParams['enum_query_string_array'] = $enum_query_string_array;
         }
-
-
         // query params
         if (is_array($enum_query_string)) {
             $enum_query_string = ObjectSerializer::serializeCollection($enum_query_string, '', true);
@@ -2691,8 +2686,6 @@ class FakeApi
         if ($enum_query_string !== null) {
             $queryParams['enum_query_string'] = $enum_query_string;
         }
-
-
         // query params
         if (is_array($enum_query_integer)) {
             $enum_query_integer = ObjectSerializer::serializeCollection($enum_query_integer, '', true);
@@ -2700,8 +2693,6 @@ class FakeApi
         if ($enum_query_integer !== null) {
             $queryParams['enum_query_integer'] = $enum_query_integer;
         }
-
-
         // query params
         if (is_array($enum_query_double)) {
             $enum_query_double = ObjectSerializer::serializeCollection($enum_query_double, '', true);
@@ -2709,7 +2700,6 @@ class FakeApi
         if ($enum_query_double !== null) {
             $queryParams['enum_query_double'] = $enum_query_double;
         }
-
 
         // header params
         if (is_array($enum_header_string_array)) {
@@ -3001,7 +2991,6 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if (is_array($required_string_group)) {
             $required_string_group = ObjectSerializer::serializeCollection($required_string_group, '', true);
@@ -3009,8 +2998,6 @@ class FakeApi
         if ($required_string_group !== null) {
             $queryParams['required_string_group'] = $required_string_group;
         }
-
-
         // query params
         if (is_array($required_int64_group)) {
             $required_int64_group = ObjectSerializer::serializeCollection($required_int64_group, '', true);
@@ -3018,8 +3005,6 @@ class FakeApi
         if ($required_int64_group !== null) {
             $queryParams['required_int64_group'] = $required_int64_group;
         }
-
-
         // query params
         if (is_array($string_group)) {
             $string_group = ObjectSerializer::serializeCollection($string_group, '', true);
@@ -3027,8 +3012,6 @@ class FakeApi
         if ($string_group !== null) {
             $queryParams['string_group'] = $string_group;
         }
-
-
         // query params
         if (is_array($int64_group)) {
             $int64_group = ObjectSerializer::serializeCollection($int64_group, '', true);
@@ -3036,7 +3019,6 @@ class FakeApi
         if ($int64_group !== null) {
             $queryParams['int64_group'] = $int64_group;
         }
-
 
         // header params
         if ($required_boolean_group !== null) {
@@ -3758,16 +3740,13 @@ class FakeApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if (is_array($pipe)) {
-            $pipe = ObjectSerializer::serializeCollection($pipe, 'csv', true);
+            $pipe = ObjectSerializer::serializeCollection($pipe, 'form', true);
         }
         if ($pipe !== null) {
             $queryParams['pipe'] = $pipe;
         }
-
-
         // query params
         if (is_array($ioutil)) {
             $ioutil = ObjectSerializer::serializeCollection($ioutil, 'csv', true);
@@ -3775,31 +3754,31 @@ class FakeApi
         if ($ioutil !== null) {
             $queryParams['ioutil'] = $ioutil;
         }
-
-
         // query params
         if (is_array($http)) {
-            $http = ObjectSerializer::serializeCollection($http, 'space', true);
+            $http = ObjectSerializer::serializeCollection($http, 'spaceDelimited', true);
         }
         if ($http !== null) {
             $queryParams['http'] = $http;
         }
-
-
         // query params
         if (is_array($url)) {
-            $url = ObjectSerializer::serializeCollection($url, 'csv', true);
+            $url = ObjectSerializer::serializeCollection($url, 'form', true);
         }
         if ($url !== null) {
             $queryParams['url'] = $url;
         }
-
-
         // query params
         if ($context !== null) {
-            $queryParams['context'] = $context;
+            if('form' === 'form' && is_array($context)) {
+                foreach($context as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['context'] = $context;
+            }
         }
-
 
 
 
