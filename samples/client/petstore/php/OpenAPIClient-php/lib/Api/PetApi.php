@@ -775,7 +775,6 @@ class PetApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if (is_array($status)) {
             $status = ObjectSerializer::serializeCollection($status, 'form', true);
@@ -783,7 +782,6 @@ class PetApi
         if ($status !== null) {
             $queryParams['status'] = $status;
         }
-
 
 
 
@@ -1053,7 +1051,6 @@ class PetApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if (is_array($tags)) {
             $tags = ObjectSerializer::serializeCollection($tags, 'form', true);
@@ -1061,7 +1058,6 @@ class PetApi
         if ($tags !== null) {
             $queryParams['tags'] = $tags;
         }
-
 
 
 

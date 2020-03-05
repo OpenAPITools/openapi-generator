@@ -1482,18 +1482,28 @@ class UserApi
         $httpBody = '';
         $multipart = false;
 
-
         // query params
         if ($username !== null) {
-            $queryParams['username'] = $username;
+            if('form' === 'form' && is_array($username)) {
+                foreach($username as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['username'] = $username;
+            }
         }
-
-
         // query params
         if ($password !== null) {
-            $queryParams['password'] = $password;
+            if('form' === 'form' && is_array($password)) {
+                foreach($password as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['password'] = $password;
+            }
         }
-
 
 
 

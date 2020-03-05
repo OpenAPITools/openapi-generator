@@ -472,11 +472,22 @@ use {{invokerPackage}}\ObjectSerializer;
         $multipart = false;
 
         {{#queryParams}}
-
         // query params
         {{#isExplode}}
         if (${{paramName}} !== null) {
+        {{#style}}
+            if('form' === '{{style}}' && is_array(${{paramName}})) {
+                foreach(${{paramName}} as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['{{baseName}}'] = ${{paramName}};
+            }
+        {{/style}}
+        {{^style}}
             $queryParams['{{baseName}}'] = ${{paramName}};
+        {{/style}}
         }
         {{/isExplode}}
         {{^isExplode}}
@@ -487,7 +498,6 @@ use {{invokerPackage}}\ObjectSerializer;
             $queryParams['{{baseName}}'] = ${{paramName}};
         }
         {{/isExplode}}
-
         {{/queryParams}}
 
         {{#headerParams}}
