@@ -29,6 +29,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -420,34 +421,29 @@ public class RubyClientCodegenTest {
         // to test allVars (without parent's properties)
         Assert.assertEquals(child.getAllVars().size(), 7);
 
-        CodegenProperty cp0 = child.getAllVars().get(0);
-        Assert.assertEquals(cp0.name, "_type");
-
-        CodegenProperty cp1 = child.getAllVars().get(1);
-        Assert.assertEquals(cp1.name, "last_name");
-
-        CodegenProperty cp2 = child.getAllVars().get(2);
-        Assert.assertEquals(cp2.name, "first_name");
-
-        CodegenProperty cp3 = child.getAllVars().get(3);
-        Assert.assertEquals(cp3.name, "duplicated_optional");
-
-        CodegenProperty cp4 = child.getAllVars().get(4);
-        Assert.assertEquals(cp4.name, "duplicated_required");
-
-        CodegenProperty cp5 = child.getAllVars().get(5);
-        Assert.assertEquals(cp5.name, "person_required");
-
-        CodegenProperty cp6 = child.getAllVars().get(6);
-        Assert.assertEquals(cp6.name, "age");
+        List<String> allVars = Arrays.asList(
+                "age",
+                "first_name",
+                "_type",
+                "last_name",
+                "duplicated_optional",
+                "duplicated_required",
+                "person_required"
+        );
+        Integer i = 0;
+        for (String varName: allVars) {
+            CodegenProperty cp = child.getAllVars().get(i);
+            Assert.assertEquals(cp.name, varName);
+            i ++;
+        }
 
         // to test vars (without parent's properties)
         Assert.assertEquals(child.getVars().size(), 2);
 
-        cp0 = child.getVars().get(0);
+        CodegenProperty cp0 = child.getVars().get(0);
         Assert.assertEquals(cp0.name, "age");
 
-        cp1 = child.getVars().get(1);
+        CodegenProperty cp1 = child.getVars().get(1);
         Assert.assertEquals(cp1.name, "first_name");
 
         // to test requiredVars
