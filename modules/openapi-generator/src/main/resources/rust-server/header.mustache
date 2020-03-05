@@ -82,6 +82,18 @@ impl From<IntoHeaderValue<String>> for HeaderValue {
     }
 }
 
+impl From<HeaderValue> for IntoHeaderValue<bool> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(hdr_value.to_str().unwrap().parse().unwrap())
+    }
+}
+
+impl From<IntoHeaderValue<bool>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<bool>) -> Self {
+        HeaderValue::from_str(&hdr_value.0.to_string()).unwrap()
+    }
+}
+
 impl From<HeaderValue> for IntoHeaderValue<DateTime<Utc>> {
     fn from(hdr_value: HeaderValue) -> Self {
         IntoHeaderValue(
