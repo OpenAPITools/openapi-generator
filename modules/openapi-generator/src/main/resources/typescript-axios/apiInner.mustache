@@ -317,8 +317,8 @@ export class {{classname}} extends BaseAPI {
      * @throws {RequiredError}
      * @memberof {{classname}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
-        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options)(this.axios, this.basePath);
+    public {{nickname}}(params:{ {{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any}) {
+        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}params.{{paramName}}, {{/allParams}}params.options)(this.axios, this.basePath);
     }
 
     {{/operation}}
