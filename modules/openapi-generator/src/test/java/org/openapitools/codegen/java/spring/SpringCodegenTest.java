@@ -519,4 +519,29 @@ public class SpringCodegenTest {
         Assert.assertEquals(floatParam.defaultValue, floatVal);
         Assert.assertEquals(doubleParam.defaultValue, doubleVal);
     }
+
+    @Test
+    public void doGenerateCookieParams() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_5386.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java", "@CookieValue");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java", "@CookieValue");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/BirdsApi.java", "@CookieValue");
+    }
 }

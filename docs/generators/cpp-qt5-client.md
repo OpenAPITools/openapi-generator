@@ -12,8 +12,10 @@ sidebar_label: cpp-qt5-client
 |modelNamePrefix|Prefix that will be prepended to all model names.| |OAI|
 |optionalProjectFile|Generate client.pri.| |true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
 
 ## IMPORT MAPPING
 

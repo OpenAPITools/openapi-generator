@@ -9,6 +9,7 @@ sidebar_label: scalatra
 |apiPackage|package for generated api classes| |null|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |modelPackage|package for generated models| |null|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -67,56 +68,44 @@ sidebar_label: scalatra
 
 <ul class="column-ul">
 <li>abstract</li>
-<li>assert</li>
-<li>boolean</li>
-<li>break</li>
-<li>byte</li>
 <li>case</li>
 <li>catch</li>
-<li>char</li>
 <li>class</li>
-<li>const</li>
-<li>continue</li>
-<li>default</li>
+<li>def</li>
 <li>do</li>
-<li>double</li>
 <li>else</li>
-<li>enum</li>
 <li>extends</li>
+<li>false</li>
 <li>final</li>
 <li>finally</li>
-<li>float</li>
 <li>for</li>
-<li>goto</li>
+<li>forSome</li>
 <li>if</li>
-<li>implements</li>
+<li>implicit</li>
 <li>import</li>
-<li>instanceof</li>
-<li>int</li>
-<li>interface</li>
-<li>long</li>
-<li>native</li>
+<li>lazy</li>
+<li>match</li>
 <li>new</li>
+<li>null</li>
+<li>object</li>
+<li>override</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>
-<li>public</li>
 <li>return</li>
-<li>short</li>
-<li>static</li>
-<li>strictfp</li>
+<li>sealed</li>
 <li>super</li>
-<li>switch</li>
-<li>synchronized</li>
 <li>this</li>
 <li>throw</li>
-<li>throws</li>
-<li>transient</li>
+<li>trait</li>
+<li>true</li>
 <li>try</li>
 <li>type</li>
-<li>void</li>
-<li>volatile</li>
+<li>val</li>
+<li>var</li>
 <li>while</li>
+<li>with</li>
+<li>yield</li>
 </ul>
 
 ## FEATURE SET

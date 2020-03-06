@@ -36,6 +36,23 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewXmlItem
+
+`func NewXmlItem() *XmlItem`
+
+NewXmlItem instantiates a new XmlItem object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewXmlItemWithDefaults
+
+`func NewXmlItemWithDefaults() *XmlItem`
+
+NewXmlItemWithDefaults instantiates a new XmlItem object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
 ### GetAttributeString
 
 `func (o *XmlItem) GetAttributeString() string`

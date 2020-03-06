@@ -353,6 +353,27 @@ public class ModelUtils {
         return ref;
     }
 
+    /**
+     * Return true if the specified schema is an object with a fixed number of properties.
+     * 
+     * A ObjectSchema differs from an MapSchema in the following way:
+     * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
+     * - A MapSchema is an object that can be extended with an arbitrary set of properties.
+     *   The payload may include dynamic properties.
+     * 
+     * For example, an OpenAPI schema is considered an ObjectSchema in the following scenarios:
+     * 
+     *   type: object
+     *   additionalProperties: false
+     *   properties:
+     *     name:
+     *       type: string
+     *     address:
+     *       type: string
+     * 
+     * @param schema the OAS schema
+     * @return true if the specified schema is an Object schema.
+     */
     public static boolean isObjectSchema(Schema schema) {
         if (schema instanceof ObjectSchema) {
             return true;
@@ -370,6 +391,13 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Return true if the specified schema is composed, i.e. if it uses
+     * 'oneOf', 'anyOf' or 'allOf'.
+     * 
+     * @param schema the OAS schema
+     * @return true if the specified schema is a Composed schema.
+     */
     public static boolean isComposedSchema(Schema schema) {
         if (schema instanceof ComposedSchema) {
             return true;
@@ -377,6 +405,39 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Return true if the specified 'schema' is an object that can be extended with additional properties.
+     * Additional properties means a Schema should support all explicitly defined properties plus any
+     * undeclared properties.
+     *
+     * A MapSchema differs from an ObjectSchema in the following way:
+     * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
+     * - A MapSchema is an object that can be extended with an arbitrary set of properties.
+     *   The payload may include dynamic properties.
+     *
+     * Note that isMapSchema returns true for a composed schema (allOf, anyOf, oneOf) that also defines
+     * additionalproperties.
+     *
+     * For example, an OpenAPI schema is considered a MapSchema in the following scenarios:
+     *
+     *   type: object
+     *   additionalProperties: true
+     *
+     *   type: object
+     *   additionalProperties:
+     *     type: object
+     *     properties:
+     *       code:
+     *         type: integer
+     *
+     *   allOf:
+     *     - $ref: '#/components/schemas/Class1'
+     *     - $ref: '#/components/schemas/Class2'
+     *   additionalProperties: true
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is a Map schema.
+     */
     public static boolean isMapSchema(Schema schema) {
         if (schema instanceof MapSchema) {
             return true;
@@ -397,6 +458,12 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Return true if the specified schema is an array of items.
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an Array schema.
+     */
     public static boolean isArraySchema(Schema schema) {
         return (schema instanceof ArraySchema);
     }
@@ -591,7 +658,12 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a free form object
+     * Check to see if the schema is a free form object.
+     * 
+     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
+     * 1) Does not define properties, and
+     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
+     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
      *
      * @param schema potentially containing a '$ref'
      * @return true if it's a free-form object

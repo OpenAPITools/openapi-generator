@@ -19,6 +19,23 @@ type AdditionalPropertiesObject struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// NewAdditionalPropertiesObject instantiates a new AdditionalPropertiesObject object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewAdditionalPropertiesObject() *AdditionalPropertiesObject {
+    this := AdditionalPropertiesObject{}
+    return &this
+}
+
+// NewAdditionalPropertiesObjectWithDefaults instantiates a new AdditionalPropertiesObject object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewAdditionalPropertiesObjectWithDefaults() *AdditionalPropertiesObject {
+    this := AdditionalPropertiesObject{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesObject) GetName() string {
 	if o == nil || o.Name == nil {

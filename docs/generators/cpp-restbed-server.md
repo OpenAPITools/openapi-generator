@@ -10,6 +10,7 @@ sidebar_label: cpp-restbed-server
 |defaultInclude|The default include statement that should be placed in all headers for including things like the declspec (convention: #include &quot;Commons.h&quot; | ||
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.server.model|
 |packageVersion|C++ package version.| |1.0.0|
+|reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 
 ## IMPORT MAPPING
 

@@ -40,8 +40,9 @@ void Tag::validate()
 
 web::json::value Tag::toJson() const
 {
-    web::json::value val = web::json::value::object();
 
+    web::json::value val = web::json::value::object();
+    
     if(m_IdIsSet)
     {
         val[utility::conversions::to_string_t("id")] = ModelBase::toJson(m_Id);
@@ -54,14 +55,18 @@ web::json::value Tag::toJson() const
     return val;
 }
 
-void Tag::fromJson(const web::json::value& val)
+bool Tag::fromJson(const web::json::value& val)
 {
+    bool ok = true;
+    
     if(val.has_field(utility::conversions::to_string_t("id")))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t("id"));
         if(!fieldValue.is_null())
         {
-            setId(ModelBase::int64_tFromJson(fieldValue));
+            int64_t refVal_id;
+            ok &= ModelBase::fromJson(fieldValue, refVal_id);
+            setId(refVal_id);
         }
     }
     if(val.has_field(utility::conversions::to_string_t("name")))
@@ -69,9 +74,12 @@ void Tag::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t("name"));
         if(!fieldValue.is_null())
         {
-            setName(ModelBase::stringFromJson(fieldValue));
+            utility::string_t refVal_name;
+            ok &= ModelBase::fromJson(fieldValue, refVal_name);
+            setName(refVal_name);
         }
     }
+    return ok;
 }
 
 void Tag::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
@@ -81,7 +89,6 @@ void Tag::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
     {
         namePrefix += utility::conversions::to_string_t(".");
     }
-
     if(m_IdIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("id"), m_Id));
@@ -92,8 +99,9 @@ void Tag::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
     }
 }
 
-void Tag::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+bool Tag::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
+    bool ok = true;
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
     {
@@ -102,12 +110,17 @@ void Tag::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
 
     if(multipart->hasContent(utility::conversions::to_string_t("id")))
     {
-        setId(ModelBase::int64_tFromHttpContent(multipart->getContent(utility::conversions::to_string_t("id"))));
+        int64_t refVal_id;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t("id")), refVal_id );
+        setId(refVal_id);
     }
     if(multipart->hasContent(utility::conversions::to_string_t("name")))
     {
-        setName(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("name"))));
+        utility::string_t refVal_name;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t("name")), refVal_name );
+        setName(refVal_name);
     }
+    return ok;
 }
 
 int64_t Tag::getId() const
@@ -130,7 +143,6 @@ void Tag::unsetId()
 {
     m_IdIsSet = false;
 }
-
 utility::string_t Tag::getName() const
 {
     return m_Name;
@@ -151,7 +163,6 @@ void Tag::unsetName()
 {
     m_NameIsSet = false;
 }
-
 }
 }
 }
