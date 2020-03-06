@@ -8,7 +8,7 @@ package org.openapitools.api;
 import java.util.List;
 import org.openapitools.model.User;
 import io.swagger.v3.oas.annotations.*;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -98,7 +98,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
         @RequestMapping(value = "/user/{username}",
         method = RequestMethod.DELETE)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteUser(@Parameter(in = ParameterIn.PATH,description = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteUser(@Parameter(in = ParameterIn.PATH,description = "The name that needs to be deleted", required=true) @PathVariable("username") String username);
 
 
     /**
@@ -118,7 +118,7 @@ public interface UserApi {
         @RequestMapping(value = "/user/{username}",
         produces = "application/json", 
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<User>> getUserByName(@Parameter(in = ParameterIn.PATH,description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<User>> getUserByName(@Parameter(in = ParameterIn.PATH,description = "The name that needs to be fetched. Use user1 for testing.", required=true) @PathVariable("username") String username);
 
 
     /**
@@ -137,7 +137,7 @@ public interface UserApi {
         @RequestMapping(value = "/user/login",
         produces = "application/json", 
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<String>> loginUser(@NotNull @Parameter( description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter( description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<String>> loginUser(@NotNull @Parameter(schema = @Schema( description = "The user name for login", required = true)) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(schema = @Schema( description = "The password for login in clear text", required = true)) @Valid @RequestParam(value = "password", required = true) String password);
 
 
     /**
@@ -170,6 +170,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
         @RequestMapping(value = "/user/{username}",
         method = RequestMethod.PUT)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updateUser(@Parameter(in = ParameterIn.PATH,description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updateUser(@Parameter(in = ParameterIn.PATH,description = "name that need to be deleted", required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User body);
 
 }

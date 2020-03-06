@@ -8,7 +8,7 @@ package org.openapitools.api;
 import java.util.Map;
 import org.openapitools.model.Order;
 import io.swagger.v3.oas.annotations.*;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -53,7 +53,7 @@ public interface StoreApi {
             @ApiResponse(responseCode = "404", description = "Order not found"  )  })
         @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
-    CompletableFuture<ResponseEntity<Void>> deleteOrder(@Parameter(in = ParameterIn.PATH,description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
+    CompletableFuture<ResponseEntity<Void>> deleteOrder(@Parameter(in = ParameterIn.PATH,description = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") String orderId);
 
 
     /**
@@ -90,7 +90,7 @@ public interface StoreApi {
         @RequestMapping(value = "/store/order/{orderId}",
         produces = "application/json", 
         method = RequestMethod.GET)
-    CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @Parameter(in = ParameterIn.PATH,description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
+    CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @Parameter(in = ParameterIn.PATH,description = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") Long orderId);
 
 
     /**
