@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.Ticker;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -67,6 +70,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -78,6 +83,10 @@ public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     public static FeatureSet DefaultFeatureSet;
+
+    // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
+    // arguments, this cache is used to optimized performance.
+    private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -122,9 +131,14 @@ public class DefaultCodegen implements CodegenConfig {
                         // PROTOBUF and Custom are generator specific
                 )
                 .build();
+
+        sanitizedNameCache = Caffeine.newBuilder()
+                .maximumSize(500)
+                .expireAfterAccess(10, TimeUnit.SECONDS)
+                .ticker(Ticker.systemTicker())
+                .build();
     }
 
-    protected FeatureSet featureSet;
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
@@ -1289,10 +1303,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenType = CodegenType.OTHER;
         }
 
-        featureSet = DefaultFeatureSet;
-
         generatorMetadata = GeneratorMetadata.newBuilder()
                 .stability(Stability.STABLE)
+                .featureSet(DefaultFeatureSet)
                 .generationMessage(String.format(Locale.ROOT, "OpenAPI Generator: %s (%s)", getName(), codegenType.toValue()))
                 .build();
 
@@ -1735,12 +1748,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected Schema<?> getSchemaItems(ArraySchema schema) {
-        if (schema.getItems() != null) {
-            return schema.getItems();
-        } else {
+        Schema<?> items = schema.getItems();
+        if (items == null) {
             LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
-            return new StringSchema().description("TODO default missing array inner type to string");
+            items = new StringSchema().description("TODO default missing array inner type to string");
+            schema.setItems(items);
         }
+        return items;
+    }
+
+    protected Schema<?> getSchemaAdditionalProperties(Schema schema) {
+        Schema<?> inner = ModelUtils.getAdditionalProperties(schema);
+        if (inner == null) {
+            LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", schema.getName());
+            inner = new StringSchema().description("TODO default missing map inner type to string");
+            schema.setAdditionalProperties(inner);
+        }
+        return inner;
     }
 
     /**
@@ -2252,6 +2276,11 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
+        if (m.allVars != null) {
+            for (CodegenProperty prop : m.allVars) {
+                postProcessModelProperty(m, prop);
+            }
+        }
 
         if (sortModelPropertiesByRequiredFlag) {
             Collections.sort(m.vars, new Comparator<CodegenProperty>() {
@@ -2530,9 +2559,6 @@ public class DefaultCodegen implements CodegenConfig {
             // default to string if inner item is undefined
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(arraySchema), importMapping);
-            if (arraySchema.getItems() == null) {
-                arraySchema.setItems(innerSchema);
-            }
         } else if (ModelUtils.isMapSchema(p)) {
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(p),
                     importMapping);
@@ -2612,9 +2638,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(arraySchema), importMapping);
-            if (arraySchema.getItems() == null) {
-                arraySchema.setItems(innerSchema);
-            }
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isMapSchema(p)) {
@@ -3495,9 +3518,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
                 Schema inner = getSchemaItems(arraySchema);
-                if (arraySchema.getItems() == null) {
-                    arraySchema.setItems(inner);
-                }
 
                 collectionFormat = getCollectionFormat(parameter);
                 // default to csv:
@@ -4499,21 +4519,16 @@ public class DefaultCodegen implements CodegenConfig {
         return sanitizeName(name, removeCharRegEx, new ArrayList<String>());
     }
 
-    // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
-    // arguments, this cache is used to optimized performance.
-    private static Map<String, Map<String, Map<List<String>, String>>> sanitizedNames =
-        new HashMap<String, Map<String, Map<List<String>, String>>>();
-
     /**
      * Sanitize name (parameter, property, method, etc)
      *
      * @param name            string to be sanitize
      * @param removeCharRegEx a regex containing all char that will be removed
-     * @param exceptionList   a list of matches which should not be sanitized (i.e expections)
+     * @param exceptionList   a list of matches which should not be sanitized (i.e exception)
      * @return sanitized string
      */
     @SuppressWarnings("static-method")
-    public String sanitizeName(String name, String removeCharRegEx, ArrayList<String> exceptionList) {
+    public String sanitizeName(final String name, String removeCharRegEx, ArrayList<String> exceptionList) {
         // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
         // character with _ or empty character. Below aims to spell out different cases we've
         // encountered so far and hopefully make it easier for others to add more special
@@ -4530,61 +4545,51 @@ public class DefaultCodegen implements CodegenConfig {
             return "value";
         }
 
-        Map<String, Map<List<String>, String>> m1 = sanitizedNames.get(name);
-        if (m1 == null) {
-            m1 = new HashMap<String, Map<List<String>, String>>();
-            sanitizedNames.put(name, m1);
-        }
-        Map<List<String>, String> m2 = m1.get(removeCharRegEx);
-        if (m2 == null) {
-            m2 = new HashMap<List<String>, String>();
-            m1.put(removeCharRegEx, m2);
-        }
-        List<String> l = Collections.unmodifiableList(exceptionList);
-        if (m2.containsKey(l)) {
-            return m2.get(l);
-        }
+        SanitizeNameOptions opts = new SanitizeNameOptions(name, removeCharRegEx, exceptionList);
 
-        // input[] => input
-        name = this.sanitizeValue(name, "\\[\\]", "", exceptionList);
+        return sanitizedNameCache.get(opts, sanitizeNameOptions -> {
+            String modifiable = sanitizeNameOptions.getName();
+            List<String> exceptions = sanitizeNameOptions.getExceptions();
+            // input[] => input
+            modifiable = this.sanitizeValue(modifiable, "\\[\\]", "", exceptions);
 
-        // input[a][b] => input_a_b
-        name = this.sanitizeValue(name, "\\[", "_", exceptionList);
-        name = this.sanitizeValue(name, "\\]", "", exceptionList);
+            // input[a][b] => input_a_b
+            modifiable = this.sanitizeValue(modifiable, "\\[", "_", exceptions);
+            modifiable = this.sanitizeValue(modifiable, "\\]", "", exceptions);
 
-        // input(a)(b) => input_a_b
-        name = this.sanitizeValue(name, "\\(", "_", exceptionList);
-        name = this.sanitizeValue(name, "\\)", "", exceptionList);
+            // input(a)(b) => input_a_b
+            modifiable = this.sanitizeValue(modifiable, "\\(", "_", exceptions);
+            modifiable = this.sanitizeValue(modifiable, "\\)", "", exceptions);
 
-        // input.name => input_name
-        name = this.sanitizeValue(name, "\\.", "_", exceptionList);
+            // input.name => input_name
+            modifiable = this.sanitizeValue(modifiable, "\\.", "_", exceptions);
 
-        // input-name => input_name
-        name = this.sanitizeValue(name, "-", "_", exceptionList);
+            // input-name => input_name
+            modifiable = this.sanitizeValue(modifiable, "-", "_", exceptions);
 
-        // a|b => a_b
-        name = this.sanitizeValue(name, "\\|", "_", exceptionList);
+            // a|b => a_b
+            modifiable = this.sanitizeValue(modifiable, "\\|", "_", exceptions);
 
-        // input name and age => input_name_and_age
-        name = this.sanitizeValue(name, " ", "_", exceptionList);
+            // input name and age => input_name_and_age
+            modifiable = this.sanitizeValue(modifiable, " ", "_", exceptions);
 
-        // /api/films/get => _api_films_get
-        // \api\films\get => _api_films_get
-        name = name.replaceAll("/", "_");
-        name = name.replaceAll("\\\\", "_");
+            // /api/films/get => _api_films_get
+            // \api\films\get => _api_films_get
+            modifiable = modifiable.replaceAll("/", "_");
+            modifiable = modifiable.replaceAll("\\\\", "_");
 
-        // remove everything else other than word, number and _
-        // $php_variable => php_variable
-        if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
-            name = Pattern.compile(removeCharRegEx, Pattern.UNICODE_CHARACTER_CLASS).matcher(name).replaceAll("");
-        } else {
-            name = name.replaceAll(removeCharRegEx, "");
-        }
-        m2.put(l, name);
-        return name;
+            // remove everything else other than word, number and _
+            // $php_variable => php_variable
+            if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
+                modifiable = Pattern.compile(sanitizeNameOptions.getRemoveCharRegEx(), Pattern.UNICODE_CHARACTER_CLASS).matcher(modifiable).replaceAll("");
+            } else {
+                modifiable = modifiable.replaceAll(sanitizeNameOptions.getRemoveCharRegEx(), "");
+            }
+            return modifiable;
+        });
     }
 
-    private String sanitizeValue(String value, String replaceMatch, String replaceValue, ArrayList<String> exceptionList) {
+    private String sanitizeValue(String value, String replaceMatch, String replaceValue, List<String> exceptionList) {
         if (exceptionList.size() == 0 || !exceptionList.contains(replaceMatch)) {
             return value.replaceAll(replaceMatch, replaceValue);
         }
@@ -4762,17 +4767,18 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
         List<Map<String, Object>> enumVars = new ArrayList<>();
         int truncateIdx = 0;
+
         if (isRemoveEnumValuePrefix()) {
             String commonPrefix = findCommonPrefixOfVars(values);
             truncateIdx = commonPrefix.length();
         }
+
         for (Object value : values) {
             Map<String, Object> enumVar = new HashMap<>();
             String enumName;
             if (truncateIdx == 0) {
-                enumName = value.toString();
-            }
-            else {
+                enumName = String.valueOf(value);
+            } else {
                 enumName = value.toString().substring(truncateIdx);
                 if ("".equals(enumName)) {
                     enumName = value.toString();
@@ -4780,7 +4786,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
-            enumVar.put("value", toEnumValue(value.toString(), dataType));
+            enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
         }
@@ -5093,9 +5099,6 @@ public class DefaultCodegen implements CodegenConfig {
                 if (ModelUtils.isArraySchema(s)) {
                     final ArraySchema arraySchema = (ArraySchema) s;
                     Schema inner = getSchemaItems(arraySchema);
-                    if (arraySchema.getItems() == null) {
-                        arraySchema.setItems(inner);
-                    }
 
                     codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
                     CodegenProperty codegenProperty = fromProperty("inner", inner);
@@ -5295,9 +5298,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
-            if (arraySchema.getItems() == null) {
-                arraySchema.setItems(inner);
-            }
             CodegenProperty codegenProperty = fromProperty("property", arraySchema);
             imports.add(codegenProperty.baseType);
             CodegenProperty innerCp = codegenProperty;
@@ -5675,12 +5675,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public FeatureSet getFeatureSet() {
-        return this.featureSet;
-    }
-
-    @Override
-    public void setFeatureSet(final FeatureSet featureSet) {
-        this.featureSet = featureSet == null ? DefaultFeatureSet : featureSet;
+        return this.generatorMetadata.getFeatureSet();
     }
 
     /**
@@ -5745,4 +5740,54 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {}
     //// End of methods related to the "useOneOfInterfaces" feature
+
+    protected void modifyFeatureSet(Consumer<FeatureSet.Builder> processor) {
+        FeatureSet.Builder builder = getFeatureSet().modify();
+        processor.accept(builder);
+        this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .featureSet(builder.build()).build();
+    }
+
+    private static class SanitizeNameOptions {
+        public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
+            this.name = name;
+            this.removeCharRegEx = removeCharRegEx;
+            if (exceptions != null) {
+                this.exceptions = Collections.unmodifiableList(exceptions);
+            } else {
+                this.exceptions = Collections.unmodifiableList(new ArrayList<>());
+            }
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getRemoveCharRegEx() {
+            return removeCharRegEx;
+        }
+
+        public List<String> getExceptions() {
+            return exceptions;
+        }
+
+        private String name;
+        private String removeCharRegEx;
+        private List<String> exceptions;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            SanitizeNameOptions that = (SanitizeNameOptions) o;
+            return Objects.equals(getName(), that.getName()) &&
+                    Objects.equals(getRemoveCharRegEx(), that.getRemoveCharRegEx()) &&
+                    Objects.equals(getExceptions(), that.getExceptions());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getName(), getRemoveCharRegEx(), getExceptions());
+        }
+    }
 }

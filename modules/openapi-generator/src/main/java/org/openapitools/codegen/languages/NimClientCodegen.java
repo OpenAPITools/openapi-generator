@@ -56,7 +56,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     public NimClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -76,7 +76,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

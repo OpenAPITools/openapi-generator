@@ -53,7 +53,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // TODO: c maintainer review
         // Assumes that C community considers api/model header files as documentation.
         // Generator supports Basic, OAuth, and API key explicitly. Bearer is excluded although clients are able to set headers directly.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(
                         DocumentationFeature.Readme
                 )
@@ -73,7 +73,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         SchemaSupportFeature.Polymorphism,
                         SchemaSupportFeature.Union
                 )
-                .build();
+        );
 
         modelPackage = "models";
         apiPackage = "api";

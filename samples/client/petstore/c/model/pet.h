@@ -23,9 +23,9 @@
 
 typedef struct pet_t {
     long id; //numeric
-    category_t *category; //model
+    struct category_t *category; //model
     char *name; // string
-    list_t *photoUrls; //primitive container
+    list_t *photo_urls; //primitive container
     list_t *tags; //nonprimitive container
     status_e status; //enum
 
@@ -35,7 +35,7 @@ pet_t *pet_create(
     long id,
     category_t *category,
     char *name,
-    list_t *photoUrls,
+    list_t *photo_urls,
     list_t *tags,
     status_e status
 );
