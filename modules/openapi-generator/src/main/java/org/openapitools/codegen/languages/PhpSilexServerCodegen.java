@@ -64,7 +64,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         modelTemplateFiles.clear();
         apiTemplateFiles.clear();
 
-        embeddedTemplateDir = templateDir = "php-silex";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "php-silex";
 
         setReservedWordsLowerCase(
                 Arrays.asList(

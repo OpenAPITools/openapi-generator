@@ -58,7 +58,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
         groupId = "com.prokarma";
         artifactId = "pkmst-microservice";
-        embeddedTemplateDir = templateDir = "java-pkmst";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "java-pkmst";
         apiPackage = "com.prokarma.pkmst.controller";
         modelPackage = "com.prokarma.pkmst.model";
         invokerPackage = "com.prokarma.pkmst.controller";

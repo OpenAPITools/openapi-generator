@@ -63,7 +63,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         outputFolder = "generated-code/finch";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        embeddedTemplateDir = templateDir = "scala-finch";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "scala-finch";
 
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";

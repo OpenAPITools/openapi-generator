@@ -29,6 +29,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.io.File;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -111,7 +112,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
 
-        embeddedTemplateDir = templateDir = "cpp-rest-sdk-client";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "cpp-rest-sdk-client";
 
         cliOptions.clear();
 

@@ -3,7 +3,7 @@
   "generatorName": "jaxrs-cxf",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
   "outputDir": "samples/server/petstore/jaxrs-cxf-non-spring-app",
-  "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/cxf",
+  "templateDir": "modules/openapi-generator/src/main/resources/mustache/JavaJaxRS/cxf",
   "additionalProperties": {
     "hideGenerationTimestamp": true,
     "generateNonSpringApplication": true,

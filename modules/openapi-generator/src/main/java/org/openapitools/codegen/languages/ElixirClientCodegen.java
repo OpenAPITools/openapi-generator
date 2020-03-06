@@ -110,7 +110,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        templateDir = "elixir";
+        templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "elixir";
 
         /**
          * Reserved words.  Override this with reserved words specific to your language

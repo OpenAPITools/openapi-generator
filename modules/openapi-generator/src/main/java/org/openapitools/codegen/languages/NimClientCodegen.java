@@ -85,7 +85,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "nim";
         modelTemplateFiles.put("model.mustache", ".nim");
         apiTemplateFiles.put("api.mustache", ".nim");
-        embeddedTemplateDir = templateDir = "nim-client";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "nim-client";
         apiPackage = File.separator + packageName + File.separator + "apis";
         modelPackage = File.separator + packageName + File.separator + "models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

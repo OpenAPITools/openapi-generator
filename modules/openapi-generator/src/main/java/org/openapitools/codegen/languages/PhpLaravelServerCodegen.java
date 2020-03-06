@@ -81,7 +81,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
                 )
         );
 
-        embeddedTemplateDir = templateDir = "php-laravel";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "php-laravel";
         variableNamingConvention = "camelCase";
 
         /*

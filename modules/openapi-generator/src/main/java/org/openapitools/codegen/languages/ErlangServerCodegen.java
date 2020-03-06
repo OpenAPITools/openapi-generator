@@ -88,7 +88,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "erlang-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "erlang-server";
 
         /**
          * Reserved words.  Override this with reserved words specific to your language

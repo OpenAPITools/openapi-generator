@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/JavaSpring/libraries/spring-cloud -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g spring -c bin/spring-cloud-feign-petstore.json -o samples/client/petstore/spring-cloud-async --additional-properties hideGenerationTimestamp=true,java8=true,async=true $@"
+ags="generate -t modules/openapi-generator/src/main/resources/mustache/JavaSpring/libraries/spring-cloud -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g spring -c bin/spring-cloud-feign-petstore.json -o samples/client/petstore/spring-cloud-async --additional-properties hideGenerationTimestamp=true,java8=true,async=true $@"
 
 echo "Removing files and folders under samples/client/petstore/spring-cloud-async/src/main"
 rm -rf samples/client/petstore/spring-cloud-async/src/main

@@ -36,7 +36,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
                 .stability(Stability.BETA)
                 .build();
 
-        embeddedTemplateDir = templateDir = "scala-sttp";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "scala-sttp";
         outputFolder = "generated-code/scala-sttp";
     }
 

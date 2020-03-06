@@ -96,7 +96,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
-        embeddedTemplateDir = templateDir = "dart2";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "dart2";
         apiPackage = "lib.api";
         modelPackage = "lib.model";
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
@@ -265,7 +265,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             LOGGER.info("Dart version: 2.x");
             // check to not overwrite a custom templateDir
             if (templateDir == null) {
-                embeddedTemplateDir = templateDir = "dart2";
+                embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "dart2";
             }
         }
 

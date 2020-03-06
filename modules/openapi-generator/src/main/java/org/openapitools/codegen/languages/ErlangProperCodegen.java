@@ -89,7 +89,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         apiTemplateFiles.put("api.mustache", "_api.erl");
         apiTemplateFiles.put("statem.mustache", "_statem.erl");
 
-        embeddedTemplateDir = templateDir = "erlang-proper";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "erlang-proper";
 
         setReservedWordsLowerCase(
                 Arrays.asList(

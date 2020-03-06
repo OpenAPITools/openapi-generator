@@ -48,7 +48,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/typescript-rxjs";
-        embeddedTemplateDir = templateDir = "typescript-rxjs";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "typescript-rxjs";
 
         this.apiPackage = "apis";
         this.apiTemplateFiles.put("apis.mustache", ".ts");

@@ -92,7 +92,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         outputFolder = "generated-code/android";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        embeddedTemplateDir = templateDir = "android";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "android";
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
 

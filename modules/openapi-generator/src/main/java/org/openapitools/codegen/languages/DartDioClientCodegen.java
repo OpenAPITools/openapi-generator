@@ -72,7 +72,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         super();
         browserClient = false;
         outputFolder = "generated-code/dart-dio";
-        embeddedTemplateDir = "dart-dio";
+        embeddedTemplateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
 
         //no tests at this time

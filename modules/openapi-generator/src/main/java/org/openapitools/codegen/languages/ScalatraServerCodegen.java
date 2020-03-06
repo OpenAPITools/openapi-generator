@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 
+import java.io.File;
 import java.util.*;
 
 public class ScalatraServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -52,7 +53,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         outputFolder = "generated-code/scalatra";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        embeddedTemplateDir = templateDir = "scalatra";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "scalatra";
         invokerPackage = "org.openapitools";
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";

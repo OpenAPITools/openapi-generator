@@ -30,7 +30,7 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
         outputFolder = "generated-code/typescript-angularjs";
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.mustache", ".ts");
-        embeddedTemplateDir = templateDir = "typescript-angularjs";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "typescript-angularjs";
         apiPackage = "api";
         modelPackage = "model";
 

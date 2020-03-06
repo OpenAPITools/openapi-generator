@@ -23,6 +23,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.io.File;
 import java.util.*;
 
 public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConfig {
@@ -52,7 +53,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         );
 
         outputFolder = "docs";
-        embeddedTemplateDir = templateDir = "confluenceWikiDocs";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "confluenceWikiDocs";
 
         defaultIncludes = new HashSet<String>();
 

@@ -115,7 +115,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "go-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "go-server";
 
         /*
          * Reserved words.  Override this with reserved words specific to your language

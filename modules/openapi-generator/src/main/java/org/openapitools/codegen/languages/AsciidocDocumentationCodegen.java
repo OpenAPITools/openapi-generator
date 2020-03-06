@@ -198,7 +198,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         LOGGER.trace("start asciidoc codegen");
 
         outputFolder = "generated-code" + File.separator + "asciidoc";
-        embeddedTemplateDir = templateDir = "asciidoc-documentation";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "asciidoc-documentation";
 
         defaultIncludes = new HashSet<String>();
 

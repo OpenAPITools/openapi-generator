@@ -63,7 +63,7 @@ If you've already cloned openapi-generator, find and copy the `modules/opeanpi-g
 ```bash
 mkdir -p ~/.openapi-generator/templates/ && cd $_
 curl -L https://api.github.com/repos/OpenAPITools/openapi-generator/tarball | tar xz
-mv `ls`/modules/openapi-generator/src/main/resources/Java ./Java
+mv `ls`/modules/openapi-generator/src/main/resources/mustache/Java ./Java
 \rm -rf OpenAPITools-openapi-generator-*
 cd Java
 ```

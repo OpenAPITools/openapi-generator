@@ -22,7 +22,7 @@ The minimum set of files required to create a new generator are:
 * A minimal template
   - Should include a README explaining usage
   - Must include an `api.mustache`
-  - Exists under `modules/openapi-generator/src/main/resources/` (plus `embeddedTemplate` dir value, see below)
+  - Exists under `modules/openapi-generator/src/main/resources/<templateEngine>` (plus `embeddedTemplate` dir value, see below)
 * Sample scripts under `./bin` and `./bin/windows`
   - Gives users a "real life" example of generated output
   - Samples are used by CI to verify generators and test for regressions in some cases
@@ -52,9 +52,9 @@ Examples:
 
     Creates:
     modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/KotlinServerCodegen.java
-    modules/openapi-generator/src/main/resources/kotlin-server/README.mustache
-    modules/openapi-generator/src/main/resources/kotlin-server/model.mustache
-    modules/openapi-generator/src/main/resources/kotlin-server/api.mustache
+    modules/openapi-generator/src/main/resources/mustache/kotlin-server/README.mustache
+    modules/openapi-generator/src/main/resources/mustache/kotlin-server/model.mustache
+    modules/openapi-generator/src/main/resources/mustache/kotlin-server/api.mustache
     bin/windows/kotlin-server-petstore.bat
     bin/kotlin-server-petstore.sh
 
@@ -62,9 +62,9 @@ Examples:
   ./new.sh -n csharp -s -t
     Creates:
     modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CsharpServerCodegen.java
-    modules/openapi-generator/src/main/resources/csharp-server/README.mustache
-    modules/openapi-generator/src/main/resources/csharp-server/model.mustache
-    modules/openapi-generator/src/main/resources/csharp-server/api.mustache
+    modules/openapi-generator/src/main/resources/mustache/csharp-server/README.mustache
+    modules/openapi-generator/src/main/resources/mustache/csharp-server/model.mustache
+    modules/openapi-generator/src/main/resources/mustache/csharp-server/api.mustache
     bin/windows/csharp-server-petstore.bat
     bin/csharp-server-petstore.sh
     modules/openapi-generator/src/test/java/org/openapitools/codegen/csharp/CsharpServerCodegenTest.java
@@ -85,9 +85,9 @@ You should see output similar to the following:
 
 ```bash
 Creating modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CommonMarkDocumentationCodegen.java
-Creating modules/openapi-generator/src/main/resources/common-mark-documentation/README.mustache
-Creating modules/openapi-generator/src/main/resources/common-mark-documentation/model.mustache
-Creating modules/openapi-generator/src/main/resources/common-mark-documentation/api.mustache
+Creating modules/openapi-generator/src/main/resources/mustache/common-mark-documentation/README.mustache
+Creating modules/openapi-generator/src/main/resources/mustache/common-mark-documentation/model.mustache
+Creating modules/openapi-generator/src/main/resources/mustache/common-mark-documentation/api.mustache
 Creating bin/windows/common-mark-documentation-petstore.bat
 Creating bin/common-mark-documentation-petstore.sh
 Finished.
@@ -104,7 +104,7 @@ Beginning with the "Codegen" file (`CommonMarkDocumentationCodegen.java`), the c
         outputFolder = "generated-code" + File.separator + "common-mark";
         modelTemplateFiles.put("model.mustache", ".zz");
         apiTemplateFiles.put("api.mustache", ".zz");
-        embeddedTemplateDir = templateDir = "common-mark-documentation";
+        embeddedTemplateDir = templateDir = getTemplatingEngine().getIdentifier() + File.separator + "common-mark-documentation";
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -141,10 +141,10 @@ This is the template used for generating API related files. Similar to the above
 The path is considered relative to `embeddedTemplateDir`, `templateDir`, or a library subdirectory (refer to the Java client generator implementation for a prime example).
 
 ```java
-embeddedTemplateDir = templateDir = "common-mark-documentation";
+embeddedTemplateDir = templateDir = getTemplatingEngine().getIdentifier() + File.separator + "common-mark-documentation";
 ```
 
-This line sets the embedded and template directories to `common-mark-documentation`. The `embeddedTemplateDir` refers to the directory which will exist under `modules/openapi-generator/src/main/resources` and will be published with every release in which your new generator is present.
+This line sets the embedded and template directories to `common-mark-documentation`. The `embeddedTemplateDir` refers to the directory which will exist under `modules/openapi-generator/src/main/resources/<templatingEngine>` and will be published with every release in which your new generator is present.
 
 The `templateDir` variable refers to the "current" template directory setting, as defined by the user. That is, the user may invoke with `-t` or `--template-directory` (or plugin option variants), and override this directory.
 
@@ -368,7 +368,7 @@ java ${JAVA_OPTS} -jar ${executable} ${ags}
 
 This script is often used to apply default options for generation. A common option in most of these script is to define the template directory as the generator's directory under `resources`. This allows template maintainers to modify and test out template changes which don't require recompilation of the entire project. You'd still need to recompile the project in full if you add or modify behaviors to the generator (such as adding a `CliOption`).
 
-Add `-t modules/openapi-generator/src/main/resources/common-mark-documentation` to `ags` line to simplify the evaluation of template-only modifications:
+Add `-t modules/openapi-generator/src/main/resources/mustache/common-mark-documentation` to `ags` line to simplify the evaluation of template-only modifications:
 
 ```diff
 diff --git a/bin/markdown-documentation-petstore.sh b/bin/markdown-documentation-petstore.sh
@@ -380,7 +380,7 @@ index d816771478..94b4ce6d12 100644
  # if you've executed sbt assembly previously it will use that instead.
  export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 -ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common-mark"
-+ags="$@ generate -t modules/openapi-generator/src/main/resources/common-mark-documentation -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common/markdown"
++ags="$@ generate -t modules/openapi-generator/src/main/resources/mustache/common-mark-documentation -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common/markdown"
 
  java ${JAVA_OPTS} -jar ${executable} ${ags}
 ```

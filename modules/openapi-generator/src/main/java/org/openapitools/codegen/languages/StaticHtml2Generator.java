@@ -33,6 +33,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -66,7 +67,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         );
 
         outputFolder = "docs";
-        embeddedTemplateDir = templateDir = "htmlDocs2";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "htmlDocs2";
 
         defaultIncludes = new HashSet<String>();
 

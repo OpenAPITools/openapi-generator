@@ -77,7 +77,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
                 )
         );
 
-        embeddedTemplateDir = templateDir = "php-lumen";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "php-lumen";
 
         /*
          * packPath

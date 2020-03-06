@@ -212,7 +212,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // set the output folder here
         outputFolder = "generated-code/haskell-http-client";
 
-        embeddedTemplateDir = templateDir = "haskell-http-client";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "haskell-http-client";
         apiPackage = "API";
         //modelPackage = "Model";
 

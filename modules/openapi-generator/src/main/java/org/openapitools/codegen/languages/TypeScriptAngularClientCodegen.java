@@ -77,7 +77,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         supportsMultipleInheritance = true;
 
-        embeddedTemplateDir = templateDir = "typescript-angular";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "typescript-angular";
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.service.mustache", ".ts");
         languageSpecificPrimitives.add("Blob");

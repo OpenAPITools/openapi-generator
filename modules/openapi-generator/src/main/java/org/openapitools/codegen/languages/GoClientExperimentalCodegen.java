@@ -29,6 +29,7 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -40,7 +41,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     public GoClientExperimentalCodegen() {
         super();
         outputFolder = "generated-code/go-experimental";
-        embeddedTemplateDir = templateDir = "go-experimental";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "go-experimental";
 
         usesOptionals = false;
         useOneOfInterfaces = true;

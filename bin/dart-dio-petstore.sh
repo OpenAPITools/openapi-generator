@@ -29,6 +29,6 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 
 # Generate non-browserClient
-ags="generate -t modules/openapi-generator/src/main/resources/dart-dio -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart-dio -o samples/client/petstore/dart-dio/ --additional-properties hideGenerationTimestamp=true $@"
+ags="generate -t modules/openapi-generator/src/main/resources/mustache/dart-dio -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart-dio -o samples/client/petstore/dart-dio/ --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags

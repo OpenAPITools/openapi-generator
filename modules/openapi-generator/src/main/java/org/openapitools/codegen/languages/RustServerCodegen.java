@@ -132,7 +132,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "rust-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "rust-server";
 
         /*
          * Reserved words.  Override this with reserved words specific to your language

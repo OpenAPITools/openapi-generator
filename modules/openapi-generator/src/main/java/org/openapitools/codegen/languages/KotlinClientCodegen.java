@@ -136,7 +136,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         apiTemplateFiles.put("api.mustache", ".kt");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "kotlin-client";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "kotlin-client";
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
 

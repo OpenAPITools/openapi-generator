@@ -102,7 +102,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        embeddedTemplateDir = templateDir = "ocaml";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "ocaml";
 
         setReservedWordsLowerCase(
                 Arrays.asList(

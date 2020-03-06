@@ -124,7 +124,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("controller.mustache", ".cs");
 
-        embeddedTemplateDir = templateDir = "aspnetcore/2.1";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "aspnetcore/2.1";
 
         // contextually reserved words
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -533,7 +533,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
         if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
-            embeddedTemplateDir = templateDir = "aspnetcore/2.0";
+            embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator +  "aspnetcore/2.0";
             supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
             LOGGER.info("ASP.NET core version: 2.0");
             compatibilityVersion = null;

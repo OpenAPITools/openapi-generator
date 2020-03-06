@@ -26,6 +26,7 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -45,7 +46,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
         sourceFolder = "src/gen/java";
         apiTestTemplateFiles.clear(); // TODO: add test template
-        embeddedTemplateDir = templateDir = "JavaInflector";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "JavaInflector";
         invokerPackage = "org.openapitools.controllers";
         artifactId = "openapi-inflector-server";
         dateLibrary = "legacy"; //TODO: add joda support

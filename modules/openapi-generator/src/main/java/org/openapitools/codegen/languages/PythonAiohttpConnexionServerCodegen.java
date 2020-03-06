@@ -20,6 +20,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.EnumSet;
 
 public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexionServerCodegen {
@@ -52,7 +53,7 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
         );
 
         testPackage = "tests";
-        embeddedTemplateDir = templateDir = "python-aiohttp";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "python-aiohttp";
     }
 
     /**

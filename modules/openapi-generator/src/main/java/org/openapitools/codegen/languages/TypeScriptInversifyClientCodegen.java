@@ -48,7 +48,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
         this.outputFolder = "generated-code/typescript-inversify";
 
-        embeddedTemplateDir = templateDir = "typescript-inversify";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "typescript-inversify";
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.service.mustache", ".ts");
         languageSpecificPrimitives.add("Blob");

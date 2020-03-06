@@ -54,7 +54,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
         apiTemplateFiles.put("apiHandler.mustache", "Handler.java");
 
-        embeddedTemplateDir = templateDir = "JavaVertXWebServer";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "JavaVertXWebServer";
 
         invokerPackage = "org.openapitools.vertxweb.server";
         apiPackage = invokerPackage + ".api";

@@ -92,7 +92,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         outputFolder = "generated-code" + File.separator + "kotlin-server";
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
-        embeddedTemplateDir = templateDir = "kotlin-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "kotlin-server";
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
 

@@ -49,7 +49,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
                 .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
         );
 
-        embeddedTemplateDir = templateDir = "openapi";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "openapi";
         outputFolder = "generated-code/openapi";
 
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));

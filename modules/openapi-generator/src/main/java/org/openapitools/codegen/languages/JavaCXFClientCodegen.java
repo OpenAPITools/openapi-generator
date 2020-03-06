@@ -80,7 +80,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         typeMapping.put("date", "LocalDate");
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
 
-        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
 
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));

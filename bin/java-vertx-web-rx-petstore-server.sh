@@ -27,7 +27,7 @@ fi
 
 SPEC="modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
 GENERATOR="java-vertx-web"
-TEMPLATE="modules/openapi-generator/src/main/resources/JavaVertXWebServer"
+TEMPLATE="modules/openapi-generator/src/main/resources/mustache/JavaVertXWebServer"
 STUB_DIR="samples/server/petstore/java-vertx-web/rx"
 
 # if you've executed sbt assembly previously it will use that instead.

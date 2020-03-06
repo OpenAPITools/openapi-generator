@@ -43,7 +43,7 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
         outputFolder = "generated-code" + File.separator + "markdown";
         modelTemplateFiles.put("model.mustache", ".md");
         apiTemplateFiles.put("api.mustache", ".md");
-        embeddedTemplateDir = templateDir = "markdown-documentation";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "markdown-documentation";
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

@@ -205,7 +205,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void processOpts() {
-        embeddedTemplateDir = templateDir = "k6";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "k6";
 
         super.processOpts();
 

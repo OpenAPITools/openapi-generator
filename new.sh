@@ -18,9 +18,9 @@ Examples:
 
     Creates:
     modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/KotlinServerCodegen.java
-    modules/openapi-generator/src/main/resources/kotlin-server/README.mustache
-    modules/openapi-generator/src/main/resources/kotlin-server/model.mustache
-    modules/openapi-generator/src/main/resources/kotlin-server/api.mustache
+    modules/openapi-generator/src/main/resources/mustache/kotlin-server/README.mustache
+    modules/openapi-generator/src/main/resources/mustache/kotlin-server/model.mustache
+    modules/openapi-generator/src/main/resources/mustache/kotlin-server/api.mustache
     bin/windows/kotlin-server-petstore.bat
     bin/kotlin-server-petstore.sh
 
@@ -28,9 +28,9 @@ Examples:
   $0 -n csharp -s -t
     Creates:
     modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CsharpServerCodegen.java
-    modules/openapi-generator/src/main/resources/csharp-server/README.mustache
-    modules/openapi-generator/src/main/resources/csharp-server/model.mustache
-    modules/openapi-generator/src/main/resources/csharp-server/api.mustache
+    modules/openapi-generator/src/main/resources/mustache/csharp-server/README.mustache
+    modules/openapi-generator/src/main/resources/mustache/csharp-server/model.mustache
+    modules/openapi-generator/src/main/resources/mustache/csharp-server/api.mustache
     bin/windows/csharp-server-petstore.bat
     bin/csharp-server-petstore.sh
     modules/openapi-generator/src/test/java/org/openapitools/codegen/csharp/CsharpServerCodegenTest.java
@@ -180,7 +180,7 @@ public class ${lang_classname} extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "${gen_name_camel}";
         modelTemplateFiles.put("model.mustache", ".zz");
         apiTemplateFiles.put("api.mustache", ".zz");
-        embeddedTemplateDir = templateDir = "${gen_name_camel}-${gen_type}";
+        embeddedTemplateDir = templateDir = getTemplatingEngine().getIdentifier() + File.separator + "${gen_name_camel}-${gen_type}";
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -193,13 +193,13 @@ EOF
 echo -e "\norg.openapitools.codegen.languages.${lang_classname}" >> "${root}/modules/openapi-generator/src/main/resources/META-INF/services/org.openapitools.codegen.CodegenConfig"
 
 # Step 3: Create resource files
-mkdir -p "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/README.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/README.mustache"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/model.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/model.mustache"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/api.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/api.mustache"
+mkdir -p "${root}/modules/openapi-generator/src/main/resources/mustache/${gen_name_camel}-${gen_type}"
+echo "Creating modules/openapi-generator/src/main/resources/mustache/${gen_name_camel}-${gen_type}/README.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/mustache/${gen_name_camel}-${gen_type}/README.mustache"
+echo "Creating modules/openapi-generator/src/main/resources/mustache/${gen_name_camel}-${gen_type}/model.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/mustache/${gen_name_camel}-${gen_type}/model.mustache"
+echo "Creating modules/openapi-generator/src/main/resources/mustache/${gen_name_camel}-${gen_type}/api.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/mustache/${gen_name_camel}-${gen_type}/api.mustache"
 
 # Step 4: Create bash/batch scripts
 

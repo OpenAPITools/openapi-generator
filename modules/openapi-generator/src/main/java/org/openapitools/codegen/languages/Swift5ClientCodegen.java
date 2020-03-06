@@ -87,7 +87,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
-        embeddedTemplateDir = templateDir = "swift5";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "swift5";
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
         modelDocTemplateFiles.put("model_doc.mustache", ".md");

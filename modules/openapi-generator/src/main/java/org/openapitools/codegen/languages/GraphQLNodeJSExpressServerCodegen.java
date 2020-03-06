@@ -74,7 +74,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
         packageVersion = "1.0.0";
 
         outputFolder = "generated-code/graphql-nodejs-express-server";
-        embeddedTemplateDir = templateDir = "graphql-nodejs-express-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "graphql-nodejs-express-server";
 
         hideGenerationTimestamp = Boolean.TRUE;
 

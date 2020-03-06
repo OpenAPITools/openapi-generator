@@ -55,7 +55,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         importMapping.clear();
 
         outputFolder = "generated-code/typescript-fetch";
-        embeddedTemplateDir = templateDir = "typescript-fetch";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "typescript-fetch";
 
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");

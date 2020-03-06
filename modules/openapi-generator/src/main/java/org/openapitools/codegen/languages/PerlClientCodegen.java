@@ -90,7 +90,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTestTemplateFiles.put("api_test.mustache", ".t");
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "perl";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "perl";
 
 
         setReservedWordsLowerCase(

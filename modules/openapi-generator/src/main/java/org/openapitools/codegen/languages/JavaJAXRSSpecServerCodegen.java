@@ -88,7 +88,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
 
-        super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
+        super.embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
 
         removeOption(CodegenConstants.LIBRARY);
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);

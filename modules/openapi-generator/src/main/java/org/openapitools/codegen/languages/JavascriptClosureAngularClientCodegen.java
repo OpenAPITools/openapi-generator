@@ -116,14 +116,16 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         super.preprocessOpenAPI(openAPI);
 
         if (useEs6) {
-            embeddedTemplateDir = templateDir = "Javascript-Closure-Angular/es6";
+            embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator +
+                    "Javascript-Closure-Angular/es6";
             apiPackage = "resources";
             apiTemplateFiles.put("api.mustache", ".js");
             supportingFiles.add(new SupportingFile("module.mustache", "", "module.js"));
         } else {
             modelTemplateFiles.put("model.mustache", ".js");
             apiTemplateFiles.put("api.mustache", ".js");
-            embeddedTemplateDir = templateDir = "Javascript-Closure-Angular";
+            embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator +
+                    "Javascript-Closure-Angular";
             apiPackage = "API.Client";
             modelPackage = "API.Client";
         }

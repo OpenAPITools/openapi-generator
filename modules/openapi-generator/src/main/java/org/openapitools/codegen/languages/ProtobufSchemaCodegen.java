@@ -79,7 +79,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "generated-code/protobuf-schema";
         modelTemplateFiles.put("model.mustache", ".proto");
         apiTemplateFiles.put("api.mustache", ".proto");
-        embeddedTemplateDir = templateDir = "protobuf-schema";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "protobuf-schema";
         hideGenerationTimestamp = Boolean.TRUE;
         modelPackage = "messages";
         apiPackage = "services";

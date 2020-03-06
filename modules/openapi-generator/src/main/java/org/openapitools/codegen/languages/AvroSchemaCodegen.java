@@ -62,7 +62,7 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         // Force the model package to the package name so import can be fully qualified
         modelPackage = packageName;
         importMapping.clear();
-        embeddedTemplateDir = templateDir = AVRO;
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + AVRO;
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;

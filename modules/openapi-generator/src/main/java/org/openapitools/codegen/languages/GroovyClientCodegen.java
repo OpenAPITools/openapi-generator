@@ -65,7 +65,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         modelTemplateFiles.put("model.mustache", ".groovy");
         apiTemplateFiles.put("api.mustache", ".groovy");
         apiTestTemplateFiles.clear(); // TODO: add test template
-        embeddedTemplateDir = templateDir = "Groovy";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "Groovy";
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment

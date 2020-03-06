@@ -146,7 +146,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         apiTemplateFiles.put("api.mustache", ".cs");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "csharp-netcore";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "csharp-netcore";
 
         cliOptions.clear();
 

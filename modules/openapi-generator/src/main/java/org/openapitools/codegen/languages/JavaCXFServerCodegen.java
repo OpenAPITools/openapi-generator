@@ -93,7 +93,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
 
-        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
 
         cliOptions.add(CliOption.newBoolean(GENERATE_SPRING_APPLICATION, "Generate Spring application"));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_ANNOTATION_CONFIG, "Use Spring Annotation Config"));

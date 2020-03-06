@@ -82,7 +82,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 .build();
 
         outputFolder = "generated-code/nodejs-express-server";
-        embeddedTemplateDir = templateDir = "nodejs-express-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "nodejs-express-server";
 
         setReservedWordsLowerCase(
                 Arrays.asList(

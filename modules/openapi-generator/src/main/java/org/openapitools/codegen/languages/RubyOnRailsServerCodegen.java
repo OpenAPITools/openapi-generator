@@ -99,7 +99,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         modelPackage = "app/models";
         modelTemplateFiles.put("model.mustache", ".rb");
 
-        embeddedTemplateDir = templateDir = "ruby-on-rails-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "ruby-on-rails-server";
 
         // In order to adapt to DB migrate script, overwrite typeMapping
         typeMapping.put("string", "string");

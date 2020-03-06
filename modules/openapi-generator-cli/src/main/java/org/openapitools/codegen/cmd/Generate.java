@@ -306,16 +306,16 @@ public class Generate implements Runnable {
             configurator.setAuth(auth);
         }
 
-        if (isNotEmpty(templateDir)) {
-            configurator.setTemplateDir(templateDir);
-        }
-
         if (isNotEmpty(packageName)) {
             configurator.setPackageName(packageName);
         }
 
         if (isNotEmpty(templatingEngine)) {
             configurator.setTemplatingEngineName(templatingEngine);
+        }
+
+        if (isNotEmpty(templateDir)) {
+            configurator.setTemplateDir(templateDir);
         }
 
         if (isNotEmpty(apiPackage)) {

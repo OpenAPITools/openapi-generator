@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # grep for \r in the templates
-grep -RUIl $'\r$' modules/openapi-generator/src/main/resources/*
+grep -RUIl $'\r$' modules/openapi-generator/src/main/resources/mustache/*
 
 if [ $? -ne 1 ]; then
     echo "Templates contain carriage return '/r'. Please remove it and try again."

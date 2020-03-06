@@ -28,6 +28,7 @@ import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.oas.models.Operation;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -53,7 +54,7 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
                 .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
         );
 
-        embeddedTemplateDir = templateDir = "openapi-yaml";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "openapi-yaml";
         outputFolder = "generated-code/openapi-yaml";
         cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output filename").defaultValue(outputFile));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));

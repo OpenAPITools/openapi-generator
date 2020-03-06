@@ -85,7 +85,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         outputFolder = "generated-code" + File.separator + "clojure";
         modelTemplateFiles.put("spec.mustache", ".clj");
         apiTemplateFiles.put("api.mustache", ".clj");
-        embeddedTemplateDir = templateDir = "clojure";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "clojure";
 
         cliOptions.add(new CliOption(PROJECT_NAME,
                 "name of the project (Default: generated from info.title or \"openapi-clj-client\")"));

@@ -2,7 +2,7 @@
   "generatorName": "kotlin-spring",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
   "outputDir": "samples/server/petstore/kotlin-springboot",
-  "templateDir": "modules/openapi-generator/src/main/resources/kotlin-spring",
+  "templateDir": "modules/openapi-generator/src/main/resources/mustache/kotlin-spring",
   "additionalProperties": {
     "library": "spring-boot",
     "beanValidations": true,

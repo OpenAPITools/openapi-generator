@@ -49,7 +49,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         modelPackage = "model";
 
         outputFolder = "generated-code/typescript-jquery";
-        embeddedTemplateDir = templateDir = "typescript-jquery";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "typescript-jquery";
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(JQUERY_ALREADY_IMPORTED,

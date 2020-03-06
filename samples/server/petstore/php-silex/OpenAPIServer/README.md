@@ -7,4 +7,4 @@ is an example of building a PHP server.
 
 This example uses the [Silex](http://silex.sensiolabs.org/) micro-framework. To see how to make this your own, please take a look at the template here:
 
-[TEMPLATES](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/silex/)
+[TEMPLATES](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/mustache/silex/)

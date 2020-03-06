@@ -52,7 +52,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         typeMapping.put("DateTime", "java.util.Date");
 
         // Updated template directory
-        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-cdi";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-cdi";
     }
 
     @Override

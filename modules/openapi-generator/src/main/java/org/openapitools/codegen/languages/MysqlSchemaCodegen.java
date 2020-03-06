@@ -21,6 +21,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -173,7 +174,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("URI", "TEXT");
         typeMapping.put("BigDecimal", "DECIMAL");
 
-        embeddedTemplateDir = templateDir = "mysql-schema";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "mysql-schema";
 
         // it seems that cli options from DefaultCodegen are useless here
         cliOptions.clear();

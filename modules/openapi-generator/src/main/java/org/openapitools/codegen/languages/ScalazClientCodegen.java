@@ -63,7 +63,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         );
 
         outputFolder = "generated-code/scalaz";
-        embeddedTemplateDir = templateDir = "scalaz";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "scalaz";
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.api";
 

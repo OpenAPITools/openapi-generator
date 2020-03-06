@@ -126,7 +126,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = templateDirectory;
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + templateDirectory;
 
         /*
          * Additional Properties.  These values can be passed to the templates and

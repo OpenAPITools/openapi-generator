@@ -94,7 +94,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         importMapping.clear();
 
         outputFolder = "generated-code" + File.separator + this.getName();
-        embeddedTemplateDir = templateDir = this.getName();
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + this.getName();
 
         collectionTypes = new HashSet<String>(
                 Arrays.asList(

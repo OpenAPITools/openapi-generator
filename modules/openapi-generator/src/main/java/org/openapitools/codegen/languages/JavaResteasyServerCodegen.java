@@ -55,7 +55,8 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator +
+                "JavaJaxRS" + File.separator + "resteasy";
 
         cliOptions.add(
                 CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor"));

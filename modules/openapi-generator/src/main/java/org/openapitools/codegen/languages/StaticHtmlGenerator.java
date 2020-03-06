@@ -28,6 +28,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.escape;
@@ -52,7 +53,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         );
 
         outputFolder = "docs";
-        embeddedTemplateDir = templateDir = "htmlDocs";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "htmlDocs";
 
         defaultIncludes = new HashSet<String>();
 

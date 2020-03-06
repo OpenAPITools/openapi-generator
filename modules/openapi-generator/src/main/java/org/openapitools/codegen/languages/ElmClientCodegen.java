@@ -99,7 +99,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         outputFolder = "generated-code/elm";
         modelTemplateFiles.put("model.mustache", ".elm");
-        templateDir = "elm";
+        templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "elm";
 
         supportsInheritance = true;
 

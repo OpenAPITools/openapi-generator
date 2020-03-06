@@ -13,7 +13,7 @@
  *
  * Source files are located at:
  *
- * > https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/resources/php-laravel/
+ * > https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/resources/mustache/php-laravel/
  */
 
 

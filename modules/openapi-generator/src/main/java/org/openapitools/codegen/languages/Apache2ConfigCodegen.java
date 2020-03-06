@@ -22,6 +22,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -65,7 +66,7 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
 
         apiTemplateFiles.put("apache-config.mustache", ".conf");
 
-        embeddedTemplateDir = templateDir = "apache2";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "apache2";
 
         cliOptions.add(new CliOption(USER_INFO_PATH, "Path to the user and group files"));
     }

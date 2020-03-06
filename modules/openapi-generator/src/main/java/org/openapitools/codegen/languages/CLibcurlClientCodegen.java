@@ -84,7 +84,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         apiTemplateFiles.put("api-body.mustache", ".c");
         //modelDocTemplateFiles.put("model_doc.mustache", ".md");
         //apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "C-libcurl";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "C-libcurl";
 
         // TODO add auto-generated test files
         //modelTestTemplateFiles.put("model_test.mustache", ".c");

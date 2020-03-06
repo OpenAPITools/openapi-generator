@@ -78,7 +78,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         apiTestTemplateFiles.put("HandlerTestsHelper.mustache", "Helper.fs");
         modelTemplateFiles.put("Model.mustache", ".fs");
 
-        embeddedTemplateDir = templateDir = "fsharp-giraffe-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "fsharp-giraffe-server";
 
         cliOptions.clear();
 

@@ -50,7 +50,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         utilsPackage = invokerPackage + "\\" + utilsDirName;
         interfacesPackage = invokerPackage + "\\" + interfacesDirName;
         outputFolder = "generated-code" + File.separator + "slim4";
-        embeddedTemplateDir = templateDir = "php-slim4-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "php-slim4-server";
 
         // override cliOptions from AbstractPhpCodegen
         updateOption(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION, "camelCase");

@@ -327,7 +327,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     public JavaCXFExtServerCodegen() {
         super();
 
-        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-ext";
+        embeddedTemplateDir = templateDir = getTemplatingEngine().getIdentifier() + File.separator +
+                JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-ext";
         cliOptions.add(CliOption.newBoolean(SUPPORT_MULTIPLE_SPRING_SERVICES,
                 "Support generation of Spring services from multiple specifications"));
         cliOptions.add(CliOption.newBoolean(GENERATE_OPERATION_BODY, "Generate fully functional operation bodies"));

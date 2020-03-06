@@ -117,7 +117,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "jmeter-client";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "jmeter-client";
 
         /*
          * Api Package.  Optional, if needed, this can be used in templates

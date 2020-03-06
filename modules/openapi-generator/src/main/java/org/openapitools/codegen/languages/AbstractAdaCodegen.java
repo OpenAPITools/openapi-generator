@@ -32,6 +32,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -165,7 +166,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 this.projectName);
 
         modelNameSuffix = "Type";
-        embeddedTemplateDir = templateDir = "Ada";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "Ada";
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList("integer", "boolean", "Integer", "Character", "Boolean", "long", "float", "double"));

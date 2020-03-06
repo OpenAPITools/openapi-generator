@@ -110,7 +110,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
-        embeddedTemplateDir = templateDir = "kotlin-spring";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "kotlin-spring";
 
         artifactId = "openapi-spring";
         basePackage = invokerPackage = "org.openapitools";

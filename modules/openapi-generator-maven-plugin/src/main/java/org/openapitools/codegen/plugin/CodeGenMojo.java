@@ -594,6 +594,10 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setModelNameSuffix(modelNameSuffix);
             }
 
+            if (null != engine) {
+                configurator.setTemplatingEngineName(engine);
+            }
+
             if (null != templateDirectory) {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
             }
@@ -603,10 +607,6 @@ public class CodeGenMojo extends AbstractMojo {
                     LOGGER.warn("Both templateDirectory and templateResourcePath were configured. templateResourcePath overwrites templateDirectory.");
                 }
                 configurator.setTemplateDir(templateResourcePath);
-            }
-
-            if (null != engine) {
-                configurator.setTemplatingEngineName(engine);
             }
 
             // Set generation options

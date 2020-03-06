@@ -102,7 +102,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         apiTemplateFiles.put("api.mustache", ".js");
         apiTestTemplateFiles.put("api_test.mustache", ".js");
         // subfolder Javascript/es6
-        embeddedTemplateDir = templateDir = "Javascript" + File.separator + "es6";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "Javascript" + File.separator + "es6";
         apiPackage = "api";
         modelPackage = "model";
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
@@ -451,10 +451,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public void setUseES6(boolean useES6) {
         this.useES6 = useES6;
         if (useES6) {
-            embeddedTemplateDir = templateDir = "Javascript/es6";
+            embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "Javascript/es6";
             LOGGER.info("Using JS ES6 templates");
         } else {
-            embeddedTemplateDir = templateDir = "Javascript";
+            embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "Javascript";
             LOGGER.info("Using JS ES5 templates");
         }
     }

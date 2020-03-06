@@ -3,7 +3,7 @@
   "generatorName": "spring",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
   "outputDir": "samples/server/petstore/springboot-delegate-j8",
-  "templateDir": "modules/openapi-generator/src/main/resources/JavaSpring",
+  "templateDir": "modules/openapi-generator/src/main/resources/mustache/JavaSpring",
   "additionalProperties": {
     "delegatePattern": true,
     "hideGenerationTimestamp": true

@@ -130,7 +130,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         );
 
         outputFolder = "generated-code/javaSpring";
-        embeddedTemplateDir = templateDir = "JavaSpring";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "JavaSpring";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools.api";

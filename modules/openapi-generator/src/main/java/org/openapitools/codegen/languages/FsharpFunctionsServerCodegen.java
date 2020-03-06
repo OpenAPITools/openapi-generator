@@ -123,7 +123,7 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         super.processOpts();
 
         modelPackage = "Model";
-        embeddedTemplateDir = templateDir = "fsharp-functions-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "fsharp-functions-server";
 
         apiTemplateFiles.put("Handler.mustache", "Handler.fs");
         apiTemplateFiles.put("HandlerParams.mustache", "HandlerParams.fs");

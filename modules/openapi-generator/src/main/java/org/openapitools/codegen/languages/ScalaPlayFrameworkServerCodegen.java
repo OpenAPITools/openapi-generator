@@ -80,7 +80,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         outputFolder = "generated-code" + File.separator + "scala-play-server";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        embeddedTemplateDir = templateDir = "scala-play-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "scala-play-server";
         hideGenerationTimestamp = false;
         sourceFolder = "app";
         apiPackage = "api";

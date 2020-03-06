@@ -7,7 +7,7 @@ is an example of building a PHP server.
 
 This example uses the [Lumen Framework](http://lumen.laravel.com/).  To see how to make this your own, please take a look at the template here:
 
-[TEMPLATES](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/lumen/)
+[TEMPLATES](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/mustache/lumen/)
 
 ## Installation & Usage
 ### Composer

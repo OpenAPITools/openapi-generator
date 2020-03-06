@@ -57,7 +57,7 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
         );
 
         testPackage = "tests";
-        embeddedTemplateDir = templateDir = "python-blueplanet";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "python-blueplanet";
     }
 
 

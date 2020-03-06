@@ -2,7 +2,7 @@
   "generatorName": "jaxrs-resteasy-eap",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
   "outputDir": "samples/server/petstore/jaxrs-resteasy/eap",
-  "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy/eap",
+  "templateDir": "modules/openapi-generator/src/main/resources/mustache/JavaJaxRS/resteasy/eap",
   "additionalProperties": {
     "hideGenerationTimestamp": true
   }

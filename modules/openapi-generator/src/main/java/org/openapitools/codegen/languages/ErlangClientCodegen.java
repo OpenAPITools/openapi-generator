@@ -83,7 +83,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         modelTemplateFiles.put("model.mustache", ".erl");
         apiTemplateFiles.put("api.mustache", ".erl");
 
-        embeddedTemplateDir = templateDir = "erlang-client";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "erlang-client";
 
         setReservedWordsLowerCase(
                 Arrays.asList(

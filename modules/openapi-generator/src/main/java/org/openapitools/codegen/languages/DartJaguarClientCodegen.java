@@ -88,7 +88,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
         browserClient = false;
         outputFolder = "generated-code/dart-jaguar";
-        embeddedTemplateDir = templateDir = "dart-jaguar";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "dart-jaguar";
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         cliOptions.add(new CliOption(SERIALIZATION_FORMAT, "Choose serialization format JSON or PROTO is supported"));

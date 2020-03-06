@@ -34,6 +34,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -174,7 +175,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         /**
          * Templates location for client script and bash completion template.
          */
-        embeddedTemplateDir = templateDir = "bash";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "bash";
 
 
         /**

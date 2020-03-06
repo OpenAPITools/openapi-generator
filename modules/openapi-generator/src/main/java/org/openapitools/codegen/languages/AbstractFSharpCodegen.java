@@ -88,7 +88,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         importMapping.put("IDictionary", "System.Collections.Generic");
 
         outputFolder = this.getName();
-        embeddedTemplateDir = templateDir = this.getName();
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + this.getName();
 
         collectionTypes = new HashSet<String>(Arrays.asList("list", "seq"));
 

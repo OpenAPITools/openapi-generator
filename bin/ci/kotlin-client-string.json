@@ -3,7 +3,7 @@
   "generatorName": "kotlin",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
   "outputDir": "samples/client/petstore/kotlin-string",
-  "templateDir": "modules/openapi-generator/src/main/resources/kotlin-client",
+  "templateDir": "modules/openapi-generator/src/main/resources/mustache/kotlin-client",
   "additionalProperties": {
     "dateLibrary": "string",
     "serializableModel": "true",

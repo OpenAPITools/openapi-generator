@@ -79,7 +79,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         apiTestTemplateFiles.put("api_test.mustache", ".ps1");
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
-        embeddedTemplateDir = templateDir = "powershell";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "powershell";
         apiPackage = packageName + File.separator + "API";
         modelPackage = packageName + File.separator + "Model";
 

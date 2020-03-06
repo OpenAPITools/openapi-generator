@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/ruby-sinatra-server -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ruby-sinatra -o samples/server/petstore/ruby-sinatra $@"
+ags="generate -t modules/openapi-generator/src/main/resources/mustache/ruby-sinatra-server -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ruby-sinatra -o samples/server/petstore/ruby-sinatra $@"
 
 java $JAVA_OPTS -jar $executable $ags

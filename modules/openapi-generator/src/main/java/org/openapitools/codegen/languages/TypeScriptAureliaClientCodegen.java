@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -35,7 +36,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
         importMapping.clear();
 
         outputFolder = "generated-code/typescript-aurelia";
-        embeddedTemplateDir = templateDir = "typescript-aurelia";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "typescript-aurelia";
     }
 
     @Override

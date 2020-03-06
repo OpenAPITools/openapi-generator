@@ -114,7 +114,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         );
 
         outputFolder = "generated-code" + File.separator + "java";
-        embeddedTemplateDir = templateDir = "Java";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "Java";
         invokerPackage = "org.openapitools.client";
         artifactId = "openapi-java-client";
         apiPackage = "org.openapitools.client.api";

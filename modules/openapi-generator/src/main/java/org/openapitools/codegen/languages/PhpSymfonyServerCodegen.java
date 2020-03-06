@@ -115,7 +115,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         modelTestTemplateFiles.put("testing/model_test.mustache", ".php");
         apiTestTemplateFiles = new HashMap<String, String>();
         apiTestTemplateFiles.put("testing/api_test.mustache", ".php");
-        embeddedTemplateDir = templateDir = "php-symfony";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "php-symfony";
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;

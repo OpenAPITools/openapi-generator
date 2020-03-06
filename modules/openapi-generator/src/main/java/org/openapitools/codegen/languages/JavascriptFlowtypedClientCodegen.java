@@ -25,6 +25,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
@@ -99,7 +100,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
 
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
         outputFolder = "generated-code/javascript-flowtyped";
-        embeddedTemplateDir = templateDir = "Javascript-Flowtyped";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "Javascript-Flowtyped";
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
 

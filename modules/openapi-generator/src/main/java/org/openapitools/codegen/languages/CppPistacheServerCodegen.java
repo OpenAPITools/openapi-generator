@@ -100,7 +100,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         apiTemplateFiles.put("api-impl-header.mustache", ".h");
         apiTemplateFiles.put("api-impl-source.mustache", ".cpp");
 
-        embeddedTemplateDir = templateDir = "cpp-pistache-server";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "cpp-pistache-server";
 
         cliOptions.clear();
         addSwitch(OPTIONAL_EXTERNAL_LIB, OPTIONAL_EXTERNAL_LIB_DESC, this.isAddExternalLibs);

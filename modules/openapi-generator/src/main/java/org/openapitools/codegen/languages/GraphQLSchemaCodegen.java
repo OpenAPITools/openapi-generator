@@ -24,6 +24,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.EnumSet;
 
 public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
@@ -66,7 +67,7 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
         outputFolder = "generated-code/graphql-schema";
         modelTemplateFiles.put("model.mustache", ".graphql");
         apiTemplateFiles.put("api.mustache", ".graphql");
-        embeddedTemplateDir = templateDir = "graphql-schema";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "graphql-schema";
         hideGenerationTimestamp = Boolean.TRUE;
 
 

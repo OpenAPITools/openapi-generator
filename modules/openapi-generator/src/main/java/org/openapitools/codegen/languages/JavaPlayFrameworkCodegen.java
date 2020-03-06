@@ -62,7 +62,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         outputFolder = "generated-code/javaPlayFramework";
         apiTestTemplateFiles.clear();
-        embeddedTemplateDir = templateDir = "JavaPlayFramework";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "JavaPlayFramework";
         apiPackage = "controllers";
         modelPackage = "apimodels";
         invokerPackage = "org.openapitools.api";

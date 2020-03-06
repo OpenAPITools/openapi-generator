@@ -94,7 +94,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         apiTemplateFiles.put("api.mustache", ".e");
         apiTestTemplateFiles.put("test/api_test.mustache", ".e");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "Eiffel";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator + "Eiffel";
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = true;

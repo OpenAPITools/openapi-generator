@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/typescript-redux-query -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-redux-query -c bin/typescript-redux-query-petstore-with-npm-version.json -o samples/client/petstore/typescript-redux-query/builds/with-npm-version $@"
+ags="generate -t modules/openapi-generator/src/main/resources/mustache/typescript-redux-query -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-redux-query -c bin/typescript-redux-query-petstore-with-npm-version.json -o samples/client/petstore/typescript-redux-query/builds/with-npm-version $@"
 
 java $JAVA_OPTS -jar $executable $ags

@@ -28,7 +28,7 @@ fi
 generator=python-aiohttp
 input=modules/openapi-generator/src/test/resources/2_0/petstore.yaml
 out_folder=samples/server/petstore/$generator
-resources=modules/openapi-generator/src/main/resources/$generator
+resources=modules/openapi-generator/src/main/resources/mustache/$generator
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties -Dservice"

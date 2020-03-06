@@ -59,7 +59,8 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy" + File.separator + "eap";
+        embeddedTemplateDir = templateDir = this.getTemplatingEngine().getIdentifier() + File.separator +
+                "JavaJaxRS" + File.separator + "resteasy" + File.separator + "eap";
 
         cliOptions.add(CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor",generateJbossDeploymentDescriptor));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_FEATURE, "Use dynamic Swagger generator",useSwaggerFeature));
