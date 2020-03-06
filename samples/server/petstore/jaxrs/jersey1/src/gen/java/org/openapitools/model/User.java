@@ -16,11 +16,11 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * User
@@ -79,7 +79,7 @@ public class User   {
    * @return id
    **/
   @JsonProperty("id")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Long getId() {
     return id;
@@ -99,7 +99,7 @@ public class User   {
    * @return username
    **/
   @JsonProperty("username")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getUsername() {
     return username;
@@ -119,7 +119,7 @@ public class User   {
    * @return firstName
    **/
   @JsonProperty("firstName")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getFirstName() {
     return firstName;
@@ -139,7 +139,7 @@ public class User   {
    * @return lastName
    **/
   @JsonProperty("lastName")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getLastName() {
     return lastName;
@@ -159,7 +159,7 @@ public class User   {
    * @return email
    **/
   @JsonProperty("email")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getEmail() {
     return email;
@@ -179,7 +179,7 @@ public class User   {
    * @return password
    **/
   @JsonProperty("password")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getPassword() {
     return password;
@@ -199,7 +199,7 @@ public class User   {
    * @return phone
    **/
   @JsonProperty("phone")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getPhone() {
     return phone;
@@ -219,7 +219,7 @@ public class User   {
    * @return userStatus
    **/
   @JsonProperty("userStatus")
-  @ApiModelProperty(value = "User Status")
+  @Operation(summary = "", description = "")
   
   public Integer getUserStatus() {
     return userStatus;

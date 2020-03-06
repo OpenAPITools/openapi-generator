@@ -17,13 +17,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * EnumTest
@@ -195,7 +195,7 @@ public class EnumTest  implements Serializable {
    * @return enumString
    **/
   @JsonProperty("enum_string")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -215,7 +215,7 @@ public class EnumTest  implements Serializable {
    * @return enumStringRequired
    **/
   @JsonProperty("enum_string_required")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -235,7 +235,7 @@ public class EnumTest  implements Serializable {
    * @return enumInteger
    **/
   @JsonProperty("enum_integer")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -255,7 +255,7 @@ public class EnumTest  implements Serializable {
    * @return enumNumber
    **/
   @JsonProperty("enum_number")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -275,7 +275,7 @@ public class EnumTest  implements Serializable {
    * @return outerEnum
    **/
   @JsonProperty("outerEnum")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public OuterEnum getOuterEnum() {
     return outerEnum;

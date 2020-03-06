@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,14 +16,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OuterComposite  {
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private BigDecimal myNumber;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String myString;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Boolean myBoolean;
  /**
    * Get myNumber

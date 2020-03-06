@@ -4,7 +4,7 @@ import org.openapitools.model.OuterEnum;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -48,7 +48,7 @@ public enum EnumStringEnum {
     }
 }
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private EnumStringEnum enumString;
 
 @XmlType(name="EnumStringRequiredEnum")
@@ -83,7 +83,7 @@ public enum EnumStringRequiredEnum {
     }
 }
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private EnumStringRequiredEnum enumStringRequired;
 
 @XmlType(name="EnumIntegerEnum")
@@ -118,7 +118,7 @@ public enum EnumIntegerEnum {
     }
 }
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private EnumIntegerEnum enumInteger;
 
 @XmlType(name="EnumNumberEnum")
@@ -153,10 +153,10 @@ public enum EnumNumberEnum {
     }
 }
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private EnumNumberEnum enumNumber;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private OuterEnum outerEnum;
  /**

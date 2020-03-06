@@ -17,8 +17,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Category;
@@ -26,6 +24,8 @@ import org.openapitools.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Pet
@@ -107,7 +107,7 @@ public class Pet   {
    * @return id
    **/
   @JsonProperty("id")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Long getId() {
     return id;
@@ -127,7 +127,7 @@ public class Pet   {
    * @return category
    **/
   @JsonProperty("category")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public Category getCategory() {
     return category;
@@ -147,7 +147,7 @@ public class Pet   {
    * @return name
    **/
   @JsonProperty("name")
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public String getName() {
     return name;
@@ -172,7 +172,7 @@ public class Pet   {
    * @return photoUrls
    **/
   @JsonProperty("photoUrls")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -200,7 +200,7 @@ public class Pet   {
    * @return tags
    **/
   @JsonProperty("tags")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public List<Tag> getTags() {
     return tags;
@@ -220,7 +220,7 @@ public class Pet   {
    * @return status
    **/
   @JsonProperty("status")
-  @ApiModelProperty(value = "pet status in the store")
+  @Operation(summary = "", description = "")
   
   public StatusEnum getStatus() {
     return status;

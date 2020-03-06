@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,44 +19,44 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AdditionalPropertiesClass  {
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Map<String, String> mapString = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Map<String, BigDecimal> mapNumber = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Map<String, Integer> mapInteger = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Map<String, Boolean> mapBoolean = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Map<String, List<Integer>> mapArrayInteger = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Map<String, List<Object>> mapArrayAnytype = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Map<String, Map<String, String>> mapMapString = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Object anytype1;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Object anytype2;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Object anytype3;
  /**

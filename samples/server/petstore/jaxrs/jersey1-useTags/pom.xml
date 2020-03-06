@@ -98,6 +98,11 @@
       <version>${swagger-core-version}</version>
     </dependency>
     <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger-annotations-version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
       <version>${slf4j-version}</version>
@@ -197,6 +202,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.22</swagger-core-version>
+    <swagger-annotations-version>2.1.1</swagger-annotations-version>
     <beanvalidation-version>1.1.0.Final</beanvalidation-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey-version>1.19.1</jersey-version>

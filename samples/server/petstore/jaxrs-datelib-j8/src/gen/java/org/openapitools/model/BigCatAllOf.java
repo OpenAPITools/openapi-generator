@@ -17,12 +17,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * BigCatAllOf
@@ -81,7 +81,7 @@ public class BigCatAllOf  implements Serializable {
    * @return kind
    **/
   @JsonProperty("kind")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public KindEnum getKind() {
     return kind;

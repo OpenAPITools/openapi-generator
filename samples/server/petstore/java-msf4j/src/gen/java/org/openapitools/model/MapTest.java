@@ -4,8 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +73,7 @@ public class MapTest   {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -101,7 +99,7 @@ public class MapTest   {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -127,7 +125,7 @@ public class MapTest   {
    * Get directMap
    * @return directMap
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -153,7 +151,7 @@ public class MapTest   {
    * Get indirectMap
    * @return indirectMap
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

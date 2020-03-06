@@ -16,14 +16,14 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * InlineObject3
@@ -114,7 +114,7 @@ public class InlineObject3   {
    * @return integer
    **/
   @JsonProperty("integer")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
    @Min(10) @Max(100)
   public Integer getInteger() {
     return integer;
@@ -136,7 +136,7 @@ public class InlineObject3   {
    * @return int32
    **/
   @JsonProperty("int32")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
    @Min(20) @Max(200)
   public Integer getInt32() {
     return int32;
@@ -156,7 +156,7 @@ public class InlineObject3   {
    * @return int64
    **/
   @JsonProperty("int64")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
   
   public Long getInt64() {
     return int64;
@@ -178,7 +178,7 @@ public class InlineObject3   {
    * @return number
    **/
   @JsonProperty("number")
-  @ApiModelProperty(required = true, value = "None")
+  @Operation(summary = "", description = "")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
   public BigDecimal getNumber() {
     return number;
@@ -199,7 +199,7 @@ public class InlineObject3   {
    * @return _float
    **/
   @JsonProperty("float")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
    @DecimalMax("987.6")
   public Float getFloat() {
     return _float;
@@ -221,7 +221,7 @@ public class InlineObject3   {
    * @return _double
    **/
   @JsonProperty("double")
-  @ApiModelProperty(required = true, value = "None")
+  @Operation(summary = "", description = "")
   @NotNull  @DecimalMin("67.8") @DecimalMax("123.4")
   public Double getDouble() {
     return _double;
@@ -241,7 +241,7 @@ public class InlineObject3   {
    * @return string
    **/
   @JsonProperty("string")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
    @Pattern(regexp="/[a-z]/i")
   public String getString() {
     return string;
@@ -261,7 +261,7 @@ public class InlineObject3   {
    * @return patternWithoutDelimiter
    **/
   @JsonProperty("pattern_without_delimiter")
-  @ApiModelProperty(required = true, value = "None")
+  @Operation(summary = "", description = "")
   @NotNull  @Pattern(regexp="^[A-Z].*")
   public String getPatternWithoutDelimiter() {
     return patternWithoutDelimiter;
@@ -281,7 +281,7 @@ public class InlineObject3   {
    * @return _byte
    **/
   @JsonProperty("byte")
-  @ApiModelProperty(required = true, value = "None")
+  @Operation(summary = "", description = "")
   @NotNull 
   public byte[] getByte() {
     return _byte;
@@ -301,7 +301,7 @@ public class InlineObject3   {
    * @return binary
    **/
   @JsonProperty("binary")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
   
   public File getBinary() {
     return binary;
@@ -321,7 +321,7 @@ public class InlineObject3   {
    * @return date
    **/
   @JsonProperty("date")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
   
   public Date getDate() {
     return date;
@@ -341,7 +341,7 @@ public class InlineObject3   {
    * @return dateTime
    **/
   @JsonProperty("dateTime")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
   
   public Date getDateTime() {
     return dateTime;
@@ -361,7 +361,7 @@ public class InlineObject3   {
    * @return password
    **/
   @JsonProperty("password")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
    @Size(min=10,max=64)
   public String getPassword() {
     return password;
@@ -381,7 +381,7 @@ public class InlineObject3   {
    * @return callback
    **/
   @JsonProperty("callback")
-  @ApiModelProperty(value = "None")
+  @Operation(summary = "", description = "")
   
   public String getCallback() {
     return callback;

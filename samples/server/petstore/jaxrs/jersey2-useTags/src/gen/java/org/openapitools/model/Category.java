@@ -16,11 +16,11 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Category
@@ -49,7 +49,7 @@ public class Category   {
    * @return id
    **/
   @JsonProperty("id")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Long getId() {
     return id;
@@ -69,7 +69,7 @@ public class Category   {
    * @return name
    **/
   @JsonProperty("name")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public String getName() {
     return name;

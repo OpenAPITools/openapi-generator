@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,16 +16,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Order  {
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Long id;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Long petId;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Integer quantity;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Date shipDate;
 
 @XmlType(name="StatusEnum")
@@ -60,13 +60,13 @@ public enum StatusEnum {
     }
 }
 
-  @ApiModelProperty(value = "Order Status")
+  @Schema(description = "Order Status")
  /**
    * Order Status
   **/
   private StatusEnum status;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Boolean complete = false;
  /**
    * Get id

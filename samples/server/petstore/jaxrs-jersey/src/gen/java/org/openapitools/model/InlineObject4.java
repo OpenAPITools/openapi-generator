@@ -16,11 +16,11 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * InlineObject4
@@ -49,7 +49,7 @@ public class InlineObject4   {
    * @return param
    **/
   @JsonProperty("param")
-  @ApiModelProperty(required = true, value = "field1")
+  @Operation(summary = "", description = "")
   @NotNull 
   public String getParam() {
     return param;
@@ -69,7 +69,7 @@ public class InlineObject4   {
    * @return param2
    **/
   @JsonProperty("param2")
-  @ApiModelProperty(required = true, value = "field2")
+  @Operation(summary = "", description = "")
   @NotNull 
   public String getParam2() {
     return param2;

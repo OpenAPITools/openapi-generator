@@ -16,8 +16,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -61,7 +61,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * @return uuid
    **/
   @JsonProperty("uuid")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public UUID getUuid() {
     return uuid;
@@ -81,7 +81,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * @return dateTime
    **/
   @JsonProperty("dateTime")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -109,7 +109,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * @return map
    **/
   @JsonProperty("map")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public Map<String, Animal> getMap() {
     return map;

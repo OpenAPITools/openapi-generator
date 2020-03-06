@@ -16,17 +16,17 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
+@Schema(description = "Model for testing model name same as property name")
 @JsonPropertyOrder({
   Name.JSON_PROPERTY_NAME,
   Name.JSON_PROPERTY_SNAKE_CASE,
@@ -61,7 +61,7 @@ public class Name  implements Serializable {
    * @return name
    **/
   @JsonProperty("name")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public Integer getName() {
     return name;
@@ -81,7 +81,7 @@ public class Name  implements Serializable {
    * @return snakeCase
    **/
   @JsonProperty("snake_case")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Integer getSnakeCase() {
     return snakeCase;
@@ -101,7 +101,7 @@ public class Name  implements Serializable {
    * @return property
    **/
   @JsonProperty("property")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getProperty() {
     return property;
@@ -121,7 +121,7 @@ public class Name  implements Serializable {
    * @return _123number
    **/
   @JsonProperty("123Number")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Integer get123number() {
     return _123number;

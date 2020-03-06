@@ -3,8 +3,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * SpecialModelName
@@ -23,7 +21,7 @@ public class SpecialModelName   {
    * Get $specialPropertyName
    * @return $specialPropertyName
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }

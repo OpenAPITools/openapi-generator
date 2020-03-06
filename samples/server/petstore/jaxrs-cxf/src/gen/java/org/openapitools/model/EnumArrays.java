@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -49,7 +49,7 @@ public enum JustSymbolEnum {
     }
 }
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private JustSymbolEnum justSymbol;
 
 @XmlType(name="ArrayEnumEnum")
@@ -84,7 +84,7 @@ public enum ArrayEnumEnum {
     }
 }
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<ArrayEnumEnum> arrayEnum = null;
  /**
    * Get justSymbol

@@ -1,10 +1,9 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,19 +16,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
   * Model for testing model name same as property name
  **/
-@ApiModel(description="Model for testing model name same as property name")
+@Schema(description = "Model for testing model name same as property name")
 public class Name  {
   
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private Integer name;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Integer snakeCase;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String property;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Integer _123number;
  /**
    * Get name

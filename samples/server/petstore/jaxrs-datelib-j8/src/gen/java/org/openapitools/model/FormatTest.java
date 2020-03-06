@@ -16,8 +16,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * FormatTest
@@ -117,7 +117,7 @@ public class FormatTest  implements Serializable {
    * @return integer
    **/
   @JsonProperty("integer")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
    @Min(10) @Max(100)
   public Integer getInteger() {
     return integer;
@@ -139,7 +139,7 @@ public class FormatTest  implements Serializable {
    * @return int32
    **/
   @JsonProperty("int32")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
    @Min(20) @Max(200)
   public Integer getInt32() {
     return int32;
@@ -159,7 +159,7 @@ public class FormatTest  implements Serializable {
    * @return int64
    **/
   @JsonProperty("int64")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Long getInt64() {
     return int64;
@@ -181,7 +181,7 @@ public class FormatTest  implements Serializable {
    * @return number
    **/
   @JsonProperty("number")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
   public BigDecimal getNumber() {
     return number;
@@ -203,7 +203,7 @@ public class FormatTest  implements Serializable {
    * @return _float
    **/
   @JsonProperty("float")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
    @DecimalMin("54.3") @DecimalMax("987.6")
   public Float getFloat() {
     return _float;
@@ -225,7 +225,7 @@ public class FormatTest  implements Serializable {
    * @return _double
    **/
   @JsonProperty("double")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
    @DecimalMin("67.8") @DecimalMax("123.4")
   public Double getDouble() {
     return _double;
@@ -245,7 +245,7 @@ public class FormatTest  implements Serializable {
    * @return string
    **/
   @JsonProperty("string")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
    @Pattern(regexp="/[a-z]/i")
   public String getString() {
     return string;
@@ -265,7 +265,7 @@ public class FormatTest  implements Serializable {
    * @return _byte
    **/
   @JsonProperty("byte")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull  @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
   public byte[] getByte() {
     return _byte;
@@ -285,7 +285,7 @@ public class FormatTest  implements Serializable {
    * @return binary
    **/
   @JsonProperty("binary")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public File getBinary() {
     return binary;
@@ -305,7 +305,7 @@ public class FormatTest  implements Serializable {
    * @return date
    **/
   @JsonProperty("date")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public LocalDate getDate() {
     return date;
@@ -325,7 +325,7 @@ public class FormatTest  implements Serializable {
    * @return dateTime
    **/
   @JsonProperty("dateTime")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -345,7 +345,7 @@ public class FormatTest  implements Serializable {
    * @return uuid
    **/
   @JsonProperty("uuid")
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Operation(summary = "", description = "")
   
   public UUID getUuid() {
     return uuid;
@@ -365,7 +365,7 @@ public class FormatTest  implements Serializable {
    * @return password
    **/
   @JsonProperty("password")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull  @Size(min=10,max=64)
   public String getPassword() {
     return password;
@@ -385,7 +385,7 @@ public class FormatTest  implements Serializable {
    * @return bigDecimal
    **/
   @JsonProperty("BigDecimal")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public BigDecimal getBigDecimal() {
     return bigDecimal;

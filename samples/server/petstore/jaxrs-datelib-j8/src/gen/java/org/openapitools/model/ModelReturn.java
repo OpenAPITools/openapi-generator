@@ -16,17 +16,17 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Model for testing reserved words
  */
-@ApiModel(description = "Model for testing reserved words")
+@Schema(description = "Model for testing reserved words")
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
@@ -46,7 +46,7 @@ public class ModelReturn  implements Serializable {
    * @return _return
    **/
   @JsonProperty("return")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Integer getReturn() {
     return _return;

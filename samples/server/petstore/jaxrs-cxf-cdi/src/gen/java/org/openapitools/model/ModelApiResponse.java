@@ -2,20 +2,18 @@ package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 
 /**
  * Describes the result of uploading an image resource
  **/
 
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.*;
 
-@ApiModel(description = "Describes the result of uploading an image resource")
+@Schema(description = "Describes the result of uploading an image resource")
 public class ModelApiResponse   {
   
   private Integer code;
@@ -33,7 +31,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("code")
   public Integer getCode() {
     return code;
@@ -51,7 +49,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("type")
   public String getType() {
     return type;
@@ -69,7 +67,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;

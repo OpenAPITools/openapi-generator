@@ -3,8 +3,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 
 /**
@@ -30,7 +28,7 @@ public class OuterComposite   {
    * Get myNumber
    * @return myNumber
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -48,7 +46,7 @@ public class OuterComposite   {
    * Get myString
    * @return myString
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getMyString() {
     return myString;
   }
@@ -66,7 +64,7 @@ public class OuterComposite   {
    * Get myBoolean
    * @return myBoolean
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Boolean getMyBoolean() {
     return myBoolean;
   }

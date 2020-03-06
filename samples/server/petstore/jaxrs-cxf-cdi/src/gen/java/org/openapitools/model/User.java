@@ -2,20 +2,18 @@ package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 
 /**
  * A User who is purchasing from the pet store
  **/
 
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.*;
 
-@ApiModel(description = "A User who is purchasing from the pet store")
+@Schema(description = "A User who is purchasing from the pet store")
 public class User   {
   
   private Long id;
@@ -43,7 +41,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -61,7 +59,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("username")
   public String getUsername() {
     return username;
@@ -79,7 +77,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
@@ -97,7 +95,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
@@ -115,7 +113,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("email")
   public String getEmail() {
     return email;
@@ -133,7 +131,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -151,7 +149,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty("phone")
   public String getPhone() {
     return phone;
@@ -170,7 +168,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(value = "User Status")
+  @Schema(description = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;

@@ -3,8 +3,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +33,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public UUID getUuid() {
     return uuid;
   }
@@ -53,7 +51,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Date getDateTime() {
     return dateTime;
   }
@@ -79,7 +77,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, Animal> getMap() {
     return map;
   }

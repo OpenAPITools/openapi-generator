@@ -3,8 +3,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public java.io.File getFile() {
     return file;
   }
@@ -54,7 +52,7 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public List<java.io.File> getFiles() {
     return files;
   }

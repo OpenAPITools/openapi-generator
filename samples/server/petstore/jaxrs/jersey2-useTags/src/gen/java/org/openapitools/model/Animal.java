@@ -18,11 +18,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Animal
@@ -57,7 +57,7 @@ public class Animal   {
    * @return className
    **/
   @JsonProperty("className")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public String getClassName() {
     return className;
@@ -77,7 +77,7 @@ public class Animal   {
    * @return color
    **/
   @JsonProperty("color")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getColor() {
     return color;

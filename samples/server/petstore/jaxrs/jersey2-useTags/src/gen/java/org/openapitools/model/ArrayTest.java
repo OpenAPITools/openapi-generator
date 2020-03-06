@@ -16,14 +16,14 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * ArrayTest
@@ -65,7 +65,7 @@ public class ArrayTest   {
    * @return arrayOfString
    **/
   @JsonProperty("array_of_string")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -93,7 +93,7 @@ public class ArrayTest   {
    * @return arrayArrayOfInteger
    **/
   @JsonProperty("array_array_of_integer")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -121,7 +121,7 @@ public class ArrayTest   {
    * @return arrayArrayOfModel
    **/
   @JsonProperty("array_array_of_model")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

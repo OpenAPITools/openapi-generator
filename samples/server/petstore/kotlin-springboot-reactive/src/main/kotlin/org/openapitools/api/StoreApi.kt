@@ -101,7 +101,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = ["/store/order"],
         produces = ["application/xml", "application/json"], 
         method = [RequestMethod.POST])
-    suspend fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody body: Order
+    suspend fun placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody body: Order
 ): ResponseEntity<Order> {
         return ResponseEntity(service.placeOrder(body), HttpStatus.valueOf(200))
     }

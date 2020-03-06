@@ -16,12 +16,12 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * InlineObject5
@@ -50,7 +50,7 @@ public class InlineObject5   {
    * @return additionalMetadata
    **/
   @JsonProperty("additionalMetadata")
-  @ApiModelProperty(value = "Additional data to pass to server")
+  @Operation(summary = "", description = "")
   
   public String getAdditionalMetadata() {
     return additionalMetadata;
@@ -70,7 +70,7 @@ public class InlineObject5   {
    * @return requiredFile
    **/
   @JsonProperty("requiredFile")
-  @ApiModelProperty(required = true, value = "file to upload")
+  @Operation(summary = "", description = "")
   @NotNull 
   public File getRequiredFile() {
     return requiredFile;

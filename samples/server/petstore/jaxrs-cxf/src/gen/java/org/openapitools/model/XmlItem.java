@@ -6,7 +6,7 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,96 +18,96 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class XmlItem  {
   
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(example = "string", description = "")
   private String attributeString;
 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(example = "1.234", description = "")
   @Valid
   private BigDecimal attributeNumber;
 
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(example = "-2", description = "")
   private Integer attributeInteger;
 
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(example = "true", description = "")
   private Boolean attributeBoolean;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> wrappedArray = null;
 
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(example = "string", description = "")
   private String nameString;
 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(example = "1.234", description = "")
   @Valid
   private BigDecimal nameNumber;
 
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(example = "-2", description = "")
   private Integer nameInteger;
 
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(example = "true", description = "")
   private Boolean nameBoolean;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> nameArray = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> nameWrappedArray = null;
 
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(example = "string", description = "")
   private String prefixString;
 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(example = "1.234", description = "")
   @Valid
   private BigDecimal prefixNumber;
 
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(example = "-2", description = "")
   private Integer prefixInteger;
 
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(example = "true", description = "")
   private Boolean prefixBoolean;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> prefixArray = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> prefixWrappedArray = null;
 
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(example = "string", description = "")
   private String namespaceString;
 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(example = "1.234", description = "")
   @Valid
   private BigDecimal namespaceNumber;
 
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(example = "-2", description = "")
   private Integer namespaceInteger;
 
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(example = "true", description = "")
   private Boolean namespaceBoolean;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> namespaceArray = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> namespaceWrappedArray = null;
 
-  @ApiModelProperty(example = "string", value = "")
+  @Schema(example = "string", description = "")
   private String prefixNsString;
 
-  @ApiModelProperty(example = "1.234", value = "")
+  @Schema(example = "1.234", description = "")
   @Valid
   private BigDecimal prefixNsNumber;
 
-  @ApiModelProperty(example = "-2", value = "")
+  @Schema(example = "-2", description = "")
   private Integer prefixNsInteger;
 
-  @ApiModelProperty(example = "true", value = "")
+  @Schema(example = "true", description = "")
   private Boolean prefixNsBoolean;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> prefixNsArray = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<Integer> prefixNsWrappedArray = null;
  /**
    * Get attributeString

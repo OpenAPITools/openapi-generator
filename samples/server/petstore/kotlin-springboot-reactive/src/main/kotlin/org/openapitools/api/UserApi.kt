@@ -52,7 +52,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
         value = ["/user"],
         method = [RequestMethod.POST])
-    suspend fun createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody body: User
+    suspend fun createUser(@Parameter(description = "Created user object" ,required=true ) @Valid @RequestBody body: User
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUser(body), HttpStatus.valueOf(200))
     }
@@ -66,7 +66,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
         value = ["/user/createWithArray"],
         method = [RequestMethod.POST])
-    suspend fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: Flow<User>
+    suspend fun createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true ) @Valid @RequestBody body: Flow<User>
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
     }
@@ -80,7 +80,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
         value = ["/user/createWithList"],
         method = [RequestMethod.POST])
-    suspend fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: Flow<User>
+    suspend fun createUsersWithListInput(@Parameter(description = "List of user object" ,required=true ) @Valid @RequestBody body: Flow<User>
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
     }
@@ -155,7 +155,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"],
         method = [RequestMethod.PUT])
     suspend fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: kotlin.String
-,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody body: User
+,@Parameter(description = "Updated user object" ,required=true ) @Valid @RequestBody body: User
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))
     }

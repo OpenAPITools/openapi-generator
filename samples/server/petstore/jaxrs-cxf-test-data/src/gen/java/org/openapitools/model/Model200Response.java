@@ -1,6 +1,5 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -20,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Model for testing model name starting with number
  */
 @ApiModel(description="Model for testing model name starting with number")
+
 public class Model200Response  {
   
   @ApiModelProperty(value = "")

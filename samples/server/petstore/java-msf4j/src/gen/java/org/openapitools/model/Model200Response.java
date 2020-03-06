@@ -3,13 +3,11 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Model for testing model name starting with number
  */
-@ApiModel(description = "Model for testing model name starting with number")
+@Schema(description = "Model for testing model name starting with number")
 
 public class Model200Response   {
   @JsonProperty("name")
@@ -27,7 +25,7 @@ public class Model200Response   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getName() {
     return name;
   }
@@ -45,7 +43,7 @@ public class Model200Response   {
    * Get propertyClass
    * @return propertyClass
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getPropertyClass() {
     return propertyClass;
   }

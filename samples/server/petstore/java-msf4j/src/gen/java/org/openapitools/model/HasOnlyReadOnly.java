@@ -3,8 +3,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * HasOnlyReadOnly
@@ -21,7 +19,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getBar() {
     return bar;
   }
@@ -30,7 +28,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getFoo() {
     return foo;
   }

@@ -16,11 +16,11 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Capitalization
@@ -69,7 +69,7 @@ public class Capitalization   {
    * @return smallCamel
    **/
   @JsonProperty("smallCamel")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getSmallCamel() {
     return smallCamel;
@@ -89,7 +89,7 @@ public class Capitalization   {
    * @return capitalCamel
    **/
   @JsonProperty("CapitalCamel")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getCapitalCamel() {
     return capitalCamel;
@@ -109,7 +109,7 @@ public class Capitalization   {
    * @return smallSnake
    **/
   @JsonProperty("small_Snake")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getSmallSnake() {
     return smallSnake;
@@ -129,7 +129,7 @@ public class Capitalization   {
    * @return capitalSnake
    **/
   @JsonProperty("Capital_Snake")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getCapitalSnake() {
     return capitalSnake;
@@ -149,7 +149,7 @@ public class Capitalization   {
    * @return scAETHFlowPoints
    **/
   @JsonProperty("SCA_ETH_Flow_Points")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -169,7 +169,7 @@ public class Capitalization   {
    * @return ATT_NAME
    **/
   @JsonProperty("ATT_NAME")
-  @ApiModelProperty(value = "Name of the pet ")
+  @Operation(summary = "", description = "")
   
   public String getATTNAME() {
     return ATT_NAME;

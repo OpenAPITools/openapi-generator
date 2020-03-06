@@ -9,7 +9,7 @@ import org.openapitools.virtualan.model.ModelApiResponse;
 import org.openapitools.virtualan.model.Pet;
 import org.springframework.core.io.Resource;
 import io.swagger.v3.oas.annotations.*;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -83,7 +83,7 @@ public interface PetApi {
             @ApiResponse(responseCode = "400", description = "Invalid pet value"  )  })
         @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
-    default ResponseEntity<Void> deletePet(@Parameter(in = ParameterIn.PATH,description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(in = ParameterIn.PATH, description = "" ) @RequestHeader(value="api_key", required=false) String apiKey) {
+    default ResponseEntity<Void> deletePet(@Parameter(in = ParameterIn.PATH,description = "Pet id to delete", required=true) @PathVariable("petId") Long petId,@Parameter(in = ParameterIn.HEADER, description = ""  ) @RequestHeader(value="api_key", required=false) String apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -106,7 +106,7 @@ public interface PetApi {
         @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter( schema = @Schema( allowableValues = "available, pending, sold"),  description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status) {
+    default ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(schema = @Schema(allowableValues = {"available, pending, sold"}, description = "Status values that need to be considered for filter", required = true)) @Valid @RequestParam(value = "status", required = true) List<String> status) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -144,7 +144,7 @@ public interface PetApi {
         @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Pet>> findPetsByTags(@NotNull @Parameter( description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
+    default ResponseEntity<List<Pet>> findPetsByTags(@NotNull @Parameter(schema = @Schema( description = "Tags to filter by", required = true)) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -183,7 +183,7 @@ public interface PetApi {
         @RequestMapping(value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Pet> getPetById(@Parameter(in = ParameterIn.PATH,description = "ID of pet to return",required=true) @PathVariable("petId") Long petId) {
+    default ResponseEntity<Pet> getPetById(@Parameter(in = ParameterIn.PATH,description = "ID of pet to return", required=true) @PathVariable("petId") Long petId) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -245,7 +245,7 @@ public interface PetApi {
         @RequestMapping(value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
-    default ResponseEntity<Void> updatePetWithForm(@Parameter(in = ParameterIn.PATH,description = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status) {
+    default ResponseEntity<Void> updatePetWithForm(@Parameter(in = ParameterIn.PATH,description = "ID of pet that needs to be updated", required=true) @PathVariable("petId") Long petId,@Parameter(description = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@Parameter(description = "Updated status of the pet") @RequestPart(value="status", required=false)  String status) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -268,7 +268,7 @@ public interface PetApi {
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
-    default ResponseEntity<ModelApiResponse> uploadFile(@Parameter(in = ParameterIn.PATH,description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file") MultipartFile file) {
+    default ResponseEntity<ModelApiResponse> uploadFile(@Parameter(in = ParameterIn.PATH,description = "ID of pet to update", required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@Parameter(description = "file to upload") @Valid @RequestPart(value = "file") MultipartFile file) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

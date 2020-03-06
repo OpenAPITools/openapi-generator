@@ -3,8 +3,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -68,7 +66,7 @@ public class FormatTest   {
    * maximum: 100
    * @return integer
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getInteger() {
     return integer;
   }
@@ -88,7 +86,7 @@ public class FormatTest   {
    * maximum: 200
    * @return int32
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Integer getInt32() {
     return int32;
   }
@@ -106,7 +104,7 @@ public class FormatTest   {
    * Get int64
    * @return int64
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Long getInt64() {
     return int64;
   }
@@ -126,7 +124,7 @@ public class FormatTest   {
    * maximum: 543.2
    * @return number
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   public BigDecimal getNumber() {
     return number;
   }
@@ -146,7 +144,7 @@ public class FormatTest   {
    * maximum: 987.6
    * @return _float
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Float getFloat() {
     return _float;
   }
@@ -166,7 +164,7 @@ public class FormatTest   {
    * maximum: 123.4
    * @return _double
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Double getDouble() {
     return _double;
   }
@@ -184,7 +182,7 @@ public class FormatTest   {
    * Get string
    * @return string
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public String getString() {
     return string;
   }
@@ -202,7 +200,7 @@ public class FormatTest   {
    * Get _byte
    * @return _byte
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   public byte[] getByte() {
     return _byte;
   }
@@ -220,7 +218,7 @@ public class FormatTest   {
    * Get binary
    * @return binary
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public File getBinary() {
     return binary;
   }
@@ -238,7 +236,7 @@ public class FormatTest   {
    * Get date
    * @return date
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   public Date getDate() {
     return date;
   }
@@ -256,7 +254,7 @@ public class FormatTest   {
    * Get dateTime
    * @return dateTime
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Date getDateTime() {
     return dateTime;
   }
@@ -274,7 +272,7 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
   **/
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Schema(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", description = "")
   public UUID getUuid() {
     return uuid;
   }
@@ -292,7 +290,7 @@ public class FormatTest   {
    * Get password
    * @return password
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   public String getPassword() {
     return password;
   }
@@ -310,7 +308,7 @@ public class FormatTest   {
    * Get bigDecimal
    * @return bigDecimal
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

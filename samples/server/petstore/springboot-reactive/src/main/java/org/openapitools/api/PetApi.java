@@ -9,7 +9,7 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import org.springframework.core.io.Resource;
 import io.swagger.v3.oas.annotations.*;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -76,7 +76,7 @@ public interface PetApi {
             @ApiResponse(responseCode = "400", description = "Invalid pet value"  )  })
         @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
-    default Mono<ResponseEntity<Void>> deletePet(@Parameter(in = ParameterIn.PATH,description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(in = ParameterIn.PATH, description = "" ) @RequestHeader(value="api_key", required=false) String apiKey, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> deletePet(@Parameter(in = ParameterIn.PATH,description = "Pet id to delete", required=true) @PathVariable("petId") Long petId,@Parameter(in = ParameterIn.HEADER, description = ""  ) @RequestHeader(value="api_key", required=false) String apiKey, ServerWebExchange exchange) {
         return getDelegate().deletePet(petId, apiKey, exchange);
     }
 
@@ -97,7 +97,7 @@ public interface PetApi {
         @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(@NotNull @Parameter( schema = @Schema( allowableValues = "available, pending, sold"),  description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(@NotNull @Parameter(schema = @Schema(allowableValues = {"available, pending, sold"}, description = "Status values that need to be considered for filter", required = true)) @Valid @RequestParam(value = "status", required = true) List<String> status, ServerWebExchange exchange) {
         return getDelegate().findPetsByStatus(status, exchange);
     }
 
@@ -119,7 +119,7 @@ public interface PetApi {
         @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(@NotNull @Parameter( description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(@NotNull @Parameter(schema = @Schema( description = "Tags to filter by", required = true)) @Valid @RequestParam(value = "tags", required = true) List<String> tags, ServerWebExchange exchange) {
         return getDelegate().findPetsByTags(tags, exchange);
     }
 
@@ -142,7 +142,7 @@ public interface PetApi {
         @RequestMapping(value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default Mono<ResponseEntity<Pet>> getPetById(@Parameter(in = ParameterIn.PATH,description = "ID of pet to return",required=true) @PathVariable("petId") Long petId, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Pet>> getPetById(@Parameter(in = ParameterIn.PATH,description = "ID of pet to return", required=true) @PathVariable("petId") Long petId, ServerWebExchange exchange) {
         return getDelegate().getPetById(petId, exchange);
     }
 
@@ -186,7 +186,7 @@ public interface PetApi {
         @RequestMapping(value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> updatePetWithForm(@Parameter(in = ParameterIn.PATH,description = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> updatePetWithForm(@Parameter(in = ParameterIn.PATH,description = "ID of pet that needs to be updated", required=true) @PathVariable("petId") Long petId,@Parameter(description = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@Parameter(description = "Updated status of the pet") @RequestPart(value="status", required=false)  String status, ServerWebExchange exchange) {
         return getDelegate().updatePetWithForm(petId, name, status, exchange);
     }
 
@@ -207,7 +207,7 @@ public interface PetApi {
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(in = ParameterIn.PATH,description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file") MultipartFile file, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(in = ParameterIn.PATH,description = "ID of pet to update", required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@Parameter(description = "file to upload") @Valid @RequestPart(value = "file") MultipartFile file, ServerWebExchange exchange) {
         return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
     }
 

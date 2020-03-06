@@ -3,8 +3,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +63,7 @@ public class AdditionalPropertiesClass   {
    * Get mapString
    * @return mapString
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, String> getMapString() {
     return mapString;
   }
@@ -91,7 +89,7 @@ public class AdditionalPropertiesClass   {
    * Get mapNumber
    * @return mapNumber
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -117,7 +115,7 @@ public class AdditionalPropertiesClass   {
    * Get mapInteger
    * @return mapInteger
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
@@ -143,7 +141,7 @@ public class AdditionalPropertiesClass   {
    * Get mapBoolean
    * @return mapBoolean
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
@@ -169,7 +167,7 @@ public class AdditionalPropertiesClass   {
    * Get mapArrayInteger
    * @return mapArrayInteger
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -195,7 +193,7 @@ public class AdditionalPropertiesClass   {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -221,7 +219,7 @@ public class AdditionalPropertiesClass   {
    * Get mapMapString
    * @return mapMapString
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -247,7 +245,7 @@ public class AdditionalPropertiesClass   {
    * Get mapMapAnytype
    * @return mapMapAnytype
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
@@ -265,7 +263,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype1
    * @return anytype1
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Object getAnytype1() {
     return anytype1;
   }
@@ -283,7 +281,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype2
    * @return anytype2
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Object getAnytype2() {
     return anytype2;
   }
@@ -301,7 +299,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype3
    * @return anytype3
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   public Object getAnytype3() {
     return anytype3;
   }

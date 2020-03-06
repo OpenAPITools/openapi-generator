@@ -3,8 +3,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +39,7 @@ public class TypeHolderExample   {
    * Get stringItem
    * @return stringItem
   **/
-  @ApiModelProperty(example = "what", required = true, value = "")
+  @Schema(example = "what", required = true, description = "")
   public String getStringItem() {
     return stringItem;
   }
@@ -59,7 +57,7 @@ public class TypeHolderExample   {
    * Get numberItem
    * @return numberItem
   **/
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(example = "1.234", required = true, description = "")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -77,7 +75,7 @@ public class TypeHolderExample   {
    * Get floatItem
    * @return floatItem
   **/
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(example = "1.234", required = true, description = "")
   public Float getFloatItem() {
     return floatItem;
   }
@@ -95,7 +93,7 @@ public class TypeHolderExample   {
    * Get integerItem
    * @return integerItem
   **/
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @Schema(example = "-2", required = true, description = "")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -113,7 +111,7 @@ public class TypeHolderExample   {
    * Get boolItem
    * @return boolItem
   **/
-  @ApiModelProperty(example = "true", required = true, value = "")
+  @Schema(example = "true", required = true, description = "")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -136,7 +134,7 @@ public class TypeHolderExample   {
    * Get arrayItem
    * @return arrayItem
   **/
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @Schema(example = "[0, 1, 2, 3]", required = true, description = "")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

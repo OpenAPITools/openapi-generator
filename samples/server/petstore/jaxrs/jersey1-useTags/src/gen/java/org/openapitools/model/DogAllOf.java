@@ -16,11 +16,11 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * DogAllOf
@@ -44,7 +44,7 @@ public class DogAllOf   {
    * @return breed
    **/
   @JsonProperty("breed")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getBreed() {
     return breed;

@@ -16,12 +16,12 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * SpecialModelName
@@ -45,7 +45,7 @@ public class SpecialModelName  implements Serializable {
    * @return $specialPropertyName
    **/
   @JsonProperty("$special[property.name]")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;

@@ -16,8 +16,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * TypeHolderDefault
@@ -68,7 +68,7 @@ public class TypeHolderDefault  implements Serializable {
    * @return stringItem
    **/
   @JsonProperty("string_item")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public String getStringItem() {
     return stringItem;
@@ -88,7 +88,7 @@ public class TypeHolderDefault  implements Serializable {
    * @return numberItem
    **/
   @JsonProperty("number_item")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull @Valid 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -108,7 +108,7 @@ public class TypeHolderDefault  implements Serializable {
    * @return integerItem
    **/
   @JsonProperty("integer_item")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public Integer getIntegerItem() {
     return integerItem;
@@ -128,7 +128,7 @@ public class TypeHolderDefault  implements Serializable {
    * @return boolItem
    **/
   @JsonProperty("bool_item")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public Boolean getBoolItem() {
     return boolItem;
@@ -153,7 +153,7 @@ public class TypeHolderDefault  implements Serializable {
    * @return arrayItem
    **/
   @JsonProperty("array_item")
-  @ApiModelProperty(required = true, value = "")
+  @Operation(summary = "", description = "")
   @NotNull 
   public List<Integer> getArrayItem() {
     return arrayItem;

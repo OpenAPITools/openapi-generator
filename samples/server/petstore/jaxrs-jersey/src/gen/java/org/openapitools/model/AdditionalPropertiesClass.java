@@ -16,14 +16,14 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * AdditionalPropertiesClass
@@ -60,7 +60,7 @@ public class AdditionalPropertiesClass   {
    * @return mapProperty
    **/
   @JsonProperty("map_property")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Map<String, String> getMapProperty() {
     return mapProperty;
@@ -88,7 +88,7 @@ public class AdditionalPropertiesClass   {
    * @return mapOfMapProperty
    **/
   @JsonProperty("map_of_map_property")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;

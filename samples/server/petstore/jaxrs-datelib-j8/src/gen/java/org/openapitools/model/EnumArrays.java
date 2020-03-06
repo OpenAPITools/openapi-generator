@@ -17,14 +17,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * EnumArrays
@@ -115,7 +115,7 @@ public class EnumArrays  implements Serializable {
    * @return justSymbol
    **/
   @JsonProperty("just_symbol")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -143,7 +143,7 @@ public class EnumArrays  implements Serializable {
    * @return arrayEnum
    **/
   @JsonProperty("array_enum")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

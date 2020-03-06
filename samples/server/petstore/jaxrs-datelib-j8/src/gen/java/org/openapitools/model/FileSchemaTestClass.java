@@ -16,14 +16,14 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * FileSchemaTestClass
@@ -52,7 +52,7 @@ public class FileSchemaTestClass  implements Serializable {
    * @return file
    **/
   @JsonProperty("file")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public java.io.File getFile() {
     return file;
@@ -80,7 +80,7 @@ public class FileSchemaTestClass  implements Serializable {
    * @return files
    **/
   @JsonProperty("files")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   @Valid 
   public List<java.io.File> getFiles() {
     return files;

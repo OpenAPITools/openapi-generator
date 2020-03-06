@@ -54,7 +54,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet"],
         consumes = ["application/json", "application/xml"],
         method = [RequestMethod.POST])
-    fun addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody body: Pet
+    fun addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody body: Pet
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.addPet(body), HttpStatus.valueOf(405))
     }
@@ -139,7 +139,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet"],
         consumes = ["application/json", "application/xml"],
         method = [RequestMethod.PUT])
-    fun updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody body: Pet
+    fun updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody body: Pet
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.updatePet(body), HttpStatus.valueOf(400))
     }
@@ -156,8 +156,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         consumes = ["application/x-www-form-urlencoded"],
         method = [RequestMethod.POST])
     fun updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated", required=true) @PathVariable("petId") petId: kotlin.Long
-,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false) name: kotlin.String? 
-,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false) status: kotlin.String? 
+,Parameter(description = "Updated name of the pet") @RequestParam(value="name", required=false) name: kotlin.String? 
+,Parameter(description = "Updated status of the pet") @RequestParam(value="status", required=false) status: kotlin.String? 
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.updatePetWithForm(petId, name, status), HttpStatus.valueOf(405))
     }
@@ -176,8 +176,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         consumes = ["multipart/form-data"],
         method = [RequestMethod.POST])
     fun uploadFile(@ApiParam(value = "ID of pet to update", required=true) @PathVariable("petId") petId: kotlin.Long
-,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false) additionalMetadata: kotlin.String? 
-,@ApiParam(value = "file detail") @Valid @RequestPart("file") file: org.springframework.core.io.Resource?
+,Parameter(description = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false) additionalMetadata: kotlin.String? 
+,Parameter(description = "file detail") @Valid @RequestPart("file") file: org.springframework.core.io.Resource?
 ): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.valueOf(200))
     }

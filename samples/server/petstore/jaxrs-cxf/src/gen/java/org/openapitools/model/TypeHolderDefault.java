@@ -6,7 +6,7 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,20 +18,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TypeHolderDefault  {
   
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private String stringItem = "what";
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @Valid
   private BigDecimal numberItem;
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private Integer integerItem;
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private Boolean boolItem = true;
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private List<Integer> arrayItem = new ArrayList<Integer>();
  /**
    * Get stringItem

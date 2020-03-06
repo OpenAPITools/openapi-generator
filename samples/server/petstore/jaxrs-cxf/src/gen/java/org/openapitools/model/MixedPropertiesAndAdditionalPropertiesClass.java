@@ -9,7 +9,7 @@ import org.openapitools.model.Animal;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -21,13 +21,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MixedPropertiesAndAdditionalPropertiesClass  {
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private UUID uuid;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Date dateTime;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private Map<String, Animal> map = null;
  /**

@@ -17,13 +17,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * InlineObject2
@@ -124,7 +124,7 @@ public class InlineObject2   {
    * @return enumFormStringArray
    **/
   @JsonProperty("enum_form_string_array")
-  @ApiModelProperty(value = "Form parameter enum test (string array)")
+  @Operation(summary = "", description = "")
   
   public List<EnumFormStringArrayEnum> getEnumFormStringArray() {
     return enumFormStringArray;
@@ -144,7 +144,7 @@ public class InlineObject2   {
    * @return enumFormString
    **/
   @JsonProperty("enum_form_string")
-  @ApiModelProperty(value = "Form parameter enum test (string)")
+  @Operation(summary = "", description = "")
   
   public EnumFormStringEnum getEnumFormString() {
     return enumFormString;

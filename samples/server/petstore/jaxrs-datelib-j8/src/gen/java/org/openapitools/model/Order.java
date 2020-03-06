@@ -17,13 +17,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Order
@@ -105,7 +105,7 @@ public class Order  implements Serializable {
    * @return id
    **/
   @JsonProperty("id")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Long getId() {
     return id;
@@ -125,7 +125,7 @@ public class Order  implements Serializable {
    * @return petId
    **/
   @JsonProperty("petId")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Long getPetId() {
     return petId;
@@ -145,7 +145,7 @@ public class Order  implements Serializable {
    * @return quantity
    **/
   @JsonProperty("quantity")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Integer getQuantity() {
     return quantity;
@@ -165,7 +165,7 @@ public class Order  implements Serializable {
    * @return shipDate
    **/
   @JsonProperty("shipDate")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -185,7 +185,7 @@ public class Order  implements Serializable {
    * @return status
    **/
   @JsonProperty("status")
-  @ApiModelProperty(value = "Order Status")
+  @Operation(summary = "", description = "")
   
   public StatusEnum getStatus() {
     return status;
@@ -205,7 +205,7 @@ public class Order  implements Serializable {
    * @return complete
    **/
   @JsonProperty("complete")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Boolean getComplete() {
     return complete;

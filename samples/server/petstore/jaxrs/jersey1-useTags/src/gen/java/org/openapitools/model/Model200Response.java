@@ -16,16 +16,16 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Model for testing model name starting with number
  */
-@ApiModel(description = "Model for testing model name starting with number")
+@Schema(description = "Model for testing model name starting with number")
 @JsonPropertyOrder({
   Model200Response.JSON_PROPERTY_NAME,
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
@@ -50,7 +50,7 @@ public class Model200Response   {
    * @return name
    **/
   @JsonProperty("name")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Integer getName() {
     return name;
@@ -70,7 +70,7 @@ public class Model200Response   {
    * @return propertyClass
    **/
   @JsonProperty("class")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public String getPropertyClass() {
     return propertyClass;

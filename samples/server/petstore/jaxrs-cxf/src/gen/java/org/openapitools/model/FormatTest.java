@@ -8,7 +8,7 @@ import org.joda.time.LocalDate;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -20,47 +20,47 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FormatTest  {
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Integer integer;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Integer int32;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Long int64;
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @Valid
   private BigDecimal number;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Float _float;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Double _double;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String string;
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private byte[] _byte;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private File binary;
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private LocalDate date;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Date dateTime;
 
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Schema(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", description = "")
   private UUID uuid;
 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   private String password;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private BigDecimal bigDecimal;
  /**
    * Get integer

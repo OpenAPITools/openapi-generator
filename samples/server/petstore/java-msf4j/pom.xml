@@ -66,6 +66,11 @@
        <artifactId>jackson-jaxrs-json-provider</artifactId>
        <version>${jackson-version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>2.1.1</version>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>

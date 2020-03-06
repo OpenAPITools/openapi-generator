@@ -16,13 +16,13 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Cat
@@ -46,7 +46,7 @@ public class Cat extends Animal  {
    * @return declawed
    **/
   @JsonProperty("declawed")
-  @ApiModelProperty(value = "")
+  @Operation(summary = "", description = "")
   
   public Boolean getDeclawed() {
     return declawed;

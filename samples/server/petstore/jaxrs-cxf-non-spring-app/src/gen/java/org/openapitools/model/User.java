@@ -1,10 +1,9 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,31 +16,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
   * A User who is purchasing from the pet store
  **/
-@ApiModel(description="A User who is purchasing from the pet store")
+@Schema(description = "A User who is purchasing from the pet store")
 public class User  {
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private Long id;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String username;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String firstName;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String lastName;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String email;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String password;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private String phone;
 
-  @ApiModelProperty(value = "User Status")
+  @Schema(description = "User Status")
  /**
    * User Status
   **/

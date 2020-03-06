@@ -6,7 +6,7 @@ import org.openapitools.model.ReadOnlyFirst;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,14 +18,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ArrayTest  {
   
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   private List<String> arrayOfString = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private List<List<Long>> arrayArrayOfInteger = null;
 
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @Valid
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
  /**
