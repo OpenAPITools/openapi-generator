@@ -1,4 +1,4 @@
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
   * {{{description}}}
  **/
-@ApiModel(description="{{{description}}}")
+@Schema(description = "{{{description}}}")
 {{/description}}
 {{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 {{#withXml}}
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
+  @Schema({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
   @Valid{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
 {{#description}}
  /**

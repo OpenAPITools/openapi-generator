@@ -11,7 +11,14 @@ import javax.ws.rs.core.SecurityContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.io.InputStream;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
@@ -25,7 +32,7 @@ import javax.validation.constraints.*;
 @Path("/{{{baseName}}}")
 @RequestScoped
 
-@Api(description = "the {{{baseName}}} API")
+@Tag(name = "the {{{baseName}}} API")
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
@@ -43,15 +50,16 @@ public class {{classname}}  {
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
     {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
     {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
-    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
-        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
-            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}" {{#hasAuthMethods}}
+        {{#authMethods}}
+        , security = {
+             {{#scopes}} @SecurityRequirement(name = "{{description}}", scopes ={"{{scope}}"}){{#hasMore}},
             {{/hasMore}}{{/scopes}}
-        }{{/isOAuth}}){{#hasMore}},
-        {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
-    @ApiResponses(value = { {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
+        {{#hasMore}},
+        {{/hasMore}}}{{/authMethods}}
+    {{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} },
+    responses = { {{#responses}}
+        @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}" {{#baseType}}, content = { @Content( {{#containerType}}schema = @Schema(implementation = {{{baseType}}}.class){{/containerType}}{{^containerType}} array = @ArraySchema(schema = @Schema(implementation = {{{baseType}}}.class)) {{/containerType}} )} {{/baseType}} ){{#hasMore}} ,{{/hasMore}} {{/responses}} })
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
         return delegate.{{nickname}}({{#allParams}}{{#isFile}}{{paramName}}InputStream, {{paramName}}Detail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}}, {{/allParams}}securityContext);
     }

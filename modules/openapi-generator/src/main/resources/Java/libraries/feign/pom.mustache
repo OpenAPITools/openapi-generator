@@ -194,7 +194,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
@@ -311,7 +311,7 @@
         <java.version>{{#supportJava6}}1.6{{/supportJava6}}{{^supportJava6}}{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}{{/supportJava6}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        <swagger-annotations-version>2.1.1</swagger-annotations-version>
         <feign-version>{{#useFeign10}}10.7.4{{/useFeign10}}{{^useFeign10}}9.7.0{{/useFeign10}}</feign-version>
         <feign-form-version>{{#useFeign10}}3.8.0{{/useFeign10}}{{^useFeign10}}2.1.0{{/useFeign10}}</feign-form-version>
         <jackson-version>2.10.1</jackson-version>

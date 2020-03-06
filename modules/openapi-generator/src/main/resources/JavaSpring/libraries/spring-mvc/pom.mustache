@@ -166,16 +166,16 @@
             <version>${springfox-version}</version>
         </dependency>
         {{/useSpringfox}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.1.1</version>
+        </dependency>
         {{^useSpringfox}}
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
             <version>3.14.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>2.1.1</version>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>
