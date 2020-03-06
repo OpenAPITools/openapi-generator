@@ -15,7 +15,7 @@ conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-
 # Common
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.1"
-swagger = "2.2"
+swagger = "4.4"
 lazy_static = "1.4"
 log = "0.3.0"
 mime = "0.2.6"
@@ -30,7 +30,7 @@ serde_json = "1.0"
 hyper = {version = "0.11", optional = true}
 hyper-tls = {version = "0.1.2", optional = true}
 native-tls = {version = "0.1.4", optional = true}
-openssl = {version = "0.9.14", optional = true}
+openssl = {version = "0.10.28", optional = true}
 serde_ignored = {version = "0.0.4", optional = true}
 tokio-core = {version = "0.1.6", optional = true}
 url = {version = "1.5", optional = true}
