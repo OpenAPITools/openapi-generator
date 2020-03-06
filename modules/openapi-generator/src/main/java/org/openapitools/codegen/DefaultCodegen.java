@@ -4512,7 +4512,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public void setTemplatingEngine(TemplatingEngineAdapter templatingEngine) {
-        if (this.templateDir.startsWith(this.templatingEngine.getIdentifier())) {
+        if (this.templateDir != null && this.templateDir.startsWith(this.templatingEngine.getIdentifier())) {
             String tmp = this.templateDir.substring(this.templatingEngine.getIdentifier().length());
             this.templateDir = templatingEngine.getIdentifier() + tmp;
         }
