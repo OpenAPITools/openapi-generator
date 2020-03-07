@@ -9,10 +9,12 @@ paths:
   /dummy:
     get:
       summary: A dummy endpoint to make the spec valid.
+      operationId: dummyGet
       responses:
         '200':
           description: Success
     put:
+      operationId: dummyPut
       parameters:
         - $ref: '#/parameters/nested_response'
       responses:
@@ -23,6 +25,7 @@ paths:
       summary: Test HTML handling
       consumes: [text/html]
       produces: [text/html]
+      operationId: htmlPost
       parameters:
       - in: body
         name: body
@@ -37,6 +40,7 @@ paths:
   /file_response:
     get:
       summary: Get a file
+      operationId: file_responseGet
       produces:
         - application/json
       responses:
@@ -47,6 +51,7 @@ paths:
   /raw_json:
     get:
       summary: Get an arbitrary JSON blob.
+      operationId: raw_jsonGet
       responses:
         200:
           description: Success
@@ -55,6 +60,7 @@ paths:
   /solo-object:
     post:
       summary: Send an arbitrary JSON blob
+      operationId: solo_objectPost
       consumes:
         - application/json
       parameters:
@@ -93,6 +99,15 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/get_yaml_response'
+  /allOf:
+    get:
+      description: Test getting an object which uses allOf
+      operationId: AllOf_Get
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/allOfObject'
 
 parameters:
   nested_response:
@@ -115,6 +130,17 @@ definitions:
     additionalProperties:
       type: string
     example: "foo"
+  allOfObject:
+    properties:
+      sampleProperty:
+        type: string
+    allOf:
+    - $ref: '#/definitions/baseAllOf'
+  baseAllOf:
+    type: object
+    properties:
+      sampleBasePropery:
+        type: string
   aNullableContainer:
     type: object
     properties:

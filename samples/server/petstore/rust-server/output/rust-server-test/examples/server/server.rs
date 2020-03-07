@@ -87,6 +87,7 @@ impl<C> Server<C> {
 use rust_server_test::{
     Api,
     ApiError,
+    AllOfGetResponse,
     DummyGetResponse,
     DummyPutResponse,
     FileResponseGetResponse,
@@ -99,6 +100,15 @@ use rust_server_test::{
 use rust_server_test::server::MakeService;
 
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
+    fn all_of_get(
+        &self,
+        context: &C) -> Box<Future<Item=AllOfGetResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("all_of_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(
         &self,

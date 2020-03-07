@@ -8,12 +8,14 @@ servers:
 paths:
   /dummy:
     get:
+      operationId: dummyGet
       responses:
         "200":
           content: {}
           description: Success
       summary: A dummy endpoint to make the spec valid.
     put:
+      operationId: dummyPut
       requestBody:
         $ref: '#/components/requestBodies/inline_object'
         content:
@@ -35,6 +37,7 @@ paths:
       x-codegen-request-body-name: nested_response
   /html:
     post:
+      operationId: htmlPost
       requestBody:
         content:
           text/html:
@@ -52,6 +55,7 @@ paths:
       x-codegen-request-body-name: body
   /file_response:
     get:
+      operationId: file_responseGet
       responses:
         "200":
           content:
@@ -63,6 +67,7 @@ paths:
       summary: Get a file
   /raw_json:
     get:
+      operationId: raw_jsonGet
       responses:
         "200":
           content:
@@ -73,6 +78,7 @@ paths:
       summary: Get an arbitrary JSON blob.
   /solo-object:
     post:
+      operationId: solo_objectPost
       requestBody:
         content:
           application/json:
@@ -112,6 +118,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/get_yaml_response'
           description: OK
+  /allOf:
+    get:
+      description: Test getting an object which uses allOf
+      operationId: AllOf_Get
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/allOfObject'
+          description: OK
 components:
   requestBodies:
     nested_response:
@@ -139,6 +156,19 @@ components:
         type: string
       description: An additionalPropertiesObject
       example: foo
+      type: object
+    allOfObject:
+      allOf:
+      - $ref: '#/components/schemas/baseAllOf'
+      example:
+        sampleProperty: sampleProperty
+      properties:
+        sampleProperty:
+          type: string
+    baseAllOf:
+      properties:
+        sampleBasePropery:
+          type: string
       type: object
     aNullableContainer:
       properties:

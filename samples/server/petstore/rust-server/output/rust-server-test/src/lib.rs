@@ -74,6 +74,13 @@ pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "2.3.4";
 
 #[derive(Debug, PartialEq)]
+pub enum AllOfGetResponse {
+    /// OK
+    OK
+    (models::AllOfObject)
+}
+
+#[derive(Debug, PartialEq)]
 pub enum DummyGetResponse {
     /// Success
     Success
@@ -127,6 +134,10 @@ pub enum SoloObjectPostResponse {
 
 /// API
 pub trait Api<C> {
+    fn all_of_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=AllOfGetResponse, Error=ApiError> + Send>;
+
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(
         &self,
@@ -172,6 +183,10 @@ pub trait Api<C> {
 
 /// API without a `Context`
 pub trait ApiNoContext {
+    fn all_of_get(
+        &self,
+        ) -> Box<dyn Future<Item=AllOfGetResponse, Error=ApiError> + Send>;
+
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(
         &self,
@@ -228,6 +243,13 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 }
 
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+    fn all_of_get(
+        &self,
+        ) -> Box<dyn Future<Item=AllOfGetResponse, Error=ApiError> + Send>
+    {
+        self.api().all_of_get(&self.context())
+    }
+
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(
         &self,

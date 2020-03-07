@@ -14,6 +14,7 @@ use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
 use rust_server_test::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
+                      AllOfGetResponse,
                       DummyGetResponse,
                       DummyPutResponse,
                       FileResponseGetResponse,
@@ -33,6 +34,7 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+                "AllOfGet",
                 "DummyGet",
                 "FileResponseGet",
                 "GetStructuredYaml",
@@ -84,6 +86,11 @@ fn main() {
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
     match matches.value_of("operation") {
+        Some("AllOfGet") => {
+            let result = rt.block_on(client.all_of_get(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
         Some("DummyGet") => {
             let result = rt.block_on(client.dummy_get(
             ));

@@ -1,6 +1,9 @@
 /// mime types for requests and responses
 
 pub mod responses {
+    /// Create &str objects for the response content types for AllOfGet
+    pub static ALL_OF_GET_OK: &str = "*/*";
+
 
 
     /// Create &str objects for the response content types for FileResponseGet
@@ -20,6 +23,7 @@ pub mod responses {
 }
 
 pub mod requests {
+
 
     /// Create &str objects for the request content types for DummyPut
     pub static DUMMY_PUT: &str = "application/json";
