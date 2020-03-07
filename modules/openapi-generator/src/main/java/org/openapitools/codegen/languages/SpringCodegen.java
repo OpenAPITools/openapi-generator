@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -818,6 +819,15 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUnhandledException(boolean unhandledException) {
         this.unhandledException = unhandledException;
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
+        // Remove io.swagger.annotations.ApiModel import
+        codegenModel.imports.remove("ApiModel");
+        codegenModel.imports.remove("ApiModelProperty");
+        return codegenModel;
     }
 
     @Override
