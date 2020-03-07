@@ -1,0 +1,36 @@
+pub struct MakeService<T, RC> {
+    api_impl: T,
+    marker: PhantomData<RC>,
+}
+
+impl<T, RC> MakeService<T, RC>
+where
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static
+{
+    pub fn new(api_impl: T) -> Self {
+        MakeService {
+            api_impl,
+            marker: PhantomData
+        }
+    }
+}
+
+impl<'a, T, SC, RC> hyper::service::MakeService<&'a SC> for MakeService<T, RC>
+where
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + 'static + Send
+{
+    type ReqBody = ContextualPayload<Body, RC>;
+    type ResBody = Body;
+    type Error = Error;
+    type Service = Service<T, RC>;
+    type Future = future::FutureResult<Self::Service, Self::MakeError>;
+    type MakeError = Error;
+
+    fn make_service(&mut self, _ctx: &'a SC) -> Self::Future {
+        future::FutureResult::from(Ok(Service::new(
+            self.api_impl.clone(),
+        )))
+    }
+}

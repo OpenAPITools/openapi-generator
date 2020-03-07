@@ -1,14 +1,10 @@
+use futures;
+use futures::{Future, Stream, future, stream};
 use hyper;
 use hyper::client::HttpConnector;
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{Body, Uri, Response};
 use hyper_tls::HttpsConnector;
-
-use url::form_urlencoded;
-use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
-use futures;
-use futures::{Future, Stream};
-use futures::{future, stream};
 use serde_json;
 use std::borrow::Cow;
 #[allow(unused_imports)]
@@ -22,9 +18,23 @@ use std::str;
 use std::str::FromStr;
 use std::string::ToString;
 use swagger;
-use swagger::{ApiError, XSpanIdString, Has, AuthData};
 use swagger::client::Service;
+use swagger::connector;
+use swagger::{ApiError, XSpanIdString, Has, AuthData};
+use url::form_urlencoded;
+use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 
+use mimetypes;
+use models;
+use header;
+
+define_encode_set! {
+    /// This encode set is used for object IDs
+    ///
+    /// Aside from the special characters defined in the `PATH_SEGMENT_ENCODE_SET`,
+    /// the vertical bar (|) is encoded.
+    pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
+}
 
 use {Api,
      Op10GetResponse,
@@ -66,18 +76,6 @@ use {Api,
      Op9GetResponse
      };
 
-use mimetypes;
-use models;
-use header;
-
-define_encode_set! {
-    /// This encode set is used for object IDs
-    ///
-    /// Aside from the special characters defined in the `PATH_SEGMENT_ENCODE_SET`,
-    /// the vertical bar (|) is encoded.
-    pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
-}
-
 /// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
 fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
     // First convert to Uri, since a base path is a subset of Uri.
@@ -100,7 +98,10 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<F>
 {
+    /// Inner service
     client_service: Arc<Box<dyn Service<ReqBody=Body, Future=F> + Send + Sync>>,
+
+    /// Base path of the API
     base_path: String,
 }
 
@@ -164,7 +165,7 @@ impl Client<hyper::client::ResponseFuture>
     pub fn try_new_http(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
-        let http_connector = swagger::http_connector();
+        let http_connector = connector::http_connector();
 
         Self::try_new_with_connector(base_path, Some("http"), http_connector)
     }
@@ -181,7 +182,7 @@ impl Client<hyper::client::ResponseFuture>
     where
         CA: AsRef<Path>,
     {
-        let https_connector = swagger::https_connector(ca_certificate);
+        let https_connector = connector::https_connector(ca_certificate);
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
@@ -204,14 +205,14 @@ impl Client<hyper::client::ResponseFuture>
         D: AsRef<Path>,
     {
         let https_connector =
-            swagger::https_mutual_connector(ca_certificate, client_key, client_certificate);
+            connector::https_mutual_connector(ca_certificate, client_key, client_certificate);
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 }
 
 impl<F> Client<F>
 {
-    /// Constructor for creating a `Client` by passing in a pre-made `swagger::client::Service`
+    /// Constructor for creating a `Client` by passing in a pre-made `swagger::Service`
     ///
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
     pub fn try_new_with_client_service(
@@ -225,12 +226,55 @@ impl<F> Client<F>
     }
 }
 
+/// Error type failing to create a Client
+#[derive(Debug)]
+pub enum ClientInitError {
+    /// Invalid URL Scheme
+    InvalidScheme,
+
+    /// Invalid URI
+    InvalidUri(hyper::http::uri::InvalidUri),
+
+    /// Missing Hostname
+    MissingHost,
+
+    /// SSL Connection Error
+    SslError(openssl::error::ErrorStack)
+}
+
+impl From<hyper::http::uri::InvalidUri> for ClientInitError {
+    fn from(err: hyper::http::uri::InvalidUri) -> ClientInitError {
+        ClientInitError::InvalidUri(err)
+    }
+}
+
+impl From<openssl::error::ErrorStack> for ClientInitError {
+    fn from(err: openssl::error::ErrorStack) -> ClientInitError {
+        ClientInitError::SslError(err)
+    }
+}
+
+impl fmt::Display for ClientInitError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s: &dyn fmt::Debug = self;
+        s.fmt(f)
+    }
+}
+
+impl error::Error for ClientInitError {
+    fn description(&self) -> &str {
+        "Failed to produce a hyper client."
+    }
+}
+
 impl<C, F> Api<C> for Client<F> where
     C: Has<XSpanIdString> ,
     F: Future<Item=Response<Body>, Error=hyper::Error> + Send + 'static
 {
-
-    fn op10_get(&self, context: &C) -> Box<dyn Future<Item=Op10GetResponse, Error=ApiError> + Send> {
+    fn op10_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op10GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op10",
             self.base_path
@@ -257,13 +301,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -298,10 +340,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op11_get(&self, context: &C) -> Box<dyn Future<Item=Op11GetResponse, Error=ApiError> + Send> {
+    fn op11_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op11GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op11",
             self.base_path
@@ -328,13 +372,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -369,10 +411,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op12_get(&self, context: &C) -> Box<dyn Future<Item=Op12GetResponse, Error=ApiError> + Send> {
+    fn op12_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op12GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op12",
             self.base_path
@@ -399,13 +443,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -440,10 +482,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op13_get(&self, context: &C) -> Box<dyn Future<Item=Op13GetResponse, Error=ApiError> + Send> {
+    fn op13_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op13GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op13",
             self.base_path
@@ -470,13 +514,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -511,10 +553,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op14_get(&self, context: &C) -> Box<dyn Future<Item=Op14GetResponse, Error=ApiError> + Send> {
+    fn op14_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op14GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op14",
             self.base_path
@@ -541,13 +585,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -582,10 +624,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op15_get(&self, context: &C) -> Box<dyn Future<Item=Op15GetResponse, Error=ApiError> + Send> {
+    fn op15_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op15GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op15",
             self.base_path
@@ -612,13 +656,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -653,10 +695,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op16_get(&self, context: &C) -> Box<dyn Future<Item=Op16GetResponse, Error=ApiError> + Send> {
+    fn op16_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op16GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op16",
             self.base_path
@@ -683,13 +727,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -724,10 +766,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op17_get(&self, context: &C) -> Box<dyn Future<Item=Op17GetResponse, Error=ApiError> + Send> {
+    fn op17_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op17GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op17",
             self.base_path
@@ -754,13 +798,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -795,10 +837,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op18_get(&self, context: &C) -> Box<dyn Future<Item=Op18GetResponse, Error=ApiError> + Send> {
+    fn op18_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op18GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op18",
             self.base_path
@@ -825,13 +869,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -866,10 +908,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op19_get(&self, context: &C) -> Box<dyn Future<Item=Op19GetResponse, Error=ApiError> + Send> {
+    fn op19_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op19GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op19",
             self.base_path
@@ -896,13 +940,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -937,10 +979,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op1_get(&self, context: &C) -> Box<dyn Future<Item=Op1GetResponse, Error=ApiError> + Send> {
+    fn op1_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op1GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op1",
             self.base_path
@@ -967,13 +1011,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1008,10 +1050,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op20_get(&self, context: &C) -> Box<dyn Future<Item=Op20GetResponse, Error=ApiError> + Send> {
+    fn op20_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op20GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op20",
             self.base_path
@@ -1038,13 +1082,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1079,10 +1121,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op21_get(&self, context: &C) -> Box<dyn Future<Item=Op21GetResponse, Error=ApiError> + Send> {
+    fn op21_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op21GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op21",
             self.base_path
@@ -1109,13 +1153,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1150,10 +1192,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op22_get(&self, context: &C) -> Box<dyn Future<Item=Op22GetResponse, Error=ApiError> + Send> {
+    fn op22_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op22GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op22",
             self.base_path
@@ -1180,13 +1224,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1221,10 +1263,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op23_get(&self, context: &C) -> Box<dyn Future<Item=Op23GetResponse, Error=ApiError> + Send> {
+    fn op23_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op23GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op23",
             self.base_path
@@ -1251,13 +1295,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1292,10 +1334,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op24_get(&self, context: &C) -> Box<dyn Future<Item=Op24GetResponse, Error=ApiError> + Send> {
+    fn op24_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op24GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op24",
             self.base_path
@@ -1322,13 +1366,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1363,10 +1405,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op25_get(&self, context: &C) -> Box<dyn Future<Item=Op25GetResponse, Error=ApiError> + Send> {
+    fn op25_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op25GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op25",
             self.base_path
@@ -1393,13 +1437,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1434,10 +1476,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op26_get(&self, context: &C) -> Box<dyn Future<Item=Op26GetResponse, Error=ApiError> + Send> {
+    fn op26_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op26GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op26",
             self.base_path
@@ -1464,13 +1508,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1505,10 +1547,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op27_get(&self, context: &C) -> Box<dyn Future<Item=Op27GetResponse, Error=ApiError> + Send> {
+    fn op27_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op27GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op27",
             self.base_path
@@ -1535,13 +1579,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1576,10 +1618,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op28_get(&self, context: &C) -> Box<dyn Future<Item=Op28GetResponse, Error=ApiError> + Send> {
+    fn op28_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op28GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op28",
             self.base_path
@@ -1606,13 +1650,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1647,10 +1689,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op29_get(&self, context: &C) -> Box<dyn Future<Item=Op29GetResponse, Error=ApiError> + Send> {
+    fn op29_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op29GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op29",
             self.base_path
@@ -1677,13 +1721,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1718,10 +1760,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op2_get(&self, context: &C) -> Box<dyn Future<Item=Op2GetResponse, Error=ApiError> + Send> {
+    fn op2_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op2GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op2",
             self.base_path
@@ -1748,13 +1792,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1789,10 +1831,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op30_get(&self, context: &C) -> Box<dyn Future<Item=Op30GetResponse, Error=ApiError> + Send> {
+    fn op30_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op30GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op30",
             self.base_path
@@ -1819,13 +1863,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1860,10 +1902,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op31_get(&self, context: &C) -> Box<dyn Future<Item=Op31GetResponse, Error=ApiError> + Send> {
+    fn op31_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op31GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op31",
             self.base_path
@@ -1890,13 +1934,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1931,10 +1973,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op32_get(&self, context: &C) -> Box<dyn Future<Item=Op32GetResponse, Error=ApiError> + Send> {
+    fn op32_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op32GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op32",
             self.base_path
@@ -1961,13 +2005,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2002,10 +2044,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op33_get(&self, context: &C) -> Box<dyn Future<Item=Op33GetResponse, Error=ApiError> + Send> {
+    fn op33_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op33GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op33",
             self.base_path
@@ -2032,13 +2076,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2073,10 +2115,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op34_get(&self, context: &C) -> Box<dyn Future<Item=Op34GetResponse, Error=ApiError> + Send> {
+    fn op34_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op34GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op34",
             self.base_path
@@ -2103,13 +2147,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2144,10 +2186,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op35_get(&self, context: &C) -> Box<dyn Future<Item=Op35GetResponse, Error=ApiError> + Send> {
+    fn op35_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op35GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op35",
             self.base_path
@@ -2174,13 +2218,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2215,10 +2257,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op36_get(&self, context: &C) -> Box<dyn Future<Item=Op36GetResponse, Error=ApiError> + Send> {
+    fn op36_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op36GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op36",
             self.base_path
@@ -2245,13 +2289,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2286,10 +2328,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op37_get(&self, context: &C) -> Box<dyn Future<Item=Op37GetResponse, Error=ApiError> + Send> {
+    fn op37_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op37GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op37",
             self.base_path
@@ -2316,13 +2360,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2357,10 +2399,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op3_get(&self, context: &C) -> Box<dyn Future<Item=Op3GetResponse, Error=ApiError> + Send> {
+    fn op3_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op3GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op3",
             self.base_path
@@ -2387,13 +2431,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2428,10 +2470,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op4_get(&self, context: &C) -> Box<dyn Future<Item=Op4GetResponse, Error=ApiError> + Send> {
+    fn op4_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op4GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op4",
             self.base_path
@@ -2458,13 +2502,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2499,10 +2541,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op5_get(&self, context: &C) -> Box<dyn Future<Item=Op5GetResponse, Error=ApiError> + Send> {
+    fn op5_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op5GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op5",
             self.base_path
@@ -2529,13 +2573,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2570,10 +2612,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op6_get(&self, context: &C) -> Box<dyn Future<Item=Op6GetResponse, Error=ApiError> + Send> {
+    fn op6_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op6GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op6",
             self.base_path
@@ -2600,13 +2644,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2641,10 +2683,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op7_get(&self, context: &C) -> Box<dyn Future<Item=Op7GetResponse, Error=ApiError> + Send> {
+    fn op7_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op7GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op7",
             self.base_path
@@ -2671,13 +2715,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2712,10 +2754,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op8_get(&self, context: &C) -> Box<dyn Future<Item=Op8GetResponse, Error=ApiError> + Send> {
+    fn op8_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op8GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op8",
             self.base_path
@@ -2742,13 +2786,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2783,10 +2825,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn op9_get(&self, context: &C) -> Box<dyn Future<Item=Op9GetResponse, Error=ApiError> + Send> {
+    fn op9_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=Op9GetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/op9",
             self.base_path
@@ -2813,13 +2857,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -2854,39 +2896,6 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-}
-
-#[derive(Debug)]
-pub enum ClientInitError {
-    InvalidScheme,
-    InvalidUri(hyper::http::uri::InvalidUri),
-    MissingHost,
-    SslError(openssl::error::ErrorStack)
-}
-
-impl From<hyper::http::uri::InvalidUri> for ClientInitError {
-    fn from(err: hyper::http::uri::InvalidUri) -> ClientInitError {
-        ClientInitError::InvalidUri(err)
-    }
-}
-
-impl From<openssl::error::ErrorStack> for ClientInitError {
-    fn from(err: openssl::error::ErrorStack) -> ClientInitError {
-        ClientInitError::SslError(err)
-    }
-}
-
-impl fmt::Display for ClientInitError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        (self as &dyn fmt::Debug).fmt(f)
-    }
-}
-
-impl error::Error for ClientInitError {
-    fn description(&self) -> &str {
-        "Failed to produce a hyper client."
-    }
 }

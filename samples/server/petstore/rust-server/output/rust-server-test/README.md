@@ -62,13 +62,11 @@ To run a client, follow one of the following simple steps:
 
 ```
 cargo run --example client DummyGet
-cargo run --example client DummyPut
 cargo run --example client FileResponseGet
 cargo run --example client GetStructuredYaml
 cargo run --example client HtmlPost
 cargo run --example client PostYaml
 cargo run --example client RawJsonGet
-cargo run --example client SoloObjectPost
 ```
 
 ### HTTPS
