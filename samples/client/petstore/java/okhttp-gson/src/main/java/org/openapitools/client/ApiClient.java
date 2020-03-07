@@ -128,8 +128,7 @@ public class ApiClient {
         }
 
         String tokenUrl = "";
-        URI uri = URI.create(tokenUrl);
-        if (!"".equals(tokenUrl) && !uri.isAbsolute()) {
+        if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
             URI uri = URI.create(getBasePath());
             tokenUrl = uri.getScheme() + ":" +
                 (uri.getAuthority() != null ? "//" + uri.getAuthority() : "") +
