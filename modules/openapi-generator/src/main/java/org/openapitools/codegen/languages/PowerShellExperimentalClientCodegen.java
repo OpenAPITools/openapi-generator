@@ -269,6 +269,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         // client/api_client
         // TODO rename OpenAPI with package name
         supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Client", "OpenAPIAPIClient.ps1"));
+        supportingFiles.add(new SupportingFile("set-configuration.mustache", infrastructureFolder + "Client", "Set-OpenAPIConfiguration.ps1"));
+        supportingFiles.add(new SupportingFile("get-configuration.mustache", infrastructureFolder + "Client", "Get-OpenAPIConfiguration.ps1"));
 
         // private
         supportingFiles.add(new SupportingFile("Get-CommonParameters.ps1", infrastructureFolder + File.separator + "Private" + File.separator, "Get-CommonParameters.ps1"));

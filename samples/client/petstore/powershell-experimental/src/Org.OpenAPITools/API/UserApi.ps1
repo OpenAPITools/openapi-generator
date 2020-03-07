@@ -18,8 +18,14 @@ function Invoke-UserApiCreateUser {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'POST' `
-                                -Uri '/user' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -57,8 +63,14 @@ function Invoke-UserApiCreateUsersWithArrayInput {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'POST' `
-                                -Uri '/user/createWithArray' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -96,8 +108,14 @@ function Invoke-UserApiCreateUsersWithListInput {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'POST' `
-                                -Uri '/user/createWithList' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -135,8 +153,15 @@ function Invoke-UserApiDeleteUser {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{username}', $username)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
-                                -Uri '/user/{username}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -174,8 +199,15 @@ function Invoke-UserApiGetUserByName {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{username}', $username)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'GET' `
-                                -Uri '/user/{username}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -216,8 +248,14 @@ function Invoke-UserApiLoginUser {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'GET' `
-                                -Uri '/user/login' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -256,8 +294,14 @@ function Invoke-UserApiLogoutUser {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'GET' `
-                                -Uri '/user/logout' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -294,8 +338,15 @@ function Invoke-UserApiUpdateUser {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{username}', $username)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'PUT' `
-                                -Uri '/user/{username}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `

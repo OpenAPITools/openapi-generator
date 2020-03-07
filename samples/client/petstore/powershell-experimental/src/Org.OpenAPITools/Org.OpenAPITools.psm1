@@ -1,5 +1,10 @@
 #region Import functions
 
+# store the API client's configuration 
+$Script:Configuration = [System.Collections.HashTable]@{}
+
+$Script:CmdletBindingParameters = @('Verbose','Debug','ErrorAction','WarningAction','InformationAction','ErrorVariable','WarningVariable','InformationVariable','OutVariable','OutBuffer','PipelineVariable')
+
 'API', 'Model', 'Client', 'Private' | Get-ChildItem -Path {
     Join-Path $PSScriptRoot $_
 } -Filter '*.ps1' | ForEach-Object {

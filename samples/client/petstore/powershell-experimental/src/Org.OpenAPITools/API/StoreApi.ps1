@@ -18,8 +18,15 @@ function Invoke-StoreApiDeleteOrder {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
-                                -Uri '/store/order/{orderId}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -54,8 +61,14 @@ function Invoke-StoreApiGetInventory {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'GET' `
-                                -Uri '/store/inventory' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -89,8 +102,15 @@ function Invoke-StoreApiGetOrderById {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'GET' `
-                                -Uri '/store/order/{orderId}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -128,8 +148,14 @@ function Invoke-StoreApiPlaceOrder {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'POST' `
-                                -Uri '/store/order' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `

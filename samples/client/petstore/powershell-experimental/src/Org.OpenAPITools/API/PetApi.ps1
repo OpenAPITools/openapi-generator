@@ -18,8 +18,14 @@ function Invoke-PetApiAddPet {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'POST' `
-                                -Uri '/pet' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -60,8 +66,15 @@ function Invoke-PetApiDeletePet {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
-                                -Uri '/pet/{petId}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -103,8 +116,14 @@ function Invoke-PetApiFindPetsByStatus {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'GET' `
-                                -Uri '/pet/findByStatus' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -142,8 +161,14 @@ function Invoke-PetApiFindPetsByTags {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'GET' `
-                                -Uri '/pet/findByTags' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -181,8 +206,15 @@ function Invoke-PetApiGetPetById {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'GET' `
-                                -Uri '/pet/{petId}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -220,8 +252,14 @@ function Invoke-PetApiUpdatePet {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'PUT' `
-                                -Uri '/pet' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -265,8 +303,15 @@ function Invoke-PetApiUpdatePetWithForm {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'POST' `
-                                -Uri '/pet/{petId}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
@@ -318,8 +363,15 @@ function Invoke-PetApiUploadFile {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = 'http://petstore.swagger.io/v2'
+        $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method 'POST' `
-                                -Uri '/pet/{petId}/uploadImage' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `

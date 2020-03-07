@@ -24,8 +24,19 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
 
+        $Configuraiton = Get-OpenAPIConfiguration
+
+        $LocalVarUri = '{{{basePath}}}'
+        {{=< >=}}
+        <#pathParams>
+        $LocalVarUri = $LocalVarUri.replace('{<baseName>}', $<paramName>)
+        </pathParams>
+        <={{ }}=>
+
+        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
         Invoke-OpenAPIAPIClient -Method '{{httpMethod}}' `
-                                -Uri '{{{path}}}' `
+                                -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
