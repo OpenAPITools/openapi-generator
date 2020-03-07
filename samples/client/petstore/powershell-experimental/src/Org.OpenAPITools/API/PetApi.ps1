@@ -10,7 +10,22 @@ function Invoke-PetApiAddPet {
         'Calling method: PetApi-AddPet' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'POST' -ResourceUrl '/pet'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'POST' `
+                                -Uri '/pet' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:PetApi.AddPet(
         #
@@ -37,7 +52,22 @@ function Invoke-PetApiDeletePet {
         'Calling method: PetApi-DeletePet' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'DELETE' -ResourceUrl '/pet/{petId}'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'DELETE' `
+                                -Uri '/pet/{petId}' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:PetApi.DeletePet(
         #
@@ -65,7 +95,22 @@ function Invoke-PetApiFindPetsByStatus {
         'Calling method: PetApi-FindPetsByStatus' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'GET' -ResourceUrl '/pet/findByStatus'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'GET' `
+                                -Uri '/pet/findByStatus' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:PetApi.FindPetsByStatus(
         #
@@ -89,7 +134,22 @@ function Invoke-PetApiFindPetsByTags {
         'Calling method: PetApi-FindPetsByTags' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'GET' -ResourceUrl '/pet/findByTags'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'GET' `
+                                -Uri '/pet/findByTags' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:PetApi.FindPetsByTags(
         #
@@ -113,7 +173,22 @@ function Invoke-PetApiGetPetById {
         'Calling method: PetApi-GetPetById' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'GET' -ResourceUrl '/pet/{petId}'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'GET' `
+                                -Uri '/pet/{petId}' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:PetApi.GetPetById(
         #
@@ -137,7 +212,22 @@ function Invoke-PetApiUpdatePet {
         'Calling method: PetApi-UpdatePet' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'PUT' -ResourceUrl '/pet'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'PUT' `
+                                -Uri '/pet' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:PetApi.UpdatePet(
         #
@@ -167,7 +257,22 @@ function Invoke-PetApiUpdatePetWithForm {
         'Calling method: PetApi-UpdatePetWithForm' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'POST' -ResourceUrl '/pet/{petId}'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'POST' `
+                                -Uri '/pet/{petId}' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:PetApi.UpdatePetWithForm(
         #
@@ -205,7 +310,22 @@ function Invoke-PetApiUploadFile {
         'Calling method: PetApi-UploadFile' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'POST' -ResourceUrl '/pet/{petId}/uploadImage'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'POST' `
+                                -Uri '/pet/{petId}/uploadImage' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:PetApi.UploadFile(
         #

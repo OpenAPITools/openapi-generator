@@ -16,7 +16,22 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         'Calling method: {{{classname}}}-{{{operationId}}}' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method '{{httpMethod}}' -ResourceUrl '{{{path}}}'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method '{{httpMethod}}' `
+                                -Uri '{{{path}}}' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:{{{classname}}}.{{{operationId}}}(
         #{{#allParams}}

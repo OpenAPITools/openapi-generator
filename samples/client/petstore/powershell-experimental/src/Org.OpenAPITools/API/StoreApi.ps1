@@ -10,7 +10,22 @@ function Invoke-StoreApiDeleteOrder {
         'Calling method: StoreApi-DeleteOrder' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'DELETE' -ResourceUrl '/store/order/{orderId}'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'DELETE' `
+                                -Uri '/store/order/{orderId}' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:StoreApi.DeleteOrder(
         #
@@ -31,7 +46,22 @@ function Invoke-StoreApiGetInventory {
         'Calling method: StoreApi-GetInventory' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'GET' -ResourceUrl '/store/inventory'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'GET' `
+                                -Uri '/store/inventory' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:StoreApi.GetInventory(
         #
@@ -51,7 +81,22 @@ function Invoke-StoreApiGetOrderById {
         'Calling method: StoreApi-GetOrderById' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'GET' -ResourceUrl '/store/order/{orderId}'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'GET' `
+                                -Uri '/store/order/{orderId}' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:StoreApi.GetOrderById(
         #
@@ -75,7 +120,22 @@ function Invoke-StoreApiPlaceOrder {
         'Calling method: StoreApi-PlaceOrder' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        Invoke-OpenAPIAPIClient -Method 'POST' -ResourceUrl '/store/order'
+        $LocalVarAccepts = @{}
+        $LocalVarContentTypes = @{}
+        $LocalVarHeaders = @{}
+        $LocalVarQueryParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarBodyParameters = @{}
+        $LocalVarPathParameters = @{}
+
+        Invoke-OpenAPIAPIClient -Method 'POST' `
+                                -Uri '/store/order' `
+                                -Accept $LocalVarAccepts `
+                                -ContentType $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameters `
+                                -HeaderParameters LocalVarHeaderParameters `
+                                -QueryParameters LocalVarQueryParameters `
+                                -FormParameters LocalVarFormParameters
 
         #$Script:StoreApi.PlaceOrder(
         #
