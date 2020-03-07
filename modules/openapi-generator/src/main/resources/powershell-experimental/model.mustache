@@ -1,0 +1,29 @@
+{{#models}}
+{{#model}}
+function New-{{{classname}}} {
+    [CmdletBinding()]
+    Param (
+{{#vars}}
+        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
+        [{{#isString}}{{{dataType}}}{{/isString}}{{^isString}}{{#isListContainer}}{{{dataType}}}{{/isListContainer}}{{^isListContainer}}{{#isPrimitiveType}}{{^required}}System.Nullable[{{/required}}{{dataType}}{{^required}}]{{/required}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{dataType}}{{/isPrimitiveType}}{{/isListContainer}}{{/isString}}]
+        {{=<% %>=}}
+        ${<%name%>}<%^-last%>,<%/-last%>
+        <%={{ }}=%>
+{{/vars}}
+    )
+
+    Process {
+        'Creating object: {{{packageName}}}.Model.{{{classname}}}' | Write-Host
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        #New-Object -TypeName {{{packageName}}}.Model.{{{classname}}} -ArgumentList @(
+{{#vars}}
+        #    {{=<% %>=}}
+        #    ${<%name%>}<%^-last%>,<%/-last%>
+        #    <%={{ }}=%>
+{{/vars}}
+        #)
+    }
+}
+{{/model}}
+{{/models}}
