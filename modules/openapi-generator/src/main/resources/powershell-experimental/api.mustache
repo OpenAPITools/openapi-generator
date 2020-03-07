@@ -32,8 +32,45 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         $LocalVarUri = $LocalVarUri.replace('{<baseName>}', $<paramName>)
         </pathParams>
         <={{ }}=>
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+        {{#headerParams}}
+        {{#required}}
+        {{^isNullable}}
+        if (!${{{paramName}}}) {
+            throw "Error! ${{{paramName}}} is required."
+        }
+
+        {{/isNullable}}
+        {{/required}}
+        $LocalVarHeaderParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/headerParams}}
+        {{#queryParams}}
+        {{#required}}
+        {{^isNullable}}
+        if (!${{{paramName}}}) {
+            throw "Error! ${{{paramName}}} is required."
+        }
+
+        {{/isNullable}}
+        {{/required}}
+        $LocalVarQueryParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/queryParams}}
+        {{#formParams}}
+        {{#required}}
+        {{^isNullable}}
+        if (!${{{paramName}}}) {
+            throw "Error! ${{{paramName}}} is required."
+        }
+
+        {{/isNullable}}
+        {{/required}}
+        $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/formParams}}
+
 
         Invoke-OpenAPIAPIClient -Method '{{httpMethod}}' `
                                 -Uri $LocalVarUri `

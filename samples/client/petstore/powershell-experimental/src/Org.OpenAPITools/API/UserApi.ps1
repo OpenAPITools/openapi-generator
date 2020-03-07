@@ -21,8 +21,9 @@ function Invoke-UserApiCreateUser {
         $Configuraiton = Get-OpenAPIConfiguration
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -66,8 +67,9 @@ function Invoke-UserApiCreateUsersWithArrayInput {
         $Configuraiton = Get-OpenAPIConfiguration
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -111,8 +113,9 @@ function Invoke-UserApiCreateUsersWithListInput {
         $Configuraiton = Get-OpenAPIConfiguration
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -157,8 +160,9 @@ function Invoke-UserApiDeleteUser {
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
@@ -203,8 +207,9 @@ function Invoke-UserApiGetUserByName {
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -251,8 +256,21 @@ function Invoke-UserApiLoginUser {
         $Configuraiton = Get-OpenAPIConfiguration
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+        if (!$username) {
+            throw "Error! $username is required."
+        }
+
+        $LocalVarQueryParameters['username'] = $username
+
+        if (!$password) {
+            throw "Error! $password is required."
+        }
+
+        $LocalVarQueryParameters['password'] = $password
+
+
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -297,8 +315,9 @@ function Invoke-UserApiLogoutUser {
         $Configuraiton = Get-OpenAPIConfiguration
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -342,8 +361,9 @@ function Invoke-UserApiUpdateUser {
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `

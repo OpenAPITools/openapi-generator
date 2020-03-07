@@ -29,11 +29,14 @@ function Invoke-OpenAPIAPIClient {
     #Write-Host $RestMethod_Params['Uri']
     $RestMethod_Params['Uri'] = $Uri
     $RestMethod_Params['Method'] = $Method
+    if (!$HeaderParameters -and $HeaderParameters.Count -ne 0) {
+        $RestMethod_Params['Headers'] = $HeaderParameters
+    }
     if (!$Accept -and $Accept.Count -ne 0) {
-        $RestMethod_Params['Accept'] = $HeaderParameters
+        $RestMethod_Params['Accept'] = $Accept
     }
     if (!$ContentType -and $ContenType.Count -ne 0) {
-        $RestMethod_Params['Accept'] = $Accept
+        $RestMethod_Params['Accept'] = $ContentType
     }
     if (!$Body) {
         $RestMethod_Params['Body'] = $Body

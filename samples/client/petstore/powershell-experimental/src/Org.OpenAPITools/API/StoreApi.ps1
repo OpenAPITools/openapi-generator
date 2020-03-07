@@ -22,8 +22,9 @@ function Invoke-StoreApiDeleteOrder {
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
@@ -64,8 +65,9 @@ function Invoke-StoreApiGetInventory {
         $Configuraiton = Get-OpenAPIConfiguration
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -106,8 +108,9 @@ function Invoke-StoreApiGetOrderById {
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -151,8 +154,9 @@ function Invoke-StoreApiPlaceOrder {
         $Configuraiton = Get-OpenAPIConfiguration
 
         $LocalVarUri = 'http://petstore.swagger.io/v2'
-
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
