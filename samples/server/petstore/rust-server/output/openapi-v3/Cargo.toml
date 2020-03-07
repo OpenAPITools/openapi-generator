@@ -8,6 +8,7 @@ license = "Unlicense"
 [features]
 default = ["client", "server"]
 client = [
+  "tokio-tls", "regex", "percent-encoding", "lazy_static",
     "serde_json", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio", "url"
 ]
 server = [
@@ -44,7 +45,7 @@ url = {version = "1.5", optional = true}
 
 # Client-specific
 
-# Server-specific
+# Server, and client callback-specific
 lazy_static = { version = "1.4", optional = true }
 percent-encoding = {version = "1.0.0", optional = true}
 regex = {version = "0.2", optional = true}
@@ -60,6 +61,7 @@ frunk-enum-core = { version = "0.2.0", optional = true }
 [dev-dependencies]
 clap = "2.25"
 error-chain = "0.12"
+env_logger = "0.6"
 
 [[example]]
 name = "client"

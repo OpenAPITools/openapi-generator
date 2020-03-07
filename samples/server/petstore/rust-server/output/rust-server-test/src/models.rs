@@ -258,12 +258,8 @@ impl ::std::str::FromStr for AllOfObject {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "sampleProperty" => intermediate_rep.sample_property.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "sampleBasePropery" => intermediate_rep.sample_base_propery.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -357,9 +353,7 @@ impl ::std::str::FromStr for BaseAllOf {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "sampleBasePropery" => intermediate_rep.sample_base_propery.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }

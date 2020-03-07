@@ -63,13 +63,11 @@ To run a client, follow one of the following simple steps:
 ```
 cargo run --example client AllOfGet
 cargo run --example client DummyGet
-cargo run --example client DummyPut
 cargo run --example client FileResponseGet
 cargo run --example client GetStructuredYaml
 cargo run --example client HtmlPost
 cargo run --example client PostYaml
 cargo run --example client RawJsonGet
-cargo run --example client SoloObjectPost
 ```
 
 ### HTTPS
@@ -118,6 +116,8 @@ Method | HTTP request | Description
 
  - [ANullableContainer](docs/ANullableContainer.md)
  - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [AllOfObject](docs/AllOfObject.md)
+ - [BaseAllOf](docs/BaseAllOf.md)
  - [GetYamlResponse](docs/GetYamlResponse.md)
  - [InlineObject](docs/InlineObject.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
