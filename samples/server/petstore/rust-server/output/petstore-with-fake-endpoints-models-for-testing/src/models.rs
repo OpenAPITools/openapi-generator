@@ -1,29 +1,20 @@
-#![allow(unused_imports, unused_qualifications)]
+#![allow(unused_qualifications)]
 
-use serde_xml_rs;
-use serde::ser::Serializer;
-
-use std::collections::{HashMap, BTreeMap};
 use models;
-use swagger;
-use hyper::header::HeaderValue;
-use std::string::ParseError;
-use uuid;
-use std::str::FromStr;
-use header::IntoHeaderValue;
+use header;
 
 
-// Methods for converting between IntoHeaderValue<AdditionalPropertiesClass> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<AdditionalPropertiesClass> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<AdditionalPropertiesClass>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<AdditionalPropertiesClass>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<AdditionalPropertiesClass>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<AdditionalPropertiesClass>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<AdditionalPropertiesClass> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(AdditionalPropertiesClass::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AdditionalPropertiesClass> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<AdditionalPropertiesClass as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -33,11 +24,11 @@ impl From<HeaderValue> for IntoHeaderValue<AdditionalPropertiesClass> {
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_property: Option<HashMap<String, String>>,
+    pub map_property: Option<std::collections::HashMap<String, String>>,
 
     #[serde(rename = "map_of_map_property")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_of_map_property: Option<HashMap<String, HashMap<String, String>>>,
+    pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
 }
 
@@ -53,7 +44,7 @@ impl AdditionalPropertiesClass {
 /// Converts the AdditionalPropertiesClass value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AdditionalPropertiesClass {
+impl std::string::ToString for AdditionalPropertiesClass {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping map_property in query parameter serialization
@@ -68,15 +59,15 @@ impl ::std::string::ToString for AdditionalPropertiesClass {
 /// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesClass value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for AdditionalPropertiesClass {
+impl std::str::FromStr for AdditionalPropertiesClass {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub map_property: Vec<HashMap<String, String>>,
-            pub map_of_map_property: Vec<HashMap<String, HashMap<String, String>>>,
+            pub map_property: Vec<std::collections::HashMap<String, String>>,
+            pub map_of_map_property: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -121,17 +112,17 @@ impl AdditionalPropertiesClass {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Animal> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Animal> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Animal>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Animal>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Animal>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Animal>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Animal> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Animal::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Animal> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Animal as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -160,7 +151,7 @@ impl Animal {
 /// Converts the Animal value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Animal {
+impl std::string::ToString for Animal {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -180,7 +171,7 @@ impl ::std::string::ToString for Animal {
 /// Converts Query Parameters representation (style=form, explode=false) to a Animal value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Animal {
+impl std::str::FromStr for Animal {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -233,17 +224,17 @@ impl Animal {
     }
 }
 
-// Methods for converting between IntoHeaderValue<AnimalFarm> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<AnimalFarm> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<AnimalFarm>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<AnimalFarm>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<AnimalFarm>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<AnimalFarm>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<AnimalFarm> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(AnimalFarm::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AnimalFarm> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<AnimalFarm as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -251,59 +242,59 @@ impl From<HeaderValue> for IntoHeaderValue<AnimalFarm> {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct AnimalFarm(Vec<Animal>);
 
-impl ::std::convert::From<Vec<Animal>> for AnimalFarm {
+impl std::convert::From<Vec<Animal>> for AnimalFarm {
     fn from(x: Vec<Animal>) -> Self {
         AnimalFarm(x)
     }
 }
 
-impl ::std::convert::From<AnimalFarm> for Vec<Animal> {
+impl std::convert::From<AnimalFarm> for Vec<Animal> {
     fn from(x: AnimalFarm) -> Self {
         x.0
     }
 }
 
-impl ::std::iter::FromIterator<Animal> for AnimalFarm {
+impl std::iter::FromIterator<Animal> for AnimalFarm {
     fn from_iter<U: IntoIterator<Item=Animal>>(u: U) -> Self {
         AnimalFarm(Vec::<Animal>::from_iter(u))
     }
 }
 
-impl ::std::iter::IntoIterator for AnimalFarm {
+impl std::iter::IntoIterator for AnimalFarm {
     type Item = Animal;
-    type IntoIter = ::std::vec::IntoIter<Animal>;
+    type IntoIter = std::vec::IntoIter<Animal>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a AnimalFarm {
+impl<'a> std::iter::IntoIterator for &'a AnimalFarm {
     type Item = &'a Animal;
-    type IntoIter = ::std::slice::Iter<'a, Animal>;
+    type IntoIter = std::slice::Iter<'a, Animal>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a mut AnimalFarm {
+impl<'a> std::iter::IntoIterator for &'a mut AnimalFarm {
     type Item = &'a mut Animal;
-    type IntoIter = ::std::slice::IterMut<'a, Animal>;
+    type IntoIter = std::slice::IterMut<'a, Animal>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
     }
 }
 
-impl ::std::ops::Deref for AnimalFarm {
+impl std::ops::Deref for AnimalFarm {
     type Target = Vec<Animal>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for AnimalFarm {
+impl std::ops::DerefMut for AnimalFarm {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
@@ -312,7 +303,7 @@ impl ::std::ops::DerefMut for AnimalFarm {
 /// Converts the AnimalFarm value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AnimalFarm {
+impl std::string::ToString for AnimalFarm {
     fn to_string(&self) -> String {
         self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
     }
@@ -321,8 +312,8 @@ impl ::std::string::ToString for AnimalFarm {
 /// Converts Query Parameters representation (style=form, explode=false) to a AnimalFarm value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for AnimalFarm {
-    type Err = <Animal as ::std::str::FromStr>::Err;
+impl std::str::FromStr for AnimalFarm {
+    type Err = <Animal as std::str::FromStr>::Err;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut items = vec![];
@@ -344,17 +335,17 @@ impl AnimalFarm {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ApiResponse> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ApiResponse> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ApiResponse>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ApiResponse>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ApiResponse>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ApiResponse>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ApiResponse> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ApiResponse::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ApiResponse> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ApiResponse as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -389,7 +380,7 @@ impl ApiResponse {
 /// Converts the ApiResponse value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ApiResponse {
+impl std::string::ToString for ApiResponse {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -417,7 +408,7 @@ impl ::std::string::ToString for ApiResponse {
 /// Converts Query Parameters representation (style=form, explode=false) to a ApiResponse value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ApiResponse {
+impl std::str::FromStr for ApiResponse {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -473,17 +464,17 @@ impl ApiResponse {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ArrayOfArrayOfNumberOnly> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ArrayOfArrayOfNumberOnly> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ArrayOfArrayOfNumberOnly>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ArrayOfArrayOfNumberOnly>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ArrayOfArrayOfNumberOnly> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ArrayOfArrayOfNumberOnly::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayOfArrayOfNumberOnly> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ArrayOfArrayOfNumberOnly as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -508,7 +499,7 @@ impl ArrayOfArrayOfNumberOnly {
 /// Converts the ArrayOfArrayOfNumberOnly value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ArrayOfArrayOfNumberOnly {
+impl std::string::ToString for ArrayOfArrayOfNumberOnly {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping ArrayArrayNumber in query parameter serialization
@@ -520,7 +511,7 @@ impl ::std::string::ToString for ArrayOfArrayOfNumberOnly {
 /// Converts Query Parameters representation (style=form, explode=false) to a ArrayOfArrayOfNumberOnly value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ArrayOfArrayOfNumberOnly {
+impl std::str::FromStr for ArrayOfArrayOfNumberOnly {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -570,17 +561,17 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ArrayOfNumberOnly> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ArrayOfNumberOnly> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ArrayOfNumberOnly>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ArrayOfNumberOnly>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ArrayOfNumberOnly>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ArrayOfNumberOnly>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ArrayOfNumberOnly> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ArrayOfNumberOnly::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayOfNumberOnly> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ArrayOfNumberOnly as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -605,7 +596,7 @@ impl ArrayOfNumberOnly {
 /// Converts the ArrayOfNumberOnly value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ArrayOfNumberOnly {
+impl std::string::ToString for ArrayOfNumberOnly {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -621,7 +612,7 @@ impl ::std::string::ToString for ArrayOfNumberOnly {
 /// Converts Query Parameters representation (style=form, explode=false) to a ArrayOfNumberOnly value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ArrayOfNumberOnly {
+impl std::str::FromStr for ArrayOfNumberOnly {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -671,17 +662,17 @@ impl ArrayOfNumberOnly {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ArrayTest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ArrayTest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ArrayTest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ArrayTest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ArrayTest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ArrayTest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ArrayTest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ArrayTest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayTest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ArrayTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -722,7 +713,7 @@ impl ArrayTest {
 /// Converts the ArrayTest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ArrayTest {
+impl std::string::ToString for ArrayTest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -748,7 +739,7 @@ impl ::std::string::ToString for ArrayTest {
 /// Converts Query Parameters representation (style=form, explode=false) to a ArrayTest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ArrayTest {
+impl std::str::FromStr for ArrayTest {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -807,17 +798,17 @@ impl ArrayTest {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Capitalization> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Capitalization> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Capitalization>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Capitalization>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Capitalization>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Capitalization>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Capitalization> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Capitalization::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Capitalization> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Capitalization as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -868,7 +859,7 @@ impl Capitalization {
 /// Converts the Capitalization value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Capitalization {
+impl std::string::ToString for Capitalization {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -914,7 +905,7 @@ impl ::std::string::ToString for Capitalization {
 /// Converts Query Parameters representation (style=form, explode=false) to a Capitalization value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Capitalization {
+impl std::str::FromStr for Capitalization {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -979,17 +970,17 @@ impl Capitalization {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Cat> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Cat> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Cat>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Cat>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Cat>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Cat>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Cat> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Cat::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Cat> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Cat as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1023,7 +1014,7 @@ impl Cat {
 /// Converts the Cat value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Cat {
+impl std::string::ToString for Cat {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1049,7 +1040,7 @@ impl ::std::string::ToString for Cat {
 /// Converts Query Parameters representation (style=form, explode=false) to a Cat value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Cat {
+impl std::str::FromStr for Cat {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1105,17 +1096,17 @@ impl Cat {
     }
 }
 
-// Methods for converting between IntoHeaderValue<CatAllOf> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<CatAllOf> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<CatAllOf>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<CatAllOf>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<CatAllOf>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<CatAllOf>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<CatAllOf> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(CatAllOf::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<CatAllOf> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<CatAllOf as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1140,7 +1131,7 @@ impl CatAllOf {
 /// Converts the CatAllOf value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for CatAllOf {
+impl std::string::ToString for CatAllOf {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1156,7 +1147,7 @@ impl ::std::string::ToString for CatAllOf {
 /// Converts Query Parameters representation (style=form, explode=false) to a CatAllOf value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for CatAllOf {
+impl std::str::FromStr for CatAllOf {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1206,17 +1197,17 @@ impl CatAllOf {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Category> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Category> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Category>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Category>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Category>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Category>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Category> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Category::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Category> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Category as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1247,7 +1238,7 @@ impl Category {
 /// Converts the Category value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Category {
+impl std::string::ToString for Category {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1269,7 +1260,7 @@ impl ::std::string::ToString for Category {
 /// Converts Query Parameters representation (style=form, explode=false) to a Category value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Category {
+impl std::str::FromStr for Category {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1323,17 +1314,17 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-// Methods for converting between IntoHeaderValue<ClassModel> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ClassModel> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ClassModel>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ClassModel>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ClassModel>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ClassModel>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ClassModel> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ClassModel::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ClassModel> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ClassModel as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1358,7 +1349,7 @@ impl ClassModel {
 /// Converts the ClassModel value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ClassModel {
+impl std::string::ToString for ClassModel {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1374,7 +1365,7 @@ impl ::std::string::ToString for ClassModel {
 /// Converts Query Parameters representation (style=form, explode=false) to a ClassModel value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ClassModel {
+impl std::str::FromStr for ClassModel {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1424,17 +1415,17 @@ impl ClassModel {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Client> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Client> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Client>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Client>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Client>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Client>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Client> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Client::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Client> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Client as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1459,7 +1450,7 @@ impl Client {
 /// Converts the Client value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Client {
+impl std::string::ToString for Client {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1475,7 +1466,7 @@ impl ::std::string::ToString for Client {
 /// Converts Query Parameters representation (style=form, explode=false) to a Client value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Client {
+impl std::str::FromStr for Client {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1525,17 +1516,17 @@ impl Client {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Dog> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Dog> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Dog>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Dog>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Dog>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Dog>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Dog> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Dog::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Dog> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Dog as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1569,7 +1560,7 @@ impl Dog {
 /// Converts the Dog value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Dog {
+impl std::string::ToString for Dog {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1595,7 +1586,7 @@ impl ::std::string::ToString for Dog {
 /// Converts Query Parameters representation (style=form, explode=false) to a Dog value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Dog {
+impl std::str::FromStr for Dog {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1651,17 +1642,17 @@ impl Dog {
     }
 }
 
-// Methods for converting between IntoHeaderValue<DogAllOf> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<DogAllOf> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<DogAllOf>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<DogAllOf>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<DogAllOf>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<DogAllOf>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<DogAllOf> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(DogAllOf::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<DogAllOf> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<DogAllOf as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1686,7 +1677,7 @@ impl DogAllOf {
 /// Converts the DogAllOf value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for DogAllOf {
+impl std::string::ToString for DogAllOf {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1702,7 +1693,7 @@ impl ::std::string::ToString for DogAllOf {
 /// Converts Query Parameters representation (style=form, explode=false) to a DogAllOf value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for DogAllOf {
+impl std::str::FromStr for DogAllOf {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1752,17 +1743,17 @@ impl DogAllOf {
     }
 }
 
-// Methods for converting between IntoHeaderValue<EnumArrays> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<EnumArrays> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<EnumArrays>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<EnumArrays>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<EnumArrays>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<EnumArrays>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<EnumArrays> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(EnumArrays::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<EnumArrays> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<EnumArrays as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1800,7 +1791,7 @@ impl EnumArrays {
 /// Converts the EnumArrays value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for EnumArrays {
+impl std::string::ToString for EnumArrays {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1824,7 +1815,7 @@ impl ::std::string::ToString for EnumArrays {
 /// Converts Query Parameters representation (style=form, explode=false) to a EnumArrays value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for EnumArrays {
+impl std::str::FromStr for EnumArrays {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1896,8 +1887,8 @@ pub enum EnumClass {
     _XYZ_,
 }
 
-impl ::std::fmt::Display for EnumClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+impl std::fmt::Display for EnumClass {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match *self { 
             EnumClass::_ABC => write!(f, "{}", "_abc"),
             EnumClass::_EFG => write!(f, "{}", "-efg"),
@@ -1906,7 +1897,7 @@ impl ::std::fmt::Display for EnumClass {
     }
 }
 
-impl ::std::str::FromStr for EnumClass {
+impl std::str::FromStr for EnumClass {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -1928,17 +1919,17 @@ impl EnumClass {
     }
 }
 
-// Methods for converting between IntoHeaderValue<EnumTest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<EnumTest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<EnumTest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<EnumTest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<EnumTest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<EnumTest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<EnumTest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(EnumTest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<EnumTest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<EnumTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1986,7 +1977,7 @@ impl EnumTest {
 /// Converts the EnumTest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for EnumTest {
+impl std::string::ToString for EnumTest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -2020,7 +2011,7 @@ impl ::std::string::ToString for EnumTest {
 /// Converts Query Parameters representation (style=form, explode=false) to a EnumTest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for EnumTest {
+impl std::str::FromStr for EnumTest {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -2082,17 +2073,17 @@ impl EnumTest {
     }
 }
 
-// Methods for converting between IntoHeaderValue<FormatTest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<FormatTest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<FormatTest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<FormatTest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<FormatTest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<FormatTest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<FormatTest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(FormatTest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<FormatTest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<FormatTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2173,7 +2164,7 @@ impl FormatTest {
 /// Converts the FormatTest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for FormatTest {
+impl std::string::ToString for FormatTest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -2239,7 +2230,7 @@ impl ::std::string::ToString for FormatTest {
 /// Converts Query Parameters representation (style=form, explode=false) to a FormatTest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for FormatTest {
+impl std::str::FromStr for FormatTest {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -2325,17 +2316,17 @@ impl FormatTest {
     }
 }
 
-// Methods for converting between IntoHeaderValue<HasOnlyReadOnly> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<HasOnlyReadOnly> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<HasOnlyReadOnly>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<HasOnlyReadOnly>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<HasOnlyReadOnly>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<HasOnlyReadOnly>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<HasOnlyReadOnly> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(HasOnlyReadOnly::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<HasOnlyReadOnly> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<HasOnlyReadOnly as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2365,7 +2356,7 @@ impl HasOnlyReadOnly {
 /// Converts the HasOnlyReadOnly value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for HasOnlyReadOnly {
+impl std::string::ToString for HasOnlyReadOnly {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -2387,7 +2378,7 @@ impl ::std::string::ToString for HasOnlyReadOnly {
 /// Converts Query Parameters representation (style=form, explode=false) to a HasOnlyReadOnly value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for HasOnlyReadOnly {
+impl std::str::FromStr for HasOnlyReadOnly {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -2440,17 +2431,17 @@ impl HasOnlyReadOnly {
     }
 }
 
-// Methods for converting between IntoHeaderValue<List> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<List> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<List>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<List>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<List>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<List>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<List> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(List::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<List> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<List as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2475,7 +2466,7 @@ impl List {
 /// Converts the List value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for List {
+impl std::string::ToString for List {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -2491,7 +2482,7 @@ impl ::std::string::ToString for List {
 /// Converts Query Parameters representation (style=form, explode=false) to a List value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for List {
+impl std::str::FromStr for List {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -2541,17 +2532,17 @@ impl List {
     }
 }
 
-// Methods for converting between IntoHeaderValue<MapTest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MapTest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MapTest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MapTest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MapTest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MapTest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MapTest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MapTest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MapTest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MapTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2561,17 +2552,17 @@ impl From<HeaderValue> for IntoHeaderValue<MapTest> {
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_map_of_string: Option<HashMap<String, HashMap<String, String>>>,
+    pub map_map_of_string: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_map_of_enum")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_map_of_enum: Option<HashMap<String, HashMap<String, String>>>,
+    pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_of_enum_string")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_of_enum_string: Option<HashMap<String, String>>,
+    pub map_of_enum_string: Option<std::collections::HashMap<String, String>>,
 
 }
 
@@ -2588,7 +2579,7 @@ impl MapTest {
 /// Converts the MapTest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MapTest {
+impl std::string::ToString for MapTest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping map_map_of_string in query parameter serialization
@@ -2606,16 +2597,16 @@ impl ::std::string::ToString for MapTest {
 /// Converts Query Parameters representation (style=form, explode=false) to a MapTest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MapTest {
+impl std::str::FromStr for MapTest {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub map_map_of_string: Vec<HashMap<String, HashMap<String, String>>>,
-            pub map_map_of_enum: Vec<HashMap<String, HashMap<String, String>>>,
-            pub map_of_enum_string: Vec<HashMap<String, String>>,
+            pub map_map_of_string: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+            pub map_map_of_enum: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+            pub map_of_enum_string: Vec<std::collections::HashMap<String, String>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2662,17 +2653,17 @@ impl MapTest {
     }
 }
 
-// Methods for converting between IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MixedPropertiesAndAdditionalPropertiesClass::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MixedPropertiesAndAdditionalPropertiesClass as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2690,7 +2681,7 @@ pub struct MixedPropertiesAndAdditionalPropertiesClass {
 
     #[serde(rename = "map")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map: Option<HashMap<String, models::Animal>>,
+    pub map: Option<std::collections::HashMap<String, models::Animal>>,
 
 }
 
@@ -2707,7 +2698,7 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 /// Converts the MixedPropertiesAndAdditionalPropertiesClass value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MixedPropertiesAndAdditionalPropertiesClass {
+impl std::string::ToString for MixedPropertiesAndAdditionalPropertiesClass {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping uuid in query parameter serialization
@@ -2724,7 +2715,7 @@ impl ::std::string::ToString for MixedPropertiesAndAdditionalPropertiesClass {
 /// Converts Query Parameters representation (style=form, explode=false) to a MixedPropertiesAndAdditionalPropertiesClass value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
+impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -2733,7 +2724,7 @@ impl ::std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
         struct IntermediateRep {
             pub uuid: Vec<uuid::Uuid>,
             pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
-            pub map: Vec<HashMap<String, models::Animal>>,
+            pub map: Vec<std::collections::HashMap<String, models::Animal>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2781,17 +2772,17 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
-// Methods for converting between IntoHeaderValue<Model200Response> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Model200Response> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Model200Response>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Model200Response>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Model200Response>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Model200Response>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Model200Response> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Model200Response::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Model200Response> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Model200Response as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2822,7 +2813,7 @@ impl Model200Response {
 /// Converts the Model200Response value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Model200Response {
+impl std::string::ToString for Model200Response {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -2844,7 +2835,7 @@ impl ::std::string::ToString for Model200Response {
 /// Converts Query Parameters representation (style=form, explode=false) to a Model200Response value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Model200Response {
+impl std::str::FromStr for Model200Response {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -2898,17 +2889,17 @@ impl Model200Response {
 }
 
 /// Model for testing reserved words
-// Methods for converting between IntoHeaderValue<ModelReturn> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ModelReturn> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ModelReturn>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ModelReturn>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ModelReturn>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ModelReturn>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ModelReturn> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ModelReturn::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ModelReturn> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ModelReturn as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2934,7 +2925,7 @@ impl ModelReturn {
 /// Converts the ModelReturn value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ModelReturn {
+impl std::string::ToString for ModelReturn {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -2950,7 +2941,7 @@ impl ::std::string::ToString for ModelReturn {
 /// Converts Query Parameters representation (style=form, explode=false) to a ModelReturn value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ModelReturn {
+impl std::str::FromStr for ModelReturn {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -3001,17 +2992,17 @@ impl ModelReturn {
 }
 
 /// Model for testing model name same as property name
-// Methods for converting between IntoHeaderValue<Name> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Name> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Name>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Name>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Name>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Name>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Name> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Name::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Name> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Name as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3051,7 +3042,7 @@ impl Name {
 /// Converts the Name value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Name {
+impl std::string::ToString for Name {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -3083,7 +3074,7 @@ impl ::std::string::ToString for Name {
 /// Converts Query Parameters representation (style=form, explode=false) to a Name value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Name {
+impl std::str::FromStr for Name {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -3142,17 +3133,17 @@ impl Name {
     }
 }
 
-// Methods for converting between IntoHeaderValue<NumberOnly> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<NumberOnly> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<NumberOnly>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<NumberOnly>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<NumberOnly>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<NumberOnly>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<NumberOnly> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(NumberOnly::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<NumberOnly> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<NumberOnly as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3177,7 +3168,7 @@ impl NumberOnly {
 /// Converts the NumberOnly value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for NumberOnly {
+impl std::string::ToString for NumberOnly {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -3193,7 +3184,7 @@ impl ::std::string::ToString for NumberOnly {
 /// Converts Query Parameters representation (style=form, explode=false) to a NumberOnly value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for NumberOnly {
+impl std::str::FromStr for NumberOnly {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -3243,17 +3234,17 @@ impl NumberOnly {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ObjectContainingObjectWithOnlyAdditionalProperties::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ObjectContainingObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3278,7 +3269,7 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 /// Converts the ObjectContainingObjectWithOnlyAdditionalProperties value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ObjectContainingObjectWithOnlyAdditionalProperties {
+impl std::string::ToString for ObjectContainingObjectWithOnlyAdditionalProperties {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping inner in query parameter serialization
@@ -3290,7 +3281,7 @@ impl ::std::string::ToString for ObjectContainingObjectWithOnlyAdditionalPropert
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectContainingObjectWithOnlyAdditionalProperties value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
+impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -3342,30 +3333,30 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-pub struct ObjectWithOnlyAdditionalProperties(HashMap<String, String>);
+pub struct ObjectWithOnlyAdditionalProperties(std::collections::HashMap<String, String>);
 
-impl ::std::convert::From<HashMap<String, String>> for ObjectWithOnlyAdditionalProperties {
-    fn from(x: HashMap<String, String>) -> Self {
+impl std::convert::From<std::collections::HashMap<String, String>> for ObjectWithOnlyAdditionalProperties {
+    fn from(x: std::collections::HashMap<String, String>) -> Self {
         ObjectWithOnlyAdditionalProperties(x)
     }
 }
 
 
-impl ::std::convert::From<ObjectWithOnlyAdditionalProperties> for HashMap<String, String> {
+impl std::convert::From<ObjectWithOnlyAdditionalProperties> for std::collections::HashMap<String, String> {
     fn from(x: ObjectWithOnlyAdditionalProperties) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for ObjectWithOnlyAdditionalProperties {
-    type Target = HashMap<String, String>;
-    fn deref(&self) -> &HashMap<String, String> {
+impl std::ops::Deref for ObjectWithOnlyAdditionalProperties {
+    type Target = std::collections::HashMap<String, String>;
+    fn deref(&self) -> &std::collections::HashMap<String, String> {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for ObjectWithOnlyAdditionalProperties {
-    fn deref_mut(&mut self) -> &mut HashMap<String, String> {
+impl std::ops::DerefMut for ObjectWithOnlyAdditionalProperties {
+    fn deref_mut(&mut self) -> &mut std::collections::HashMap<String, String> {
         &mut self.0
     }
 }
@@ -3400,17 +3391,17 @@ impl ObjectWithOnlyAdditionalProperties {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Order> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Order> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Order>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Order>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Order>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Order>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Order> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Order::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Order> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Order as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3463,7 +3454,7 @@ impl Order {
 /// Converts the Order value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Order {
+impl std::string::ToString for Order {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -3505,7 +3496,7 @@ impl ::std::string::ToString for Order {
 /// Converts Query Parameters representation (style=form, explode=false) to a Order value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Order {
+impl std::str::FromStr for Order {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -3574,27 +3565,27 @@ impl Order {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct OuterBoolean(bool);
 
-impl ::std::convert::From<bool> for OuterBoolean {
+impl std::convert::From<bool> for OuterBoolean {
     fn from(x: bool) -> Self {
         OuterBoolean(x)
     }
 }
 
 
-impl ::std::convert::From<OuterBoolean> for bool {
+impl std::convert::From<OuterBoolean> for bool {
     fn from(x: OuterBoolean) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for OuterBoolean {
+impl std::ops::Deref for OuterBoolean {
     type Target = bool;
     fn deref(&self) -> &bool {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for OuterBoolean {
+impl std::ops::DerefMut for OuterBoolean {
     fn deref_mut(&mut self) -> &mut bool {
         &mut self.0
     }
@@ -3610,17 +3601,17 @@ impl OuterBoolean {
     }
 }
 
-// Methods for converting between IntoHeaderValue<OuterComposite> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<OuterComposite> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<OuterComposite>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<OuterComposite>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<OuterComposite>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<OuterComposite>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<OuterComposite> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(OuterComposite::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<OuterComposite> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<OuterComposite as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3655,7 +3646,7 @@ impl OuterComposite {
 /// Converts the OuterComposite value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for OuterComposite {
+impl std::string::ToString for OuterComposite {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -3683,7 +3674,7 @@ impl ::std::string::ToString for OuterComposite {
 /// Converts Query Parameters representation (style=form, explode=false) to a OuterComposite value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for OuterComposite {
+impl std::str::FromStr for OuterComposite {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -3755,8 +3746,8 @@ pub enum OuterEnum {
     DELIVERED,
 }
 
-impl ::std::fmt::Display for OuterEnum {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+impl std::fmt::Display for OuterEnum {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match *self { 
             OuterEnum::PLACED => write!(f, "{}", "placed"),
             OuterEnum::APPROVED => write!(f, "{}", "approved"),
@@ -3765,7 +3756,7 @@ impl ::std::fmt::Display for OuterEnum {
     }
 }
 
-impl ::std::str::FromStr for OuterEnum {
+impl std::str::FromStr for OuterEnum {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -3791,27 +3782,27 @@ impl OuterEnum {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct OuterNumber(f64);
 
-impl ::std::convert::From<f64> for OuterNumber {
+impl std::convert::From<f64> for OuterNumber {
     fn from(x: f64) -> Self {
         OuterNumber(x)
     }
 }
 
 
-impl ::std::convert::From<OuterNumber> for f64 {
+impl std::convert::From<OuterNumber> for f64 {
     fn from(x: OuterNumber) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for OuterNumber {
+impl std::ops::Deref for OuterNumber {
     type Target = f64;
     fn deref(&self) -> &f64 {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for OuterNumber {
+impl std::ops::DerefMut for OuterNumber {
     fn deref_mut(&mut self) -> &mut f64 {
         &mut self.0
     }
@@ -3831,33 +3822,33 @@ impl OuterNumber {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct OuterString(String);
 
-impl ::std::convert::From<String> for OuterString {
+impl std::convert::From<String> for OuterString {
     fn from(x: String) -> Self {
         OuterString(x)
     }
 }
 
 impl std::str::FromStr for OuterString {
-    type Err = ParseError;
+    type Err = std::string::ParseError;
     fn from_str(x: &str) -> Result<Self, Self::Err> {
         Ok(OuterString(x.to_string()))
     }
 }
 
-impl ::std::convert::From<OuterString> for String {
+impl std::convert::From<OuterString> for String {
     fn from(x: OuterString) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for OuterString {
+impl std::ops::Deref for OuterString {
     type Target = String;
     fn deref(&self) -> &String {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for OuterString {
+impl std::ops::DerefMut for OuterString {
     fn deref_mut(&mut self) -> &mut String {
         &mut self.0
     }
@@ -3873,17 +3864,17 @@ impl OuterString {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Pet> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Pet> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Pet>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Pet>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Pet>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Pet>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Pet> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Pet::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Pet> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Pet as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3934,7 +3925,7 @@ impl Pet {
 /// Converts the Pet value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Pet {
+impl std::string::ToString for Pet {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -3968,7 +3959,7 @@ impl ::std::string::ToString for Pet {
 /// Converts Query Parameters representation (style=form, explode=false) to a Pet value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Pet {
+impl std::str::FromStr for Pet {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -4033,17 +4024,17 @@ impl Pet {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ReadOnlyFirst> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ReadOnlyFirst> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ReadOnlyFirst>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ReadOnlyFirst>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ReadOnlyFirst>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ReadOnlyFirst>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ReadOnlyFirst> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ReadOnlyFirst::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ReadOnlyFirst> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ReadOnlyFirst as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -4073,7 +4064,7 @@ impl ReadOnlyFirst {
 /// Converts the ReadOnlyFirst value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ReadOnlyFirst {
+impl std::string::ToString for ReadOnlyFirst {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -4095,7 +4086,7 @@ impl ::std::string::ToString for ReadOnlyFirst {
 /// Converts Query Parameters representation (style=form, explode=false) to a ReadOnlyFirst value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ReadOnlyFirst {
+impl std::str::FromStr for ReadOnlyFirst {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -4148,17 +4139,17 @@ impl ReadOnlyFirst {
     }
 }
 
-// Methods for converting between IntoHeaderValue<SpecialModelName> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<SpecialModelName> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<SpecialModelName>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<SpecialModelName>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<SpecialModelName>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<SpecialModelName>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<SpecialModelName> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(SpecialModelName::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<SpecialModelName> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<SpecialModelName as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -4184,7 +4175,7 @@ impl SpecialModelName {
 /// Converts the SpecialModelName value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for SpecialModelName {
+impl std::string::ToString for SpecialModelName {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -4200,7 +4191,7 @@ impl ::std::string::ToString for SpecialModelName {
 /// Converts Query Parameters representation (style=form, explode=false) to a SpecialModelName value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for SpecialModelName {
+impl std::str::FromStr for SpecialModelName {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -4250,17 +4241,17 @@ impl SpecialModelName {
     }
 }
 
-// Methods for converting between IntoHeaderValue<Tag> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<Tag> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<Tag>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<Tag>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<Tag>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Tag>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<Tag> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(Tag::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Tag> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Tag as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -4291,7 +4282,7 @@ impl Tag {
 /// Converts the Tag value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for Tag {
+impl std::string::ToString for Tag {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -4313,7 +4304,7 @@ impl ::std::string::ToString for Tag {
 /// Converts Query Parameters representation (style=form, explode=false) to a Tag value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Tag {
+impl std::str::FromStr for Tag {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -4366,17 +4357,17 @@ impl Tag {
     }
 }
 
-// Methods for converting between IntoHeaderValue<User> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<User> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<User>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<User>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<User>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<User>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<User> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(User::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<User> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<User as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -4438,7 +4429,7 @@ impl User {
 /// Converts the User value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for User {
+impl std::string::ToString for User {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -4496,7 +4487,7 @@ impl ::std::string::ToString for User {
 /// Converts Query Parameters representation (style=form, explode=false) to a User value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for User {
+impl std::str::FromStr for User {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {

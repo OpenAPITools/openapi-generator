@@ -1,5 +1,3 @@
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap, BTreeSet};
 use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
 use hyper;
@@ -1105,7 +1103,7 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_param: Option<HashMap<String, String>> = if !body.is_empty() {
+                                let param_param: Option<std::collections::HashMap<String, String>> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
@@ -1325,7 +1323,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "write:pets".to_string(), // modify pets in your account
                             "read:pets".to_string(), // read your pets
                         ].into_iter().collect();
@@ -1434,7 +1432,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "write:pets".to_string(), // modify pets in your account
                             "read:pets".to_string(), // read your pets
                         ].into_iter().collect();
@@ -1532,7 +1530,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "write:pets".to_string(), // modify pets in your account
                             "read:pets".to_string(), // read your pets
                         ].into_iter().collect();
@@ -1616,7 +1614,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "write:pets".to_string(), // modify pets in your account
                             "read:pets".to_string(), // read your pets
                         ].into_iter().collect();
@@ -1785,7 +1783,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "write:pets".to_string(), // modify pets in your account
                             "read:pets".to_string(), // read your pets
                         ].into_iter().collect();
@@ -1902,7 +1900,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "write:pets".to_string(), // modify pets in your account
                             "read:pets".to_string(), // read your pets
                         ].into_iter().collect();
@@ -1998,7 +1996,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "write:pets".to_string(), // modify pets in your account
                             "read:pets".to_string(), // read your pets
                         ].into_iter().collect();

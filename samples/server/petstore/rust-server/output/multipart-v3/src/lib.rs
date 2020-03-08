@@ -68,9 +68,6 @@ use hyper::header::HeaderValue;
 use futures::Stream;
 use std::io::Error;
 
-#[allow(unused_imports)]
-use std::collections::HashMap;
-
 #[cfg(any(feature = "client", feature = "server"))]
 mod mimetypes;
 

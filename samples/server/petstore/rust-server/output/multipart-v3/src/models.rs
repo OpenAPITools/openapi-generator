@@ -1,27 +1,20 @@
-#![allow(unused_imports, unused_qualifications)]
+#![allow(unused_qualifications)]
 
-use serde::ser::Serializer;
-
-use std::collections::HashMap;
 use models;
-use swagger;
-use hyper::header::HeaderValue;
-use std::string::ParseError;
-use std::str::FromStr;
-use header::IntoHeaderValue;
+use header;
 
 
-// Methods for converting between IntoHeaderValue<MultipartRelatedRequest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MultipartRelatedRequest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MultipartRelatedRequest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MultipartRelatedRequest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MultipartRelatedRequest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MultipartRelatedRequest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MultipartRelatedRequest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MultipartRelatedRequest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelatedRequest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MultipartRelatedRequest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -55,7 +48,7 @@ impl MultipartRelatedRequest {
 /// Converts the MultipartRelatedRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MultipartRelatedRequest {
+impl std::string::ToString for MultipartRelatedRequest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping object_field in query parameter serialization
@@ -73,7 +66,7 @@ impl ::std::string::ToString for MultipartRelatedRequest {
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipartRelatedRequest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MultipartRelatedRequest {
+impl std::str::FromStr for MultipartRelatedRequest {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -121,17 +114,17 @@ impl ::std::str::FromStr for MultipartRelatedRequest {
 
 
 
-// Methods for converting between IntoHeaderValue<MultipartRequest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MultipartRequest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MultipartRequest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MultipartRequest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MultipartRequest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MultipartRequest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MultipartRequest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MultipartRequest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MultipartRequest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -169,7 +162,7 @@ impl MultipartRequest {
 /// Converts the MultipartRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MultipartRequest {
+impl std::string::ToString for MultipartRequest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -194,7 +187,7 @@ impl ::std::string::ToString for MultipartRequest {
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipartRequest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MultipartRequest {
+impl std::str::FromStr for MultipartRequest {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -245,17 +238,17 @@ impl ::std::str::FromStr for MultipartRequest {
 
 
 
-// Methods for converting between IntoHeaderValue<MultipartRequestObjectField> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MultipartRequestObjectField> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MultipartRequestObjectField>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MultipartRequestObjectField>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MultipartRequestObjectField>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MultipartRequestObjectField>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MultipartRequestObjectField> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MultipartRequestObjectField::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequestObjectField> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MultipartRequestObjectField as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -284,7 +277,7 @@ impl MultipartRequestObjectField {
 /// Converts the MultipartRequestObjectField value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MultipartRequestObjectField {
+impl std::string::ToString for MultipartRequestObjectField {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -304,7 +297,7 @@ impl ::std::string::ToString for MultipartRequestObjectField {
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipartRequestObjectField value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MultipartRequestObjectField {
+impl std::str::FromStr for MultipartRequestObjectField {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {

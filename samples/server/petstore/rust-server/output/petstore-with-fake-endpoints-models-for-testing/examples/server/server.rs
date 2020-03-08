@@ -14,7 +14,6 @@ use hyper::server::conn::Http;
 use hyper::service::MakeService as _;
 use native_tls;
 use openssl::ssl::SslAcceptorBuilder;
-use std::collections::HashMap;
 use std::marker::PhantomData;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
@@ -271,7 +270,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     /// test inline additionalProperties
     fn test_inline_additional_properties(
         &self,
-        param: HashMap<String, String>,
+        param: std::collections::HashMap<String, String>,
         context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>
     {
         let context = context.clone();

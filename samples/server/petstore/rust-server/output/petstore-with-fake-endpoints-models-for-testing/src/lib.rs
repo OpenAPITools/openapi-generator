@@ -63,9 +63,6 @@ use hyper::header::HeaderValue;
 use futures::Stream;
 use std::io::Error;
 
-#[allow(unused_imports)]
-use std::collections::HashMap;
-
 #[cfg(any(feature = "client", feature = "server"))]
 mod mimetypes;
 
@@ -263,7 +260,7 @@ pub enum DeleteOrderResponse {
 pub enum GetInventoryResponse {
     /// successful operation
     SuccessfulOperation
-    (HashMap<String, i32>)
+    (std::collections::HashMap<String, i32>)
 }
 
 #[derive(Debug, PartialEq)]
@@ -445,7 +442,7 @@ pub trait Api<C> {
     /// test inline additionalProperties
     fn test_inline_additional_properties(
         &self,
-        param: HashMap<String, String>,
+        param: std::collections::HashMap<String, String>,
         context: &C) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>;
 
     /// test json serialization of form data
@@ -675,7 +672,7 @@ pub trait ApiNoContext {
     /// test inline additionalProperties
     fn test_inline_additional_properties(
         &self,
-        param: HashMap<String, String>,
+        param: std::collections::HashMap<String, String>,
         ) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>;
 
     /// test json serialization of form data
@@ -952,7 +949,7 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     /// test inline additionalProperties
     fn test_inline_additional_properties(
         &self,
-        param: HashMap<String, String>,
+        param: std::collections::HashMap<String, String>,
         ) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>
     {
         self.api().test_inline_additional_properties(param, &self.context())

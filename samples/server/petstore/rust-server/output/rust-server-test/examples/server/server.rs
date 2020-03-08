@@ -14,7 +14,6 @@ use hyper::server::conn::Http;
 use hyper::service::MakeService as _;
 use native_tls;
 use openssl::ssl::SslAcceptorBuilder;
-use std::collections::HashMap;
 use std::marker::PhantomData;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};

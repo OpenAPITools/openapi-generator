@@ -1,5 +1,3 @@
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap, BTreeSet};
 use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
 use hyper;
@@ -499,7 +497,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "test.read".to_string(), // Allowed to read state.
                             "test.write".to_string(), // Allowed to change state.
                         ].into_iter().collect();
@@ -623,7 +621,7 @@ where
 
                     // Authorization
                     if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: BTreeSet<String> = vec![
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
                             "test.read".to_string(), // Allowed to read state.
                         ].into_iter().collect();
 
