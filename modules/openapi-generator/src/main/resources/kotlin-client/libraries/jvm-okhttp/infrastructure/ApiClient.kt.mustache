@@ -98,21 +98,31 @@ import org.threeten.bp.OffsetTime
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, Any?>).forEach { (key, value) ->
                             if (value is File) {
-                                val partHeaders = Headers.headersOf(
+                                val partHeaders = Headers.{{#jvm-okhttp3}}of{{/jvm-okhttp3}}{{#jvm-okhttp4}}headersOf{{/jvm-okhttp4}}(
                                     "Content-Disposition",
                                     "form-data; name=\"$key\"; filename=\"${value.name}\""
                                 )
-                                val fileMediaType = guessContentTypeFromFile(value)
-                                    .toMediaTypeOrNull()
+                                {{#jvm-okhttp3}}
+                                val fileMediaType = MediaType.parse(guessContentTypeFromFile(value))
+                                addPart(partHeaders, RequestBody.create(fileMediaType, value)
+                                {{/jvm-okhttp3}}
+                                {{#jvm-okhttp4}}
+                                val fileMediaType = guessContentTypeFromFile(value).toMediaTypeOrNull()
                                 addPart(partHeaders, value.asRequestBody(fileMediaType))
+                                {{/jvm-okhttp4}}
                             } else {
-                                val partHeaders = Headers.headersOf(
+                                val partHeaders = Headers.{{#jvm-okhttp3}}of{{/jvm-okhttp3}}{{#jvm-okhttp4}}headersOf{{/jvm-okhttp4}}(
                                     "Content-Disposition",
                                     "form-data; name=\"$key\""
                                 )
                                 addPart(
                                     partHeaders,
+                                    {{#jvm-okhttp3}}
+                                    RequestBody.create(null, parameterToString(value))
+                                    {{/jvm-okhttp3}}
+                                    {{#jvm-okhttp4}}
                                     parameterToString(value).toRequestBody(null)
+                                    {{/jvm-okhttp4}}
                                 )
                             }
                         }
@@ -122,8 +132,8 @@ import org.threeten.bp.OffsetTime
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, Any?>
                     @Suppress("UNCHECKED_CAST")
-                    (content as Map<String,String>).forEach { (key, value) ->
-                        add(key, value)
+                    (content as Map<String, Any?>).forEach { (key, value) ->
+                        add(key, parameterToString(value))
                     }
                 }.build()
             }

@@ -74,8 +74,7 @@ open class ApiClient(val baseUrl: String) {
                                     "Content-Disposition",
                                     "form-data; name=\"$key\"; filename=\"${value.name}\""
                                 )
-                                val fileMediaType = guessContentTypeFromFile(value)
-                                    .toMediaTypeOrNull()
+                                val fileMediaType = guessContentTypeFromFile(value).toMediaTypeOrNull()
                                 addPart(partHeaders, value.asRequestBody(fileMediaType))
                             } else {
                                 val partHeaders = Headers.headersOf(
@@ -94,8 +93,8 @@ open class ApiClient(val baseUrl: String) {
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, Any?>
                     @Suppress("UNCHECKED_CAST")
-                    (content as Map<String,String>).forEach { (key, value) ->
-                        add(key, value)
+                    (content as Map<String, Any?>).forEach { (key, value) ->
+                        add(key, parameterToString(value))
                     }
                 }.build()
             }

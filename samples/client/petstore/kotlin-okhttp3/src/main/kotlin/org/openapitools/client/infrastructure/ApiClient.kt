@@ -68,21 +68,20 @@ open class ApiClient(val baseUrl: String) {
                         @Suppress("UNCHECKED_CAST")
                         (content as Map<String, Any?>).forEach { (key, value) ->
                             if (value is File) {
-                                val partHeaders = Headers.headersOf(
+                                val partHeaders = Headers.of(
                                     "Content-Disposition",
                                     "form-data; name=\"$key\"; filename=\"${value.name}\""
                                 )
-                                val fileMediaType = guessContentTypeFromFile(value)
-                                    .toMediaTypeOrNull()
-                                addPart(partHeaders, value.asRequestBody(fileMediaType))
+                                val fileMediaType = MediaType.parse(guessContentTypeFromFile(value))
+                                addPart(partHeaders, RequestBody.create(fileMediaType, value)
                             } else {
-                                val partHeaders = Headers.headersOf(
+                                val partHeaders = Headers.of(
                                     "Content-Disposition",
                                     "form-data; name=\"$key\""
                                 )
                                 addPart(
                                     partHeaders,
-                                    parameterToString(value).toRequestBody(null)
+                                    RequestBody.create(null, parameterToString(value))
                                 )
                             }
                         }
@@ -92,8 +91,8 @@ open class ApiClient(val baseUrl: String) {
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, Any?>
                     @Suppress("UNCHECKED_CAST")
-                    (content as Map<String,String>).forEach { (key, value) ->
-                        add(key, value)
+                    (content as Map<String, Any?>).forEach { (key, value) ->
+                        add(key, parameterToString(value))
                     }
                 }.build()
             }
