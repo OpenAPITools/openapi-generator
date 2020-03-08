@@ -1,5 +1,5 @@
 #![allow(missing_docs, unused_variables, trivial_casts)]
-extern crate multipart_v3;
+extern crate no_example_v3;
 extern crate clap;
 extern crate env_logger;
 extern crate futures;
@@ -15,10 +15,9 @@ extern crate tokio;
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
-use multipart_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+use no_example_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
-                      MultipartRelatedRequestPostResponse,
-                      MultipartRequestPostResponse
+                      OpGetResponse
                      };
 use clap::{App, Arg};
 
@@ -35,8 +34,6 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-                "MultipartRelatedRequestPost",
-                "MultipartRequestPost",
             ])
             .required(true)
             .index(1))
@@ -82,23 +79,14 @@ fn main() {
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
     match matches.value_of("operation") {
-        Some("MultipartRelatedRequestPost") => {
-            let result = rt.block_on(client.multipart_related_request_post(
-                  swagger::ByteArray(Vec::from("BINARY_DATA_HERE")),
-                  None,
-                  Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
+        /* Disabled because there's no example.
+        Some("OpGet") => {
+            let result = rt.block_on(client.op_get(
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
-        Some("MultipartRequestPost") => {
-            let result = rt.block_on(client.multipart_request_post(
-                  "string_field_example".to_string(),
-                  swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE")),
-                  Some("optional_string_field_example".to_string()),
-                  None
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        },
+        */
         _ => {
             panic!("Invalid operation provided")
         }

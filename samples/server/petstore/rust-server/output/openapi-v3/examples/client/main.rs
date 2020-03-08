@@ -3,6 +3,9 @@ extern crate openapi_v3;
 extern crate clap;
 extern crate env_logger;
 extern crate futures;
+
+// log may be unused if there are no examples
+#[allow(unused_imports)]
 #[macro_use]
 extern crate log;
 #[macro_use]
@@ -45,8 +48,13 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       XmlPutResponse
                      };
 use clap::{App, Arg};
+
+// swagger::Has may be unused if there are no examples
+#[allow(unused_imports)]
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
+// rt may be unused if there are no examples
+#[allow(unused_mut)]
 fn main() {
     env_logger::init();
 
