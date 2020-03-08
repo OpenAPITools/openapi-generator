@@ -136,7 +136,7 @@ import org.threeten.bp.OffsetTime
                 MediaType.parse(mediaType), Serializer.gson.toJson(content, T::class.java)
                 {{/gson}}
                 {{#jackson}}
-                MediaType.parse(mediaType), Serializer.jackson.toJson(content, T::class.java)
+                MediaType.parse(mediaType), Serializer.jacksonObjectMapper.writeValueAsString(content)
                 {{/jackson}}
             )
             {{/jvm-okhttp3}}
@@ -346,7 +346,7 @@ import org.threeten.bp.OffsetTime
         return Serializer.gson.toJson(value, T::class.java).replace("\"", "")
         {{/gson}}
         {{#jackson}}
-        return Serializer.jackson.toJson(value, T::class.java).replace("\"", "")
+        return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
         {{/jackson}}
         {{/toJson}}
         {{^toJson}}

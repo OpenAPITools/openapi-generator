@@ -247,6 +247,6 @@ open class ApiClient(val baseUrl: String) {
         formatter. It also easily allows to provide a simple way to define a custom date format pattern
         inside a gson/moshi adapter.
         */
-        return Serializer.jackson.toJson(value, T::class.java).replace("\"", "")
+        return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
     }
 }
