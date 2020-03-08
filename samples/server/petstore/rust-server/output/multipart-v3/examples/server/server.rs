@@ -89,6 +89,7 @@ use multipart_v3::{
     ApiError,
     MultipartRelatedRequestPostResponse,
     MultipartRequestPostResponse,
+    MultipleIdenticalMimeTypesPostResponse,
 };
 use multipart_v3::server::MakeService;
 
@@ -115,6 +116,17 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("multipart_request_post(\"{}\", {:?}, {:?}, {:?}) - X-Span-ID: {:?}", string_field, binary_field, optional_string_field, object_field, context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn multiple_identical_mime_types_post(
+        &self,
+        binary1: Option<swagger::ByteArray>,
+        binary2: Option<swagger::ByteArray>,
+        context: &C) -> Box<Future<Item=MultipleIdenticalMimeTypesPostResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("multiple_identical_mime_types_post({:?}, {:?}) - X-Span-ID: {:?}", binary1, binary2, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 

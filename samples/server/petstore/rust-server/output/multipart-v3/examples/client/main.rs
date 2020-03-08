@@ -15,7 +15,8 @@ use futures::{Future, future, Stream, stream};
 use multipart_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       MultipartRelatedRequestPostResponse,
-                      MultipartRequestPostResponse
+                      MultipartRequestPostResponse,
+                      MultipleIdenticalMimeTypesPostResponse
                      };
 use clap::{App, Arg};
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
@@ -29,6 +30,7 @@ fn main() {
             .possible_values(&[
                 "MultipartRelatedRequestPost",
                 "MultipartRequestPost",
+                "MultipleIdenticalMimeTypesPost",
             ])
             .required(true)
             .index(1))
@@ -88,6 +90,13 @@ fn main() {
                   swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE")),
                   Some("optional_string_field_example".to_string()),
                   None
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
+        Some("MultipleIdenticalMimeTypesPost") => {
+            let result = rt.block_on(client.multiple_identical_mime_types_post(
+                  Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE"))),
+                  Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },

@@ -44,7 +44,8 @@ define_encode_set! {
 
 use {Api,
      MultipartRelatedRequestPostResponse,
-     MultipartRequestPostResponse
+     MultipartRequestPostResponse,
+     MultipleIdenticalMimeTypesPostResponse
      };
 
 /// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
@@ -510,6 +511,135 @@ impl<C, F> Api<C> for Client<F> where
                     Box::new(
                         future::ok(
                             MultipartRequestPostResponse::OK
+                        )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.into_body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                }
+            }
+        }))
+    }
+
+    fn multiple_identical_mime_types_post(
+        &self,
+        param_binary1: Option<swagger::ByteArray>,
+        param_binary2: Option<swagger::ByteArray>,
+        context: &C) -> Box<dyn Future<Item=MultipleIdenticalMimeTypesPostResponse, Error=ApiError> + Send>
+    {
+        let mut uri = format!(
+            "{}/multiple-identical-mime-types",
+            self.base_path
+        );
+
+        // Query parameters
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build URI: {}", err)))),
+        };
+
+        let mut request = match hyper::Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
+        };
+
+        // Construct the Body for a multipart/related request. The mime 0.2.6 library
+        // does not parse quoted-string parameters correctly. The boundary doesn't
+        // need to be a quoted string if it does not contain a '/', hence ensure
+        // no such boundary is used.
+        let mut boundary = generate_boundary();
+        for b in boundary.iter_mut() {
+            if b == &('/' as u8) {
+                *b = '=' as u8;
+            }
+        }
+
+        let mut body_parts = vec![];
+
+        if let Some(binary1) = param_binary1 {
+            let part = Node::Part(Part {
+                headers: {
+                    let mut h = Headers::new();
+                    h.set(ContentType("application/octet-stream".parse().unwrap()));
+                    h.set(ContentId("binary1".parse().unwrap()));
+                    h
+                },
+                body: binary1.0,
+            });
+            body_parts.push(part);
+        }
+
+        if let Some(binary2) = param_binary2 {
+            let part = Node::Part(Part {
+                headers: {
+                    let mut h = Headers::new();
+                    h.set(ContentType("application/octet-stream".parse().unwrap()));
+                    h.set(ContentId("binary2".parse().unwrap()));
+                    h
+                },
+                body: binary2.0,
+            });
+            body_parts.push(part);
+        }
+
+        // Write the body into a vec.
+        let mut body: Vec<u8> = vec![];
+        write_multipart(&mut body, &boundary, &body_parts)
+            .expect("Failed to write multipart body");
+
+        // Add the message body to the request object.
+        *request.body_mut() = Body::from(body);
+
+        let header = &mimetypes::requests::MULTIPLE_IDENTICAL_MIME_TYPES_POST;
+        request.headers_mut().insert(CONTENT_TYPE,
+        match HeaderValue::from_bytes(
+            &[header.as_bytes(), "; boundary=".as_bytes(), &boundary, "; type=\"application/json\"".as_bytes()].concat()
+        ) {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
+        });
+
+        let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
+        });
+
+        Box::new(self.client_service.request(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.into_body();
+                    Box::new(
+                        future::ok(
+                            MultipleIdenticalMimeTypesPostResponse::OK
                         )
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
                 },
