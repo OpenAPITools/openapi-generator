@@ -61,14 +61,13 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client AllOfGet
 cargo run --example client DummyGet
-cargo run --example client DummyPut
 cargo run --example client FileResponseGet
 cargo run --example client GetStructuredYaml
 cargo run --example client HtmlPost
 cargo run --example client PostYaml
 cargo run --example client RawJsonGet
-cargo run --example client SoloObjectPost
 ```
 
 ### HTTPS
@@ -102,20 +101,23 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[****](docs/default_api.md#) | **GET** /dummy | A dummy endpoint to make the spec valid.
-[****](docs/default_api.md#) | **PUT** /dummy | 
-[****](docs/default_api.md#) | **GET** /file_response | Get a file
+[**AllOf_Get**](docs/default_api.md#AllOf_Get) | **GET** /allOf | 
+[**dummyGet**](docs/default_api.md#dummyGet) | **GET** /dummy | A dummy endpoint to make the spec valid.
+[**dummyPut**](docs/default_api.md#dummyPut) | **PUT** /dummy | 
+[**file_responseGet**](docs/default_api.md#file_responseGet) | **GET** /file_response | Get a file
 [**getStructuredYaml**](docs/default_api.md#getStructuredYaml) | **GET** /get-structured-yaml | 
-[****](docs/default_api.md#) | **POST** /html | Test HTML handling
+[**htmlPost**](docs/default_api.md#htmlPost) | **POST** /html | Test HTML handling
 [**post_yaml**](docs/default_api.md#post_yaml) | **POST** /post-yaml | 
-[****](docs/default_api.md#) | **GET** /raw_json | Get an arbitrary JSON blob.
-[****](docs/default_api.md#) | **POST** /solo-object | Send an arbitrary JSON blob
+[**raw_jsonGet**](docs/default_api.md#raw_jsonGet) | **GET** /raw_json | Get an arbitrary JSON blob.
+[**solo_objectPost**](docs/default_api.md#solo_objectPost) | **POST** /solo-object | Send an arbitrary JSON blob
 
 
 ## Documentation For Models
 
  - [ANullableContainer](docs/ANullableContainer.md)
  - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [AllOfObject](docs/AllOfObject.md)
+ - [BaseAllOf](docs/BaseAllOf.md)
  - [GetYamlResponse](docs/GetYamlResponse.md)
  - [InlineObject](docs/InlineObject.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)

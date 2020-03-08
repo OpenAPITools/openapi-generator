@@ -1,14 +1,10 @@
+use futures;
+use futures::{Future, Stream, future, stream};
 use hyper;
 use hyper::client::HttpConnector;
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{Body, Uri, Response};
 use hyper_tls::HttpsConnector;
-
-use url::form_urlencoded;
-use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
-use futures;
-use futures::{Future, Stream};
-use futures::{future, stream};
 use serde_json;
 use std::borrow::Cow;
 #[allow(unused_imports)]
@@ -22,20 +18,11 @@ use std::str;
 use std::str::FromStr;
 use std::string::ToString;
 use swagger;
-use swagger::{ApiError, XSpanIdString, Has, AuthData};
 use swagger::client::Service;
-
-
-use {Api,
-     DummyGetResponse,
-     DummyPutResponse,
-     FileResponseGetResponse,
-     GetStructuredYamlResponse,
-     HtmlPostResponse,
-     PostYamlResponse,
-     RawJsonGetResponse,
-     SoloObjectPostResponse
-     };
+use swagger::connector;
+use swagger::{ApiError, XSpanIdString, Has, AuthData};
+use url::form_urlencoded;
+use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 
 use mimetypes;
 use models;
@@ -48,6 +35,18 @@ define_encode_set! {
     /// the vertical bar (|) is encoded.
     pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
 }
+
+use {Api,
+     AllOfGetResponse,
+     DummyGetResponse,
+     DummyPutResponse,
+     FileResponseGetResponse,
+     GetStructuredYamlResponse,
+     HtmlPostResponse,
+     PostYamlResponse,
+     RawJsonGetResponse,
+     SoloObjectPostResponse
+     };
 
 /// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
 fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
@@ -71,7 +70,10 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<F>
 {
+    /// Inner service
     client_service: Arc<Box<dyn Service<ReqBody=Body, Future=F> + Send + Sync>>,
+
+    /// Base path of the API
     base_path: String,
 }
 
@@ -135,7 +137,7 @@ impl Client<hyper::client::ResponseFuture>
     pub fn try_new_http(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
-        let http_connector = swagger::http_connector();
+        let http_connector = connector::http_connector();
 
         Self::try_new_with_connector(base_path, Some("http"), http_connector)
     }
@@ -152,7 +154,7 @@ impl Client<hyper::client::ResponseFuture>
     where
         CA: AsRef<Path>,
     {
-        let https_connector = swagger::https_connector(ca_certificate);
+        let https_connector = connector::https_connector(ca_certificate);
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
@@ -175,14 +177,14 @@ impl Client<hyper::client::ResponseFuture>
         D: AsRef<Path>,
     {
         let https_connector =
-            swagger::https_mutual_connector(ca_certificate, client_key, client_certificate);
+            connector::https_mutual_connector(ca_certificate, client_key, client_certificate);
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 }
 
 impl<F> Client<F>
 {
-    /// Constructor for creating a `Client` by passing in a pre-made `swagger::client::Service`
+    /// Constructor for creating a `Client` by passing in a pre-made `swagger::Service`
     ///
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
     pub fn try_new_with_client_service(
@@ -196,12 +198,138 @@ impl<F> Client<F>
     }
 }
 
+/// Error type failing to create a Client
+#[derive(Debug)]
+pub enum ClientInitError {
+    /// Invalid URL Scheme
+    InvalidScheme,
+
+    /// Invalid URI
+    InvalidUri(hyper::http::uri::InvalidUri),
+
+    /// Missing Hostname
+    MissingHost,
+
+    /// SSL Connection Error
+    SslError(openssl::error::ErrorStack)
+}
+
+impl From<hyper::http::uri::InvalidUri> for ClientInitError {
+    fn from(err: hyper::http::uri::InvalidUri) -> ClientInitError {
+        ClientInitError::InvalidUri(err)
+    }
+}
+
+impl From<openssl::error::ErrorStack> for ClientInitError {
+    fn from(err: openssl::error::ErrorStack) -> ClientInitError {
+        ClientInitError::SslError(err)
+    }
+}
+
+impl fmt::Display for ClientInitError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s: &dyn fmt::Debug = self;
+        s.fmt(f)
+    }
+}
+
+impl error::Error for ClientInitError {
+    fn description(&self) -> &str {
+        "Failed to produce a hyper client."
+    }
+}
+
 impl<C, F> Api<C> for Client<F> where
     C: Has<XSpanIdString> ,
     F: Future<Item=Response<Body>, Error=hyper::Error> + Send + 'static
 {
+    fn all_of_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=AllOfGetResponse, Error=ApiError> + Send>
+    {
+        let mut uri = format!(
+            "{}/allOf",
+            self.base_path
+        );
 
-    fn dummy_get(&self, context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send> {
+        // Query parameters
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build URI: {}", err)))),
+        };
+
+        let mut request = match hyper::Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
+        };
+
+        let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
+        });
+
+        Box::new(self.client_service.request(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.into_body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+                                                 serde_json::from_str::<models::AllOfObject>(body)
+                                                     .map_err(|e| e.into())
+                                             )
+                                 )
+                        .map(move |body| {
+                            AllOfGetResponse::OK
+                            (body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.into_body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                }
+            }
+        }))
+    }
+
+    fn dummy_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/dummy",
             self.base_path
@@ -228,13 +356,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -269,10 +395,13 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn dummy_put(&self, param_nested_response: models::InlineObject, context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send> {
+    fn dummy_put(
+        &self,
+        param_nested_response: models::InlineObject,
+        context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/dummy",
             self.base_path
@@ -307,13 +436,11 @@ impl<C, F> Api<C> for Client<F> where
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
         });
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -348,10 +475,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn file_response_get(&self, context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send> {
+    fn file_response_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/file_response",
             self.base_path
@@ -378,13 +507,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -397,13 +524,13 @@ impl<C, F> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-                            str::from_utf8(&body)
-                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                            .and_then(|body|
-                                serde_json::from_str::<swagger::ByteArray>(body)
-                                .map_err(|e| e.into())
-                            )
-                        )
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+                                                 serde_json::from_str::<swagger::ByteArray>(body)
+                                                     .map_err(|e| e.into())
+                                             )
+                                 )
                         .map(move |body| {
                             FileResponseGetResponse::Success
                             (body)
@@ -431,10 +558,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn get_structured_yaml(&self, context: &C) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send> {
+    fn get_structured_yaml(
+        &self,
+        context: &C) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/get-structured-yaml",
             self.base_path
@@ -461,13 +590,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -480,12 +607,12 @@ impl<C, F> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-                            str::from_utf8(&body)
-                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                            .and_then(|body|
-                                Ok(body.to_string())
-                            )
-                        )
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+                                                 Ok(body.to_string())
+                                             )
+                                 )
                         .map(move |body| {
                             GetStructuredYamlResponse::OK
                             (body)
@@ -513,10 +640,13 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn html_post(&self, param_body: String, context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send> {
+    fn html_post(
+        &self,
+        param_body: String,
+        context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/html",
             self.base_path
@@ -551,13 +681,11 @@ impl<C, F> Api<C> for Client<F> where
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
         });
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -570,12 +698,12 @@ impl<C, F> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-                            str::from_utf8(&body)
-                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                            .and_then(|body|
-                                Ok(body.to_string())
-                            )
-                        )
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+                                                 Ok(body.to_string())
+                                             )
+                                 )
                         .map(move |body| {
                             HtmlPostResponse::Success
                             (body)
@@ -603,10 +731,13 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn post_yaml(&self, param_value: String, context: &C) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send> {
+    fn post_yaml(
+        &self,
+        param_value: String,
+        context: &C) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/post-yaml",
             self.base_path
@@ -641,13 +772,11 @@ impl<C, F> Api<C> for Client<F> where
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
         });
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -682,10 +811,12 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn raw_json_get(&self, context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send> {
+    fn raw_json_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/raw_json",
             self.base_path
@@ -712,13 +843,11 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -731,13 +860,13 @@ impl<C, F> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-                            str::from_utf8(&body)
-                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                            .and_then(|body|
-                                serde_json::from_str::<serde_json::Value>(body)
-                                .map_err(|e| e.into())
-                            )
-                        )
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+                                                 serde_json::from_str::<serde_json::Value>(body)
+                                                     .map_err(|e| e.into())
+                                             )
+                                 )
                         .map(move |body| {
                             RawJsonGetResponse::Success
                             (body)
@@ -765,10 +894,13 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn solo_object_post(&self, param_value: serde_json::Value, context: &C) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send> {
+    fn solo_object_post(
+        &self,
+        param_value: serde_json::Value,
+        context: &C) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/solo-object",
             self.base_path
@@ -796,6 +928,7 @@ impl<C, F> Api<C> for Client<F> where
         };
 
         let body = serde_json::to_string(&param_value).expect("impossible to fail to serialize");
+
                 *request.body_mut() = Body::from(body);
 
         let header = &mimetypes::requests::SOLO_OBJECT_POST;
@@ -809,7 +942,6 @@ impl<C, F> Api<C> for Client<F> where
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -844,39 +976,6 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-}
-
-#[derive(Debug)]
-pub enum ClientInitError {
-    InvalidScheme,
-    InvalidUri(hyper::http::uri::InvalidUri),
-    MissingHost,
-    SslError(openssl::error::ErrorStack)
-}
-
-impl From<hyper::http::uri::InvalidUri> for ClientInitError {
-    fn from(err: hyper::http::uri::InvalidUri) -> ClientInitError {
-        ClientInitError::InvalidUri(err)
-    }
-}
-
-impl From<openssl::error::ErrorStack> for ClientInitError {
-    fn from(err: openssl::error::ErrorStack) -> ClientInitError {
-        ClientInitError::SslError(err)
-    }
-}
-
-impl fmt::Display for ClientInitError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        (self as &dyn fmt::Debug).fmt(f)
-    }
-}
-
-impl error::Error for ClientInitError {
-    fn description(&self) -> &str {
-        "Failed to produce a hyper client."
-    }
 }

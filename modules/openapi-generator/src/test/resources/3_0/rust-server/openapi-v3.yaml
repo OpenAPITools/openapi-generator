@@ -246,6 +246,49 @@ paths:
       responses:
         '200':
           description: Success
+  /register-callback:
+    post:
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+      callbacks:
+        callback:
+          '{$request.query.url}/callback':
+            post:
+              responses:
+                '204':
+                  description: OK
+      responses:
+        '204':
+          description: OK
+  /callback-with-header:
+    post:
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+      callbacks:
+        callback:
+          '{$request.query.url}/callback-with-header':
+            post:
+              parameters:
+                - name: Information
+                  in: header
+                  schema:
+                    type: string
+              responses:
+                '204':
+                  description: OK
+      responses:
+        '204':
+          description: OK
   /rfc7807:
     get:
       responses:
