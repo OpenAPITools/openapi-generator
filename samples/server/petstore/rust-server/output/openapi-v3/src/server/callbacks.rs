@@ -26,7 +26,6 @@ use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_
 use uuid;
 use serde_xml_rs;
 
-use mimetypes;
 use models;
 use header;
 

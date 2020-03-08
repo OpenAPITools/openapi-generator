@@ -24,7 +24,6 @@ use swagger::{ApiError, XSpanIdString, Has, AuthData};
 use url::form_urlencoded;
 use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 
-use mimetypes;
 use models;
 use header;
 

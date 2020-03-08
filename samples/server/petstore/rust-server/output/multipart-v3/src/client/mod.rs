@@ -30,7 +30,6 @@ use hyper_0_10::header::{Headers, ContentType};
 header! { (ContentId, "Content-ID") => [String] }
 use mime_multipart::{Node, Part, generate_boundary, write_multipart};
 
-use mimetypes;
 use models;
 use header;
 
@@ -337,7 +336,7 @@ impl<C, F> Api<C> for Client<F> where
         // Add the message body to the request object.
         *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::MULTIPART_RELATED_REQUEST_POST;
+        let header = "multipart/related";
         request.headers_mut().insert(CONTENT_TYPE,
         match HeaderValue::from_bytes(
             &[header.as_bytes(), "; boundary=".as_bytes(), &boundary, "; type=\"application/json\"".as_bytes()].concat()
