@@ -453,28 +453,33 @@ fileprivate class FileUploadEncoding: ParameterEncoding {
             switch value {
             case let fileURL as URL:
 
-                let fileData = try Data(contentsOf: fileURL)
-
-                let mimetype = self.contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
-
-                urlRequest = configureFileUploadRequest(
+                urlRequest = try configureFileUploadRequest(
                     urlRequest: urlRequest,
                     boundary: boundary,
-                    name: fileURL.lastPathComponent,
-                    data: fileData,
-                    mimeType: mimetype
+                    name: key,
+                    fileURL: fileURL
                 )
 
             case let string as String:
 
                 if let data = string.data(using: .utf8) {
-                    urlRequest = configureDataUploadRequest(urlRequest: urlRequest, boundary: boundary, name: key, data: data)
+                    urlRequest = configureDataUploadRequest(
+                        urlRequest: urlRequest,
+                        boundary: boundary,
+                        name: key,
+                        data: data
+                    )
                 }
 
             case let number as NSNumber:
 
                 if let data = number.stringValue.data(using: .utf8) {
-                    urlRequest = configureDataUploadRequest(urlRequest: urlRequest, boundary: boundary, name: key, data: data)
+                    urlRequest = configureDataUploadRequest(
+                        urlRequest: urlRequest,
+                        boundary: boundary,
+                        name: key,
+                        data: data
+                    )
                 }
 
             default:
@@ -491,20 +496,24 @@ fileprivate class FileUploadEncoding: ParameterEncoding {
         return urlRequest
     }
 
-    private func configureFileUploadRequest(urlRequest: URLRequest, boundary: String, name: String, data: Data, mimeType: String?) -> URLRequest {
+    private func configureFileUploadRequest(urlRequest: URLRequest, boundary: String, name: String, fileURL: URL) throws -> URLRequest {
 
         var urlRequest = urlRequest
 
         var body = urlRequest.httpBody.orEmpty
         
+        let fileData = try Data(contentsOf: fileURL)
+
+        let mimetype = self.contentTypeForFormPart(fileURL) ?? mimeType(for: fileURL)
+
+        let fileName = fileURL.lastPathComponent
+        
         body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(name)\"\r\n\r\n")
+        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n\r\n")
 
-        if let mimeType = mimeType {
-            body.append("Content-Type: \(mimeType)\r\n\r\n")
-        }
+        body.append("Content-Type: \(mimetype)\r\n\r\n")
 
-        body.append(data)
+        body.append(fileData)
 
         body.append("\r\n\r\n")
         
