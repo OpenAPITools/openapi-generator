@@ -4,9 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -80,7 +79,7 @@ public class Order   {
    * Get id
    * @return id
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Long getId() {
@@ -100,7 +99,7 @@ public class Order   {
    * Get petId
    * @return petId
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Long getPetId() {
@@ -120,7 +119,7 @@ public class Order   {
    * Get quantity
    * @return quantity
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Integer getQuantity() {
@@ -140,7 +139,7 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -161,7 +160,7 @@ public class Order   {
    * Order Status
    * @return status
   */
-  @ApiModelProperty(value = "Order Status")
+  @Schema(description = "Order Status")
 
 
   public StatusEnum getStatus() {
@@ -181,7 +180,7 @@ public class Order   {
    * Get complete
    * @return complete
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Boolean getComplete() {

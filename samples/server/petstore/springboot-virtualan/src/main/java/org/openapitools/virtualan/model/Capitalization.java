@@ -3,8 +3,7 @@ package org.openapitools.virtualan.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -41,7 +40,7 @@ public class Capitalization   {
    * Get smallCamel
    * @return smallCamel
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getSmallCamel() {
@@ -61,7 +60,7 @@ public class Capitalization   {
    * Get capitalCamel
    * @return capitalCamel
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getCapitalCamel() {
@@ -81,7 +80,7 @@ public class Capitalization   {
    * Get smallSnake
    * @return smallSnake
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getSmallSnake() {
@@ -101,7 +100,7 @@ public class Capitalization   {
    * Get capitalSnake
    * @return capitalSnake
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getCapitalSnake() {
@@ -121,7 +120,7 @@ public class Capitalization   {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getScAETHFlowPoints() {
@@ -141,7 +140,7 @@ public class Capitalization   {
    * Name of the pet 
    * @return ATT_NAME
   */
-  @ApiModelProperty(value = "Name of the pet ")
+  @Schema(description = "Name of the pet ")
 
 
   public String getATTNAME() {

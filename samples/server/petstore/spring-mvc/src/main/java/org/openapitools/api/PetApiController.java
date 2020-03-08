@@ -3,7 +3,9 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import org.springframework.core.io.Resource;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +44,7 @@ public class PetApiController implements PetApi {
      *         or Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
+    public ResponseEntity<Void> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -56,7 +58,7 @@ public class PetApiController implements PetApi {
      *         or Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    public ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey) {
+    public ResponseEntity<Void> deletePet(@Parameter(in = ParameterIn.PATH,description = "Pet id to delete", required=true) @PathVariable("petId") Long petId,@Parameter(in = ParameterIn.HEADER, description = ""  ) @RequestHeader(value="api_key", required=false) String apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -70,7 +72,7 @@ public class PetApiController implements PetApi {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
+    public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(schema = @Schema(allowableValues = {"available, pending, sold"}, description = "Status values that need to be considered for filter", required = true)) @Valid @RequestParam(value = "status", required = true) List<String> status) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
@@ -97,7 +99,7 @@ public class PetApiController implements PetApi {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
+    public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @Parameter(schema = @Schema( description = "Tags to filter by", required = true)) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
@@ -124,7 +126,7 @@ public class PetApiController implements PetApi {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId) {
+    public ResponseEntity<Pet> getPetById(@Parameter(in = ParameterIn.PATH,description = "ID of pet to return", required=true) @PathVariable("petId") Long petId) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
@@ -151,7 +153,7 @@ public class PetApiController implements PetApi {
      *         or Validation exception (status code 405)
      * @see PetApi#updatePet
      */
-    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
+    public ResponseEntity<Void> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -165,7 +167,7 @@ public class PetApiController implements PetApi {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status) {
+    public ResponseEntity<Void> updatePetWithForm(@Parameter(in = ParameterIn.PATH,description = "ID of pet that needs to be updated", required=true) @PathVariable("petId") Long petId,@Parameter(description = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@Parameter(description = "Updated status of the pet") @RequestPart(value="status", required=false)  String status) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -179,7 +181,7 @@ public class PetApiController implements PetApi {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file") MultipartFile file) {
+    public ResponseEntity<ModelApiResponse> uploadFile(@Parameter(in = ParameterIn.PATH,description = "ID of pet to update", required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@Parameter(description = "file to upload") @Valid @RequestPart(value = "file") MultipartFile file) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";

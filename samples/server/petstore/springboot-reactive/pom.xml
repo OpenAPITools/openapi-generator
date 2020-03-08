@@ -41,11 +41,6 @@
             <artifactId>swagger-ui</artifactId>
             <version>3.14.2</version>
         </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.14</version>
-        </dependency>
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
