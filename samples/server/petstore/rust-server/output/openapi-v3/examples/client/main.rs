@@ -25,6 +25,7 @@ use futures::{Future, future, Stream, stream};
 use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       CallbackWithHeaderPostResponse,
+                      EnumInPathPathParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
@@ -125,6 +126,14 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
+        Some("EnumInPathPathParamGet") => {
+            let result = rt.block_on(client.enum_in_path_path_param_get(
+                  ???
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
+        */
         Some("MandatoryRequestHeaderGet") => {
             let result = rt.block_on(client.mandatory_request_header_get(
                   "x_header_example".to_string()

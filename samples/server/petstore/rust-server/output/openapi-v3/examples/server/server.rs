@@ -88,6 +88,7 @@ use openapi_v3::{
     Api,
     ApiError,
     CallbackWithHeaderPostResponse,
+    EnumInPathPathParamGetResponse,
     MandatoryRequestHeaderGetResponse,
     MergePatchJsonGetResponse,
     MultigetGetResponse,
@@ -116,6 +117,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("callback_with_header_post(\"{}\") - X-Span-ID: {:?}", url, context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        context: &C) -> Box<Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("enum_in_path_path_param_get({:?}) - X-Span-ID: {:?}", path_param, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 

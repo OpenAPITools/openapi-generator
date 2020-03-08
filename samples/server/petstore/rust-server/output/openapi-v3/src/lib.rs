@@ -80,6 +80,12 @@ pub enum CallbackWithHeaderPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum EnumInPathPathParamGetResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum MandatoryRequestHeaderGetResponse {
     /// Success
     Success
@@ -252,6 +258,11 @@ pub trait Api<C> {
         url: String,
         context: &C) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>;
 
+    fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        context: &C) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>;
+
     fn mandatory_request_header_get(
         &self,
         x_header: String,
@@ -343,6 +354,11 @@ pub trait ApiNoContext {
         &self,
         url: String,
         ) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>;
+
+    fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        ) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>;
 
     fn mandatory_request_header_get(
         &self,
@@ -448,6 +464,14 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>
     {
         self.api().callback_with_header_post(url, &self.context())
+    }
+
+    fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        ) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>
+    {
+        self.api().enum_in_path_path_param_get(path_param, &self.context())
     }
 
     fn mandatory_request_header_get(

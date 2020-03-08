@@ -113,6 +113,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [****](docs/default_api.md#) | **POST** /callback-with-header | 
+[****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
 [****](docs/default_api.md#) | **GET** /mandatory-request-header | 
 [****](docs/default_api.md#) | **GET** /merge-patch-json | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
@@ -149,6 +150,7 @@ Method | HTTP request | Description
  - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
  - [OptionalObjectHeader](docs/OptionalObjectHeader.md)
  - [RequiredObjectHeader](docs/RequiredObjectHeader.md)
+ - [StringEnum](docs/StringEnum.md)
  - [StringObject](docs/StringObject.md)
  - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)

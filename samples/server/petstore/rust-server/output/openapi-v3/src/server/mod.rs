@@ -26,6 +26,7 @@ pub use crate::context;
 
 use {Api,
      CallbackWithHeaderPostResponse,
+     EnumInPathPathParamGetResponse,
      MandatoryRequestHeaderGetResponse,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
@@ -53,6 +54,7 @@ mod paths {
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/callback-with-header$",
+            r"^/enum_in_path/(?P<path_param>[^/?#]*)$",
             r"^/mandatory-request-header$",
             r"^/merge-patch-json$",
             r"^/multiget$",
@@ -72,21 +74,27 @@ mod paths {
         .expect("Unable to create global regex set");
     }
     pub static ID_CALLBACK_WITH_HEADER: usize = 0;
-    pub static ID_MANDATORY_REQUEST_HEADER: usize = 1;
-    pub static ID_MERGE_PATCH_JSON: usize = 2;
-    pub static ID_MULTIGET: usize = 3;
-    pub static ID_MULTIPLE_AUTH_SCHEME: usize = 4;
-    pub static ID_PARAMGET: usize = 5;
-    pub static ID_READONLY_AUTH_SCHEME: usize = 6;
-    pub static ID_REGISTER_CALLBACK: usize = 7;
-    pub static ID_REQUIRED_OCTET_STREAM: usize = 8;
-    pub static ID_RESPONSES_WITH_HEADERS: usize = 9;
-    pub static ID_RFC7807: usize = 10;
-    pub static ID_UNTYPED_PROPERTY: usize = 11;
-    pub static ID_UUID: usize = 12;
-    pub static ID_XML: usize = 13;
-    pub static ID_XML_EXTRA: usize = 14;
-    pub static ID_XML_OTHER: usize = 15;
+    pub static ID_ENUM_IN_PATH_PATH_PARAM: usize = 1;
+    lazy_static! {
+        pub static ref REGEX_ENUM_IN_PATH_PATH_PARAM: regex::Regex =
+            regex::Regex::new(r"^/enum_in_path/(?P<path_param>[^/?#]*)$")
+                .expect("Unable to create regex for ENUM_IN_PATH_PATH_PARAM");
+    }
+    pub static ID_MANDATORY_REQUEST_HEADER: usize = 2;
+    pub static ID_MERGE_PATCH_JSON: usize = 3;
+    pub static ID_MULTIGET: usize = 4;
+    pub static ID_MULTIPLE_AUTH_SCHEME: usize = 5;
+    pub static ID_PARAMGET: usize = 6;
+    pub static ID_READONLY_AUTH_SCHEME: usize = 7;
+    pub static ID_REGISTER_CALLBACK: usize = 8;
+    pub static ID_REQUIRED_OCTET_STREAM: usize = 9;
+    pub static ID_RESPONSES_WITH_HEADERS: usize = 10;
+    pub static ID_RFC7807: usize = 11;
+    pub static ID_UNTYPED_PROPERTY: usize = 12;
+    pub static ID_UUID: usize = 13;
+    pub static ID_XML: usize = 14;
+    pub static ID_XML_EXTRA: usize = 15;
+    pub static ID_XML_OTHER: usize = 16;
 }
 
 pub struct MakeService<T, RC> {
@@ -201,6 +209,66 @@ where
                                                 CallbackWithHeaderPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
+            // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
+            &hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => {
+                // Path parameters
+                let path: &str = &uri.path().to_string();
+                let path_params =
+                    paths::REGEX_ENUM_IN_PATH_PATH_PARAM
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE ENUM_IN_PATH_PATH_PARAM in set but failed match against \"{}\"", path, paths::REGEX_ENUM_IN_PATH_PATH_PARAM.as_str())
+                    );
+
+                let param_path_param = match percent_encoding::percent_decode(path_params["path_param"].as_bytes()).decode_utf8() {
+                    Ok(param_path_param) => match param_path_param.parse::<models::StringEnum>() {
+                        Ok(param_path_param) => param_path_param,
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter path_param: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
+                    },
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["path_param"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
+                };
+
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.enum_in_path_path_param_get(
+                                            param_path_param,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                EnumInPathPathParamGetResponse::Success
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                 },
                                             },
                                             Err(_) => {
@@ -1363,6 +1431,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
         match request.method() {
             // CallbackWithHeaderPost - POST /callback-with-header
             &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Ok("CallbackWithHeaderPost"),
+            // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
+            &hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Ok("EnumInPathPathParamGet"),
             // MandatoryRequestHeaderGet - GET /mandatory-request-header
             &hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => Ok("MandatoryRequestHeaderGet"),
             // MergePatchJsonGet - GET /merge-patch-json

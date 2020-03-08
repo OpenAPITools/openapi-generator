@@ -4,6 +4,7 @@ pub mod responses {
 
 
 
+
     /// Create &str objects for the response content types for MergePatchJsonGet
     pub static MERGE_PATCH_JSON_GET_MERGE: &str = "application/merge-patch+json";
 
@@ -52,6 +53,7 @@ pub mod responses {
 }
 
 pub mod requests {
+
 
 
 

@@ -325,6 +325,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/anotherXmlObject'
           description: merge-patch+json-encoded response
+  /enum_in_path/{path_param}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: path_param
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringEnum'
+        style: simple
+      responses:
+        "200":
+          description: Success
 components:
   schemas:
     EnumWithStarObject:
@@ -480,6 +493,11 @@ components:
       required:
       - nullable
       type: object
+    StringEnum:
+      enum:
+      - FOO
+      - BAR
+      type: string
     inline_response_201:
       properties:
         foo:
