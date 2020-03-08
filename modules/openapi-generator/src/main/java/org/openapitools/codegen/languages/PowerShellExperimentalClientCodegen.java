@@ -273,8 +273,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         supportingFiles.add(new SupportingFile("get-configuration.mustache", infrastructureFolder + "Client", "Get-OpenAPIConfiguration.ps1"));
 
         // private
-        supportingFiles.add(new SupportingFile("Get-CommonParameters.ps1", infrastructureFolder + File.separator + "Private" + File.separator, "Get-CommonParameters.ps1"));
-        supportingFiles.add(new SupportingFile("Out-DebugParameter.ps1", infrastructureFolder + File.separator + "Private" + File.separator, "Out-DebugParameter.ps1"));
+        supportingFiles.add(new SupportingFile("Get-CommonParameters.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Get-CommonParameters.ps1"));
+        supportingFiles.add(new SupportingFile("Out-DebugParameter.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Out-DebugParameter.ps1"));
 
         // en-US
         supportingFiles.add(new SupportingFile("about_Org.OpenAPITools.help.txt.mustache", infrastructureFolder + File.separator + "en-US" + File.separator + "about_" + packageName + ".help.txt"));

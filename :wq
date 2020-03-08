@@ -1,3 +1,4 @@
+{{> partial_header}}
 <#
 .Synopsis
     Helper function to get common parameters (Verbose, Debug, etc.)
