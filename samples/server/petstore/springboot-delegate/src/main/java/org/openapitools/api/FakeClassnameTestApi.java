@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -40,11 +41,12 @@ public interface FakeClassnameTestApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test class name in snake case", description = "To test class name in snake case",
+    @Operation(summary = "To test class name in snake case", operationId = "testClassname", description = "To test class name in snake case",
      tags={ "fake_classname_tags 123#$%^", },
+      security = @SecurityRequirement(name = "api_key_query"),
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Client.class))  )}  )  })
-        @RequestMapping(value = "/fake_classname_test",
+    @RequestMapping(value = "/fake_classname_test",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)

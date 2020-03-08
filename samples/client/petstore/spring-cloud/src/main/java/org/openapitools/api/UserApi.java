@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,11 +46,11 @@ public interface UserApi {
      * @param body Created user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Create user", description = "This can only be done by the logged in user.",
+    @Operation(summary = "Create user", operationId = "createUser", description = "This can only be done by the logged in user.",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-        @RequestMapping(value = "/user",
+    @RequestMapping(value = "/user",
         method = RequestMethod.POST)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody User body);
 
@@ -60,11 +61,11 @@ public interface UserApi {
      * @param body List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", description = "",
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-        @RequestMapping(value = "/user/createWithArray",
+    @RequestMapping(value = "/user/createWithArray",
         method = RequestMethod.POST)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
 
@@ -75,11 +76,11 @@ public interface UserApi {
      * @param body List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", description = "",
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-        @RequestMapping(value = "/user/createWithList",
+    @RequestMapping(value = "/user/createWithList",
         method = RequestMethod.POST)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
 
@@ -92,12 +93,12 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Delete user", description = "This can only be done by the logged in user.",
+    @Operation(summary = "Delete user", operationId = "deleteUser", description = "This can only be done by the logged in user.",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
-        @RequestMapping(value = "/user/{username}",
+    @RequestMapping(value = "/user/{username}",
         method = RequestMethod.DELETE)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteUser(@Parameter(in = ParameterIn.PATH,description = "The name that needs to be deleted", required=true) @PathVariable("username") String username);
 
@@ -110,13 +111,13 @@ public interface UserApi {
      *         or Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Get user by user name", description = "",
+    @Operation(summary = "Get user by user name", operationId = "getUserByName", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = User.class))  )}  ) , 
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
-        @RequestMapping(value = "/user/{username}",
+    @RequestMapping(value = "/user/{username}",
         produces = "application/json", 
         method = RequestMethod.GET)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<User>> getUserByName(@Parameter(in = ParameterIn.PATH,description = "The name that needs to be fetched. Use user1 for testing.", required=true) @PathVariable("username") String username);
@@ -130,12 +131,12 @@ public interface UserApi {
      * @return successful operation (status code 200)
      *         or Invalid username/password supplied (status code 400)
      */
-    @Operation(summary = "Logs user into the system", description = "",
+    @Operation(summary = "Logs user into the system", operationId = "loginUser", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = String.class))  )}  ) , 
             @ApiResponse(responseCode = "400", description = "Invalid username/password supplied"  )  })
-        @RequestMapping(value = "/user/login",
+    @RequestMapping(value = "/user/login",
         produces = "application/json", 
         method = RequestMethod.GET)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<String>> loginUser(@NotNull @Parameter(schema = @Schema( description = "The user name for login", required = true)) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(schema = @Schema( description = "The password for login in clear text", required = true)) @Valid @RequestParam(value = "password", required = true) String password);
@@ -146,11 +147,11 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Logs out current logged in user session", description = "",
+    @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-        @RequestMapping(value = "/user/logout",
+    @RequestMapping(value = "/user/logout",
         method = RequestMethod.GET)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> logoutUser();
 
@@ -164,12 +165,12 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Updated user", description = "This can only be done by the logged in user.",
+    @Operation(summary = "Updated user", operationId = "updateUser", description = "This can only be done by the logged in user.",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid user supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
-        @RequestMapping(value = "/user/{username}",
+    @RequestMapping(value = "/user/{username}",
         method = RequestMethod.PUT)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updateUser(@Parameter(in = ParameterIn.PATH,description = "name that need to be deleted", required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User body);
 

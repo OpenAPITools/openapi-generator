@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,12 +51,11 @@ public interface StoreApi {
      * @return Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @Operation(summary = "Delete purchase order by ID", description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+    @Operation(summary = "Delete purchase order by ID", operationId = "deleteOrder", description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
      tags={ "store", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "Order not found"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/store/order/{order_id}",
@@ -72,11 +72,11 @@ public interface StoreApi {
      *
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Returns pet inventories by status", description = "Returns a map of status codes to quantities",
+    @Operation(summary = "Returns pet inventories by status", operationId = "getInventory", description = "Returns a map of status codes to quantities",
      tags={ "store", },
+      security = @SecurityRequirement(name = "api_key"),
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Map.class) )}  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/store/inventory",
@@ -97,13 +97,12 @@ public interface StoreApi {
      *         or Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @Operation(summary = "Find purchase order by ID", description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+    @Operation(summary = "Find purchase order by ID", operationId = "getOrderById", description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
      tags={ "store", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Order.class))  )}  ) , 
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "Order not found"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/store/order/{order_id}",
@@ -136,12 +135,11 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
-    @Operation(summary = "Place an order for a pet", description = "",
+    @Operation(summary = "Place an order for a pet", operationId = "placeOrder", description = "",
      tags={ "store", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Order.class))  )}  ) , 
             @ApiResponse(responseCode = "400", description = "Invalid Order"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/store/order",

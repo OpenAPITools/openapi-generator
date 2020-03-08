@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.virtualan.annotation.ApiVirtual;
 import io.virtualan.annotation.VirtualService;
@@ -52,11 +53,11 @@ public interface AnotherFakeApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-    @Operation(summary = "To test special tags", description = "To test special tags and operation ID starting with number",
+    @Operation(summary = "To test special tags", operationId = "call123testSpecialTags", description = "To test special tags and operation ID starting with number",
      tags={ "$another-fake?", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Client.class))  )}  )  })
-        @RequestMapping(value = "/another-fake/dummy",
+    @RequestMapping(value = "/another-fake/dummy",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)

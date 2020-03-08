@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,11 +60,11 @@ public interface FakeApi {
      * @param xmlItem XmlItem Body (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "creates an XmlItem", description = "this route creates an XmlItem",
+    @Operation(summary = "creates an XmlItem", operationId = "createXmlItem", description = "this route creates an XmlItem",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-        @RequestMapping(value = "/fake/create_xml_item",
+    @RequestMapping(value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" },
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<Void>> createXmlItem(@Parameter(description = "XmlItem Body" ,required=true )  @Valid @RequestBody XmlItem xmlItem) {
@@ -79,11 +80,11 @@ public interface FakeApi {
      * @param body Input boolean as post body (optional)
      * @return Output boolean (status code 200)
      */
-    @Operation(summary = "", description = "Test serialization of outer boolean types",
+    @Operation(summary = "", operationId = "fakeOuterBooleanSerialize", description = "Test serialization of outer boolean types",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Output boolean" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Boolean.class))  )}  )  })
-        @RequestMapping(value = "/fake/outer/boolean",
+    @RequestMapping(value = "/fake/outer/boolean",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@Parameter(description = "Input boolean as post body"  )  @Valid @RequestBody(required = false) Boolean body) {
@@ -99,11 +100,11 @@ public interface FakeApi {
      * @param body Input composite as post body (optional)
      * @return Output composite (status code 200)
      */
-    @Operation(summary = "", description = "Test serialization of object with outer number type",
+    @Operation(summary = "", operationId = "fakeOuterCompositeSerialize", description = "Test serialization of object with outer number type",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Output composite" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = OuterComposite.class))  )}  )  })
-        @RequestMapping(value = "/fake/outer/composite",
+    @RequestMapping(value = "/fake/outer/composite",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@Parameter(description = "Input composite as post body"  )  @Valid @RequestBody(required = false) OuterComposite body) {
@@ -130,11 +131,11 @@ public interface FakeApi {
      * @param body Input number as post body (optional)
      * @return Output number (status code 200)
      */
-    @Operation(summary = "", description = "Test serialization of outer number types",
+    @Operation(summary = "", operationId = "fakeOuterNumberSerialize", description = "Test serialization of outer number types",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Output number" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = BigDecimal.class))  )}  )  })
-        @RequestMapping(value = "/fake/outer/number",
+    @RequestMapping(value = "/fake/outer/number",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@Parameter(description = "Input number as post body"  )  @Valid @RequestBody(required = false) BigDecimal body) {
@@ -150,11 +151,11 @@ public interface FakeApi {
      * @param body Input string as post body (optional)
      * @return Output string (status code 200)
      */
-    @Operation(summary = "", description = "Test serialization of outer string types",
+    @Operation(summary = "", operationId = "fakeOuterStringSerialize", description = "Test serialization of outer string types",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Output string" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = String.class))  )}  )  })
-        @RequestMapping(value = "/fake/outer/string",
+    @RequestMapping(value = "/fake/outer/string",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<String>> fakeOuterStringSerialize(@Parameter(description = "Input string as post body"  )  @Valid @RequestBody(required = false) String body) {
@@ -170,11 +171,11 @@ public interface FakeApi {
      * @param body  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", description = "For this test, the body for this request much reference a schema named `File`.",
+    @Operation(summary = "", operationId = "testBodyWithFileSchema", description = "For this test, the body for this request much reference a schema named `File`.",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Success"  )  })
-        @RequestMapping(value = "/fake/body-with-file-schema",
+    @RequestMapping(value = "/fake/body-with-file-schema",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     default CompletableFuture<ResponseEntity<Void>> testBodyWithFileSchema(@Parameter(description = "" ,required=true )  @Valid @RequestBody FileSchemaTestClass body) {
@@ -190,11 +191,11 @@ public interface FakeApi {
      * @param body  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", description = "",
+    @Operation(summary = "", operationId = "testBodyWithQueryParams", description = "",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Success"  )  })
-        @RequestMapping(value = "/fake/body-with-query-params",
+    @RequestMapping(value = "/fake/body-with-query-params",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     default CompletableFuture<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @Parameter(schema = @Schema( description = "", required = true)) @Valid @RequestParam(value = "query", required = true) String query,@Parameter(description = "" ,required=true )  @Valid @RequestBody User body) {
@@ -210,11 +211,11 @@ public interface FakeApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test \"client\" model", description = "To test \"client\" model",
+    @Operation(summary = "To test \"client\" model", operationId = "testClientModel", description = "To test \"client\" model",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Client.class))  )}  )  })
-        @RequestMapping(value = "/fake",
+    @RequestMapping(value = "/fake",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
@@ -256,12 +257,13 @@ public interface FakeApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+    @Operation(summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", operationId = "testEndpointParameters", description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
      tags={ "fake", },
+      security = @SecurityRequirement(name = "http_basic_test"),
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
-        @RequestMapping(value = "/fake",
+    @RequestMapping(value = "/fake",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<Void>> testEndpointParameters(@Parameter(description = "None",required=true) @RequestPart(value="number", required=true)  BigDecimal number,@Parameter(description = "None",required=true) @RequestPart(value="double", required=true)  Double _double,@Parameter(description = "None",required=true) @RequestPart(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,@Parameter(description = "None",required=true) @RequestPart(value="byte", required=true)  byte[] _byte,@Parameter(description = "None") @RequestPart(value="integer", required=false)  Integer integer,@Parameter(description = "None") @RequestPart(value="int32", required=false)  Integer int32,@Parameter(description = "None") @RequestPart(value="int64", required=false)  Long int64,@Parameter(description = "None") @RequestPart(value="float", required=false)  Float _float,@Parameter(description = "None") @RequestPart(value="string", required=false)  String string,@Parameter(description = "None") @Valid @RequestPart(value = "binary") MultipartFile binary,@Parameter(description = "None") @RequestPart(value="date", required=false)  LocalDate date,@Parameter(description = "None") @RequestPart(value="dateTime", required=false)  OffsetDateTime dateTime,@Parameter(description = "None") @RequestPart(value="password", required=false)  String password,@Parameter(description = "None") @RequestPart(value="callback", required=false)  String paramCallback) {
@@ -285,12 +287,12 @@ public interface FakeApi {
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      */
-    @Operation(summary = "To test enum parameters", description = "To test enum parameters",
+    @Operation(summary = "To test enum parameters", operationId = "testEnumParameters", description = "To test enum parameters",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid request"  ) , 
             @ApiResponse(responseCode = "404", description = "Not found"  )  })
-        @RequestMapping(value = "/fake",
+    @RequestMapping(value = "/fake",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
     default CompletableFuture<ResponseEntity<Void>> testEnumParameters(@Parameter(in = ParameterIn.HEADER, description = "Header parameter enum test (string array)"  , schema = @Schema(allowableValues={">, $"})) @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray,@Parameter(in = ParameterIn.HEADER, description = "Header parameter enum test (string)"  , schema = @Schema(allowableValues={"_abc, -efg, (xyz)"}, example="-efg")) @RequestHeader(value="enum_header_string", required=false) String enumHeaderString,@Parameter(schema = @Schema(allowableValues = {">, $"}, description = "Query parameter enum test (string array)")) @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@Parameter(schema = @Schema(allowableValues = {"_abc, -efg, (xyz)"}, description = "Query parameter enum test (string)", example = "-efg")) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@Parameter(schema = @Schema(allowableValues = {"1, -2"}, description = "Query parameter enum test (double)")) @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@Parameter(schema = @Schema(allowableValues = {"1.1, -1.2"}, description = "Query parameter enum test (double)")) @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@Parameter(description = "Form parameter enum test (string array)",schema = @Schema(allowableValues ={">, $"})) @RequestPart(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,@Parameter(description = "Form parameter enum test (string)",schema = @Schema(allowableValues ={"_abc, -efg, (xyz)"}), example="-efg") @RequestPart(value="enum_form_string", required=false)  String enumFormString) {
@@ -311,11 +313,11 @@ public interface FakeApi {
      * @param int64Group Integer in group parameters (optional)
      * @return Someting wrong (status code 400)
      */
-    @Operation(summary = "Fake endpoint to test group parameters (optional)", description = "Fake endpoint to test group parameters (optional)",
+    @Operation(summary = "Fake endpoint to test group parameters (optional)", operationId = "testGroupParameters", description = "Fake endpoint to test group parameters (optional)",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Someting wrong"  )  })
-        @RequestMapping(value = "/fake",
+    @RequestMapping(value = "/fake",
         method = RequestMethod.DELETE)
     default CompletableFuture<ResponseEntity<Void>> testGroupParameters(@NotNull @Parameter(schema = @Schema( description = "Required String in group parameters", required = true)) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,@Parameter(in = ParameterIn.HEADER, description = "Required Boolean in group parameters"  ,required=true ) @RequestHeader(value="required_boolean_group", required=true) Boolean requiredBooleanGroup,@NotNull @Parameter(schema = @Schema( description = "Required Integer in group parameters", required = true)) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,@Parameter(schema = @Schema( description = "String in group parameters")) @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@Parameter(in = ParameterIn.HEADER, description = "Boolean in group parameters"  ) @RequestHeader(value="boolean_group", required=false) Boolean booleanGroup,@Parameter(schema = @Schema( description = "Integer in group parameters")) @Valid @RequestParam(value = "int64_group", required = false) Long int64Group) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
@@ -329,11 +331,11 @@ public interface FakeApi {
      * @param param request body (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test inline additionalProperties", description = "",
+    @Operation(summary = "test inline additionalProperties", operationId = "testInlineAdditionalProperties", description = "",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-        @RequestMapping(value = "/fake/inline-additionalProperties",
+    @RequestMapping(value = "/fake/inline-additionalProperties",
         consumes = { "application/json" },
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<Void>> testInlineAdditionalProperties(@Parameter(description = "request body" ,required=true )  @Valid @RequestBody Map<String, String> param) {
@@ -349,11 +351,11 @@ public interface FakeApi {
      * @param param2 field2 (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test json serialization of form data", description = "",
+    @Operation(summary = "test json serialization of form data", operationId = "testJsonFormData", description = "",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-        @RequestMapping(value = "/fake/jsonFormData",
+    @RequestMapping(value = "/fake/jsonFormData",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
     default CompletableFuture<ResponseEntity<Void>> testJsonFormData(@Parameter(description = "field1",required=true) @RequestPart(value="param", required=true)  String param,@Parameter(description = "field2",required=true) @RequestPart(value="param2", required=true)  String param2) {
@@ -373,11 +375,11 @@ public interface FakeApi {
      * @param context  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", description = "To test the collection format in query parameters",
+    @Operation(summary = "", operationId = "testQueryParameterCollectionFormat", description = "To test the collection format in query parameters",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Success"  )  })
-        @RequestMapping(value = "/fake/test-query-paramters",
+    @RequestMapping(value = "/fake/test-query-paramters",
         method = RequestMethod.PUT)
     default CompletableFuture<ResponseEntity<Void>> testQueryParameterCollectionFormat(@NotNull @Parameter(schema = @Schema( description = "", required = true)) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,@NotNull @Parameter(schema = @Schema( description = "", required = true)) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,@NotNull @Parameter(schema = @Schema( description = "", required = true)) @Valid @RequestParam(value = "http", required = true) List<String> http,@NotNull @Parameter(schema = @Schema( description = "", required = true)) @Valid @RequestParam(value = "url", required = true) List<String> url,@NotNull @Parameter(schema = @Schema( description = "", required = true)) @Valid @RequestParam(value = "context", required = true) List<String> context) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
@@ -393,11 +395,15 @@ public interface FakeApi {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "uploads an image (required)", description = "",
+    @Operation(summary = "uploads an image (required)", operationId = "uploadFileWithRequiredFile", description = "",
      tags={ "pet", },
+      security = @SecurityRequirement(name = "petstore_auth", scopes = {
+       "write:pets" ,
+        "read:pets"  
+        }),
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = ModelApiResponse.class))  )}  )  })
-        @RequestMapping(value = "/fake/{petId}/uploadImageWithRequiredFile",
+    @RequestMapping(value = "/fake/{petId}/uploadImageWithRequiredFile",
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,11 +50,10 @@ public interface UserApi {
      * @param body Created user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Create user", description = "This can only be done by the logged in user.",
+    @Operation(summary = "Create user", operationId = "createUser", description = "This can only be done by the logged in user.",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/user",
@@ -70,11 +70,10 @@ public interface UserApi {
      * @param body List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", description = "",
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/user/createWithArray",
@@ -91,11 +90,10 @@ public interface UserApi {
      * @param body List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", description = "",
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/user/createWithList",
@@ -114,12 +112,11 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Delete user", description = "This can only be done by the logged in user.",
+    @Operation(summary = "Delete user", operationId = "deleteUser", description = "This can only be done by the logged in user.",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/user/{username}",
@@ -138,13 +135,12 @@ public interface UserApi {
      *         or Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Get user by user name", description = "",
+    @Operation(summary = "Get user by user name", operationId = "getUserByName", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = User.class))  )}  ) , 
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/user/{username}",
@@ -178,12 +174,11 @@ public interface UserApi {
      * @return successful operation (status code 200)
      *         or Invalid username/password supplied (status code 400)
      */
-    @Operation(summary = "Logs user into the system", description = "",
+    @Operation(summary = "Logs user into the system", operationId = "loginUser", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = String.class))  )}  ) , 
             @ApiResponse(responseCode = "400", description = "Invalid username/password supplied"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/user/login",
@@ -200,11 +195,10 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Logs out current logged in user session", description = "",
+    @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser", description = "",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/user/logout",
@@ -224,12 +218,11 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Updated user", description = "This can only be done by the logged in user.",
+    @Operation(summary = "Updated user", operationId = "updateUser", description = "This can only be done by the logged in user.",
      tags={ "user", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid user supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/user/{username}",

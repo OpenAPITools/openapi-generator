@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,11 +59,10 @@ public interface FakeApi {
      * @param xmlItem XmlItem Body (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "creates an XmlItem", description = "this route creates an XmlItem",
+    @Operation(summary = "creates an XmlItem", operationId = "createXmlItem", description = "this route creates an XmlItem",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/create_xml_item",
@@ -81,11 +81,10 @@ public interface FakeApi {
      * @param body Input boolean as post body (optional)
      * @return Output boolean (status code 200)
      */
-    @Operation(summary = "", description = "Test serialization of outer boolean types",
+    @Operation(summary = "", operationId = "fakeOuterBooleanSerialize", description = "Test serialization of outer boolean types",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Output boolean" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Boolean.class))  )}  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/outer/boolean",
@@ -104,11 +103,10 @@ public interface FakeApi {
      * @param body Input composite as post body (optional)
      * @return Output composite (status code 200)
      */
-    @Operation(summary = "", description = "Test serialization of object with outer number type",
+    @Operation(summary = "", operationId = "fakeOuterCompositeSerialize", description = "Test serialization of object with outer number type",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Output composite" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = OuterComposite.class))  )}  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/outer/composite",
@@ -136,11 +134,10 @@ public interface FakeApi {
      * @param body Input number as post body (optional)
      * @return Output number (status code 200)
      */
-    @Operation(summary = "", description = "Test serialization of outer number types",
+    @Operation(summary = "", operationId = "fakeOuterNumberSerialize", description = "Test serialization of outer number types",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Output number" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = BigDecimal.class))  )}  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/outer/number",
@@ -159,11 +156,10 @@ public interface FakeApi {
      * @param body Input string as post body (optional)
      * @return Output string (status code 200)
      */
-    @Operation(summary = "", description = "Test serialization of outer string types",
+    @Operation(summary = "", operationId = "fakeOuterStringSerialize", description = "Test serialization of outer string types",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Output string" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = String.class))  )}  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/outer/string",
@@ -182,11 +178,10 @@ public interface FakeApi {
      * @param body  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", description = "For this test, the body for this request much reference a schema named `File`.",
+    @Operation(summary = "", operationId = "testBodyWithFileSchema", description = "For this test, the body for this request much reference a schema named `File`.",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Success"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/body-with-file-schema",
@@ -205,11 +200,10 @@ public interface FakeApi {
      * @param body  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", description = "",
+    @Operation(summary = "", operationId = "testBodyWithQueryParams", description = "",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Success"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/body-with-query-params",
@@ -228,11 +222,10 @@ public interface FakeApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test \"client\" model", description = "To test \"client\" model",
+    @Operation(summary = "To test \"client\" model", operationId = "testClientModel", description = "To test \"client\" model",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Client.class))  )}  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake",
@@ -275,12 +268,12 @@ public interface FakeApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+    @Operation(summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", operationId = "testEndpointParameters", description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
      tags={ "fake", },
+      security = @SecurityRequirement(name = "http_basic_test"),
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid username supplied"  ) , 
             @ApiResponse(responseCode = "404", description = "User not found"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake",
@@ -305,12 +298,11 @@ public interface FakeApi {
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      */
-    @Operation(summary = "To test enum parameters", description = "To test enum parameters",
+    @Operation(summary = "To test enum parameters", operationId = "testEnumParameters", description = "To test enum parameters",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Invalid request"  ) , 
             @ApiResponse(responseCode = "404", description = "Not found"  )  })
-    }
     @ApiImplicitParams({
     @ApiImplicitParam(name = "enumHeaderStringArray", value = "Header parameter enum test (string array)",  dataType = "List<String>", paramType = "header"),
     @ApiImplicitParam(name = "enumHeaderString", value = "Header parameter enum test (string)",  dataType = "String", paramType = "header")
@@ -334,11 +326,10 @@ public interface FakeApi {
      * @param int64Group Integer in group parameters (optional)
      * @return Someting wrong (status code 400)
      */
-    @Operation(summary = "Fake endpoint to test group parameters (optional)", description = "Fake endpoint to test group parameters (optional)",
+    @Operation(summary = "Fake endpoint to test group parameters (optional)", operationId = "testGroupParameters", description = "Fake endpoint to test group parameters (optional)",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "400", description = "Someting wrong"  )  })
-    }
     @ApiImplicitParams({
     @ApiImplicitParam(name = "requiredBooleanGroup", value = "Required Boolean in group parameters", required=true, dataType = "Boolean", paramType = "header"),
     @ApiImplicitParam(name = "booleanGroup", value = "Boolean in group parameters",  dataType = "Boolean", paramType = "header")
@@ -357,11 +348,10 @@ public interface FakeApi {
      * @param param request body (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test inline additionalProperties", description = "",
+    @Operation(summary = "test inline additionalProperties", operationId = "testInlineAdditionalProperties", description = "",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/inline-additionalProperties",
@@ -380,11 +370,10 @@ public interface FakeApi {
      * @param param2 field2 (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test json serialization of form data", description = "",
+    @Operation(summary = "test json serialization of form data", operationId = "testJsonFormData", description = "",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/jsonFormData",
@@ -407,11 +396,10 @@ public interface FakeApi {
      * @param context  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", description = "To test the collection format in query parameters",
+    @Operation(summary = "", operationId = "testQueryParameterCollectionFormat", description = "To test the collection format in query parameters",
      tags={ "fake", },
     responses  = { 
             @ApiResponse(responseCode = "200", description = "Success"  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/test-query-paramters",
@@ -430,11 +418,14 @@ public interface FakeApi {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "uploads an image (required)", description = "",
+    @Operation(summary = "uploads an image (required)", operationId = "uploadFileWithRequiredFile", description = "",
      tags={ "pet", },
+      security = @SecurityRequirement(name = "petstore_auth", scopes = {
+       "write:pets" ,
+        "read:pets"  
+        }),
     responses  = { 
             @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = ModelApiResponse.class))  )}  )  })
-    }
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/fake/{petId}/uploadImageWithRequiredFile",
