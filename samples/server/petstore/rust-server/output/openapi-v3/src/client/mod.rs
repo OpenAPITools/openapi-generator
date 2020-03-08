@@ -45,6 +45,7 @@ use {Api,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
+     OverrideServerGetResponse,
      ParamgetGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RegisterCallbackPostResponse,
@@ -824,6 +825,77 @@ impl<C, F> Api<C> for Client<F> where
                     Box::new(
                         future::ok(
                             MultipleAuthSchemeGetResponse::CheckThatLimitingToMultipleRequiredAuthSchemesWorks
+                        )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.into_body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                }
+            }
+        }))
+    }
+
+    fn override_server_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>
+    {
+        let mut uri = format!(
+            "{}/override/override-server",
+            self.base_path
+        );
+
+        // Query parameters
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build URI: {}", err)))),
+        };
+
+        let mut request = match hyper::Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
+        };
+
+        let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
+        });
+
+        Box::new(self.client_service.request(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                204 => {
+                    let body = response.into_body();
+                    Box::new(
+                        future::ok(
+                            OverrideServerGetResponse::Success
                         )
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
                 },

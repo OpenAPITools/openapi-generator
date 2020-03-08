@@ -136,6 +136,12 @@ pub enum MultipleAuthSchemeGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum OverrideServerGetResponse {
+    /// Success.
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum ParamgetGetResponse {
     /// JSON rsp
     JSONRsp
@@ -281,6 +287,10 @@ pub trait Api<C> {
         &self,
         context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>;
 
+    fn override_server_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>;
+
     /// Get some stuff with parameters.
     fn paramget_get(
         &self,
@@ -377,6 +387,10 @@ pub trait ApiNoContext {
     fn multiple_auth_scheme_get(
         &self,
         ) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>;
+
+    fn override_server_get(
+        &self,
+        ) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>;
 
     /// Get some stuff with parameters.
     fn paramget_get(
@@ -502,6 +516,13 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>
     {
         self.api().multiple_auth_scheme_get(&self.context())
+    }
+
+    fn override_server_get(
+        &self,
+        ) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>
+    {
+        self.api().override_server_get(&self.context())
     }
 
     /// Get some stuff with parameters.

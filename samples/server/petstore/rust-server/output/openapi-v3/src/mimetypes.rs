@@ -24,6 +24,7 @@ pub mod responses {
     pub static MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_3: &str = "application/json";
 
 
+
     /// Create &str objects for the response content types for ParamgetGet
     pub static PARAMGET_GET_JSON_RSP: &str = "application/json";
 
@@ -53,6 +54,7 @@ pub mod responses {
 }
 
 pub mod requests {
+
 
 
 

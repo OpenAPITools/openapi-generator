@@ -10,6 +10,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /merge-patch-json | 
 ****](default_api.md#) | **GET** /multiget | Get some stuff.
 ****](default_api.md#) | **GET** /multiple_auth_scheme | 
+****](default_api.md#) | **GET** /override-server | 
 ****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
 ****](default_api.md#) | **POST** /register-callback | 
@@ -158,6 +159,28 @@ This endpoint does not need any parameter.
 ### Authorization
 
 [authScheme](../README.md#authScheme)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> ()
+
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
 
 ### HTTP request headers
 
