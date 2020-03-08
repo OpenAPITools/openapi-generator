@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.enums.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 {{#jdk8-no-delegate}}
 {{#virtualService}}
@@ -112,11 +113,18 @@ public interface {{classname}} {
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
-    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}",
+    @Operation(summary = "{{{summary}}}", operationId = "{{{operationId}}}", description = "{{{notes}}}",
      tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} },
+    {{#hasAuthMethods}}
+      {{#authMethods}}security = @SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = {
+      {{#scopes}} "{{scope}}" {{#hasMore}},
+      {{/hasMore}} {{/scopes}}
+        }{{/isOAuth}}){{#hasMore}},
+      {{/hasMore}}{{/authMethods}},
+    {{/hasAuthMethods}}
     responses  = { {{#responses}}
             @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}" {{#baseType}}, content = { @Content( {{#containerType}}schema = @Schema(implementation = {{{baseType}}}.class){{/containerType}}{{^containerType}} array = @ArraySchema(schema = @Schema(implementation = {{{baseType}}}.class)) {{/containerType}} )} {{/baseType}} ){{#hasMore}} ,{{/hasMore}} {{/responses}} })
-    {{#implicitHeaders}}}
+    {{#implicitHeaders}}
     @ApiImplicitParams({
     {{#headerParams}}
     {{>implicitHeader}}

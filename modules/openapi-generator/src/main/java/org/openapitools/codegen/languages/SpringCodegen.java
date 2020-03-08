@@ -824,7 +824,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
-        // Remove io.swagger.annotations.ApiModel import
+        // Remove io.swagger.annotations.ApiModel and io.swagger.annotations.ApiModelProperty imports
         codegenModel.imports.remove("ApiModel");
         codegenModel.imports.remove("ApiModelProperty");
         return codegenModel;
