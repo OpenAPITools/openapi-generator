@@ -144,6 +144,7 @@ pub enum TestClientModelResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum TestEndpointParametersResponse {
     /// Invalid username supplied
     InvalidUsernameSupplied
@@ -153,6 +154,7 @@ pub enum TestEndpointParametersResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum TestEnumParametersResponse {
     /// Invalid request
     InvalidRequest
@@ -193,6 +195,7 @@ pub enum DeletePetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum FindPetsByStatusResponse {
     /// successful operation
     SuccessfulOperation
@@ -203,6 +206,7 @@ pub enum FindPetsByStatusResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum FindPetsByTagsResponse {
     /// successful operation
     SuccessfulOperation
@@ -213,6 +217,7 @@ pub enum FindPetsByTagsResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum GetPetByIdResponse {
     /// successful operation
     SuccessfulOperation
@@ -226,6 +231,7 @@ pub enum GetPetByIdResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum UpdatePetResponse {
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -251,6 +257,7 @@ pub enum UploadFileResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum DeleteOrderResponse {
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -267,6 +274,7 @@ pub enum GetInventoryResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum GetOrderByIdResponse {
     /// successful operation
     SuccessfulOperation
@@ -280,6 +288,7 @@ pub enum GetOrderByIdResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum PlaceOrderResponse {
     /// successful operation
     SuccessfulOperation
@@ -308,6 +317,7 @@ pub enum CreateUsersWithListInputResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum DeleteUserResponse {
     /// Invalid username supplied
     InvalidUsernameSupplied
@@ -317,6 +327,7 @@ pub enum DeleteUserResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum GetUserByNameResponse {
     /// successful operation
     SuccessfulOperation
@@ -330,6 +341,7 @@ pub enum GetUserByNameResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum LoginUserResponse {
     /// successful operation
     SuccessfulOperation
@@ -350,6 +362,7 @@ pub enum LogoutUserResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum UpdateUserResponse {
     /// Invalid user supplied
     InvalidUserSupplied
