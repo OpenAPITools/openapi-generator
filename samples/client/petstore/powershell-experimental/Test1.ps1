@@ -3,7 +3,7 @@ Remove-Module -FullyQualifiedName @{ModuleName = "Org.OpenAPITools"; ModuleVersi
 Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
 
-Invoke-PetApiGetPetById -petId 3
+Invoke-PetApiGetPetById -petId 2
 
 
 New-Pet -Id 1 -Name 'foo' -Category (

@@ -233,6 +233,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         }
         additionalProperties.put("packageGuid", packageGuid);
 
+        // TODO
+        additionalProperties.put("packageVersion", "1.2.3");
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             this.setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {

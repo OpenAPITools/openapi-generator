@@ -25,17 +25,20 @@ function Invoke-OpenAPIAPIClient {
 
     $PSBoundParameters | Out-DebugParameter | Write-Host
 
-    $RestMethodParameters = @{}
+    $RequestUri = $Configuration["BaseUrl"] + $Uri
+    $RestMethodParameters = [System.UriBuilder]($RequestUri)
+
     $Configuraiton = Get-OpenAPIConfiguration
 
-    #$RestMethodParameters['Uri'] = Write-Host "$($Configuration["BaseUrl"])$($Uri)"
     #Write-Host $RestMethodParameters['Uri']
-    $RestMethodParameters['Uri'] = $Uri
-    $RestMethodParameters['Method'] = $Method
+    #$RestMethodParameters['Uri'] = $Uri
+    #$RestMethodParameters.Method = $Method
 
     # cookie parameters
     foreach ($Parameter in $CookieParameters) {
-        $HeaderParameters["Cookie"] = $CookieParameters[$Parameter]
+        if ($CookieParameters[$Parameter]) {
+            $HeaderParameters["Cookie"] = $CookieParameters[$Parameter]
+        }
     }
     if (!$CookieParametters -and $CookieParameters.Count -gt 1) {
         Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
@@ -72,24 +75,34 @@ function Invoke-OpenAPIAPIClient {
     }
     # Build the request and load it with the query string.
     #$Request  = [System.UriBuilder]($Uri)
-    $RestMethodParameters['Body'] = $HttpValues
+    $RestMethodParameters.Query = $HttpValues.ToString()
 
     # process parameters
-    if (!$HeaderParameters -and $HeaderParameters.Count -ne 0) {
-        $RestMethodParameters['Headers'] = $HeaderParameters
+    #if (!$HeaderParameters -and $HeaderParameters.Count -gt 0) {
+    #    $RestMethodParameters['Headers'] = $HeaderParameters
+    #}
+    if (!$Accept -and $Accept.Count -gt 0) {
+        $HeaderParameters['Accept'] = $Accept
     }
-    if (!$Accept -and $Accept.Count -ne 0) {
-        $RestMethodParameters['Accept'] = $Accept
-    }
-    if (!$ContentType -and $ContenType.Count -ne 0) {
-        $RestMethodParameters['Accept'] = $ContentType
-    }
-    if (!$Body) {
-        $RestMethodParameters['Body'] = $Body
+    if (!$ContentType -and $ContenType.Count -gt 0) {
+        $HeaderParameters['Accept'] = $ContentType
     }
 
-    Invoke-RestMethod @RestMethodParameters
-    #Invoke-RestMethod -Uri $Uri -ContentType 'multipart/form-data' -Method $Method -Headers $Headers -Body $Fields;
+    # include form parameters in the request body
+    if (!$FormParameters -and $FormParameters.Count -gt 0) {
+        $RequestBody = $FormParameters
+    }
+
+    if (!$Body) {
+        $RequestBody = $Body
+    }
+
+    Write-Host $HeaderParameters
+
+    $Response = Invoke-WebRequest -Uri $RequestUri `
+                                  -Method $Method `
+                                  -Headers $HeaderParameters `
+                                  -Body $RequestBody
 }
 
 function SelectAcceptHeaders {
@@ -107,7 +120,7 @@ function SelectAcceptHeaders {
     if (!($Accepts) -or $Accepts.Count -eq 0) {
         return $null
     } else {
-        return $Accepts[0]
+        return $Accepts[0] # return the first one
     }
 }
 
@@ -126,7 +139,7 @@ function SelectContentTypeHeaders {
     if (!($ContentTypes) -or $ContentTypes.Count -eq 0) {
         return $null
     } else {
-        return $ContentTypes[0]
+        return $ContentTypes[0] # return the first one
     }
 }
 

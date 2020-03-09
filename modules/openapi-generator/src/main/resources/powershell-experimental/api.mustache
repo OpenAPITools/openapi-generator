@@ -28,13 +28,13 @@ function Invoke-{{{classname}}}{{{operationId}}} {
 
         $Configuraiton = Get-OpenAPIConfiguration
 
-        $LocalVarUri = '{{{basePath}}}'
+        $LocalVarUri = '{{{path}}}'
         {{=< >=}}
         <#pathParams>
         $LocalVarUri = $LocalVarUri.replace('{<baseName>}', $<paramName>)
         </pathParams>
         <={{ }}=>
-        $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         {{#headerParams}}
         {{#required}}
