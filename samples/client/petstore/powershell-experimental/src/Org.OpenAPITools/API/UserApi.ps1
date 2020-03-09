@@ -19,11 +19,12 @@ function Invoke-UserApiCreateUser {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -31,15 +32,15 @@ function Invoke-UserApiCreateUser {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:UserApi.CreateUser(
         #
@@ -65,11 +66,12 @@ function Invoke-UserApiCreateUsersWithArrayInput {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -77,15 +79,15 @@ function Invoke-UserApiCreateUsersWithArrayInput {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:UserApi.CreateUsersWithArrayInput(
         #
@@ -111,11 +113,12 @@ function Invoke-UserApiCreateUsersWithListInput {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -123,15 +126,15 @@ function Invoke-UserApiCreateUsersWithListInput {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:UserApi.CreateUsersWithListInput(
         #
@@ -157,11 +160,12 @@ function Invoke-UserApiDeleteUser {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -170,15 +174,15 @@ function Invoke-UserApiDeleteUser {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:UserApi.DeleteUser(
         #
@@ -204,11 +208,12 @@ function Invoke-UserApiGetUserByName {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -217,15 +222,15 @@ function Invoke-UserApiGetUserByName {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:UserApi.GetUserByName(
         #
@@ -254,11 +259,12 @@ function Invoke-UserApiLoginUser {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -278,15 +284,15 @@ function Invoke-UserApiLoginUser {
         $LocalVarQueryParameters['password'] = $password
 
 
-
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:UserApi.LoginUser(
         #
@@ -313,11 +319,12 @@ function Invoke-UserApiLogoutUser {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -325,15 +332,15 @@ function Invoke-UserApiLogoutUser {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:UserApi.LogoutUser(
         #
@@ -358,11 +365,12 @@ function Invoke-UserApiUpdateUser {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -371,15 +379,15 @@ function Invoke-UserApiUpdateUser {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:UserApi.UpdateUser(
         #

@@ -48,6 +48,14 @@ function Get-OpenAPIConfiguration {
         $Configuration["BaseUrl"] = "http://petstore.swagger.io/v2";
     }
 
+    if (!$Configuration["ApiKey"]) {
+        $Configuration["ApiKey"] = @{}
+    }
+
+    if (!$Configuration["ApiKeyPrefix"]) {
+        $Configuration["ApiKeyPrefix"] = @{}
+    }
+
     Return $Configuration
 
 }

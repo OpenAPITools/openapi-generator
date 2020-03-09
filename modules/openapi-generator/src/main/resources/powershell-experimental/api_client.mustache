@@ -6,15 +6,17 @@ function Invoke-OpenAPIAPIClient {
         [Parameter(Mandatory)]
         [string]$Uri,
         [Parameter(Mandatory)]
-        [string]$Accept,
+        [hashtable]$Accept,
         [Parameter(Mandatory)]
-        [string]$ContentType,
+        [hashtable]$ContentType,
         [Parameter(Mandatory)]
-        [string]$HeaderParameters,
+        [hashtable]$HeaderParameters,
         [Parameter(Mandatory)]
-        [string]$FormParameters,
+        [hashtable]$FormParameters,
         [Parameter(Mandatory)]
-        [string]$QueryParameters,
+        [hashtable]$QueryParameters,
+        [Parameter(Mandatory)]
+        [hashtable]$CookieParameters,
         [Parameter(Mandatory)]
         [string]$Body,
         [Parameter(Mandatory)]
@@ -23,26 +25,50 @@ function Invoke-OpenAPIAPIClient {
 
     $PSBoundParameters | Out-DebugParameter | Write-Host
 
-    $RestMethod_Params = @{}
+    $RestMethodParameters = @{}
     $Configuraiton = Get-OpenAPIConfiguration
 
-    #$RestMethod_Params['Uri'] = Write-Host "$($Configuration["BaseUrl"])$($Uri)"
-    #Write-Host $RestMethod_Params['Uri']
-    $RestMethod_Params['Uri'] = $Uri
-    $RestMethod_Params['Method'] = $Method
-    if (!$HeaderParameters -and $HeaderParameters.Count -ne 0) {
-        $RestMethod_Params['Headers'] = $HeaderParameters
+    #$RestMethodParameters['Uri'] = Write-Host "$($Configuration["BaseUrl"])$($Uri)"
+    #Write-Host $RestMethodParameters['Uri']
+    $RestMethodParameters['Uri'] = $Uri
+    $RestMethodParameters['Method'] = $Method
+
+    # cookie parameters
+    foreach ($Parameter in $CookieParameters) {
+        $HeaderParameters["Cookie"] = $CookieParameters[$Parameter]
     }
-    if (!$Accept -and $Accept.Count -ne 0) {
-        $RestMethod_Params['Accept'] = $Accept
-    }
-    if (!$ContentType -and $ContenType.Count -ne 0) {
-        $RestMethod_Params['Accept'] = $ContentType
-    }
-    if (!$Body) {
-        $RestMethod_Params['Body'] = $Body
+    if (!$CookieParametters -and $CookieParameters.Count -gt 1) {
+        Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
     }
 
-    Invoke-RestMethod @RestMethod_Params
+    if (!$HeaderParameters -and $HeaderParameters.Count -ne 0) {
+        $RestMethodParameters['Headers'] = $HeaderParameters
+    }
+    if (!$Accept -and $Accept.Count -ne 0) {
+        $RestMethodParameters['Accept'] = $Accept
+    }
+    if (!$ContentType -and $ContenType.Count -ne 0) {
+        $RestMethodParameters['Accept'] = $ContentType
+    }
+    if (!$Body) {
+        $RestMethodParameters['Body'] = $Body
+    }
+
+    Invoke-RestMethod @RestMethodParameters
     #Invoke-RestMethod -Uri $Uri -ContentType 'multipart/form-data' -Method $Method -Headers $Headers -Body $Fields;
+}
+
+function SelectAcceptHeaders {
+    Param(
+        [Parameter(Mandatory)]
+        [hashtable]$Accepts
+    )
+}
+
+function SelectContentTypeHeaders {
+    Param(
+        [Parameter(Mandatory)]
+        [hashtable]$ContentTypes
+    )
+
 }

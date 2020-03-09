@@ -42,6 +42,14 @@ function Get-OpenAPIConfiguration {
         $Configuration["BaseUrl"] = "{{{basePath}}}";
     }
 
+    if (!$Configuration["ApiKey"]) {
+        $Configuration["ApiKey"] = @{}
+    }
+
+    if (!$Configuration["ApiKeyPrefix"]) {
+        $Configuration["ApiKeyPrefix"] = @{}
+    }
+
     Return $Configuration
 
 }

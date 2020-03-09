@@ -19,11 +19,12 @@ function Invoke-StoreApiDeleteOrder {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -32,15 +33,15 @@ function Invoke-StoreApiDeleteOrder {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:StoreApi.DeleteOrder(
         #
@@ -63,11 +64,12 @@ function Invoke-StoreApiGetInventory {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -75,15 +77,19 @@ function Invoke-StoreApiGetInventory {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
+        if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
+            $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
+        }
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:StoreApi.GetInventory(
         #
@@ -105,11 +111,12 @@ function Invoke-StoreApiGetOrderById {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -118,15 +125,15 @@ function Invoke-StoreApiGetOrderById {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:StoreApi.GetOrderById(
         #
@@ -152,11 +159,12 @@ function Invoke-StoreApiPlaceOrder {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -164,15 +172,15 @@ function Invoke-StoreApiPlaceOrder {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:StoreApi.PlaceOrder(
         #

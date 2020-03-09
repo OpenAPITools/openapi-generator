@@ -19,11 +19,12 @@ function Invoke-{{{classname}}}{{{operationId}}} {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -72,15 +73,47 @@ function Invoke-{{{classname}}}{{{operationId}}} {
 
         {{/formParams}}
 
+        {{#authMethods}}
+        {{#isApiKey}}
+        {{#isKeyInHeader}}
+        if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
+            $LocalVarHeaderParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
+        }
+        {{/isKeyInHeader}}
+        {{#isKeyInQuery}}
+        if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
+            $LocalVarQueryParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
+        }
+        {{/isKeyInQuery}}
+        {{#isKeyInCookie}}
+        if ($Configuration["Cookie"]"]) {
+            $LocalVarCookieParameters['{{{name}}}'] = $Configuration["Cookie"]
+        }
+        {{/isKeyInCookie}}
+        {{/isApiKey}}
+        {{#isBasicBasic}}
+        if ($Configuration["Username"] -and $Configuration["Password"]]) {
+            $LocalVarBytes = [System.Text.Encoding]::UTF8.GetBytes($Configuration["Username"] + ":" + $Configuration["Password"])
+            $LocalVarBase64Text =[Convert]::ToBase64String($LocalVarBytes)
+            $LocalVarHeaderParameters['Authorization'] = "Basic " + $LocalVarBase64Text
+        }
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        if ($Configuration["AccessToken"]) {
+            $LocalVarHeaderParameters['Authorization'] = "Bearer " + $Configuration["AccessToken"]
+        }
+        {{/isBasicBearer}}
 
+        {{/authMethods}}
         Invoke-OpenAPIAPIClient -Method '{{httpMethod}}' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:{{{classname}}}.{{{operationId}}}(
         #{{#allParams}}

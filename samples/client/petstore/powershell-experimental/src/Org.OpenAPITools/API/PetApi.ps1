@@ -19,11 +19,12 @@ function Invoke-PetApiAddPet {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -37,9 +38,10 @@ function Invoke-PetApiAddPet {
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:PetApi.AddPet(
         #
@@ -68,11 +70,12 @@ function Invoke-PetApiDeletePet {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -89,9 +92,10 @@ function Invoke-PetApiDeletePet {
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:PetApi.DeletePet(
         #
@@ -121,11 +125,12 @@ function Invoke-PetApiFindPetsByStatus {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -145,9 +150,10 @@ function Invoke-PetApiFindPetsByStatus {
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:PetApi.FindPetsByStatus(
         #
@@ -173,11 +179,12 @@ function Invoke-PetApiFindPetsByTags {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -197,9 +204,10 @@ function Invoke-PetApiFindPetsByTags {
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:PetApi.FindPetsByTags(
         #
@@ -225,11 +233,12 @@ function Invoke-PetApiGetPetById {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -238,15 +247,19 @@ function Invoke-PetApiGetPetById {
         $LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
+        if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
+            $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
+        }
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:PetApi.GetPetById(
         #
@@ -272,11 +285,12 @@ function Invoke-PetApiUpdatePet {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -290,9 +304,10 @@ function Invoke-PetApiUpdatePet {
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:PetApi.UpdatePet(
         #
@@ -324,11 +339,12 @@ function Invoke-PetApiUpdatePetWithForm {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -347,9 +363,10 @@ function Invoke-PetApiUpdatePetWithForm {
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:PetApi.UpdatePetWithForm(
         #
@@ -389,11 +406,12 @@ function Invoke-PetApiUploadFile {
 
         $LocalVarAccepts = @{}
         $LocalVarContentTypes = @{}
-        $LocalVarHeaders = @{}
         $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
         $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
 
         $Configuraiton = Get-OpenAPIConfiguration
 
@@ -412,9 +430,10 @@ function Invoke-PetApiUploadFile {
                                 -Accept $LocalVarAccepts `
                                 -ContentType $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
-                                -HeaderParameters LocalVarHeaderParameters `
-                                -QueryParameters LocalVarQueryParameters `
-                                -FormParameters LocalVarFormParameters
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters
 
         #$Script:PetApi.UploadFile(
         #
