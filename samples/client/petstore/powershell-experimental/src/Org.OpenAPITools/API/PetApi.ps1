@@ -35,8 +35,8 @@ function Invoke-PetApiAddPet {
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -89,8 +89,8 @@ function Invoke-PetApiDeletePet {
 
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -147,8 +147,8 @@ function Invoke-PetApiFindPetsByStatus {
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -201,8 +201,8 @@ function Invoke-PetApiFindPetsByTags {
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -253,8 +253,8 @@ function Invoke-PetApiGetPetById {
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -301,8 +301,8 @@ function Invoke-PetApiUpdatePet {
 
         Invoke-OpenAPIAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -360,8 +360,8 @@ function Invoke-PetApiUpdatePetWithForm {
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -427,8 +427,8 @@ function Invoke-PetApiUploadFile {
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `

@@ -34,8 +34,8 @@ function Invoke-UserApiCreateUser {
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -81,8 +81,8 @@ function Invoke-UserApiCreateUsersWithArrayInput {
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -128,8 +128,8 @@ function Invoke-UserApiCreateUsersWithListInput {
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -176,8 +176,8 @@ function Invoke-UserApiDeleteUser {
 
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -224,8 +224,8 @@ function Invoke-UserApiGetUserByName {
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -286,8 +286,8 @@ function Invoke-UserApiLoginUser {
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -334,8 +334,8 @@ function Invoke-UserApiLogoutUser {
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -381,8 +381,8 @@ function Invoke-UserApiUpdateUser {
 
         Invoke-OpenAPIAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `

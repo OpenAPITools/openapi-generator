@@ -35,8 +35,8 @@ function Invoke-StoreApiDeleteOrder {
 
         Invoke-OpenAPIAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -83,8 +83,8 @@ function Invoke-StoreApiGetInventory {
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -127,8 +127,8 @@ function Invoke-StoreApiGetOrderById {
 
         Invoke-OpenAPIAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
@@ -174,8 +174,8 @@ function Invoke-StoreApiPlaceOrder {
 
         Invoke-OpenAPIAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `

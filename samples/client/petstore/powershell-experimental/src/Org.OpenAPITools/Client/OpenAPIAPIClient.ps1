@@ -12,9 +12,9 @@ function Invoke-OpenAPIAPIClient {
         [Parameter(Mandatory)]
         [string]$Uri,
         [Parameter(Mandatory)]
-        [hashtable]$Accept,
+        [hashtable]$Accepts,
         [Parameter(Mandatory)]
-        [hashtable]$ContentType,
+        [hashtable]$ContentTypes,
         [Parameter(Mandatory)]
         [hashtable]$HeaderParameters,
         [Parameter(Mandatory)]
@@ -47,6 +47,18 @@ function Invoke-OpenAPIAPIClient {
         Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
     }
 
+    # accept, content-type headers
+    $Accept = SelectAcceptHeaders($Accepts)
+    if ($Accept) {
+        $HeaderParameters['Accept'] = $Accept
+    }
+
+    $ContentType= SelectContentTypeHeaders($ContentTypes)
+    if ($ContentType) {
+        $HeaderParameters['Content-Type'] = $ContentType
+    }
+
+    # process parameters
     if (!$HeaderParameters -and $HeaderParameters.Count -ne 0) {
         $RestMethodParameters['Headers'] = $HeaderParameters
     }
@@ -69,6 +81,18 @@ function SelectAcceptHeaders {
         [Parameter(Mandatory)]
         [hashtable]$Accepts
     )
+
+    foreach ($Accept in $Accepts) {
+        if (IsJsonMIME($Accept)) {
+            return $true
+        }
+    }
+
+    if (!($Accepts) -or $Accepts.Count -eq 0) {
+        return $null
+    } else {
+        return $Accepts[0]
+    }
 }
 
 function SelectContentTypeHeaders {
@@ -77,4 +101,28 @@ function SelectContentTypeHeaders {
         [hashtable]$ContentTypes
     )
 
+    foreach ($ContentType in $ContentTypes) {
+        if (IsJsonMIME($ContentType)) {
+            return $true
+        }
+    }
+
+    if (!($ContentTypes) -or $ContentTypes.Count -eq 0) {
+        return $null
+    } else {
+        return $ContentTypes[0]
+    }
+}
+
+function IsJsonMIME {
+    Param(
+        [Parameter(Mandatory)]
+        [string]$input
+    )
+
+    if ($input -match "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$") {
+        return $true
+    } else {
+        return $false
+    }
 }

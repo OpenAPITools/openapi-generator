@@ -107,8 +107,8 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         {{/authMethods}}
         Invoke-OpenAPIAPIClient -Method '{{httpMethod}}' `
                                 -Uri $LocalVarUri `
-                                -Accept $LocalVarAccepts `
-                                -ContentType $LocalVarContentTypes `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
                                 -Body $LocalVarBodyParameters `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
