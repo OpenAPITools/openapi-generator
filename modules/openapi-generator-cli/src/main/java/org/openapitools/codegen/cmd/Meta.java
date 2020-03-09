@@ -53,7 +53,7 @@ public class Meta implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Meta.class);
 
-    private static final String TEMPLATE_DIR_CLASSPATH = "codegen";
+    private static final String TEMPLATE_DIR_CLASSPATH = "mustache" + File.separator + "codegen";
     private static final String MUSTACHE_EXTENSION = ".mustache";
 
     @Option(name = {"-o", "--output"}, title = "output directory",
