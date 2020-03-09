@@ -58,6 +58,28 @@ function Invoke-OpenAPIAPIClient {
         $HeaderParameters['Content-Type'] = $ContentType
     }
 
+    # TODO revise code block
+    # URL query string
+    $HttpValues = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
+    foreach ($Item in $QueryParameters.GetEnumerator()) {
+        if ($Item.Value.Count -gt 1) {
+            # It is an array, so treat that as a special case.
+            foreach ($Value in $Item.Value) {
+                # Add each item in the array, optionally mark the name of the parameter
+                # to indicate it is an array parameter.
+                $ParameterName = $Item.Key
+                $ParameterName += '[]' # array
+                $HttpValues.Add($ParameterName, $Value)
+            }
+        } else {
+            # Add the scalar value.
+            $HttpValues.Add($Item.Key,$Item.Value)
+        }
+    }
+    # Build the request and load it with the query string.
+    #$Request  = [System.UriBuilder]($Uri)
+    $RestMethodParameters['Body'] = $HttpValues.ToString()
+
     # process parameters
     if (!$HeaderParameters -and $HeaderParameters.Count -ne 0) {
         $RestMethodParameters['Headers'] = $HeaderParameters
