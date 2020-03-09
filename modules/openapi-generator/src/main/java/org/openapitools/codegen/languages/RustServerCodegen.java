@@ -256,6 +256,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("RUST_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable RUST_POST_PROCESS_FILE not defined. rustfmt will be used" +
+                        " by default. To choose a different tool, try" +
+                        " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` " +
+                        " (--enable-post-process-file for CLI).");
+        }
+
         if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
             LOGGER.warn("generateAliasAsModel is set to false, which means array/map will be generated as model instead and the resulting code may have issues. Please enable `generateAliasAsModel` to address the issue.");
         }
@@ -1569,7 +1577,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        String commandPrefix = System.getenv("RUST_SERVER_POST_PROCESS_FILE");
+        String commandPrefix = System.getenv("RUST_POST_PROCESS_FILE");
         if (StringUtils.isEmpty(commandPrefix)) {
             commandPrefix = "rustfmt";
         }
