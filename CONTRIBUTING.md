@@ -95,6 +95,7 @@ To start the CI tests, you can:
 - Run `mvn verify -Psamples`, assuming you have all the required tools installed to run tests for different languages.
 - Leverage http://travis-ci.org to run the CI tests by adding your own openapi-generator repository.
 - Run some of the CI tests in your local workspace.
+
 See [OpenAPI Tools wiki](https://github.com/OpenAPITools/openapi-generator/wiki/Integration-Tests) for more information about the integration tests.
 
 ### Tips
