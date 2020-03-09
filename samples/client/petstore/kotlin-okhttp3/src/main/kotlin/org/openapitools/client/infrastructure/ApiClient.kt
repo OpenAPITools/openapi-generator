@@ -73,7 +73,7 @@ open class ApiClient(val baseUrl: String) {
                                     "form-data; name=\"$key\"; filename=\"${value.name}\""
                                 )
                                 val fileMediaType = MediaType.parse(guessContentTypeFromFile(value))
-                                addPart(partHeaders, RequestBody.create(fileMediaType, value)
+                                addPart(partHeaders, RequestBody.create(fileMediaType, value))
                             } else {
                                 val partHeaders = Headers.of(
                                     "Content-Disposition",

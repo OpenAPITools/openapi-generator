@@ -104,7 +104,7 @@ import org.threeten.bp.OffsetTime
                                 )
                                 {{#jvm-okhttp3}}
                                 val fileMediaType = MediaType.parse(guessContentTypeFromFile(value))
-                                addPart(partHeaders, RequestBody.create(fileMediaType, value)
+                                addPart(partHeaders, RequestBody.create(fileMediaType, value))
                                 {{/jvm-okhttp3}}
                                 {{#jvm-okhttp4}}
                                 val fileMediaType = guessContentTypeFromFile(value).toMediaTypeOrNull()
