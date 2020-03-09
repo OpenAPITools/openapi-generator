@@ -18,7 +18,7 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.exceptions import (
+from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
@@ -84,19 +84,32 @@ class PetApi(object):
                  returns the request thread.
         """
 
-        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
+        local_var_hosts = [
+            'http://petstore.swagger.io/v2',
+            'http://path-server-test.petstore.local/v2'
+        ]
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
-                raise ApiValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
-            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
+            _host_index = int(kwargs.get('_host_index'))
+            if _host_index < 0 or _host_index >= len(local_var_hosts):
+                raise ApiValueError(
+                    "Invalid host index. Must be 0 <= index < %s"
+                    % len(local_var_host)
+                )
+            local_var_host = local_var_hosts[_host_index]
         local_var_params = locals()
 
-        all_params = ['pet']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'pet'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params and key != "_host_index":
@@ -201,11 +214,18 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['pet_id', 'api_key']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'pet_id',
+            'api_key'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -307,11 +327,17 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['status']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'status'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -416,11 +442,17 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['tags']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'tags'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -525,11 +557,17 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['pet_id']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'pet_id'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -629,19 +667,32 @@ class PetApi(object):
                  returns the request thread.
         """
 
-        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
+        local_var_hosts = [
+            'http://petstore.swagger.io/v2',
+            'http://path-server-test.petstore.local/v2'
+        ]
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
-                raise ApiValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
-            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
+            _host_index = int(kwargs.get('_host_index'))
+            if _host_index < 0 or _host_index >= len(local_var_hosts):
+                raise ApiValueError(
+                    "Invalid host index. Must be 0 <= index < %s"
+                    % len(local_var_host)
+                )
+            local_var_host = local_var_hosts[_host_index]
         local_var_params = locals()
 
-        all_params = ['pet']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'pet'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params and key != "_host_index":
@@ -748,11 +799,19 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['pet_id', 'name', 'status']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'pet_id',
+            'name',
+            'status'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -862,11 +921,19 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['pet_id', 'additional_metadata', 'file']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'pet_id',
+            'additional_metadata',
+            'file'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -980,11 +1047,19 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['pet_id', 'required_file', 'additional_metadata']  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
+        all_params = [
+            'pet_id',
+            'required_file',
+            'additional_metadata'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
