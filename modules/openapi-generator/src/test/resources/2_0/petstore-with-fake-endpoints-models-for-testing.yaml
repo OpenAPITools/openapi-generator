@@ -132,6 +132,7 @@ paths:
           description: Tags to filter by
           required: true
           type: array
+          uniqueItems: true
           items:
             type: string
           collectionFormat: csv

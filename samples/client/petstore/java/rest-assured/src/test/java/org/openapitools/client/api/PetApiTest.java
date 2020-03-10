@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
 import static org.openapitools.client.GsonObjectMapper.gson;
@@ -103,7 +105,7 @@ public class PetApiTest {
      */
     @Test
     public void shouldSee200AfterFindPetsByTags() {
-        List<String> tags = null;
+        Set<String> tags = null;
         api.findPetsByTags()
                 .tagsQuery(tags).execute(r -> r.prettyPeek());
         // TODO: test validations
@@ -114,7 +116,7 @@ public class PetApiTest {
      */
     @Test
     public void shouldSee400AfterFindPetsByTags() {
-        List<String> tags = null;
+        Set<String> tags = null;
         api.findPetsByTags()
                 .tagsQuery(tags).execute(r -> r.prettyPeek());
         // TODO: test validations
