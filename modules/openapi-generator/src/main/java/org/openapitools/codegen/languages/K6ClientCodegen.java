@@ -377,14 +377,14 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     for (io.swagger.v3.oas.models.parameters.Parameter parameter : operation.getParameters()) {
                         switch (parameter.getIn()) {
                             case "header":
-                                httpParams.add(new Parameter(parameter.getName(), getTemplateString(parameter.getName())));
-                                extraParameters.add(new Parameter(parameter.getName(), parameter.getName().toUpperCase(Locale.ROOT)));
+                                httpParams.add(new Parameter(parameter.getName(), getTemplateString(toVarName(parameter.getName()))));
+                                extraParameters.add(new Parameter(toVarName(parameter.getName()), parameter.getName().toUpperCase(Locale.ROOT)));
                                 break;
                             case "path":
                             case "query":
                                 if (parameter.getIn().equals("query"))
-                                    queryParams.add(new Parameter(parameter.getName(), getVariable(parameter.getName())));
-                                variables.add(new Parameter(parameter.getName(), parameter.getName().toUpperCase(Locale.ROOT)));
+                                    queryParams.add(new Parameter(parameter.getName(), getTemplateVariable(parameter.getName())));
+                                variables.add(new Parameter(toVarName(parameter.getName()), parameter.getName().toUpperCase(Locale.ROOT)));
                                 break;
                             default:
                                 break;
@@ -446,12 +446,59 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return reference.toString();
     }
 
-    private String getVariable(String input) {
+    private String getTemplateVariable(String input) {
         return "${" + input + "}";
     }
 
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+    private String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
+
+        if ("_".equals(name)) {
+            name = "_u";
+        }
+
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
+        }
+
+        // camelize (lower first character) the variable name
+        // pet_id => petId
+        name = getNameUsingModelPropertyNaming(name);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
+    }
+
     private String getTemplateString(String input) {
-        return "`" + getVariable(input) + "`";
+        return "`" + getTemplateVariable(input) + "`";
     }
 
     private String getDoubleQuotedString(String input) {
