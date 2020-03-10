@@ -623,11 +623,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public void setProjectName(String projectName) {
-        System.out.println("michele was here setProjectName this1 "+this.projectName);
-        System.out.println("michele was here setProjectName no1 "+projectName);
         this.projectName = underscore(sanitizeName(projectName.toLowerCase(Locale.ROOT)));
-        System.out.println("michele was here setProjectName this2 "+this.projectName);
-        System.out.println("michele was here setProjectName no2 "+projectName);
     }
 
     @Override
