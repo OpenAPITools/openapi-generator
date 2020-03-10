@@ -1,5 +1,5 @@
 {{> partial_header}}
-function Invoke-OpenAPIAPIClient {
+function Invoke-{{{packageName}}}APIClient {
   
     [CmdletBinding()]
     Param(
@@ -25,10 +25,9 @@ function Invoke-OpenAPIAPIClient {
 
     $PSBoundParameters | Out-DebugParameter | Write-Host
 
+    $Configuraiton = Get-{{{packageName}}}Configuration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
     $RestMethodParameters = [System.UriBuilder]($RequestUri)
-
-    $Configuraiton = Get-OpenAPIConfiguration
 
     #Write-Host $RestMethodParameters['Uri']
     #$RestMethodParameters['Uri'] = $Uri

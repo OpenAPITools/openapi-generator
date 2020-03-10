@@ -26,14 +26,14 @@ function Invoke-StoreApiDeleteOrder {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/store/order/{orderId}'
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'DELETE' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -71,7 +71,7 @@ function Invoke-StoreApiGetInventory {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/store/inventory'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -81,7 +81,7 @@ function Invoke-StoreApiGetInventory {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 
-        Invoke-OpenAPIAPIClient -Method 'GET' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -118,14 +118,14 @@ function Invoke-StoreApiGetOrderById {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/store/order/{orderId}'
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'GET' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -166,13 +166,13 @@ function Invoke-StoreApiPlaceOrder {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/store/order'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'POST' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `

@@ -26,13 +26,13 @@ function Invoke-UserApiCreateUser {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/user'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'POST' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -73,13 +73,13 @@ function Invoke-UserApiCreateUsersWithArrayInput {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/user/createWithArray'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'POST' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -120,13 +120,13 @@ function Invoke-UserApiCreateUsersWithListInput {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/user/createWithList'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'POST' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -167,14 +167,14 @@ function Invoke-UserApiDeleteUser {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/user/{username}'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'DELETE' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -215,14 +215,14 @@ function Invoke-UserApiGetUserByName {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/user/{username}'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'GET' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -266,7 +266,7 @@ function Invoke-UserApiLoginUser {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/user/login'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -284,7 +284,7 @@ function Invoke-UserApiLoginUser {
         $LocalVarQueryParameters['password'] = $password
 
 
-        Invoke-OpenAPIAPIClient -Method 'GET' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -326,13 +326,13 @@ function Invoke-UserApiLogoutUser {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/user/logout'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'GET' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -372,14 +372,14 @@ function Invoke-UserApiUpdateUser {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/user/{username}'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-OpenAPIAPIClient -Method 'PUT' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `

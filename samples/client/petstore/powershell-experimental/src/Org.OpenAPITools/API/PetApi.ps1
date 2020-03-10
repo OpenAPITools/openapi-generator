@@ -26,14 +26,14 @@ function Invoke-PetApiAddPet {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/pet'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
 
-        Invoke-OpenAPIAPIClient -Method 'POST' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -77,7 +77,7 @@ function Invoke-PetApiDeletePet {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/pet/{petId}'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
@@ -87,7 +87,7 @@ function Invoke-PetApiDeletePet {
 
 
 
-        Invoke-OpenAPIAPIClient -Method 'DELETE' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -132,7 +132,7 @@ function Invoke-PetApiFindPetsByStatus {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/pet/findByStatus'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -145,7 +145,7 @@ function Invoke-PetApiFindPetsByStatus {
 
 
 
-        Invoke-OpenAPIAPIClient -Method 'GET' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -186,7 +186,7 @@ function Invoke-PetApiFindPetsByTags {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/pet/findByTags'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -199,7 +199,7 @@ function Invoke-PetApiFindPetsByTags {
 
 
 
-        Invoke-OpenAPIAPIClient -Method 'GET' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -240,7 +240,7 @@ function Invoke-PetApiGetPetById {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/pet/{petId}'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
@@ -251,7 +251,7 @@ function Invoke-PetApiGetPetById {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 
-        Invoke-OpenAPIAPIClient -Method 'GET' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -292,14 +292,14 @@ function Invoke-PetApiUpdatePet {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/pet'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
 
-        Invoke-OpenAPIAPIClient -Method 'PUT' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -346,7 +346,7 @@ function Invoke-PetApiUpdatePetWithForm {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/pet/{petId}'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
@@ -358,7 +358,7 @@ function Invoke-PetApiUpdatePetWithForm {
 
 
 
-        Invoke-OpenAPIAPIClient -Method 'POST' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -413,7 +413,7 @@ function Invoke-PetApiUploadFile {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-OpenAPIConfiguration
+        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
 
         $LocalVarUri = '/pet/{petId}/uploadImage'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
@@ -425,7 +425,7 @@ function Invoke-PetApiUploadFile {
 
 
 
-        Invoke-OpenAPIAPIClient -Method 'POST' `
+        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `

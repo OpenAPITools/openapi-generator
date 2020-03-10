@@ -1,5 +1,5 @@
 {{> partial_header}}
-function Set-OpenAPIConfiguration {
+function Set-{{{packageName}}}Configuration {
 
     [CmdletBinding()]
     Param(
@@ -16,7 +16,7 @@ function Set-OpenAPIConfiguration {
     Process {
 
         If (!BaseUrl) {
-            [void]$Script:OpenAPIConfiguration.Add('BaseUrl', $BaseUrl)
+            [void]$Script:{{{packageName}}}Configuration.Add('BaseUrl', $BaseUrl)
         }
 
     }
