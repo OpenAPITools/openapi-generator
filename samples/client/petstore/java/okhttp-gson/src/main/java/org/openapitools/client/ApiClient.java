@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
@@ -114,9 +115,29 @@ public class ApiClient {
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID, secret, and additional parameters
      */
     public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
-        init();
+        this(null, clientId, clientSecret, parameters);
+    }
 
-        RetryingOAuth retryingOAuth = new RetryingOAuth("", clientId, OAuthFlow.implicit, clientSecret, parameters);
+    /*
+     * Constructor for ApiClient to support access token retry on 401/403 configured with base path, client ID, secret, and additional parameters
+     */
+    public ApiClient(String basePath, String clientId, String clientSecret, Map<String, String> parameters) {
+        init();
+        if (basePath != null) {
+            this.basePath = basePath;
+        }
+
+        String tokenUrl = "";
+        if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
+            URI uri = URI.create(getBasePath());
+            tokenUrl = uri.getScheme() + ":" +
+                (uri.getAuthority() != null ? "//" + uri.getAuthority() : "") +
+                tokenUrl;
+            if (!URI.create(tokenUrl).isAbsolute()) {
+                throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
+            }
+        }
+        RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.implicit, clientSecret, parameters);
         authentications.put(
                 "petstore_auth",
                 retryingOAuth
