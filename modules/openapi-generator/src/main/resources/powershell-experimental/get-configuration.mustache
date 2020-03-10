@@ -50,9 +50,9 @@ function Get-OpenAPIConfiguration {
         $Configuration["ApiKeyPrefix"] = @{}
     }
 
-    if (!$Configuration["User-Agent"]) {
-        $Configuration["User-Agent"] = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/powershell{{/httpUserAgent}}"
-    }
+    #if (!$Configuration["User-Agent"]) {
+    #    $Configuration["User-Agent"] = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/powershell{{/httpUserAgent}}"
+    #}
 
     Return $Configuration
 

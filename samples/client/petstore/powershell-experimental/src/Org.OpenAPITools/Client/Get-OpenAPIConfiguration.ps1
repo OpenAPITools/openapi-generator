@@ -56,9 +56,9 @@ function Get-OpenAPIConfiguration {
         $Configuration["ApiKeyPrefix"] = @{}
     }
 
-    if (!$Configuration["User-Agent"]) {
-        $Configuration["User-Agent"] = "OpenAPI-Generator/1.2.3/powershell"
-    }
+    #if (!$Configuration["User-Agent"]) {
+    #    $Configuration["User-Agent"] = "OpenAPI-Generator/1.2.3/powershell"
+    #}
 
     Return $Configuration
 

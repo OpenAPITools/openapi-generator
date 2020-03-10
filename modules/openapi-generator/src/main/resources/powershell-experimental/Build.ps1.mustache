@@ -39,7 +39,7 @@ function Get-FunctionsToExport {
 }
 
 $ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
-$ClientPath = ("{{{csharpClientPath}}}" | Resolve-Path).ProviderPath
+#$ClientPath = ("depcreatedCsharpClientPath" | Resolve-Path).ProviderPath
 $FunctionPath = 'API', 'Model' | ForEach-Object {Join-Path "$ScriptDir\src\{{{packageName}}}\" $_}
 $BinPath = "$ScriptDir\src\{{{packageName}}}\Bin"
 
@@ -49,7 +49,7 @@ if (!(Test-Path "$ScriptDir\src\{{{packageName}}}\Bin" -PathType Container)) {
     New-Item "$ScriptDir\src\{{{packageName}}}\Bin" -ItemType Directory > $null
 }
 
-Copy-Item "$ClientPath\bin\*.dll" $BinPath
+#Copy-Item "$ClientPath\bin\*.dll" $BinPath
 
 $Manifest = @{
     Path = "$ScriptDir\src\{{{packageName}}}\{{{packageName}}}.psd1"

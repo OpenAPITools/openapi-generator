@@ -45,7 +45,7 @@ function Get-FunctionsToExport {
 }
 
 $ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
-$ClientPath = ("$ScriptDir\..\..\petstore\csharp\OpenAPIClient" | Resolve-Path).ProviderPath
+#$ClientPath = ("depcreatedCsharpClientPath" | Resolve-Path).ProviderPath
 $FunctionPath = 'API', 'Model' | ForEach-Object {Join-Path "$ScriptDir\src\Org.OpenAPITools\" $_}
 $BinPath = "$ScriptDir\src\Org.OpenAPITools\Bin"
 
@@ -55,7 +55,7 @@ if (!(Test-Path "$ScriptDir\src\Org.OpenAPITools\Bin" -PathType Container)) {
     New-Item "$ScriptDir\src\Org.OpenAPITools\Bin" -ItemType Directory > $null
 }
 
-Copy-Item "$ClientPath\bin\*.dll" $BinPath
+#Copy-Item "$ClientPath\bin\*.dll" $BinPath
 
 $Manifest = @{
     Path = "$ScriptDir\src\Org.OpenAPITools\Org.OpenAPITools.psd1"
