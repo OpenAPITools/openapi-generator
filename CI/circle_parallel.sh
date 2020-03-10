@@ -11,7 +11,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
 
-  mvn --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=info
   mvn --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
