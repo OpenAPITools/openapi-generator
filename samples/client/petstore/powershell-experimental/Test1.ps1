@@ -3,8 +3,10 @@ Remove-Module -FullyQualifiedName @{ModuleName = "Org.OpenAPITools"; ModuleVersi
 Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
 
-Invoke-PetApiGetPetById -petId 2
+$result = Invoke-PetApiGetPetById -petId 2
 
+$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
+#Write-Host "result =" + $result.photoUrls
 
 $pet = New-Pet -Id 1 -Name 'foo' -Category (
     New-Category -Id 2 -Name 'bar'

@@ -33,7 +33,7 @@ function Invoke-StoreApiDeleteOrder {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -43,13 +43,7 @@ function Invoke-StoreApiDeleteOrder {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:StoreApi.DeleteOrder(
-        #
-        #    
-        #    ${orderId}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -81,7 +75,7 @@ function Invoke-StoreApiGetInventory {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -91,9 +85,7 @@ function Invoke-StoreApiGetInventory {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:StoreApi.GetInventory(
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -125,7 +117,7 @@ function Invoke-StoreApiGetOrderById {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -135,13 +127,7 @@ function Invoke-StoreApiGetOrderById {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:StoreApi.GetOrderById(
-        #
-        #    
-        #    ${orderId}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -172,7 +158,7 @@ function Invoke-StoreApiPlaceOrder {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -182,13 +168,7 @@ function Invoke-StoreApiPlaceOrder {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:StoreApi.PlaceOrder(
-        #
-        #    
-        #    ${body}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 

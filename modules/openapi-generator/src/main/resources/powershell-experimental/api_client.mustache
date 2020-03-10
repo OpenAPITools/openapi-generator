@@ -96,12 +96,14 @@ function Invoke-{{{packageName}}}APIClient {
         $RequestBody = $Body
     }
 
-    Write-Host $HeaderParameters
+    #Write-Host $HeaderParameters
 
     $Response = Invoke-WebRequest -Uri $RequestUri `
                                   -Method $Method `
                                   -Headers $HeaderParameters `
                                   -Body $RequestBody
+
+    return $Response
 }
 
 function SelectAcceptHeaders {

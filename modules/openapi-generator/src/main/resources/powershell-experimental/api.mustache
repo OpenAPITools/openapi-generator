@@ -105,7 +105,7 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         {{/isBasicBearer}}
 
         {{/authMethods}}
-        Invoke-{{{packageName}}}APIClient -Method '{{httpMethod}}' `
+        $LocalVarResult = Invoke-{{{packageName}}}APIClient -Method '{{httpMethod}}' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -115,13 +115,7 @@ function Invoke-{{{classname}}}{{{operationId}}} {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:{{{classname}}}.{{{operationId}}}(
-        #{{#allParams}}
-        #    {{=<% %>=}}
-        #    ${<%paramName%>}<%^-last%>,<%/-last%>
-        #    <%={{ }}=%>
-        #{{/allParams}}
-        #)
+        return ConvertFrom-Json $LocalVarResult
     }
 }
 

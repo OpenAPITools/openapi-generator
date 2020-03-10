@@ -32,7 +32,7 @@ function Invoke-UserApiCreateUser {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -42,13 +42,7 @@ function Invoke-UserApiCreateUser {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:UserApi.CreateUser(
-        #
-        #    
-        #    ${body}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -79,7 +73,7 @@ function Invoke-UserApiCreateUsersWithArrayInput {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -89,13 +83,7 @@ function Invoke-UserApiCreateUsersWithArrayInput {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:UserApi.CreateUsersWithArrayInput(
-        #
-        #    
-        #    ${body}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -126,7 +114,7 @@ function Invoke-UserApiCreateUsersWithListInput {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -136,13 +124,7 @@ function Invoke-UserApiCreateUsersWithListInput {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:UserApi.CreateUsersWithListInput(
-        #
-        #    
-        #    ${body}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -174,7 +156,7 @@ function Invoke-UserApiDeleteUser {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -184,13 +166,7 @@ function Invoke-UserApiDeleteUser {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:UserApi.DeleteUser(
-        #
-        #    
-        #    ${username}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -222,7 +198,7 @@ function Invoke-UserApiGetUserByName {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -232,13 +208,7 @@ function Invoke-UserApiGetUserByName {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:UserApi.GetUserByName(
-        #
-        #    
-        #    ${username}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -284,7 +254,7 @@ function Invoke-UserApiLoginUser {
         $LocalVarQueryParameters['password'] = $password
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -294,17 +264,7 @@ function Invoke-UserApiLoginUser {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:UserApi.LoginUser(
-        #
-        #    
-        #    ${username},
-        #    
-        #
-        #    
-        #    ${password}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -332,7 +292,7 @@ function Invoke-UserApiLogoutUser {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -342,9 +302,7 @@ function Invoke-UserApiLogoutUser {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:UserApi.LogoutUser(
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -379,7 +337,7 @@ function Invoke-UserApiUpdateUser {
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'PUT' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -389,17 +347,7 @@ function Invoke-UserApiUpdateUser {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:UserApi.UpdateUser(
-        #
-        #    
-        #    ${username},
-        #    
-        #
-        #    
-        #    ${body}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 

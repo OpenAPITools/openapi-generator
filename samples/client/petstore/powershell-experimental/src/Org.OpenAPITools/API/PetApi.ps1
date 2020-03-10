@@ -33,7 +33,7 @@ function Invoke-PetApiAddPet {
 
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -43,13 +43,7 @@ function Invoke-PetApiAddPet {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:PetApi.AddPet(
-        #
-        #    
-        #    ${body}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -87,7 +81,7 @@ function Invoke-PetApiDeletePet {
 
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -97,17 +91,7 @@ function Invoke-PetApiDeletePet {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:PetApi.DeletePet(
-        #
-        #    
-        #    ${petId},
-        #    
-        #
-        #    
-        #    ${apiKey}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -145,7 +129,7 @@ function Invoke-PetApiFindPetsByStatus {
 
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -155,13 +139,7 @@ function Invoke-PetApiFindPetsByStatus {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:PetApi.FindPetsByStatus(
-        #
-        #    
-        #    ${status}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -199,7 +177,7 @@ function Invoke-PetApiFindPetsByTags {
 
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -209,13 +187,7 @@ function Invoke-PetApiFindPetsByTags {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:PetApi.FindPetsByTags(
-        #
-        #    
-        #    ${tags}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -251,7 +223,7 @@ function Invoke-PetApiGetPetById {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -261,13 +233,7 @@ function Invoke-PetApiGetPetById {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:PetApi.GetPetById(
-        #
-        #    
-        #    ${petId}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -299,7 +265,7 @@ function Invoke-PetApiUpdatePet {
 
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'PUT' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -309,13 +275,7 @@ function Invoke-PetApiUpdatePet {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:PetApi.UpdatePet(
-        #
-        #    
-        #    ${body}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -358,7 +318,7 @@ function Invoke-PetApiUpdatePetWithForm {
 
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -368,21 +328,7 @@ function Invoke-PetApiUpdatePetWithForm {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:PetApi.UpdatePetWithForm(
-        #
-        #    
-        #    ${petId},
-        #    
-        #
-        #    
-        #    ${name},
-        #    
-        #
-        #    
-        #    ${status}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
@@ -425,7 +371,7 @@ function Invoke-PetApiUploadFile {
 
 
 
-        Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -435,21 +381,7 @@ function Invoke-PetApiUploadFile {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters
 
-        #$Script:PetApi.UploadFile(
-        #
-        #    
-        #    ${petId},
-        #    
-        #
-        #    
-        #    ${additionalMetadata},
-        #    
-        #
-        #    
-        #    ${file}
-        #    
-        #
-        #)
+         return ConvertFrom-Json $LocalVarResult
     }
 }
 
