@@ -6,7 +6,7 @@ function New-{{{classname}}} {
     Param (
 {{#vars}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
-        [{{#isString}}{{{dataType}}}{{/isString}}{{^isString}}{{#isListContainer}}{{{dataType}}}{{/isListContainer}}{{^isListContainer}}{{#isPrimitiveType}}{{^required}}System.Nullable[{{/required}}{{dataType}}{{^required}}]{{/required}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{dataType}}{{/isPrimitiveType}}{{/isListContainer}}{{/isString}}]
+        [{{vendorExtensions.x-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%^-last%>,<%/-last%>
         <%={{ }}=%>
@@ -14,17 +14,25 @@ function New-{{{classname}}} {
     )
 
     Process {
-        'Creating object: {{{packageName}}}.Model.{{{classname}}}' | Write-Host
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
+        #'Creating object: {{{packageName}}} => {{{classname}}}' | Write-Host
+        #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        #New-Object -TypeName {{{packageName}}}.Model.{{{classname}}} -ArgumentList @(
-{{#vars}}
-        #    {{=<% %>=}}
-        #    ${<%name%>}<%^-last%>,<%/-last%>
-        #    <%={{ }}=%>
-{{/vars}}
-        #)
+        $PSO = [PSCustomObject]@{
+            {{=<< >>=}}
+            <<#vars>>
+            "<<baseName>>" = ${<<name>>}
+            <</vars>>
+            <<={{ }}=>>
+        }
+
+        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
+
+        return $PSO
     }
+
+
+
+
 }
 {{/model}}
 {{/models}}

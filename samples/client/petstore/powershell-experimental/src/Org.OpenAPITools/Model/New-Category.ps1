@@ -17,16 +17,20 @@ function New-Category {
     )
 
     Process {
-        'Creating object: Org.OpenAPITools.Model.Category' | Write-Host
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
+        #'Creating object: Org.OpenAPITools => Category' | Write-Host
+        #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        #New-Object -TypeName Org.OpenAPITools.Model.Category -ArgumentList @(
-        #    
-        #    ${id},
-        #    
-        #    
-        #    ${name}
-        #    
-        #)
+        $PSO = [PSCustomObject]@{
+            "id" = ${id}
+            "name" = ${name}
+        }
+
+        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
+
+        return $PSO
     }
+
+
+
+
 }

@@ -20,19 +20,21 @@ function New-ApiResponse {
     )
 
     Process {
-        'Creating object: Org.OpenAPITools.Model.ApiResponse' | Write-Host
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
+        #'Creating object: Org.OpenAPITools => ApiResponse' | Write-Host
+        #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        #New-Object -TypeName Org.OpenAPITools.Model.ApiResponse -ArgumentList @(
-        #    
-        #    ${code},
-        #    
-        #    
-        #    ${type},
-        #    
-        #    
-        #    ${message}
-        #    
-        #)
+        $PSO = [PSCustomObject]@{
+            "code" = ${code}
+            "type" = ${type}
+            "message" = ${message}
+        }
+
+        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
+
+        return $PSO
     }
+
+
+
+
 }

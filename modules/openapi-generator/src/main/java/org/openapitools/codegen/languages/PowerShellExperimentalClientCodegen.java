@@ -69,7 +69,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                         ParameterFeature.Cookie
                 )
         );
-        
+
         outputFolder = "generated-code" + File.separator + "powershell-expiermental";
         modelTemplateFiles.put("model.mustache", ".ps1");
         apiTemplateFiles.put("api.mustache", ".ps1");
@@ -256,7 +256,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator);
 
         supportingFiles.add(new SupportingFile("Org.OpenAPITools.psm1.mustache", infrastructureFolder, packageName + ".psm1"));
-        
+
         // client/api_client
         // TODO rename OpenAPI with package name
         supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Client", packageName + "APIClient.ps1"));
@@ -444,7 +444,35 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         List<Object> models = (List<Object>) objs.get("models");
         // add x-index to properties
         ProcessUtils.addIndexToProperties(models);
+
+        // add x-data-type to store powershell type
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            for (CodegenProperty cp : cm.vars) {
+                cp.vendorExtensions.put("x-data-type", getPSDataType(cp));
+            }
+        }
+
         return objs;
+    }
+
+    String getPSDataType(CodegenProperty cp) {
+        String dataType;
+        if (cp.isPrimitiveType) {
+            dataType = cp.dataType;
+            if (!cp.isString && (cp.isNullable || !cp.required)) {
+                dataType = "System.Nullable[" + dataType + "]";
+            }
+            return dataType;
+        } else if (cp.isListContainer) { // array
+            return getPSDataType(cp.items) + "[]";
+        } else if (cp.isMapContainer) { // map
+            throw new RuntimeException("Map is not supported in the object's properties.");
+        } else { // model
+            return "PSCustomObject";
+        }
     }
 
 }

@@ -12,7 +12,7 @@ function New-Pet {
         [System.Nullable[Int64]]
         ${id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
-        [Org.OpenAPITools.Model.Category]
+        [PSCustomObject]
         ${category},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
@@ -21,7 +21,7 @@ function New-Pet {
         [String[]]
         ${photoUrls},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
-        [Org.OpenAPITools.Model.Tag[]]
+        [PSCustomObject[]]
         ${tags},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [String]
@@ -29,28 +29,24 @@ function New-Pet {
     )
 
     Process {
-        'Creating object: Org.OpenAPITools.Model.Pet' | Write-Host
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
+        #'Creating object: Org.OpenAPITools => Pet' | Write-Host
+        #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        #New-Object -TypeName Org.OpenAPITools.Model.Pet -ArgumentList @(
-        #    
-        #    ${id},
-        #    
-        #    
-        #    ${category},
-        #    
-        #    
-        #    ${name},
-        #    
-        #    
-        #    ${photoUrls},
-        #    
-        #    
-        #    ${tags},
-        #    
-        #    
-        #    ${status}
-        #    
-        #)
+        $PSO = [PSCustomObject]@{
+            "id" = ${id}
+            "category" = ${category}
+            "name" = ${name}
+            "photoUrls" = ${photoUrls}
+            "tags" = ${tags}
+            "status" = ${status}
+        }
+
+        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
+
+        return $PSO
     }
+
+
+
+
 }

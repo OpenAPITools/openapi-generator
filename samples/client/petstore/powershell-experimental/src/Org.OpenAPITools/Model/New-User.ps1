@@ -35,34 +35,26 @@ function New-User {
     )
 
     Process {
-        'Creating object: Org.OpenAPITools.Model.User' | Write-Host
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
+        #'Creating object: Org.OpenAPITools => User' | Write-Host
+        #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        #New-Object -TypeName Org.OpenAPITools.Model.User -ArgumentList @(
-        #    
-        #    ${id},
-        #    
-        #    
-        #    ${username},
-        #    
-        #    
-        #    ${firstName},
-        #    
-        #    
-        #    ${lastName},
-        #    
-        #    
-        #    ${email},
-        #    
-        #    
-        #    ${password},
-        #    
-        #    
-        #    ${phone},
-        #    
-        #    
-        #    ${userStatus}
-        #    
-        #)
+        $PSO = [PSCustomObject]@{
+            "id" = ${id}
+            "username" = ${username}
+            "firstName" = ${firstName}
+            "lastName" = ${lastName}
+            "email" = ${email}
+            "password" = ${password}
+            "phone" = ${phone}
+            "userStatus" = ${userStatus}
+        }
+
+        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
+
+        return $PSO
     }
+
+
+
+
 }

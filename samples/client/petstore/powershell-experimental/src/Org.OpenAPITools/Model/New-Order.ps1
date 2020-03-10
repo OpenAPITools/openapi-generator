@@ -29,28 +29,24 @@ function New-Order {
     )
 
     Process {
-        'Creating object: Org.OpenAPITools.Model.Order' | Write-Host
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
+        #'Creating object: Org.OpenAPITools => Order' | Write-Host
+        #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        #New-Object -TypeName Org.OpenAPITools.Model.Order -ArgumentList @(
-        #    
-        #    ${id},
-        #    
-        #    
-        #    ${petId},
-        #    
-        #    
-        #    ${quantity},
-        #    
-        #    
-        #    ${shipDate},
-        #    
-        #    
-        #    ${status},
-        #    
-        #    
-        #    ${complete}
-        #    
-        #)
+        $PSO = [PSCustomObject]@{
+            "id" = ${id}
+            "petId" = ${petId}
+            "quantity" = ${quantity}
+            "shipDate" = ${shipDate}
+            "status" = ${status}
+            "complete" = ${complete}
+        }
+
+        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
+
+        return $PSO
     }
+
+
+
+
 }

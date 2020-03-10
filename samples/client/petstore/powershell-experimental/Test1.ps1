@@ -6,7 +6,7 @@ Import-Module -Name '.\src\Org.OpenAPITools'
 Invoke-PetApiGetPetById -petId 2
 
 
-New-Pet -Id 1 -Name 'foo' -Category (
+$pet = New-Pet -Id 1 -Name 'foo' -Category (
     New-Category -Id 2 -Name 'bar'
 ) -PhotoUrls @(
     'http://example.com/foo',
@@ -14,4 +14,8 @@ New-Pet -Id 1 -Name 'foo' -Category (
 ) -Tags (
     New-Tag -Id 3 -Name 'baz'
 ) -Status Available
+
+Write-Host $pet
+
+
 
