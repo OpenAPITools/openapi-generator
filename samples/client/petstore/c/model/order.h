@@ -12,11 +12,14 @@
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 
-                typedef enum  { openapi_petstore_order_STATUS_NULL = 0, openapi_petstore_order_STATUS_placed, openapi_petstore_order_STATUS_approved, openapi_petstore_order_STATUS_delivered } openapi_petstore_order_STATUS_e;
+// Enum STATUS for order
 
-        char* order_status_ToString(openapi_petstore_order_STATUS_e status);
+typedef enum  { openapi_petstore_order_STATUS_NULL = 0, openapi_petstore_order_STATUS_placed, openapi_petstore_order_STATUS_approved, openapi_petstore_order_STATUS_delivered } openapi_petstore_order_STATUS_e;
 
-        openapi_petstore_order_STATUS_e order_status_FromString(char* status);
+char* order_status_ToString(openapi_petstore_order_STATUS_e status);
+
+openapi_petstore_order_STATUS_e order_status_FromString(char* status);
+
 
 
 typedef struct order_t {

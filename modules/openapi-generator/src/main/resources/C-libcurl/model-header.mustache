@@ -16,8 +16,9 @@
 {{/imports}}
 
 {{#isEnum}}
-
 {{#allowableValues}}
+// Enum {{enumName}} for {{classVarName}}
+
 typedef enum { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
 {{/allowableValues}}
 
@@ -25,9 +26,9 @@ char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}});
 
-cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
+//cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
+//{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
 
 {{/isEnum}}
 {{^isEnum}}
@@ -35,13 +36,16 @@ cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarN
 {{^isContainer}}
     {{^isModel}}
     {{#isEnum}}
+// Enum {{enumName}} for {{classVarName}}
+
         {{#allowableValues}}
-                typedef enum  { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
+typedef enum  { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
         {{/allowableValues}}
 
-        char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}});
+char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}});
 
-        {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
+
     {{/isEnum}}
     {{/isModel}}
     {{/isContainer}}
@@ -49,13 +53,16 @@ cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarN
     {{#items}}
         {{^isModel}}
         {{#isEnum}}
+// Enum {{enumName}} for {{classVarName}}
+
             {{#allowableValues}}
-                    typedef enum  { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
+typedef enum  { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
             {{/allowableValues}}
 
-            char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}});
+char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}});
 
-            {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
+
         {{/isEnum}}
         {{/isModel}}
         {{/items}}

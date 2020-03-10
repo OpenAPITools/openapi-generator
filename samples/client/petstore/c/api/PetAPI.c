@@ -11,13 +11,6 @@
     snprintf(dst, 256, "%ld", (long int)(src));\
 }while(0)
 
-
-
-
-
-
-
-
 // Functions for enum STATUS for PetAPI_findPetsByStatus
 
 static char* findPetsByStatus_STATUS_ToString(openapi_petstore_findPetsByStatus_status_e STATUS){
@@ -38,6 +31,10 @@ static openapi_petstore_findPetsByStatus_status_e findPetsByStatus_STATUS_FromSt
     return 0;
 }
 
+/*
+// Function findPetsByStatus_STATUS_convertToJSON is not currently used,
+// since conversion to JSON passes through the conversion of the model, and ToString. The function is kept for future reference.
+//
 static cJSON *findPetsByStatus_STATUS_convertToJSON(openapi_petstore_findPetsByStatus_status_e STATUS) {
     cJSON *item = cJSON_CreateObject();
     return item;
@@ -46,30 +43,16 @@ static cJSON *findPetsByStatus_STATUS_convertToJSON(openapi_petstore_findPetsByS
     return NULL;
 }
 
+// Function findPetsByStatus_STATUS_parseFromJSON is not currently used,
+// since conversion from JSON passes through the conversion of the model, and FromString. The function is kept for future reference.
+//
 static openapi_petstore_findPetsByStatus_status_e findPetsByStatus_STATUS_parseFromJSON(cJSON* STATUSJSON) {
     openapi_petstore_findPetsByStatus_status_e STATUSVariable = 0;
     return STATUSVariable;
 end:
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 // Add a new pet to the store

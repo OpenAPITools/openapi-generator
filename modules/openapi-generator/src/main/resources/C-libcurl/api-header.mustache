@@ -7,24 +7,19 @@
 {{#imports}}{{{import}}}
 {{/imports}}
 
-
 {{#operations}}
 {{#operation}}
 {{#allParams}}
-
 {{#isEnum}}
 // Enum {{enumName}} for {{{classname}}}_{{{operationId}}}
-
 {{#allowableValues}}
 typedef enum  { {{projectName}}_{{operationId}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{operationId}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{operationId}}_{{baseName}}_e;
 
 {{/allowableValues}}
 {{/isEnum}}
-
 {{/allParams}}
 {{/operation}}
 {{/operations}}
-
 
 {{#operations}}
 {{#operation}}

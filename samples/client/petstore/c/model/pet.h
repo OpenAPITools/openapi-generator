@@ -14,11 +14,14 @@
 #include "category.h"
 #include "tag.h"
 
-                typedef enum  { openapi_petstore_pet_STATUS_NULL = 0, openapi_petstore_pet_STATUS_available, openapi_petstore_pet_STATUS_pending, openapi_petstore_pet_STATUS_sold } openapi_petstore_pet_STATUS_e;
+// Enum STATUS for pet
 
-        char* pet_status_ToString(openapi_petstore_pet_STATUS_e status);
+typedef enum  { openapi_petstore_pet_STATUS_NULL = 0, openapi_petstore_pet_STATUS_available, openapi_petstore_pet_STATUS_pending, openapi_petstore_pet_STATUS_sold } openapi_petstore_pet_STATUS_e;
 
-        openapi_petstore_pet_STATUS_e pet_status_FromString(char* status);
+char* pet_status_ToString(openapi_petstore_pet_STATUS_e status);
+
+openapi_petstore_pet_STATUS_e pet_status_FromString(char* status);
+
 
 
 typedef struct pet_t {

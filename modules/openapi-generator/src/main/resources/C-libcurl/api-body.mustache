@@ -14,7 +14,6 @@
 {{#operations}}
 {{#operation}}
 {{#allParams}}
-
 {{#isEnum}}
 // Functions for enum {{enumName}} for {{{classname}}}_{{{operationId}}}
 
@@ -36,6 +35,10 @@ static {{projectName}}_{{operationId}}_{{baseName}}_e {{{operationId}}}_{{enumNa
     return 0;
 }
 
+/*
+// Function {{{operationId}}}_{{enumName}}_convertToJSON is not currently used,
+// since conversion to JSON passes through the conversion of the model, and ToString. The function is kept for future reference.
+//
 static cJSON *{{{operationId}}}_{{enumName}}_convertToJSON({{projectName}}_{{operationId}}_{{baseName}}_e {{enumName}}) {
     cJSON *item = cJSON_CreateObject();
 {{#isString}}
@@ -54,6 +57,9 @@ static cJSON *{{{operationId}}}_{{enumName}}_convertToJSON({{projectName}}_{{ope
     return NULL;
 }
 
+// Function {{{operationId}}}_{{enumName}}_parseFromJSON is not currently used,
+// since conversion from JSON passes through the conversion of the model, and FromString. The function is kept for future reference.
+//
 static {{projectName}}_{{operationId}}_{{baseName}}_e {{{operationId}}}_{{enumName}}_parseFromJSON(cJSON* {{enumName}}JSON) {
     {{projectName}}_{{operationId}}_{{baseName}}_e {{enumName}}Variable = 0;
 {{#isNumeric}}
@@ -75,8 +81,9 @@ static {{projectName}}_{{operationId}}_{{baseName}}_e {{{operationId}}}_{{enumNa
 end:
     return 0;
 }
-{{/isEnum}}
+*/
 
+{{/isEnum}}
 {{/allParams}}
 {{/operation}}
 {{/operations}}

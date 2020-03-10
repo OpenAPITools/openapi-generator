@@ -72,12 +72,12 @@ end:
     {{^isContainer}}
     {{^isModel}}
     {{#isEnum}}
-    char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
+char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
     char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
-        return {{name}}Array[{{name}}];
-    }
+	return {{name}}Array[{{name}}];
+}
 
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
     char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
@@ -88,7 +88,7 @@ end:
         stringToReturn++;
     }
     return 0;
-    }
+}
     {{/isEnum}}
     {{/isModel}}
     {{/isContainer}}
@@ -96,12 +96,12 @@ end:
     {{#items}}
     {{^isModel}}
     {{#isEnum}}
-    char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-        char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
-        return {{name}}Array[{{name}} - 1];
-    }
+char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
+	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+	return {{name}}Array[{{name}} - 1];
+}
 
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}) {
     int stringToReturn = 0;
     char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
@@ -112,7 +112,7 @@ end:
         stringToReturn++;
     }
     return 0;
-    }
+}
     {{/isEnum}}
     {{/isModel}}
     {{/items}}

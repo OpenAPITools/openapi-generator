@@ -4,12 +4,12 @@
 #include "order.h"
 
 
-    char* statusorder_ToString(openapi_petstore_order_STATUS_e status) {
+char* statusorder_ToString(openapi_petstore_order_STATUS_e status) {
     char* statusArray[] =  { "NULL", "placed", "approved", "delivered" };
-        return statusArray[status];
-    }
+	return statusArray[status];
+}
 
-    openapi_petstore_order_STATUS_e statusorder_FromString(char* status){
+openapi_petstore_order_STATUS_e statusorder_FromString(char* status){
     int stringToReturn = 0;
     char *statusArray[] =  { "NULL", "placed", "approved", "delivered" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
@@ -20,7 +20,7 @@
         stringToReturn++;
     }
     return 0;
-    }
+}
 
 order_t *order_create(
     long id,
