@@ -41,6 +41,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     protected String packageName = "PSOpenAPITools";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String testPath = "tests/";
 
     /**
      * Constructs an instance of `PowerShellExperimentalClientCodegen`.
@@ -76,7 +77,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         modelTestTemplateFiles.put("model_test.mustache", ".ps1");
         apiTestTemplateFiles.put("api_test.mustache", ".ps1");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        apiDocTemplateFiles.clear();
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "powershell-experimental";
         apiPackage = packageName + File.separator + "API";
         modelPackage = packageName + File.separator + "Model";
@@ -285,7 +286,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + "/test").replace('/', File.separatorChar);
+        return (outputFolder + "/" + testPath).replace('/', File.separatorChar);
     }
 
     @Override
@@ -300,7 +301,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + "/test").replace('/', File.separatorChar);
+        return (outputFolder + "/" + testPath).replace('/', File.separatorChar);
     }
 
     @Override
