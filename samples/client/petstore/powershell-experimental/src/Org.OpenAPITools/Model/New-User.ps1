@@ -49,8 +49,6 @@ function New-User {
             "userStatus" = ${userStatus}
         }
 
-        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
-
         return $PSO
     }
 

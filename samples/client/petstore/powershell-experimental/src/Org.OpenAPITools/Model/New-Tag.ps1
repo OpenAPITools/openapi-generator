@@ -25,8 +25,6 @@ function New-Tag {
             "name" = ${name}
         }
 
-        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
-
         return $PSO
     }
 

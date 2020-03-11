@@ -41,8 +41,6 @@ function New-Order {
             "complete" = ${complete}
         }
 
-        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
-
         return $PSO
     }
 

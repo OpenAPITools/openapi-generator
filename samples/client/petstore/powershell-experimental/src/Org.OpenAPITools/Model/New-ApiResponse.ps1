@@ -29,8 +29,6 @@ function New-ApiResponse {
             "message" = ${message}
         }
 
-        $PSO | Add-Member ScriptMethod ToString { ConvertTo-Json $this } -force
-
         return $PSO
     }
 
