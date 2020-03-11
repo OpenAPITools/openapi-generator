@@ -166,6 +166,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "Guid?",
                         "Guid",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
+                        "Microsoft.AspNetCore.Http.IFormFile", // not really a primitive, we include it to avoid model import
                         "Object")
         );
 

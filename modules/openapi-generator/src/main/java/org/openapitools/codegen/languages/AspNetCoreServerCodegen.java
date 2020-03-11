@@ -58,6 +58,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
+    public static final String USE_IFORMFILE_INSTEAD_OF_STREAM = "useIFormFileInsteadOfStream";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -84,6 +85,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0-preview5-19227-01";
+    private boolean useIFormFileInsteadOfStream = false;
 
     public AspNetCoreServerCodegen() {
         super();
@@ -287,6 +289,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
 
+        addSwitch(USE_IFORMFILE_INSTEAD_OF_STREAM,
+                "Change so that File inputs are generated as IFormFile data types instead of Stream",
+                useIFormFileInsteadOfStream);
     }
 
     @Override
@@ -335,7 +340,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setModelClassModifier();
         setUseSwashbuckle();
         setOperationIsAsync();
+        setIFormFileInsteadOfStream();
 
+        if (useIFormFileInsteadOfStream) {
+            typeMapping.put("file", "Microsoft.AspNetCore.Http.IFormFile");
+        }
         // CHeck for class modifier if not present set the default value.
         additionalProperties.put(PROJECT_SDK, projectSdk);
 
@@ -528,6 +537,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             projectSdk = SDK_WEB;
         }
         additionalProperties.put(IS_LIBRARY, isLibrary);
+    }
+
+    private void setIFormFileInsteadOfStream() {
+        if (additionalProperties.containsKey(USE_IFORMFILE_INSTEAD_OF_STREAM)) {
+            useIFormFileInsteadOfStream = convertPropertyToBooleanAndWriteBack(USE_IFORMFILE_INSTEAD_OF_STREAM);
+        }
     }
 
     private void setAspnetCoreVersion(String packageFolder) {
