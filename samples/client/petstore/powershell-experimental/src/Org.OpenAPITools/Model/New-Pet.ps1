@@ -10,22 +10,22 @@ function New-Pet {
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int64]]
-        ${id},
+        ${Id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
         [PSCustomObject]
-        ${category},
+        ${Category},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
-        ${name},
+        ${Name},
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String[]]
-        ${photoUrls},
+        ${PhotoUrls},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
         [PSCustomObject[]]
-        ${tags},
+        ${Tags},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${status}
+        ${Status}
     )
 
     Process {
@@ -33,12 +33,12 @@ function New-Pet {
         #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
-            "id" = ${id}
-            "category" = ${category}
-            "name" = ${name}
-            "photoUrls" = ${photoUrls}
-            "tags" = ${tags}
-            "status" = ${status}
+            "id" = ${Id}
+            "category" = ${Category}
+            "name" = ${Name}
+            "photoUrls" = ${PhotoUrls}
+            "tags" = ${Tags}
+            "status" = ${Status}
         }
 
         return $PSO

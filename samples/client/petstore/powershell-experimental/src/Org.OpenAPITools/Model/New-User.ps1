@@ -10,28 +10,28 @@ function New-User {
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int64]]
-        ${id},
+        ${Id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${username},
+        ${Username},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${firstName},
+        ${FirstName},
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${lastName},
+        ${LastName},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${email},
+        ${Email},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${password},
+        ${Password},
         [Parameter(Position = 6, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${phone},
+        ${Phone},
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int32]]
-        ${userStatus}
+        ${UserStatus}
     )
 
     Process {
@@ -39,14 +39,14 @@ function New-User {
         #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
-            "id" = ${id}
-            "username" = ${username}
-            "firstName" = ${firstName}
-            "lastName" = ${lastName}
-            "email" = ${email}
-            "password" = ${password}
-            "phone" = ${phone}
-            "userStatus" = ${userStatus}
+            "id" = ${Id}
+            "username" = ${Username}
+            "firstName" = ${FirstName}
+            "lastName" = ${LastName}
+            "email" = ${Email}
+            "password" = ${Password}
+            "phone" = ${Phone}
+            "userStatus" = ${UserStatus}
         }
 
         return $PSO

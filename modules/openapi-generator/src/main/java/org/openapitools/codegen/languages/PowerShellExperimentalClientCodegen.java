@@ -75,7 +75,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         apiTemplateFiles.put("api.mustache", ".ps1");
         modelTestTemplateFiles.put("model_test.mustache", ".ps1");
         apiTestTemplateFiles.put("api_test.mustache", ".ps1");
-        modelDocTemplateFiles.clear();
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.clear();
         embeddedTemplateDir = templateDir = "powershell-experimental";
         apiPackage = packageName + File.separator + "API";
@@ -474,5 +474,27 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             return "PSCustomObject";
         }
     }
+
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name);
+
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
+        }
+
+        // camelize the variable name
+        // pet_id => PetId
+        name = camelize(name);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
+    }    
 
 }

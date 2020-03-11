@@ -10,10 +10,10 @@ function New-Tag {
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int64]]
-        ${id},
+        ${Id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${name}
+        ${Name}
     )
 
     Process {
@@ -21,8 +21,8 @@ function New-Tag {
         #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
-            "id" = ${id}
-            "name" = ${name}
+            "id" = ${Id}
+            "name" = ${Name}
         }
 
         return $PSO

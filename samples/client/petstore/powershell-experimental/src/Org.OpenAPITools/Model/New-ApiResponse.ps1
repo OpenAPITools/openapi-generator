@@ -10,13 +10,13 @@ function New-ApiResponse {
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int32]]
-        ${code},
+        ${Code},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${type},
+        ${Type},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${message}
+        ${Message}
     )
 
     Process {
@@ -24,9 +24,9 @@ function New-ApiResponse {
         #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
-            "code" = ${code}
-            "type" = ${type}
-            "message" = ${message}
+            "code" = ${Code}
+            "type" = ${Type}
+            "message" = ${Message}
         }
 
         return $PSO

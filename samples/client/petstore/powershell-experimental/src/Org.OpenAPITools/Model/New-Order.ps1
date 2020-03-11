@@ -10,22 +10,22 @@ function New-Order {
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int64]]
-        ${id},
+        ${Id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int64]]
-        ${petId},
+        ${PetId},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int32]]
-        ${quantity},
+        ${Quantity},
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[System.DateTime]]
-        ${shipDate},
+        ${ShipDate},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${status},
+        ${Status},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Boolean]]
-        ${complete}
+        ${Complete}
     )
 
     Process {
@@ -33,12 +33,12 @@ function New-Order {
         #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
-            "id" = ${id}
-            "petId" = ${petId}
-            "quantity" = ${quantity}
-            "shipDate" = ${shipDate}
-            "status" = ${status}
-            "complete" = ${complete}
+            "id" = ${Id}
+            "petId" = ${PetId}
+            "quantity" = ${Quantity}
+            "shipDate" = ${ShipDate}
+            "status" = ${Status}
+            "complete" = ${Complete}
         }
 
         return $PSO
