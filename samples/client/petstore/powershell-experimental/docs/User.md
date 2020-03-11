@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 - Create a new object
 ```powershell
-New-Org.OpenAPIToolsUser  -Id null `
+New-PSOpenAPIToolsUser  -Id null `
  -Username null `
  -FirstName null `
  -LastName null `

@@ -26,14 +26,14 @@ function Invoke-StoreApiDeleteOrder {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
+        $Configuraiton = Get-PSOpenAPIToolsConfiguration
 
         $LocalVarUri = '/store/order/{orderId}'
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'DELETE' `
+        $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -66,7 +66,7 @@ function Invoke-StoreApiGetInventory {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
+        $Configuraiton = Get-PSOpenAPIToolsConfiguration
 
         $LocalVarUri = '/store/inventory'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -76,7 +76,7 @@ function Invoke-StoreApiGetInventory {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 
-        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -112,14 +112,14 @@ function Invoke-StoreApiGetOrderById {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
+        $Configuraiton = Get-PSOpenAPIToolsConfiguration
 
         $LocalVarUri = '/store/order/{orderId}'
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -128,7 +128,7 @@ function Invoke-StoreApiGetOrderById {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Org.OpenAPITools.Model.Order"
+                                -ReturnType "Order"
 
         return $LocalVarResult["Response"]
     }
@@ -138,7 +138,7 @@ function Invoke-StoreApiPlaceOrder {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [Org.OpenAPITools.Model.Order]
+        [PSOpenAPITools.Model.Order]
         ${body}
     )
 
@@ -155,13 +155,13 @@ function Invoke-StoreApiPlaceOrder {
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
 
-        $Configuraiton = Get-Org.OpenAPIToolsConfiguration
+        $Configuraiton = Get-PSOpenAPIToolsConfiguration
 
         $LocalVarUri = '/store/order'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
 
-        $LocalVarResult = Invoke-Org.OpenAPIToolsAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -170,7 +170,7 @@ function Invoke-StoreApiPlaceOrder {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Org.OpenAPITools.Model.Order"
+                                -ReturnType "Order"
 
         return $LocalVarResult["Response"]
     }

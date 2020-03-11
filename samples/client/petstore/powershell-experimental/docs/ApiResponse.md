@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 
 - Create a new object
 ```powershell
-New-Org.OpenAPIToolsApiResponse  -Code null `
+New-PSOpenAPIToolsApiResponse  -Code null `
  -Type null `
  -Message null
 ```

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 
 - Create a new object
 ```powershell
-New-Org.OpenAPIToolsTag  -Id null `
+New-PSOpenAPIToolsTag  -Id null `
  -Name null
 ```
 

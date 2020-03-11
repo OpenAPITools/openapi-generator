@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 
 - Create a new object
 ```powershell
-New-Org.OpenAPIToolsCategory  -Id null `
+New-PSOpenAPIToolsCategory  -Id null `
  -Name null
 ```
 

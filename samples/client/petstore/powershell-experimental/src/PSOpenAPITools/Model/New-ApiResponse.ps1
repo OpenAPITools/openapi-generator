@@ -20,7 +20,7 @@ function New-ApiResponse {
     )
 
     Process {
-        #'Creating object: Org.OpenAPITools => ApiResponse' | Write-Host
+        #'Creating object: PSOpenAPITools => ApiResponse' | Write-Host
         #$PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

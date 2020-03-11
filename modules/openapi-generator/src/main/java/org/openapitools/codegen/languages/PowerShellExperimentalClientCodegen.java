@@ -38,7 +38,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     protected String sourceFolder = "src";
-    protected String packageName = "Org.OpenAPITools";
+    protected String packageName = "PSOpenAPITools";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -403,7 +403,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             // TODO not sure if the following map/hash declaration is correct
             return "{String, " + getTypeDeclaration(inner) + "}";
         } else if (!languageSpecificPrimitives.contains(getSchemaType(p))) {
-            return packageName + ".Model." + super.getTypeDeclaration(p);
+            return super.getTypeDeclaration(p);
         }
         return super.getTypeDeclaration(p);
     }

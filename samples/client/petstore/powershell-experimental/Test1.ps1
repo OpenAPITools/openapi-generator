@@ -1,6 +1,8 @@
-Remove-Module -FullyQualifiedName @{ModuleName = "Org.OpenAPITools"; ModuleVersion = "0.0.1"}
+#Remove-Module -FullyQualifiedName @{ModuleName = "Org.OpenAPITools"; ModuleVersion = "0.0.1"}
+Remove-Module -FullyQualifiedName @{ModuleName = "PSOpenAPITools"; ModuleVersion = "0.0.1"}
 
-Import-Module -Name '.\src\Org.OpenAPITools'
+Import-Module -Name '.\src\PSOpenAPITools'
+#Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
 
 $result = Invoke-PetApiGetPetById -petId 2

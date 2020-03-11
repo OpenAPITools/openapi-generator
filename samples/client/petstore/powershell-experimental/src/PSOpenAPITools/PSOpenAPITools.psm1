@@ -21,14 +21,14 @@ $Script:CmdletBindingParameters = @('Verbose','Debug','ErrorAction','WarningActi
 
 #region Initialize APIs
 
-#'Creating object: Org.OpenAPITools.Api.PetApi' | Write-Verbose
-#$Script:PetApi= New-Object -TypeName Org.OpenAPITools.Api.PetApi -ArgumentList @($null)
+#'Creating object: PSOpenAPITools.Api.PetApi' | Write-Verbose
+#$Script:PetApi= New-Object -TypeName PSOpenAPITools.Api.PetApi -ArgumentList @($null)
 
-#'Creating object: Org.OpenAPITools.Api.StoreApi' | Write-Verbose
-#$Script:StoreApi= New-Object -TypeName Org.OpenAPITools.Api.StoreApi -ArgumentList @($null)
+#'Creating object: PSOpenAPITools.Api.StoreApi' | Write-Verbose
+#$Script:StoreApi= New-Object -TypeName PSOpenAPITools.Api.StoreApi -ArgumentList @($null)
 
-#'Creating object: Org.OpenAPITools.Api.UserApi' | Write-Verbose
-#$Script:UserApi= New-Object -TypeName Org.OpenAPITools.Api.UserApi -ArgumentList @($null)
+#'Creating object: PSOpenAPITools.Api.UserApi' | Write-Verbose
+#$Script:UserApi= New-Object -TypeName PSOpenAPITools.Api.UserApi -ArgumentList @($null)
 
 
 #endregion

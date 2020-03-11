@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 - Create a new object
 ```powershell
-New-Org.OpenAPIToolsOrder  -Id null `
+New-PSOpenAPIToolsOrder  -Id null `
  -PetId null `
  -Quantity null `
  -ShipDate null `

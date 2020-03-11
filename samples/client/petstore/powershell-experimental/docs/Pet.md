@@ -4,17 +4,17 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **Int64** |  | [optional] [default to null]
-**Category** | [**Org.OpenAPITools.Model.Category**](Category.md) |  | [optional] [default to null]
+**Category** | [**Category**](Category.md) |  | [optional] [default to null]
 **Name** | **String** |  | [default to null]
 **PhotoUrls** | **String[]** |  | [default to null]
-**Tags** | [**Org.OpenAPITools.Model.Tag[]**](Tag.md) |  | [optional] [default to null]
+**Tags** | [**Tag[]**](Tag.md) |  | [optional] [default to null]
 **Status** | **String** | pet status in the store | [optional] [default to null]
 
 ## Examples
 
 - Create a new object
 ```powershell
-New-Org.OpenAPIToolsPet  -Id null `
+New-PSOpenAPIToolsPet  -Id null `
  -Category null `
  -Name doggie `
  -PhotoUrls null `
