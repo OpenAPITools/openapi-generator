@@ -40,9 +40,10 @@ function Invoke-UserApiCreateUser {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -81,9 +82,10 @@ function Invoke-UserApiCreateUsersWithArrayInput {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -122,9 +124,10 @@ function Invoke-UserApiCreateUsersWithListInput {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -164,9 +167,10 @@ function Invoke-UserApiDeleteUser {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -206,9 +210,10 @@ function Invoke-UserApiGetUserByName {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "Org.OpenAPITools.Model.User"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -262,9 +267,10 @@ function Invoke-UserApiLoginUser {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "String"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -300,9 +306,10 @@ function Invoke-UserApiLogoutUser {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -345,9 +352,10 @@ function Invoke-UserApiUpdateUser {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 

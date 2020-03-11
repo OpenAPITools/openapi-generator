@@ -113,9 +113,10 @@ function Invoke-{{{classname}}}{{{operationId}}} {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "{{#returnType}}{{{.}}}{{/returnType}}"
 
-        return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 

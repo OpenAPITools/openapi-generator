@@ -41,9 +41,10 @@ function Invoke-PetApiAddPet {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -89,9 +90,10 @@ function Invoke-PetApiDeletePet {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -137,9 +139,10 @@ function Invoke-PetApiFindPetsByStatus {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "Org.OpenAPITools.Model.Pet[]"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -185,9 +188,10 @@ function Invoke-PetApiFindPetsByTags {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "Org.OpenAPITools.Model.Pet[]"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -231,9 +235,10 @@ function Invoke-PetApiGetPetById {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "Org.OpenAPITools.Model.Pet"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -273,9 +278,10 @@ function Invoke-PetApiUpdatePet {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -326,9 +332,10 @@ function Invoke-PetApiUpdatePetWithForm {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -379,9 +386,10 @@ function Invoke-PetApiUploadFile {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "Org.OpenAPITools.Model.ApiResponse"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 

@@ -20,7 +20,9 @@ function Invoke-{{{packageName}}}APIClient {
         [Parameter(Mandatory)]
         [string]$Body,
         [Parameter(Mandatory)]
-        [string]$Method
+        [string]$Method,
+        [Parameter(Mandatory)]
+        [string]$ReturnType
     )
 
     $PSBoundParameters | Out-DebugParameter | Write-Host
@@ -103,7 +105,11 @@ function Invoke-{{{packageName}}}APIClient {
                                   -Headers $HeaderParameters `
                                   -Body $RequestBody
 
-    return $Response
+    return @{
+        Response = DeserializeResponse -Response $Response -ReturnType $ReturnType
+        StatusCode = $Response.StatusCode
+        Headers = $Response.ResponseHeaders
+    }
 }
 
 function SelectAcceptHeaders {
@@ -147,12 +153,31 @@ function SelectContentTypeHeaders {
 function IsJsonMIME {
     Param(
         [Parameter(Mandatory)]
-        [string]$input
+        [string]$Input
     )
 
-    if ($input -match "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$") {
+    if ($Input -match "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$") {
         return $true
     } else {
         return $false
+    }
+}
+
+function DeserializeResponse {
+    Param(
+        [Parameter(Mandatory)]
+        [string]$ReturnType,
+        [Parameter(Mandatory)]
+        [string]$Response
+    )
+
+    If ([string]::IsNullOrEmpty($ReturnType)) { # void response
+        return $Response
+    } Elseif ($ReturnType -match '\[\]$') { # array
+        return ConvertFrom-Json $Response
+    } Elseif (@("String", "Boolean", "System.DateTime") -contains $ReturnType) { # string, boolean ,datetime
+        return $Response
+    } Else { # model
+        return ConvertFrom-Json $Response
     }
 }

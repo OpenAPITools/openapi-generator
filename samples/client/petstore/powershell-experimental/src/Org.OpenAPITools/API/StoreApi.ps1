@@ -41,9 +41,10 @@ function Invoke-StoreApiDeleteOrder {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType ""
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -83,9 +84,10 @@ function Invoke-StoreApiGetInventory {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "{String, Int32}"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -125,9 +127,10 @@ function Invoke-StoreApiGetOrderById {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "Org.OpenAPITools.Model.Order"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
@@ -166,9 +169,10 @@ function Invoke-StoreApiPlaceOrder {
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "Org.OpenAPITools.Model.Order"
 
-         return ConvertFrom-Json $LocalVarResult
+        return $LocalVarResult["Response"]
     }
 }
 
