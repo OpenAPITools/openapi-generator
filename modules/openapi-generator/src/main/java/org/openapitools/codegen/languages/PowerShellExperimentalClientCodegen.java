@@ -271,6 +271,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         // en-US
         supportingFiles.add(new SupportingFile("about_Org.OpenAPITools.help.txt.mustache", infrastructureFolder + File.separator + "en-US" + File.separator + "about_" + packageName + ".help.txt"));
 
+        // appveyor
+        supportingFiles.add(new SupportingFile("appveyor.mustache", infrastructureFolder, "appveyor.yml"));
     }
 
     @Override
@@ -282,6 +284,16 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + ".Tests";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelFilename(name) + ".Tests";
     }
 
     @Override

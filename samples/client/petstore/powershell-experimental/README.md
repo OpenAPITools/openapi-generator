@@ -30,7 +30,8 @@ To uninstall the module, simply run:
 Remove-Module -FullyQualifiedName @{ModuleName = "PSOpenAPITools"; ModuleVersion = ""}
 ```
 
-<a name="test">
+<a name="tests">
+## Tests
 To install `Pester`, please run:
 ```powershell
 Install-module -name Pester -force
