@@ -1,8 +1,11 @@
 package org.openapitools.codegen.java.jaxrs;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -13,16 +16,19 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 
 /**
@@ -311,5 +317,31 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
 
         output.deleteOnExit();
+    }
+
+    @Test
+    public void addsImportForSetArgument() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/arrayParameter.yaml", null, new ParseOptions()).getOpenAPI();
+
+        openAPI.getComponents().getParameters().get("operationsQueryParam").setSchema(new ArraySchema().uniqueItems(true));
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java";
+
+        assertFileContains(generator, path, "\nimport java.util.Set;\n");
     }
 }
