@@ -5,12 +5,12 @@ Import-Module -Name '.\src\PSOpenAPITools'
 #Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
 
-$result = Invoke-PetApiGetPetById -petId 2
+#$result = Invoke-PetApiGetPetById -petId 2
 
-$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
+#$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls
 
-$pet = New-Pet -Id 1 -Name 'foo' -Category (
+$pet = New-Pet -Id 10129 -Name 'foo' -Category (
     New-Category -Id 2 -Name 'bar'
 ) -PhotoUrls @(
     'http://example.com/foo',
@@ -20,9 +20,6 @@ $pet = New-Pet -Id 1 -Name 'foo' -Category (
 ) -Status Available
 
 Write-Host $pet
+$Result = Invoke-PetApiAddPet -Body $pet
 
 
-
-Describe -tag "PetApi" -name "test1" {
- # Test Code here
-}

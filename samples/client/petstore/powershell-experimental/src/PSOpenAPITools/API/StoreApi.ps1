@@ -17,27 +17,25 @@ function Invoke-StoreApiDeleteOrder {
         'Calling method: StoreApi-DeleteOrder' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
-
         $LocalVarUri = '/store/order/{orderId}'
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
-
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -57,20 +55,21 @@ function Invoke-StoreApiGetInventory {
         'Calling method: StoreApi-GetInventory' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/json')
 
         $LocalVarUri = '/store/inventory'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
-
 
         if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
@@ -80,7 +79,7 @@ function Invoke-StoreApiGetInventory {
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -103,27 +102,28 @@ function Invoke-StoreApiGetOrderById {
         'Calling method: StoreApi-GetOrderById' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/store/order/{orderId}'
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $orderId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -138,7 +138,7 @@ function Invoke-StoreApiPlaceOrder {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [PSOpenAPITools.Model.Order]
+        [PSCustomObject]
         ${body}
     )
 
@@ -146,26 +146,33 @@ function Invoke-StoreApiPlaceOrder {
         'Calling method: StoreApi-PlaceOrder' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/store/order'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
+        if (!$body) {
+            throw "Error! $body is required."
+        }
+
+        $LocalVarBodyParameter = $body | ConvertTo-Json
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `

@@ -446,6 +446,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-index", index);
                 index++;
+
+                getPSDataType(p);
+                p.vendorExtensions.put("x-data-type", getPSDataType(p));
             }
         }
 
@@ -471,23 +474,6 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         return objs;
     }
 
-    String getPSDataType(CodegenProperty cp) {
-        String dataType;
-        if (cp.isPrimitiveType) {
-            dataType = cp.dataType;
-            if (!cp.isString && (cp.isNullable || !cp.required)) {
-                dataType = "System.Nullable[" + dataType + "]";
-            }
-            return dataType;
-        } else if (cp.isListContainer) { // array
-            return getPSDataType(cp.items) + "[]";
-        } else if (cp.isMapContainer) { // map
-            throw new RuntimeException("Map is not supported in the object's properties.");
-        } else { // model
-            return "PSCustomObject";
-        }
-    }
-
     @Override
     public String toVarName(String name) {
         // sanitize name
@@ -508,6 +494,39 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         }
 
         return name;
-    }    
+    }
 
+    private String getPSDataType(CodegenProperty cp) {
+        String dataType;
+        if (cp.isPrimitiveType) {
+            dataType = cp.dataType;
+            if (!cp.isString && (cp.isNullable || !cp.required)) {
+                dataType = "System.Nullable[" + dataType + "]";
+            }
+            return dataType;
+        } else if (cp.isListContainer) { // array
+            return getPSDataType(cp.items) + "[]";
+        } else if (cp.isMapContainer) { // map
+            throw new RuntimeException("Map is not supported in the object's properties.");
+        } else { // model
+            return "PSCustomObject";
+        }
+    }
+
+    private String getPSDataType(CodegenParameter cp) {
+        String dataType;
+        if (cp.isPrimitiveType) {
+            dataType = cp.dataType;
+            if (!cp.isString && (cp.isNullable || !cp.required)) {
+                dataType = "System.Nullable[" + dataType + "]";
+            }
+            return dataType;
+        } else if (cp.isListContainer) { // array
+            return getPSDataType(cp.items) + "[]";
+        } else if (cp.isMapContainer) { // map
+            throw new RuntimeException("Map is not supported in the object's properties.");
+        } else { // model
+            return "PSCustomObject";
+        }
+    }
 }

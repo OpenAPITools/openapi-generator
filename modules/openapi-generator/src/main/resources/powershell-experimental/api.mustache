@@ -6,7 +6,7 @@ function Invoke-{{{classname}}}{{{operationId}}} {
     Param (
     {{#allParams}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = {{#required}}$true{{/required}}{{^required}}$false{{/required}})]
-        [{{^isContainer}}{{^isPrimitiveType}}{{^isFile}}{{{packageName}}}.Model.{{/isFile}}{{/isPrimitiveType}}{{/isContainer}}{{{dataType}}}]
+        [{{{vendorExtensions.x-data-type}}}]
         {{=<% %>=}}
         ${<%paramName%>}<%^-last%>,<%/-last%>
         <%={{ }}=%>
@@ -17,17 +17,26 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         'Calling method: {{{classname}}}-{{{operationId}}}' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-{{{packageName}}}Configuration
+        {{#hasProduces}}
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}})
 
+        {{/hasProduces}}
+        {{#hasConsumes}}
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @({{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}})
+
+        {{/hasConsumes}}
         $LocalVarUri = '{{{path}}}'
         {{=< >=}}
         <#pathParams>
@@ -72,7 +81,18 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
 
         {{/formParams}}
+        {{#bodyParam}}
+        {{#required}}
+        {{^isNullable}}
+        if (!${{{paramName}}}) {
+            throw "Error! ${{{paramName}}} is required."
+        }
 
+        {{/isNullable}}
+        {{/required}}
+        $LocalVarBodyParameter = ${{{paramName}}} | ConvertTo-Json
+
+        {{/bodyParam}}
         {{#authMethods}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
@@ -109,7 +129,7 @@ function Invoke-{{{classname}}}{{{operationId}}} {
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `

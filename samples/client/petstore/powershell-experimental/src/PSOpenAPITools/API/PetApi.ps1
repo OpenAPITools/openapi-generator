@@ -9,7 +9,7 @@ function Invoke-PetApiAddPet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [PSOpenAPITools.Model.Pet]
+        [PSCustomObject]
         ${body}
     )
 
@@ -17,27 +17,34 @@ function Invoke-PetApiAddPet {
         'Calling method: PetApi-AddPet' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json', 'application/xml')
 
         $LocalVarUri = '/pet'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
+        if (!$body) {
+            throw "Error! $body is required."
+        }
+
+        $LocalVarBodyParameter = $body | ConvertTo-Json
 
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -63,17 +70,16 @@ function Invoke-PetApiDeletePet {
         'Calling method: PetApi-DeletePet' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
-
         $LocalVarUri = '/pet/{petId}'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -81,12 +87,11 @@ function Invoke-PetApiDeletePet {
         $LocalVarHeaderParameters['api_key'] = $apiKey
 
 
-
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -109,16 +114,18 @@ function Invoke-PetApiFindPetsByStatus {
         'Calling method: PetApi-FindPetsByStatus' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/pet/findByStatus'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -130,12 +137,11 @@ function Invoke-PetApiFindPetsByStatus {
         $LocalVarQueryParameters['status'] = $status
 
 
-
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -158,16 +164,18 @@ function Invoke-PetApiFindPetsByTags {
         'Calling method: PetApi-FindPetsByTags' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/pet/findByTags'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -179,12 +187,11 @@ function Invoke-PetApiFindPetsByTags {
         $LocalVarQueryParameters['tags'] = $tags
 
 
-
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -207,21 +214,22 @@ function Invoke-PetApiGetPetById {
         'Calling method: PetApi-GetPetById' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/pet/{petId}'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
-
 
         if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
@@ -231,7 +239,7 @@ function Invoke-PetApiGetPetById {
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -246,7 +254,7 @@ function Invoke-PetApiUpdatePet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [PSOpenAPITools.Model.Pet]
+        [PSCustomObject]
         ${body}
     )
 
@@ -254,27 +262,34 @@ function Invoke-PetApiUpdatePet {
         'Calling method: PetApi-UpdatePet' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json', 'application/xml')
 
         $LocalVarUri = '/pet'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
+        if (!$body) {
+            throw "Error! $body is required."
+        }
+
+        $LocalVarBodyParameter = $body | ConvertTo-Json
 
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -303,16 +318,18 @@ function Invoke-PetApiUpdatePetWithForm {
         'Calling method: PetApi-UpdatePetWithForm' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/x-www-form-urlencoded')
 
         $LocalVarUri = '/pet/{petId}'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
@@ -323,12 +340,11 @@ function Invoke-PetApiUpdatePetWithForm {
         $LocalVarFormParameters['status'] = $status
 
 
-
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -349,7 +365,7 @@ function Invoke-PetApiUploadFile {
         [String]
         ${additionalMetadata},
         [Parameter(Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [String]
+        [System.Nullable[String]]
         ${file}
     )
 
@@ -357,16 +373,21 @@ function Invoke-PetApiUploadFile {
         'Calling method: PetApi-UploadFile' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/json')
+
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('multipart/form-data')
 
         $LocalVarUri = '/pet/{petId}/uploadImage'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
@@ -377,12 +398,11 @@ function Invoke-PetApiUploadFile {
         $LocalVarFormParameters['file'] = $file
 
 
-
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `

@@ -9,7 +9,7 @@ function Invoke-UserApiCreateUser {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [PSOpenAPITools.Model.User]
+        [PSCustomObject]
         ${body}
     )
 
@@ -17,26 +17,30 @@ function Invoke-UserApiCreateUser {
         'Calling method: UserApi-CreateUser' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
-
         $LocalVarUri = '/user'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
+        if (!$body) {
+            throw "Error! $body is required."
+        }
+
+        $LocalVarBodyParameter = $body | ConvertTo-Json
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -51,7 +55,7 @@ function Invoke-UserApiCreateUsersWithArrayInput {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [User[]]
+        [PSCustomObject[]]
         ${body}
     )
 
@@ -59,26 +63,30 @@ function Invoke-UserApiCreateUsersWithArrayInput {
         'Calling method: UserApi-CreateUsersWithArrayInput' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
-
         $LocalVarUri = '/user/createWithArray'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
+        if (!$body) {
+            throw "Error! $body is required."
+        }
+
+        $LocalVarBodyParameter = $body | ConvertTo-Json
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -93,7 +101,7 @@ function Invoke-UserApiCreateUsersWithListInput {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [User[]]
+        [PSCustomObject[]]
         ${body}
     )
 
@@ -101,26 +109,30 @@ function Invoke-UserApiCreateUsersWithListInput {
         'Calling method: UserApi-CreateUsersWithListInput' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
-
         $LocalVarUri = '/user/createWithList'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
+        if (!$body) {
+            throw "Error! $body is required."
+        }
+
+        $LocalVarBodyParameter = $body | ConvertTo-Json
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -143,27 +155,25 @@ function Invoke-UserApiDeleteUser {
         'Calling method: UserApi-DeleteUser' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
-
         $LocalVarUri = '/user/{username}'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
-
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -186,27 +196,28 @@ function Invoke-UserApiGetUserByName {
         'Calling method: UserApi-GetUserByName' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/user/{username}'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -232,16 +243,18 @@ function Invoke-UserApiLoginUser {
         'Calling method: UserApi-LoginUser' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/user/login'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
@@ -258,12 +271,11 @@ function Invoke-UserApiLoginUser {
 
         $LocalVarQueryParameters['password'] = $password
 
-
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -283,26 +295,24 @@ function Invoke-UserApiLogoutUser {
         'Calling method: UserApi-LogoutUser' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
-
         $LocalVarUri = '/user/logout'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
-
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
@@ -320,7 +330,7 @@ function Invoke-UserApiUpdateUser {
         [String]
         ${username},
         [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [PSOpenAPITools.Model.User]
+        [PSCustomObject]
         ${body}
     )
 
@@ -328,27 +338,31 @@ function Invoke-UserApiUpdateUser {
         'Calling method: UserApi-UpdateUser' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-        $LocalVarAccepts = @{}
-        $LocalVarContentTypes = @{}
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
         $LocalVarQueryParameters = @{}
         $LocalVarHeaderParameters = @{}
         $LocalVarFormParameters = @{}
-        $LocalVarBodyParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
-
         $LocalVarUri = '/user/{username}'
         $LocalVarUri = $LocalVarUri.replace('{username}', $username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
+        if (!$body) {
+            throw "Error! $body is required."
+        }
+
+        $LocalVarBodyParameter = $body | ConvertTo-Json
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameters `
+                                -Body $LocalVarBodyParameter `
                                 -HeaderParameters $LocalVarHeaderParameters `
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `

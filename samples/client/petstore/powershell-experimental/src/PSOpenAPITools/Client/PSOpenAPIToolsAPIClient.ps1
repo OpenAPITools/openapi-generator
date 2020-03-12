@@ -12,9 +12,11 @@ function Invoke-PSOpenAPIToolsAPIClient {
         [Parameter(Mandatory)]
         [string]$Uri,
         [Parameter(Mandatory)]
-        [hashtable]$Accepts,
+        [AllowEmptyCollection()]
+        [string[]]$Accepts,
         [Parameter(Mandatory)]
-        [hashtable]$ContentTypes,
+        [AllowEmptyCollection()]
+        [string[]]$ContentTypes,
         [Parameter(Mandatory)]
         [hashtable]$HeaderParameters,
         [Parameter(Mandatory)]
@@ -24,10 +26,12 @@ function Invoke-PSOpenAPIToolsAPIClient {
         [Parameter(Mandatory)]
         [hashtable]$CookieParameters,
         [Parameter(Mandatory)]
+        [AllowEmptyString()]
         [string]$Body,
         [Parameter(Mandatory)]
         [string]$Method,
         [Parameter(Mandatory)]
+        [AllowEmptyString()]
         [string]$ReturnType
     )
 
@@ -88,19 +92,19 @@ function Invoke-PSOpenAPIToolsAPIClient {
     #if (!$HeaderParameters -and $HeaderParameters.Count -gt 0) {
     #    $RestMethodParameters['Headers'] = $HeaderParameters
     #}
-    if (!$Accept -and $Accept.Count -gt 0) {
-        $HeaderParameters['Accept'] = $Accept
-    }
-    if (!$ContentType -and $ContenType.Count -gt 0) {
-        $HeaderParameters['Accept'] = $ContentType
-    }
+    #if (!$Accept -and $Accept.Count -gt 0) {
+    #    $HeaderParameters['Accept'] = $Accept
+    #}
+    #if (!$ContentType -and $ContenType.Count -gt 0) {
+    #    $HeaderParameters['Accept'] = $ContentType
+    #}
 
     # include form parameters in the request body
     if (!$FormParameters -and $FormParameters.Count -gt 0) {
         $RequestBody = $FormParameters
     }
 
-    if (!$Body) {
+    if ($Body) {
         $RequestBody = $Body
     }
 
@@ -121,7 +125,8 @@ function Invoke-PSOpenAPIToolsAPIClient {
 function SelectAcceptHeaders {
     Param(
         [Parameter(Mandatory)]
-        [hashtable]$Accepts
+        [AllowEmptyCollection()]
+        [String[]]$Accepts
     )
 
     foreach ($Accept in $Accepts) {
@@ -140,7 +145,8 @@ function SelectAcceptHeaders {
 function SelectContentTypeHeaders {
     Param(
         [Parameter(Mandatory)]
-        [hashtable]$ContentTypes
+        [AllowEmptyCollection()]
+        [String[]]$ContentTypes
     )
 
     foreach ($ContentType in $ContentTypes) {
@@ -172,6 +178,7 @@ function IsJsonMIME {
 function DeserializeResponse {
     Param(
         [Parameter(Mandatory)]
+        [AllowEmptyString()]
         [string]$ReturnType,
         [Parameter(Mandatory)]
         [string]$Response
