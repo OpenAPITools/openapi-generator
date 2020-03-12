@@ -17,11 +17,22 @@ import play.api.libs.json._
     {{/isEnum}}
     {{^isEnum}}
       {{#discriminator}}
-      trait {{classname}} (
+      trait {{classname}} {
+        {{#vars}}
+          {{#isEnum}}
+            def {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{#hasMore}},{{/hasMore}}
+          {{/isEnum}}
+          {{^isEnum}}
+            {{#description}}
+              /* {{{description}}} */
+            {{/description}}
+            def {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
+          {{/isEnum}}
+        {{/vars}}
+      }
       {{/discriminator}}
       {{^discriminator}}
       final case class {{classname}} {{#parent}}extends{{/parent}} {{parent}} (
-      {{/discriminator}}
       {{#vars}}
         {{#isEnum}}
           {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{#hasMore}},{{/hasMore}}
@@ -34,6 +45,7 @@ import play.api.libs.json._
         {{/isEnum}}
       {{/vars}}
       )
+      {{/discriminator}}
 
       {{^parent}}
         object {{classname}} {

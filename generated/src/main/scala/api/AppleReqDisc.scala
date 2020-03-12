@@ -16,6 +16,7 @@ import play.api.libs.json._
 
       final case class AppleReqDisc extends Fruit (
           seeds: Int,
+          fruitType: String
       )
 
 

@@ -276,16 +276,11 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
                 CodegenModel m = ((Map<String, List<Map<String, CodegenModel>>>)value).get("models").get(0).get("model");
                 // for oneOf schemas
                 if(!m.oneOf.isEmpty() && m.getDiscriminator() != null) {
-                    // add it as a parent to every single model and removed unnecessary discriminator prop
+                    // add it as a parent to every single model
                     m.oneOf.forEach(
                         subclassName -> {
                             CodegenModel cm = codegenModel(objs.get(subclassName));
                             cm.setParent(m.classname);
-                            if(!cm.getVars().isEmpty()) {
-                                cm.setVars(
-                                    cm.getVars().stream().filter(v -> !v.getName().equals(m.getDiscriminator().getPropertyName())).collect(Collectors.toList())
-                                );
-                            }
                         }
                     );
                     // retain only discriminator prop

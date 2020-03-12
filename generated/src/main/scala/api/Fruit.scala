@@ -14,9 +14,9 @@ package api
 import play.api.libs.json._
 
 
-      trait Fruit (
-          fruitType: String,
-      )
+      trait Fruit {
+            def fruitType: String,
+      }
 
         object Fruit {
           implicit val format: OFormat[Fruit] = derived.flat.oformat((__ \ "fruitType").format[String])

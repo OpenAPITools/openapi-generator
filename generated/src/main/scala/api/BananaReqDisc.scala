@@ -16,6 +16,7 @@ import play.api.libs.json._
 
       final case class BananaReqDisc extends Fruit (
           length: Int,
+          fruitType: String
       )
 
 
