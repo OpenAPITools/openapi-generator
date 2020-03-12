@@ -63,7 +63,7 @@ else
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
 
-  mvn --quiet verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=info
 fi
 
 
