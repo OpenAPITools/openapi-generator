@@ -1134,8 +1134,8 @@ public class ModelUtils {
                     } else {
                         // not a parent since discriminator.propertyName is not set
                         hasAmbiguousParents = true;
-                        Boolean isNotExtractedInlineSchmea = !parentName.equals(schemaName+"_allOf");
-                        if (isNotExtractedInlineSchmea) {
+                        Boolean isNotExtractedInlineSchema = !parentName.equals(schemaName+"_allOf");
+                        if (isNotExtractedInlineSchema) {
                             refedWithoutDiscriminator.add(parentName);
                         }
                     }
