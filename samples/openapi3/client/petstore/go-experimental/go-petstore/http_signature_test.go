@@ -1,7 +1,7 @@
 /*
  * OpenAPI Petstore
  *
- * Test HTTP signature.
+ * Unit Tests for HTTP signature.
  */
 
 package petstore
