@@ -51,9 +51,8 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."name" | Should Be "PowerShell2"
             $Result."status" | Should Be "Sold"
 
-            # Update (form)
-            #$Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
-
+            # Delete
+            $Result = Invoke-PetApiDeletePet -petId $Id
 
         }
     }
