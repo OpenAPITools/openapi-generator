@@ -3,7 +3,7 @@
 //  SwaggerClientTests
 //
 //  Created by Bruno Coelho on 11/03/2020.
-//  Copyright © 2020 Swagger. All rights reserved.
+//  Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
 //
 
 import UIKit
