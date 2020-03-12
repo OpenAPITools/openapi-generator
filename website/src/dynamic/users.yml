@@ -4,6 +4,11 @@
   infoLink: "https://www.adaptant.io/"
   pinned: false
 -
+  caption: "Agoda"
+  image: "img/companies/agoda.png"
+  infoLink: "https://www.agoda.com/"
+  pinned: false
+-
   caption: "Angular.Schule"
   image: "img/companies/angular-schule.svg"
   infoLink: "https://angular.schule/"
