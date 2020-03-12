@@ -5,7 +5,9 @@ Import-Module -Name '.\src\PSOpenAPITools'
 #Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
 
-$result = Invoke-PetApiGetPetById -petId 38369
+$Id = 38369
+
+#$result = Invoke-PetApiGetPetById -petId 38369
 
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls
@@ -22,4 +24,4 @@ $result = Invoke-PetApiGetPetById -petId 38369
 #Write-Host $pet
 #$Result = Invoke-PetApiAddPet -Body $pet
 
-
+$Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"

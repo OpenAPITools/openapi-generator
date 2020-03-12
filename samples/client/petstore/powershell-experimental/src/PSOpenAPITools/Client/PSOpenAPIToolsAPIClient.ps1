@@ -51,7 +51,7 @@ function Invoke-PSOpenAPIToolsAPIClient {
             $HeaderParameters["Cookie"] = $CookieParameters[$Parameter]
         }
     }
-    if (!$CookieParametters -and $CookieParameters.Count -gt 1) {
+    if ($CookieParametters -and $CookieParameters.Count -gt 1) {
         Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
     }
 
@@ -100,7 +100,7 @@ function Invoke-PSOpenAPIToolsAPIClient {
     #}
 
     # include form parameters in the request body
-    if (!$FormParameters -and $FormParameters.Count -gt 0) {
+    if ($FormParameters -and $FormParameters.Count -gt 0) {
         $RequestBody = $FormParameters
     }
 
@@ -181,6 +181,7 @@ function DeserializeResponse {
         [AllowEmptyString()]
         [string]$ReturnType,
         [Parameter(Mandatory)]
+        [AllowEmptyString()]
         [string]$Response
     )
 

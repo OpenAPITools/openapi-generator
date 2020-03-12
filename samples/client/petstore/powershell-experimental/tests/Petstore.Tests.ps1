@@ -28,10 +28,32 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."status" | Should Be "Available" 
 
             # Update (form)
+            $Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
+
             $Result = Invoke-PetApiGetPetById -petId $Id
-            #$Result | Select-Object -Property "id" | Should Be 38369
-            #$Result | Select-Object -Property "name" | Should Be "PowerShell" 
-            #$Result | Select-Object -Property "status" | Should Be "Available" 
+            $Result."id" | Should Be 38369
+            $Result."name" | Should Be "PowerShell Update"
+            $Result."status" | Should Be "Pending"
+
+            # Update (put)
+            $NewPet = New-Pet -Id $Id -Name 'PowerShell2' -Category (
+                New-Category -Id $Id -Name 'PSCategory2'
+            ) -PhotoUrls @(
+                'http://example.com/foo2',
+                'http://example.com/bar2'
+            ) -Tags (
+                New-Tag -Id $Id -Name 'PSTag2'
+            ) -Status Sold
+
+            $Result = Invoke-PetApiUpdatePet -Body $NewPet
+            $Result = Invoke-PetApiGetPetById -petId $Id
+            $Result."id" | Should Be 38369
+            $Result."name" | Should Be "PowerShell2"
+            $Result."status" | Should Be "Sold"
+
+            # Update (form)
+            #$Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
+
 
         }
     }
