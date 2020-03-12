@@ -4,7 +4,7 @@
  * Unit Tests for HTTP signature.
  */
 
-package petstore
+package main
 
 import (
 	"bytes"
