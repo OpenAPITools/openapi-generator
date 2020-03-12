@@ -56,12 +56,12 @@ function Invoke-PSOpenAPIToolsAPIClient {
     }
 
     # accept, content-type headers
-    $Accept = SelectAcceptHeaders($Accepts)
+    $Accept = SelectAcceptHeaders -Accepts $Accepts
     if ($Accept) {
         $HeaderParameters['Accept'] = $Accept
     }
 
-    $ContentType= SelectContentTypeHeaders($ContentTypes)
+    $ContentType= SelectContentTypeHeaders -ContentTypes $ContentTypes
     if ($ContentType) {
         $HeaderParameters['Content-Type'] = $ContentType
     }
@@ -130,8 +130,8 @@ function SelectAcceptHeaders {
     )
 
     foreach ($Accept in $Accepts) {
-        if (IsJsonMIME($Accept)) {
-            return $true
+        if (IsJsonMIME -MIME $Accept) {
+            return $Accept
         }
     }
 
@@ -150,8 +150,8 @@ function SelectContentTypeHeaders {
     )
 
     foreach ($ContentType in $ContentTypes) {
-        if (IsJsonMIME($ContentType)) {
-            return $true
+        if (IsJsonMIME -MIME $ContentType) {
+            return $ContentType
         }
     }
 
@@ -165,10 +165,10 @@ function SelectContentTypeHeaders {
 function IsJsonMIME {
     Param(
         [Parameter(Mandatory)]
-        [string]$Input
+        [string]$MIME
     )
 
-    if ($Input -match "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$") {
+    if ($MIME -match "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$") {
         return $true
     } else {
         return $false
