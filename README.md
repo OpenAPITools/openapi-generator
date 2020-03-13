@@ -741,9 +741,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-02-27 - [Nuxt利用プロダクトでIE11と仲良くするためのE2E](https://tech.medpeer.co.jp/entry/e2e-ie11) at [Medpeer.co.jp Tech Blog](https://tech.medpeer.co.jp/)
 - 2020-02-29 - [Providing Support to IoT Devices Deployed in Disconnected Rural Environment (Conference paper)](https://link.springer.com/chapter/10.1007/978-3-030-41494-8_14) by Sergio Laso, Daniel Flores-Martín, Juan Luis HerreraCarlos, CanalJuan Manuel, MurilloJavier Berrocal
 - 2020-03-02 - [How To Generate Angular & Spring Code From OpenAPI Specification](https://www.mokkapps.de/blog/how-to-generate-angular-and-spring-code-from-open-api-specification/) by [Michael Hoffmann](https://www.mokkapps.de/)
-- 2020-03-02 - [OpenAPI Generator + TypeScript で始める自動生成の型に守られた豊かなクライアント生活](https://gift-tech.co.jp/articles/openapi-generator-typescript) by [五百蔵 直樹](https://gift-tech.co.jp/members/naokiioroi) at [GiFT株式会社
-](https://gift-tech.co.jp/)
-
+- 2020-03-02 - [OpenAPI Generator + TypeScript で始める自動生成の型に守られた豊かなクライアント生活](https://gift-tech.co.jp/articles/openapi-generator-typescript) by [五百蔵 直樹](https://gift-tech.co.jp/members/naokiioroi) at [GiFT株式会社](https://gift-tech.co.jp/)
+- 2020-03-10 - [OpenAPI Generator Meetup #1](https://speakerdeck.com/akihito_nakano/openapi-generator-meetup-number-1) by [中野暁人](https://github.com/ackintosh) at [OpenAPI Generator Meetup #1](https://openapi-generator-meetup.connpass.com/event/168187/)
 
 ## [6 - About Us](#table-of-contents)
 
