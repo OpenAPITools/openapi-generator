@@ -11,9 +11,9 @@ if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
   # Install golang version 1.14
-  sudo apt-get -y update
   sudo apt install -y software-properties-common
   sudo add-apt-repository -y ppa:longsleep/golang-backports
+  sudo apt-get -y update
   sudo apt install -y golang-1.14-go
 
   mvn --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
