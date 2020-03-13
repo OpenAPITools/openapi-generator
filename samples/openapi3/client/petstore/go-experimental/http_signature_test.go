@@ -28,6 +28,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	sw "./go-petstore"
 )
 
 // Test RSA private key as published in Appendix C 'Test Values' of
@@ -193,7 +195,7 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 			// Generate keys in PEM format.
 			writeRandomTestRsaPemKey(t, privateKeyPath, bits, format, "", nil)
 
-			authConfig := HttpSignatureAuth{
+			authConfig := sw.HttpSignatureAuth{
 				KeyId:           "my-key-id",
 				PrivateKeyPath:  privateKeyPath,
 				Passphrase:      "",
@@ -207,7 +209,7 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 				t.Fatalf("Error loading private key '%s': %v", privateKeyPath, err)
 			}
 			
-			authConfig = HttpSignatureAuth{
+			authConfig = sw.HttpSignatureAuth{
 				KeyId:           "my-key-id",
 				PrivateKeyPath:  privateKeyPath,
 				Passphrase:      "my-secret-passphrase",
@@ -234,7 +236,7 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 		of golang that does not support ECDSA keys.
 		{
 			privateKeyPath := "privatekey.pem"
-			authConfig := HttpSignatureAuth{
+			authConfig := sw.HttpSignatureAuth{
 				KeyId:         "my-key-id",
 				SigningScheme:     "hs2019",
 				SignedHeaders: []string{"Content-Type"},
@@ -249,10 +251,7 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 	*/
 }
 
-const testHost = "petstore.swagger.io:80"
-const testScheme = "http"
-
-func executeHttpSignatureAuth(t *testing.T, authConfig *HttpSignatureAuth, expectSuccess bool) string {
+func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, expectSuccess bool) string {
 	var err error
 	var dir string
 	dir, err = ioutil.TempDir("", "go-http-sign")
@@ -261,12 +260,12 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *HttpSignatureAuth, expec
 	}
 	defer os.RemoveAll(dir)
 
-	cfg := NewConfiguration()
+	cfg := sw.NewConfiguration()
 	cfg.AddDefaultHeader("testheader", "testvalue")
 	cfg.AddDefaultHeader("Content-Type", "application/json")
 	cfg.Host = testHost
 	cfg.Scheme = testScheme
-	apiClient := NewAPIClient(cfg)
+	apiClient := sw.NewAPIClient(cfg)
 
 	privateKeyPath := filepath.Join(dir, "rsa.pem")
 	writeTestRsaPemKey(t, privateKeyPath)
