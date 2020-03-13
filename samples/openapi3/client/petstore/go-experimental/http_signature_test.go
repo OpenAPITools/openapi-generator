@@ -279,10 +279,10 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 		// Do not continue. Error is expected.
 		return ""
 	}
-	newPet := (sw.Pet{Id: PtrInt64(12992), Name: "gopher",
+	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"},
 		Status:    PtrString("pending"),
-		Tags:      &[]Tag{Tag{Id: PtrInt64(1), Name: PtrString("tag2")}}})
+		Tags:      &[]sw.Tag{Tag{Id: sw.PtrInt64(1), Name: PtrString("tag2")}}})
 
 	fmt.Printf("Request with HTTP signature. Scheme: '%s'. Algorithm: '%s'. MaxValidity: %v. Headers: '%v'\n",
 		authConfig.SigningScheme, authConfig.SigningAlgorithm, authConfig.SignatureMaxValidity, authConfig.SignedHeaders)
