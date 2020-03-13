@@ -106,6 +106,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 "Boolean",
                 "Guid",
                 "Uri",
+                "System.IO.FileInfo",
                 "Version"
         ));
 
@@ -168,6 +169,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 "Boolean",
                 "Guid",
                 "Uri",
+                "System.IO.FileInfo",
                 "Version"
         ));
 
@@ -181,9 +183,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         typeMapping.put("number", "Decimal");
         typeMapping.put("date-time", "System.DateTime");
         typeMapping.put("date", "System.DateTime");
-        typeMapping.put("file", "String");
         typeMapping.put("object", "String");
-        typeMapping.put("binary", "String");
+        typeMapping.put("file", "System.IO.FileInfo");
+        typeMapping.put("binary", "System.IO.FileInfo");
         typeMapping.put("Date", "System.DateTime");
         typeMapping.put("DateTime", "System.DateTime");
 

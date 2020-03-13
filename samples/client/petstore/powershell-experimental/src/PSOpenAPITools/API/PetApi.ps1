@@ -365,7 +365,7 @@ function Invoke-PetApiUploadFile {
         [String]
         ${additionalMetadata},
         [Parameter(Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[String]]
+        [System.IO.FileInfo]
         ${file}
     )
 

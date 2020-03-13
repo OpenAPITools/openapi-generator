@@ -24,8 +24,8 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             # Get 
             $Result = Invoke-PetApiGetPetById -petId $Id
             $Result."id" | Should Be 38369
-            $Result."name" | Should Be "PowerShell" 
-            $Result."status" | Should Be "Available" 
+            $Result."name" | Should Be "PowerShell"
+            $Result."status" | Should Be "Available"
 
             # Update (form)
             $Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
@@ -50,6 +50,10 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."id" | Should Be 38369
             $Result."name" | Should Be "PowerShell2"
             $Result."status" | Should Be "Sold"
+
+            # upload file
+            $file = Get-Item "./plus.gif"
+            $Result = Invoke-PetApiUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
 
             # Delete
             $Result = Invoke-PetApiDeletePet -petId $Id

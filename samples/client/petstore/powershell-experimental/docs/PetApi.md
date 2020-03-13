@@ -460,7 +460,7 @@ void (empty response body)
 
 <a name="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (Int64 petId, String additionalMetadata, String file)
+> ApiResponse UploadFile (Int64 petId, String additionalMetadata, System.IO.FileInfo file)
 
 uploads an image
 
@@ -484,7 +484,7 @@ namespace Example
             var apiInstance = new PetApi();
             var petId = 789;  // Int64 | ID of pet to update (default to null)
             var additionalMetadata = additionalMetadata_example;  // String | Additional data to pass to server (optional)  (default to null)
-            var file = BINARY_DATA_HERE;  // String | file to upload (optional)  (default to null)
+            var file = BINARY_DATA_HERE;  // System.IO.FileInfo | file to upload (optional)  (default to null)
 
             try
             {
@@ -507,7 +507,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Int64**| ID of pet to update | [default to null]
  **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **String****String**| file to upload | [optional] [default to null]
+ **file** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] [default to null]
 
 ### Return type
 
