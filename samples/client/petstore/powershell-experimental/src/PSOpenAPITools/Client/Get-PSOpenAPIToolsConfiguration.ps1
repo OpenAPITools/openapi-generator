@@ -57,7 +57,7 @@ function Get-PSOpenAPIToolsConfiguration {
     }
 
     #if (!$Configuration["User-Agent"]) {
-    #    $Configuration["User-Agent"] = "OpenAPI-Generator/1.2.3/powershell"
+    #    $Configuration["User-Agent"] = "OpenAPI-Generator/0.1.2/powershell"
     #}
 
     Return $Configuration

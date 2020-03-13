@@ -14,7 +14,7 @@ Method | HTTP request | Description
 [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
-<a name="addpet"></a>
+<a id="addpet"></a>
 # **Invoker-PSOpenAPIToolsAddPet**
 > void Invoker-PSOpenAPIToolsAddPet
     -body <Pet>
@@ -56,7 +56,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deletepet"></a>
+<a id="deletepet"></a>
 # **Invoker-PSOpenAPIToolsDeletePet**
 > void Invoker-PSOpenAPIToolsDeletePet
     -petId <Int64>
@@ -101,7 +101,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="findpetsbystatus"></a>
+<a id="findpetsbystatus"></a>
 # **Invoker-PSOpenAPIToolsFindPetsByStatus**
 > Pet[] Invoker-PSOpenAPIToolsFindPetsByStatus
     -status <String[]>
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="findpetsbytags"></a>
+<a id="findpetsbytags"></a>
 # **Invoker-PSOpenAPIToolsFindPetsByTags**
 > Pet[] Invoker-PSOpenAPIToolsFindPetsByTags
     -tags <String[]>
@@ -189,7 +189,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getpetbyid"></a>
+<a id="getpetbyid"></a>
 # **Invoker-PSOpenAPIToolsGetPetById**
 > Pet Invoker-PSOpenAPIToolsGetPetById
     -petId <Int64>
@@ -235,7 +235,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatepet"></a>
+<a id="updatepet"></a>
 # **Invoker-PSOpenAPIToolsUpdatePet**
 > void Invoker-PSOpenAPIToolsUpdatePet
     -body <Pet>
@@ -277,7 +277,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatepetwithform"></a>
+<a id="updatepetwithform"></a>
 # **Invoker-PSOpenAPIToolsUpdatePetWithForm**
 > void Invoker-PSOpenAPIToolsUpdatePetWithForm
     -petId <Int64>
@@ -325,7 +325,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="uploadfile"></a>
+<a id="uploadfile"></a>
 # **Invoker-PSOpenAPIToolsUploadFile**
 > ApiResponse Invoker-PSOpenAPIToolsUploadFile
     -petId <Int64>

@@ -10,7 +10,7 @@ Method | HTTP request | Description
 [**PlaceOrder**](StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
 
 
-<a name="deleteorder"></a>
+<a id="deleteorder"></a>
 # **Invoker-PSOpenAPIToolsDeleteOrder**
 > void Invoker-PSOpenAPIToolsDeleteOrder
     -orderId <String>
@@ -50,7 +50,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getinventory"></a>
+<a id="getinventory"></a>
 # **Invoker-PSOpenAPIToolsGetInventory**
 > {String, Int32} Invoker-PSOpenAPIToolsGetInventory
 
@@ -91,7 +91,7 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getorderbyid"></a>
+<a id="getorderbyid"></a>
 # **Invoker-PSOpenAPIToolsGetOrderById**
 > Order Invoker-PSOpenAPIToolsGetOrderById
     -orderId <Int64>
@@ -131,7 +131,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="placeorder"></a>
+<a id="placeorder"></a>
 # **Invoker-PSOpenAPIToolsPlaceOrder**
 > Order Invoker-PSOpenAPIToolsPlaceOrder
     -body <Order>

@@ -14,7 +14,7 @@ Method | HTTP request | Description
 [**UpdateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
-<a name="createuser"></a>
+<a id="createuser"></a>
 # **Invoker-PSOpenAPIToolsCreateUser**
 > void Invoker-PSOpenAPIToolsCreateUser
     -body <User>
@@ -54,7 +54,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="createuserswitharrayinput"></a>
+<a id="createuserswitharrayinput"></a>
 # **Invoker-PSOpenAPIToolsCreateUsersWithArrayInput**
 > void Invoker-PSOpenAPIToolsCreateUsersWithArrayInput
     -body <User[]>
@@ -92,7 +92,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="createuserswithlistinput"></a>
+<a id="createuserswithlistinput"></a>
 # **Invoker-PSOpenAPIToolsCreateUsersWithListInput**
 > void Invoker-PSOpenAPIToolsCreateUsersWithListInput
     -body <User[]>
@@ -130,7 +130,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deleteuser"></a>
+<a id="deleteuser"></a>
 # **Invoker-PSOpenAPIToolsDeleteUser**
 > void Invoker-PSOpenAPIToolsDeleteUser
     -username <String>
@@ -170,7 +170,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getuserbyname"></a>
+<a id="getuserbyname"></a>
 # **Invoker-PSOpenAPIToolsGetUserByName**
 > User Invoker-PSOpenAPIToolsGetUserByName
     -username <String>
@@ -208,7 +208,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="loginuser"></a>
+<a id="loginuser"></a>
 # **Invoker-PSOpenAPIToolsLoginUser**
 > String Invoker-PSOpenAPIToolsLoginUser
     -username <String>
@@ -249,7 +249,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="logoutuser"></a>
+<a id="logoutuser"></a>
 # **Invoker-PSOpenAPIToolsLogoutUser**
 > void Invoker-PSOpenAPIToolsLogoutUser
 
@@ -282,7 +282,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updateuser"></a>
+<a id="updateuser"></a>
 # **Invoker-PSOpenAPIToolsUpdateUser**
 > void Invoker-PSOpenAPIToolsUpdateUser
     -username <String>
