@@ -42,6 +42,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String testPath = "tests/";
+    protected HashSet nullablePrimitives;
 
     /**
      * Constructs an instance of `PowerShellExperimentalClientCodegen`.
@@ -108,6 +109,21 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 "Uri",
                 "System.IO.FileInfo",
                 "Version"
+        ));
+
+        nullablePrimitives = new HashSet<String>(Arrays.asList(
+                "System.Nullable[Byte]",
+                "System.Nullable[SByte]",
+                "System.Nullable[Int16]",
+                "System.Nullable[Int32]",
+                "System.Nullable[Int64]",
+                "System.Nullable[UInt16]",
+                "System.Nullable[UInt32]",
+                "System.Nullable[UInt64]",
+                "System.Nullable[Decimal]",
+                "System.Nullable[[Single]",
+                "System.Nullable[[Double]",
+                "System.Nullable[Boolean]"
         ));
 
         // https://richardspowershellblog.wordpress.com/2009/05/02/powershell-reserved-words/
@@ -442,6 +458,14 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+
+        for (Object o : allModels) {
+            HashMap<String, Object> h = (HashMap<String, Object>) o;
+            CodegenModel m = (CodegenModel) h.get("model");
+            modelMaps.put(m.classname, m);
+        }
+
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
             int index = 0;
@@ -451,6 +475,15 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
                 getPSDataType(p);
                 p.vendorExtensions.put("x-data-type", getPSDataType(p));
+
+                p.vendorExtensions.put("x-powershell-example", constructExampleCode(p, modelMaps));
+
+            }
+        }
+
+        for (CodegenOperation operation : operationList) {
+            for (CodegenParameter cp : operation.allParams) {
+                cp.vendorExtensions.put("x-powershell-example", constructExampleCode(cp, modelMaps));
             }
         }
 
@@ -498,11 +531,108 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         return name;
     }
 
+    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
+        if (codegenParameter.isListContainer) { // array
+            return "@(" + constructExampleCode(codegenParameter.items, modelMaps) + ")";
+        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
+            return "\"TODO\"";
+        } else if (languageSpecificPrimitives.contains(codegenParameter.dataType) ||
+                nullablePrimitives.contains(codegenParameter.dataType)) { // primitive type
+            if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
+                if (StringUtils.isEmpty(codegenParameter.example)) {
+                    return "\"" + codegenParameter.example + "\"";
+                } else {
+                    return "\"" + codegenParameter.paramName + "_example\"";
+                }
+            } else if ("Boolean".equals(codegenParameter.dataType) ||
+                    "System.Nullable[Boolean]".equals(codegenParameter.dataType)) { // boolean
+                if (Boolean.parseBoolean(codegenParameter.example)) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+            } else if ("URL".equals(codegenParameter.dataType)) { // URL
+                return "URL(string: \"https://example.com\")!";
+            } else if ("System.DateTime".equals(codegenParameter.dataType)) { // datetime or date
+                return "Get-Date";
+            } else { // numeric
+                if (StringUtils.isEmpty(codegenParameter.example)) {
+                    return codegenParameter.example;
+                } else {
+                    return "987";
+                }
+            }
+        } else { // model
+            // look up the model
+            if (modelMaps.containsKey(codegenParameter.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
+            } else {
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                return "TODO";
+            }
+        }
+    }
+
+    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
+        if (codegenProperty.isListContainer) { // array
+            return "@(" + constructExampleCode(codegenProperty.items, modelMaps) + ")";
+        } else if (codegenProperty.isMapContainer) { // map
+            return "\"TODO\"";
+        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType) || // primitive type
+                nullablePrimitives.contains(codegenProperty.dataType)) { // nullable primitive type
+            if ("String".equals(codegenProperty.dataType)) {
+                if (StringUtils.isEmpty(codegenProperty.example)) {
+                    return "\"" + codegenProperty.example + "\"";
+                } else {
+                    return "\"" + codegenProperty.name + "_example\"";
+                }
+            } else if ("Boolean".equals(codegenProperty.dataType) ||
+                    "System.Nullable[Boolean]".equals(codegenProperty.dataType)) { // boolean
+                if (Boolean.parseBoolean(codegenProperty.example)) {
+                    return "$true";
+                } else {
+                    return "$false";
+                }
+            } else if ("URL".equals(codegenProperty.dataType)) { // URL
+                return "URL(string: \"https://example.com\")!";
+            } else if ("System.DateTime".equals(codegenProperty.dataType)) { // datetime or date
+                return "Get-Date";
+            } else { // numeric
+                if (StringUtils.isEmpty(codegenProperty.example)) {
+                    return codegenProperty.example;
+                } else {
+                    return "123";
+                }
+            }
+        } else {
+            // look up the model
+            if (modelMaps.containsKey(codegenProperty.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
+            } else {
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
+                return "\"TODO\"";
+            }
+        }
+    }
+
+    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
+        String example;
+        example = "(New-" + codegenModel.name;
+        List<String> propertyExamples = new ArrayList<>();
+        for (CodegenProperty codegenProperty : codegenModel.vars) {
+            propertyExamples.add(" -" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps));
+        }
+        example += StringUtils.join(propertyExamples, " ");
+        example += ")";
+        return example;
+    }
+
     private String getPSDataType(CodegenProperty cp) {
         String dataType;
         if (cp.isPrimitiveType) {
             dataType = cp.dataType;
-            if (!cp.isString && (cp.isNullable || !cp.required)) {
+            if (!(cp.isString || cp.isFile)
+                    && (cp.isNullable || !cp.required)) {
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
@@ -519,7 +649,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         String dataType;
         if (cp.isPrimitiveType) {
             dataType = cp.dataType;
-            if (!cp.isString && (cp.isNullable || !cp.required)) {
+            if (!(cp.isString || cp.isFile)
+                    && (cp.isNullable || !cp.required)) {
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
@@ -531,4 +662,6 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             return "PSCustomObject";
         }
     }
+
+
 }

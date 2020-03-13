@@ -5,6 +5,8 @@ Import-Module -Name '.\src\PSOpenAPITools'
 #Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
 
+$body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)
+
 $Id = 38369
 
 #$result = Invoke-PetApiGetPetById -petId 38369
@@ -27,4 +29,4 @@ $Id = 38369
 #$Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
 
 $file = Get-Item "./plus.gif"
-$Result = Invoke-PetApiUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
+#$Result = Invoke-PetApiUploadFile -petId $Id -additionalMetadata "Additional data" -File $file

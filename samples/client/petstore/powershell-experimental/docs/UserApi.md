@@ -15,42 +15,22 @@ Method | HTTP request | Description
 
 
 <a name="createuser"></a>
-# **CreateUser**
-> void CreateUser (User body)
+# **Invoker-PSOpenAPIToolsCreateUser**
+> void Invoker-PSOpenAPIToolsCreateUser
+    -body <User>
 
 Create user
 
 This can only be done by the logged in user.
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class CreateUserExample
-    {
-        public void main()
-        {
-            var apiInstance = new UserApi();
-            var body = new User(); // User | Created user object
+$body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Created user object
 
-            try
-            {
-                // Create user
-                apiInstance.CreateUser(body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.CreateUser: " + e.Message );
-            }
-        }
-    }
-}
+# Create user
+Invoker-PSOpenAPIToolsCreateUser -body $body
 ```
 
 ### Parameters
@@ -75,40 +55,20 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="createuserswitharrayinput"></a>
-# **CreateUsersWithArrayInput**
-> void CreateUsersWithArrayInput (User[] body)
+# **Invoker-PSOpenAPIToolsCreateUsersWithArrayInput**
+> void Invoker-PSOpenAPIToolsCreateUsersWithArrayInput
+    -body <User[]>
 
 Creates list of users with given input array
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class CreateUsersWithArrayInputExample
-    {
-        public void main()
-        {
-            var apiInstance = new UserApi();
-            var body = new User[](); // User[] | List of user object
+$body = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
-            try
-            {
-                // Creates list of users with given input array
-                apiInstance.CreateUsersWithArrayInput(body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInput: " + e.Message );
-            }
-        }
-    }
-}
+# Creates list of users with given input array
+Invoker-PSOpenAPIToolsCreateUsersWithArrayInput -body $body
 ```
 
 ### Parameters
@@ -133,40 +93,20 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="createuserswithlistinput"></a>
-# **CreateUsersWithListInput**
-> void CreateUsersWithListInput (User[] body)
+# **Invoker-PSOpenAPIToolsCreateUsersWithListInput**
+> void Invoker-PSOpenAPIToolsCreateUsersWithListInput
+    -body <User[]>
 
 Creates list of users with given input array
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class CreateUsersWithListInputExample
-    {
-        public void main()
-        {
-            var apiInstance = new UserApi();
-            var body = new User[](); // User[] | List of user object
+$body = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
-            try
-            {
-                // Creates list of users with given input array
-                apiInstance.CreateUsersWithListInput(body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.CreateUsersWithListInput: " + e.Message );
-            }
-        }
-    }
-}
+# Creates list of users with given input array
+Invoker-PSOpenAPIToolsCreateUsersWithListInput -body $body
 ```
 
 ### Parameters
@@ -191,42 +131,22 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="deleteuser"></a>
-# **DeleteUser**
-> void DeleteUser (String username)
+# **Invoker-PSOpenAPIToolsDeleteUser**
+> void Invoker-PSOpenAPIToolsDeleteUser
+    -username <String>
 
 Delete user
 
 This can only be done by the logged in user.
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class DeleteUserExample
-    {
-        public void main()
-        {
-            var apiInstance = new UserApi();
-            var username = username_example;  // String | The name that needs to be deleted (default to null)
+$username = "username_example" # String | The name that needs to be deleted (default to null)
 
-            try
-            {
-                // Delete user
-                apiInstance.DeleteUser(username);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.DeleteUser: " + e.Message );
-            }
-        }
-    }
-}
+# Delete user
+Invoker-PSOpenAPIToolsDeleteUser -username $username
 ```
 
 ### Parameters
@@ -251,41 +171,20 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="getuserbyname"></a>
-# **GetUserByName**
-> User GetUserByName (String username)
+# **Invoker-PSOpenAPIToolsGetUserByName**
+> User Invoker-PSOpenAPIToolsGetUserByName
+    -username <String>
 
 Get user by user name
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class GetUserByNameExample
-    {
-        public void main()
-        {
-            var apiInstance = new UserApi();
-            var username = username_example;  // String | The name that needs to be fetched. Use user1 for testing. (default to null)
+$username = "username_example" # String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
-            try
-            {
-                // Get user by user name
-                User result = apiInstance.GetUserByName(username);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.GetUserByName: " + e.Message );
-            }
-        }
-    }
-}
+# Get user by user name
+User $Result = Invoker-PSOpenAPIToolsGetUserByName -username $username
 ```
 
 ### Parameters
@@ -310,42 +209,22 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="loginuser"></a>
-# **LoginUser**
-> String LoginUser (String username, String password)
+# **Invoker-PSOpenAPIToolsLoginUser**
+> String Invoker-PSOpenAPIToolsLoginUser
+    -username <String>
+    -password <String>
 
 Logs user into the system
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class LoginUserExample
-    {
-        public void main()
-        {
-            var apiInstance = new UserApi();
-            var username = username_example;  // String | The user name for login (default to null)
-            var password = password_example;  // String | The password for login in clear text (default to null)
+$username = "username_example" # String | The user name for login (default to null)
+$password = "password_example" # String | The password for login in clear text (default to null)
 
-            try
-            {
-                // Logs user into the system
-                String result = apiInstance.LoginUser(username, password);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.LoginUser: " + e.Message );
-            }
-        }
-    }
-}
+# Logs user into the system
+String $Result = Invoker-PSOpenAPIToolsLoginUser -username $username -password $password
 ```
 
 ### Parameters
@@ -371,39 +250,18 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="logoutuser"></a>
-# **LogoutUser**
-> void LogoutUser ()
+# **Invoker-PSOpenAPIToolsLogoutUser**
+> void Invoker-PSOpenAPIToolsLogoutUser
 
 Logs out current logged in user session
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class LogoutUserExample
-    {
-        public void main()
-        {
-            var apiInstance = new UserApi();
 
-            try
-            {
-                // Logs out current logged in user session
-                apiInstance.LogoutUser();
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.LogoutUser: " + e.Message );
-            }
-        }
-    }
-}
+# Logs out current logged in user session
+Invoker-PSOpenAPIToolsLogoutUser
 ```
 
 ### Parameters
@@ -425,43 +283,24 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="updateuser"></a>
-# **UpdateUser**
-> void UpdateUser (String username, User body)
+# **Invoker-PSOpenAPIToolsUpdateUser**
+> void Invoker-PSOpenAPIToolsUpdateUser
+    -username <String>
+    -body <User>
 
 Updated user
 
 This can only be done by the logged in user.
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class UpdateUserExample
-    {
-        public void main()
-        {
-            var apiInstance = new UserApi();
-            var username = username_example;  // String | name that need to be deleted (default to null)
-            var body = new User(); // User | Updated user object
+$username = "username_example" # String | name that need to be deleted (default to null)
+$body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Updated user object
 
-            try
-            {
-                // Updated user
-                apiInstance.UpdateUser(username, body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.UpdateUser: " + e.Message );
-            }
-        }
-    }
-}
+# Updated user
+Invoker-PSOpenAPIToolsUpdateUser -username $username -body $body
 ```
 
 ### Parameters

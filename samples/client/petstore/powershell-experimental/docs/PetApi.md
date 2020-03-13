@@ -15,43 +15,24 @@ Method | HTTP request | Description
 
 
 <a name="addpet"></a>
-# **AddPet**
-> void AddPet (Pet body)
+# **Invoker-PSOpenAPIToolsAddPet**
+> void Invoker-PSOpenAPIToolsAddPet
+    -body <Pet>
 
 Add a new pet to the store
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class AddPetExample
-    {
-        public void main()
-        {
-            // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+$body = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
-            try
-            {
-                // Add a new pet to the store
-                apiInstance.AddPet(body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.AddPet: " + e.Message );
-            }
-        }
-    }
-}
+# Add a new pet to the store
+Invoker-PSOpenAPIToolsAddPet -body $body
 ```
 
 ### Parameters
@@ -76,44 +57,26 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="deletepet"></a>
-# **DeletePet**
-> void DeletePet (Int64 petId, String apiKey)
+# **Invoker-PSOpenAPIToolsDeletePet**
+> void Invoker-PSOpenAPIToolsDeletePet
+    -petId <Int64>
+    -apiKey <String>
 
 Deletes a pet
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class DeletePetExample
-    {
-        public void main()
-        {
-            // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi();
-            var petId = 789;  // Int64 | Pet id to delete (default to null)
-            var apiKey = apiKey_example;  // String |  (optional)  (default to null)
+$petId = 987 # Int64 | Pet id to delete (default to null)
+$apiKey = "apiKey_example" # String |  (optional) (default to null)
 
-            try
-            {
-                // Deletes a pet
-                apiInstance.DeletePet(petId, apiKey);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.DeletePet: " + e.Message );
-            }
-        }
-    }
-}
+# Deletes a pet
+Invoker-PSOpenAPIToolsDeletePet -petId $petId -apiKey $apiKey
 ```
 
 ### Parameters
@@ -139,46 +102,26 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="findpetsbystatus"></a>
-# **FindPetsByStatus**
-> Pet[] FindPetsByStatus (String[] status)
+# **Invoker-PSOpenAPIToolsFindPetsByStatus**
+> Pet[] Invoker-PSOpenAPIToolsFindPetsByStatus
+    -status <String[]>
 
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class FindPetsByStatusExample
-    {
-        public void main()
-        {
-            // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi();
-            var status = new String[](); // String[] | Status values that need to be considered for filter (default to null)
+$status = @("Status_example") # String[] | Status values that need to be considered for filter (default to null)
 
-            try
-            {
-                // Finds Pets by status
-                Pet[] result = apiInstance.FindPetsByStatus(status);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.FindPetsByStatus: " + e.Message );
-            }
-        }
-    }
-}
+# Finds Pets by status
+Pet[] $Result = Invoker-PSOpenAPIToolsFindPetsByStatus -status $status
 ```
 
 ### Parameters
@@ -203,46 +146,26 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="findpetsbytags"></a>
-# **FindPetsByTags**
-> Pet[] FindPetsByTags (String[] tags)
+# **Invoker-PSOpenAPIToolsFindPetsByTags**
+> Pet[] Invoker-PSOpenAPIToolsFindPetsByTags
+    -tags <String[]>
 
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class FindPetsByTagsExample
-    {
-        public void main()
-        {
-            // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi();
-            var tags = new String[](); // String[] | Tags to filter by (default to null)
+$tags = @("Inner_example") # String[] | Tags to filter by (default to null)
 
-            try
-            {
-                // Finds Pets by tags
-                Pet[] result = apiInstance.FindPetsByTags(tags);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.FindPetsByTags: " + e.Message );
-            }
-        }
-    }
-}
+# Finds Pets by tags
+Pet[] $Result = Invoker-PSOpenAPIToolsFindPetsByTags -tags $tags
 ```
 
 ### Parameters
@@ -267,48 +190,28 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="getpetbyid"></a>
-# **GetPetById**
-> Pet GetPetById (Int64 petId)
+# **Invoker-PSOpenAPIToolsGetPetById**
+> Pet Invoker-PSOpenAPIToolsGetPetById
+    -petId <Int64>
 
 Find pet by ID
 
 Returns a single pet
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class GetPetByIdExample
-    {
-        public void main()
-        {
-            // Configure API key authorization: api_key
-            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure API key authorization: api_key
+$Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
 
-            var apiInstance = new PetApi();
-            var petId = 789;  // Int64 | ID of pet to return (default to null)
+$petId = 987 # Int64 | ID of pet to return (default to null)
 
-            try
-            {
-                // Find pet by ID
-                Pet result = apiInstance.GetPetById(petId);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.GetPetById: " + e.Message );
-            }
-        }
-    }
-}
+# Find pet by ID
+Pet $Result = Invoker-PSOpenAPIToolsGetPetById -petId $petId
 ```
 
 ### Parameters
@@ -333,43 +236,24 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="updatepet"></a>
-# **UpdatePet**
-> void UpdatePet (Pet body)
+# **Invoker-PSOpenAPIToolsUpdatePet**
+> void Invoker-PSOpenAPIToolsUpdatePet
+    -body <Pet>
 
 Update an existing pet
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class UpdatePetExample
-    {
-        public void main()
-        {
-            // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+$body = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
-            try
-            {
-                // Update an existing pet
-                apiInstance.UpdatePet(body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.UpdatePet: " + e.Message );
-            }
-        }
-    }
-}
+# Update an existing pet
+Invoker-PSOpenAPIToolsUpdatePet -body $body
 ```
 
 ### Parameters
@@ -394,45 +278,28 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="updatepetwithform"></a>
-# **UpdatePetWithForm**
-> void UpdatePetWithForm (Int64 petId, String name, String status)
+# **Invoker-PSOpenAPIToolsUpdatePetWithForm**
+> void Invoker-PSOpenAPIToolsUpdatePetWithForm
+    -petId <Int64>
+    -name <String>
+    -status <String>
 
 Updates a pet in the store with form data
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class UpdatePetWithFormExample
-    {
-        public void main()
-        {
-            // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi();
-            var petId = 789;  // Int64 | ID of pet that needs to be updated (default to null)
-            var name = name_example;  // String | Updated name of the pet (optional)  (default to null)
-            var status = status_example;  // String | Updated status of the pet (optional)  (default to null)
+$petId = 987 # Int64 | ID of pet that needs to be updated (default to null)
+$name = "name_example" # String | Updated name of the pet (optional) (default to null)
+$status = "status_example" # String | Updated status of the pet (optional) (default to null)
 
-            try
-            {
-                // Updates a pet in the store with form data
-                apiInstance.UpdatePetWithForm(petId, name, status);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.UpdatePetWithForm: " + e.Message );
-            }
-        }
-    }
-}
+# Updates a pet in the store with form data
+Invoker-PSOpenAPIToolsUpdatePetWithForm -petId $petId -name $name -status $status
 ```
 
 ### Parameters
@@ -459,46 +326,28 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="uploadfile"></a>
-# **UploadFile**
-> ApiResponse UploadFile (Int64 petId, String additionalMetadata, System.IO.FileInfo file)
+# **Invoker-PSOpenAPIToolsUploadFile**
+> ApiResponse Invoker-PSOpenAPIToolsUploadFile
+    -petId <Int64>
+    -additionalMetadata <String>
+    -file <System.IO.FileInfo>
 
 uploads an image
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using PSOpenAPITools.PSOpenAPITools/API;
-using PSOpenAPITools.Client;
-using PSOpenAPITools.PSOpenAPITools/Model;
+```powershell
+Import-Module -Name PSOpenAPITools
 
-namespace Example
-{
-    public class UploadFileExample
-    {
-        public void main()
-        {
-            // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-            var apiInstance = new PetApi();
-            var petId = 789;  // Int64 | ID of pet to update (default to null)
-            var additionalMetadata = additionalMetadata_example;  // String | Additional data to pass to server (optional)  (default to null)
-            var file = BINARY_DATA_HERE;  // System.IO.FileInfo | file to upload (optional)  (default to null)
+$petId = 987 # Int64 | ID of pet to update (default to null)
+$additionalMetadata = "additionalMetadata_example" # String | Additional data to pass to server (optional) (default to null)
+$file = 987 # System.IO.FileInfo | file to upload (optional) (default to null)
 
-            try
-            {
-                // uploads an image
-                ApiResponse result = apiInstance.UploadFile(petId, additionalMetadata, file);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.UploadFile: " + e.Message );
-            }
-        }
-    }
-}
+# uploads an image
+ApiResponse $Result = Invoker-PSOpenAPIToolsUploadFile -petId $petId -additionalMetadata $additionalMetadata -file $file
 ```
 
 ### Parameters
