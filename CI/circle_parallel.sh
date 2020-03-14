@@ -15,10 +15,6 @@ if [ "$NODE_INDEX" = "1" ]; then
   wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
   export PATH="/usr/local/go1.14/go/bin:$PATH"
   go version
-  #sudo apt install -y software-properties-common
-  #sudo add-apt-repository -y ppa:longsleep/golang-backports
-  #sudo apt-get -y update
-  #sudo apt install -y golang-1.14-go
 
   mvn --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   mvn --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
