@@ -86,7 +86,6 @@ public class ModelUtilsTest {
     public void testGetUnusedSchemas() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
-        Assert.assertEquals(unusedSchemas.size(), 9);
         List<String> expectedUnusedSchemas = Arrays.asList(
                 "UnusedObj1",
                 "UnusedObj2",
@@ -98,7 +97,8 @@ public class ModelUtilsTest {
                 "AChild29_allOf",
                 "BChild29_allOf"
         );
-        Assert.assertEquals(unusedSchemas, expectedUnusedSchemas);
+        Assert.assertEquals(unusedSchemas.size(), expectedUnusedSchemas.size());
+        Assert.assertTrue(unusedSchemas.containsAll(expectedUnusedSchemas));
     }
 
     @Test
