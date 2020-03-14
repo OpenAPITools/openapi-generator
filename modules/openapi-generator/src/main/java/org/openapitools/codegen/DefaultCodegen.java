@@ -150,7 +150,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
-    protected String apiNameSuffix = "Api";
+    protected String apiNamePrefix = "", apiNameSuffix = "Api";
     protected String testPackage = "";
     /*
     apiTemplateFiles are for API outputs only (controllers/handlers).
@@ -266,6 +266,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS)) {
             this.setAllowUnicodeIdentifiers(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.API_NAME_PREFIX)) {
+            this.setApiNamePrefix((String) additionalProperties.get(CodegenConstants.API_NAME_PREFIX));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.API_NAME_SUFFIX)) {
@@ -1040,6 +1044,14 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setApiNameSuffix(String apiNameSuffix) {
         this.apiNameSuffix = apiNameSuffix;
+    }
+
+    public String getApiNamePrefix() {
+        return apiNamePrefix;
+    }
+
+    public void setApiNamePrefix(String apiNamePrefix) {
+        this.apiNamePrefix = apiNamePrefix;
     }
 
     public void setApiPackage(String apiPackage) {
@@ -2018,7 +2030,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return camelize(name + "_" + apiNameSuffix);
+        return camelize(apiNamePrefix + "_" + name + "_" + apiNameSuffix);
     }
 
     /**
