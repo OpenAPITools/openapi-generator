@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.TreeSet;
 
 import static org.testng.Assert.assertTrue;
@@ -419,9 +420,11 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(child);
 
         // to test allVars (without parent's properties)
-        Assert.assertEquals(child.getAllVars().size(), 7);
-
-        List<String> allVars = Arrays.asList(
+        List<String> allVars  =
+                child.getAllVars().stream()
+                        .map(CodegenProperty::getName)
+                        .collect(Collectors.toList());
+        List<String> allVarsExpected = Arrays.asList(
                 "age",
                 "first_name",
                 "_type",
@@ -430,31 +433,32 @@ public class RubyClientCodegenTest {
                 "duplicated_required",
                 "person_required"
         );
-        Integer i = 0;
-        for (String varName: allVars) {
-            CodegenProperty cp = child.getAllVars().get(i);
-            Assert.assertEquals(cp.name, varName);
-            i ++;
-        }
+        Assert.assertEquals(allVars.size(), allVarsExpected.size());
+        Assert.assertTrue(allVars.containsAll(allVarsExpected));
 
         // to test vars (without parent's properties)
-        Assert.assertEquals(child.getVars().size(), 2);
-
-        CodegenProperty cp0 = child.getVars().get(0);
-        Assert.assertEquals(cp0.name, "age");
-
-        CodegenProperty cp1 = child.getVars().get(1);
-        Assert.assertEquals(cp1.name, "first_name");
+        List<String> vars  =
+                child.getVars().stream()
+                        .map(CodegenProperty::getName)
+                        .collect(Collectors.toList());
+        List<String> varsExpected = Arrays.asList(
+                "age",
+                "first_name"
+        );
+        Assert.assertEquals(vars.size(), varsExpected.size());
+        Assert.assertTrue(vars.containsAll(varsExpected));
 
         // to test requiredVars
-        Assert.assertEquals(child.getRequiredVars().size(), 2);
-
-        cp0 = child.getRequiredVars().get(0);
-        Assert.assertEquals(cp0.name, "duplicated_required");
-
-        cp1 = child.getRequiredVars().get(1);
-        Assert.assertEquals(cp1.name, "person_required");
-
+        List<String> requiredVars  =
+                child.getRequiredVars().stream()
+                        .map(CodegenProperty::getName)
+                        .collect(Collectors.toList());
+        List<String> requiredVarsExpected = Arrays.asList(
+                "duplicated_required",
+                "person_required"
+                );
+        Assert.assertEquals(vars.size(), requiredVarsExpected.size());
+        Assert.assertTrue(requiredVars.containsAll(requiredVarsExpected));
     }
 
     @Test(description = "test allOf with discriminator and duplicated properties(OAS3) for Adult model")
