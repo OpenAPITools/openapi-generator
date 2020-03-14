@@ -39,7 +39,6 @@ function Invoke-PSOpenAPIToolsAPIClient {
 
     $Configuraiton = Get-PSOpenAPIToolsConfiguration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
-    $RestMethodParameters = [System.UriBuilder]($RequestUri)
 
     # cookie parameters
     foreach ($Parameter in $CookieParameters) {
@@ -81,8 +80,8 @@ function Invoke-PSOpenAPIToolsAPIClient {
         }
     }
     # Build the request and load it with the query string.
-    #$Request  = [System.UriBuilder]($Uri)
-    $RestMethodParameters.Query = $HttpValues.ToString()
+    $UriBuilder = [System.UriBuilder]($RequestUri)
+    $UriBuilder.Query = $HttpValues.ToString()
 
     # include form parameters in the request body
     if ($FormParameters -and $FormParameters.Count -gt 0) {
@@ -93,7 +92,7 @@ function Invoke-PSOpenAPIToolsAPIClient {
         $RequestBody = $Body
     }
 
-    $Response = Invoke-WebRequest -Uri $RequestUri `
+    $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
                                   -Method $Method `
                                   -Headers $HeaderParameters `
                                   -Body $RequestBody
