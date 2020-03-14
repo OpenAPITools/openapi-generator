@@ -262,13 +262,11 @@ function Invoke-UserApiLoginUser {
         if (!$username) {
             throw "Error! $username is required."
         }
-
         $LocalVarQueryParameters['username'] = $username
 
         if (!$password) {
             throw "Error! $password is required."
         }
-
         $LocalVarQueryParameters['password'] = $password
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `

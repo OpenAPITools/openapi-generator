@@ -9,7 +9,7 @@ $body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_e
 
 $Id = 38369
 
-#$result = Invoke-PetApiGetPetById -petId 38369
+$result = Invoke-PetApiGetPetById -petId $Id -testHeader "testing only" -testQuery "testinng query"
 
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls

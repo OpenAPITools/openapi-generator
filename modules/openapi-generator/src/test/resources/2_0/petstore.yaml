@@ -162,6 +162,14 @@ paths:
           required: true
           type: integer
           format: int64
+        - name: test-header
+          in: header 
+          description: ID of pet to return
+          type: string 
+        - name: test-query
+          in: query
+          description: ID of pet to return
+          type: string 
       responses:
         '200':
           description: successful operation

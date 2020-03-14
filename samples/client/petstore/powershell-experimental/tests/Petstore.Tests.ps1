@@ -56,7 +56,7 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result = Invoke-PetApiUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
 
             # Delete
-            $Result = Invoke-PetApiDeletePet -petId $Id
+            #$Result = Invoke-PetApiDeletePet -petId $Id
 
         }
     }

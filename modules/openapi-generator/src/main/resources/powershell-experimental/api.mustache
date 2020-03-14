@@ -51,11 +51,22 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         if (!${{{paramName}}}) {
             throw "Error! ${{{paramName}}} is required."
         }
+        $LocalVarHeaderParameters['{{baseName}}'] = ${{{paramName}}}
 
         {{/isNullable}}
         {{/required}}
+        {{^required}}
+        {{^isNullable}}
+        if (${{{paramName}}}) {
+            $LocalVarHeaderParameters['{{baseName}}'] = ${{{paramName}}}
+        }
+
+        {{/isNullable}}
+        {{#isNullable}}
         $LocalVarHeaderParameters['{{baseName}}'] = ${{{paramName}}}
 
+        {{/isNullable}}
+        {{/required}}
         {{/headerParams}}
         {{#queryParams}}
         {{#required}}
@@ -63,11 +74,22 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         if (!${{{paramName}}}) {
             throw "Error! ${{{paramName}}} is required."
         }
+        $LocalVarQueryParameters['{{baseName}}'] = ${{{paramName}}}
 
         {{/isNullable}}
         {{/required}}
+        {{^required}}
+        {{^isNullable}}
+        if (${{{paramName}}}) {
+            $LocalVarQueryParameters['{{baseName}}'] = ${{{paramName}}}
+        }
+
+        {{/isNullable}}
+        {{#isNullable}}
         $LocalVarQueryParameters['{{baseName}}'] = ${{{paramName}}}
 
+        {{/isNullable}}
+        {{/required}}
         {{/queryParams}}
         {{#formParams}}
         {{#required}}
@@ -75,11 +97,22 @@ function Invoke-{{{classname}}}{{{operationId}}} {
         if (!${{{paramName}}}) {
             throw "Error! ${{{paramName}}} is required."
         }
+        $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
 
         {{/isNullable}}
         {{/required}}
+        {{^required}}
+        {{^isNullable}}
+        if (${{{paramName}}}) {
+            $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+        }
+
+        {{/isNullable}}
+        {{#isNullable}}
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
 
+        {{/isNullable}}
+        {{/required}}
         {{/formParams}}
         {{#bodyParam}}
         {{#required}}

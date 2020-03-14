@@ -193,6 +193,8 @@ Name | Type | Description  | Notes
 # **Invoker-PSOpenAPIToolsGetPetById**
 > Pet Invoker-PSOpenAPIToolsGetPetById
     -petId <Int64>
+    -testHeader <String>
+    -testQuery <String>
 
 Find pet by ID
 
@@ -209,9 +211,11 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 #$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
 
 $petId = 987 # Int64 | ID of pet to return (default to null)
+$testHeader = "testHeader_example" # String | ID of pet to return (optional) (default to null)
+$testQuery = "testQuery_example" # String | ID of pet to return (optional) (default to null)
 
 # Find pet by ID
-Pet $Result = Invoker-PSOpenAPIToolsGetPetById -petId $petId
+Pet $Result = Invoker-PSOpenAPIToolsGetPetById -petId $petId -testHeader $testHeader -testQuery $testQuery
 ```
 
 ### Parameters
@@ -219,6 +223,8 @@ Pet $Result = Invoker-PSOpenAPIToolsGetPetById -petId $petId
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Int64**| ID of pet to return | [default to null]
+ **testHeader** | **String**| ID of pet to return | [optional] [default to null]
+ **testQuery** | **String**| ID of pet to return | [optional] [default to null]
 
 ### Return type
 

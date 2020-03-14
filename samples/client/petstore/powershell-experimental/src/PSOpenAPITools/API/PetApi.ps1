@@ -84,7 +84,9 @@ function Invoke-PetApiDeletePet {
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        $LocalVarHeaderParameters['api_key'] = $apiKey
+        if ($apiKey) {
+            $LocalVarHeaderParameters['api_key'] = $apiKey
+        }
 
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'DELETE' `
@@ -133,7 +135,6 @@ function Invoke-PetApiFindPetsByStatus {
         if (!$status) {
             throw "Error! $status is required."
         }
-
         $LocalVarQueryParameters['status'] = $status
 
 
@@ -183,7 +184,6 @@ function Invoke-PetApiFindPetsByTags {
         if (!$tags) {
             throw "Error! $tags is required."
         }
-
         $LocalVarQueryParameters['tags'] = $tags
 
 
@@ -207,7 +207,13 @@ function Invoke-PetApiGetPetById {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Int64]
-        ${petId}
+        ${petId},
+        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [String]
+        ${testHeader},
+        [Parameter(Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [String]
+        ${testQuery}
     )
 
     Process {
@@ -230,6 +236,14 @@ function Invoke-PetApiGetPetById {
         $LocalVarUri = '/pet/{petId}'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+        if ($testHeader) {
+            $LocalVarHeaderParameters['test-header'] = $testHeader
+        }
+
+        if ($testQuery) {
+            $LocalVarQueryParameters['test-query'] = $testQuery
+        }
 
         if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
@@ -335,9 +349,13 @@ function Invoke-PetApiUpdatePetWithForm {
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        $LocalVarFormParameters['name'] = $name
+        if ($name) {
+            $LocalVarFormParameters['name'] = $name
+        }
 
-        $LocalVarFormParameters['status'] = $status
+        if ($status) {
+            $LocalVarFormParameters['status'] = $status
+        }
 
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
@@ -393,9 +411,13 @@ function Invoke-PetApiUploadFile {
         $LocalVarUri = $LocalVarUri.replace('{petId}', $petId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        $LocalVarFormParameters['additionalMetadata'] = $additionalMetadata
+        if ($additionalMetadata) {
+            $LocalVarFormParameters['additionalMetadata'] = $additionalMetadata
+        }
 
-        $LocalVarFormParameters['file'] = $file
+        if ($file) {
+            $LocalVarFormParameters['file'] = $file
+        }
 
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
