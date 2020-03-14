@@ -36,7 +36,6 @@ public class TestUtils {
      */
     public static OpenAPI parseFlattenSpec(String specFilePath) {
         OpenAPI openAPI = parseSpec(specFilePath);
-        // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
         inlineModelResolver.flatten(openAPI);
         return openAPI;
