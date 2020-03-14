@@ -79,7 +79,7 @@ public class ModelUtilsTest {
                 "AChild30",
                 "BChild30"
         );
-        Assert.assertEquals(allUsedSchemas, expectedallUsedSchemas);
+        Assert.assertTrue(allUsedSchemas.containsAll(expectedallUsedSchemas));
     }
 
     @Test
