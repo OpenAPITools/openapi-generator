@@ -4,20 +4,20 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddPet**](PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
-[**DeletePet**](PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
-[**FindPetsByStatus**](PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**FindPetsByTags**](PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
-[**GetPetById**](PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
-[**UpdatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
-[**UpdatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**Add-Pet**](PetApi.md#add-pet) | **POST** /pet | Add a new pet to the store
+[**Invoke-DeletePet**](PetApi.md#invoke-deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+[**Find-PetsByStatus**](PetApi.md#find-petsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**Find-PetsByTags**](PetApi.md#find-petsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+[**Get-PetById**](PetApi.md#get-petbyid) | **GET** /pet/{petId} | Find pet by ID
+[**Update-Pet**](PetApi.md#update-pet) | **PUT** /pet | Update an existing pet
+[**Update-PetWithForm**](PetApi.md#update-petwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**Invoke-UploadFile**](PetApi.md#invoke-uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
-<a id="addpet"></a>
-# **Invoker-PSOpenAPIToolsAddPet**
-> void Invoker-PSOpenAPIToolsAddPet
-    -body <Pet>
+<a id="add-pet"></a>
+# ****
+> void Add-Pet
+    -Body <Pet>
 
 Add a new pet to the store
 
@@ -29,17 +29,17 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$body = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
+$Body = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
-Invoker-PSOpenAPIToolsAddPet -body $body
+Add-Pet -Body $Body
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **Body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -56,11 +56,11 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="deletepet"></a>
-# **Invoker-PSOpenAPIToolsDeletePet**
-> void Invoker-PSOpenAPIToolsDeletePet
-    -petId <Int64>
-    -apiKey <String>
+<a id="invoke-deletepet"></a>
+# ****
+> void Invoke-DeletePet
+    -PetId <Int64>
+    -ApiKey <String>
 
 Deletes a pet
 
@@ -72,19 +72,19 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$petId = 987 # Int64 | Pet id to delete (default to null)
-$apiKey = "apiKey_example" # String |  (optional) (default to null)
+$PetId = 987 # Int64 | Pet id to delete (default to null)
+$ApiKey = "ApiKey_example" # String |  (optional) (default to null)
 
 # Deletes a pet
-Invoker-PSOpenAPIToolsDeletePet -petId $petId -apiKey $apiKey
+Invoke-DeletePet -PetId $PetId -ApiKey $ApiKey
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| Pet id to delete | [default to null]
- **apiKey** | **String**|  | [optional] [default to null]
+ **PetId** | **Int64**| Pet id to delete | [default to null]
+ **ApiKey** | **String**|  | [optional] [default to null]
 
 ### Return type
 
@@ -101,10 +101,10 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="findpetsbystatus"></a>
-# **Invoker-PSOpenAPIToolsFindPetsByStatus**
-> Pet[] Invoker-PSOpenAPIToolsFindPetsByStatus
-    -status <String[]>
+<a id="find-petsbystatus"></a>
+# ****
+> Pet[] Find-PetsByStatus
+    -Status <String[]>
 
 Finds Pets by status
 
@@ -118,17 +118,17 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$status = @("Status_example") # String[] | Status values that need to be considered for filter (default to null)
+$Status = @("Status_example") # String[] | Status values that need to be considered for filter (default to null)
 
 # Finds Pets by status
-Pet[] $Result = Invoker-PSOpenAPIToolsFindPetsByStatus -status $status
+Pet[] $Result = Find-PetsByStatus -Status $Status
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**String[]**](String.md)| Status values that need to be considered for filter | [default to null]
+ **Status** | [**String[]**](String.md)| Status values that need to be considered for filter | [default to null]
 
 ### Return type
 
@@ -145,10 +145,10 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="findpetsbytags"></a>
-# **Invoker-PSOpenAPIToolsFindPetsByTags**
-> Pet[] Invoker-PSOpenAPIToolsFindPetsByTags
-    -tags <String[]>
+<a id="find-petsbytags"></a>
+# ****
+> Pet[] Find-PetsByTags
+    -Tags <String[]>
 
 Finds Pets by tags
 
@@ -162,17 +162,17 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$tags = @("Inner_example") # String[] | Tags to filter by (default to null)
+$Tags = @("Inner_example") # String[] | Tags to filter by (default to null)
 
 # Finds Pets by tags
-Pet[] $Result = Invoker-PSOpenAPIToolsFindPetsByTags -tags $tags
+Pet[] $Result = Find-PetsByTags -Tags $Tags
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**String[]**](String.md)| Tags to filter by | [default to null]
+ **Tags** | [**String[]**](String.md)| Tags to filter by | [default to null]
 
 ### Return type
 
@@ -189,12 +189,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="getpetbyid"></a>
-# **Invoker-PSOpenAPIToolsGetPetById**
-> Pet Invoker-PSOpenAPIToolsGetPetById
-    -petId <Int64>
-    -testHeader <String>
-    -testQuery <String>
+<a id="get-petbyid"></a>
+# ****
+> Pet Get-PetById
+    -PetId <Int64>
+    -TestHeader <String>
+    -TestQuery <String>
 
 Find pet by ID
 
@@ -210,21 +210,21 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
 
-$petId = 987 # Int64 | ID of pet to return (default to null)
-$testHeader = "testHeader_example" # String | ID of pet to return (optional) (default to null)
-$testQuery = "testQuery_example" # String | ID of pet to return (optional) (default to null)
+$PetId = 987 # Int64 | ID of pet to return (default to null)
+$TestHeader = "TestHeader_example" # String | ID of pet to return (optional) (default to null)
+$TestQuery = "TestQuery_example" # String | ID of pet to return (optional) (default to null)
 
 # Find pet by ID
-Pet $Result = Invoker-PSOpenAPIToolsGetPetById -petId $petId -testHeader $testHeader -testQuery $testQuery
+Pet $Result = Get-PetById -PetId $PetId -TestHeader $TestHeader -TestQuery $TestQuery
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to return | [default to null]
- **testHeader** | **String**| ID of pet to return | [optional] [default to null]
- **testQuery** | **String**| ID of pet to return | [optional] [default to null]
+ **PetId** | **Int64**| ID of pet to return | [default to null]
+ **TestHeader** | **String**| ID of pet to return | [optional] [default to null]
+ **TestQuery** | **String**| ID of pet to return | [optional] [default to null]
 
 ### Return type
 
@@ -241,10 +241,10 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="updatepet"></a>
-# **Invoker-PSOpenAPIToolsUpdatePet**
-> void Invoker-PSOpenAPIToolsUpdatePet
-    -body <Pet>
+<a id="update-pet"></a>
+# ****
+> void Update-Pet
+    -Body <Pet>
 
 Update an existing pet
 
@@ -256,17 +256,17 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$body = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
+$Body = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
-Invoker-PSOpenAPIToolsUpdatePet -body $body
+Update-Pet -Body $Body
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **Body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -283,12 +283,12 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="updatepetwithform"></a>
-# **Invoker-PSOpenAPIToolsUpdatePetWithForm**
-> void Invoker-PSOpenAPIToolsUpdatePetWithForm
-    -petId <Int64>
-    -name <String>
-    -status <String>
+<a id="update-petwithform"></a>
+# ****
+> void Update-PetWithForm
+    -PetId <Int64>
+    -Name <String>
+    -Status <String>
 
 Updates a pet in the store with form data
 
@@ -300,21 +300,21 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$petId = 987 # Int64 | ID of pet that needs to be updated (default to null)
-$name = "name_example" # String | Updated name of the pet (optional) (default to null)
-$status = "status_example" # String | Updated status of the pet (optional) (default to null)
+$PetId = 987 # Int64 | ID of pet that needs to be updated (default to null)
+$Name = "Name_example" # String | Updated name of the pet (optional) (default to null)
+$Status = "Status_example" # String | Updated status of the pet (optional) (default to null)
 
 # Updates a pet in the store with form data
-Invoker-PSOpenAPIToolsUpdatePetWithForm -petId $petId -name $name -status $status
+Update-PetWithForm -PetId $PetId -Name $Name -Status $Status
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet that needs to be updated | [default to null]
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **PetId** | **Int64**| ID of pet that needs to be updated | [default to null]
+ **Name** | **String**| Updated name of the pet | [optional] [default to null]
+ **Status** | **String**| Updated status of the pet | [optional] [default to null]
 
 ### Return type
 
@@ -331,12 +331,12 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="uploadfile"></a>
-# **Invoker-PSOpenAPIToolsUploadFile**
-> ApiResponse Invoker-PSOpenAPIToolsUploadFile
-    -petId <Int64>
-    -additionalMetadata <String>
-    -file <System.IO.FileInfo>
+<a id="invoke-uploadfile"></a>
+# ****
+> ApiResponse Invoke-UploadFile
+    -PetId <Int64>
+    -AdditionalMetadata <String>
+    -File <System.IO.FileInfo>
 
 uploads an image
 
@@ -348,21 +348,21 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$petId = 987 # Int64 | ID of pet to update (default to null)
-$additionalMetadata = "additionalMetadata_example" # String | Additional data to pass to server (optional) (default to null)
-$file = 987 # System.IO.FileInfo | file to upload (optional) (default to null)
+$PetId = 987 # Int64 | ID of pet to update (default to null)
+$AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to pass to server (optional) (default to null)
+$File = 987 # System.IO.FileInfo | file to upload (optional) (default to null)
 
 # uploads an image
-ApiResponse $Result = Invoker-PSOpenAPIToolsUploadFile -petId $petId -additionalMetadata $additionalMetadata -file $file
+ApiResponse $Result = Invoke-UploadFile -PetId $PetId -AdditionalMetadata $AdditionalMetadata -File $File
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] [default to null]
+ **PetId** | **Int64**| ID of pet to update | [default to null]
+ **AdditionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] [default to null]
 
 ### Return type
 

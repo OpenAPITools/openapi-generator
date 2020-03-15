@@ -44,6 +44,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     protected String modelDocPath = "docs/";
     protected String testPath = "tests/";
     protected HashSet nullablePrimitives;
+    protected HashSet powershellVerbs;
 
     /**
      * Constructs an instance of `PowerShellExperimentalClientCodegen`.
@@ -110,6 +111,108 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 "Uri",
                 "System.IO.FileInfo",
                 "Version"
+        ));
+
+        powershellVerbs = new HashSet<String>(Arrays.asList(
+                "Add",
+                "Clear",
+                "Close",
+                "Copy",
+                "Enter",
+                "Exit",
+                "Find",
+                "Format",
+                "Get",
+                "Hide",
+                "Join",
+                "Lock",
+                "Move",
+                "New",
+                "Open",
+                "Optimize",
+                "Pop",
+                "Push",
+                "Redo",
+                "Remove",
+                "Rename",
+                "Reset",
+                "Search",
+                "Select",
+                "Set",
+                "Show",
+                "Skip",
+                "Split",
+                "Step",
+                "Switch",
+                "Undo",
+                "Unlock",
+                "Watch",
+                "Connect",
+                "Disconnect",
+                "Read",
+                "Receive",
+                "Send",
+                "Write",
+                "Backup",
+                "Checkpoint",
+                "Compare",
+                "Compress",
+                "Convert",
+                "ConvertFrom",
+                "ConvertTo",
+                "Dismount",
+                "Edit",
+                "Expand",
+                "Export",
+                "Group",
+                "Import",
+                "Initialize",
+                "Limit",
+                "Merge",
+                "Mount",
+                "Out",
+                "Publish",
+                "Restore",
+                "Save",
+                "Sync",
+                "Unpublish",
+                "Update",
+                "Debug",
+                "Measure",
+                "Ping",
+                "Repair",
+                "Resolve",
+                "Test",
+                "Trace",
+                "Approve",
+                "Assert",
+                "Build",
+                "Complete",
+                "Confirm",
+                "Deny",
+                "Deploy",
+                "Disable",
+                "Enable",
+                "Install",
+                "Invoke",
+                "Register",
+                "Request",
+                "Restart",
+                "Resume",
+                "Start",
+                "Stop",
+                "Submit",
+                "Suspend",
+                "Uninstall",
+                "Unregister",
+                "Wait",
+                "Block",
+                "Grant",
+                "Protect",
+                "Revoke",
+                "Unblock",
+                "Unprotect",
+                "Use"
         ));
 
         nullablePrimitives = new HashSet<String>(Arrays.asList(
@@ -455,13 +558,32 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
-            operationId = "call_" + operationId;
+        return sanitizeName(operationId);
+    }
+
+    @Override
+    public String toParamName(String name) {
+        // sanitize name
+        name = sanitizeName(name);
+
+        // replace - with _ e.g. created-at => created_at
+        name = name.replaceAll("-", "_");
+
+        // if it's all upper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
         }
 
-        return camelize(sanitizeName(operationId));
+        // camelize the variable name
+        // pet_id => PetId
+        name = camelize(name, false);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
     }
 
     @Override
@@ -486,7 +608,11 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 p.vendorExtensions.put("x-data-type", getPSDataType(p));
 
                 p.vendorExtensions.put("x-powershell-example", constructExampleCode(p, modelMaps));
+            }
 
+            if (!op.vendorExtensions.containsKey("x-powershell-method-name")) { // x-powershell-method-name not set
+                op.vendorExtensions.put("x-powershell-method-name", toMethodName(op.operationId));
+                op.vendorExtensions.put("x-powershell-method-name-lowercase", (toMethodName(op.operationId)).toLowerCase(Locale.ROOT));
             }
         }
 
@@ -670,6 +796,22 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         } else { // model
             return "PSCustomObject";
         }
+    }
+
+    private String toMethodName(String operationId) {
+        String methodName = camelize(operationId);
+
+        // check if method name starts with powershell verbs
+        for (String verb: (HashSet<String>)powershellVerbs) {
+            if (methodName.startsWith(verb)) {
+                methodName = verb + "-" + methodName.substring(verb.length());
+                LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
+                return methodName;
+            }
+        }
+
+        // not using powershell verb
+        return "Invoke-" + methodName;
     }
 
 

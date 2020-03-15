@@ -1,7 +1,7 @@
 {{> partial_header}}
 {{#operations}}
 {{#operation}}
-function Invoke-{{{classname}}}{{{operationId}}} {
+function {{{vendorExtensions.x-powershell-method-name}}} {
     [CmdletBinding()]
     Param (
     {{#allParams}}
@@ -14,7 +14,7 @@ function Invoke-{{{classname}}}{{{operationId}}} {
     )
 
     Process {
-        'Calling method: {{{classname}}}-{{{operationId}}}' | Write-Host
+        'Calling method: {{{vendorExtensions.x-powershell-method-name}}}' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()

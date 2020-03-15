@@ -2,8 +2,8 @@
 Describe -tag '{{{packageName}}}' -name '{{{classname}}}' {
 {{#operations}}
 {{#operation}}
-    Context '{{{operationId}}}' {
-        It 'Invoke-{{{classname}}}{{{operationId}}}' {
+    Context '{{{vendorExtensions.x-powershell-method-name}}}' {
+        It 'Test {{{vendorExtensions.x-powershell-method-name}}}' {
             #$TestResult = Invoke-PetApiGetPetById{{#allParams}} -{{{paramName}}} "TEST_VALUE"{{/allParams}}
             #$TestResult | Should BeOfType TODO
             #$TestResult.property | Should Be 0

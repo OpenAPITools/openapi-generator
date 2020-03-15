@@ -5,14 +5,14 @@ All URIs are relative to *{{{basePath}}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{vendorExtensions.x-powershell-method-name}}**]({{classname}}.md#{{vendorExtensions.x-powershell-method-name-lowercase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
-<a id="{{{operationIdLowerCase}}}"></a>
-# **Invoker-{{packageName}}{{{operationId}}}**
-> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} Invoker-{{packageName}}{{{operationId}}}
+<a id="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
+# **{{{x-powershell-method-name}}}**
+> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}
 {{#allParams}}
     -{{paramName}} <{{{dataType}}}>
 {{/allParams}}
@@ -53,7 +53,7 @@ ${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | 
 {{#summary}}
 # {{{.}}}
 {{/summary}}
-{{#returnType}}{{returnType}} $Result = {{/returnType}}Invoker-{{packageName}}{{{operationId}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
+{{#returnType}}{{returnType}} $Result = {{/returnType}}{{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
 ```
 
 ### Parameters

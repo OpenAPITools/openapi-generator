@@ -4,16 +4,16 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteOrder**](StoreApi.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-[**GetInventory**](StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
-[**GetOrderById**](StoreApi.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
-[**PlaceOrder**](StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
+[**Invoke-DeleteOrder**](StoreApi.md#invoke-deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**Get-Inventory**](StoreApi.md#get-inventory) | **GET** /store/inventory | Returns pet inventories by status
+[**Get-OrderById**](StoreApi.md#get-orderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
+[**Invoke-PlaceOrder**](StoreApi.md#invoke-placeorder) | **POST** /store/order | Place an order for a pet
 
 
-<a id="deleteorder"></a>
-# **Invoker-PSOpenAPIToolsDeleteOrder**
-> void Invoker-PSOpenAPIToolsDeleteOrder
-    -orderId <String>
+<a id="invoke-deleteorder"></a>
+# ****
+> void Invoke-DeleteOrder
+    -OrderId <String>
 
 Delete purchase order by ID
 
@@ -23,17 +23,17 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$orderId = "orderId_example" # String | ID of the order that needs to be deleted (default to null)
+$OrderId = "OrderId_example" # String | ID of the order that needs to be deleted (default to null)
 
 # Delete purchase order by ID
-Invoker-PSOpenAPIToolsDeleteOrder -orderId $orderId
+Invoke-DeleteOrder -OrderId $OrderId
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted | [default to null]
+ **OrderId** | **String**| ID of the order that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -50,9 +50,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="getinventory"></a>
-# **Invoker-PSOpenAPIToolsGetInventory**
-> {String, Int32} Invoker-PSOpenAPIToolsGetInventory
+<a id="get-inventory"></a>
+# ****
+> {String, Int32} Get-Inventory
 
 Returns pet inventories by status
 
@@ -70,7 +70,7 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 
 
 # Returns pet inventories by status
-{String, Int32} $Result = Invoker-PSOpenAPIToolsGetInventory
+{String, Int32} $Result = Get-Inventory
 ```
 
 ### Parameters
@@ -91,10 +91,10 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="getorderbyid"></a>
-# **Invoker-PSOpenAPIToolsGetOrderById**
-> Order Invoker-PSOpenAPIToolsGetOrderById
-    -orderId <Int64>
+<a id="get-orderbyid"></a>
+# ****
+> Order Get-OrderById
+    -OrderId <Int64>
 
 Find purchase order by ID
 
@@ -104,17 +104,17 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$orderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
+$OrderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
 
 # Find purchase order by ID
-Order $Result = Invoker-PSOpenAPIToolsGetOrderById -orderId $orderId
+Order $Result = Get-OrderById -OrderId $OrderId
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **Int64**| ID of pet that needs to be fetched | [default to null]
+ **OrderId** | **Int64**| ID of pet that needs to be fetched | [default to null]
 
 ### Return type
 
@@ -131,10 +131,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="placeorder"></a>
-# **Invoker-PSOpenAPIToolsPlaceOrder**
-> Order Invoker-PSOpenAPIToolsPlaceOrder
-    -body <Order>
+<a id="invoke-placeorder"></a>
+# ****
+> Order Invoke-PlaceOrder
+    -Body <Order>
 
 Place an order for a pet
 
@@ -142,17 +142,17 @@ Place an order for a pet
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$body = (New-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
+$Body = (New-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet
-Order $Result = Invoker-PSOpenAPIToolsPlaceOrder -body $body
+Order $Result = Invoke-PlaceOrder -Body $Body
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **Body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

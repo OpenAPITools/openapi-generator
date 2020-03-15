@@ -4,20 +4,20 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateUser**](UserApi.md#createuser) | **POST** /user | Create user
-[**CreateUsersWithArrayInput**](UserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**CreateUsersWithListInput**](UserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
-[**DeleteUser**](UserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
-[**GetUserByName**](UserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
-[**LoginUser**](UserApi.md#loginuser) | **GET** /user/login | Logs user into the system
-[**LogoutUser**](UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
-[**UpdateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
+[**Invoke-CreateUser**](UserApi.md#invoke-createuser) | **POST** /user | Create user
+[**Invoke-CreateUsersWithArrayInput**](UserApi.md#invoke-createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
+[**Invoke-CreateUsersWithListInput**](UserApi.md#invoke-createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
+[**Invoke-DeleteUser**](UserApi.md#invoke-deleteuser) | **DELETE** /user/{username} | Delete user
+[**Get-UserByName**](UserApi.md#get-userbyname) | **GET** /user/{username} | Get user by user name
+[**Invoke-LoginUser**](UserApi.md#invoke-loginuser) | **GET** /user/login | Logs user into the system
+[**Invoke-LogoutUser**](UserApi.md#invoke-logoutuser) | **GET** /user/logout | Logs out current logged in user session
+[**Update-User**](UserApi.md#update-user) | **PUT** /user/{username} | Updated user
 
 
-<a id="createuser"></a>
-# **Invoker-PSOpenAPIToolsCreateUser**
-> void Invoker-PSOpenAPIToolsCreateUser
-    -body <User>
+<a id="invoke-createuser"></a>
+# ****
+> void Invoke-CreateUser
+    -Body <User>
 
 Create user
 
@@ -27,17 +27,17 @@ This can only be done by the logged in user.
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Created user object
+$Body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Created user object
 
 # Create user
-Invoker-PSOpenAPIToolsCreateUser -body $body
+Invoke-CreateUser -Body $Body
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **Body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -54,10 +54,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="createuserswitharrayinput"></a>
-# **Invoker-PSOpenAPIToolsCreateUsersWithArrayInput**
-> void Invoker-PSOpenAPIToolsCreateUsersWithArrayInput
-    -body <User[]>
+<a id="invoke-createuserswitharrayinput"></a>
+# ****
+> void Invoke-CreateUsersWithArrayInput
+    -Body <User[]>
 
 Creates list of users with given input array
 
@@ -65,17 +65,17 @@ Creates list of users with given input array
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$body = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
+$Body = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
-Invoker-PSOpenAPIToolsCreateUsersWithArrayInput -body $body
+Invoke-CreateUsersWithArrayInput -Body $Body
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User[]**](User.md)| List of user object | 
+ **Body** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -92,10 +92,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="createuserswithlistinput"></a>
-# **Invoker-PSOpenAPIToolsCreateUsersWithListInput**
-> void Invoker-PSOpenAPIToolsCreateUsersWithListInput
-    -body <User[]>
+<a id="invoke-createuserswithlistinput"></a>
+# ****
+> void Invoke-CreateUsersWithListInput
+    -Body <User[]>
 
 Creates list of users with given input array
 
@@ -103,17 +103,17 @@ Creates list of users with given input array
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$body = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
+$Body = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
-Invoker-PSOpenAPIToolsCreateUsersWithListInput -body $body
+Invoke-CreateUsersWithListInput -Body $Body
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User[]**](User.md)| List of user object | 
+ **Body** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -130,10 +130,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="deleteuser"></a>
-# **Invoker-PSOpenAPIToolsDeleteUser**
-> void Invoker-PSOpenAPIToolsDeleteUser
-    -username <String>
+<a id="invoke-deleteuser"></a>
+# ****
+> void Invoke-DeleteUser
+    -Username <String>
 
 Delete user
 
@@ -143,17 +143,17 @@ This can only be done by the logged in user.
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$username = "username_example" # String | The name that needs to be deleted (default to null)
+$Username = "Username_example" # String | The name that needs to be deleted (default to null)
 
 # Delete user
-Invoker-PSOpenAPIToolsDeleteUser -username $username
+Invoke-DeleteUser -Username $Username
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted | [default to null]
+ **Username** | **String**| The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -170,10 +170,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="getuserbyname"></a>
-# **Invoker-PSOpenAPIToolsGetUserByName**
-> User Invoker-PSOpenAPIToolsGetUserByName
-    -username <String>
+<a id="get-userbyname"></a>
+# ****
+> User Get-UserByName
+    -Username <String>
 
 Get user by user name
 
@@ -181,17 +181,17 @@ Get user by user name
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$username = "username_example" # String | The name that needs to be fetched. Use user1 for testing. (default to null)
+$Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
 # Get user by user name
-User $Result = Invoker-PSOpenAPIToolsGetUserByName -username $username
+User $Result = Get-UserByName -Username $Username
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
+ **Username** | **String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 
@@ -208,11 +208,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="loginuser"></a>
-# **Invoker-PSOpenAPIToolsLoginUser**
-> String Invoker-PSOpenAPIToolsLoginUser
-    -username <String>
-    -password <String>
+<a id="invoke-loginuser"></a>
+# ****
+> String Invoke-LoginUser
+    -Username <String>
+    -Password <String>
 
 Logs user into the system
 
@@ -220,19 +220,19 @@ Logs user into the system
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$username = "username_example" # String | The user name for login (default to null)
-$password = "password_example" # String | The password for login in clear text (default to null)
+$Username = "Username_example" # String | The user name for login (default to null)
+$Password = "Password_example" # String | The password for login in clear text (default to null)
 
 # Logs user into the system
-String $Result = Invoker-PSOpenAPIToolsLoginUser -username $username -password $password
+String $Result = Invoke-LoginUser -Username $Username -Password $Password
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | [default to null]
- **password** | **String**| The password for login in clear text | [default to null]
+ **Username** | **String**| The user name for login | [default to null]
+ **Password** | **String**| The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -249,9 +249,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="logoutuser"></a>
-# **Invoker-PSOpenAPIToolsLogoutUser**
-> void Invoker-PSOpenAPIToolsLogoutUser
+<a id="invoke-logoutuser"></a>
+# ****
+> void Invoke-LogoutUser
 
 Logs out current logged in user session
 
@@ -261,7 +261,7 @@ Import-Module -Name PSOpenAPITools
 
 
 # Logs out current logged in user session
-Invoker-PSOpenAPIToolsLogoutUser
+Invoke-LogoutUser
 ```
 
 ### Parameters
@@ -282,11 +282,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="updateuser"></a>
-# **Invoker-PSOpenAPIToolsUpdateUser**
-> void Invoker-PSOpenAPIToolsUpdateUser
-    -username <String>
-    -body <User>
+<a id="update-user"></a>
+# ****
+> void Update-User
+    -Username <String>
+    -Body <User>
 
 Updated user
 
@@ -296,19 +296,19 @@ This can only be done by the logged in user.
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$username = "username_example" # String | name that need to be deleted (default to null)
-$body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Updated user object
+$Username = "Username_example" # String | name that need to be deleted (default to null)
+$Body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Updated user object
 
 # Updated user
-Invoker-PSOpenAPIToolsUpdateUser -username $username -body $body
+Update-User -Username $Username -Body $Body
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | [default to null]
- **body** | [**User**](User.md)| Updated user object | 
+ **Username** | **String**| name that need to be deleted | [default to null]
+ **Body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
