@@ -670,7 +670,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         cm.interfaceModels = new ArrayList<CodegenModel>();
 
         for(Schema schema : cs.getOneOf()){
-            cm.vars.add(fromProperty("property", schema));
+            String singleSchemaType = getSingleSchemaType(schema);
+            CodegenProperty codegenProperty = fromProperty(singleSchemaType, schema);
+            codegenProperty.setBaseName(singleSchemaType.toLowerCase(Locale.getDefault()));
+            cm.vars.add(codegenProperty);
         }
         addOneOfInterfaces.add(cm);
     }
@@ -721,9 +724,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                     omitAdding.add(v.baseName);
                 }
             }
-            for (CodegenProperty v : toAdd) {
-                if (!omitAdding.contains(v.baseName)) {
-                    additionalProps.add(v.clone());
+            for (int i = 0; i < toAdd.size(); i++) {
+                if (!omitAdding.contains(toAdd.get(i).baseName)) {
+                    if (i != toAdd.size() - 1) {
+                        toAdd.get(i).hasMore = true;
+                    }
+                    additionalProps.add(toAdd.get(i));
                 }
             }
 
@@ -734,45 +740,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
-        public void addToImplementor(CodegenModel implcm, List<Map<String, String>> implImports) {
-            implcm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());
-
-            // Add implemented interfaces
-            for (String intf : additionalInterfaces) {
-                List<String> impl = (List<String>) implcm.getVendorExtensions().get("implements");
-                impl.add(intf);
-                // Add imports for interfaces
-                implcm.imports.add(intf);
-                Map<String, String> importsItem = new HashMap<String, String>();
-                importsItem.put("import", toModelImport(intf));
-                implImports.add(importsItem);
-            }
-
-            // Add oneOf-containing models properties - we need to properly set the hasMore values to make renderind correct
-            if (implcm.vars.size() > 0 && additionalProps.size() > 0) {
-                implcm.vars.get(implcm.vars.size() - 1).hasMore = true;
-            }
-            for (int i = 0; i < additionalProps.size(); i++) {
-                CodegenProperty var = additionalProps.get(i);
-                if (i == additionalProps.size() - 1) {
-                    var.hasMore = false;
-                } else {
-                    var.hasMore = true;
-                }
-                implcm.vars.add(var);
-            }
-
-            // Add imports
-            for (Map<String, String> oneImport : additionalImports) {
-                // exclude imports from this package - these are imports that only the oneOf interface needs
-                if (!implImports.contains(oneImport) && !oneImport.getOrDefault("import", "").startsWith(modelPackage())) {
-                    implImports.add(oneImport);
-                }
-            }
-        }
     }
-
-
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
@@ -821,7 +789,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     if (cm.oneOf.size() > 0) {
                         cm.vendorExtensions.put("isOneOfInterface", true);
                         // if this is oneOf interface, make sure we include the necessary jackson imports for it
-                        for (String s : Arrays.asList("JsonTypeInfo", "JsonSubTypes")) {
+                        for (String s : Arrays.asList("JsonTypeInfo", "JsonSubTypes","JsonProperty", "ApiModelProperty")) {
                             Map<String, String> i = new HashMap<String, String>() {{
                                 put("import", importMapping.get(s));
                             }};
@@ -849,6 +817,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         CodegenProperty codegenProperty = fromProperty("property", schema);
         if (codegenProperty != null && codegenProperty.getComplexType() != null && schema instanceof ComposedSchema) {
+            // will be set with imports.add(codegenParameter.baseType); in defaultcodegen
+            imports.remove("UNKNOWN_BASE_TYPE");
             String codegenModelName = codegenProperty.getComplexType();
             codegenParameter.baseName = codegenModelName;
             codegenParameter.paramName = toParamName(codegenParameter.baseName);
