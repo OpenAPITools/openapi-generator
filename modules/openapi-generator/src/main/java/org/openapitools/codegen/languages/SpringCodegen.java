@@ -625,12 +625,14 @@ public class SpringCodegen extends AbstractJavaCodegen
                 if (ModelUtils.isComposedSchema(schema)) {
                     List<String> names = new ArrayList<>();
                     ComposedSchema composedSchema = (ComposedSchema) schema;
-                    for (Schema oneOfSchema : composedSchema.getOneOf()) {
-                        names.add(getSingleSchemaType(oneOfSchema));
+                    if (composedSchema.getOneOf() != null && composedSchema.getOneOf().size() > 0){
+                        for (Schema oneOfSchema : composedSchema.getOneOf()) {
+                            names.add(getSingleSchemaType(oneOfSchema));
+                        }
+                        String name = "OneOf" + String.join("", names);
+                        addOneOfNameExtension(schema, name);
+                        addOneOfInterfaceModel((ComposedSchema) schema, name);
                     }
-                    String name = "OneOf" + String.join("", names);
-                    addOneOfNameExtension(schema, name);
-                    addOneOfInterfaceModel((ComposedSchema) schema, name);
                 } else if (ModelUtils.isArraySchema(schema)) {
                     Schema items = ((ArraySchema) schema).getItems();
                     if (ModelUtils.isComposedSchema(items)) {
