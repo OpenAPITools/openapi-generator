@@ -10,10 +10,10 @@ Method | HTTP request | Description
 [**Invoke-PlaceOrder**](StoreApi.md#invoke-placeorder) | **POST** /store/order | Place an order for a pet
 
 
-<a id="invoke-deleteorder"></a>
-# ****
+<a name="invoke-deleteorder"></a>
+# **Invoke-DeleteOrder**
 > void Invoke-DeleteOrder
-    -OrderId <String>
+>    [-OrderId] <String>
 
 Delete purchase order by ID
 
@@ -50,8 +50,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="get-inventory"></a>
-# ****
+<a name="get-inventory"></a>
+# **Get-Inventory**
 > {String, Int32} Get-Inventory
 
 Returns pet inventories by status
@@ -91,10 +91,10 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="get-orderbyid"></a>
-# ****
+<a name="get-orderbyid"></a>
+# **Get-OrderById**
 > Order Get-OrderById
-    -OrderId <Int64>
+>    [-OrderId] <Int64>
 
 Find purchase order by ID
 
@@ -131,10 +131,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="invoke-placeorder"></a>
-# ****
+<a name="invoke-placeorder"></a>
+# **Invoke-PlaceOrder**
 > Order Invoke-PlaceOrder
-    -Body <Order>
+>    [-Order] <Order>
 
 Place an order for a pet
 
@@ -142,17 +142,17 @@ Place an order for a pet
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$Body = (New-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
+$Order = (New-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet
-Order $Result = Invoke-PlaceOrder -Body $Body
+Order $Result = Invoke-PlaceOrder -Order $Order
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **Order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -164,7 +164,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

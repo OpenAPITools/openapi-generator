@@ -48,7 +48,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *PetApi* | [**Add-Pet**](docs/PetApi.md#add-pet) | **POST** /pet | Add a new pet to the store
-*PetApi* | [**Invoke-DeletePet**](docs/PetApi.md#invoke-deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApi* | [**Remove-Pet**](docs/PetApi.md#remove-pet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**Find-PetsByStatus**](docs/PetApi.md#find-petsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**Find-PetsByTags**](docs/PetApi.md#find-petsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**Get-PetById**](docs/PetApi.md#get-petbyid) | **GET** /pet/{petId} | Find pet by ID
@@ -73,6 +73,8 @@ Class | Method | HTTP request | Description
 
  - [PSOpenAPITools/Model.ApiResponse](docs/ApiResponse.md)
  - [PSOpenAPITools/Model.Category](docs/Category.md)
+ - [PSOpenAPITools/Model.InlineObject](docs/InlineObject.md)
+ - [PSOpenAPITools/Model.InlineObject1](docs/InlineObject1.md)
  - [PSOpenAPITools/Model.Order](docs/Order.md)
  - [PSOpenAPITools/Model.Pet](docs/Pet.md)
  - [PSOpenAPITools/Model.Tag](docs/Tag.md)
@@ -88,6 +90,14 @@ Class | Method | HTTP request | Description
 
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+
+### auth_cookie
+
+- **Type**: API key
+
+- **API key parameter name**: AUTH_KEY
+- **Location**: 
 
 
 ### petstore_auth

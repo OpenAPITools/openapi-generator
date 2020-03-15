@@ -139,7 +139,7 @@ function Invoke-PlaceOrder {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [PSCustomObject]
-        ${Body}
+        ${Order}
     )
 
     Process {
@@ -159,14 +159,17 @@ function Invoke-PlaceOrder {
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json')
+
         $LocalVarUri = '/store/order'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        if (!$Body) {
-            throw "Error! $Body is required."
+        if (!$Order) {
+            throw "Error! $Order is required."
         }
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json
+        $LocalVarBodyParameter = $Order | ConvertTo-Json
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `

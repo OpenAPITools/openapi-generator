@@ -613,6 +613,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             if (!op.vendorExtensions.containsKey("x-powershell-method-name")) { // x-powershell-method-name not set
                 op.vendorExtensions.put("x-powershell-method-name", toMethodName(op.operationId));
                 op.vendorExtensions.put("x-powershell-method-name-lowercase", (toMethodName(op.operationId)).toLowerCase(Locale.ROOT));
+            } else {
+                op.vendorExtensions.put("x-powershell-method-name-lowercase", ((String)op.vendorExtensions.get("x-powershell-method-name")).toLowerCase(Locale.ROOT));
             }
         }
 

@@ -14,10 +14,10 @@ Method | HTTP request | Description
 [**Update-User**](UserApi.md#update-user) | **PUT** /user/{username} | Updated user
 
 
-<a id="invoke-createuser"></a>
-# ****
+<a name="invoke-createuser"></a>
+# **Invoke-CreateUser**
 > void Invoke-CreateUser
-    -Body <User>
+>    [-User] <User>
 
 Create user
 
@@ -27,17 +27,23 @@ This can only be done by the logged in user.
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$Body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Created user object
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure API key authorization: auth_cookie
+$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
+
+$User = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Created user object
 
 # Create user
-Invoke-CreateUser -Body $Body
+Invoke-CreateUser -User $User
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Body** | [**User**](User.md)| Created user object | 
+ **User** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -45,19 +51,19 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="invoke-createuserswitharrayinput"></a>
-# ****
+<a name="invoke-createuserswitharrayinput"></a>
+# **Invoke-CreateUsersWithArrayInput**
 > void Invoke-CreateUsersWithArrayInput
-    -Body <User[]>
+>    [-User] <User[]>
 
 Creates list of users with given input array
 
@@ -65,17 +71,23 @@ Creates list of users with given input array
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$Body = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure API key authorization: auth_cookie
+$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
+
+$User = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
-Invoke-CreateUsersWithArrayInput -Body $Body
+Invoke-CreateUsersWithArrayInput -User $User
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Body** | [**User[]**](User.md)| List of user object | 
+ **User** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -83,19 +95,19 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="invoke-createuserswithlistinput"></a>
-# ****
+<a name="invoke-createuserswithlistinput"></a>
+# **Invoke-CreateUsersWithListInput**
 > void Invoke-CreateUsersWithListInput
-    -Body <User[]>
+>    [-User] <User[]>
 
 Creates list of users with given input array
 
@@ -103,17 +115,23 @@ Creates list of users with given input array
 ```powershell
 Import-Module -Name PSOpenAPITools
 
-$Body = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure API key authorization: auth_cookie
+$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
+
+$User = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
-Invoke-CreateUsersWithListInput -Body $Body
+Invoke-CreateUsersWithListInput -User $User
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Body** | [**User[]**](User.md)| List of user object | 
+ **User** | [**User[]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -121,19 +139,19 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="invoke-deleteuser"></a>
-# ****
+<a name="invoke-deleteuser"></a>
+# **Invoke-DeleteUser**
 > void Invoke-DeleteUser
-    -Username <String>
+>    [-Username] <String>
 
 Delete user
 
@@ -142,6 +160,12 @@ This can only be done by the logged in user.
 ### Example
 ```powershell
 Import-Module -Name PSOpenAPITools
+
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure API key authorization: auth_cookie
+$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
 $Username = "Username_example" # String | The name that needs to be deleted (default to null)
 
@@ -161,7 +185,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
@@ -170,10 +194,10 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="get-userbyname"></a>
-# ****
+<a name="get-userbyname"></a>
+# **Get-UserByName**
 > User Get-UserByName
-    -Username <String>
+>    [-Username] <String>
 
 Get user by user name
 
@@ -208,11 +232,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="invoke-loginuser"></a>
-# ****
+<a name="invoke-loginuser"></a>
+# **Invoke-LoginUser**
 > String Invoke-LoginUser
-    -Username <String>
-    -Password <String>
+>    [-Username] <String>
+>    [-Password] <String>
 
 Logs user into the system
 
@@ -249,8 +273,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="invoke-logoutuser"></a>
-# ****
+<a name="invoke-logoutuser"></a>
+# **Invoke-LogoutUser**
 > void Invoke-LogoutUser
 
 Logs out current logged in user session
@@ -258,6 +282,12 @@ Logs out current logged in user session
 ### Example
 ```powershell
 Import-Module -Name PSOpenAPITools
+
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure API key authorization: auth_cookie
+$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
 
 # Logs out current logged in user session
@@ -273,7 +303,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
@@ -282,11 +312,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="update-user"></a>
-# ****
+<a name="update-user"></a>
+# **Update-User**
 > void Update-User
-    -Username <String>
-    -Body <User>
+>    [-Username] <String>
+>    [-User] <User>
 
 Updated user
 
@@ -296,11 +326,17 @@ This can only be done by the logged in user.
 ```powershell
 Import-Module -Name PSOpenAPITools
 
+$Configuration = Get-PSOpenAPIToolsConfiguration
+# Configure API key authorization: auth_cookie
+$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
+
 $Username = "Username_example" # String | name that need to be deleted (default to null)
-$Body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Updated user object
+$User = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Updated user object
 
 # Updated user
-Update-User -Username $Username -Body $Body
+Update-User -Username $Username -User $User
 ```
 
 ### Parameters
@@ -308,7 +344,7 @@ Update-User -Username $Username -Body $Body
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **Username** | **String**| name that need to be deleted | [default to null]
- **Body** | [**User**](User.md)| Updated user object | 
+ **User** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -316,11 +352,11 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

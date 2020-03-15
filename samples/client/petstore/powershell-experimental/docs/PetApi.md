@@ -5,7 +5,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**Add-Pet**](PetApi.md#add-pet) | **POST** /pet | Add a new pet to the store
-[**Invoke-DeletePet**](PetApi.md#invoke-deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+[**Remove-Pet**](PetApi.md#remove-pet) | **DELETE** /pet/{petId} | Deletes a pet
 [**Find-PetsByStatus**](PetApi.md#find-petsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**Find-PetsByTags**](PetApi.md#find-petsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 [**Get-PetById**](PetApi.md#get-petbyid) | **GET** /pet/{petId} | Find pet by ID
@@ -14,10 +14,10 @@ Method | HTTP request | Description
 [**Invoke-UploadFile**](PetApi.md#invoke-uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
-<a id="add-pet"></a>
-# ****
-> void Add-Pet
-    -Body <Pet>
+<a name="add-pet"></a>
+# **Add-Pet**
+> Pet Add-Pet
+>    [-Pet] <Pet>
 
 Add a new pet to the store
 
@@ -29,21 +29,21 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$Body = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
+$Pet = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
-Add-Pet -Body $Body
+Pet $Result = Add-Pet -Pet $Pet
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -52,15 +52,15 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="invoke-deletepet"></a>
-# ****
-> void Invoke-DeletePet
-    -PetId <Int64>
-    -ApiKey <String>
+<a name="remove-pet"></a>
+# **Remove-Pet**
+> void Remove-Pet
+>    [-PetId] <Int64>
+>    [-ApiKey] <String>
 
 Deletes a pet
 
@@ -76,7 +76,7 @@ $PetId = 987 # Int64 | Pet id to delete (default to null)
 $ApiKey = "ApiKey_example" # String |  (optional) (default to null)
 
 # Deletes a pet
-Invoke-DeletePet -PetId $PetId -ApiKey $ApiKey
+Remove-Pet -PetId $PetId -ApiKey $ApiKey
 ```
 
 ### Parameters
@@ -101,10 +101,10 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="find-petsbystatus"></a>
-# ****
+<a name="find-petsbystatus"></a>
+# **Find-PetsByStatus**
 > Pet[] Find-PetsByStatus
-    -Status <String[]>
+>    [-Status] <String[]>
 
 Finds Pets by status
 
@@ -145,10 +145,10 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="find-petsbytags"></a>
-# ****
+<a name="find-petsbytags"></a>
+# **Find-PetsByTags**
 > Pet[] Find-PetsByTags
-    -Tags <String[]>
+>    [-Tags] <String[]>
 
 Finds Pets by tags
 
@@ -189,12 +189,10 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="get-petbyid"></a>
-# ****
+<a name="get-petbyid"></a>
+# **Get-PetById**
 > Pet Get-PetById
-    -PetId <Int64>
-    -TestHeader <String>
-    -TestQuery <String>
+>    [-PetId] <Int64>
 
 Find pet by ID
 
@@ -211,11 +209,9 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 #$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
 
 $PetId = 987 # Int64 | ID of pet to return (default to null)
-$TestHeader = "TestHeader_example" # String | ID of pet to return (optional) (default to null)
-$TestQuery = "TestQuery_example" # String | ID of pet to return (optional) (default to null)
 
 # Find pet by ID
-Pet $Result = Get-PetById -PetId $PetId -TestHeader $TestHeader -TestQuery $TestQuery
+Pet $Result = Get-PetById -PetId $PetId
 ```
 
 ### Parameters
@@ -223,8 +219,6 @@ Pet $Result = Get-PetById -PetId $PetId -TestHeader $TestHeader -TestQuery $Test
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **PetId** | **Int64**| ID of pet to return | [default to null]
- **TestHeader** | **String**| ID of pet to return | [optional] [default to null]
- **TestQuery** | **String**| ID of pet to return | [optional] [default to null]
 
 ### Return type
 
@@ -241,10 +235,10 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="update-pet"></a>
-# ****
-> void Update-Pet
-    -Body <Pet>
+<a name="update-pet"></a>
+# **Update-Pet**
+> Pet Update-Pet
+>    [-Pet] <Pet>
 
 Update an existing pet
 
@@ -256,21 +250,21 @@ $Configuration = Get-PSOpenAPIToolsConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$Body = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
+$Pet = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
-Update-Pet -Body $Body
+Pet $Result = Update-Pet -Pet $Pet
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -279,16 +273,16 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="update-petwithform"></a>
-# ****
+<a name="update-petwithform"></a>
+# **Update-PetWithForm**
 > void Update-PetWithForm
-    -PetId <Int64>
-    -Name <String>
-    -Status <String>
+>    [-PetId] <Int64>
+>    [-Name] <String>
+>    [-Status] <String>
 
 Updates a pet in the store with form data
 
@@ -331,12 +325,12 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="invoke-uploadfile"></a>
-# ****
+<a name="invoke-uploadfile"></a>
+# **Invoke-UploadFile**
 > ApiResponse Invoke-UploadFile
-    -PetId <Int64>
-    -AdditionalMetadata <String>
-    -File <System.IO.FileInfo>
+>    [-PetId] <Int64>
+>    [-AdditionalMetadata] <String>
+>    [-File] <System.IO.FileInfo>
 
 uploads an image
 

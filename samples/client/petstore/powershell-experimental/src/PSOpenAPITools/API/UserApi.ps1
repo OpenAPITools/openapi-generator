@@ -10,7 +10,7 @@ function Invoke-CreateUser {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [PSCustomObject]
-        ${Body}
+        ${User}
     )
 
     Process {
@@ -27,14 +27,21 @@ function Invoke-CreateUser {
         $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json')
+
         $LocalVarUri = '/user'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        if (!$Body) {
-            throw "Error! $Body is required."
+        if (!$User) {
+            throw "Error! $User is required."
         }
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json
+        $LocalVarBodyParameter = $User | ConvertTo-Json
+
+        if ($Configuration["Cookie"]) {
+            $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+        }
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -56,7 +63,7 @@ function Invoke-CreateUsersWithArrayInput {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [PSCustomObject[]]
-        ${Body}
+        ${User}
     )
 
     Process {
@@ -73,14 +80,21 @@ function Invoke-CreateUsersWithArrayInput {
         $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json')
+
         $LocalVarUri = '/user/createWithArray'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        if (!$Body) {
-            throw "Error! $Body is required."
+        if (!$User) {
+            throw "Error! $User is required."
         }
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json
+        $LocalVarBodyParameter = $User | ConvertTo-Json
+
+        if ($Configuration["Cookie"]) {
+            $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+        }
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -102,7 +116,7 @@ function Invoke-CreateUsersWithListInput {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [PSCustomObject[]]
-        ${Body}
+        ${User}
     )
 
     Process {
@@ -119,14 +133,21 @@ function Invoke-CreateUsersWithListInput {
         $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json')
+
         $LocalVarUri = '/user/createWithList'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        if (!$Body) {
-            throw "Error! $Body is required."
+        if (!$User) {
+            throw "Error! $User is required."
         }
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json
+        $LocalVarBodyParameter = $User | ConvertTo-Json
+
+        if ($Configuration["Cookie"]) {
+            $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+        }
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -168,6 +189,10 @@ function Invoke-DeleteUser {
         $LocalVarUri = '/user/{username}'
         $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
+
+        if ($Configuration["Cookie"]) {
+            $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+        }
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
@@ -306,6 +331,10 @@ function Invoke-LogoutUser {
         $LocalVarUri = '/user/logout'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
+        if ($Configuration["Cookie"]) {
+            $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+        }
+
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
@@ -329,7 +358,7 @@ function Update-User {
         ${Username},
         [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [PSCustomObject]
-        ${Body}
+        ${User}
     )
 
     Process {
@@ -346,15 +375,22 @@ function Update-User {
         $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json')
+
         $LocalVarUri = '/user/{username}'
         $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        if (!$Body) {
-            throw "Error! $Body is required."
+        if (!$User) {
+            throw "Error! $User is required."
         }
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json
+        $LocalVarBodyParameter = $User | ConvertTo-Json
+
+        if ($Configuration["Cookie"]) {
+            $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+        }
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'PUT' `
                                 -Uri $LocalVarUri `

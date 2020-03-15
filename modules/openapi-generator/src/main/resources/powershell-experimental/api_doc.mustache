@@ -10,11 +10,11 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-<a id="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
-# **{{{x-powershell-method-name}}}**
+<a name="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
+# **{{{vendorExtensions.x-powershell-method-name}}}**
 > {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}
 {{#allParams}}
-    -{{paramName}} <{{{dataType}}}>
+>    [-{{paramName}}] <{{{dataType}}}>
 {{/allParams}}
 
 {{{summary}}}{{#notes}}

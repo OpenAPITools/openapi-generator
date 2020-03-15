@@ -10,7 +10,7 @@ function Add-Pet {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [PSCustomObject]
-        ${Body}
+        ${Pet}
     )
 
     Process {
@@ -27,17 +27,20 @@ function Add-Pet {
         $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
+
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json', 'application/xml')
 
         $LocalVarUri = '/pet'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        if (!$Body) {
-            throw "Error! $Body is required."
+        if (!$Pet) {
+            throw "Error! $Pet is required."
         }
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json
+        $LocalVarBodyParameter = $Pet | ConvertTo-Json
 
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'POST' `
@@ -49,13 +52,13 @@ function Add-Pet {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "Pet"
 
         return $LocalVarResult["Response"]
     }
 }
 
-function Invoke-DeletePet {
+function Remove-Pet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
@@ -67,7 +70,7 @@ function Invoke-DeletePet {
     )
 
     Process {
-        'Calling method: Invoke-DeletePet' | Write-Host
+        'Calling method: Remove-Pet' | Write-Host
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -207,13 +210,7 @@ function Get-PetById {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Int64]
-        ${PetId},
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [String]
-        ${TestHeader},
-        [Parameter(Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [String]
-        ${TestQuery}
+        ${PetId}
     )
 
     Process {
@@ -236,14 +233,6 @@ function Get-PetById {
         $LocalVarUri = '/pet/{petId}'
         $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
-
-        if ($TestHeader) {
-            $LocalVarHeaderParameters['test-header'] = $TestHeader
-        }
-
-        if ($TestQuery) {
-            $LocalVarQueryParameters['test-query'] = $TestQuery
-        }
 
         if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
@@ -269,7 +258,7 @@ function Update-Pet {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [PSCustomObject]
-        ${Body}
+        ${Pet}
     )
 
     Process {
@@ -286,17 +275,20 @@ function Update-Pet {
         $LocalVarBodyParameter
 
         $Configuraiton = Get-PSOpenAPIToolsConfiguration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/xml', 'application/json')
+
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json', 'application/xml')
 
         $LocalVarUri = '/pet'
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        if (!$Body) {
-            throw "Error! $Body is required."
+        if (!$Pet) {
+            throw "Error! $Pet is required."
         }
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json
+        $LocalVarBodyParameter = $Pet | ConvertTo-Json
 
 
         $LocalVarResult = Invoke-PSOpenAPIToolsAPIClient -Method 'PUT' `
@@ -308,7 +300,7 @@ function Update-Pet {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "Pet"
 
         return $LocalVarResult["Response"]
     }
