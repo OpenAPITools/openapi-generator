@@ -590,38 +590,38 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (useOneOfInterfaces && openAPI.getComponents() != null){
-        Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
-            if (schemas == null) {
-              schemas = new HashMap<String, Schema>();
-            }
-        Map<String, PathItem> pathItems = openAPI.getPaths();
-        // we need to add all request and response bodies to processed schemas
-        if (pathItems != null) {
-          for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
-            for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
-              String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
-              // process request body
-              RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
-              Schema requestSchema = null;
-              if (b != null) {
-                requestSchema = ModelUtils.getSchemaFromRequestBody(b);
-              }
-              if (requestSchema != null) {
-                schemas.put(opId, requestSchema);
-              }
-              if (op.getValue().getResponses() != null){
-                // process all response bodies
-                for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
-                  ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
-                  Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
-                  if (responseSchema != null) {
-                    schemas.put(opId + ar.getKey(), responseSchema);
+            Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
+                if (schemas == null) {
+                  schemas = new HashMap<String, Schema>();
+                }
+            Map<String, PathItem> pathItems = openAPI.getPaths();
+            // we need to add all request and response bodies to processed schemas
+            if (pathItems != null) {
+              for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
+                for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
+                  String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
+                  // process request body
+                  RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
+                  Schema requestSchema = null;
+                  if (b != null) {
+                    requestSchema = ModelUtils.getSchemaFromRequestBody(b);
+                  }
+                  if (requestSchema != null) {
+                    schemas.put(opId, requestSchema);
+                  }
+                  if (op.getValue().getResponses() != null){
+                    // process all response bodies
+                    for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
+                      ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
+                      Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                      if (responseSchema != null) {
+                        schemas.put(opId + ar.getKey(), responseSchema);
+                      }
+                    }
                   }
                 }
               }
             }
-          }
-        }
 
         for (Map.Entry<String, Schema> e : schemas.entrySet()) {
           String n = toModelName(e.getKey());
@@ -639,64 +639,64 @@ public class SpringCodegen extends AbstractJavaCodegen
               addOneOfInterfaceModel((ComposedSchema) schema, name);
             }
           } else if (ModelUtils.isArraySchema(schema)) {
-            Schema items = ((ArraySchema) schema).getItems();
-            if (ModelUtils.isComposedSchema(items)) {
-              addOneOfNameExtension(items, nOneOf);
-              addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
-            }
+                Schema items = ((ArraySchema) schema).getItems();
+                if (ModelUtils.isComposedSchema(items)) {
+                  addOneOfNameExtension(items, nOneOf);
+                  addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
+                }
           } else if (ModelUtils.isMapSchema(schema)) {
-            Schema addProps = ModelUtils.getAdditionalProperties(schema);
-            if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
-              addOneOfNameExtension(addProps, nOneOf);
-              addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
+                    Schema addProps = ModelUtils.getAdditionalProperties(schema);
+                    if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
+                      addOneOfNameExtension(addProps, nOneOf);
+                      addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
+                    }
+                }
             }
-          }
         }
-    }
     }
 
     public void addOneOfNameExtension(Schema s, String name) {
-    ComposedSchema cs = (ComposedSchema) s;
-    if (cs.getOneOf() != null && cs.getOneOf().size() > 0) {
-      cs.addExtension("x-oneOf-name", name);
+        ComposedSchema cs = (ComposedSchema) s;
+        if (cs.getOneOf() != null && cs.getOneOf().size() > 0) {
+          cs.addExtension("x-oneOf-name", name);
         }
     }
 
     public void addOneOfInterfaceModel(ComposedSchema cs, String name) {
-    CodegenModel cm = new CodegenModel();
+        CodegenModel cm = new CodegenModel();
 
-    for (Schema o : cs.getOneOf()) {
-      // TODO: inline objects
-      cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
-    }
-    cm.name = name;
-    cm.classname = name;
-    cm.vendorExtensions.put("isOneOfInterface", true);
-    cm.discriminator = createDiscriminator("", (Schema) cs);
-    cm.interfaceModels = new ArrayList<CodegenModel>();
-
-    for(Schema schema : cs.getOneOf()){
-      String singleSchemaType = getSingleSchemaType(schema);
-      CodegenProperty codegenProperty = fromProperty(singleSchemaType, schema);
-      codegenProperty.setBaseName(singleSchemaType.toLowerCase(Locale.getDefault()));
-      cm.vars.add(codegenProperty);
+        for (Schema o : cs.getOneOf()) {
+          // TODO: inline objects
+          cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
         }
-    addOneOfInterfaces.add(cm);
+        cm.name = name;
+        cm.classname = name;
+        cm.vendorExtensions.put("isOneOfInterface", true);
+        cm.discriminator = createDiscriminator("", (Schema) cs);
+        cm.interfaceModels = new ArrayList<CodegenModel>();
+
+        for(Schema schema : cs.getOneOf()){
+          String singleSchemaType = getSingleSchemaType(schema);
+          CodegenProperty codegenProperty = fromProperty(singleSchemaType, schema);
+          codegenProperty.setBaseName(singleSchemaType.toLowerCase(Locale.getDefault()));
+          cm.vars.add(codegenProperty);
+            }
+        addOneOfInterfaces.add(cm);
     }
 
     private String getSingleSchemaType(Schema schema) {
-    Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema);
+        Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema);
 
-    if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
-      // get the schema/model name from $ref
-      String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
-      if (StringUtils.isNotEmpty(schemaName)) {
-        return getAlias(schemaName);
-      } else {
-        LOGGER.warn("Error obtaining the datatype from ref:" + unaliasSchema.get$ref() + ". Default to 'object'");
-        return "object";
-      }
-    }
+        if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
+          // get the schema/model name from $ref
+          String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
+          if (StringUtils.isNotEmpty(schemaName)) {
+            return getAlias(schemaName);
+          } else {
+            LOGGER.warn("Error obtaining the datatype from ref:" + unaliasSchema.get$ref() + ". Default to 'object'");
+            return "object";
+          }
+        }
     return null;
     }
 
@@ -752,68 +752,67 @@ public class SpringCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
     objs = super.postProcessAllModels(objs);
 
-    if (this.useOneOfInterfaces) {
-      // First, add newly created oneOf interfaces
-      for (CodegenModel cm : addOneOfInterfaces) {
-        Map<String, Object> modelValue = new HashMap<String, Object>() {{
-          putAll(additionalProperties());
-          put("model", cm);
-        }};
-        List<Object> modelsValue = Arrays.asList(modelValue);
-        List<Map<String, String>> importsValue = new ArrayList<Map<String, String>>();
-        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
-          Map<String, String> oneImport = new HashMap<String, String>() {{
-            put("import", importMapping.get(i));
-          }};
-          importsValue.add(oneImport);
-        }
-        Map<String, Object> objsValue = new HashMap<String, Object>() {{
-          put("models", modelsValue);
-          put("package", modelPackage());
-          put("imports", importsValue);
-          put("classname", cm.classname);
-          putAll(additionalProperties);
-        }};
-        objs.put(cm.name, objsValue);
-      }
-
-      // - Add all "oneOf" models as interfaces to be implemented by the models that
-      //   are the choices in "oneOf"; also mark the models containing "oneOf" as interfaces
-      // - Add all properties of "oneOf" to the implementing classes (NOTE that this
-      //   would be problematic if the class was in multiple such "oneOf" models, in which
-      //   case it would get all their properties, but it's probably better than not doing this)
-      // - Add all imports of "oneOf" model to all the implementing classes (this might not
-      //   be optimal, as it can contain more than necessary, but it's good enough)
-      Map<String, OneOfImplementorAdditionalData> additionalDataMap = new HashMap<String, OneOfImplementorAdditionalData>();
-      for (Map.Entry modelsEntry : objs.entrySet()) {
-        Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
-        List<Object> models = (List<Object>) modelsAttrs.get("models");
-        List<Map<String, String>> modelsImports = (List<Map<String, String>>) modelsAttrs.getOrDefault("imports", new ArrayList<Map<String, String>>());
-        for (Object _mo : models) {
-          Map<String, Object> mo = (Map<String, Object>) _mo;
-          CodegenModel cm = (CodegenModel) mo.get("model");
-          if (cm.oneOf.size() > 0) {
-            cm.vendorExtensions.put("isOneOfInterface", true);
-            // if this is oneOf interface, make sure we include the necessary jackson imports for it
-            for (String s : Arrays.asList("JsonTypeInfo", "JsonSubTypes","JsonProperty", "ApiModelProperty")) {
-              Map<String, String> i = new HashMap<String, String>() {{
-                put("import", importMapping.get(s));
+        if (this.useOneOfInterfaces) {
+          // First, add newly created oneOf interfaces
+          for (CodegenModel cm : addOneOfInterfaces) {
+            Map<String, Object> modelValue = new HashMap<String, Object>() {{
+              putAll(additionalProperties());
+              put("model", cm);
+            }};
+            List<Object> modelsValue = Arrays.asList(modelValue);
+            List<Map<String, String>> importsValue = new ArrayList<Map<String, String>>();
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+              Map<String, String> oneImport = new HashMap<String, String>() {{
+                put("import", importMapping.get(i));
               }};
-              if (!modelsImports.contains(i)) {
-                modelsImports.add(i);
-              }
+              importsValue.add(oneImport);
             }
-            for (String one : cm.oneOf) {
-              if (!additionalDataMap.containsKey(one)) {
-                additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
+            Map<String, Object> objsValue = new HashMap<String, Object>() {{
+              put("models", modelsValue);
+              put("package", modelPackage());
+              put("imports", importsValue);
+              put("classname", cm.classname);
+              putAll(additionalProperties);
+            }};
+            objs.put(cm.name, objsValue);
+          }
+
+          // - Add all "oneOf" models as interfaces to be implemented by the models that
+          //   are the choices in "oneOf"; also mark the models containing "oneOf" as interfaces
+          // - Add all properties of "oneOf" to the implementing classes (NOTE that this
+          //   would be problematic if the class was in multiple such "oneOf" models, in which
+          //   case it would get all their properties, but it's probably better than not doing this)
+          // - Add all imports of "oneOf" model to all the implementing classes (this might not
+          //   be optimal, as it can contain more than necessary, but it's good enough)
+          Map<String, OneOfImplementorAdditionalData> additionalDataMap = new HashMap<String, OneOfImplementorAdditionalData>();
+          for (Map.Entry modelsEntry : objs.entrySet()) {
+            Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
+            List<Object> models = (List<Object>) modelsAttrs.get("models");
+            List<Map<String, String>> modelsImports = (List<Map<String, String>>) modelsAttrs.getOrDefault("imports", new ArrayList<Map<String, String>>());
+            for (Object _mo : models) {
+              Map<String, Object> mo = (Map<String, Object>) _mo;
+              CodegenModel cm = (CodegenModel) mo.get("model");
+              if (cm.oneOf.size() > 0) {
+                cm.vendorExtensions.put("isOneOfInterface", true);
+                // if this is oneOf interface, make sure we include the necessary jackson imports for it
+                for (String s : Arrays.asList("JsonTypeInfo", "JsonSubTypes","JsonProperty", "ApiModelProperty")) {
+                  Map<String, String> i = new HashMap<String, String>() {{
+                    put("import", importMapping.get(s));
+                  }};
+                  if (!modelsImports.contains(i)) {
+                    modelsImports.add(i);
+                  }
+                }
+                for (String one : cm.oneOf) {
+                  if (!additionalDataMap.containsKey(one)) {
+                    additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
+                  }
+                  additionalDataMap.get(one).addFromInterfaceModel(cm, modelsImports);
+                }
               }
-              additionalDataMap.get(one).addFromInterfaceModel(cm, modelsImports);
             }
           }
         }
-      }
-    }
-
     return objs;
     }
 
@@ -822,16 +821,16 @@ public class SpringCodegen extends AbstractJavaCodegen
     CodegenParameter codegenParameter = super.fromRequestBody(body, imports, bodyParameterName);
     Schema schema = ModelUtils.getSchemaFromRequestBody(body);
     CodegenProperty codegenProperty = fromProperty("property", schema);
-    if (codegenProperty != null && codegenProperty.getComplexType() != null && schema instanceof ComposedSchema) {
-          // will be set with imports.add(codegenParameter.baseType); in defaultcodegen
-          imports.remove("UNKNOWN_BASE_TYPE");
-          String codegenModelName = codegenProperty.getComplexType();
-          codegenParameter.baseName = codegenModelName;
-          codegenParameter.paramName = toParamName(codegenParameter.baseName);
-          codegenParameter.baseType = codegenParameter.baseName;
-          codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-          codegenParameter.description = codegenProperty.getDescription();
-          codegenProperty.setComplexType(codegenModelName);
+        if (codegenProperty != null && codegenProperty.getComplexType() != null && schema instanceof ComposedSchema) {
+              // will be set with imports.add(codegenParameter.baseType); in defaultcodegen
+              imports.remove("UNKNOWN_BASE_TYPE");
+              String codegenModelName = codegenProperty.getComplexType();
+              codegenParameter.baseName = codegenModelName;
+              codegenParameter.paramName = toParamName(codegenParameter.baseName);
+              codegenParameter.baseType = codegenParameter.baseName;
+              codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+              codegenParameter.description = codegenProperty.getDescription();
+              codegenProperty.setComplexType(codegenModelName);
         }
         return codegenParameter;
     }
@@ -880,7 +879,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
         }
-
         return objs;
     }
 
