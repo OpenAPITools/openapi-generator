@@ -16,8 +16,8 @@ Method | HTTP request | Description
 
 <a name="invoke-createuser"></a>
 # **Invoke-CreateUser**
-> void Invoke-CreateUser
->    [-User] <User>
+> void Invoke-CreateUser<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject><br>
 
 Create user
 
@@ -62,8 +62,8 @@ void (empty response body)
 
 <a name="invoke-createuserswitharrayinput"></a>
 # **Invoke-CreateUsersWithArrayInput**
-> void Invoke-CreateUsersWithArrayInput
->    [-User] <User[]>
+> void Invoke-CreateUsersWithArrayInput<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
 
 Creates list of users with given input array
 
@@ -106,8 +106,8 @@ void (empty response body)
 
 <a name="invoke-createuserswithlistinput"></a>
 # **Invoke-CreateUsersWithListInput**
-> void Invoke-CreateUsersWithListInput
->    [-User] <User[]>
+> void Invoke-CreateUsersWithListInput<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
 
 Creates list of users with given input array
 
@@ -150,8 +150,8 @@ void (empty response body)
 
 <a name="invoke-deleteuser"></a>
 # **Invoke-DeleteUser**
-> void Invoke-DeleteUser
->    [-Username] <String>
+> void Invoke-DeleteUser<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
 
 Delete user
 
@@ -196,8 +196,8 @@ void (empty response body)
 
 <a name="get-userbyname"></a>
 # **Get-UserByName**
-> User Get-UserByName
->    [-Username] <String>
+> User Get-UserByName<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
 
 Get user by user name
 
@@ -234,9 +234,9 @@ No authorization required
 
 <a name="invoke-loginuser"></a>
 # **Invoke-LoginUser**
-> String Invoke-LoginUser
->    [-Username] <String>
->    [-Password] <String>
+> String Invoke-LoginUser<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Password] <String><br>
 
 Logs user into the system
 
@@ -275,7 +275,7 @@ No authorization required
 
 <a name="invoke-logoutuser"></a>
 # **Invoke-LogoutUser**
-> void Invoke-LogoutUser
+> void Invoke-LogoutUser<br>
 
 Logs out current logged in user session
 
@@ -314,9 +314,9 @@ void (empty response body)
 
 <a name="update-user"></a>
 # **Update-User**
-> void Update-User
->    [-Username] <String>
->    [-User] <User>
+> void Update-User<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject><br>
 
 Updated user
 

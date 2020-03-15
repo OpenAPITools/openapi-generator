@@ -12,8 +12,8 @@ Method | HTTP request | Description
 
 <a name="invoke-deleteorder"></a>
 # **Invoke-DeleteOrder**
-> void Invoke-DeleteOrder
->    [-OrderId] <String>
+> void Invoke-DeleteOrder<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OrderId] <String><br>
 
 Delete purchase order by ID
 
@@ -52,7 +52,7 @@ No authorization required
 
 <a name="get-inventory"></a>
 # **Get-Inventory**
-> {String, Int32} Get-Inventory
+> {String, Int32} Get-Inventory<br>
 
 Returns pet inventories by status
 
@@ -93,8 +93,8 @@ This endpoint does not need any parameter.
 
 <a name="get-orderbyid"></a>
 # **Get-OrderById**
-> Order Get-OrderById
->    [-OrderId] <Int64>
+> Order Get-OrderById<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OrderId] <Int64><br>
 
 Find purchase order by ID
 
@@ -133,8 +133,8 @@ No authorization required
 
 <a name="invoke-placeorder"></a>
 # **Invoke-PlaceOrder**
-> Order Invoke-PlaceOrder
->    [-Order] <Order>
+> Order Invoke-PlaceOrder<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Order] <PSCustomObject><br>
 
 Place an order for a pet
 

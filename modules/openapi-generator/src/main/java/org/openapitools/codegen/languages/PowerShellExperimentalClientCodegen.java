@@ -601,13 +601,10 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         for (CodegenOperation op : operationList) {
             int index = 0;
             for (CodegenParameter p : op.allParams) {
+                p.vendorExtensions.put("x-powershell-data-type", getPSDataType(p));
+                p.vendorExtensions.put("x-powershell-example", constructExampleCode(p, modelMaps));
                 p.vendorExtensions.put("x-index", index);
                 index++;
-
-                getPSDataType(p);
-                p.vendorExtensions.put("x-data-type", getPSDataType(p));
-
-                p.vendorExtensions.put("x-powershell-example", constructExampleCode(p, modelMaps));
             }
 
             if (!op.vendorExtensions.containsKey("x-powershell-method-name")) { // x-powershell-method-name not set
@@ -639,7 +636,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             for (CodegenProperty cp : cm.vars) {
-                cp.vendorExtensions.put("x-data-type", getPSDataType(cp));
+                cp.vendorExtensions.put("x-powershell-data-type", getPSDataType(cp));
             }
         }
 
@@ -794,7 +791,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         } else if (cp.isListContainer) { // array
             return getPSDataType(cp.items) + "[]";
         } else if (cp.isMapContainer) { // map
-            throw new RuntimeException("Map is not supported in the object's properties.");
+            throw new RuntimeException("Map not yet supported in the object's properties.");
         } else { // model
             return "PSCustomObject";
         }
@@ -815,6 +812,4 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         // not using powershell verb
         return "Invoke-" + methodName;
     }
-
-
 }

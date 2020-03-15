@@ -12,9 +12,9 @@ Method | HTTP request | Description
 {{#operation}}
 <a name="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
 # **{{{vendorExtensions.x-powershell-method-name}}}**
-> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}
+> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}<br>
 {{#allParams}}
->    [-{{paramName}}] <{{{dataType}}}>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-{{paramName}}] <{{{vendorExtensions.x-powershell-data-type}}}><br>
 {{/allParams}}
 
 {{{summary}}}{{#notes}}

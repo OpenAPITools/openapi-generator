@@ -16,8 +16,8 @@ Method | HTTP request | Description
 
 <a name="add-pet"></a>
 # **Add-Pet**
-> Pet Add-Pet
->    [-Pet] <Pet>
+> Pet Add-Pet<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
 
 Add a new pet to the store
 
@@ -58,9 +58,9 @@ Name | Type | Description  | Notes
 
 <a name="remove-pet"></a>
 # **Remove-Pet**
-> void Remove-Pet
->    [-PetId] <Int64>
->    [-ApiKey] <String>
+> void Remove-Pet<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-ApiKey] <String><br>
 
 Deletes a pet
 
@@ -103,8 +103,8 @@ void (empty response body)
 
 <a name="find-petsbystatus"></a>
 # **Find-PetsByStatus**
-> Pet[] Find-PetsByStatus
->    [-Status] <String[]>
+> Pet[] Find-PetsByStatus<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Status] <String[]><br>
 
 Finds Pets by status
 
@@ -147,8 +147,8 @@ Name | Type | Description  | Notes
 
 <a name="find-petsbytags"></a>
 # **Find-PetsByTags**
-> Pet[] Find-PetsByTags
->    [-Tags] <String[]>
+> Pet[] Find-PetsByTags<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Tags] <String[]><br>
 
 Finds Pets by tags
 
@@ -191,8 +191,8 @@ Name | Type | Description  | Notes
 
 <a name="get-petbyid"></a>
 # **Get-PetById**
-> Pet Get-PetById
->    [-PetId] <Int64>
+> Pet Get-PetById<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
 
 Find pet by ID
 
@@ -237,8 +237,8 @@ Name | Type | Description  | Notes
 
 <a name="update-pet"></a>
 # **Update-Pet**
-> Pet Update-Pet
->    [-Pet] <Pet>
+> Pet Update-Pet<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
 
 Update an existing pet
 
@@ -279,10 +279,10 @@ Name | Type | Description  | Notes
 
 <a name="update-petwithform"></a>
 # **Update-PetWithForm**
-> void Update-PetWithForm
->    [-PetId] <Int64>
->    [-Name] <String>
->    [-Status] <String>
+> void Update-PetWithForm<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Name] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Status] <String><br>
 
 Updates a pet in the store with form data
 
@@ -327,10 +327,10 @@ void (empty response body)
 
 <a name="invoke-uploadfile"></a>
 # **Invoke-UploadFile**
-> ApiResponse Invoke-UploadFile
->    [-PetId] <Int64>
->    [-AdditionalMetadata] <String>
->    [-File] <System.IO.FileInfo>
+> ApiResponse Invoke-UploadFile<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-AdditionalMetadata] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-File] <System.IO.FileInfo><br>
 
 uploads an image
 

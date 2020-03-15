@@ -6,7 +6,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
     Param (
     {{#allParams}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = {{#required}}$true{{/required}}{{^required}}$false{{/required}})]
-        [{{{vendorExtensions.x-data-type}}}]
+        [{{{vendorExtensions.x-powershell-data-type}}}]
         {{=<% %>=}}
         ${<%paramName%>}<%^-last%>,<%/-last%>
         <%={{ }}=%>
