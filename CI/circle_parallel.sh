@@ -17,6 +17,9 @@ if [ "$NODE_INDEX" = "1" ]; then
   export PATH="/usr/local/go1.14/go/bin:$PATH"
   go version
 
+  docker pull swaggerapi/petstore
+  docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+
   mvn verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=info
   mvn --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
