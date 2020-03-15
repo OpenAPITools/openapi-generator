@@ -266,6 +266,8 @@ class PetApi {
         List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
         Map<String, dynamic> formData = {};
+            formData['name'] = parameterToString(_serializers, name);
+            formData['status'] = parameterToString(_serializers, status);
         bodyData = FormData.fromMap(formData);
 
 
