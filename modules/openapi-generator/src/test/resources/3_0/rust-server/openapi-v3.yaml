@@ -45,6 +45,41 @@ paths:
           description: 'OK'
         '400':
           description: Bad Request
+  /paramget:
+    get:
+      summary: Get some stuff with parameters.
+      parameters:
+      - description: The stuff to get
+        explode: false
+        in: query
+        name: uuid
+        required: false
+        schema:
+          $ref: "#/components/schemas/UuidObject"
+        style: form
+      - description: Some object to pass as query parameter
+        explode: false
+        in: query
+        name: someObject
+        required: false
+        schema:
+          $ref: "#/components/schemas/ObjectParam"
+        style: form
+      - description: Some list to pass as query parameter
+        explode: false
+        in: query
+        name: someList
+        required: false
+        schema:
+          $ref: "#/components/schemas/MyIDList"
+        style: form
+      responses:
+        200:
+          description: JSON rsp
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
   /multiget:
     get:
       summary: Get some stuff.
@@ -165,6 +200,16 @@ paths:
       responses:
         200:
           description: Check that limiting to multiple required auth schemes works
+  /untyped_property:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectUntypedProps'
+      responses:
+        200:
+          description: Check that untyped properties works
   /responses_with_headers:
     get:
       responses:
@@ -178,6 +223,9 @@ paths:
             Success-Info:
               schema:
                 type: String
+            Object-Header:
+              schema:
+                $ref: "#/components/schemas/ObjectHeader"
         '412':
           description: Precondition Failed
           headers:
@@ -187,6 +235,101 @@ paths:
             Failure-Info:
               schema:
                 type: String
+  /mandatory-request-header:
+    get:
+      parameters:
+        - name: X-Header
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /register-callback:
+    post:
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+      callbacks:
+        callback:
+          '{$request.query.url}/callback':
+            post:
+              responses:
+                '204':
+                  description: OK
+      responses:
+        '204':
+          description: OK
+  /callback-with-header:
+    post:
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+      callbacks:
+        callback:
+          '{$request.query.url}/callback-with-header':
+            post:
+              parameters:
+                - name: Information
+                  in: header
+                  schema:
+                    type: string
+              responses:
+                '204':
+                  description: OK
+      responses:
+        '204':
+          description: OK
+  /rfc7807:
+    get:
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+        '404':
+          description: NotFound
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+        '406':
+          description: NotAcceptable
+          content:
+            application/problem+xml:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+  /merge-patch-json:
+    get:
+      responses:
+        200:
+          description: merge-patch+json-encoded response
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
+  /enum_in_path/{path_param}:
+    get:
+      parameters:
+        - name: path_param
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StringEnum'
+      responses:
+        '200':
+          description: Success
 
 components:
   securitySchemes:
@@ -282,3 +425,68 @@ components:
         $ref: '#/components/schemas/MyID'
     MyID:
       type: integer
+    ObjectUntypedProps:
+      properties:
+        required_untyped:
+          nullable: false
+        required_untyped_nullable:
+          nullable: true
+        not_required_untyped:
+          nullable: false
+        not_required_untyped_nullable:
+          nullable: false
+      required:
+      - required_untyped
+      - required_untyped_nullable
+      type: object
+    ObjectParam:
+      type: object
+      required:
+        - requiredParam
+      properties:
+        requiredParam:
+          type: boolean
+        optionalParam:
+          type: integer
+    ObjectHeader:
+      type: object
+      required:
+        - requiredObjectHeader
+      properties:
+        requiredObjectHeader:
+          $ref: '#/components/schemas/RequiredObjectHeader'
+        optionalObjectHeader:
+          $ref: '#/components/schemas/OptionalObjectHeader'
+    RequiredObjectHeader:
+      type: boolean
+    OptionalObjectHeader:
+      type: integer
+    NullableTest:
+      type: object
+      required:
+      - nullable
+      properties:
+        nullable:
+          type: string
+          nullable: true
+        nullableWithNullDefault:
+          type: string
+          nullable: true
+          default: null
+        nullableWithPresentDefault:
+          type: string
+          nullable: true
+          default: "default"
+        nullableWithNoDefault:
+          type: string
+          nullable: true
+        nullableArray:
+          type: array
+          items:
+            type: string
+          nullable: true
+    StringEnum:
+      type: string
+      enum:
+        - FOO
+        - BAR

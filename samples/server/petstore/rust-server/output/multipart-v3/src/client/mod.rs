@@ -1,14 +1,10 @@
+use futures;
+use futures::{Future, Stream, future, stream};
 use hyper;
 use hyper::client::HttpConnector;
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{Body, Uri, Response};
 use hyper_tls::HttpsConnector;
-
-use url::form_urlencoded;
-use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
-use futures;
-use futures::{Future, Stream};
-use futures::{future, stream};
 use serde_json;
 use std::borrow::Cow;
 #[allow(unused_imports)]
@@ -22,9 +18,11 @@ use std::str;
 use std::str::FromStr;
 use std::string::ToString;
 use swagger;
-use swagger::{ApiError, XSpanIdString, Has, AuthData};
 use swagger::client::Service;
-
+use swagger::connector;
+use swagger::{ApiError, XSpanIdString, Has, AuthData};
+use url::form_urlencoded;
+use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
@@ -32,13 +30,9 @@ use hyper_0_10::header::{Headers, ContentType};
 header! { (ContentId, "Content-ID") => [String] }
 use mime_multipart::{Node, Part, generate_boundary, write_multipart};
 
-use {Api,
-     MultipartRelatedRequestPostResponse,
-     MultipartRequestPostResponse
-     };
-
 use mimetypes;
 use models;
+use header;
 
 define_encode_set! {
     /// This encode set is used for object IDs
@@ -47,6 +41,11 @@ define_encode_set! {
     /// the vertical bar (|) is encoded.
     pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
 }
+
+use {Api,
+     MultipartRelatedRequestPostResponse,
+     MultipartRequestPostResponse
+     };
 
 /// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
 fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
@@ -70,7 +69,10 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<F>
 {
+    /// Inner service
     client_service: Arc<Box<dyn Service<ReqBody=Body, Future=F> + Send + Sync>>,
+
+    /// Base path of the API
     base_path: String,
 }
 
@@ -134,7 +136,7 @@ impl Client<hyper::client::ResponseFuture>
     pub fn try_new_http(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
-        let http_connector = swagger::http_connector();
+        let http_connector = connector::http_connector();
 
         Self::try_new_with_connector(base_path, Some("http"), http_connector)
     }
@@ -151,7 +153,7 @@ impl Client<hyper::client::ResponseFuture>
     where
         CA: AsRef<Path>,
     {
-        let https_connector = swagger::https_connector(ca_certificate);
+        let https_connector = connector::https_connector(ca_certificate);
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
@@ -174,14 +176,14 @@ impl Client<hyper::client::ResponseFuture>
         D: AsRef<Path>,
     {
         let https_connector =
-            swagger::https_mutual_connector(ca_certificate, client_key, client_certificate);
+            connector::https_mutual_connector(ca_certificate, client_key, client_certificate);
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 }
 
 impl<F> Client<F>
 {
-    /// Constructor for creating a `Client` by passing in a pre-made `swagger::client::Service`
+    /// Constructor for creating a `Client` by passing in a pre-made `swagger::Service`
     ///
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
     pub fn try_new_with_client_service(
@@ -195,12 +197,58 @@ impl<F> Client<F>
     }
 }
 
+/// Error type failing to create a Client
+#[derive(Debug)]
+pub enum ClientInitError {
+    /// Invalid URL Scheme
+    InvalidScheme,
+
+    /// Invalid URI
+    InvalidUri(hyper::http::uri::InvalidUri),
+
+    /// Missing Hostname
+    MissingHost,
+
+    /// SSL Connection Error
+    SslError(openssl::error::ErrorStack)
+}
+
+impl From<hyper::http::uri::InvalidUri> for ClientInitError {
+    fn from(err: hyper::http::uri::InvalidUri) -> ClientInitError {
+        ClientInitError::InvalidUri(err)
+    }
+}
+
+impl From<openssl::error::ErrorStack> for ClientInitError {
+    fn from(err: openssl::error::ErrorStack) -> ClientInitError {
+        ClientInitError::SslError(err)
+    }
+}
+
+impl fmt::Display for ClientInitError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s: &dyn fmt::Debug = self;
+        s.fmt(f)
+    }
+}
+
+impl error::Error for ClientInitError {
+    fn description(&self) -> &str {
+        "Failed to produce a hyper client."
+    }
+}
+
 impl<C, F> Api<C> for Client<F> where
     C: Has<XSpanIdString> ,
     F: Future<Item=Response<Body>, Error=hyper::Error> + Send + 'static
 {
-
-    fn multipart_related_request_post(&self, param_required_binary_field: swagger::ByteArray, param_object_field: Option<models::MultipartRequestObjectField>, param_optional_binary_field: Option<swagger::ByteArray>, context: &C) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send> {
+    fn multipart_related_request_post(
+        &self,
+        param_required_binary_field: swagger::ByteArray,
+        param_object_field: Option<models::MultipartRequestObjectField>,
+        param_optional_binary_field: Option<swagger::ByteArray>,
+        context: &C) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/multipart_related_request",
             self.base_path
@@ -268,6 +316,7 @@ impl<C, F> Api<C> for Client<F> where
             body_parts.push(part);
         }
 
+        {
             let part = Node::Part(Part {
                 headers: {
                     let mut h = Headers::new();
@@ -278,6 +327,7 @@ impl<C, F> Api<C> for Client<F> where
                 body: param_required_binary_field.0,
             });
             body_parts.push(part);
+        }
 
         // Write the body into a vec.
         let mut body: Vec<u8> = vec![];
@@ -296,13 +346,11 @@ impl<C, F> Api<C> for Client<F> where
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
         });
 
-
         let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -337,10 +385,16 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-    fn multipart_request_post(&self, param_string_field: String, param_binary_field: swagger::ByteArray, param_optional_string_field: Option<String>, param_object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send> {
+    fn multipart_request_post(
+        &self,
+        param_string_field: String,
+        param_binary_field: swagger::ByteArray,
+        param_optional_string_field: Option<String>,
+        param_object_field: Option<models::MultipartRequestObjectField>,
+        context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>
+    {
         let mut uri = format!(
             "{}/multipart_request",
             self.base_path
@@ -421,7 +475,6 @@ impl<C, F> Api<C> for Client<F> where
 
         let filename = None as Option<&str> ;
         multipart.add_stream("binary_field",  binary_field_cursor,  filename, Some(binary_field_mime));
-
         let mut fields = match multipart.prepare() {
             Ok(fields) => fields,
             Err(err) => return Box::new(future::err(ApiError(format!("Unable to build request: {}", err)))),
@@ -447,7 +500,6 @@ impl<C, F> Api<C> for Client<F> where
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
-
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -482,39 +534,6 @@ impl<C, F> Api<C> for Client<F> where
                 }
             }
         }))
-
     }
 
-}
-
-#[derive(Debug)]
-pub enum ClientInitError {
-    InvalidScheme,
-    InvalidUri(hyper::http::uri::InvalidUri),
-    MissingHost,
-    SslError(openssl::error::ErrorStack)
-}
-
-impl From<hyper::http::uri::InvalidUri> for ClientInitError {
-    fn from(err: hyper::http::uri::InvalidUri) -> ClientInitError {
-        ClientInitError::InvalidUri(err)
-    }
-}
-
-impl From<openssl::error::ErrorStack> for ClientInitError {
-    fn from(err: openssl::error::ErrorStack) -> ClientInitError {
-        ClientInitError::SslError(err)
-    }
-}
-
-impl fmt::Display for ClientInitError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        (self as &dyn fmt::Debug).fmt(f)
-    }
-}
-
-impl error::Error for ClientInitError {
-    fn description(&self) -> &str {
-        "Failed to produce a hyper client."
-    }
 }

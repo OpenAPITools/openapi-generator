@@ -5,29 +5,35 @@ use futures::{Future, future, Stream, stream};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
+use url::form_urlencoded;
+use mimetypes;
 use serde_json;
 use std::io;
 #[allow(unused_imports)]
 use swagger;
 use swagger::{ApiError, XSpanIdString, Has, RequestParser};
+pub use swagger::auth::Authorization;
 use swagger::auth::Scopes;
 use swagger::context::ContextualPayload;
-use url::form_urlencoded;
+use uuid;
 use multipart::server::Multipart;
 use multipart::server::save::SaveResult;
 use serde_xml_rs;
-use uuid;
 
-use mimetypes;
+#[allow(unused_imports)]
+use models;
+use header;
 
-pub use swagger::auth::Authorization;
+pub use crate::context;
 
 use {Api,
      TestSpecialTagsResponse,
+     Call123exampleResponse,
      FakeOuterBooleanSerializeResponse,
      FakeOuterCompositeSerializeResponse,
      FakeOuterNumberSerializeResponse,
      FakeOuterStringSerializeResponse,
+     FakeResponseWithNumericalDescriptionResponse,
      HyphenParamResponse,
      TestBodyWithQueryParamsResponse,
      TestClientModelResponse,
@@ -56,12 +62,7 @@ use {Api,
      LoginUserResponse,
      LogoutUserResponse,
      UpdateUserResponse
-     };
-
-#[allow(unused_imports)]
-use models;
-
-pub mod context;
+};
 
 mod paths {
     extern crate regex;
@@ -74,10 +75,12 @@ mod paths {
             r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$",
             r"^/v2/fake/inline-additionalProperties$",
             r"^/v2/fake/jsonFormData$",
+            r"^/v2/fake/operation-with-numeric-id$",
             r"^/v2/fake/outer/boolean$",
             r"^/v2/fake/outer/composite$",
             r"^/v2/fake/outer/number$",
             r"^/v2/fake/outer/string$",
+            r"^/v2/fake/response-with-numerical-description$",
             r"^/v2/fake_classname_test$",
             r"^/v2/pet$",
             r"^/v2/pet/findByStatus$",
@@ -107,40 +110,42 @@ mod paths {
     }
     pub static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 4;
     pub static ID_FAKE_JSONFORMDATA: usize = 5;
-    pub static ID_FAKE_OUTER_BOOLEAN: usize = 6;
-    pub static ID_FAKE_OUTER_COMPOSITE: usize = 7;
-    pub static ID_FAKE_OUTER_NUMBER: usize = 8;
-    pub static ID_FAKE_OUTER_STRING: usize = 9;
-    pub static ID_FAKE_CLASSNAME_TEST: usize = 10;
-    pub static ID_PET: usize = 11;
-    pub static ID_PET_FINDBYSTATUS: usize = 12;
-    pub static ID_PET_FINDBYTAGS: usize = 13;
-    pub static ID_PET_PETID: usize = 14;
+    pub static ID_FAKE_OPERATION_WITH_NUMERIC_ID: usize = 6;
+    pub static ID_FAKE_OUTER_BOOLEAN: usize = 7;
+    pub static ID_FAKE_OUTER_COMPOSITE: usize = 8;
+    pub static ID_FAKE_OUTER_NUMBER: usize = 9;
+    pub static ID_FAKE_OUTER_STRING: usize = 10;
+    pub static ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION: usize = 11;
+    pub static ID_FAKE_CLASSNAME_TEST: usize = 12;
+    pub static ID_PET: usize = 13;
+    pub static ID_PET_FINDBYSTATUS: usize = 14;
+    pub static ID_PET_FINDBYTAGS: usize = 15;
+    pub static ID_PET_PETID: usize = 16;
     lazy_static! {
         pub static ref REGEX_PET_PETID: regex::Regex =
             regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)$")
                 .expect("Unable to create regex for PET_PETID");
     }
-    pub static ID_PET_PETID_UPLOADIMAGE: usize = 15;
+    pub static ID_PET_PETID_UPLOADIMAGE: usize = 17;
     lazy_static! {
         pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex =
             regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$")
                 .expect("Unable to create regex for PET_PETID_UPLOADIMAGE");
     }
-    pub static ID_STORE_INVENTORY: usize = 16;
-    pub static ID_STORE_ORDER: usize = 17;
-    pub static ID_STORE_ORDER_ORDER_ID: usize = 18;
+    pub static ID_STORE_INVENTORY: usize = 18;
+    pub static ID_STORE_ORDER: usize = 19;
+    pub static ID_STORE_ORDER_ORDER_ID: usize = 20;
     lazy_static! {
         pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex =
             regex::Regex::new(r"^/v2/store/order/(?P<order_id>[^/?#]*)$")
                 .expect("Unable to create regex for STORE_ORDER_ORDER_ID");
     }
-    pub static ID_USER: usize = 19;
-    pub static ID_USER_CREATEWITHARRAY: usize = 20;
-    pub static ID_USER_CREATEWITHLIST: usize = 21;
-    pub static ID_USER_LOGIN: usize = 22;
-    pub static ID_USER_LOGOUT: usize = 23;
-    pub static ID_USER_USERNAME: usize = 24;
+    pub static ID_USER: usize = 21;
+    pub static ID_USER_CREATEWITHARRAY: usize = 22;
+    pub static ID_USER_CREATEWITHLIST: usize = 23;
+    pub static ID_USER_LOGIN: usize = 24;
+    pub static ID_USER_LOGOUT: usize = 25;
+    pub static ID_USER_USERNAME: usize = 26;
     lazy_static! {
         pub static ref REGEX_USER_USERNAME: regex::Regex =
             regex::Regex::new(r"^/v2/user/(?P<username>[^/?#]*)$")
@@ -220,8 +225,6 @@ where
         let mut context = body.context;
         let body = body.inner;
 
-        // This match statement is duplicated below in `parse_operation_id()`.
-        // Please update both places if changing how this code is autogenerated.
         match &method {
 
             // TestSpecialTags - PATCH /another-fake/dummy
@@ -256,6 +259,7 @@ where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.test_special_tags(
                                             param_body,
@@ -267,7 +271,6 @@ where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -278,18 +281,13 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 TestSpecialTagsResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -315,6 +313,42 @@ where
                 ) as Self::Future
             },
 
+            // Call123example - GET /fake/operation-with-numeric-id
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => {
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.call123example(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Call123exampleResponse::Success
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
             &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
@@ -337,6 +371,7 @@ where
                                 } else {
                                     None
                                 };
+
                                 Box::new(
                                     api_impl.fake_outer_boolean_serialize(
                                             param_body,
@@ -348,7 +383,6 @@ where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -359,18 +393,13 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 FakeOuterBooleanSerializeResponse::OutputBoolean
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN)
                                                             .expect("Unable to create Content-Type header for FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -418,6 +447,7 @@ where
                                 } else {
                                     None
                                 };
+
                                 Box::new(
                                     api_impl.fake_outer_composite_serialize(
                                             param_body,
@@ -429,7 +459,6 @@ where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -440,18 +469,13 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 FakeOuterCompositeSerializeResponse::OutputComposite
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_COMPOSITE_SERIALIZE_OUTPUT_COMPOSITE)
                                                             .expect("Unable to create Content-Type header for FAKE_OUTER_COMPOSITE_SERIALIZE_OUTPUT_COMPOSITE"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -499,6 +523,7 @@ where
                                 } else {
                                     None
                                 };
+
                                 Box::new(
                                     api_impl.fake_outer_number_serialize(
                                             param_body,
@@ -510,7 +535,6 @@ where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -521,18 +545,13 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 FakeOuterNumberSerializeResponse::OutputNumber
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_NUMBER_SERIALIZE_OUTPUT_NUMBER)
                                                             .expect("Unable to create Content-Type header for FAKE_OUTER_NUMBER_SERIALIZE_OUTPUT_NUMBER"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -580,6 +599,7 @@ where
                                 } else {
                                     None
                                 };
+
                                 Box::new(
                                     api_impl.fake_outer_string_serialize(
                                             param_body,
@@ -591,7 +611,6 @@ where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -602,18 +621,13 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 FakeOuterStringSerializeResponse::OutputString
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING)
                                                             .expect("Unable to create Content-Type header for FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -639,6 +653,42 @@ where
                 ) as Self::Future
             },
 
+            // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => {
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.fake_response_with_numerical_description(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                FakeResponseWithNumericalDescriptionResponse::Status200
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
             // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
             &hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
                 // Path parameters
@@ -649,7 +699,8 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE FAKE_HYPHENPARAM_HYPHEN_PARAM in set but failed match against \"{}\"", path, paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM.as_str())
                     );
-                let param_hyphen_param = match percent_encoding::percent_decode(path_params["hyphen_param"].as_bytes()).decode_utf8() {
+
+                let param_hyphen_param = match percent_encoding::percent_decode(path_params["hyphen-param"].as_bytes()).decode_utf8() {
                     Ok(param_hyphen_param) => match param_hyphen_param.parse::<String>() {
                         Ok(param_hyphen_param) => param_hyphen_param,
                         Err(e) => return Box::new(future::ok(Response::builder()
@@ -662,6 +713,7 @@ where
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["hyphen-param"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 Box::new({
                         {{
                                 Box::new(
@@ -675,15 +727,11 @@ where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 HyphenParamResponse::Success
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -703,7 +751,6 @@ where
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
             &hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
-
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_query = query_params.iter().filter(|e| e.0 == "query").map(|e| e.1.to_owned())
@@ -721,6 +768,7 @@ where
                                         .body(Body::from("Missing required query parameter query"))
                                         .expect("Unable to create Bad Request response for missing qeury parameter query"))),
                 };
+
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -751,6 +799,7 @@ where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.test_body_with_query_params(
                                             param_query,
@@ -763,7 +812,6 @@ where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -774,11 +822,8 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 TestBodyWithQueryParamsResponse::Success
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -834,6 +879,7 @@ where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.test_client_model(
                                             param_body,
@@ -845,7 +891,6 @@ where
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -856,18 +901,13 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 TestClientModelResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -903,66 +943,25 @@ where
                                                 .body(Body::from("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response"))),
                     };
-
                 }
+
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_integer =
-Some(56);
-
-
-                                let param_int32 =
-Some(56);
-
-
-                                let param_int64 =
-Some(789);
-
-
-                                let param_number =
-8.14;
-
-
-                                let param_float =
-Some(3.4);
-
-
-                                let param_double =
-1.2;
-
-
-                                let param_string =
-Some("string_example".to_string());
-
-
-                                let param_pattern_without_delimiter =
-"pattern_without_delimiter_example".to_string();
-
-
-                                let param_byte =
-swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"));
-
-
-                                let param_binary =
-Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")));
-
-
-                                let param_date =
-None;
-
-
-                                let param_date_time =
-None;
-
-
-                                let param_password =
-Some("password_example".to_string());
-
-
-                                let param_callback =
-Some("callback_example".to_string());
-
+                                let param_integer = Some(56);
+                                let param_int32 = Some(56);
+                                let param_int64 = Some(789);
+                                let param_number = 8.14;
+                                let param_float = Some(3.4);
+                                let param_double = 1.2;
+                                let param_string = Some("string_example".to_string());
+                                let param_pattern_without_delimiter = "pattern_without_delimiter_example".to_string();
+                                let param_byte = swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"));
+                                let param_binary = Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")));
+                                let param_date = None;
+                                let param_date_time = None;
+                                let param_password = Some("password_example".to_string());
+                                let param_callback = Some("callback_example".to_string());
 
                                 Box::new(
                                     api_impl.test_endpoint_parameters(
@@ -988,22 +987,15 @@ Some("callback_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 TestEndpointParametersResponse::InvalidUsernameSupplied
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 TestEndpointParametersResponse::UserNotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1023,17 +1015,16 @@ Some("callback_example".to_string());
 
             // TestEnumParameters - GET /fake
             &hyper::Method::GET if path.matched(paths::ID_FAKE) => {
-
                 // Header parameters
                 let param_enum_header_string_array = headers.get(HeaderName::from_static("enum_header_string_array"));
 
                 let param_enum_header_string_array = param_enum_header_string_array.map(|p| {
-                        swagger::IntoHeaderValue::<Vec<String>>::from((*p).clone()).0
+                        header::IntoHeaderValue::<Vec<String>>::from((*p).clone()).0
                 });
                 let param_enum_header_string = headers.get(HeaderName::from_static("enum_header_string"));
 
                 let param_enum_header_string = param_enum_header_string.map(|p| {
-                        swagger::IntoHeaderValue::<String>::from((*p).clone()).0
+                        header::IntoHeaderValue::<String>::from((*p).clone()).0
                 });
 
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -1048,22 +1039,18 @@ Some("callback_example".to_string());
                 };
                 let param_enum_query_string = query_params.iter().filter(|e| e.0 == "enum_query_string").map(|e| e.1.to_owned())
                     .nth(0);
-
                 let param_enum_query_string = param_enum_query_string.and_then(|param_enum_query_string| param_enum_query_string.parse::<>().ok());
                 let param_enum_query_integer = query_params.iter().filter(|e| e.0 == "enum_query_integer").map(|e| e.1.to_owned())
                     .nth(0);
-
                 let param_enum_query_integer = param_enum_query_integer.and_then(|param_enum_query_integer| param_enum_query_integer.parse::<>().ok());
                 let param_enum_query_double = query_params.iter().filter(|e| e.0 == "enum_query_double").map(|e| e.1.to_owned())
                     .nth(0);
-
                 let param_enum_query_double = param_enum_query_double.and_then(|param_enum_query_double| param_enum_query_double.parse::<>().ok());
+
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_enum_form_string =
-Some("enum_form_string_example".to_string());
-
+                                let param_enum_form_string = Some("enum_form_string_example".to_string());
 
                                 Box::new(
                                     api_impl.test_enum_parameters(
@@ -1082,22 +1069,15 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 TestEnumParametersResponse::InvalidRequest
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 TestEnumParametersResponse::NotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1147,6 +1127,7 @@ Some("enum_form_string_example".to_string());
                                                         .body(Body::from("Missing required body parameter param"))
                                                         .expect("Unable to create Bad Request response for missing body parameter param"))),
                                 };
+
                                 Box::new(
                                     api_impl.test_inline_additional_properties(
                                             param_param,
@@ -1158,7 +1139,6 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -1169,11 +1149,8 @@ Some("enum_form_string_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 TestInlineAdditionalPropertiesResponse::SuccessfulOperation
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1202,13 +1179,8 @@ Some("enum_form_string_example".to_string());
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_param =
-"param_example".to_string();
-
-
-                                let param_param2 =
-"param2_example".to_string();
-
+                                let param_param = "param_example".to_string();
+                                let param_param2 = "param2_example".to_string();
 
                                 Box::new(
                                     api_impl.test_json_form_data(
@@ -1222,15 +1194,11 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 TestJsonFormDataResponse::SuccessfulOperation
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1258,8 +1226,8 @@ Some("enum_form_string_example".to_string());
                                                 .body(Body::from("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response"))),
                     };
-
                 }
+
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1290,6 +1258,7 @@ Some("enum_form_string_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.test_classname(
                                             param_body,
@@ -1301,7 +1270,6 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -1312,18 +1280,13 @@ Some("enum_form_string_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 TestClassnameResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::TEST_CLASSNAME_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for TEST_CLASSNAME_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -1380,6 +1343,7 @@ Some("enum_form_string_example".to_string());
                         }
                     }
                 }
+
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1410,6 +1374,7 @@ Some("enum_form_string_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.add_pet(
                                             param_body,
@@ -1421,7 +1386,6 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -1432,11 +1396,8 @@ Some("enum_form_string_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 AddPetResponse::InvalidInput
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1491,6 +1452,7 @@ Some("enum_form_string_example".to_string());
                         }
                     }
                 }
+
                 // Path parameters
                 let path: &str = &uri.path().to_string();
                 let path_params =
@@ -1499,7 +1461,8 @@ Some("enum_form_string_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
+
+                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::builder()
@@ -1517,8 +1480,9 @@ Some("enum_form_string_example".to_string());
                 let param_api_key = headers.get(HeaderName::from_static("api_key"));
 
                 let param_api_key = param_api_key.map(|p| {
-                        swagger::IntoHeaderValue::<String>::from((*p).clone()).0
+                        header::IntoHeaderValue::<String>::from((*p).clone()).0
                 });
+
                 Box::new({
                         {{
                                 Box::new(
@@ -1533,15 +1497,11 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 DeletePetResponse::InvalidPetValue
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1596,6 +1556,7 @@ Some("enum_form_string_example".to_string());
                 let param_status = query_params.iter().filter(|e| e.0 == "status").map(|e| e.1.to_owned())
                     .filter_map(|param_status| param_status.parse::<String>().ok())
                     .collect::<Vec<_>>();
+
                 Box::new({
                         {{
                                 Box::new(
@@ -1609,31 +1570,22 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 FindPetsByStatusResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
                                                 FindPetsByStatusResponse::InvalidStatusValue
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1688,6 +1640,7 @@ Some("enum_form_string_example".to_string());
                 let param_tags = query_params.iter().filter(|e| e.0 == "tags").map(|e| e.1.to_owned())
                     .filter_map(|param_tags| param_tags.parse::<String>().ok())
                     .collect::<Vec<_>>();
+
                 Box::new({
                         {{
                                 Box::new(
@@ -1701,31 +1654,22 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 FindPetsByTagsResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
                                                 FindPetsByTagsResponse::InvalidTagValue
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1753,8 +1697,8 @@ Some("enum_form_string_example".to_string());
                                                 .body(Body::from("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response"))),
                     };
-
                 }
+
                 // Path parameters
                 let path: &str = &uri.path().to_string();
                 let path_params =
@@ -1763,7 +1707,8 @@ Some("enum_form_string_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
+
+                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::builder()
@@ -1776,6 +1721,7 @@ Some("enum_form_string_example".to_string());
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 Box::new({
                         {{
                                 Box::new(
@@ -1789,38 +1735,26 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 GetPetByIdResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::GET_PET_BY_ID_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for GET_PET_BY_ID_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
                                                 GetPetByIdResponse::InvalidIDSupplied
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 GetPetByIdResponse::PetNotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1869,6 +1803,7 @@ Some("enum_form_string_example".to_string());
                         }
                     }
                 }
+
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1899,6 +1834,7 @@ Some("enum_form_string_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.update_pet(
                                             param_body,
@@ -1910,7 +1846,6 @@ Some("enum_form_string_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -1921,25 +1856,16 @@ Some("enum_form_string_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 UpdatePetResponse::InvalidIDSupplied
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 UpdatePetResponse::PetNotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                                 UpdatePetResponse::ValidationException
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -1994,6 +1920,7 @@ Some("enum_form_string_example".to_string());
                         }
                     }
                 }
+
                 // Path parameters
                 let path: &str = &uri.path().to_string();
                 let path_params =
@@ -2002,7 +1929,8 @@ Some("enum_form_string_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
+
+                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::builder()
@@ -2015,16 +1943,12 @@ Some("enum_form_string_example".to_string());
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_name =
-Some("name_example".to_string());
-
-
-                                let param_status =
-Some("status_example".to_string());
-
+                                let param_name = Some("name_example".to_string());
+                                let param_status = Some("status_example".to_string());
 
                                 Box::new(
                                     api_impl.update_pet_with_form(
@@ -2039,15 +1963,11 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 UpdatePetWithFormResponse::InvalidInput
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2096,6 +2016,7 @@ Some("status_example".to_string());
                         }
                     }
                 }
+
                 let boundary = match swagger::multipart::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
                     None => return Box::new(future::ok(Response::builder()
@@ -2103,6 +2024,7 @@ Some("status_example".to_string());
                                 .body(Body::from("Couldn't find valid multipart body".to_string()))
                                 .expect("Unable to create Bad Request response for incorrect boundary"))),
                 };
+
                 // Path parameters
                 let path: &str = &uri.path().to_string();
                 let path_params =
@@ -2111,7 +2033,8 @@ Some("status_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID_UPLOADIMAGE in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID_UPLOADIMAGE.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
+
+                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::builder()
@@ -2124,6 +2047,7 @@ Some("status_example".to_string());
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2158,8 +2082,8 @@ Some("status_example".to_string());
                                                 return Box::new(future::ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(Body::from(format!("additional_metadata data does not match API definition: {}", e)))
-                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
+                                                    .body(Body::from(format!("additional_metadata data does not match API definition : {}", e)))
+                                                    .expect("Unable to create Bad Request due to missing required form parameter additional_metadata")))
                                             }
                                         };
                                         additional_metadata_model
@@ -2182,8 +2106,8 @@ Some("status_example".to_string());
                                                 return Box::new(future::ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(Body::from(format!("file data does not match API definition: {}", e)))
-                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
+                                                    .body(Body::from(format!("file data does not match API definition : {}", e)))
+                                                    .expect("Unable to create Bad Request due to missing required form parameter file")))
                                             }
                                         };
                                         file_model
@@ -2206,22 +2130,16 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 UploadFileResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::UPLOAD_FILE_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for UPLOAD_FILE_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -2258,6 +2176,7 @@ Some("status_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE STORE_ORDER_ORDER_ID in set but failed match against \"{}\"", path, paths::REGEX_STORE_ORDER_ORDER_ID.as_str())
                     );
+
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
                     Ok(param_order_id) => match param_order_id.parse::<String>() {
                         Ok(param_order_id) => param_order_id,
@@ -2271,6 +2190,7 @@ Some("status_example".to_string());
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 Box::new({
                         {{
                                 Box::new(
@@ -2284,22 +2204,15 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 DeleteOrderResponse::InvalidIDSupplied
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 DeleteOrderResponse::OrderNotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2327,8 +2240,8 @@ Some("status_example".to_string());
                                                 .body(Body::from("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response"))),
                     };
-
                 }
+
                 Box::new({
                         {{
                                 Box::new(
@@ -2341,22 +2254,16 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 GetInventoryResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::GET_INVENTORY_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for GET_INVENTORY_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -2386,6 +2293,7 @@ Some("status_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE STORE_ORDER_ORDER_ID in set but failed match against \"{}\"", path, paths::REGEX_STORE_ORDER_ORDER_ID.as_str())
                     );
+
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
                     Ok(param_order_id) => match param_order_id.parse::<i64>() {
                         Ok(param_order_id) => param_order_id,
@@ -2399,6 +2307,7 @@ Some("status_example".to_string());
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 Box::new({
                         {{
                                 Box::new(
@@ -2412,38 +2321,26 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 GetOrderByIdResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::GET_ORDER_BY_ID_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for GET_ORDER_BY_ID_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
                                                 GetOrderByIdResponse::InvalidIDSupplied
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 GetOrderByIdResponse::OrderNotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2493,6 +2390,7 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.place_order(
                                             param_body,
@@ -2504,7 +2402,6 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -2515,27 +2412,19 @@ Some("status_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 PlaceOrderResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::PLACE_ORDER_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for PLACE_ORDER_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
                                                 PlaceOrderResponse::InvalidOrder
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2591,6 +2480,7 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.create_user(
                                             param_body,
@@ -2602,7 +2492,6 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -2613,11 +2502,8 @@ Some("status_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 CreateUserResponse::SuccessfulOperation
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2673,6 +2559,7 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.create_users_with_array_input(
                                             param_body.as_ref(),
@@ -2684,7 +2571,6 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -2695,11 +2581,8 @@ Some("status_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 CreateUsersWithArrayInputResponse::SuccessfulOperation
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2755,6 +2638,7 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.create_users_with_list_input(
                                             param_body.as_ref(),
@@ -2766,7 +2650,6 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -2777,11 +2660,8 @@ Some("status_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 CreateUsersWithListInputResponse::SuccessfulOperation
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2815,6 +2695,7 @@ Some("status_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
                     );
+
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
@@ -2828,6 +2709,7 @@ Some("status_example".to_string());
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 Box::new({
                         {{
                                 Box::new(
@@ -2841,22 +2723,15 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 DeleteUserResponse::InvalidUsernameSupplied
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 DeleteUserResponse::UserNotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2884,6 +2759,7 @@ Some("status_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
                     );
+
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
@@ -2897,6 +2773,7 @@ Some("status_example".to_string());
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 Box::new({
                         {{
                                 Box::new(
@@ -2910,38 +2787,26 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 GetUserByNameResponse::SuccessfulOperation
-
                                                     (body)
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::GET_USER_BY_NAME_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for GET_USER_BY_NAME_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
                                                 GetUserByNameResponse::InvalidUsernameSupplied
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 GetUserByNameResponse::UserNotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -2961,7 +2826,6 @@ Some("status_example".to_string());
 
             // LoginUser - GET /user/login
             &hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => {
-
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_username = query_params.iter().filter(|e| e.0 == "username").map(|e| e.1.to_owned())
@@ -2994,6 +2858,7 @@ Some("status_example".to_string());
                                         .body(Body::from("Missing required query parameter password"))
                                         .expect("Unable to create Bad Request response for missing qeury parameter password"))),
                 };
+
                 Box::new({
                         {{
                                 Box::new(
@@ -3008,44 +2873,34 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 LoginUserResponse::SuccessfulOperation
-
                                                     {
                                                         body,
                                                         x_rate_limit, 
-
                                                         x_expires_after
                                                     }
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("x-rate-limit"),
-                                                        swagger::IntoHeaderValue(x_rate_limit).into()
+                                                        header::IntoHeaderValue(x_rate_limit).into()
                                                     );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("x-expires-after"),
-                                                        swagger::IntoHeaderValue(x_expires_after).into()
+                                                        header::IntoHeaderValue(x_expires_after).into()
                                                     );
-
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str(mimetypes::responses::LOGIN_USER_SUCCESSFUL_OPERATION)
                                                             .expect("Unable to create Content-Type header for LOGIN_USER_SUCCESSFUL_OPERATION"));
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
                                                 LoginUserResponse::InvalidUsername
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -3077,15 +2932,11 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 LogoutUserResponse::SuccessfulOperation
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -3113,6 +2964,7 @@ Some("status_example".to_string());
                     .unwrap_or_else(||
                         panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
                     );
+
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
@@ -3126,6 +2978,7 @@ Some("status_example".to_string());
                                         .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
                                         .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -3156,6 +3009,7 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
+
                                 Box::new(
                                     api_impl.update_user(
                                             param_username,
@@ -3168,7 +3022,6 @@ Some("status_example".to_string());
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -3179,18 +3032,12 @@ Some("status_example".to_string());
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 UpdateUserResponse::InvalidUserSupplied
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
                                                 },
                                                 UpdateUserResponse::UserNotFound
-
-
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
                                                 },
                                             },
                                             Err(_) => {
@@ -3239,103 +3086,74 @@ impl<T> RequestParser<T> for ApiRequestParser {
     fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
-
             // TestSpecialTags - PATCH /another-fake/dummy
             &hyper::Method::PATCH if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => Ok("TestSpecialTags"),
-
+            // Call123example - GET /fake/operation-with-numeric-id
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => Ok("Call123example"),
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
             &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => Ok("FakeOuterBooleanSerialize"),
-
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
             &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => Ok("FakeOuterCompositeSerialize"),
-
             // FakeOuterNumberSerialize - POST /fake/outer/number
             &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_NUMBER) => Ok("FakeOuterNumberSerialize"),
-
             // FakeOuterStringSerialize - POST /fake/outer/string
             &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
-
+            // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => Ok("FakeResponseWithNumericalDescription"),
             // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
             &hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Ok("HyphenParam"),
-
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
             &hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Ok("TestBodyWithQueryParams"),
-
             // TestClientModel - PATCH /fake
             &hyper::Method::PATCH if path.matched(paths::ID_FAKE) => Ok("TestClientModel"),
-
             // TestEndpointParameters - POST /fake
             &hyper::Method::POST if path.matched(paths::ID_FAKE) => Ok("TestEndpointParameters"),
-
             // TestEnumParameters - GET /fake
             &hyper::Method::GET if path.matched(paths::ID_FAKE) => Ok("TestEnumParameters"),
-
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
             &hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => Ok("TestInlineAdditionalProperties"),
-
             // TestJsonFormData - GET /fake/jsonFormData
             &hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => Ok("TestJsonFormData"),
-
             // TestClassname - PATCH /fake_classname_test
             &hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => Ok("TestClassname"),
-
             // AddPet - POST /pet
             &hyper::Method::POST if path.matched(paths::ID_PET) => Ok("AddPet"),
-
             // DeletePet - DELETE /pet/{petId}
             &hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => Ok("DeletePet"),
-
             // FindPetsByStatus - GET /pet/findByStatus
             &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => Ok("FindPetsByStatus"),
-
             // FindPetsByTags - GET /pet/findByTags
             &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => Ok("FindPetsByTags"),
-
             // GetPetById - GET /pet/{petId}
             &hyper::Method::GET if path.matched(paths::ID_PET_PETID) => Ok("GetPetById"),
-
             // UpdatePet - PUT /pet
             &hyper::Method::PUT if path.matched(paths::ID_PET) => Ok("UpdatePet"),
-
             // UpdatePetWithForm - POST /pet/{petId}
             &hyper::Method::POST if path.matched(paths::ID_PET_PETID) => Ok("UpdatePetWithForm"),
-
             // UploadFile - POST /pet/{petId}/uploadImage
             &hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => Ok("UploadFile"),
-
             // DeleteOrder - DELETE /store/order/{order_id}
             &hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("DeleteOrder"),
-
             // GetInventory - GET /store/inventory
             &hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => Ok("GetInventory"),
-
             // GetOrderById - GET /store/order/{order_id}
             &hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("GetOrderById"),
-
             // PlaceOrder - POST /store/order
             &hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => Ok("PlaceOrder"),
-
             // CreateUser - POST /user
             &hyper::Method::POST if path.matched(paths::ID_USER) => Ok("CreateUser"),
-
             // CreateUsersWithArrayInput - POST /user/createWithArray
             &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => Ok("CreateUsersWithArrayInput"),
-
             // CreateUsersWithListInput - POST /user/createWithList
             &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => Ok("CreateUsersWithListInput"),
-
             // DeleteUser - DELETE /user/{username}
             &hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => Ok("DeleteUser"),
-
             // GetUserByName - GET /user/{username}
             &hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => Ok("GetUserByName"),
-
             // LoginUser - GET /user/login
             &hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => Ok("LoginUser"),
-
             // LogoutUser - GET /user/logout
             &hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => Ok("LogoutUser"),
-
             // UpdateUser - PUT /user/{username}
             &hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => Ok("UpdateUser"),
             _ => Err(()),

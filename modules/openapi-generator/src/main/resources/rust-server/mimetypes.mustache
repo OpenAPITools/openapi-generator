@@ -1,22 +1,39 @@
 /// mime types for requests and responses
 
 pub mod responses {
-
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#responses}}{{#produces}}{{#-first}}{{#dataType}}
-    /// Create &str objects for the response content types for {{{operationId}}}
-    pub static {{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}: &str = "{{{mimeType}}}";{{/vendorExtensions}}
-{{/dataType}}{{/-first}}{{/produces}}{{/responses}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{>mimetypes-response}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+{{>mimetypes-response}}
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 }
 
 pub mod requests {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{^vendorExtensions.consumesMultipart}}{{#bodyParam}}
-    /// Create &str objects for the request content types for {{{operationId}}}
-    pub static {{{vendorExtensions.uppercase_operation_id}}}: &str = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
-{{/bodyParam}}{{^bodyParam}}{{#vendorExtensions}}{{#formParams}}{{#-first}}
-    /// Create &str objects for the request content types for {{{operationId}}}
-    pub static {{{uppercase_operation_id}}}: &str = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/x-www-form-urlencoded{{/consumes}}";
-{{/-first}}{{/formParams}}{{#relatedParams}}{{#-first}}
-    /// Create &str objects for the request content types for {{{operationId}}}
-    pub static {{{uppercase_operation_id}}}: &str = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}multipart/related{{/consumes}}";
-{{/-first}}{{/relatedParams}}{{/vendorExtensions}}{{/bodyParam}}{{/vendorExtensions.consumesMultipart}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{>mimetypes-request}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+{{>mimetypes-request}}
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 }

@@ -4,7 +4,12 @@
 
 #[macro_use]
 extern crate serde_derive;
-#[cfg(any(feature = "server"))]
+{{#hasCallbacks}}
+#[cfg(any(feature = "client", feature = "server"))]
+{{/hasCallbacks}}
+{{^hasCallbacks}}
+#[cfg(feature = "server")]
+{{/hasCallbacks}}
 #[macro_use]
 extern crate lazy_static;
 #[cfg(any(feature = "client", feature = "server"))]
@@ -36,7 +41,7 @@ extern crate swagger;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;
-#[cfg(any(feature = "client"))]
+#[cfg(feature = "client")]
 extern crate hyper_tls;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate openssl;
@@ -50,7 +55,12 @@ extern crate mime_multipart;
 {{/apiUsesMultipartRelated}}
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate native_tls;
+{{#hasCallbacks}}
+#[cfg(any(feature = "client", feature = "server"))]
+{{/hasCallbacks}}
+{{^hasCallbacks}}
 #[cfg(feature = "server")]
+{{/hasCallbacks}}
 extern crate percent_encoding;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate serde_json;
@@ -88,58 +98,61 @@ pub use swagger::{ApiError, ContextWrapper};
 pub use futures::Future;
 
 pub const BASE_PATH: &'static str = "{{{basePathWithoutHost}}}";
+{{#appVersion}}
 pub const API_VERSION: &'static str = "{{{appVersion}}}";
+{{/appVersion}}
 
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-#[derive(Debug, PartialEq)]
-pub enum {{{operationId}}}Response {
-{{#responses}}
-  {{#message}}
-    /// {{{message}}}{{/message}}
-    {{#vendorExtensions}}
-    {{{x-responseId}}}
-    {{/vendorExtensions}}
-    {{^dataType}}
-      {{#hasHeaders}}
-    {
-      {{/hasHeaders}}
-    {{/dataType}}
-    {{#dataType}}
-      {{^hasHeaders}}
-    ({{{dataType}}})
-      {{/hasHeaders}}
-      {{#hasHeaders}}
-    {
-        body: {{{dataType}}},
-      {{/hasHeaders}}
-    {{/dataType}}
-    {{#headers}}
-        {{{name}}}: {{{datatype}}},
-      {{#-last}}
-    }
-      {{/-last}}
-    {{/headers}}
-    {{^-last}}
-    ,
-    {{/-last}}
-{{/responses}}
-}
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{>response}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 /// API
 pub trait Api<C> {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-{{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>;
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{#summary}}
+    /// {{{summary}}}
+{{/summary}}
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+        &self,
+{{#allParams}}
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+{{/allParams}}
+        context: &C) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>;
+
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 }
 
 /// API without a `Context`
 pub trait ApiNoContext {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-{{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>;
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{#summary}}
+    /// {{{summary}}}
+{{/summary}}
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+        &self,
+{{#allParams}}
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+{{/allParams}}
+        ) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>;
+
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 }
 
 /// Trait to extend an API to make it easy to bind it to a context.
@@ -155,20 +168,176 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 }
 
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-{{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send> {
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{#summary}}
+    /// {{{summary}}}
+{{/summary}}
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+        &self,
+{{#allParams}}
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+{{/allParams}}
+        ) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>
+    {
         self.api().{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}{{{paramName}}}, {{/allParams}}&self.context())
     }
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 }
+{{#hasCallbacks}}
+
+{{#apiInfo}}
+    {{#apis}}
+      {{#operations}}
+        {{#operation}}
+          {{#callbacks}}
+            {{#urls}}
+              {{#requests}}
+{{>response}}
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+
+/// Callback API
+pub trait CallbackApi<C> {
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+{{#summary}}
+    /// {{{summary}}}
+{{/summary}}
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+        &self,
+{{#vendorExtensions}}
+  {{#callbackParams}}
+        callback_{{.}}: String,
+  {{/callbackParams}}
+{{/vendorExtensions}}
+{{#allParams}}
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+{{/allParams}}
+        context: &C) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>;
+
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+}
+
+/// Callback API without a `Context`
+pub trait CallbackApiNoContext {
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+{{#summary}}
+    /// {{{summary}}}
+{{/summary}}
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+        &self,
+{{#vendorExtensions}}
+  {{#callbackParams}}
+        callback_{{.}}: String,
+  {{/callbackParams}}
+{{/vendorExtensions}}
+{{#allParams}}
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+{{/allParams}}
+        ) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>;
+
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+}
+
+/// Trait to extend an API to make it easy to bind it to a context.
+pub trait CallbackContextWrapperExt<'a, C> where Self: Sized {
+    /// Binds this API to a context.
+    fn with_context(self: &'a Self, context: C) -> ContextWrapper<'a, Self, C>;
+}
+
+impl<'a, T: CallbackApi<C> + Sized, C> CallbackContextWrapperExt<'a, C> for T {
+    fn with_context(self: &'a T, context: C) -> ContextWrapper<'a, T, C> {
+         ContextWrapper::<T, C>::new(self, context)
+    }
+}
+
+impl<'a, T: CallbackApi<C>, C> CallbackApiNoContext for ContextWrapper<'a, T, C> {
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+              {{#summary}}
+    /// {{{summary}}}
+              {{/summary}}
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+        &self,
+{{#vendorExtensions}}
+  {{#callbackParams}}
+        callback_{{.}}: String,
+  {{/callbackParams}}
+{{/vendorExtensions}}
+{{#allParams}}
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+{{/allParams}}
+        ) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>
+    {
+        self.api().{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+{{#vendorExtensions}}
+  {{#callbackParams}}
+            callback_{{.}},
+  {{/callbackParams}}
+{{/vendorExtensions}}
+{{#allParams}}
+            {{{paramName}}},
+{{/allParams}}
+            &self.context())
+    }
+
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+}
+
+{{/hasCallbacks}}
 
 #[cfg(feature = "client")]
 pub mod client;
 
 // Re-export Client as a top-level name
 #[cfg(feature = "client")]
-pub use self::client::Client;
+pub use client::Client;
 
 #[cfg(feature = "server")]
 pub mod server;
@@ -177,4 +346,13 @@ pub mod server;
 #[cfg(feature = "server")]
 pub use self::server::Service;
 
+{{#hasCallbacks}}
+#[cfg(any(feature = "client", feature = "server"))]
+{{/hasCallbacks}}
+{{^hasCallbacks}}
+#[cfg(feature = "server")]
+{{/hasCallbacks}}
+pub mod context;
+
 pub mod models;
+pub mod header;
