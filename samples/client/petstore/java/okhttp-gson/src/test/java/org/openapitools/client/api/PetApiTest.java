@@ -32,6 +32,8 @@ import java.util.Random;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.junit.*;
 
@@ -43,7 +45,8 @@ import static org.junit.Assert.*;
 public class PetApiTest {
 
     private PetApi api = new PetApi();
-    private String basePath = "http://localhost:80/v2"; // http://petstore.swagger.io:80/v2
+    private static final Logger LOG = LoggerFactory.getLogger(PetApiTest.class);
+    private static String basePath = "http://localhost:80/v2"; // http://petstore.swagger.io:80/v2
 
     @Before
     public void setup() {
@@ -353,6 +356,7 @@ public class PetApiTest {
             fetched = api.getPetById(fetched.getId());
             fail("expected an error");
         } catch (ApiException e) {
+            LOG.info("Code: {}. Message: {}", e.getCode(), e.getMessage());
             assertEquals(404, e.getCode());
         }
     }

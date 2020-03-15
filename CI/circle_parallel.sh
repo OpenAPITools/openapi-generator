@@ -18,9 +18,14 @@ if [ "$NODE_INDEX" = "1" ]; then
   go version
 
   docker pull swaggerapi/petstore
-  docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+  container_name=petstore.swagger
+  docker run --name ${container_name} -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
 
-  mvn verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=info
+  if ! mvn verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=info; then
+    # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
+    docker logs ${container_name}
+    exit $?
+  fi
   mvn --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
