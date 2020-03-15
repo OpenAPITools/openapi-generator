@@ -535,11 +535,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
-        /* TODO the following logic should not need anymore in OAS 3.0
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
-        }
-        */
 
         if (!additionalProperties.containsKey(TITLE)) {
             // From the title, compute a reasonable name for the package and the API
@@ -588,62 +583,66 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
         }
-        Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
-        if (schemas == null) {
-            schemas = new HashMap<String, Schema>();
-        }
-        Map<String, PathItem> pathItems = openAPI.getPaths();
 
-        // we need to add all request and response bodies to processed schemas
-        if (pathItems != null) {
-            for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
-                for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
-                    String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
-                    // process request body
-                    RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
-                    Schema requestSchema = null;
-                    if (b != null) {
-                        requestSchema = ModelUtils.getSchemaFromRequestBody(b);
-                    }
-                    if (requestSchema != null) {
-                        schemas.put(opId, requestSchema);
-                    }
-                    // process all response bodies
-                    for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
-                        ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
-                        Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
-                        if (responseSchema != null) {
-                            schemas.put(opId + ar.getKey(), responseSchema);
+        if (useOneOfInterfaces && openAPI.getComponents() != null){
+            Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
+            if (schemas == null) {
+                schemas = new HashMap<String, Schema>();
+            }
+            Map<String, PathItem> pathItems = openAPI.getPaths();
+            // we need to add all request and response bodies to processed schemas
+            if (pathItems != null) {
+                for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
+                    for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
+                        String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
+                        // process request body
+                        RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
+                        Schema requestSchema = null;
+                        if (b != null) {
+                            requestSchema = ModelUtils.getSchemaFromRequestBody(b);
+                        }
+                        if (requestSchema != null) {
+                            schemas.put(opId, requestSchema);
+                        }
+                        if (op.getValue().getResponses() != null){
+                            // process all response bodies
+                            for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
+                                ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
+                                Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                                if (responseSchema != null) {
+                                    schemas.put(opId + ar.getKey(), responseSchema);
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
 
-        for (Map.Entry<String, Schema> e : schemas.entrySet()) {
-            String n = toModelName(e.getKey());
-            Schema schema = e.getValue();
-            String nOneOf = toModelName(n + "OneOf");
-            if (ModelUtils.isComposedSchema(schema)) {
-                List<String> names = new ArrayList<>();
-                ComposedSchema composedSchema = (ComposedSchema) schema;
-                for (Schema oneOfSchema : composedSchema.getOneOf()) {
-                    names.add(getSingleSchemaType(oneOfSchema));
-                }
-                String name = "OneOf" + String.join("", names);
-                addOneOfNameExtension(schema, name);
-                addOneOfInterfaceModel((ComposedSchema) schema, name);
-            } else if (ModelUtils.isArraySchema(schema)) {
-                Schema items = ((ArraySchema) schema).getItems();
-                if (ModelUtils.isComposedSchema(items)) {
-                    addOneOfNameExtension(items, nOneOf);
-                    addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
-                }
-            } else if (ModelUtils.isMapSchema(schema)) {
-                Schema addProps = ModelUtils.getAdditionalProperties(schema);
-                if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
-                    addOneOfNameExtension(addProps, nOneOf);
-                    addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
+            for (Map.Entry<String, Schema> e : schemas.entrySet()) {
+                String n = toModelName(e.getKey());
+                Schema schema = e.getValue();
+                String nOneOf = toModelName(n + "OneOf");
+                if (ModelUtils.isComposedSchema(schema)) {
+                    List<String> names = new ArrayList<>();
+                    ComposedSchema composedSchema = (ComposedSchema) schema;
+                    for (Schema oneOfSchema : composedSchema.getOneOf()) {
+                        names.add(getSingleSchemaType(oneOfSchema));
+                    }
+                    String name = "OneOf" + String.join("", names);
+                    addOneOfNameExtension(schema, name);
+                    addOneOfInterfaceModel((ComposedSchema) schema, name);
+                } else if (ModelUtils.isArraySchema(schema)) {
+                    Schema items = ((ArraySchema) schema).getItems();
+                    if (ModelUtils.isComposedSchema(items)) {
+                        addOneOfNameExtension(items, nOneOf);
+                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
+                    }
+                } else if (ModelUtils.isMapSchema(schema)) {
+                    Schema addProps = ModelUtils.getAdditionalProperties(schema);
+                    if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
+                        addOneOfNameExtension(addProps, nOneOf);
+                        addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
+                    }
                 }
             }
         }
