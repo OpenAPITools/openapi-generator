@@ -802,7 +802,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         String methodName = camelize(operationId);
 
         // check if method name starts with powershell verbs
-        for (String verb: (HashSet<String>)powershellVerbs) {
+        for (String verb : (HashSet<String>) powershellVerbs) {
             if (methodName.startsWith(verb)) {
                 methodName = verb + "-" + methodName.substring(verb.length());
                 LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
