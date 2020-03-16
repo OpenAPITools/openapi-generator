@@ -182,18 +182,18 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
 
+        if let error = error {
+            completion(.failure(ErrorResponse.error(-1, data, error)))
+            return
+        }
+
         guard let httpResponse = response as? HTTPURLResponse else {
             completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
         guard httpResponse.isStatusCodeSuccessful else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
-            return
-        }
-
-        if let error = error {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
 
@@ -314,18 +314,18 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T> {
     override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
 
+        if let error = error {
+            completion(.failure(ErrorResponse.error(-1, data, error)))
+            return
+        }
+
         guard let httpResponse = response as? HTTPURLResponse else {
             completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
         guard httpResponse.isStatusCodeSuccessful else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
-            return
-        }
-
-        if let error = error {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
             return
         }
 

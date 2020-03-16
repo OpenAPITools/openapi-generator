@@ -50,7 +50,7 @@ class PetAPITests: XCTestCase {
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3UploadFile() {
         let expectation = self.expectation(description: "testUploadFile")
 
@@ -73,7 +73,6 @@ class PetAPITests: XCTestCase {
 
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-
 
     func test4DeletePet() {
         let expectation = self.expectation(description: "testDeletePet")
