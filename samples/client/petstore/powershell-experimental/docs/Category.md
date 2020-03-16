@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 
 - Create a new object
 ```powershell
-New-PSOpenAPIToolsCategory  -Id null `
+New-PSPetstoreCategory  -Id null `
  -Name null
 ```
 

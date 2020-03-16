@@ -29,8 +29,8 @@ function New-Pet {
     )
 
     Process {
-        #'Creating object: PSOpenAPITools => Pet' | Write-Host
-        #$PSBoundParameters | Out-DebugParameter | Write-Debug
+        'Creating object: PSPetstore => Pet' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
@@ -43,8 +43,4 @@ function New-Pet {
 
         return $PSO
     }
-
-
-
-
 }

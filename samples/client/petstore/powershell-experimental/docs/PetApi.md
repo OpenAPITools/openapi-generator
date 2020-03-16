@@ -1,38 +1,38 @@
-# PSOpenAPITools.PSOpenAPITools/API.PetApi
+# PSPetstore.PSPetstore/API.PetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Add-Pet**](PetApi.md#add-pet) | **POST** /pet | Add a new pet to the store
+[**Add-PSPet**](PetApi.md#Add-PSPet) | **POST** /pet | Add a new pet to the store
 [**Remove-Pet**](PetApi.md#remove-pet) | **DELETE** /pet/{petId} | Deletes a pet
-[**Find-PetsByStatus**](PetApi.md#find-petsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**Find-PetsByTags**](PetApi.md#find-petsbytags) | **GET** /pet/findByTags | Finds Pets by tags
-[**Get-PetById**](PetApi.md#get-petbyid) | **GET** /pet/{petId} | Find pet by ID
-[**Update-Pet**](PetApi.md#update-pet) | **PUT** /pet | Update an existing pet
-[**Update-PetWithForm**](PetApi.md#update-petwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**Invoke-UploadFile**](PetApi.md#invoke-uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**Find-PSPetsByStatus**](PetApi.md#Find-PSPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**Find-PSPetsByTags**](PetApi.md#Find-PSPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+[**Get-PSPetById**](PetApi.md#Get-PSPetById) | **GET** /pet/{petId} | Find pet by ID
+[**Update-PSPet**](PetApi.md#Update-PSPet) | **PUT** /pet | Update an existing pet
+[**Update-PSPetWithForm**](PetApi.md#Update-PSPetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**Invoke-PSUploadFile**](PetApi.md#Invoke-PSUploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
-<a name="add-pet"></a>
-# **Add-Pet**
-> Pet Add-Pet<br>
+<a name="Add-PSPet"></a>
+# **Add-PSPet**
+> Pet Add-PSPet<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
 
 Add a new pet to the store
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
 $Pet = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
-Pet $Result = Add-Pet -Pet $Pet
+Pet $Result = Add-PSPet -Pet $Pet
 ```
 
 ### Parameters
@@ -66,9 +66,9 @@ Deletes a pet
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
@@ -101,9 +101,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="find-petsbystatus"></a>
-# **Find-PetsByStatus**
-> Pet[] Find-PetsByStatus<br>
+<a name="Find-PSPetsByStatus"></a>
+# **Find-PSPetsByStatus**
+> Pet[] Find-PSPetsByStatus<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Status] <String[]><br>
 
 Finds Pets by status
@@ -112,16 +112,16 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
 $Status = @("Status_example") # String[] | Status values that need to be considered for filter (default to null)
 
 # Finds Pets by status
-Pet[] $Result = Find-PetsByStatus -Status $Status
+Pet[] $Result = Find-PSPetsByStatus -Status $Status
 ```
 
 ### Parameters
@@ -145,9 +145,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="find-petsbytags"></a>
-# **Find-PetsByTags**
-> Pet[] Find-PetsByTags<br>
+<a name="Find-PSPetsByTags"></a>
+# **Find-PSPetsByTags**
+> Pet[] Find-PSPetsByTags<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Tags] <String[]><br>
 
 Finds Pets by tags
@@ -156,16 +156,16 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
 $Tags = @("Inner_example") # String[] | Tags to filter by (default to null)
 
 # Finds Pets by tags
-Pet[] $Result = Find-PetsByTags -Tags $Tags
+Pet[] $Result = Find-PSPetsByTags -Tags $Tags
 ```
 
 ### Parameters
@@ -189,9 +189,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="get-petbyid"></a>
-# **Get-PetById**
-> Pet Get-PetById<br>
+<a name="Get-PSPetById"></a>
+# **Get-PSPetById**
+> Pet Get-PSPetById<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
 
 Find pet by ID
@@ -200,9 +200,9 @@ Returns a single pet
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: api_key
 $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -211,7 +211,7 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 $PetId = 987 # Int64 | ID of pet to return (default to null)
 
 # Find pet by ID
-Pet $Result = Get-PetById -PetId $PetId
+Pet $Result = Get-PSPetById -PetId $PetId
 ```
 
 ### Parameters
@@ -235,25 +235,25 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="update-pet"></a>
-# **Update-Pet**
-> Pet Update-Pet<br>
+<a name="Update-PSPet"></a>
+# **Update-PSPet**
+> Pet Update-PSPet<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
 
 Update an existing pet
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
 $Pet = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
-Pet $Result = Update-Pet -Pet $Pet
+Pet $Result = Update-PSPet -Pet $Pet
 ```
 
 ### Parameters
@@ -277,9 +277,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="update-petwithform"></a>
-# **Update-PetWithForm**
-> void Update-PetWithForm<br>
+<a name="Update-PSPetWithForm"></a>
+# **Update-PSPetWithForm**
+> void Update-PSPetWithForm<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Name] <String><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Status] <String><br>
@@ -288,9 +288,9 @@ Updates a pet in the store with form data
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
@@ -299,7 +299,7 @@ $Name = "Name_example" # String | Updated name of the pet (optional) (default to
 $Status = "Status_example" # String | Updated status of the pet (optional) (default to null)
 
 # Updates a pet in the store with form data
-Update-PetWithForm -PetId $PetId -Name $Name -Status $Status
+Update-PSPetWithForm -PetId $PetId -Name $Name -Status $Status
 ```
 
 ### Parameters
@@ -325,9 +325,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="invoke-uploadfile"></a>
-# **Invoke-UploadFile**
-> ApiResponse Invoke-UploadFile<br>
+<a name="Invoke-PSUploadFile"></a>
+# **Invoke-PSUploadFile**
+> ApiResponse Invoke-PSUploadFile<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-AdditionalMetadata] <String><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-File] <System.IO.FileInfo><br>
@@ -336,9 +336,9 @@ uploads an image
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
@@ -347,7 +347,7 @@ $AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to
 $File = 987 # System.IO.FileInfo | file to upload (optional) (default to null)
 
 # uploads an image
-ApiResponse $Result = Invoke-UploadFile -PetId $PetId -AdditionalMetadata $AdditionalMetadata -File $File
+ApiResponse $Result = Invoke-PSUploadFile -PetId $PetId -AdditionalMetadata $AdditionalMetadata -File $File
 ```
 
 ### Parameters

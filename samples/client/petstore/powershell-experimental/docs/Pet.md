@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 - Create a new object
 ```powershell
-New-PSOpenAPIToolsPet  -Id null `
+New-PSPetstorePet  -Id null `
  -Category null `
  -Name doggie `
  -PhotoUrls null `

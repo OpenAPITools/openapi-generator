@@ -29,8 +29,8 @@ function New-Order {
     )
 
     Process {
-        #'Creating object: PSOpenAPITools => Order' | Write-Host
-        #$PSBoundParameters | Out-DebugParameter | Write-Debug
+        'Creating object: PSPetstore => Order' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
@@ -43,8 +43,4 @@ function New-Order {
 
         return $PSO
     }
-
-
-
-
 }

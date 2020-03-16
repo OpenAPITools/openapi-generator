@@ -26,7 +26,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-{{{packageName}}}Configuration
+        $Configuraiton = Get-{{{apiNamePrefix}}}Configuration
         {{#hasProduces}}
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}})
@@ -158,7 +158,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{/isBasicBearer}}
 
         {{/authMethods}}
-        $LocalVarResult = Invoke-{{{packageName}}}APIClient -Method '{{httpMethod}}' `
+        $LocalVarResult = Invoke-{{{apiNamePrefix}}}APIClient -Method '{{httpMethod}}' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `

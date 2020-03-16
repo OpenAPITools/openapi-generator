@@ -21,6 +21,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -45,6 +47,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     protected String testPath = "tests/";
     protected HashSet nullablePrimitives;
     protected HashSet powershellVerbs;
+    protected String apiNamePrefix;
 
     /**
      * Constructs an instance of `PowerShellExperimentalClientCodegen`.
@@ -73,6 +76,10 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                         ParameterFeature.Cookie
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+            .stability(Stability.BETA)
+            .build();
 
         outputFolder = "generated-code" + File.separator + "powershell-expiermental";
         modelTemplateFiles.put("model.mustache", ".ps1");
@@ -350,6 +357,10 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     public void processOpts() {
         super.processOpts();
 
+        // TODO
+        apiNamePrefix ="PS";
+        additionalProperties.put("apiNamePrefix", "PS");
+
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         }
@@ -390,9 +401,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
         // client/api_client
         // TODO rename OpenAPI with package name
-        supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Client", packageName + "APIClient.ps1"));
-        supportingFiles.add(new SupportingFile("set-configuration.mustache", infrastructureFolder + "Client", "Set-" + packageName + "Configuration.ps1"));
-        supportingFiles.add(new SupportingFile("get-configuration.mustache", infrastructureFolder + "Client", "Get-" + packageName + "Configuration.ps1"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Client", apiNamePrefix + "APIClient.ps1"));
+        supportingFiles.add(new SupportingFile("set-configuration.mustache", infrastructureFolder + "Client", "Set-" + apiNamePrefix + "Configuration.ps1"));
+        supportingFiles.add(new SupportingFile("get-configuration.mustache", infrastructureFolder + "Client", "Get-" + apiNamePrefix + "Configuration.ps1"));
 
         // private
         supportingFiles.add(new SupportingFile("Get-CommonParameters.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Get-CommonParameters.ps1"));
@@ -402,7 +413,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         supportingFiles.add(new SupportingFile("about_Org.OpenAPITools.help.txt.mustache", infrastructureFolder + File.separator + "en-US" + File.separator + "about_" + packageName + ".help.txt"));
 
         // appveyor
-        supportingFiles.add(new SupportingFile("appveyor.mustache", infrastructureFolder, "appveyor.yml"));
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
     }
 
     @Override
@@ -608,8 +619,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             }
 
             if (!op.vendorExtensions.containsKey("x-powershell-method-name")) { // x-powershell-method-name not set
-                op.vendorExtensions.put("x-powershell-method-name", toMethodName(op.operationId));
-                op.vendorExtensions.put("x-powershell-method-name-lowercase", (toMethodName(op.operationId)).toLowerCase(Locale.ROOT));
+                String methodName = toMethodName(op.operationId);
+                op.vendorExtensions.put("x-powershell-method-name", methodName);
+                op.vendorExtensions.put("x-powershell-method-name-lowercase", methodName);
             } else {
                 op.vendorExtensions.put("x-powershell-method-name-lowercase", ((String)op.vendorExtensions.get("x-powershell-method-name")).toLowerCase(Locale.ROOT));
             }
@@ -803,13 +815,13 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         // check if method name starts with powershell verbs
         for (String verb : (HashSet<String>) powershellVerbs) {
             if (methodName.startsWith(verb)) {
-                methodName = verb + "-" + methodName.substring(verb.length());
+                methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
                 LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
                 return methodName;
             }
         }
 
         // not using powershell verb
-        return "Invoke-" + methodName;
+        return "Invoke-" + apiNamePrefix + methodName;
     }
 }

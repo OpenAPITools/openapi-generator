@@ -1,19 +1,17 @@
-# ApiResponse
+# InlineObject
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **Int32** |  | [optional] [default to null]
-**Type** | **String** |  | [optional] [default to null]
-**Message** | **String** |  | [optional] [default to null]
+**Name** | **String** | Updated name of the pet | [optional] [default to null]
+**Status** | **String** | Updated status of the pet | [optional] [default to null]
 
 ## Examples
 
 - Create a new object
 ```powershell
-New-PSPetstoreApiResponse  -Code null `
- -Type null `
- -Message null
+New-PSPetstoreInlineObject  -Name null `
+ -Status null
 ```
 
 - Convert the object to JSON

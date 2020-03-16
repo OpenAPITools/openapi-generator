@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 - Create a new object
 ```powershell
-New-PSOpenAPIToolsUser  -Id null `
+New-PSPetstoreUser  -Id null `
  -Username null `
  -FirstName null `
  -LastName null `

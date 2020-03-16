@@ -1,22 +1,22 @@
-# PSOpenAPITools.PSOpenAPITools/API.UserApi
+# PSPetstore.PSPetstore/API.UserApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Invoke-CreateUser**](UserApi.md#invoke-createuser) | **POST** /user | Create user
-[**Invoke-CreateUsersWithArrayInput**](UserApi.md#invoke-createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**Invoke-CreateUsersWithListInput**](UserApi.md#invoke-createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
-[**Invoke-DeleteUser**](UserApi.md#invoke-deleteuser) | **DELETE** /user/{username} | Delete user
-[**Get-UserByName**](UserApi.md#get-userbyname) | **GET** /user/{username} | Get user by user name
-[**Invoke-LoginUser**](UserApi.md#invoke-loginuser) | **GET** /user/login | Logs user into the system
-[**Invoke-LogoutUser**](UserApi.md#invoke-logoutuser) | **GET** /user/logout | Logs out current logged in user session
-[**Update-User**](UserApi.md#update-user) | **PUT** /user/{username} | Updated user
+[**Invoke-PSCreateUser**](UserApi.md#Invoke-PSCreateUser) | **POST** /user | Create user
+[**Invoke-PSCreateUsersWithArrayInput**](UserApi.md#Invoke-PSCreateUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+[**Invoke-PSCreateUsersWithListInput**](UserApi.md#Invoke-PSCreateUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+[**Invoke-PSDeleteUser**](UserApi.md#Invoke-PSDeleteUser) | **DELETE** /user/{username} | Delete user
+[**Get-PSUserByName**](UserApi.md#Get-PSUserByName) | **GET** /user/{username} | Get user by user name
+[**Invoke-PSLoginUser**](UserApi.md#Invoke-PSLoginUser) | **GET** /user/login | Logs user into the system
+[**Invoke-PSLogoutUser**](UserApi.md#Invoke-PSLogoutUser) | **GET** /user/logout | Logs out current logged in user session
+[**Update-PSUser**](UserApi.md#Update-PSUser) | **PUT** /user/{username} | Updated user
 
 
-<a name="invoke-createuser"></a>
-# **Invoke-CreateUser**
-> void Invoke-CreateUser<br>
+<a name="Invoke-PSCreateUser"></a>
+# **Invoke-PSCreateUser**
+> void Invoke-PSCreateUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject><br>
 
 Create user
@@ -25,9 +25,9 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -36,7 +36,7 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 $User = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Created user object
 
 # Create user
-Invoke-CreateUser -User $User
+Invoke-PSCreateUser -User $User
 ```
 
 ### Parameters
@@ -60,18 +60,18 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="invoke-createuserswitharrayinput"></a>
-# **Invoke-CreateUsersWithArrayInput**
-> void Invoke-CreateUsersWithArrayInput<br>
+<a name="Invoke-PSCreateUsersWithArrayInput"></a>
+# **Invoke-PSCreateUsersWithArrayInput**
+> void Invoke-PSCreateUsersWithArrayInput<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
 
 Creates list of users with given input array
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -80,7 +80,7 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 $User = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
-Invoke-CreateUsersWithArrayInput -User $User
+Invoke-PSCreateUsersWithArrayInput -User $User
 ```
 
 ### Parameters
@@ -104,18 +104,18 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="invoke-createuserswithlistinput"></a>
-# **Invoke-CreateUsersWithListInput**
-> void Invoke-CreateUsersWithListInput<br>
+<a name="Invoke-PSCreateUsersWithListInput"></a>
+# **Invoke-PSCreateUsersWithListInput**
+> void Invoke-PSCreateUsersWithListInput<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
 
 Creates list of users with given input array
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -124,7 +124,7 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 $User = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
-Invoke-CreateUsersWithListInput -User $User
+Invoke-PSCreateUsersWithListInput -User $User
 ```
 
 ### Parameters
@@ -148,9 +148,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="invoke-deleteuser"></a>
-# **Invoke-DeleteUser**
-> void Invoke-DeleteUser<br>
+<a name="Invoke-PSDeleteUser"></a>
+# **Invoke-PSDeleteUser**
+> void Invoke-PSDeleteUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
 
 Delete user
@@ -159,9 +159,9 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -170,7 +170,7 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 $Username = "Username_example" # String | The name that needs to be deleted (default to null)
 
 # Delete user
-Invoke-DeleteUser -Username $Username
+Invoke-PSDeleteUser -Username $Username
 ```
 
 ### Parameters
@@ -194,21 +194,21 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="get-userbyname"></a>
-# **Get-UserByName**
-> User Get-UserByName<br>
+<a name="Get-PSUserByName"></a>
+# **Get-PSUserByName**
+> User Get-PSUserByName<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
 
 Get user by user name
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
 $Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
 # Get user by user name
-User $Result = Get-UserByName -Username $Username
+User $Result = Get-PSUserByName -Username $Username
 ```
 
 ### Parameters
@@ -232,9 +232,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="invoke-loginuser"></a>
-# **Invoke-LoginUser**
-> String Invoke-LoginUser<br>
+<a name="Invoke-PSLoginUser"></a>
+# **Invoke-PSLoginUser**
+> String Invoke-PSLoginUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Password] <String><br>
 
@@ -242,13 +242,13 @@ Logs user into the system
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
 $Username = "Username_example" # String | The user name for login (default to null)
 $Password = "Password_example" # String | The password for login in clear text (default to null)
 
 # Logs user into the system
-String $Result = Invoke-LoginUser -Username $Username -Password $Password
+String $Result = Invoke-PSLoginUser -Username $Username -Password $Password
 ```
 
 ### Parameters
@@ -273,17 +273,17 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="invoke-logoutuser"></a>
-# **Invoke-LogoutUser**
-> void Invoke-LogoutUser<br>
+<a name="Invoke-PSLogoutUser"></a>
+# **Invoke-PSLogoutUser**
+> void Invoke-PSLogoutUser<br>
 
 Logs out current logged in user session
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -291,7 +291,7 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 
 
 # Logs out current logged in user session
-Invoke-LogoutUser
+Invoke-PSLogoutUser
 ```
 
 ### Parameters
@@ -312,9 +312,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="update-user"></a>
-# **Update-User**
-> void Update-User<br>
+<a name="Update-PSUser"></a>
+# **Update-PSUser**
+> void Update-PSUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject><br>
 
@@ -324,9 +324,9 @@ This can only be done by the logged in user.
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -336,7 +336,7 @@ $Username = "Username_example" # String | name that need to be deleted (default 
 $User = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Updated user object
 
 # Updated user
-Update-User -Username $Username -User $User
+Update-PSUser -Username $Username -User $User
 ```
 
 ### Parameters

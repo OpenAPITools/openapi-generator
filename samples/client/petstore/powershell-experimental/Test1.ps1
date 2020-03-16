@@ -1,7 +1,9 @@
 #Remove-Module -FullyQualifiedName @{ModuleName = "Org.OpenAPITools"; ModuleVersion = "0.0.1"}
 Remove-Module -FullyQualifiedName @{ModuleName = "PSOpenAPITools"; ModuleVersion = "0.0.1"}
+Remove-Module -FullyQualifiedName @{ModuleName = "PSPetstore"; ModuleVersion = "0.1.2"}
 
-Import-Module -Name '.\src\PSOpenAPITools'
+Import-Module -Name '.\src\PSPetstore'
+#Import-Module -Name '.\src\PSOpenAPITools'
 #Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
 

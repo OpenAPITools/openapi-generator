@@ -1,19 +1,17 @@
-# ApiResponse
+# InlineObject1
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **Int32** |  | [optional] [default to null]
-**Type** | **String** |  | [optional] [default to null]
-**Message** | **String** |  | [optional] [default to null]
+**AdditionalMetadata** | **String** | Additional data to pass to server | [optional] [default to null]
+**File** | **System.IO.FileInfo** | file to upload | [optional] [default to null]
 
 ## Examples
 
 - Create a new object
 ```powershell
-New-PSPetstoreApiResponse  -Code null `
- -Type null `
- -Message null
+New-PSPetstoreInlineObject1  -AdditionalMetadata null `
+ -File null
 ```
 
 - Convert the object to JSON

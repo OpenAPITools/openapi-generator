@@ -1,8 +1,8 @@
 PSTOPIC
-    about_PSOpenAPITools
+    about_PSPetstore
 
 SHORT DESCRIPTION
-    PSOpenAPITools - the PowerShell module for the OpenAPI Petstore
+    PSPetstore - the PowerShell module for the OpenAPI Petstore
 
 LONG DESCRIPTION
     This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.

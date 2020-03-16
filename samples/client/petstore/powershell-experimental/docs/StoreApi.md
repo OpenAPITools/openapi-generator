@@ -1,18 +1,18 @@
-# PSOpenAPITools.PSOpenAPITools/API.StoreApi
+# PSPetstore.PSPetstore/API.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Invoke-DeleteOrder**](StoreApi.md#invoke-deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-[**Get-Inventory**](StoreApi.md#get-inventory) | **GET** /store/inventory | Returns pet inventories by status
-[**Get-OrderById**](StoreApi.md#get-orderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
-[**Invoke-PlaceOrder**](StoreApi.md#invoke-placeorder) | **POST** /store/order | Place an order for a pet
+[**Invoke-PSDeleteOrder**](StoreApi.md#Invoke-PSDeleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**Get-PSInventory**](StoreApi.md#Get-PSInventory) | **GET** /store/inventory | Returns pet inventories by status
+[**Get-PSOrderById**](StoreApi.md#Get-PSOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
+[**Invoke-PSPlaceOrder**](StoreApi.md#Invoke-PSPlaceOrder) | **POST** /store/order | Place an order for a pet
 
 
-<a name="invoke-deleteorder"></a>
-# **Invoke-DeleteOrder**
-> void Invoke-DeleteOrder<br>
+<a name="Invoke-PSDeleteOrder"></a>
+# **Invoke-PSDeleteOrder**
+> void Invoke-PSDeleteOrder<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OrderId] <String><br>
 
 Delete purchase order by ID
@@ -21,12 +21,12 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
 $OrderId = "OrderId_example" # String | ID of the order that needs to be deleted (default to null)
 
 # Delete purchase order by ID
-Invoke-DeleteOrder -OrderId $OrderId
+Invoke-PSDeleteOrder -OrderId $OrderId
 ```
 
 ### Parameters
@@ -50,9 +50,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="get-inventory"></a>
-# **Get-Inventory**
-> {String, Int32} Get-Inventory<br>
+<a name="Get-PSInventory"></a>
+# **Get-PSInventory**
+> {String, Int32} Get-PSInventory<br>
 
 Returns pet inventories by status
 
@@ -60,9 +60,9 @@ Returns a map of status codes to quantities
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
-$Configuration = Get-PSOpenAPIToolsConfiguration
+$Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: api_key
 $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -70,7 +70,7 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 
 
 # Returns pet inventories by status
-{String, Int32} $Result = Get-Inventory
+{String, Int32} $Result = Get-PSInventory
 ```
 
 ### Parameters
@@ -91,9 +91,9 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="get-orderbyid"></a>
-# **Get-OrderById**
-> Order Get-OrderById<br>
+<a name="Get-PSOrderById"></a>
+# **Get-PSOrderById**
+> Order Get-PSOrderById<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OrderId] <Int64><br>
 
 Find purchase order by ID
@@ -102,12 +102,12 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
 $OrderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
 
 # Find purchase order by ID
-Order $Result = Get-OrderById -OrderId $OrderId
+Order $Result = Get-PSOrderById -OrderId $OrderId
 ```
 
 ### Parameters
@@ -131,21 +131,21 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="invoke-placeorder"></a>
-# **Invoke-PlaceOrder**
-> Order Invoke-PlaceOrder<br>
+<a name="Invoke-PSPlaceOrder"></a>
+# **Invoke-PSPlaceOrder**
+> Order Invoke-PSPlaceOrder<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Order] <PSCustomObject><br>
 
 Place an order for a pet
 
 ### Example
 ```powershell
-Import-Module -Name PSOpenAPITools
+Import-Module -Name PSPetstore
 
 $Order = (New-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet
-Order $Result = Invoke-PlaceOrder -Order $Order
+Order $Result = Invoke-PSPlaceOrder -Order $Order
 ```
 
 ### Parameters

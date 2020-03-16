@@ -14,8 +14,8 @@ function New-{{{classname}}} {
     )
 
     Process {
-        #'Creating object: {{{packageName}}} => {{{classname}}}' | Write-Host
-        #$PSBoundParameters | Out-DebugParameter | Write-Debug
+        'Creating object: {{{packageName}}} => {{{classname}}}' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
@@ -27,10 +27,6 @@ function New-{{{classname}}} {
 
         return $PSO
     }
-
-
-
-
 }
 {{/model}}
 {{/models}}

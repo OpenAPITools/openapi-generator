@@ -1,5 +1,5 @@
 {{> partial_header}}
-function Invoke-{{{packageName}}}APIClient {
+function Invoke-{{{apiNamePrefix}}}APIClient {
   
     [CmdletBinding()]
     Param(
@@ -31,7 +31,7 @@ function Invoke-{{{packageName}}}APIClient {
 
     $PSBoundParameters | Out-DebugParameter | Write-Host
 
-    $Configuraiton = Get-{{{packageName}}}Configuration
+    $Configuraiton = Get-{{{apiNamePrefix}}}Configuration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
 
     # cookie parameters

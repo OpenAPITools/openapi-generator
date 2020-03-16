@@ -35,8 +35,8 @@ function New-User {
     )
 
     Process {
-        #'Creating object: PSOpenAPITools => User' | Write-Host
-        #$PSBoundParameters | Out-DebugParameter | Write-Debug
+        'Creating object: PSPetstore => User' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
@@ -51,8 +51,4 @@ function New-User {
 
         return $PSO
     }
-
-
-
-
 }

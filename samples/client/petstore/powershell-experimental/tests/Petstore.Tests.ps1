@@ -19,18 +19,18 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             ) -Tags (
                 New-Tag -Id $Id -Name 'PSTag'
             ) -Status Available
-            $Result = Invoke-PetApiAddPet -Body $Pet
+            $Result = Add-PSPet -Pet $Pet
             
             # Get 
-            $Result = Invoke-PetApiGetPetById -petId $Id
+            $Result = Get-PSPetById -petId $Id
             $Result."id" | Should Be 38369
             $Result."name" | Should Be "PowerShell"
             $Result."status" | Should Be "Available"
 
             # Update (form)
-            $Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
+            $Result = Update-PSPetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
 
-            $Result = Invoke-PetApiGetPetById -petId $Id
+            $Result = Get-PSPetById -petId $Id
             $Result."id" | Should Be 38369
             $Result."name" | Should Be "PowerShell Update"
             $Result."status" | Should Be "Pending"
@@ -45,18 +45,18 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
                 New-Tag -Id $Id -Name 'PSTag2'
             ) -Status Sold
 
-            $Result = Invoke-PetApiUpdatePet -Body $NewPet
-            $Result = Invoke-PetApiGetPetById -petId $Id
+            $Result = Update-PSPet -Pet $NewPet
+            $Result = Get-PSPetById -petId $Id
             $Result."id" | Should Be 38369
             $Result."name" | Should Be "PowerShell2"
             $Result."status" | Should Be "Sold"
 
             # upload file
             $file = Get-Item "./plus.gif"
-            $Result = Invoke-PetApiUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
+            #$Result = Invoke-PSUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
 
             # Delete
-            #$Result = Invoke-PetApiDeletePet -petId $Id
+            $Result = Remove-Pet -petId $Id
 
         }
     }
