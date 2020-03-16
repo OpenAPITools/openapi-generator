@@ -7,11 +7,7 @@ NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 
 set -e
 
-docker pull swaggerapi/petstore
 swagger_svc_container_name=petstore.swagger
-docker ps -a | awk '{ print $1,$2 }' | grep swagger_svc_container_name | awk '{print $1 }' | xargs -I {} docker rm {}
-docker run --name ${swagger_svc_container_name} -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-
 function cleanup {
   # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
   docker logs ${swagger_svc_container_name}
