@@ -87,9 +87,9 @@ $Manifest = @{
     #
     # If not, we'd need to generate functions name with prefix. For examples,
     #
-    # DefaultCommandPrefix = 'PetApi'
-    # DefaultCommandPrefix = 'StoreApi'
-    # DefaultCommandPrefix = 'UserApi'
+    # DefaultCommandPrefix = 'PSPetApi'
+    # DefaultCommandPrefix = 'PSStoreApi'
+    # DefaultCommandPrefix = 'PSUserApi'
 }
 
 New-ModuleManifest @Manifest

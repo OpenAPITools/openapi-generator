@@ -1,17 +1,17 @@
-# PSPetstore.PSPetstore/API.PetApi
+# PSPetstore.PSPetstore/API.PSPetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Add-PSPet**](PetApi.md#Add-PSPet) | **POST** /pet | Add a new pet to the store
-[**Remove-Pet**](PetApi.md#remove-pet) | **DELETE** /pet/{petId} | Deletes a pet
-[**Find-PSPetsByStatus**](PetApi.md#Find-PSPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**Find-PSPetsByTags**](PetApi.md#Find-PSPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**Get-PSPetById**](PetApi.md#Get-PSPetById) | **GET** /pet/{petId} | Find pet by ID
-[**Update-PSPet**](PetApi.md#Update-PSPet) | **PUT** /pet | Update an existing pet
-[**Update-PSPetWithForm**](PetApi.md#Update-PSPetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**Invoke-PSUploadFile**](PetApi.md#Invoke-PSUploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**Add-PSPet**](PSPetApi.md#Add-PSPet) | **POST** /pet | Add a new pet to the store
+[**Remove-Pet**](PSPetApi.md#remove-pet) | **DELETE** /pet/{petId} | Deletes a pet
+[**Find-PSPetsByStatus**](PSPetApi.md#Find-PSPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**Find-PSPetsByTags**](PSPetApi.md#Find-PSPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+[**Get-PSPetById**](PSPetApi.md#Get-PSPetById) | **GET** /pet/{petId} | Find pet by ID
+[**Update-PSPet**](PSPetApi.md#Update-PSPet) | **PUT** /pet | Update an existing pet
+[**Update-PSPetWithForm**](PSPetApi.md#Update-PSPetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**Invoke-PSUploadFile**](PSPetApi.md#Invoke-PSUploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
 <a name="Add-PSPet"></a>

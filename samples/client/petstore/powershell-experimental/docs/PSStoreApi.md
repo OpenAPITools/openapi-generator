@@ -1,13 +1,13 @@
-# PSPetstore.PSPetstore/API.StoreApi
+# PSPetstore.PSPetstore/API.PSStoreApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Invoke-PSDeleteOrder**](StoreApi.md#Invoke-PSDeleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-[**Get-PSInventory**](StoreApi.md#Get-PSInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**Get-PSOrderById**](StoreApi.md#Get-PSOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
-[**Invoke-PSPlaceOrder**](StoreApi.md#Invoke-PSPlaceOrder) | **POST** /store/order | Place an order for a pet
+[**Invoke-PSDeleteOrder**](PSStoreApi.md#Invoke-PSDeleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**Get-PSInventory**](PSStoreApi.md#Get-PSInventory) | **GET** /store/inventory | Returns pet inventories by status
+[**Get-PSOrderById**](PSStoreApi.md#Get-PSOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
+[**Invoke-PSPlaceOrder**](PSStoreApi.md#Invoke-PSPlaceOrder) | **POST** /store/order | Place an order for a pet
 
 
 <a name="Invoke-PSDeleteOrder"></a>

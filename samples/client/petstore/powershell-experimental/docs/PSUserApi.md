@@ -1,17 +1,17 @@
-# PSPetstore.PSPetstore/API.UserApi
+# PSPetstore.PSPetstore/API.PSUserApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Invoke-PSCreateUser**](UserApi.md#Invoke-PSCreateUser) | **POST** /user | Create user
-[**Invoke-PSCreateUsersWithArrayInput**](UserApi.md#Invoke-PSCreateUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**Invoke-PSCreateUsersWithListInput**](UserApi.md#Invoke-PSCreateUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**Invoke-PSDeleteUser**](UserApi.md#Invoke-PSDeleteUser) | **DELETE** /user/{username} | Delete user
-[**Get-PSUserByName**](UserApi.md#Get-PSUserByName) | **GET** /user/{username} | Get user by user name
-[**Invoke-PSLoginUser**](UserApi.md#Invoke-PSLoginUser) | **GET** /user/login | Logs user into the system
-[**Invoke-PSLogoutUser**](UserApi.md#Invoke-PSLogoutUser) | **GET** /user/logout | Logs out current logged in user session
-[**Update-PSUser**](UserApi.md#Update-PSUser) | **PUT** /user/{username} | Updated user
+[**Invoke-PSCreateUser**](PSUserApi.md#Invoke-PSCreateUser) | **POST** /user | Create user
+[**Invoke-PSCreateUsersWithArrayInput**](PSUserApi.md#Invoke-PSCreateUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+[**Invoke-PSCreateUsersWithListInput**](PSUserApi.md#Invoke-PSCreateUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+[**Invoke-PSDeleteUser**](PSUserApi.md#Invoke-PSDeleteUser) | **DELETE** /user/{username} | Delete user
+[**Get-PSUserByName**](PSUserApi.md#Get-PSUserByName) | **GET** /user/{username} | Get user by user name
+[**Invoke-PSLoginUser**](PSUserApi.md#Invoke-PSLoginUser) | **GET** /user/login | Logs user into the system
+[**Invoke-PSLogoutUser**](PSUserApi.md#Invoke-PSLogoutUser) | **GET** /user/logout | Logs out current logged in user session
+[**Update-PSUser**](PSUserApi.md#Update-PSUser) | **PUT** /user/{username} | Updated user
 
 
 <a name="Invoke-PSCreateUser"></a>
