@@ -263,11 +263,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public String toVarName(String name) {
-        return formatIdentifier(name, false);
-    }
-
-    @Override
     public String toEnumName(CodegenProperty property) {
         return formatIdentifier(property.baseName, true);
     }

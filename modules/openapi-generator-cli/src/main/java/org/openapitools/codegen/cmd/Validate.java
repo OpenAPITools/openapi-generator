@@ -22,6 +22,7 @@ import io.airlift.airline.Option;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.validation.ValidationResult;
@@ -45,8 +46,9 @@ public class Validate implements Runnable {
     @Override
     public void run() {
         System.out.println("Validating spec (" + spec + ")");
-
-        SwaggerParseResult result = new OpenAPIParser().readLocation(spec, null, null);
+        ParseOptions options = new ParseOptions();
+        options.setResolve(true);
+        SwaggerParseResult result = new OpenAPIParser().readLocation(spec, null, options);
         List<String> messageList = result.getMessages();
         Set<String> errors = new HashSet<>(messageList);
         Set<String> warnings = new HashSet<>();
