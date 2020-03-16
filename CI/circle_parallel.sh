@@ -7,10 +7,9 @@ NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 
 set -e
 
-swagger_svc_container_name=petstore.swagger
 function cleanup {
   # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
-  docker logs ${swagger_svc_container_name}
+  docker logs petstore.swagger # container name specified in circle.yml
 }
 
 trap cleanup EXIT
