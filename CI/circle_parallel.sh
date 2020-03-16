@@ -7,6 +7,18 @@ NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 
 set -e
 
+docker pull swaggerapi/petstore
+swagger_svc_container_name=petstore.swagger
+docker ps -a | awk '{ print $1,$2 }' | grep swagger_svc_container_name | awk '{print $1 }' | xargs -I {} docker rm {}
+docker run --name ${swagger_svc_container_name} -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+
+function cleanup {
+  # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
+  docker logs ${swagger_svc_container_name}
+}
+
+trap cleanup EXIT
+
 if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
@@ -17,15 +29,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   export PATH="/usr/local/go1.14/go/bin:$PATH"
   go version
 
-  docker pull swaggerapi/petstore
-  container_name=petstore.swagger
-  docker run --name ${container_name} -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-
-  if ! mvn verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=info; then
-    # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
-    docker logs ${container_name}
-    exit $?
-  fi
+  mvn verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=info
   mvn --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
