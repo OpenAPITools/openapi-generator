@@ -28,12 +28,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.junit.*;
 
@@ -45,15 +42,12 @@ import static org.junit.Assert.*;
 public class PetApiTest {
 
     private PetApi api = new PetApi();
-    private static final Logger LOG = LoggerFactory.getLogger(PetApiTest.class);
-    private static String basePath = "http://localhost:80/v2"; // http://petstore.swagger.io:80/v2
 
     @Before
     public void setup() {
         // setup authentication
         ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
         apiKeyAuth.setApiKey("special-key");
-        api.getApiClient().setBasePath(basePath);
     }
 
     @Test
@@ -61,7 +55,7 @@ public class PetApiTest {
         // the default api client is used
         assertEquals(Configuration.getDefaultApiClient(), api.getApiClient());
         assertNotNull(api.getApiClient());
-        assertEquals(basePath, api.getApiClient().getBasePath());
+        assertEquals("http://petstore.swagger.io:80/v2", api.getApiClient().getBasePath());
         assertFalse(api.getApiClient().isDebugging());
 
         ApiClient oldClient = api.getApiClient();
@@ -80,7 +74,7 @@ public class PetApiTest {
         // set api client via setter method
         api.setApiClient(oldClient);
         assertNotNull(api.getApiClient());
-        assertEquals(basePath, api.getApiClient().getBasePath());
+        assertEquals("http://petstore.swagger.io:80/v2", api.getApiClient().getBasePath());
         assertFalse(api.getApiClient().isDebugging());
     }
 
@@ -281,7 +275,6 @@ public class PetApiTest {
         pet.setName("programmer");
         pet.setStatus(Pet.StatusEnum.PENDING);
 
-        assertEquals(basePath, api.getApiClient().getBasePath());
         api.updatePet(pet);
 
         List<Pet> pets = api.findPetsByStatus(Arrays.asList("pending"));
@@ -356,7 +349,6 @@ public class PetApiTest {
             fetched = api.getPetById(fetched.getId());
             fail("expected an error");
         } catch (ApiException e) {
-            LOG.info("Code: {}. Message: {}", e.getCode(), e.getMessage());
             assertEquals(404, e.getCode());
         }
     }
@@ -404,7 +396,7 @@ public class PetApiTest {
 
     private Pet createPet() {
         Pet pet = new Pet();
-        pet.setId(new Random().nextLong());
+        pet.setId(1234567L);
         pet.setName("gorilla");
 
         Category category = new Category();
