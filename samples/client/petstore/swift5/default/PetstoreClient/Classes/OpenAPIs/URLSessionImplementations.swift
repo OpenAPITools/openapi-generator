@@ -188,7 +188,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(ErrorResponse.error(-2, data, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
@@ -320,7 +320,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(ErrorResponse.error(-2, data, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 

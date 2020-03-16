@@ -188,7 +188,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(ErrorResponse.error(-2, data, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
@@ -320,7 +320,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
+            completion(.failure(ErrorResponse.error(-2, data, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
 
