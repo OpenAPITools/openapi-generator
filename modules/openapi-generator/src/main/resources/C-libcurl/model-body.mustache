@@ -37,6 +37,11 @@ cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarN
         goto fail;
     }
 {{/isNumeric}}
+{{#isBoolean}}
+    if(cJSON_AddBoolToObject(item, "{{{classname}}}", {{{classname}}}) == NULL) {
+        goto fail;
+    }
+{{/isBoolean}}
     return item;
 fail:
     cJSON_Delete(item);
@@ -389,12 +394,18 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         goto fail;
     }
     {{/isString}}
-    {{^isString}}
+    {{#isBoolean}}
+    if(cJSON_AddBoolToObject({{{name}}}, "", *(cJSON_bool *){{{name}}}ListEntry->data) == NULL)
+    {
+        goto fail;
+    }
+    {{/isBoolean}}
+    {{^isNumeric}}
     if(cJSON_AddNumberToObject({{{name}}}, "", *(double *){{{name}}}ListEntry->data) == NULL)
     {
         goto fail;
     }
-    {{/isString}}
+    {{/isNumeric}}
     {{/items}}
     }
     {{/isPrimitiveType}}
@@ -433,12 +444,19 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
             goto fail;
         }
         {{/isString}}
-        {{^isString}}
+        {{#isNumeric}}
         if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, *(double *)localKeyValue->value) == NULL)
         {
             goto fail;
         }
-        {{/isString}}
+        {{/isNumeric}}
+        {{#isBoolean}}
+//         if(cJSON_AddBoolToObject(localMapObject, localKeyValue->key, (cJSON_bool)localKeyValue->value) == NULL)
+        if(cJSON_AddBoolToObject(localMapObject, localKeyValue->key, *(cJSON_bool *)localKeyValue->value) == NULL)
+        {
+            goto fail;
+        }
+        {{/isBoolean}}
         {{/items}}
     }
     }
@@ -598,13 +616,20 @@ fail:
         }
         list_addElement({{{name}}}List , strdup({{{name}}}_local->valuestring));
         {{/isString}}
-        {{^isString}}
+        {{#isNumeric}}
         if(!cJSON_IsNumber({{{name}}}_local))
         {
             goto end;
         }
         list_addElement({{{name}}}List , &{{{name}}}_local->valuedouble);
-        {{/isString}}
+        {{/isNumeric}}
+        {{#isBoolean}}
+        if(!cJSON_IsBool({{{name}}}_local))
+        {
+            goto end;
+        }
+        list_addElement({{{name}}}List , {{{name}}}_local->valueint);
+        {{/isBoolean}}
         {{/items}}
     }
     {{/isPrimitiveType}}
@@ -649,13 +674,20 @@ fail:
         }
         localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
         {{/isString}}
-        {{^isString}}
+        {{#isBoolean}}
+        if(!cJSON_IsBool(localMapObject))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string), &localMapObject->valueint);
+        {{/isBoolean}}
+        {{#isNumeric}}
         if(!cJSON_IsNumber(localMapObject))
         {
             goto end;
         }
         localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
-        {{/isString}}
+        {{/isNumeric}}
 		{{/items}}
         list_addElement({{{name}}}List , localMapKeyPair);
     }
