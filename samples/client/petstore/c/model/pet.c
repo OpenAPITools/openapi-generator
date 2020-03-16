@@ -4,14 +4,14 @@
 #include "pet.h"
 
 
-    char* statuspet_ToString(status_e status){
-    char *statusArray[] =  { "available","pending","sold" };
-        return statusArray[status];
-    }
+char* statuspet_ToString(openapi_petstore_pet_STATUS_e status) {
+    char* statusArray[] =  { "NULL", "available", "pending", "sold" };
+	return statusArray[status];
+}
 
-    status_e statuspet_FromString(char* status){
+openapi_petstore_pet_STATUS_e statuspet_FromString(char* status){
     int stringToReturn = 0;
-    char *statusArray[] =  { "available","pending","sold" };
+    char *statusArray[] =  { "NULL", "available", "pending", "sold" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp(status, statusArray[stringToReturn]) == 0) {
@@ -20,7 +20,7 @@
         stringToReturn++;
     }
     return 0;
-    }
+}
 
 pet_t *pet_create(
     long id,
@@ -28,7 +28,7 @@ pet_t *pet_create(
     char *name,
     list_t *photo_urls,
     list_t *tags,
-    status_e status
+    openapi_petstore_pet_STATUS_e status
     ) {
     pet_t *pet_local_var = malloc(sizeof(pet_t));
     if (!pet_local_var) {
@@ -228,7 +228,7 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
-    status_e statusVariable;
+    openapi_petstore_pet_STATUS_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
     {

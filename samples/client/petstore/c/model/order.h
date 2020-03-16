@@ -12,11 +12,14 @@
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 
-                typedef enum  {  placed, approved, delivered } status_e;
+// Enum STATUS for order
 
-        char* status_ToString(status_e status);
+typedef enum  { openapi_petstore_order_STATUS_NULL = 0, openapi_petstore_order_STATUS_placed, openapi_petstore_order_STATUS_approved, openapi_petstore_order_STATUS_delivered } openapi_petstore_order_STATUS_e;
 
-        status_e status_FromString(char* status);
+char* order_status_ToString(openapi_petstore_order_STATUS_e status);
+
+openapi_petstore_order_STATUS_e order_status_FromString(char* status);
+
 
 
 typedef struct order_t {
@@ -24,7 +27,7 @@ typedef struct order_t {
     long pet_id; //numeric
     int quantity; //numeric
     char *ship_date; //date time
-    status_e status; //enum
+    openapi_petstore_order_STATUS_e status; //enum
     int complete; //boolean
 
 } order_t;
@@ -34,7 +37,7 @@ order_t *order_create(
     long pet_id,
     int quantity,
     char *ship_date,
-    status_e status,
+    openapi_petstore_order_STATUS_e status,
     int complete
 );
 
