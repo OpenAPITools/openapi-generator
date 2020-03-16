@@ -1,17 +1,18 @@
 #Remove-Module -FullyQualifiedName @{ModuleName = "Org.OpenAPITools"; ModuleVersion = "0.0.1"}
-Remove-Module -FullyQualifiedName @{ModuleName = "PSOpenAPITools"; ModuleVersion = "0.0.1"}
+#Remove-Module -FullyQualifiedName @{ModuleName = "PSOpenAPITools"; ModuleVersion = "0.0.1"}
 Remove-Module -FullyQualifiedName @{ModuleName = "PSPetstore"; ModuleVersion = "0.1.2"}
+#Remove-Module -FullyQualifiedName @{ModuleName = "PSPetstore"; ModuleVersion = "0.0"}
 
-Import-Module -Name '.\src\PSPetstore'
+Import-Module -Name '.\src\PSPetstore\PSPetstore.psd1' -Verbose
 #Import-Module -Name '.\src\PSOpenAPITools'
 #Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
 
-$body = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)
+$body = (New-PSUser -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)
 
 $Id = 38369
 
-$result = Invoke-PetApiGetPetById -petId $Id -testHeader "testing only" -testQuery "testing something here"
+#$result = Invoke-PetApiGetPetById -petId $Id -testHeader "testing only" -testQuery "testing something here"
 
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls
@@ -32,3 +33,11 @@ $result = Invoke-PetApiGetPetById -petId $Id -testHeader "testing only" -testQue
 
 $file = Get-Item "./plus.gif"
 #$Result = Invoke-PetApiUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
+
+Set-PSConfiguration -Username "test_username" -Password "test_password"
+
+$conf = Get-PSConfiguration
+
+$conf | ConvertTo-Json | Write-Host
+
+

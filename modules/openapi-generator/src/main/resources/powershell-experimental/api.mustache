@@ -158,7 +158,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{/isBasicBearer}}
 
         {{/authMethods}}
-        $LocalVarResult = Invoke-{{{apiNamePrefix}}}APIClient -Method '{{httpMethod}}' `
+        $LocalVarResult = Invoke-{{{apiNamePrefix}}}ApiClient -Method '{{httpMethod}}' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `

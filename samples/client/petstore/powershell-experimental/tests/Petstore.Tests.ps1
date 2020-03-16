@@ -11,13 +11,13 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Id = 38369
 
             # Add pet
-            $Pet = New-Pet -Id $Id -Name 'PowerShell' -Category (
-                New-Category -Id $Id -Name 'PSCategory'
+            $Pet = New-PSPet -Id $Id -Name 'PowerShell' -Category (
+                New-PSCategory -Id $Id -Name 'PSCategory'
             ) -PhotoUrls @(
                 'http://example.com/foo',
                 'http://example.com/bar'
             ) -Tags (
-                New-Tag -Id $Id -Name 'PSTag'
+                New-PSTag -Id $Id -Name 'PSTag'
             ) -Status Available
             $Result = Add-PSPet -Pet $Pet
             
@@ -36,13 +36,13 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."status" | Should Be "Pending"
 
             # Update (put)
-            $NewPet = New-Pet -Id $Id -Name 'PowerShell2' -Category (
-                New-Category -Id $Id -Name 'PSCategory2'
+            $NewPet = New-PSPet -Id $Id -Name 'PowerShell2' -Category (
+                New-PSCategory -Id $Id -Name 'PSCategory2'
             ) -PhotoUrls @(
                 'http://example.com/foo2',
                 'http://example.com/bar2'
             ) -Tags (
-                New-Tag -Id $Id -Name 'PSTag2'
+                New-PSTag -Id $Id -Name 'PSTag2'
             ) -Status Sold
 
             $Result = Update-PSPet -Pet $NewPet

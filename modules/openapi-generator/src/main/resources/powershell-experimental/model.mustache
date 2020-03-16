@@ -1,7 +1,7 @@
 {{> partial_header}}
 {{#models}}
 {{#model}}
-function New-{{{classname}}} {
+function New-{{{apiNamePrefix}}}{{{classname}}} {
     [CmdletBinding()]
     Param (
 {{#vars}}
@@ -14,7 +14,7 @@ function New-{{{classname}}} {
     )
 
     Process {
-        'Creating object: {{{packageName}}} => {{{classname}}}' | Write-Debug
+        'Creating object: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

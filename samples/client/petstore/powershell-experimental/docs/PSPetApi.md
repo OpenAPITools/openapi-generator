@@ -1,4 +1,4 @@
-# PSPetstore.PSPetstore/API.PSPetApi
+# PSPetstore.PSPetstore/Api.PSPetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 

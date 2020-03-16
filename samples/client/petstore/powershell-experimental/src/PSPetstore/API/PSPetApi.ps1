@@ -43,7 +43,7 @@ function Add-PSPet {
         $LocalVarBodyParameter = $Pet | ConvertTo-Json
 
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -92,7 +92,7 @@ function Remove-Pet {
         }
 
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'DELETE' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -141,7 +141,7 @@ function Find-PSPetsByStatus {
         $LocalVarQueryParameters['status'] = $Status
 
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -190,7 +190,7 @@ function Find-PSPetsByTags {
         $LocalVarQueryParameters['tags'] = $Tags
 
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -238,7 +238,7 @@ function Get-PSPetById {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -291,7 +291,7 @@ function Update-PSPet {
         $LocalVarBodyParameter = $Pet | ConvertTo-Json
 
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'PUT' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -350,7 +350,7 @@ function Update-PSPetWithForm {
         }
 
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -412,7 +412,7 @@ function Invoke-PSUploadFile {
         }
 
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `

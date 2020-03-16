@@ -31,7 +31,7 @@ function Invoke-PSDeleteOrder {
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $OrderId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'DELETE' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -75,7 +75,7 @@ function Get-PSInventory {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -119,7 +119,7 @@ function Get-PSOrderById {
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $OrderId)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -171,7 +171,7 @@ function Invoke-PSPlaceOrder {
 
         $LocalVarBodyParameter = $Order | ConvertTo-Json
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `

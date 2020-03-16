@@ -88,7 +88,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "powershell-experimental";
-        apiPackage = packageName + File.separator + "API";
+        apiPackage = packageName + File.separator + "Api";
         modelPackage = packageName + File.separator + "Model";
 
         // https://blogs.msdn.microsoft.com/powershell/2010/01/07/how-objects-are-sent-to-and-from-remote-sessions/
@@ -337,7 +337,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
-        this.apiPackage = packageName + File.separator + "API";
+        this.apiPackage = packageName + File.separator + "Api";
         this.modelPackage = packageName + File.separator + "Model";
     }
 
@@ -395,13 +395,11 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
         supportingFiles.add(new SupportingFile("Org.OpenAPITools.psm1.mustache", infrastructureFolder, packageName + ".psm1"));
 
-        // client/api_client
-        // TODO rename OpenAPI with package name
-        supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Client", apiNamePrefix + "APIClient.ps1"));
-        supportingFiles.add(new SupportingFile("set-configuration.mustache", infrastructureFolder + "Client", "Set-" + apiNamePrefix + "Configuration.ps1"));
-        supportingFiles.add(new SupportingFile("get-configuration.mustache", infrastructureFolder + "Client", "Get-" + apiNamePrefix + "Configuration.ps1"));
+        // client/configuration
+        supportingFiles.add(new SupportingFile("configuration.mustache", infrastructureFolder + "Client", apiNamePrefix + "Configuration.ps1"));
 
         // private
+        supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Private", apiNamePrefix + "ApiClient.ps1"));
         supportingFiles.add(new SupportingFile("Get-CommonParameters.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Get-CommonParameters.ps1"));
         supportingFiles.add(new SupportingFile("Out-DebugParameter.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Out-DebugParameter.ps1"));
 

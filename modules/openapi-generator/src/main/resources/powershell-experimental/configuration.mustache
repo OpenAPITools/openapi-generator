@@ -1,0 +1,117 @@
+{{> partial_header}}
+function Get-{{apiNamePrefix}}Configuration {
+
+    $Configuration = $Script:Configuration
+
+    if ([string]::IsNullOrEmpty($Configuration["BaseUrl"])) {
+        $Configuration["BaseUrl"] = "{{{basePath}}}";
+    }
+
+    if (!$Configuration.containsKey("Username")) {
+        $Configuration["Username"] = $null
+    }
+    if (!$Configuration.containsKey("Password")) {
+        $Configuration["Password"] = $null
+    }
+    if (!$Configuration.containsKey("AccessToken")) {
+        $Configuration["AccessToken"] = $null
+    }
+    if (!$Configuration.containsKey("Cookie")) {
+        $Configuration["Cookie"] = $null
+    }
+
+    if (!$Configuration["ApiKey"]) {
+        $Configuration["ApiKey"] = @{}
+    }
+
+    if (!$Configuration["ApiKeyPrefix"]) {
+        $Configuration["ApiKeyPrefix"] = @{}
+    }
+
+    #if (!$Configuration["User-Agent"]) {
+    #    $Configuration["User-Agent"] = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/powershell{{/httpUserAgent}}"
+    #}
+
+    Return $Configuration
+
+}
+
+function Set-{{{apiNamePrefix}}}Configuration {
+
+    [CmdletBinding()]
+    Param(
+        [string]$BaseUrl,
+        [AllowEmptyString()]
+        [string]$Username,
+        [AllowEmptyString()]
+        [string]$Password,
+        [hashtable]$ApiKey,
+        [hashtable]$ApiKeyPrefix,
+        [AllowEmptyString()]
+        [string]$Cookie,
+        [AllowEmptyString()]
+        [string]$AccessToken,
+        [switch]$PassThru,
+        [switch]$Force
+    )
+
+    Process {
+
+        If ($BaseUrl) {
+            $Script:Configuration["BaseUrl"] = $BaseUrl
+            #if ($Script:Configuration.containsKey('BaseUrl')) {
+            #    $Script:Configuration["BaseUrl"] = $BaseUrl
+            #} else {
+            #    [void]$Script:Configuration.Add('BaseUrl', $BaseUrl)
+            #}
+        }
+
+        If ($Username) {
+            $Script:Configuration['Username'] = $Username
+        }
+
+        If ($Password) {
+            $Script:Configuration['Password'] = $Password
+        }
+
+        If ($ApiKey) {
+            $Script:Configuration['ApiKey'] = $ApiKey
+        }
+
+        If ($ApiKeyPrefix) {
+            $Script:Configuration['ApiKeyPrefix'] = $ApiKeyPrefix
+        }
+
+        If ($Cookie) {
+            $Script:Configuration['Cookie'] = $Cookie
+        }
+
+        If ($AccessToken) {
+            $Script:Configuration['AccessToken'] = $AccessToken
+        }
+    }
+}
+
+function Set-{{{apiNamePrefix}}}ConfigurationApiKey {
+    [CmdletBinding()]
+    Param(
+        [string]$Key,
+        [AllowEmptyString()]
+        [string]$Value
+    )
+    Process {
+        $Script:Configuration["ApiKey"][$Key] = $Value
+    }
+}
+
+function Set-{{{apiNamePrefix}}}ConfigurationApiKeyPrefix {
+    [CmdletBinding()]
+    Param(
+        [string]$Key,
+        [AllowEmptyString()]
+        [string]$Prefix
+    )
+    Process {
+        $Script:Configuration["ApiKeyPrefix"][$Key] = $Prefix
+    }
+}

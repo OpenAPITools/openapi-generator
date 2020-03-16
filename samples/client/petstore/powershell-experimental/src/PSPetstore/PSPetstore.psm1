@@ -5,7 +5,7 @@ $Script:Configuration = [System.Collections.HashTable]@{}
 
 $Script:CmdletBindingParameters = @('Verbose','Debug','ErrorAction','WarningAction','InformationAction','ErrorVariable','WarningVariable','InformationVariable','OutVariable','OutBuffer','PipelineVariable')
 
-'API', 'Model', 'Client', 'Private' | Get-ChildItem -Path {
+'Api', 'Model', 'Client', 'Private' | Get-ChildItem -Path {
     Join-Path $PSScriptRoot $_
 } -Filter '*.ps1' | ForEach-Object {
     Write-Host "Importing file: $($_.BaseName)"
@@ -18,7 +18,7 @@ $Script:CmdletBindingParameters = @('Verbose','Debug','ErrorAction','WarningActi
 
 #endregion
 
-
+#TODO remove the following
 #region Initialize APIs
 
 #'Creating object: PSPetstore.Api.PSPetApi' | Write-Verbose

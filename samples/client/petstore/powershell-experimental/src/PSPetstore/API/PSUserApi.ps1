@@ -43,7 +43,7 @@ function Invoke-PSCreateUser {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
         }
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -96,7 +96,7 @@ function Invoke-PSCreateUsersWithArrayInput {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
         }
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -149,7 +149,7 @@ function Invoke-PSCreateUsersWithListInput {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
         }
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'POST' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -194,7 +194,7 @@ function Invoke-PSDeleteUser {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
         }
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'DELETE' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -238,7 +238,7 @@ function Get-PSUserByName {
         $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
         #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -294,7 +294,7 @@ function Invoke-PSLoginUser {
         }
         $LocalVarQueryParameters['password'] = $Password
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -335,7 +335,7 @@ function Invoke-PSLogoutUser {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
         }
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'GET' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `
@@ -392,7 +392,7 @@ function Update-PSUser {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
         }
 
-        $LocalVarResult = Invoke-PSAPIClient -Method 'PUT' `
+        $LocalVarResult = Invoke-PSApiClient -Method 'PUT' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
                                 -ContentTypes $LocalVarContentTypes `

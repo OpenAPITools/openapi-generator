@@ -46,7 +46,7 @@ function Get-FunctionsToExport {
 
 $ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
 #$ClientPath = ("depcreatedCsharpClientPath" | Resolve-Path).ProviderPath
-$FunctionPath = 'API', 'Model' | ForEach-Object {Join-Path "$ScriptDir\src\PSPetstore\" $_}
+$FunctionPath = 'Api', 'Model', 'Client' | ForEach-Object {Join-Path "$ScriptDir\src\PSPetstore\" $_}
 $BinPath = "$ScriptDir\src\PSPetstore\Bin"
 
 #Start-Process -FilePath "$ClientPath\build.bat" -WorkingDirectory $ClientPath -Wait -NoNewWindow
@@ -64,6 +64,8 @@ $Manifest = @{
     CompanyName = 'openapitools.org'
     Description = 'PSPetstore - the PowerShell module for OpenAPI Petstore'
 
+    ModuleVersion = '0.1.2'
+
     RootModule = 'PSPetstore.psm1'
     Guid = 'a27b908d-2a20-467f-bc32-af6f3a654ac5' # Has to be static, otherwise each new build will be considered different module
 
@@ -79,14 +81,6 @@ $Manifest = @{
     AliasesToExport = @()
     CmdletsToExport = @()
 
-    # Should we use prefix to prevent command name collisions?
-    # https://www.sapien.com/blog/2016/02/15/use-prefixes-to-prevent-command-name-collision/
-    #
-    # Kirk Munro recommends against it:
-    # https://www.sapien.com/blog/2016/02/15/use-prefixes-to-prevent-command-name-collision/#comment-20820
-    #
-    # If not, we'd need to generate functions name with prefix. For examples,
-    #
     # DefaultCommandPrefix = 'PSPetApi'
     # DefaultCommandPrefix = 'PSStoreApi'
     # DefaultCommandPrefix = 'PSUserApi'
