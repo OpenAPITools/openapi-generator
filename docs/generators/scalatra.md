@@ -42,6 +42,7 @@ sidebar_label: scalatra
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
+|array|List|
 |map|HashMap|
 |set|Set|
 
