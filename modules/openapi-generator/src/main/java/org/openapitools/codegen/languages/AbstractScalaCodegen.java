@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -41,6 +42,19 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected boolean stripPackageName = true;
+    protected String dateLibrary = DateLibraries.java8.name();
+
+    protected enum DateLibraries {
+        java8("Java 8 native JSR310 (prefered for JDK 1.8+)"),
+        joda( "Joda (for legacy app)"),
+        legacy( "Backport to http-client (deprecated)");
+
+        private final String description;
+
+        DateLibraries(String description) {
+            this.description = description;
+        }
+    }
 
     public AbstractScalaCodegen() {
         super();
@@ -131,6 +145,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(modelPropertyNaming));
 
+        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.dateLibrary);
+        Map<String, String> dateOptions = new HashMap<>();
+        dateOptions.put(DateLibraries.java8.name(), DateLibraries.java8.description);
+        dateOptions.put(DateLibraries.joda.name(), DateLibraries.joda.description);
+        dateLibrary.setEnum(dateOptions);
+        cliOptions.add(dateLibrary);
+
     }
 
     @Override
@@ -156,6 +177,43 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             setModelPropertyNaming(
                     (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
+
+        if (additionalProperties.containsKey(DATE_LIBRARY)) {
+            this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString(), false);
+        }
+        if (DateLibraries.java8.name().equals(dateLibrary)) {
+            this.importMapping.put("LocalDate", "java.time.LocalDate");
+            this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+            this.typeMapping.put("date", "LocalDate");
+            this.typeMapping.put("DateTime", "OffsetDateTime");
+            additionalProperties.put("java8", "true");
+        } else if (DateLibraries.joda.name().equals(dateLibrary)) {
+            this.importMapping.put("LocalDate", "org.joda.time.LocalDate");
+            this.importMapping.put("DateTime", "org.joda.time.DateTime");
+            this.importMapping.put("LocalDateTime", "org.joda.time.LocalDateTime");
+            this.importMapping.put("LocalTime", "org.joda.time.LocalTime");
+            this.typeMapping.put("date", "LocalDate");
+            this.typeMapping.put("DateTime", "DateTime");
+            additionalProperties.put("joda", "true");
+        }
+    }
+
+    public void setDateLibrary(String dateLibrary, boolean withLegacy) {
+        if (withLegacy && dateLibrary.equals(DateLibraries.legacy.name())) {
+            this.dateLibrary = dateLibrary;
+            return;
+        }
+        for ( DateLibraries dateLib : DateLibraries.values()) {
+            if (dateLib.name().equals(dateLibrary)) {
+                this.dateLibrary = dateLibrary;
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Invalid dateLibrary. Must be 'java8' or 'joda'");
+    }
+
+    public String getDateLibrary() {
+        return this.dateLibrary;
     }
 
     public void setModelPropertyNaming(String naming) {
