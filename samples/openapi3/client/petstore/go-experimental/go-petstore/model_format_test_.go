@@ -73,12 +73,12 @@ func (o *FormatTest) GetIntegerOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-    return *o.Integer, true
+	return *o.Integer, true
 }
 
 // HasInteger returns a boolean if a field has been set.
 func (o *FormatTest) HasInteger() bool {
-    if o != nil && o.Integer != nil {
+	if o != nil && o.Integer != nil {
 		return true
 	}
 
@@ -106,12 +106,12 @@ func (o *FormatTest) GetInt32Ok() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-    return *o.Int32, true
+	return *o.Int32, true
 }
 
 // HasInt32 returns a boolean if a field has been set.
 func (o *FormatTest) HasInt32() bool {
-    if o != nil && o.Int32 != nil {
+	if o != nil && o.Int32 != nil {
 		return true
 	}
 
@@ -139,12 +139,12 @@ func (o *FormatTest) GetInt64Ok() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-    return *o.Int64, true
+	return *o.Int64, true
 }
 
 // HasInt64 returns a boolean if a field has been set.
 func (o *FormatTest) HasInt64() bool {
-    if o != nil && o.Int64 != nil {
+	if o != nil && o.Int64 != nil {
 		return true
 	}
 
@@ -187,12 +187,12 @@ func (o *FormatTest) GetFloatOk() (float32, bool) {
 		var ret float32
 		return ret, false
 	}
-    return *o.Float, true
+	return *o.Float, true
 }
 
 // HasFloat returns a boolean if a field has been set.
 func (o *FormatTest) HasFloat() bool {
-    if o != nil && o.Float != nil {
+	if o != nil && o.Float != nil {
 		return true
 	}
 
@@ -220,12 +220,12 @@ func (o *FormatTest) GetDoubleOk() (float64, bool) {
 		var ret float64
 		return ret, false
 	}
-    return *o.Double, true
+	return *o.Double, true
 }
 
 // HasDouble returns a boolean if a field has been set.
 func (o *FormatTest) HasDouble() bool {
-    if o != nil && o.Double != nil {
+	if o != nil && o.Double != nil {
 		return true
 	}
 
@@ -253,12 +253,12 @@ func (o *FormatTest) GetStringOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.String, true
+	return *o.String, true
 }
 
 // HasString returns a boolean if a field has been set.
 func (o *FormatTest) HasString() bool {
-    if o != nil && o.String != nil {
+	if o != nil && o.String != nil {
 		return true
 	}
 
@@ -301,12 +301,12 @@ func (o *FormatTest) GetBinaryOk() (*os.File, bool) {
 		var ret *os.File
 		return ret, false
 	}
-    return *o.Binary, true
+	return *o.Binary, true
 }
 
 // HasBinary returns a boolean if a field has been set.
 func (o *FormatTest) HasBinary() bool {
-    if o != nil && o.Binary != nil {
+	if o != nil && o.Binary != nil {
 		return true
 	}
 
@@ -349,12 +349,12 @@ func (o *FormatTest) GetDateTimeOk() (time.Time, bool) {
 		var ret time.Time
 		return ret, false
 	}
-    return *o.DateTime, true
+	return *o.DateTime, true
 }
 
 // HasDateTime returns a boolean if a field has been set.
 func (o *FormatTest) HasDateTime() bool {
-    if o != nil && o.DateTime != nil {
+	if o != nil && o.DateTime != nil {
 		return true
 	}
 
@@ -382,12 +382,12 @@ func (o *FormatTest) GetUuidOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Uuid, true
+	return *o.Uuid, true
 }
 
 // HasUuid returns a boolean if a field has been set.
 func (o *FormatTest) HasUuid() bool {
-    if o != nil && o.Uuid != nil {
+	if o != nil && o.Uuid != nil {
 		return true
 	}
 
@@ -430,12 +430,12 @@ func (o *FormatTest) GetPatternWithDigitsOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.PatternWithDigits, true
+	return *o.PatternWithDigits, true
 }
 
 // HasPatternWithDigits returns a boolean if a field has been set.
 func (o *FormatTest) HasPatternWithDigits() bool {
-    if o != nil && o.PatternWithDigits != nil {
+	if o != nil && o.PatternWithDigits != nil {
 		return true
 	}
 
@@ -463,12 +463,12 @@ func (o *FormatTest) GetPatternWithDigitsAndDelimiterOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.PatternWithDigitsAndDelimiter, true
+	return *o.PatternWithDigitsAndDelimiter, true
 }
 
 // HasPatternWithDigitsAndDelimiter returns a boolean if a field has been set.
 func (o *FormatTest) HasPatternWithDigitsAndDelimiter() bool {
-    if o != nil && o.PatternWithDigitsAndDelimiter != nil {
+	if o != nil && o.PatternWithDigitsAndDelimiter != nil {
 		return true
 	}
 
@@ -481,53 +481,53 @@ func (o *FormatTest) SetPatternWithDigitsAndDelimiter(v string) {
 }
 
 func (o FormatTest) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Integer != nil {
-        toSerialize["integer"] = o.Integer
-    }
-    if o.Int32 != nil {
-        toSerialize["int32"] = o.Int32
-    }
-    if o.Int64 != nil {
-        toSerialize["int64"] = o.Int64
-    }
-    if true {
-        toSerialize["number"] = o.Number
-    }
-    if o.Float != nil {
-        toSerialize["float"] = o.Float
-    }
-    if o.Double != nil {
-        toSerialize["double"] = o.Double
-    }
-    if o.String != nil {
-        toSerialize["string"] = o.String
-    }
-    if true {
-        toSerialize["byte"] = o.Byte
-    }
-    if o.Binary != nil {
-        toSerialize["binary"] = o.Binary
-    }
-    if true {
-        toSerialize["date"] = o.Date
-    }
-    if o.DateTime != nil {
-        toSerialize["dateTime"] = o.DateTime
-    }
-    if o.Uuid != nil {
-        toSerialize["uuid"] = o.Uuid
-    }
-    if true {
-        toSerialize["password"] = o.Password
-    }
-    if o.PatternWithDigits != nil {
-        toSerialize["pattern_with_digits"] = o.PatternWithDigits
-    }
-    if o.PatternWithDigitsAndDelimiter != nil {
-        toSerialize["pattern_with_digits_and_delimiter"] = o.PatternWithDigitsAndDelimiter
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Integer != nil {
+		toSerialize["integer"] = o.Integer
+	}
+	if o.Int32 != nil {
+		toSerialize["int32"] = o.Int32
+	}
+	if o.Int64 != nil {
+		toSerialize["int64"] = o.Int64
+	}
+	if true {
+		toSerialize["number"] = o.Number
+	}
+	if o.Float != nil {
+		toSerialize["float"] = o.Float
+	}
+	if o.Double != nil {
+		toSerialize["double"] = o.Double
+	}
+	if o.String != nil {
+		toSerialize["string"] = o.String
+	}
+	if true {
+		toSerialize["byte"] = o.Byte
+	}
+	if o.Binary != nil {
+		toSerialize["binary"] = o.Binary
+	}
+	if true {
+		toSerialize["date"] = o.Date
+	}
+	if o.DateTime != nil {
+		toSerialize["dateTime"] = o.DateTime
+	}
+	if o.Uuid != nil {
+		toSerialize["uuid"] = o.Uuid
+	}
+	if true {
+		toSerialize["password"] = o.Password
+	}
+	if o.PatternWithDigits != nil {
+		toSerialize["pattern_with_digits"] = o.PatternWithDigits
+	}
+	if o.PatternWithDigitsAndDelimiter != nil {
+		toSerialize["pattern_with_digits_and_delimiter"] = o.PatternWithDigitsAndDelimiter
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableFormatTest struct {
@@ -536,32 +536,32 @@ type NullableFormatTest struct {
 }
 
 func (v NullableFormatTest) Get() *FormatTest {
-    return v.value
+	return v.value
 }
 
 func (v NullableFormatTest) Set(val *FormatTest) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableFormatTest) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableFormatTest) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableFormatTest(val *FormatTest) *NullableFormatTest {
-    return &NullableFormatTest{value: val, isSet: true}
+	return &NullableFormatTest{value: val, isSet: true}
 }
 
 func (v NullableFormatTest) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableFormatTest) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

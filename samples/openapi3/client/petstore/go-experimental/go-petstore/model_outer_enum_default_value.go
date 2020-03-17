@@ -29,32 +29,32 @@ type NullableOuterEnumDefaultValue struct {
 }
 
 func (v NullableOuterEnumDefaultValue) Get() *OuterEnumDefaultValue {
-    return v.value
+	return v.value
 }
 
 func (v NullableOuterEnumDefaultValue) Set(val *OuterEnumDefaultValue) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableOuterEnumDefaultValue) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableOuterEnumDefaultValue) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableOuterEnumDefaultValue(val *OuterEnumDefaultValue) *NullableOuterEnumDefaultValue {
-    return &NullableOuterEnumDefaultValue{value: val, isSet: true}
+	return &NullableOuterEnumDefaultValue{value: val, isSet: true}
 }
 
 func (v NullableOuterEnumDefaultValue) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableOuterEnumDefaultValue) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

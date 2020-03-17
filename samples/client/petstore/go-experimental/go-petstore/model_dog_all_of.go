@@ -51,12 +51,12 @@ func (o *DogAllOf) GetBreedOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Breed, true
+	return *o.Breed, true
 }
 
 // HasBreed returns a boolean if a field has been set.
 func (o *DogAllOf) HasBreed() bool {
-    if o != nil && o.Breed != nil {
+	if o != nil && o.Breed != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *DogAllOf) SetBreed(v string) {
 }
 
 func (o DogAllOf) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Breed != nil {
-        toSerialize["breed"] = o.Breed
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Breed != nil {
+		toSerialize["breed"] = o.Breed
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableDogAllOf struct {
@@ -82,32 +82,32 @@ type NullableDogAllOf struct {
 }
 
 func (v NullableDogAllOf) Get() *DogAllOf {
-    return v.value
+	return v.value
 }
 
 func (v NullableDogAllOf) Set(val *DogAllOf) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableDogAllOf) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableDogAllOf) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableDogAllOf(val *DogAllOf) *NullableDogAllOf {
-    return &NullableDogAllOf{value: val, isSet: true}
+	return &NullableDogAllOf{value: val, isSet: true}
 }
 
 func (v NullableDogAllOf) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableDogAllOf) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

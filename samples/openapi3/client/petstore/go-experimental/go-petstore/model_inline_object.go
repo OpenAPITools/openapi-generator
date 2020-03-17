@@ -54,12 +54,12 @@ func (o *InlineObject) GetNameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Name, true
+	return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *InlineObject) HasName() bool {
-    if o != nil && o.Name != nil {
+	if o != nil && o.Name != nil {
 		return true
 	}
 
@@ -87,12 +87,12 @@ func (o *InlineObject) GetStatusOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Status, true
+	return *o.Status, true
 }
 
 // HasStatus returns a boolean if a field has been set.
 func (o *InlineObject) HasStatus() bool {
-    if o != nil && o.Status != nil {
+	if o != nil && o.Status != nil {
 		return true
 	}
 
@@ -105,14 +105,14 @@ func (o *InlineObject) SetStatus(v string) {
 }
 
 func (o InlineObject) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Name != nil {
-        toSerialize["name"] = o.Name
-    }
-    if o.Status != nil {
-        toSerialize["status"] = o.Status
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableInlineObject struct {
@@ -121,32 +121,32 @@ type NullableInlineObject struct {
 }
 
 func (v NullableInlineObject) Get() *InlineObject {
-    return v.value
+	return v.value
 }
 
 func (v NullableInlineObject) Set(val *InlineObject) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableInlineObject) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableInlineObject) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableInlineObject(val *InlineObject) *NullableInlineObject {
-    return &NullableInlineObject{value: val, isSet: true}
+	return &NullableInlineObject{value: val, isSet: true}
 }
 
 func (v NullableInlineObject) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

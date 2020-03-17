@@ -52,12 +52,12 @@ func (o *ReadOnlyFirst) GetBarOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Bar, true
+	return *o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *ReadOnlyFirst) HasBar() bool {
-    if o != nil && o.Bar != nil {
+	if o != nil && o.Bar != nil {
 		return true
 	}
 
@@ -85,12 +85,12 @@ func (o *ReadOnlyFirst) GetBazOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Baz, true
+	return *o.Baz, true
 }
 
 // HasBaz returns a boolean if a field has been set.
 func (o *ReadOnlyFirst) HasBaz() bool {
-    if o != nil && o.Baz != nil {
+	if o != nil && o.Baz != nil {
 		return true
 	}
 
@@ -103,14 +103,14 @@ func (o *ReadOnlyFirst) SetBaz(v string) {
 }
 
 func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Bar != nil {
-        toSerialize["bar"] = o.Bar
-    }
-    if o.Baz != nil {
-        toSerialize["baz"] = o.Baz
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Bar != nil {
+		toSerialize["bar"] = o.Bar
+	}
+	if o.Baz != nil {
+		toSerialize["baz"] = o.Baz
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableReadOnlyFirst struct {
@@ -119,32 +119,32 @@ type NullableReadOnlyFirst struct {
 }
 
 func (v NullableReadOnlyFirst) Get() *ReadOnlyFirst {
-    return v.value
+	return v.value
 }
 
 func (v NullableReadOnlyFirst) Set(val *ReadOnlyFirst) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableReadOnlyFirst) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableReadOnlyFirst) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableReadOnlyFirst(val *ReadOnlyFirst) *NullableReadOnlyFirst {
-    return &NullableReadOnlyFirst{value: val, isSet: true}
+	return &NullableReadOnlyFirst{value: val, isSet: true}
 }
 
 func (v NullableReadOnlyFirst) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableReadOnlyFirst) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

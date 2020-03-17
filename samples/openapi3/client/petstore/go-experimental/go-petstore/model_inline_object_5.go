@@ -56,12 +56,12 @@ func (o *InlineObject5) GetAdditionalMetadataOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.AdditionalMetadata, true
+	return *o.AdditionalMetadata, true
 }
 
 // HasAdditionalMetadata returns a boolean if a field has been set.
 func (o *InlineObject5) HasAdditionalMetadata() bool {
-    if o != nil && o.AdditionalMetadata != nil {
+	if o != nil && o.AdditionalMetadata != nil {
 		return true
 	}
 
@@ -89,14 +89,14 @@ func (o *InlineObject5) SetRequiredFile(v *os.File) {
 }
 
 func (o InlineObject5) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.AdditionalMetadata != nil {
-        toSerialize["additionalMetadata"] = o.AdditionalMetadata
-    }
-    if true {
-        toSerialize["requiredFile"] = o.RequiredFile
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.AdditionalMetadata != nil {
+		toSerialize["additionalMetadata"] = o.AdditionalMetadata
+	}
+	if true {
+		toSerialize["requiredFile"] = o.RequiredFile
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableInlineObject5 struct {
@@ -105,32 +105,32 @@ type NullableInlineObject5 struct {
 }
 
 func (v NullableInlineObject5) Get() *InlineObject5 {
-    return v.value
+	return v.value
 }
 
 func (v NullableInlineObject5) Set(val *InlineObject5) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableInlineObject5) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableInlineObject5) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableInlineObject5(val *InlineObject5) *NullableInlineObject5 {
-    return &NullableInlineObject5{value: val, isSet: true}
+	return &NullableInlineObject5{value: val, isSet: true}
 }
 
 func (v NullableInlineObject5) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject5) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

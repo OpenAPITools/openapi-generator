@@ -26,8 +26,8 @@ type Animal struct {
 func NewAnimal(className string, ) *Animal {
     this := Animal{}
     this.ClassName = className
-    var color string = "red"
-    this.Color = &color
+	var color string = "red"
+	this.Color = &color
     return &this
 }
 
@@ -36,8 +36,8 @@ func NewAnimal(className string, ) *Animal {
 // but it doesn't guarantee that properties required by API are set
 func NewAnimalWithDefaults() *Animal {
     this := Animal{}
-    var color string = "red"
-    this.Color = &color
+	var color string = "red"
+	this.Color = &color
     return &this
 }
 
@@ -72,12 +72,12 @@ func (o *Animal) GetColorOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Color, true
+	return *o.Color, true
 }
 
 // HasColor returns a boolean if a field has been set.
 func (o *Animal) HasColor() bool {
-    if o != nil && o.Color != nil {
+	if o != nil && o.Color != nil {
 		return true
 	}
 
@@ -90,14 +90,14 @@ func (o *Animal) SetColor(v string) {
 }
 
 func (o Animal) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if true {
-        toSerialize["className"] = o.ClassName
-    }
-    if o.Color != nil {
-        toSerialize["color"] = o.Color
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["className"] = o.ClassName
+	}
+	if o.Color != nil {
+		toSerialize["color"] = o.Color
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableAnimal struct {
@@ -106,32 +106,32 @@ type NullableAnimal struct {
 }
 
 func (v NullableAnimal) Get() *Animal {
-    return v.value
+	return v.value
 }
 
 func (v NullableAnimal) Set(val *Animal) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableAnimal) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableAnimal) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableAnimal(val *Animal) *NullableAnimal {
-    return &NullableAnimal{value: val, isSet: true}
+	return &NullableAnimal{value: val, isSet: true}
 }
 
 func (v NullableAnimal) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableAnimal) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

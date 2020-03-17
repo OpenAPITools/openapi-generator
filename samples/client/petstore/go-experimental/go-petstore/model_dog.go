@@ -52,12 +52,12 @@ func (o *Dog) GetBreedOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Breed, true
+	return *o.Breed, true
 }
 
 // HasBreed returns a boolean if a field has been set.
 func (o *Dog) HasBreed() bool {
-    if o != nil && o.Breed != nil {
+	if o != nil && o.Breed != nil {
 		return true
 	}
 
@@ -70,19 +70,19 @@ func (o *Dog) SetBreed(v string) {
 }
 
 func (o Dog) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    serializedAnimal, errAnimal := json.Marshal(o.Animal)
-    if errAnimal != nil {
-        return []byte{}, errAnimal
-    }
-    errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
-    if errAnimal != nil {
-       return []byte{}, errAnimal
-    }
-    if o.Breed != nil {
-        toSerialize["breed"] = o.Breed
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	serializedAnimal, errAnimal := json.Marshal(o.Animal)
+	if errAnimal != nil {
+		return []byte{}, errAnimal
+	}
+	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
+	if errAnimal != nil {
+		return []byte{}, errAnimal
+	}
+	if o.Breed != nil {
+		toSerialize["breed"] = o.Breed
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableDog struct {
@@ -91,32 +91,32 @@ type NullableDog struct {
 }
 
 func (v NullableDog) Get() *Dog {
-    return v.value
+	return v.value
 }
 
 func (v NullableDog) Set(val *Dog) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableDog) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableDog) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableDog(val *Dog) *NullableDog {
-    return &NullableDog{value: val, isSet: true}
+	return &NullableDog{value: val, isSet: true}
 }
 
 func (v NullableDog) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableDog) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

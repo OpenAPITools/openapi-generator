@@ -41,10 +41,10 @@ func NewTypeHolderDefault(stringItem string, numberItem float32, integerItem int
 // but it doesn't guarantee that properties required by API are set
 func NewTypeHolderDefaultWithDefaults() *TypeHolderDefault {
     this := TypeHolderDefault{}
-    var stringItem string = "what"
-    this.StringItem = stringItem
-    var boolItem bool = true
-    this.BoolItem = boolItem
+	var stringItem string = "what"
+	this.StringItem = stringItem
+	var boolItem bool = true
+	this.BoolItem = boolItem
     return &this
 }
 
@@ -124,23 +124,23 @@ func (o *TypeHolderDefault) SetArrayItem(v []int32) {
 }
 
 func (o TypeHolderDefault) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if true {
-        toSerialize["string_item"] = o.StringItem
-    }
-    if true {
-        toSerialize["number_item"] = o.NumberItem
-    }
-    if true {
-        toSerialize["integer_item"] = o.IntegerItem
-    }
-    if true {
-        toSerialize["bool_item"] = o.BoolItem
-    }
-    if true {
-        toSerialize["array_item"] = o.ArrayItem
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["string_item"] = o.StringItem
+	}
+	if true {
+		toSerialize["number_item"] = o.NumberItem
+	}
+	if true {
+		toSerialize["integer_item"] = o.IntegerItem
+	}
+	if true {
+		toSerialize["bool_item"] = o.BoolItem
+	}
+	if true {
+		toSerialize["array_item"] = o.ArrayItem
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableTypeHolderDefault struct {
@@ -149,32 +149,32 @@ type NullableTypeHolderDefault struct {
 }
 
 func (v NullableTypeHolderDefault) Get() *TypeHolderDefault {
-    return v.value
+	return v.value
 }
 
 func (v NullableTypeHolderDefault) Set(val *TypeHolderDefault) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableTypeHolderDefault) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableTypeHolderDefault) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableTypeHolderDefault(val *TypeHolderDefault) *NullableTypeHolderDefault {
-    return &NullableTypeHolderDefault{value: val, isSet: true}
+	return &NullableTypeHolderDefault{value: val, isSet: true}
 }
 
 func (v NullableTypeHolderDefault) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableTypeHolderDefault) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

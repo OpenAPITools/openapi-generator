@@ -51,12 +51,12 @@ func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
 		var ret []float32
 		return ret, false
 	}
-    return *o.ArrayNumber, true
+	return *o.ArrayNumber, true
 }
 
 // HasArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
-    if o != nil && o.ArrayNumber != nil {
+	if o != nil && o.ArrayNumber != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
 }
 
 func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.ArrayNumber != nil {
-        toSerialize["ArrayNumber"] = o.ArrayNumber
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.ArrayNumber != nil {
+		toSerialize["ArrayNumber"] = o.ArrayNumber
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableArrayOfNumberOnly struct {
@@ -82,32 +82,32 @@ type NullableArrayOfNumberOnly struct {
 }
 
 func (v NullableArrayOfNumberOnly) Get() *ArrayOfNumberOnly {
-    return v.value
+	return v.value
 }
 
 func (v NullableArrayOfNumberOnly) Set(val *ArrayOfNumberOnly) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableArrayOfNumberOnly) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableArrayOfNumberOnly) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableArrayOfNumberOnly(val *ArrayOfNumberOnly) *NullableArrayOfNumberOnly {
-    return &NullableArrayOfNumberOnly{value: val, isSet: true}
+	return &NullableArrayOfNumberOnly{value: val, isSet: true}
 }
 
 func (v NullableArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

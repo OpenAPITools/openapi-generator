@@ -51,12 +51,12 @@ func (o *ClassModel) GetClassOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Class, true
+	return *o.Class, true
 }
 
 // HasClass returns a boolean if a field has been set.
 func (o *ClassModel) HasClass() bool {
-    if o != nil && o.Class != nil {
+	if o != nil && o.Class != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *ClassModel) SetClass(v string) {
 }
 
 func (o ClassModel) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Class != nil {
-        toSerialize["_class"] = o.Class
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Class != nil {
+		toSerialize["_class"] = o.Class
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableClassModel struct {
@@ -82,32 +82,32 @@ type NullableClassModel struct {
 }
 
 func (v NullableClassModel) Get() *ClassModel {
-    return v.value
+	return v.value
 }
 
 func (v NullableClassModel) Set(val *ClassModel) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableClassModel) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableClassModel) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableClassModel(val *ClassModel) *NullableClassModel {
-    return &NullableClassModel{value: val, isSet: true}
+	return &NullableClassModel{value: val, isSet: true}
 }
 
 func (v NullableClassModel) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableClassModel) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

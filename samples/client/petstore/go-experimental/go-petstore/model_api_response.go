@@ -53,12 +53,12 @@ func (o *ApiResponse) GetCodeOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-    return *o.Code, true
+	return *o.Code, true
 }
 
 // HasCode returns a boolean if a field has been set.
 func (o *ApiResponse) HasCode() bool {
-    if o != nil && o.Code != nil {
+	if o != nil && o.Code != nil {
 		return true
 	}
 
@@ -86,12 +86,12 @@ func (o *ApiResponse) GetTypeOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Type, true
+	return *o.Type, true
 }
 
 // HasType returns a boolean if a field has been set.
 func (o *ApiResponse) HasType() bool {
-    if o != nil && o.Type != nil {
+	if o != nil && o.Type != nil {
 		return true
 	}
 
@@ -119,12 +119,12 @@ func (o *ApiResponse) GetMessageOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Message, true
+	return *o.Message, true
 }
 
 // HasMessage returns a boolean if a field has been set.
 func (o *ApiResponse) HasMessage() bool {
-    if o != nil && o.Message != nil {
+	if o != nil && o.Message != nil {
 		return true
 	}
 
@@ -137,17 +137,17 @@ func (o *ApiResponse) SetMessage(v string) {
 }
 
 func (o ApiResponse) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Code != nil {
-        toSerialize["code"] = o.Code
-    }
-    if o.Type != nil {
-        toSerialize["type"] = o.Type
-    }
-    if o.Message != nil {
-        toSerialize["message"] = o.Message
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Code != nil {
+		toSerialize["code"] = o.Code
+	}
+	if o.Type != nil {
+		toSerialize["type"] = o.Type
+	}
+	if o.Message != nil {
+		toSerialize["message"] = o.Message
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableApiResponse struct {
@@ -156,32 +156,32 @@ type NullableApiResponse struct {
 }
 
 func (v NullableApiResponse) Get() *ApiResponse {
-    return v.value
+	return v.value
 }
 
 func (v NullableApiResponse) Set(val *ApiResponse) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableApiResponse) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableApiResponse) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableApiResponse(val *ApiResponse) *NullableApiResponse {
-    return &NullableApiResponse{value: val, isSet: true}
+	return &NullableApiResponse{value: val, isSet: true}
 }
 
 func (v NullableApiResponse) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableApiResponse) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -51,12 +51,12 @@ func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumberOk() ([][]float32, bool) {
 		var ret [][]float32
 		return ret, false
 	}
-    return *o.ArrayArrayNumber, true
+	return *o.ArrayArrayNumber, true
 }
 
 // HasArrayArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfArrayOfNumberOnly) HasArrayArrayNumber() bool {
-    if o != nil && o.ArrayArrayNumber != nil {
+	if o != nil && o.ArrayArrayNumber != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *ArrayOfArrayOfNumberOnly) SetArrayArrayNumber(v [][]float32) {
 }
 
 func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.ArrayArrayNumber != nil {
-        toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.ArrayArrayNumber != nil {
+		toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableArrayOfArrayOfNumberOnly struct {
@@ -82,32 +82,32 @@ type NullableArrayOfArrayOfNumberOnly struct {
 }
 
 func (v NullableArrayOfArrayOfNumberOnly) Get() *ArrayOfArrayOfNumberOnly {
-    return v.value
+	return v.value
 }
 
 func (v NullableArrayOfArrayOfNumberOnly) Set(val *ArrayOfArrayOfNumberOnly) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableArrayOfArrayOfNumberOnly) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableArrayOfArrayOfNumberOnly) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableArrayOfArrayOfNumberOnly(val *ArrayOfArrayOfNumberOnly) *NullableArrayOfArrayOfNumberOnly {
-    return &NullableArrayOfArrayOfNumberOnly{value: val, isSet: true}
+	return &NullableArrayOfArrayOfNumberOnly{value: val, isSet: true}
 }
 
 func (v NullableArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableArrayOfArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

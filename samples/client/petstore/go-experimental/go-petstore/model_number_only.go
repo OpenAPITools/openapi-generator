@@ -51,12 +51,12 @@ func (o *NumberOnly) GetJustNumberOk() (float32, bool) {
 		var ret float32
 		return ret, false
 	}
-    return *o.JustNumber, true
+	return *o.JustNumber, true
 }
 
 // HasJustNumber returns a boolean if a field has been set.
 func (o *NumberOnly) HasJustNumber() bool {
-    if o != nil && o.JustNumber != nil {
+	if o != nil && o.JustNumber != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *NumberOnly) SetJustNumber(v float32) {
 }
 
 func (o NumberOnly) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.JustNumber != nil {
-        toSerialize["JustNumber"] = o.JustNumber
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.JustNumber != nil {
+		toSerialize["JustNumber"] = o.JustNumber
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableNumberOnly struct {
@@ -82,32 +82,32 @@ type NullableNumberOnly struct {
 }
 
 func (v NullableNumberOnly) Get() *NumberOnly {
-    return v.value
+	return v.value
 }
 
 func (v NullableNumberOnly) Set(val *NumberOnly) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableNumberOnly) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableNumberOnly) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableNumberOnly(val *NumberOnly) *NullableNumberOnly {
-    return &NullableNumberOnly{value: val, isSet: true}
+	return &NullableNumberOnly{value: val, isSet: true}
 }
 
 func (v NullableNumberOnly) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableNumberOnly) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

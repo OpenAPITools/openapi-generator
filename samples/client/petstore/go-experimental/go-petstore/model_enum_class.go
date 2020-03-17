@@ -29,32 +29,32 @@ type NullableEnumClass struct {
 }
 
 func (v NullableEnumClass) Get() *EnumClass {
-    return v.value
+	return v.value
 }
 
 func (v NullableEnumClass) Set(val *EnumClass) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableEnumClass) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableEnumClass) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableEnumClass(val *EnumClass) *NullableEnumClass {
-    return &NullableEnumClass{value: val, isSet: true}
+	return &NullableEnumClass{value: val, isSet: true}
 }
 
 func (v NullableEnumClass) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableEnumClass) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

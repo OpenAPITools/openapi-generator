@@ -52,12 +52,12 @@ func (o *Cat) GetDeclawedOk() (bool, bool) {
 		var ret bool
 		return ret, false
 	}
-    return *o.Declawed, true
+	return *o.Declawed, true
 }
 
 // HasDeclawed returns a boolean if a field has been set.
 func (o *Cat) HasDeclawed() bool {
-    if o != nil && o.Declawed != nil {
+	if o != nil && o.Declawed != nil {
 		return true
 	}
 
@@ -70,19 +70,19 @@ func (o *Cat) SetDeclawed(v bool) {
 }
 
 func (o Cat) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    serializedAnimal, errAnimal := json.Marshal(o.Animal)
-    if errAnimal != nil {
-        return []byte{}, errAnimal
-    }
-    errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
-    if errAnimal != nil {
-       return []byte{}, errAnimal
-    }
-    if o.Declawed != nil {
-        toSerialize["declawed"] = o.Declawed
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	serializedAnimal, errAnimal := json.Marshal(o.Animal)
+	if errAnimal != nil {
+		return []byte{}, errAnimal
+	}
+	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
+	if errAnimal != nil {
+		return []byte{}, errAnimal
+	}
+	if o.Declawed != nil {
+		toSerialize["declawed"] = o.Declawed
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableCat struct {
@@ -91,32 +91,32 @@ type NullableCat struct {
 }
 
 func (v NullableCat) Get() *Cat {
-    return v.value
+	return v.value
 }
 
 func (v NullableCat) Set(val *Cat) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableCat) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableCat) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableCat(val *Cat) *NullableCat {
-    return &NullableCat{value: val, isSet: true}
+	return &NullableCat{value: val, isSet: true}
 }
 
 func (v NullableCat) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableCat) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -51,12 +51,12 @@ func (o *AdditionalPropertiesNumber) GetNameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Name, true
+	return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *AdditionalPropertiesNumber) HasName() bool {
-    if o != nil && o.Name != nil {
+	if o != nil && o.Name != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *AdditionalPropertiesNumber) SetName(v string) {
 }
 
 func (o AdditionalPropertiesNumber) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Name != nil {
-        toSerialize["name"] = o.Name
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableAdditionalPropertiesNumber struct {
@@ -82,32 +82,32 @@ type NullableAdditionalPropertiesNumber struct {
 }
 
 func (v NullableAdditionalPropertiesNumber) Get() *AdditionalPropertiesNumber {
-    return v.value
+	return v.value
 }
 
 func (v NullableAdditionalPropertiesNumber) Set(val *AdditionalPropertiesNumber) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableAdditionalPropertiesNumber) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableAdditionalPropertiesNumber) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableAdditionalPropertiesNumber(val *AdditionalPropertiesNumber) *NullableAdditionalPropertiesNumber {
-    return &NullableAdditionalPropertiesNumber{value: val, isSet: true}
+	return &NullableAdditionalPropertiesNumber{value: val, isSet: true}
 }
 
 func (v NullableAdditionalPropertiesNumber) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableAdditionalPropertiesNumber) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

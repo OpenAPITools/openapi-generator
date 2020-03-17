@@ -51,12 +51,12 @@ func (o *Return) GetReturnOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-    return *o.Return, true
+	return *o.Return, true
 }
 
 // HasReturn returns a boolean if a field has been set.
 func (o *Return) HasReturn() bool {
-    if o != nil && o.Return != nil {
+	if o != nil && o.Return != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *Return) SetReturn(v int32) {
 }
 
 func (o Return) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Return != nil {
-        toSerialize["return"] = o.Return
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Return != nil {
+		toSerialize["return"] = o.Return
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableReturn struct {
@@ -82,32 +82,32 @@ type NullableReturn struct {
 }
 
 func (v NullableReturn) Get() *Return {
-    return v.value
+	return v.value
 }
 
 func (v NullableReturn) Set(val *Return) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableReturn) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableReturn) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableReturn(val *Return) *NullableReturn {
-    return &NullableReturn{value: val, isSet: true}
+	return &NullableReturn{value: val, isSet: true}
 }
 
 func (v NullableReturn) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableReturn) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

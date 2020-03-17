@@ -51,12 +51,12 @@ func (o *HealthCheckResult) GetNullableMessageOk() (NullableString, bool) {
 		var ret NullableString
 		return ret, false
 	}
-    return o.NullableMessage, o.NullableMessage.IsSet()
+	return o.NullableMessage, o.NullableMessage.IsSet()
 }
 
 // HasNullableMessage returns a boolean if a field has been set.
 func (o *HealthCheckResult) HasNullableMessage() bool {
-    if o != nil && o.NullableMessage.IsSet() {
+	if o != nil && o.NullableMessage.IsSet() {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *HealthCheckResult) SetNullableMessage(v NullableString) {
 }
 
 func (o HealthCheckResult) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.NullableMessage.IsSet() {
-        toSerialize["NullableMessage"] = o.NullableMessage.Get()
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.NullableMessage.IsSet() {
+		toSerialize["NullableMessage"] = o.NullableMessage.Get()
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableHealthCheckResult struct {
@@ -82,32 +82,32 @@ type NullableHealthCheckResult struct {
 }
 
 func (v NullableHealthCheckResult) Get() *HealthCheckResult {
-    return v.value
+	return v.value
 }
 
 func (v NullableHealthCheckResult) Set(val *HealthCheckResult) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableHealthCheckResult) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableHealthCheckResult) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableHealthCheckResult(val *HealthCheckResult) *NullableHealthCheckResult {
-    return &NullableHealthCheckResult{value: val, isSet: true}
+	return &NullableHealthCheckResult{value: val, isSet: true}
 }
 
 func (v NullableHealthCheckResult) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableHealthCheckResult) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

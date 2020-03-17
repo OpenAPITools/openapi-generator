@@ -52,12 +52,12 @@ func (o *File) GetSourceURIOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.SourceURI, true
+	return *o.SourceURI, true
 }
 
 // HasSourceURI returns a boolean if a field has been set.
 func (o *File) HasSourceURI() bool {
-    if o != nil && o.SourceURI != nil {
+	if o != nil && o.SourceURI != nil {
 		return true
 	}
 
@@ -70,11 +70,11 @@ func (o *File) SetSourceURI(v string) {
 }
 
 func (o File) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.SourceURI != nil {
-        toSerialize["sourceURI"] = o.SourceURI
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.SourceURI != nil {
+		toSerialize["sourceURI"] = o.SourceURI
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableFile struct {
@@ -83,32 +83,32 @@ type NullableFile struct {
 }
 
 func (v NullableFile) Get() *File {
-    return v.value
+	return v.value
 }
 
 func (v NullableFile) Set(val *File) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableFile) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableFile) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableFile(val *File) *NullableFile {
-    return &NullableFile{value: val, isSet: true}
+	return &NullableFile{value: val, isSet: true}
 }
 
 func (v NullableFile) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableFile) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

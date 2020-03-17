@@ -31,8 +31,8 @@ type Order struct {
 // will change when the set of required properties is changed
 func NewOrder() *Order {
     this := Order{}
-    var complete bool = false
-    this.Complete = &complete
+	var complete bool = false
+	this.Complete = &complete
     return &this
 }
 
@@ -41,8 +41,8 @@ func NewOrder() *Order {
 // but it doesn't guarantee that properties required by API are set
 func NewOrderWithDefaults() *Order {
     this := Order{}
-    var complete bool = false
-    this.Complete = &complete
+	var complete bool = false
+	this.Complete = &complete
     return &this
 }
 
@@ -62,12 +62,12 @@ func (o *Order) GetIdOk() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-    return *o.Id, true
+	return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
 func (o *Order) HasId() bool {
-    if o != nil && o.Id != nil {
+	if o != nil && o.Id != nil {
 		return true
 	}
 
@@ -95,12 +95,12 @@ func (o *Order) GetPetIdOk() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-    return *o.PetId, true
+	return *o.PetId, true
 }
 
 // HasPetId returns a boolean if a field has been set.
 func (o *Order) HasPetId() bool {
-    if o != nil && o.PetId != nil {
+	if o != nil && o.PetId != nil {
 		return true
 	}
 
@@ -128,12 +128,12 @@ func (o *Order) GetQuantityOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-    return *o.Quantity, true
+	return *o.Quantity, true
 }
 
 // HasQuantity returns a boolean if a field has been set.
 func (o *Order) HasQuantity() bool {
-    if o != nil && o.Quantity != nil {
+	if o != nil && o.Quantity != nil {
 		return true
 	}
 
@@ -161,12 +161,12 @@ func (o *Order) GetShipDateOk() (time.Time, bool) {
 		var ret time.Time
 		return ret, false
 	}
-    return *o.ShipDate, true
+	return *o.ShipDate, true
 }
 
 // HasShipDate returns a boolean if a field has been set.
 func (o *Order) HasShipDate() bool {
-    if o != nil && o.ShipDate != nil {
+	if o != nil && o.ShipDate != nil {
 		return true
 	}
 
@@ -194,12 +194,12 @@ func (o *Order) GetStatusOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Status, true
+	return *o.Status, true
 }
 
 // HasStatus returns a boolean if a field has been set.
 func (o *Order) HasStatus() bool {
-    if o != nil && o.Status != nil {
+	if o != nil && o.Status != nil {
 		return true
 	}
 
@@ -227,12 +227,12 @@ func (o *Order) GetCompleteOk() (bool, bool) {
 		var ret bool
 		return ret, false
 	}
-    return *o.Complete, true
+	return *o.Complete, true
 }
 
 // HasComplete returns a boolean if a field has been set.
 func (o *Order) HasComplete() bool {
-    if o != nil && o.Complete != nil {
+	if o != nil && o.Complete != nil {
 		return true
 	}
 
@@ -245,26 +245,26 @@ func (o *Order) SetComplete(v bool) {
 }
 
 func (o Order) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Id != nil {
-        toSerialize["id"] = o.Id
-    }
-    if o.PetId != nil {
-        toSerialize["petId"] = o.PetId
-    }
-    if o.Quantity != nil {
-        toSerialize["quantity"] = o.Quantity
-    }
-    if o.ShipDate != nil {
-        toSerialize["shipDate"] = o.ShipDate
-    }
-    if o.Status != nil {
-        toSerialize["status"] = o.Status
-    }
-    if o.Complete != nil {
-        toSerialize["complete"] = o.Complete
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
+	if o.PetId != nil {
+		toSerialize["petId"] = o.PetId
+	}
+	if o.Quantity != nil {
+		toSerialize["quantity"] = o.Quantity
+	}
+	if o.ShipDate != nil {
+		toSerialize["shipDate"] = o.ShipDate
+	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
+	if o.Complete != nil {
+		toSerialize["complete"] = o.Complete
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableOrder struct {
@@ -273,32 +273,32 @@ type NullableOrder struct {
 }
 
 func (v NullableOrder) Get() *Order {
-    return v.value
+	return v.value
 }
 
 func (v NullableOrder) Set(val *Order) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableOrder) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableOrder) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableOrder(val *Order) *NullableOrder {
-    return &NullableOrder{value: val, isSet: true}
+	return &NullableOrder{value: val, isSet: true}
 }
 
 func (v NullableOrder) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableOrder) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

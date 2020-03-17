@@ -52,12 +52,12 @@ func (o *BigCat) GetKindOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Kind, true
+	return *o.Kind, true
 }
 
 // HasKind returns a boolean if a field has been set.
 func (o *BigCat) HasKind() bool {
-    if o != nil && o.Kind != nil {
+	if o != nil && o.Kind != nil {
 		return true
 	}
 
@@ -70,19 +70,19 @@ func (o *BigCat) SetKind(v string) {
 }
 
 func (o BigCat) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    serializedCat, errCat := json.Marshal(o.Cat)
-    if errCat != nil {
-        return []byte{}, errCat
-    }
-    errCat = json.Unmarshal([]byte(serializedCat), &toSerialize)
-    if errCat != nil {
-       return []byte{}, errCat
-    }
-    if o.Kind != nil {
-        toSerialize["kind"] = o.Kind
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	serializedCat, errCat := json.Marshal(o.Cat)
+	if errCat != nil {
+		return []byte{}, errCat
+	}
+	errCat = json.Unmarshal([]byte(serializedCat), &toSerialize)
+	if errCat != nil {
+		return []byte{}, errCat
+	}
+	if o.Kind != nil {
+		toSerialize["kind"] = o.Kind
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableBigCat struct {
@@ -91,32 +91,32 @@ type NullableBigCat struct {
 }
 
 func (v NullableBigCat) Get() *BigCat {
-    return v.value
+	return v.value
 }
 
 func (v NullableBigCat) Set(val *BigCat) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableBigCat) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableBigCat) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableBigCat(val *BigCat) *NullableBigCat {
-    return &NullableBigCat{value: val, isSet: true}
+	return &NullableBigCat{value: val, isSet: true}
 }
 
 func (v NullableBigCat) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableBigCat) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

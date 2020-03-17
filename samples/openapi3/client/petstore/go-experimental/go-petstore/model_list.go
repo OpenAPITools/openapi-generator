@@ -51,12 +51,12 @@ func (o *List) GetVar123ListOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Var123List, true
+	return *o.Var123List, true
 }
 
 // HasVar123List returns a boolean if a field has been set.
 func (o *List) HasVar123List() bool {
-    if o != nil && o.Var123List != nil {
+	if o != nil && o.Var123List != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *List) SetVar123List(v string) {
 }
 
 func (o List) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Var123List != nil {
-        toSerialize["123-list"] = o.Var123List
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Var123List != nil {
+		toSerialize["123-list"] = o.Var123List
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableList struct {
@@ -82,32 +82,32 @@ type NullableList struct {
 }
 
 func (v NullableList) Get() *List {
-    return v.value
+	return v.value
 }
 
 func (v NullableList) Set(val *List) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableList) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableList) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableList(val *List) *NullableList {
-    return &NullableList{value: val, isSet: true}
+	return &NullableList{value: val, isSet: true}
 }
 
 func (v NullableList) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableList) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -52,12 +52,12 @@ func (o *HasOnlyReadOnly) GetBarOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Bar, true
+	return *o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *HasOnlyReadOnly) HasBar() bool {
-    if o != nil && o.Bar != nil {
+	if o != nil && o.Bar != nil {
 		return true
 	}
 
@@ -85,12 +85,12 @@ func (o *HasOnlyReadOnly) GetFooOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Foo, true
+	return *o.Foo, true
 }
 
 // HasFoo returns a boolean if a field has been set.
 func (o *HasOnlyReadOnly) HasFoo() bool {
-    if o != nil && o.Foo != nil {
+	if o != nil && o.Foo != nil {
 		return true
 	}
 
@@ -103,14 +103,14 @@ func (o *HasOnlyReadOnly) SetFoo(v string) {
 }
 
 func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Bar != nil {
-        toSerialize["bar"] = o.Bar
-    }
-    if o.Foo != nil {
-        toSerialize["foo"] = o.Foo
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Bar != nil {
+		toSerialize["bar"] = o.Bar
+	}
+	if o.Foo != nil {
+		toSerialize["foo"] = o.Foo
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableHasOnlyReadOnly struct {
@@ -119,32 +119,32 @@ type NullableHasOnlyReadOnly struct {
 }
 
 func (v NullableHasOnlyReadOnly) Get() *HasOnlyReadOnly {
-    return v.value
+	return v.value
 }
 
 func (v NullableHasOnlyReadOnly) Set(val *HasOnlyReadOnly) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableHasOnlyReadOnly) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableHasOnlyReadOnly) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableHasOnlyReadOnly(val *HasOnlyReadOnly) *NullableHasOnlyReadOnly {
-    return &NullableHasOnlyReadOnly{value: val, isSet: true}
+	return &NullableHasOnlyReadOnly{value: val, isSet: true}
 }
 
 func (v NullableHasOnlyReadOnly) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableHasOnlyReadOnly) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

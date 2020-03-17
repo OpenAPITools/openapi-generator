@@ -137,26 +137,26 @@ func (o *TypeHolderExample) SetArrayItem(v []int32) {
 }
 
 func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if true {
-        toSerialize["string_item"] = o.StringItem
-    }
-    if true {
-        toSerialize["number_item"] = o.NumberItem
-    }
-    if true {
-        toSerialize["float_item"] = o.FloatItem
-    }
-    if true {
-        toSerialize["integer_item"] = o.IntegerItem
-    }
-    if true {
-        toSerialize["bool_item"] = o.BoolItem
-    }
-    if true {
-        toSerialize["array_item"] = o.ArrayItem
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["string_item"] = o.StringItem
+	}
+	if true {
+		toSerialize["number_item"] = o.NumberItem
+	}
+	if true {
+		toSerialize["float_item"] = o.FloatItem
+	}
+	if true {
+		toSerialize["integer_item"] = o.IntegerItem
+	}
+	if true {
+		toSerialize["bool_item"] = o.BoolItem
+	}
+	if true {
+		toSerialize["array_item"] = o.ArrayItem
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableTypeHolderExample struct {
@@ -165,32 +165,32 @@ type NullableTypeHolderExample struct {
 }
 
 func (v NullableTypeHolderExample) Get() *TypeHolderExample {
-    return v.value
+	return v.value
 }
 
 func (v NullableTypeHolderExample) Set(val *TypeHolderExample) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableTypeHolderExample) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableTypeHolderExample) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableTypeHolderExample(val *TypeHolderExample) *NullableTypeHolderExample {
-    return &NullableTypeHolderExample{value: val, isSet: true}
+	return &NullableTypeHolderExample{value: val, isSet: true}
 }
 
 func (v NullableTypeHolderExample) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableTypeHolderExample) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

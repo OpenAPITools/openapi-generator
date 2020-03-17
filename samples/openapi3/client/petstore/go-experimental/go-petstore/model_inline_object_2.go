@@ -27,8 +27,8 @@ type InlineObject2 struct {
 // will change when the set of required properties is changed
 func NewInlineObject2() *InlineObject2 {
     this := InlineObject2{}
-    var enumFormString string = "-efg"
-    this.EnumFormString = &enumFormString
+	var enumFormString string = "-efg"
+	this.EnumFormString = &enumFormString
     return &this
 }
 
@@ -37,8 +37,8 @@ func NewInlineObject2() *InlineObject2 {
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObject2WithDefaults() *InlineObject2 {
     this := InlineObject2{}
-    var enumFormString string = "-efg"
-    this.EnumFormString = &enumFormString
+	var enumFormString string = "-efg"
+	this.EnumFormString = &enumFormString
     return &this
 }
 
@@ -58,12 +58,12 @@ func (o *InlineObject2) GetEnumFormStringArrayOk() ([]string, bool) {
 		var ret []string
 		return ret, false
 	}
-    return *o.EnumFormStringArray, true
+	return *o.EnumFormStringArray, true
 }
 
 // HasEnumFormStringArray returns a boolean if a field has been set.
 func (o *InlineObject2) HasEnumFormStringArray() bool {
-    if o != nil && o.EnumFormStringArray != nil {
+	if o != nil && o.EnumFormStringArray != nil {
 		return true
 	}
 
@@ -91,12 +91,12 @@ func (o *InlineObject2) GetEnumFormStringOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.EnumFormString, true
+	return *o.EnumFormString, true
 }
 
 // HasEnumFormString returns a boolean if a field has been set.
 func (o *InlineObject2) HasEnumFormString() bool {
-    if o != nil && o.EnumFormString != nil {
+	if o != nil && o.EnumFormString != nil {
 		return true
 	}
 
@@ -109,14 +109,14 @@ func (o *InlineObject2) SetEnumFormString(v string) {
 }
 
 func (o InlineObject2) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.EnumFormStringArray != nil {
-        toSerialize["enum_form_string_array"] = o.EnumFormStringArray
-    }
-    if o.EnumFormString != nil {
-        toSerialize["enum_form_string"] = o.EnumFormString
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.EnumFormStringArray != nil {
+		toSerialize["enum_form_string_array"] = o.EnumFormStringArray
+	}
+	if o.EnumFormString != nil {
+		toSerialize["enum_form_string"] = o.EnumFormString
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableInlineObject2 struct {
@@ -125,32 +125,32 @@ type NullableInlineObject2 struct {
 }
 
 func (v NullableInlineObject2) Get() *InlineObject2 {
-    return v.value
+	return v.value
 }
 
 func (v NullableInlineObject2) Set(val *InlineObject2) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableInlineObject2) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableInlineObject2) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableInlineObject2(val *InlineObject2) *NullableInlineObject2 {
-    return &NullableInlineObject2{value: val, isSet: true}
+	return &NullableInlineObject2{value: val, isSet: true}
 }
 
 func (v NullableInlineObject2) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject2) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

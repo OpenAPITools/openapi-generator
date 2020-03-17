@@ -51,12 +51,12 @@ func (o *Client) GetClientOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Client, true
+	return *o.Client, true
 }
 
 // HasClient returns a boolean if a field has been set.
 func (o *Client) HasClient() bool {
-    if o != nil && o.Client != nil {
+	if o != nil && o.Client != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *Client) SetClient(v string) {
 }
 
 func (o Client) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Client != nil {
-        toSerialize["client"] = o.Client
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Client != nil {
+		toSerialize["client"] = o.Client
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableClient struct {
@@ -82,32 +82,32 @@ type NullableClient struct {
 }
 
 func (v NullableClient) Get() *Client {
-    return v.value
+	return v.value
 }
 
 func (v NullableClient) Set(val *Client) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableClient) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableClient) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableClient(val *Client) *NullableClient {
-    return &NullableClient{value: val, isSet: true}
+	return &NullableClient{value: val, isSet: true}
 }
 
 func (v NullableClient) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableClient) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

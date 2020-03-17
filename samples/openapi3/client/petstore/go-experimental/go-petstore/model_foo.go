@@ -24,8 +24,8 @@ type Foo struct {
 // will change when the set of required properties is changed
 func NewFoo() *Foo {
     this := Foo{}
-    var bar string = "bar"
-    this.Bar = &bar
+	var bar string = "bar"
+	this.Bar = &bar
     return &this
 }
 
@@ -34,8 +34,8 @@ func NewFoo() *Foo {
 // but it doesn't guarantee that properties required by API are set
 func NewFooWithDefaults() *Foo {
     this := Foo{}
-    var bar string = "bar"
-    this.Bar = &bar
+	var bar string = "bar"
+	this.Bar = &bar
     return &this
 }
 
@@ -55,12 +55,12 @@ func (o *Foo) GetBarOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Bar, true
+	return *o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *Foo) HasBar() bool {
-    if o != nil && o.Bar != nil {
+	if o != nil && o.Bar != nil {
 		return true
 	}
 
@@ -73,11 +73,11 @@ func (o *Foo) SetBar(v string) {
 }
 
 func (o Foo) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Bar != nil {
-        toSerialize["bar"] = o.Bar
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Bar != nil {
+		toSerialize["bar"] = o.Bar
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableFoo struct {
@@ -86,32 +86,32 @@ type NullableFoo struct {
 }
 
 func (v NullableFoo) Get() *Foo {
-    return v.value
+	return v.value
 }
 
 func (v NullableFoo) Set(val *Foo) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableFoo) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableFoo) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableFoo(val *Foo) *NullableFoo {
-    return &NullableFoo{value: val, isSet: true}
+	return &NullableFoo{value: val, isSet: true}
 }
 
 func (v NullableFoo) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableFoo) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -51,12 +51,12 @@ func (o *AdditionalPropertiesInteger) GetNameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Name, true
+	return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *AdditionalPropertiesInteger) HasName() bool {
-    if o != nil && o.Name != nil {
+	if o != nil && o.Name != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *AdditionalPropertiesInteger) SetName(v string) {
 }
 
 func (o AdditionalPropertiesInteger) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Name != nil {
-        toSerialize["name"] = o.Name
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableAdditionalPropertiesInteger struct {
@@ -82,32 +82,32 @@ type NullableAdditionalPropertiesInteger struct {
 }
 
 func (v NullableAdditionalPropertiesInteger) Get() *AdditionalPropertiesInteger {
-    return v.value
+	return v.value
 }
 
 func (v NullableAdditionalPropertiesInteger) Set(val *AdditionalPropertiesInteger) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableAdditionalPropertiesInteger) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableAdditionalPropertiesInteger) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableAdditionalPropertiesInteger(val *AdditionalPropertiesInteger) *NullableAdditionalPropertiesInteger {
-    return &NullableAdditionalPropertiesInteger{value: val, isSet: true}
+	return &NullableAdditionalPropertiesInteger{value: val, isSet: true}
 }
 
 func (v NullableAdditionalPropertiesInteger) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableAdditionalPropertiesInteger) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

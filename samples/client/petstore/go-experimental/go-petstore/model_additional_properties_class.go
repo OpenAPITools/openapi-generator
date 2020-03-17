@@ -61,12 +61,12 @@ func (o *AdditionalPropertiesClass) GetMapStringOk() (map[string]string, bool) {
 		var ret map[string]string
 		return ret, false
 	}
-    return *o.MapString, true
+	return *o.MapString, true
 }
 
 // HasMapString returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapString() bool {
-    if o != nil && o.MapString != nil {
+	if o != nil && o.MapString != nil {
 		return true
 	}
 
@@ -94,12 +94,12 @@ func (o *AdditionalPropertiesClass) GetMapNumberOk() (map[string]float32, bool) 
 		var ret map[string]float32
 		return ret, false
 	}
-    return *o.MapNumber, true
+	return *o.MapNumber, true
 }
 
 // HasMapNumber returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapNumber() bool {
-    if o != nil && o.MapNumber != nil {
+	if o != nil && o.MapNumber != nil {
 		return true
 	}
 
@@ -127,12 +127,12 @@ func (o *AdditionalPropertiesClass) GetMapIntegerOk() (map[string]int32, bool) {
 		var ret map[string]int32
 		return ret, false
 	}
-    return *o.MapInteger, true
+	return *o.MapInteger, true
 }
 
 // HasMapInteger returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapInteger() bool {
-    if o != nil && o.MapInteger != nil {
+	if o != nil && o.MapInteger != nil {
 		return true
 	}
 
@@ -160,12 +160,12 @@ func (o *AdditionalPropertiesClass) GetMapBooleanOk() (map[string]bool, bool) {
 		var ret map[string]bool
 		return ret, false
 	}
-    return *o.MapBoolean, true
+	return *o.MapBoolean, true
 }
 
 // HasMapBoolean returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapBoolean() bool {
-    if o != nil && o.MapBoolean != nil {
+	if o != nil && o.MapBoolean != nil {
 		return true
 	}
 
@@ -193,12 +193,12 @@ func (o *AdditionalPropertiesClass) GetMapArrayIntegerOk() (map[string][]int32, 
 		var ret map[string][]int32
 		return ret, false
 	}
-    return *o.MapArrayInteger, true
+	return *o.MapArrayInteger, true
 }
 
 // HasMapArrayInteger returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapArrayInteger() bool {
-    if o != nil && o.MapArrayInteger != nil {
+	if o != nil && o.MapArrayInteger != nil {
 		return true
 	}
 
@@ -226,12 +226,12 @@ func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (map[string][]map[str
 		var ret map[string][]map[string]interface{}
 		return ret, false
 	}
-    return *o.MapArrayAnytype, true
+	return *o.MapArrayAnytype, true
 }
 
 // HasMapArrayAnytype returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapArrayAnytype() bool {
-    if o != nil && o.MapArrayAnytype != nil {
+	if o != nil && o.MapArrayAnytype != nil {
 		return true
 	}
 
@@ -259,12 +259,12 @@ func (o *AdditionalPropertiesClass) GetMapMapStringOk() (map[string]map[string]s
 		var ret map[string]map[string]string
 		return ret, false
 	}
-    return *o.MapMapString, true
+	return *o.MapMapString, true
 }
 
 // HasMapMapString returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapMapString() bool {
-    if o != nil && o.MapMapString != nil {
+	if o != nil && o.MapMapString != nil {
 		return true
 	}
 
@@ -292,12 +292,12 @@ func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (map[string]map[string]
 		var ret map[string]map[string]map[string]interface{}
 		return ret, false
 	}
-    return *o.MapMapAnytype, true
+	return *o.MapMapAnytype, true
 }
 
 // HasMapMapAnytype returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasMapMapAnytype() bool {
-    if o != nil && o.MapMapAnytype != nil {
+	if o != nil && o.MapMapAnytype != nil {
 		return true
 	}
 
@@ -325,12 +325,12 @@ func (o *AdditionalPropertiesClass) GetAnytype1Ok() (map[string]interface{}, boo
 		var ret map[string]interface{}
 		return ret, false
 	}
-    return *o.Anytype1, true
+	return *o.Anytype1, true
 }
 
 // HasAnytype1 returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasAnytype1() bool {
-    if o != nil && o.Anytype1 != nil {
+	if o != nil && o.Anytype1 != nil {
 		return true
 	}
 
@@ -358,12 +358,12 @@ func (o *AdditionalPropertiesClass) GetAnytype2Ok() (map[string]interface{}, boo
 		var ret map[string]interface{}
 		return ret, false
 	}
-    return *o.Anytype2, true
+	return *o.Anytype2, true
 }
 
 // HasAnytype2 returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasAnytype2() bool {
-    if o != nil && o.Anytype2 != nil {
+	if o != nil && o.Anytype2 != nil {
 		return true
 	}
 
@@ -391,12 +391,12 @@ func (o *AdditionalPropertiesClass) GetAnytype3Ok() (map[string]interface{}, boo
 		var ret map[string]interface{}
 		return ret, false
 	}
-    return *o.Anytype3, true
+	return *o.Anytype3, true
 }
 
 // HasAnytype3 returns a boolean if a field has been set.
 func (o *AdditionalPropertiesClass) HasAnytype3() bool {
-    if o != nil && o.Anytype3 != nil {
+	if o != nil && o.Anytype3 != nil {
 		return true
 	}
 
@@ -409,41 +409,41 @@ func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{}) {
 }
 
 func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.MapString != nil {
-        toSerialize["map_string"] = o.MapString
-    }
-    if o.MapNumber != nil {
-        toSerialize["map_number"] = o.MapNumber
-    }
-    if o.MapInteger != nil {
-        toSerialize["map_integer"] = o.MapInteger
-    }
-    if o.MapBoolean != nil {
-        toSerialize["map_boolean"] = o.MapBoolean
-    }
-    if o.MapArrayInteger != nil {
-        toSerialize["map_array_integer"] = o.MapArrayInteger
-    }
-    if o.MapArrayAnytype != nil {
-        toSerialize["map_array_anytype"] = o.MapArrayAnytype
-    }
-    if o.MapMapString != nil {
-        toSerialize["map_map_string"] = o.MapMapString
-    }
-    if o.MapMapAnytype != nil {
-        toSerialize["map_map_anytype"] = o.MapMapAnytype
-    }
-    if o.Anytype1 != nil {
-        toSerialize["anytype_1"] = o.Anytype1
-    }
-    if o.Anytype2 != nil {
-        toSerialize["anytype_2"] = o.Anytype2
-    }
-    if o.Anytype3 != nil {
-        toSerialize["anytype_3"] = o.Anytype3
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.MapString != nil {
+		toSerialize["map_string"] = o.MapString
+	}
+	if o.MapNumber != nil {
+		toSerialize["map_number"] = o.MapNumber
+	}
+	if o.MapInteger != nil {
+		toSerialize["map_integer"] = o.MapInteger
+	}
+	if o.MapBoolean != nil {
+		toSerialize["map_boolean"] = o.MapBoolean
+	}
+	if o.MapArrayInteger != nil {
+		toSerialize["map_array_integer"] = o.MapArrayInteger
+	}
+	if o.MapArrayAnytype != nil {
+		toSerialize["map_array_anytype"] = o.MapArrayAnytype
+	}
+	if o.MapMapString != nil {
+		toSerialize["map_map_string"] = o.MapMapString
+	}
+	if o.MapMapAnytype != nil {
+		toSerialize["map_map_anytype"] = o.MapMapAnytype
+	}
+	if o.Anytype1 != nil {
+		toSerialize["anytype_1"] = o.Anytype1
+	}
+	if o.Anytype2 != nil {
+		toSerialize["anytype_2"] = o.Anytype2
+	}
+	if o.Anytype3 != nil {
+		toSerialize["anytype_3"] = o.Anytype3
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableAdditionalPropertiesClass struct {
@@ -452,32 +452,32 @@ type NullableAdditionalPropertiesClass struct {
 }
 
 func (v NullableAdditionalPropertiesClass) Get() *AdditionalPropertiesClass {
-    return v.value
+	return v.value
 }
 
 func (v NullableAdditionalPropertiesClass) Set(val *AdditionalPropertiesClass) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableAdditionalPropertiesClass) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableAdditionalPropertiesClass) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableAdditionalPropertiesClass(val *AdditionalPropertiesClass) *NullableAdditionalPropertiesClass {
-    return &NullableAdditionalPropertiesClass{value: val, isSet: true}
+	return &NullableAdditionalPropertiesClass{value: val, isSet: true}
 }
 
 func (v NullableAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableAdditionalPropertiesClass) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -59,12 +59,12 @@ func (o *User) GetIdOk() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-    return *o.Id, true
+	return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
 func (o *User) HasId() bool {
-    if o != nil && o.Id != nil {
+	if o != nil && o.Id != nil {
 		return true
 	}
 
@@ -92,12 +92,12 @@ func (o *User) GetUsernameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Username, true
+	return *o.Username, true
 }
 
 // HasUsername returns a boolean if a field has been set.
 func (o *User) HasUsername() bool {
-    if o != nil && o.Username != nil {
+	if o != nil && o.Username != nil {
 		return true
 	}
 
@@ -125,12 +125,12 @@ func (o *User) GetFirstNameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.FirstName, true
+	return *o.FirstName, true
 }
 
 // HasFirstName returns a boolean if a field has been set.
 func (o *User) HasFirstName() bool {
-    if o != nil && o.FirstName != nil {
+	if o != nil && o.FirstName != nil {
 		return true
 	}
 
@@ -158,12 +158,12 @@ func (o *User) GetLastNameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.LastName, true
+	return *o.LastName, true
 }
 
 // HasLastName returns a boolean if a field has been set.
 func (o *User) HasLastName() bool {
-    if o != nil && o.LastName != nil {
+	if o != nil && o.LastName != nil {
 		return true
 	}
 
@@ -191,12 +191,12 @@ func (o *User) GetEmailOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Email, true
+	return *o.Email, true
 }
 
 // HasEmail returns a boolean if a field has been set.
 func (o *User) HasEmail() bool {
-    if o != nil && o.Email != nil {
+	if o != nil && o.Email != nil {
 		return true
 	}
 
@@ -224,12 +224,12 @@ func (o *User) GetPasswordOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Password, true
+	return *o.Password, true
 }
 
 // HasPassword returns a boolean if a field has been set.
 func (o *User) HasPassword() bool {
-    if o != nil && o.Password != nil {
+	if o != nil && o.Password != nil {
 		return true
 	}
 
@@ -257,12 +257,12 @@ func (o *User) GetPhoneOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Phone, true
+	return *o.Phone, true
 }
 
 // HasPhone returns a boolean if a field has been set.
 func (o *User) HasPhone() bool {
-    if o != nil && o.Phone != nil {
+	if o != nil && o.Phone != nil {
 		return true
 	}
 
@@ -290,12 +290,12 @@ func (o *User) GetUserStatusOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-    return *o.UserStatus, true
+	return *o.UserStatus, true
 }
 
 // HasUserStatus returns a boolean if a field has been set.
 func (o *User) HasUserStatus() bool {
-    if o != nil && o.UserStatus != nil {
+	if o != nil && o.UserStatus != nil {
 		return true
 	}
 
@@ -308,32 +308,32 @@ func (o *User) SetUserStatus(v int32) {
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Id != nil {
-        toSerialize["id"] = o.Id
-    }
-    if o.Username != nil {
-        toSerialize["username"] = o.Username
-    }
-    if o.FirstName != nil {
-        toSerialize["firstName"] = o.FirstName
-    }
-    if o.LastName != nil {
-        toSerialize["lastName"] = o.LastName
-    }
-    if o.Email != nil {
-        toSerialize["email"] = o.Email
-    }
-    if o.Password != nil {
-        toSerialize["password"] = o.Password
-    }
-    if o.Phone != nil {
-        toSerialize["phone"] = o.Phone
-    }
-    if o.UserStatus != nil {
-        toSerialize["userStatus"] = o.UserStatus
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
+	if o.Username != nil {
+		toSerialize["username"] = o.Username
+	}
+	if o.FirstName != nil {
+		toSerialize["firstName"] = o.FirstName
+	}
+	if o.LastName != nil {
+		toSerialize["lastName"] = o.LastName
+	}
+	if o.Email != nil {
+		toSerialize["email"] = o.Email
+	}
+	if o.Password != nil {
+		toSerialize["password"] = o.Password
+	}
+	if o.Phone != nil {
+		toSerialize["phone"] = o.Phone
+	}
+	if o.UserStatus != nil {
+		toSerialize["userStatus"] = o.UserStatus
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableUser struct {
@@ -342,32 +342,32 @@ type NullableUser struct {
 }
 
 func (v NullableUser) Get() *User {
-    return v.value
+	return v.value
 }
 
 func (v NullableUser) Set(val *User) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableUser) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableUser) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableUser(val *User) *NullableUser {
-    return &NullableUser{value: val, isSet: true}
+	return &NullableUser{value: val, isSet: true}
 }
 
 func (v NullableUser) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableUser) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -71,14 +71,14 @@ func (o *InlineObject4) SetParam2(v string) {
 }
 
 func (o InlineObject4) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if true {
-        toSerialize["param"] = o.Param
-    }
-    if true {
-        toSerialize["param2"] = o.Param2
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["param"] = o.Param
+	}
+	if true {
+		toSerialize["param2"] = o.Param2
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableInlineObject4 struct {
@@ -87,32 +87,32 @@ type NullableInlineObject4 struct {
 }
 
 func (v NullableInlineObject4) Get() *InlineObject4 {
-    return v.value
+	return v.value
 }
 
 func (v NullableInlineObject4) Set(val *InlineObject4) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableInlineObject4) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableInlineObject4) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableInlineObject4(val *InlineObject4) *NullableInlineObject4 {
-    return &NullableInlineObject4{value: val, isSet: true}
+	return &NullableInlineObject4{value: val, isSet: true}
 }
 
 func (v NullableInlineObject4) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject4) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -52,12 +52,12 @@ func (o *FileSchemaTestClass) GetFileOk() (File, bool) {
 		var ret File
 		return ret, false
 	}
-    return *o.File, true
+	return *o.File, true
 }
 
 // HasFile returns a boolean if a field has been set.
 func (o *FileSchemaTestClass) HasFile() bool {
-    if o != nil && o.File != nil {
+	if o != nil && o.File != nil {
 		return true
 	}
 
@@ -85,12 +85,12 @@ func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
 		var ret []File
 		return ret, false
 	}
-    return *o.Files, true
+	return *o.Files, true
 }
 
 // HasFiles returns a boolean if a field has been set.
 func (o *FileSchemaTestClass) HasFiles() bool {
-    if o != nil && o.Files != nil {
+	if o != nil && o.Files != nil {
 		return true
 	}
 
@@ -103,14 +103,14 @@ func (o *FileSchemaTestClass) SetFiles(v []File) {
 }
 
 func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.File != nil {
-        toSerialize["file"] = o.File
-    }
-    if o.Files != nil {
-        toSerialize["files"] = o.Files
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.File != nil {
+		toSerialize["file"] = o.File
+	}
+	if o.Files != nil {
+		toSerialize["files"] = o.Files
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableFileSchemaTestClass struct {
@@ -119,32 +119,32 @@ type NullableFileSchemaTestClass struct {
 }
 
 func (v NullableFileSchemaTestClass) Get() *FileSchemaTestClass {
-    return v.value
+	return v.value
 }
 
 func (v NullableFileSchemaTestClass) Set(val *FileSchemaTestClass) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableFileSchemaTestClass) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableFileSchemaTestClass) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableFileSchemaTestClass(val *FileSchemaTestClass) *NullableFileSchemaTestClass {
-    return &NullableFileSchemaTestClass{value: val, isSet: true}
+	return &NullableFileSchemaTestClass{value: val, isSet: true}
 }
 
 func (v NullableFileSchemaTestClass) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableFileSchemaTestClass) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

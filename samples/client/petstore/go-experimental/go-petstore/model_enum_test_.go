@@ -56,12 +56,12 @@ func (o *EnumTest) GetEnumStringOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.EnumString, true
+	return *o.EnumString, true
 }
 
 // HasEnumString returns a boolean if a field has been set.
 func (o *EnumTest) HasEnumString() bool {
-    if o != nil && o.EnumString != nil {
+	if o != nil && o.EnumString != nil {
 		return true
 	}
 
@@ -104,12 +104,12 @@ func (o *EnumTest) GetEnumIntegerOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-    return *o.EnumInteger, true
+	return *o.EnumInteger, true
 }
 
 // HasEnumInteger returns a boolean if a field has been set.
 func (o *EnumTest) HasEnumInteger() bool {
-    if o != nil && o.EnumInteger != nil {
+	if o != nil && o.EnumInteger != nil {
 		return true
 	}
 
@@ -137,12 +137,12 @@ func (o *EnumTest) GetEnumNumberOk() (float64, bool) {
 		var ret float64
 		return ret, false
 	}
-    return *o.EnumNumber, true
+	return *o.EnumNumber, true
 }
 
 // HasEnumNumber returns a boolean if a field has been set.
 func (o *EnumTest) HasEnumNumber() bool {
-    if o != nil && o.EnumNumber != nil {
+	if o != nil && o.EnumNumber != nil {
 		return true
 	}
 
@@ -170,12 +170,12 @@ func (o *EnumTest) GetOuterEnumOk() (OuterEnum, bool) {
 		var ret OuterEnum
 		return ret, false
 	}
-    return *o.OuterEnum, true
+	return *o.OuterEnum, true
 }
 
 // HasOuterEnum returns a boolean if a field has been set.
 func (o *EnumTest) HasOuterEnum() bool {
-    if o != nil && o.OuterEnum != nil {
+	if o != nil && o.OuterEnum != nil {
 		return true
 	}
 
@@ -188,23 +188,23 @@ func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 }
 
 func (o EnumTest) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.EnumString != nil {
-        toSerialize["enum_string"] = o.EnumString
-    }
-    if true {
-        toSerialize["enum_string_required"] = o.EnumStringRequired
-    }
-    if o.EnumInteger != nil {
-        toSerialize["enum_integer"] = o.EnumInteger
-    }
-    if o.EnumNumber != nil {
-        toSerialize["enum_number"] = o.EnumNumber
-    }
-    if o.OuterEnum != nil {
-        toSerialize["outerEnum"] = o.OuterEnum
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.EnumString != nil {
+		toSerialize["enum_string"] = o.EnumString
+	}
+	if true {
+		toSerialize["enum_string_required"] = o.EnumStringRequired
+	}
+	if o.EnumInteger != nil {
+		toSerialize["enum_integer"] = o.EnumInteger
+	}
+	if o.EnumNumber != nil {
+		toSerialize["enum_number"] = o.EnumNumber
+	}
+	if o.OuterEnum != nil {
+		toSerialize["outerEnum"] = o.OuterEnum
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableEnumTest struct {
@@ -213,32 +213,32 @@ type NullableEnumTest struct {
 }
 
 func (v NullableEnumTest) Get() *EnumTest {
-    return v.value
+	return v.value
 }
 
 func (v NullableEnumTest) Set(val *EnumTest) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableEnumTest) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableEnumTest) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableEnumTest(val *EnumTest) *NullableEnumTest {
-    return &NullableEnumTest{value: val, isSet: true}
+	return &NullableEnumTest{value: val, isSet: true}
 }
 
 func (v NullableEnumTest) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableEnumTest) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

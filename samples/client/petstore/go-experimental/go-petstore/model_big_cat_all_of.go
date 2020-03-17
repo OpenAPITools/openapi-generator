@@ -51,12 +51,12 @@ func (o *BigCatAllOf) GetKindOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Kind, true
+	return *o.Kind, true
 }
 
 // HasKind returns a boolean if a field has been set.
 func (o *BigCatAllOf) HasKind() bool {
-    if o != nil && o.Kind != nil {
+	if o != nil && o.Kind != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *BigCatAllOf) SetKind(v string) {
 }
 
 func (o BigCatAllOf) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Kind != nil {
-        toSerialize["kind"] = o.Kind
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Kind != nil {
+		toSerialize["kind"] = o.Kind
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableBigCatAllOf struct {
@@ -82,32 +82,32 @@ type NullableBigCatAllOf struct {
 }
 
 func (v NullableBigCatAllOf) Get() *BigCatAllOf {
-    return v.value
+	return v.value
 }
 
 func (v NullableBigCatAllOf) Set(val *BigCatAllOf) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableBigCatAllOf) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableBigCatAllOf) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableBigCatAllOf(val *BigCatAllOf) *NullableBigCatAllOf {
-    return &NullableBigCatAllOf{value: val, isSet: true}
+	return &NullableBigCatAllOf{value: val, isSet: true}
 }
 
 func (v NullableBigCatAllOf) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableBigCatAllOf) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

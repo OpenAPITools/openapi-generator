@@ -52,12 +52,12 @@ func (o *Tag) GetIdOk() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-    return *o.Id, true
+	return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
 func (o *Tag) HasId() bool {
-    if o != nil && o.Id != nil {
+	if o != nil && o.Id != nil {
 		return true
 	}
 
@@ -85,12 +85,12 @@ func (o *Tag) GetNameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-    return *o.Name, true
+	return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *Tag) HasName() bool {
-    if o != nil && o.Name != nil {
+	if o != nil && o.Name != nil {
 		return true
 	}
 
@@ -103,14 +103,14 @@ func (o *Tag) SetName(v string) {
 }
 
 func (o Tag) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.Id != nil {
-        toSerialize["id"] = o.Id
-    }
-    if o.Name != nil {
-        toSerialize["name"] = o.Name
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableTag struct {
@@ -119,32 +119,32 @@ type NullableTag struct {
 }
 
 func (v NullableTag) Get() *Tag {
-    return v.value
+	return v.value
 }
 
 func (v NullableTag) Set(val *Tag) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableTag) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableTag) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableTag(val *Tag) *NullableTag {
-    return &NullableTag{value: val, isSet: true}
+	return &NullableTag{value: val, isSet: true}
 }
 
 func (v NullableTag) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableTag) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

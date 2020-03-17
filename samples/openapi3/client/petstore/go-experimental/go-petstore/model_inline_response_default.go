@@ -51,12 +51,12 @@ func (o *InlineResponseDefault) GetStringOk() (Foo, bool) {
 		var ret Foo
 		return ret, false
 	}
-    return *o.String, true
+	return *o.String, true
 }
 
 // HasString returns a boolean if a field has been set.
 func (o *InlineResponseDefault) HasString() bool {
-    if o != nil && o.String != nil {
+	if o != nil && o.String != nil {
 		return true
 	}
 
@@ -69,11 +69,11 @@ func (o *InlineResponseDefault) SetString(v Foo) {
 }
 
 func (o InlineResponseDefault) MarshalJSON() ([]byte, error) {
-    toSerialize := map[string]interface{}{}
-    if o.String != nil {
-        toSerialize["string"] = o.String
-    }
-    return json.Marshal(toSerialize)
+	toSerialize := map[string]interface{}{}
+	if o.String != nil {
+		toSerialize["string"] = o.String
+	}
+	return json.Marshal(toSerialize)
 }
 
 type NullableInlineResponseDefault struct {
@@ -82,32 +82,32 @@ type NullableInlineResponseDefault struct {
 }
 
 func (v NullableInlineResponseDefault) Get() *InlineResponseDefault {
-    return v.value
+	return v.value
 }
 
 func (v NullableInlineResponseDefault) Set(val *InlineResponseDefault) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableInlineResponseDefault) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableInlineResponseDefault) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableInlineResponseDefault(val *InlineResponseDefault) *NullableInlineResponseDefault {
-    return &NullableInlineResponseDefault{value: val, isSet: true}
+	return &NullableInlineResponseDefault{value: val, isSet: true}
 }
 
 func (v NullableInlineResponseDefault) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableInlineResponseDefault) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

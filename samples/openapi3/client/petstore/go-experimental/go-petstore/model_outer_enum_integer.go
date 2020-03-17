@@ -29,32 +29,32 @@ type NullableOuterEnumInteger struct {
 }
 
 func (v NullableOuterEnumInteger) Get() *OuterEnumInteger {
-    return v.value
+	return v.value
 }
 
 func (v NullableOuterEnumInteger) Set(val *OuterEnumInteger) {
-    v.value = val
-    v.isSet = true
+	v.value = val
+	v.isSet = true
 }
 
 func (v NullableOuterEnumInteger) IsSet() bool {
-    return v.isSet
+	return v.isSet
 }
 
 func (v NullableOuterEnumInteger) Unset() {
-    v.value = nil
-    v.isSet = false
+	v.value = nil
+	v.isSet = false
 }
 
 func NewNullableOuterEnumInteger(val *OuterEnumInteger) *NullableOuterEnumInteger {
-    return &NullableOuterEnumInteger{value: val, isSet: true}
+	return &NullableOuterEnumInteger{value: val, isSet: true}
 }
 
 func (v NullableOuterEnumInteger) MarshalJSON() ([]byte, error) {
-    return json.Marshal(v.value)
+	return json.Marshal(v.value)
 }
 
 func (v *NullableOuterEnumInteger) UnmarshalJSON(src []byte) error {
-    v.isSet = true
+	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
