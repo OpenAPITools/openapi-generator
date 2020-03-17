@@ -150,8 +150,17 @@ public class {{classname}} {
 
     String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    {{#responses}}
+    {{^-first}}
+    {{#dataType}}
+    localVarErrorTypes.put("{{code}}", new GenericType<{{{dataType}}}>() {});
+    {{/dataType}}
+    {{/-first}}
+    {{/responses}}
+
     {{#returnType}}GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};{{/returnType}}
-    return apiClient.invokeAPI("{{classname}}.{{operationId}}", localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}});
+    return apiClient.invokeAPI("{{classname}}.{{operationId}}", localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, localVarErrorTypes);
   }
   {{#vendorExtensions.x-group-parameters}}
 

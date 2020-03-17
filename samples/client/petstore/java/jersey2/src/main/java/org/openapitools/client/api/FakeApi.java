@@ -102,8 +102,10 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.createXmlItem", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.createXmlItem", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * 
@@ -161,8 +163,10 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<Boolean> localVarReturnType = new GenericType<Boolean>() {};
-    return apiClient.invokeAPI("FakeApi.fakeOuterBooleanSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("FakeApi.fakeOuterBooleanSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * 
@@ -220,8 +224,10 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<OuterComposite> localVarReturnType = new GenericType<OuterComposite>() {};
-    return apiClient.invokeAPI("FakeApi.fakeOuterCompositeSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("FakeApi.fakeOuterCompositeSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * 
@@ -279,8 +285,10 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<BigDecimal> localVarReturnType = new GenericType<BigDecimal>() {};
-    return apiClient.invokeAPI("FakeApi.fakeOuterNumberSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("FakeApi.fakeOuterNumberSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * 
@@ -338,8 +346,10 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<String> localVarReturnType = new GenericType<String>() {};
-    return apiClient.invokeAPI("FakeApi.fakeOuterStringSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("FakeApi.fakeOuterStringSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * 
@@ -401,8 +411,10 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.testBodyWithFileSchema", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.testBodyWithFileSchema", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * 
@@ -472,8 +484,10 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.testBodyWithQueryParams", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.testBodyWithQueryParams", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * To test \&quot;client\&quot; model
@@ -536,8 +550,10 @@ public class FakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
-    return apiClient.invokeAPI("FakeApi.testClientModel", localVarPath, "PATCH", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("FakeApi.testClientModel", localVarPath, "PATCH", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -670,8 +686,10 @@ if (paramCallback != null)
 
     String[] localVarAuthNames = new String[] { "http_basic_test" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.testEndpointParameters", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.testEndpointParameters", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * To test enum parameters
@@ -756,8 +774,10 @@ if (enumFormString != null)
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.testEnumParameters", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.testEnumParameters", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
 
 private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
@@ -811,8 +831,10 @@ if (booleanGroup != null)
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.testGroupParameters", localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.testGroupParameters", localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
 
   public class APItestGroupParametersRequest {
@@ -998,8 +1020,10 @@ if (booleanGroup != null)
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.testInlineAdditionalProperties", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.testInlineAdditionalProperties", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * test json serialization of form data
@@ -1072,8 +1096,10 @@ if (param2 != null)
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.testJsonFormData", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.testJsonFormData", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * 
@@ -1168,7 +1194,9 @@ if (param2 != null)
 
     String[] localVarAuthNames = new String[] {  };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("FakeApi.testQueryParameterCollectionFormat", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("FakeApi.testQueryParameterCollectionFormat", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
 }

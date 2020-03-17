@@ -98,8 +98,10 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("PetApi.addPet", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("PetApi.addPet", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * Deletes a pet
@@ -168,8 +170,10 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("PetApi.deletePet", localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("PetApi.deletePet", localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * Finds Pets by status
@@ -235,8 +239,10 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
-    return apiClient.invokeAPI("PetApi.findPetsByStatus", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("PetApi.findPetsByStatus", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * Finds Pets by tags
@@ -306,8 +312,10 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
-    return apiClient.invokeAPI("PetApi.findPetsByTags", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("PetApi.findPetsByTags", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * Find pet by ID
@@ -375,8 +383,10 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "api_key" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<Pet> localVarReturnType = new GenericType<Pet>() {};
-    return apiClient.invokeAPI("PetApi.getPetById", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("PetApi.getPetById", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * Update an existing pet
@@ -444,8 +454,10 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("PetApi.updatePet", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("PetApi.updatePet", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * Updates a pet in the store with form data
@@ -516,8 +528,10 @@ if (status != null)
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     
-    return apiClient.invokeAPI("PetApi.updatePetWithForm", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("PetApi.updatePetWithForm", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null, localVarErrorTypes);
   }
   /**
    * uploads an image
@@ -589,8 +603,10 @@ if (file != null)
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
-    return apiClient.invokeAPI("PetApi.uploadFile", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("PetApi.uploadFile", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
   /**
    * uploads an image (required)
@@ -667,7 +683,9 @@ if (requiredFile != null)
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
-    return apiClient.invokeAPI("PetApi.uploadFileWithRequiredFile", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("PetApi.uploadFileWithRequiredFile", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType, localVarErrorTypes);
   }
 }

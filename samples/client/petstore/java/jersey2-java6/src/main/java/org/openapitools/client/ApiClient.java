@@ -736,6 +736,30 @@ public class ApiClient {
    * @throws ApiException API exception
    */
   public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+    return invokeAPI(operation, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType, null);
+  }
+
+  /**
+   * Invoke API by sending HTTP request with the given options.
+   *
+   * @param <T> Type
+   * @param operation The qualified name of the operation
+   * @param path The sub-path of the HTTP URL
+   * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and "DELETE"
+   * @param queryParams The query parameters
+   * @param body The request body object
+   * @param headerParams The header parameters
+   * @param cookieParams The cookie parameters
+   * @param formParams The form parameters
+   * @param accept The request's Accept header
+   * @param contentType The request's Content-Type header
+   * @param authNames The authentications to apply
+   * @param returnType The return type into which to deserialize the response
+   * @param errorTypes Mapping of error codes to types into which to deserialize the response
+   * @return The response body in type of string
+   * @throws ApiException API exception
+   */
+  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, Map<String, GenericType> errorTypes) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(targetURL).path(path)` below,
@@ -847,6 +871,8 @@ public class ApiClient {
         String respBody = null;
         if (response.hasEntity()) {
           try {
+            // call bufferEntity, so that a subsequent call to `readEntity` in `deserialize` doesn't fail
+            response.bufferEntity();
             respBody = String.valueOf(response.readEntity(String.class));
             message = respBody;
           } catch (RuntimeException e) {
@@ -857,7 +883,8 @@ public class ApiClient {
           response.getStatus(),
           message,
           buildResponseHeaders(response),
-          respBody);
+          respBody,
+          deserializeErrorEntity(errorTypes, response));
       }
     } finally {
       try {
@@ -865,6 +892,21 @@ public class ApiClient {
       } catch (Exception e) {
         // it's not critical, since the response object is local in method invokeAPI; that's fine, just continue
       }
+    }
+  }
+
+  private Object deserializeErrorEntity(Map<String, GenericType> errorTypes, Response response) {
+    if (errorTypes == null) {
+      return null;
+    }
+    GenericType errorType = errorTypes.get(String.valueOf(response.getStatus()));
+    if (errorType == null) {
+        errorType = errorTypes.get("0"); // "0" is the "default" response
+    }
+    try {
+      return deserialize(response, errorType);
+    } catch (Exception e) {
+      return String.format("Failed deserializing error entity: %s", e.toString());
     }
   }
 
