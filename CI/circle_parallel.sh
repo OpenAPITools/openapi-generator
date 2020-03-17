@@ -24,7 +24,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   export PATH="/usr/local/go1.14/go/bin:$PATH"
   go version
 
-  mvn verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=info
+  mvn --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   mvn --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
@@ -76,7 +76,7 @@ else
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
 
-  mvn verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=info
+  mvn --quiet verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 
