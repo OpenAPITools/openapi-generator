@@ -94,7 +94,7 @@ public class PetApiTest {
     @Test
     public void findPetsByTagsTest() {
         Set<String> tags = null;
-        List<Pet> response = api.findPetsByTags(tags);
+        Set<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
     }

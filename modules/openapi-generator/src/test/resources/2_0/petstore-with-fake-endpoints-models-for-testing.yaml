@@ -141,6 +141,7 @@ paths:
           description: successful operation
           schema:
             type: array
+            uniqueItems: true
             items:
               $ref: '#/definitions/Pet'
         '400':
