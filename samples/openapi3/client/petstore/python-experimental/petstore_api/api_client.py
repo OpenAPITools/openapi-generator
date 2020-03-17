@@ -26,6 +26,7 @@ from petstore_api.exceptions import ApiValueError
 from petstore_api.model_utils import (
     ModelNormal,
     ModelSimple,
+    ModelComposed,
     date,
     datetime,
     deserialize_file,
@@ -233,7 +234,7 @@ class ApiClient(object):
 
         if isinstance(obj, dict):
             obj_dict = obj
-        elif isinstance(obj, ModelNormal):
+        elif isinstance(obj, ModelNormal) or isinstance(obj, ModelComposed):
             # Convert model obj to dict
             # Convert attribute name to json key in
             # model definition for request

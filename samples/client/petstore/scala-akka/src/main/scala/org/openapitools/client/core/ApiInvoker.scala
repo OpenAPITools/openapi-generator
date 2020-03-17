@@ -128,6 +128,8 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           req.withHeaders(Authorization(BasicHttpCredentials(login, password)))
         case (req, ApiKeyCredentials(keyValue, keyName, ApiKeyLocations.HEADER)) =>
           req.withHeaders(RawHeader(keyName, keyValue.value))
+        case (req, BearerToken(token)) =>
+            req.withHeaders(RawHeader("Authorization", s"Bearer $token"))
         case (req, _) => req
       }
   }

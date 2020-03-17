@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class FakeClassnameTags123API {
+@objc open class FakeClassnameTags123API: NSObject {
     /**
      To test class name in snake case
      

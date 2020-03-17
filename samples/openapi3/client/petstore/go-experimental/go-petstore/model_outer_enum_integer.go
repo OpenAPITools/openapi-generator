@@ -24,6 +24,12 @@ const (
 	OUTERENUMINTEGER__2 OuterEnumInteger = 2
 )
 
+// Ptr returns reference to OuterEnumInteger value
+func (v OuterEnumInteger) Ptr() *OuterEnumInteger {
+	return &v
+}
+
+
 type NullableOuterEnumInteger struct {
 	Value OuterEnumInteger
 	ExplicitNull bool

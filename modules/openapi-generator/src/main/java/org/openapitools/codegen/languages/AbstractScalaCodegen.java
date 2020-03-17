@@ -29,17 +29,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
-    protected String modelPropertyNaming = "camelCase";
+    protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected boolean stripPackageName = true;
@@ -104,17 +102,35 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "yield"
         ));
 
+        importMapping = new HashMap<String, String>();
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
         // although Seq is a predef, before Scala 2.13, it _could_ refer to a mutable Seq in some cases.
         importMapping.put("Seq", "scala.collection.immutable.Seq");
         importMapping.put("Set", "scala.collection.immutable.Set");
         importMapping.put("ListSet", "scala.collection.immutable.ListSet");
+        // fallback to java types
+        importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("URI", "java.net.URI");
+        importMapping.put("File", "java.io.File");
+        importMapping.put("Timestamp", "java.sql.Timestamp");
+        importMapping.put("HashMap", "java.util.HashMap");
+        importMapping.put("Array", "java.util.List");
+        importMapping.put("ArrayList", "java.util.ArrayList");
+        // todo remove legacy date types
+        importMapping.put("Date", "java.util.Date");
+        importMapping.put("DateTime", "org.joda.time.*");
+        importMapping.put("LocalDateTime", "org.joda.time.*");
+        importMapping.put("LocalDate", "org.joda.time.*");
+        importMapping.put("LocalTime", "org.joda.time.*");
+
 
         instantiationTypes.put("set", "Set");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(modelPropertyNaming));
+
     }
 
     @Override
@@ -135,6 +151,62 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             additionalProperties.put(CodegenConstants.STRIP_PACKAGE_NAME, false);
             LOGGER.warn("stripPackageName=false. Compilation errors may occur if API type names clash with types " +
                     "in the default imports");
+        }
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+    }
+
+    public void setModelPropertyNaming(String naming) {
+        try {
+            this.modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(naming).name();
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+
+    @Override
+    public String toVarName(String name) {
+        String varName = sanitizeName(name);
+
+        if ("_".equals(varName)) {
+            varName = "_u";
+        }
+
+        // if it's all uppper case, do nothing
+        if (!varName.matches("^[A-Z_0-9]*$")) {
+            varName = getNameUsingModelPropertyNaming(varName);
+        }
+
+        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+            varName = escapeReservedWord(varName);
+        }
+
+        return varName;
+    }
+
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -317,6 +389,31 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             if (_import.startsWith(prefix)) iterator.remove();
         }
         return objs;
+    }
+
+    @Override
+    public String toModelName(final String name) {
+        final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        final String camelizedName = camelize(sanitizedName);
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(camelizedName)) {
+            final String modelName = "Model" + camelizedName;
+            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        return camelizedName;
     }
 
     @Override

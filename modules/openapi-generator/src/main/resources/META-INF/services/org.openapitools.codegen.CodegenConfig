@@ -126,3 +126,4 @@ org.openapitools.codegen.languages.AsciidocDocumentationCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 
 org.openapitools.codegen.languages.MarkdownDocumentationCodegen
+org.openapitools.codegen.languages.ScalaSttpClientCodegen

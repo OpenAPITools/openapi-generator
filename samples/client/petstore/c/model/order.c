@@ -4,14 +4,14 @@
 #include "order.h"
 
 
-    char* statusorder_ToString(status_e status){
-    char *statusArray[] =  { "placed","approved","delivered" };
-        return statusArray[status];
-    }
+char* statusorder_ToString(openapi_petstore_order_STATUS_e status) {
+    char* statusArray[] =  { "NULL", "placed", "approved", "delivered" };
+	return statusArray[status];
+}
 
-    status_e statusorder_FromString(char* status){
+openapi_petstore_order_STATUS_e statusorder_FromString(char* status){
     int stringToReturn = 0;
-    char *statusArray[] =  { "placed","approved","delivered" };
+    char *statusArray[] =  { "NULL", "placed", "approved", "delivered" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp(status, statusArray[stringToReturn]) == 0) {
@@ -20,14 +20,14 @@
         stringToReturn++;
     }
     return 0;
-    }
+}
 
 order_t *order_create(
     long id,
-    long petId,
+    long pet_id,
     int quantity,
-    char *shipDate,
-    status_e status,
+    char *ship_date,
+    openapi_petstore_order_STATUS_e status,
     int complete
     ) {
     order_t *order_local_var = malloc(sizeof(order_t));
@@ -35,9 +35,9 @@ order_t *order_create(
         return NULL;
     }
     order_local_var->id = id;
-    order_local_var->petId = petId;
+    order_local_var->pet_id = pet_id;
     order_local_var->quantity = quantity;
-    order_local_var->shipDate = shipDate;
+    order_local_var->ship_date = ship_date;
     order_local_var->status = status;
     order_local_var->complete = complete;
 
@@ -47,7 +47,7 @@ order_t *order_create(
 
 void order_free(order_t *order) {
     listEntry_t *listEntry;
-    free(order->shipDate);
+    free(order->ship_date);
     free(order);
 }
 
@@ -62,9 +62,9 @@ cJSON *order_convertToJSON(order_t *order) {
      } 
 
 
-    // order->petId
-    if(order->petId) { 
-    if(cJSON_AddNumberToObject(item, "petId", order->petId) == NULL) {
+    // order->pet_id
+    if(order->pet_id) { 
+    if(cJSON_AddNumberToObject(item, "petId", order->pet_id) == NULL) {
     goto fail; //Numeric
     }
      } 
@@ -78,9 +78,9 @@ cJSON *order_convertToJSON(order_t *order) {
      } 
 
 
-    // order->shipDate
-    if(order->shipDate) { 
-    if(cJSON_AddStringToObject(item, "shipDate", order->shipDate) == NULL) {
+    // order->ship_date
+    if(order->ship_date) { 
+    if(cJSON_AddStringToObject(item, "shipDate", order->ship_date) == NULL) {
     goto fail; //Date-Time
     }
      } 
@@ -123,10 +123,10 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     }
     }
 
-    // order->petId
-    cJSON *petId = cJSON_GetObjectItemCaseSensitive(orderJSON, "petId");
-    if (petId) { 
-    if(!cJSON_IsNumber(petId))
+    // order->pet_id
+    cJSON *pet_id = cJSON_GetObjectItemCaseSensitive(orderJSON, "petId");
+    if (pet_id) { 
+    if(!cJSON_IsNumber(pet_id))
     {
     goto end; //Numeric
     }
@@ -141,10 +141,10 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     }
     }
 
-    // order->shipDate
-    cJSON *shipDate = cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
-    if (shipDate) { 
-    if(!cJSON_IsString(shipDate))
+    // order->ship_date
+    cJSON *ship_date = cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
+    if (ship_date) { 
+    if(!cJSON_IsString(ship_date))
     {
     goto end; //DateTime
     }
@@ -152,7 +152,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(orderJSON, "status");
-    status_e statusVariable;
+    openapi_petstore_order_STATUS_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
     {
@@ -173,9 +173,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     order_local_var = order_create (
         id ? id->valuedouble : 0,
-        petId ? petId->valuedouble : 0,
+        pet_id ? pet_id->valuedouble : 0,
         quantity ? quantity->valuedouble : 0,
-        shipDate ? strdup(shipDate->valuestring) : NULL,
+        ship_date ? strdup(ship_date->valuestring) : NULL,
         status ? statusVariable : -1,
         complete ? complete->valueint : 0
         );

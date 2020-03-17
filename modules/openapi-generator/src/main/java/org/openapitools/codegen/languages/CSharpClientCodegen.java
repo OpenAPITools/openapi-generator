@@ -80,7 +80,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public CSharpClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -103,7 +103,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".cs");
