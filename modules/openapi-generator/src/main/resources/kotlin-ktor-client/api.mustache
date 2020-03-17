@@ -2,12 +2,12 @@
 package {{apiPackage}}
 
 import io.ktor.client.features.HttpRequestTimeoutException
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.ResponseException
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.SIMPLE
-import kotlinx.serialization.*
+import kotlinx.serialization.builtins.*
+import kotlinx.serialization.UnstableDefault
 
 import {{packageName}}.infrastructure.*
 import {{packageName}}.infrastructure.authentication.*
@@ -16,6 +16,7 @@ import {{import}}
 {{/imports}}
 
 {{#operations}}
+@UnstableDefault
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(
     private val basePath: kotlin.String = "{{{basePath}}}",
     private val logger: Logger = Logger.SIMPLE,
@@ -64,17 +65,6 @@ import {{import}}
             {{/formParams}}
         {{/hasFormParams}})
 
-        val mySerializer = KotlinxSerializer().apply {
-            {{#uniquedResponses}}
-            register({{>param_serializer}})
-            {{/uniquedResponses}}
-            {{#hasBodyParam}}
-            {{#bodyParam}}
-            register({{>param_serializer}})
-            {{/bodyParam}}
-            {{/hasBodyParam}}
-        }
-
         val authProviders = listOf<AuthProvider>({{#hasAuthMethods}}
         {{#authMethods}}
             {{#isApiKey}}
@@ -111,7 +101,6 @@ import {{import}}
                 queryParameters = queryParameters,
                 headerParameters = headerParameters,
                 formParameters = formParameters,
-                serializer = mySerializer,
                 authProviders = authProviders,
                 requestTimeoutMillis = requestTimeoutMillis,
                 logger = this@{{classname}}.logger,
@@ -137,7 +126,6 @@ import {{import}}
                 queryParameters = queryParameters,
                 headerParameters = headerParameters,
                 formParameters = formParameters,
-                serializer = mySerializer,
                 authProviders = authProviders,
                 requestTimeoutMillis = requestTimeoutMillis,
                 logger = this@{{classname}}.logger,

@@ -16,8 +16,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
 import io.ktor.utils.io.core.use
-import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.UnstableDefault
 import {{packageName}}.infrastructure.authentication.AuthProvider
 
 internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String, String>> {
@@ -33,8 +34,8 @@ internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String,
 }
 
 //Until kotlinx serialization supports stripping nulls, we have to work around it
-internal fun <T>Json.stringify(serializer: SerializationStrategy<T>, obj: T, stripNull: Boolean): String {
-    val nonStrippedJsonString = stringify(serializer, obj)
+internal fun <T>Json.stringify(serializer: SerializationStrategy<T>, value: T, stripNull: Boolean): String {
+    val nonStrippedJsonString = stringify(serializer, value)
     if (!stripNull) {
         return nonStrippedJsonString
     }
@@ -43,13 +44,13 @@ internal fun <T>Json.stringify(serializer: SerializationStrategy<T>, obj: T, str
     return nonStrippedJsonString.replace(nullPropertyRegex, "")
 }
 
+@UnstableDefault
 internal suspend inline fun <reified T, B> request(
     url: String,
     methodString: String,
     queryParameters: List<Pair<String, Any?>>,
     headerParameters: List<Pair<String, Any?>>,
     formParameters: List<Pair<String, String?>>,
-    serializer: KotlinxSerializer,
     authProviders: List<AuthProvider>,
     requestTimeoutMillis: Long? = null,
     logger: Logger,
@@ -58,7 +59,7 @@ internal suspend inline fun <reified T, B> request(
     bodySerializer: SerializationStrategy<B>
 ): T {
     val serializedBody = TextContent(
-        text = Json.plain.stringify(bodySerializer, bodyObject, stripNull = true),
+        text = Json {}.stringify(serializer = bodySerializer, value = bodyObject, stripNull = true),
         contentType = ContentType.parse("application/json")
     )
     return request(
@@ -67,7 +68,6 @@ internal suspend inline fun <reified T, B> request(
         queryParameters = queryParameters,
         headerParameters = headerParameters,
         formParameters = formParameters,
-        serializer = serializer,
         authProviders = authProviders,
         requestTimeoutMillis = requestTimeoutMillis,
         logger = logger,
@@ -82,7 +82,6 @@ internal suspend inline fun <reified T> request(
     queryParameters: List<Pair<String, Any?>>,
     headerParameters: List<Pair<String, Any?>>,
     formParameters: List<Pair<String, String?>>,
-    serializer: KotlinxSerializer,
     authProviders: List<AuthProvider>,
     requestTimeoutMillis: Long? = null,
     logger: Logger,
@@ -94,7 +93,7 @@ internal suspend inline fun <reified T> request(
 
     val httpClient = HttpClient {
         install(JsonFeature) {
-            this.serializer = serializer
+            this.serializer = KotlinxSerializer()
         }
         install(Logging) {
             this.logger = logger
