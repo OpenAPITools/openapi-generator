@@ -248,6 +248,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
 
+        cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
+
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
 
@@ -636,7 +638,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "DefaultAPI";
         }
-        return camelize(name) + "API";
+        return camelize(apiNamePrefix + "_" + name) + "API";
     }
 
     @Override
