@@ -347,7 +347,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "Iterable".equals(genericType) ||
                 "ListSet".equals(genericType)
             ) {
-                return genericType + "[" + inner + "].empty ";
+                return genericType + ".empty[" + inner + "] ";
             }
 
             // Assume that any other generic types can be new'd up.
