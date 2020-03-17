@@ -63,7 +63,7 @@ export interface UploadFileRequest {
 /**
  * PetApi - interface
  * @export
- * @interface PetApi
+ * @interface PetApiInterface
  */
 export interface PetApiInterface {
     /**

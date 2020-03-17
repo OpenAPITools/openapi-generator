@@ -35,7 +35,7 @@ export interface PlaceOrderRequest {
 /**
  * StoreApi - interface
  * @export
- * @interface StoreApi
+ * @interface StoreApiInterface
  */
 export interface StoreApiInterface {
     /**

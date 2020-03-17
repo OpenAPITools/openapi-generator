@@ -53,7 +53,7 @@ export interface UpdateUserRequest {
 /**
  * UserApi - interface
  * @export
- * @interface UserApi
+ * @interface UserApiInterface
  */
 export interface UserApiInterface {
     /**
