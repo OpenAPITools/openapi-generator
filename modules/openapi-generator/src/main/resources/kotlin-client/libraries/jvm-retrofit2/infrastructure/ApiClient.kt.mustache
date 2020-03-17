@@ -17,7 +17,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("{{projectName}}.server.baseUrl", "{{{basePath}}}")
+            System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")
         }
     }
 
