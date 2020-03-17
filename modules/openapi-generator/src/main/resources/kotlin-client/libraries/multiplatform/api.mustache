@@ -17,7 +17,7 @@ import kotlinx.serialization.internal.StringDescriptor
 
 {{#operations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
-        baseUrl: kotlin.String = Configuration.basePath,
+        baseUrl: kotlin.String = "{{{basePath}}}",
         httpClientEngine: HttpClientEngine? = null,
         serializer: KotlinxSerializer)
     : ApiClient(baseUrl, httpClientEngine, serializer) {

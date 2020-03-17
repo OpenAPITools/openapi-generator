@@ -25,7 +25,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
 class StoreApi @UseExperimental(UnstableDefault::class) constructor(
-        baseUrl: kotlin.String = Configuration.basePath,
+        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         serializer: KotlinxSerializer)
     : ApiClient(baseUrl, httpClientEngine, serializer) {
