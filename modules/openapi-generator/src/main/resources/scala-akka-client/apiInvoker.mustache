@@ -174,7 +174,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
   private def createRequest(uri: Uri, request: ApiRequest[_]): HttpRequest = {
     val httpRequest = request.method.toAkkaHttpMethod match {
       case m@(HttpMethods.GET | HttpMethods.DELETE) => HttpRequest(m, uri)
-      case m@(HttpMethods.POST | HttpMethods.PUT) =>
+      case m@(HttpMethods.POST | HttpMethods.PUT | HttpMethods.PATCH) =>
         formDataContent(request) orElse bodyContent(request) match {
           case Some(c: FormData) =>
             HttpRequest(m, uri, entity = c.toEntity)
