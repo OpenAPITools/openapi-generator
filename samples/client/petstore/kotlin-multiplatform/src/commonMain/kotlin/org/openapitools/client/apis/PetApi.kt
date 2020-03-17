@@ -33,7 +33,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
 
     @UseExperimental(UnstableDefault::class)
     constructor(
-        baseUrl: kotlin.String = Configuration.basePath,
+        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         jsonConfiguration: JsonConfiguration = JsonConfiguration.Default)
     : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
