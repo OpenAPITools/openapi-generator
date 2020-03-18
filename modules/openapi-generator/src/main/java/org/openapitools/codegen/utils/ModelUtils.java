@@ -160,8 +160,7 @@ public class ModelUtils {
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
-                if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) ||
-                        "multipart/form-data".equalsIgnoreCase(t)) {
+                if (isTypeFormParam(t)) {
                     schemasUsedInFormParam.add(ref);
                 } else {
                     schemasUsedInOtherCases.add(ref);
@@ -342,6 +341,9 @@ public class ModelUtils {
         if (ref.startsWith("#/components/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else if (ref.startsWith("#/definitions/")) {
+            ref = ref.substring(ref.lastIndexOf("/") + 1);
+        //somefiles mention ./ instead of #/
+        } else if (ref.startsWith("./")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else {
             once(LOGGER).warn("Failed to get the schema name: {}", ref);
@@ -937,6 +939,46 @@ public class ModelUtils {
     }
 
     /**
+     * Return the Schema according to type request from a RequestBody
+     *
+     * @param response response body of the operation
+     * @param type requested schema type from request body
+     * @return requested Schema
+     */
+    public static Schema getSchemaFromResponse(ApiResponse response,String type) {
+        return getSchemaFromContent(response.getContent(),type);
+    }
+
+    /**
+     * Return the Schema according to type requested from a ApiResponse
+     *
+     * @param body request body of the operation
+     * @param type requested schema type from request body
+     * @return requested schema
+     */
+    public static Schema getSchemaFromRequestBody(RequestBody body,String type) {
+        return getSchemaFromContent(body.getContent(),type);
+    }
+
+    private static Schema getSchemaFromContent(Content content, String reqType) {
+        if (content == null || content.isEmpty()) {
+            return null;
+        }
+
+        for (String type : content.keySet()) {
+            if (isTypeFormParam(type) && "form".equalsIgnoreCase(reqType)) {
+                MediaType media = content.get(type);
+                return media.getSchema();
+            } else if (!isTypeFormParam(type) && "body".equalsIgnoreCase(reqType) ) {
+                MediaType media = content.get(type);
+                return media.getSchema();
+            }
+        }
+        LOGGER.warn("warning! Returning \"null\" due to wrong request type or Request/Response body doesnot contain the requested data type");
+        return null;
+    }
+
+    /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
      * @param openAPI specification being checked
@@ -1361,4 +1403,56 @@ public class ModelUtils {
             if (maxProperties != null) target.setMaxProperties(maxProperties);
         }
     }
+
+    /**
+     * Check if the contentType is for form parameters or not.
+     *
+     * @param String contentType
+     * @return true if contentType is of formparameters else false
+     */
+    public static boolean isTypeFormParam(String contentType) {
+        if ("application/x-www-form-urlencoded".equalsIgnoreCase(contentType) ||
+                  "multipart/form-data".equalsIgnoreCase(contentType) ||
+                        "multipart/related".equalsIgnoreCase(contentType)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Return the map of parameter name,encoding variables from a RequestBody
+     *
+     * @param body request body of the operation
+     * @return map of param name and encoding object
+     */
+    public static Map<String, Encoding> getEncodingFromRequestBody(RequestBody body) {
+        return getEncodingFromContent(body.getContent());
+    }
+
+    /**
+     * Return the map of parameter name,encoding variables from a ApiResponse
+     *
+     * @param response api response of the operation
+     * @return map of param name and encoding object
+     */
+    public static Map<String, Encoding> getEncodingFromResponse(ApiResponse response) {
+        return getEncodingFromContent(response.getContent());
+    }
+
+    private static Map<String, Encoding> getEncodingFromContent(Content content) {
+        if (content == null || content.isEmpty()) {
+            return null;
+        }
+
+        for (String type : content.keySet()) {
+            if (isTypeFormParam(type)) {
+                 MediaType media = content.get(type);
+                 return media.getEncoding();
+            }
+        }
+        LOGGER.warn("Warning! No encoding param present in \n"+ content);
+        return null;
+    }
+
 }

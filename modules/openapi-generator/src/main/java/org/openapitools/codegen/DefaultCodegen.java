@@ -3084,14 +3084,18 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            String contentType = getContentType(requestBody);
-            if (contentType != null &&
-                    (contentType.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                            contentType.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
-                // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, imports);
-                op.isMultipart = contentType.toLowerCase(Locale.ROOT).startsWith("multipart");
-                for (CodegenParameter cp : formParams) {
+            RequestBody bodyVar = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
+            Set<String> contentTypes = bodyVar.getContent().keySet();
+            // boolean to process body param only once
+            boolean bodyParamTrack = false;
+            op.hasRequiredRequestBody = requestBody.getRequired() != null ? requestBody.getRequired() : Boolean.FALSE;
+            // loop over all content types present in request body
+            for (String contentType : contentTypes) {
+                if (contentType != null && ModelUtils.isTypeFormParam(contentType)) {
+                    // process form parameters
+                    formParams = fromRequestBodyToFormParameters(requestBody, imports);
+                    op.isMultipart = contentType.toLowerCase(Locale.ROOT).startsWith("multipart");
+                    for (CodegenParameter cp : formParams) {
                     postProcessParameter(cp);
                 }
                 // add form parameters to the beginning of all parameter list
@@ -3100,27 +3104,33 @@ public class DefaultCodegen implements CodegenConfig {
                         allParams.add(cp.copy());
                     }
                 }
-            } else {
-                // process body parameter
-                requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
+                } else {
+                    if (!bodyParamTrack) {
+                        // process body parameter
+                        requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
 
-                String bodyParameterName = "";
-                if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
-                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
-                }
-                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
-                bodyParam.description = escapeText(requestBody.getDescription());
-                postProcessParameter(bodyParam);
+                        String bodyParameterName = "";
+                        if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
+                            bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
+                        }
+                        bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
+                        bodyParam.description = escapeText(requestBody.getDescription());
+                        postProcessParameter(bodyParam);
 
-                bodyParams.add(bodyParam);
+                        bodyParams.add(bodyParam);
 
-                if (prependFormOrBodyParameters) {
-                    allParams.add(bodyParam);
-                }
+                        if (prependFormOrBodyParameters) {
+                            allParams.add(bodyParam);
+                        }
 
-                // add example
-                if (schemas != null) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                        // add example
+                        if (schemas != null) {
+                            op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                        }
+                        bodyParamTrack = true;
+                    } else {
+                        LOGGER.warn("Already processed body parameter once, skipping the second body param schema");
+                    }
                 }
             }
         }
@@ -4947,6 +4957,12 @@ public class DefaultCodegen implements CodegenConfig {
                 mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
             }
 
+            if(ModelUtils.isTypeFormParam(key)) {
+                mediaType.put("isForm", "true");
+            } else {
+                mediaType.put("isBody", "true");
+            }
+
             count += 1;
             if (count < consumes.size()) {
                 mediaType.put("hasMore", "true");
@@ -4996,7 +5012,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
 
-        Schema schema = ModelUtils.getSchemaFromRequestBody(requestBody);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(requestBody,"body");
         return ModelUtils.getReferencedSchema(openAPI, schema) != null;
     }
 
@@ -5024,6 +5040,12 @@ public class DefaultCodegen implements CodegenConfig {
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<String, String>();
                 mediaType.put("mediaType", encodedKey);
+
+                if(ModelUtils.isTypeFormParam(key)) {
+                    mediaType.put("isForm", "true");
+                } else {
+                    mediaType.put("isBody", "true");
+                }
 
                 count += 1;
                 if (count < produces.size()) {
@@ -5101,7 +5123,7 @@ public class DefaultCodegen implements CodegenConfig {
     public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body,"form");
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             Map<String, Schema> properties = schema.getProperties();
@@ -5155,6 +5177,13 @@ public class DefaultCodegen implements CodegenConfig {
                 // Set 'required' flag defined in the schema element
                 if (!codegenParameter.required && schema.getRequired() != null) {
                     codegenParameter.required = schema.getRequired().contains(entry.getKey());
+                }
+
+                // Get Encoding object from request body for indiviual parameter
+                Map<String, Encoding> encoding = ModelUtils.getEncodingFromRequestBody(body);
+                if (encoding != null) {
+                        codegenParameter.encoding = fromEncodingProperty(encoding.get(entry.getKey()));
+                        codegenParameter.isMultipartParam = true;
                 }
 
                 parameters.add(codegenParameter);
@@ -5255,11 +5284,8 @@ public class DefaultCodegen implements CodegenConfig {
             throw new RuntimeException("body in fromRequestBody cannot be null!");
         }
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-        codegenParameter.baseName = "UNKNOWN_BASE_NAME";
-        codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
         codegenParameter.description = escapeText(body.getDescription());
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
-        codegenParameter.isBodyParam = Boolean.TRUE;
 
         String name = null;
         LOGGER.debug("Request body = " + body);
@@ -5267,6 +5293,26 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
         }
+
+        fromBodyProperty(codegenParameter,schema,imports,bodyParameterName);
+
+        // set the parameter's example value
+        // should be overridden by lang codegen
+        setParameterExampleValue(codegenParameter, body);
+
+        return codegenParameter;
+    }
+
+    public void fromBodyProperty(CodegenParameter codegenParameter, Schema schema, Set<String> imports, String bodyParameterName) {
+        if (codegenParameter == null) {
+            codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER););
+        }
+
+        codegenParameter.baseName = "UNKNOWN_BASE_NAME";
+        codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
+        codegenParameter.isBodyParam = Boolean.TRUE;
+
+        String name = null;
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
@@ -5481,12 +5527,6 @@ public class DefaultCodegen implements CodegenConfig {
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
         }
-
-        // set the parameter's example value
-        // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter, body);
-
-        return codegenParameter;
     }
 
     protected void addOption(String key, String description, String defaultValue) {
@@ -5806,5 +5846,38 @@ public class DefaultCodegen implements CodegenConfig {
         public int hashCode() {
             return Objects.hash(getName(), getRemoveCharRegEx(), getExceptions());
         }
+    }
+
+    public CodegenEncoding fromEncodingProperty(Encoding en) {
+        if (en == null) {
+            return null;
+        }
+        CodegenEncoding e = new CodegenEncoding();
+        e.contentType = en.getContentType();
+        if (en.getHeaders() != null) {
+            for (Map.Entry<String, Header> headerEntry : en.getHeaders().entrySet()) {
+                String description = headerEntry.getValue().getDescription();
+                // follow the $ref
+                Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
+
+                Schema schema;
+                if (header.getSchema() == null) {
+                 LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() + "', using a String schema");
+                 schema = new StringSchema();
+                } else {
+                 schema = header.getSchema();
+                }
+                CodegenProperty cp = fromProperty(headerEntry.getKey(), schema);
+                cp.setDescription(escapeText(description));
+                cp.setUnescapedDescription(description);
+                e.headerParams.add(cp);
+            }
+        }
+        e.style = en.getStyle().toString();
+        e.explode = en.getExplode();
+        e.allowReserved = en.getAllowReserved();
+        e.extensions = en.getExtensions();
+        return e;
+
     }
 }

@@ -25,7 +25,7 @@ import java.util.*;
  * Parameters may be located in a path, query, header or cookie.
  */
 public class CodegenParameter implements IJsonSchemaValidationProperties {
-    public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
+    public boolean isFormParam, isMultipartParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
@@ -97,6 +97,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public Number multipleOf;
     private Integer maxProperties;
     private Integer minProperties;
+    public CodegenEncoding encoding;
 
     public CodegenParameter copy() {
         CodegenParameter output = new CodegenParameter();
@@ -118,6 +119,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.unescapedDescription = this.unescapedDescription;
         output.baseType = this.baseType;
         output.isFormParam = this.isFormParam;
+        output.isMultipartParam = this.isMultipartParam;
         output.isQueryParam = this.isQueryParam;
         output.isPathParam = this.isPathParam;
         output.isHeaderParam = this.isHeaderParam;
@@ -182,13 +184,14 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isMapContainer = this.isMapContainer;
         output.isExplode = this.isExplode;
         output.style = this.style;
+        output.encoding = this.encoding;
 
         return output;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), multipleOf);
+        return Objects.hash(isFormParam, isMultipartParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), multipleOf, encoding);
     }
 
     @Override
@@ -197,6 +200,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         if (!(o instanceof CodegenParameter)) return false;
         CodegenParameter that = (CodegenParameter) o;
         return isFormParam == that.isFormParam &&
+                isMultipartParam == that.isMultipartParam &&
                 isQueryParam == that.isQueryParam &&
                 isPathParam == that.isPathParam &&
                 isHeaderParam == that.isHeaderParam &&
@@ -263,13 +267,15 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(getPattern(), that.getPattern()) &&
                 Objects.equals(getMaxItems(), that.getMaxItems()) &&
                 Objects.equals(getMinItems(), that.getMinItems()) &&
-                Objects.equals(multipleOf, that.multipleOf);
+                Objects.equals(multipleOf, that.multipleOf) &&
+                Objects.equals(encoding, that.encoding);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenParameter{");
         sb.append("isFormParam=").append(isFormParam);
+        sb.append(", isMultipartParam=").append(isMultipartParam);
         sb.append(", isQueryParam=").append(isQueryParam);
         sb.append(", isPathParam=").append(isPathParam);
         sb.append(", isHeaderParam=").append(isHeaderParam);
@@ -337,6 +343,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", minItems=").append(minItems);
         sb.append(", uniqueItems=").append(uniqueItems);
         sb.append(", multipleOf=").append(multipleOf);
+        sb.append(", encoding=").append(encoding);
         sb.append('}');
         return sb.toString();
     }
