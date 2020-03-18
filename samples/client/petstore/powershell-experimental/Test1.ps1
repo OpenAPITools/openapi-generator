@@ -14,12 +14,11 @@ $Id = 38369
 
 #$result = Update-PSPetWithForm 
 try {
-  Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzZZZZZZZZZZZZZ"
-  $result = Get-PSPetById -petId $Id #-testHeader "testing only" -testQuery "testing something here"
-
+    Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzZZZZZZZZZZZZZ"
+    $result = Get-PSPetById -petId $Id #-testHeader "testing only" -testQuery "testing something here"
 } catch {
-  Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-  Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
 }
 
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
@@ -47,5 +46,4 @@ try {
 #$conf = Get-PSConfiguration
 #
 #$conf | ConvertTo-Json | Write-Host
-
 

@@ -506,7 +506,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     @Override
     public String toModelFilename(String name) {
         // should be the same as the model name
-        return "New-" + toModelName(name);
+        return toModelName(name);
     }
 
     /**

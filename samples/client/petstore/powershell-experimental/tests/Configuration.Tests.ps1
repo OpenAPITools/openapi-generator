@@ -9,8 +9,8 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
     Context 'Configuration' {
         It 'Configuration tests' {
             Set-PSConfiguration -Username "test_username" -Password "test_password" `
-                -AccessToken "test_accesstoken" `
-                -BaseUrl "https://test.api.com:8080"
+                -AccessToken "test_accesstoken" 
+                #-BaseUrl "https://test.api.com:8080"
 
             Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzzzxxxxyyyy"
             Set-PSConfigurationApiKeyPrefix -Id "api_key" -ApiKeyPrefix "Bearer"
@@ -20,7 +20,7 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Conf."Username" | Should Be "test_username"
             $Conf."Password" | Should Be "test_password"
             $Conf."AccessToken" | Should Be "test_accesstoken"
-            $Conf."BaseUrl" | Should Be "https://test.api.com:8080"
+            #$Conf."BaseUrl" | Should Be "https://test.api.com:8080"
 
             $Conf["ApiKey"]["api_key"] | Should Be "zzzzxxxxyyyy"
             $Conf["ApiKeyPrefix"]["api_key"] | Should Be "Bearer"
