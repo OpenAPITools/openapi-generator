@@ -95,7 +95,8 @@ function Invoke-PSApiClient {
     $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
                                   -Method $Method `
                                   -Headers $HeaderParameters `
-                                  -Body $RequestBody
+                                  -Body $RequestBody `
+                                  -ErrorAction Stop
 
     return @{
         Response = DeserializeResponse -Response $Response -ReturnType $ReturnType

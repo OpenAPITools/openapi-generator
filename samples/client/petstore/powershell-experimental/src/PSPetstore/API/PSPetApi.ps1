@@ -8,7 +8,7 @@
 function Add-PSPet {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Pet}
     )
@@ -34,10 +34,9 @@ function Add-PSPet {
         $LocalVarContentTypes = @('application/json', 'application/xml')
 
         $LocalVarUri = '/pet'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$Pet) {
-            throw "Error! $Pet is required."
+            throw "Error! The required parameter `Pet` missing when calling addPet."
         }
 
         $LocalVarBodyParameter = $Pet | ConvertTo-Json
@@ -61,10 +60,10 @@ function Add-PSPet {
 function Remove-Pet {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${PetId},
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${ApiKey}
     )
@@ -84,8 +83,10 @@ function Remove-Pet {
 
         $Configuraiton = Get-PSConfiguration
         $LocalVarUri = '/pet/{petId}'
+        if (!$PetId) {
+            throw "Error! The required parameter `PetId` missing when calling deletePet."
+        }
         $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if ($ApiKey) {
             $LocalVarHeaderParameters['api_key'] = $ApiKey
@@ -110,7 +111,7 @@ function Remove-Pet {
 function Find-PSPetsByStatus {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String[]]
         ${Status}
     )
@@ -133,10 +134,9 @@ function Find-PSPetsByStatus {
         $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/pet/findByStatus'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$Status) {
-            throw "Error! $Status is required."
+            throw "Error! The required parameter `Status` missing when calling findPetsByStatus."
         }
         $LocalVarQueryParameters['status'] = $Status
 
@@ -159,7 +159,7 @@ function Find-PSPetsByStatus {
 function Find-PSPetsByTags {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String[]]
         ${Tags}
     )
@@ -182,10 +182,9 @@ function Find-PSPetsByTags {
         $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/pet/findByTags'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$Tags) {
-            throw "Error! $Tags is required."
+            throw "Error! The required parameter `Tags` missing when calling findPetsByTags."
         }
         $LocalVarQueryParameters['tags'] = $Tags
 
@@ -208,7 +207,7 @@ function Find-PSPetsByTags {
 function Get-PSPetById {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${PetId}
     )
@@ -231,8 +230,10 @@ function Get-PSPetById {
         $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/pet/{petId}'
+        if (!$PetId) {
+            throw "Error! The required parameter `PetId` missing when calling getPetById."
+        }
         $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
@@ -256,7 +257,7 @@ function Get-PSPetById {
 function Update-PSPet {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Pet}
     )
@@ -282,10 +283,9 @@ function Update-PSPet {
         $LocalVarContentTypes = @('application/json', 'application/xml')
 
         $LocalVarUri = '/pet'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$Pet) {
-            throw "Error! $Pet is required."
+            throw "Error! The required parameter `Pet` missing when calling updatePet."
         }
 
         $LocalVarBodyParameter = $Pet | ConvertTo-Json
@@ -309,13 +309,13 @@ function Update-PSPet {
 function Update-PSPetWithForm {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${PetId},
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Name},
-        [Parameter(Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Status}
     )
@@ -338,8 +338,10 @@ function Update-PSPetWithForm {
         $LocalVarContentTypes = @('application/x-www-form-urlencoded')
 
         $LocalVarUri = '/pet/{petId}'
+        if (!$PetId) {
+            throw "Error! The required parameter `PetId` missing when calling updatePetWithForm."
+        }
         $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if ($Name) {
             $LocalVarFormParameters['name'] = $Name
@@ -368,13 +370,13 @@ function Update-PSPetWithForm {
 function Invoke-PSUploadFile {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${PetId},
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${AdditionalMetadata},
-        [Parameter(Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [System.IO.FileInfo]
         ${File}
     )
@@ -400,8 +402,10 @@ function Invoke-PSUploadFile {
         $LocalVarContentTypes = @('multipart/form-data')
 
         $LocalVarUri = '/pet/{petId}/uploadImage'
+        if (!$PetId) {
+            throw "Error! The required parameter `PetId` missing when calling uploadFile."
+        }
         $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if ($AdditionalMetadata) {
             $LocalVarFormParameters['additionalMetadata'] = $AdditionalMetadata

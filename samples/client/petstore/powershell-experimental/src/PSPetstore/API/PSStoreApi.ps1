@@ -8,7 +8,7 @@
 function Invoke-PSDeleteOrder {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${OrderId}
     )
@@ -28,8 +28,10 @@ function Invoke-PSDeleteOrder {
 
         $Configuraiton = Get-PSConfiguration
         $LocalVarUri = '/store/order/{orderId}'
+        if (!$OrderId) {
+            throw "Error! The required parameter `OrderId` missing when calling deleteOrder."
+        }
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $OrderId)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         $LocalVarResult = Invoke-PSApiClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
@@ -69,7 +71,6 @@ function Get-PSInventory {
         $LocalVarAccepts = @('application/json')
 
         $LocalVarUri = '/store/inventory'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
@@ -93,7 +94,7 @@ function Get-PSInventory {
 function Get-PSOrderById {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${OrderId}
     )
@@ -116,8 +117,10 @@ function Get-PSOrderById {
         $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/store/order/{orderId}'
+        if (!$OrderId) {
+            throw "Error! The required parameter `OrderId` missing when calling getOrderById."
+        }
         $LocalVarUri = $LocalVarUri.replace('{orderId}', $OrderId)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -137,7 +140,7 @@ function Get-PSOrderById {
 function Invoke-PSPlaceOrder {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Order}
     )
@@ -163,10 +166,9 @@ function Invoke-PSPlaceOrder {
         $LocalVarContentTypes = @('application/json')
 
         $LocalVarUri = '/store/order'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$Order) {
-            throw "Error! $Order is required."
+            throw "Error! The required parameter `Order` missing when calling placeOrder."
         }
 
         $LocalVarBodyParameter = $Order | ConvertTo-Json

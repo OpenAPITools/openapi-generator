@@ -8,7 +8,7 @@
 function Invoke-PSCreateUser {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${User}
     )
@@ -31,10 +31,9 @@ function Invoke-PSCreateUser {
         $LocalVarContentTypes = @('application/json')
 
         $LocalVarUri = '/user'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$User) {
-            throw "Error! $User is required."
+            throw "Error! The required parameter `User` missing when calling createUser."
         }
 
         $LocalVarBodyParameter = $User | ConvertTo-Json
@@ -61,7 +60,7 @@ function Invoke-PSCreateUser {
 function Invoke-PSCreateUsersWithArrayInput {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject[]]
         ${User}
     )
@@ -84,10 +83,9 @@ function Invoke-PSCreateUsersWithArrayInput {
         $LocalVarContentTypes = @('application/json')
 
         $LocalVarUri = '/user/createWithArray'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$User) {
-            throw "Error! $User is required."
+            throw "Error! The required parameter `User` missing when calling createUsersWithArrayInput."
         }
 
         $LocalVarBodyParameter = $User | ConvertTo-Json
@@ -114,7 +112,7 @@ function Invoke-PSCreateUsersWithArrayInput {
 function Invoke-PSCreateUsersWithListInput {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject[]]
         ${User}
     )
@@ -137,10 +135,9 @@ function Invoke-PSCreateUsersWithListInput {
         $LocalVarContentTypes = @('application/json')
 
         $LocalVarUri = '/user/createWithList'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$User) {
-            throw "Error! $User is required."
+            throw "Error! The required parameter `User` missing when calling createUsersWithListInput."
         }
 
         $LocalVarBodyParameter = $User | ConvertTo-Json
@@ -167,7 +164,7 @@ function Invoke-PSCreateUsersWithListInput {
 function Invoke-PSDeleteUser {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Username}
     )
@@ -187,8 +184,10 @@ function Invoke-PSDeleteUser {
 
         $Configuraiton = Get-PSConfiguration
         $LocalVarUri = '/user/{username}'
+        if (!$Username) {
+            throw "Error! The required parameter `Username` missing when calling deleteUser."
+        }
         $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
@@ -212,7 +211,7 @@ function Invoke-PSDeleteUser {
 function Get-PSUserByName {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Username}
     )
@@ -235,8 +234,10 @@ function Get-PSUserByName {
         $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/user/{username}'
+        if (!$Username) {
+            throw "Error! The required parameter `Username` missing when calling getUserByName."
+        }
         $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -256,10 +257,10 @@ function Get-PSUserByName {
 function Invoke-PSLoginUser {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Username},
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Password}
     )
@@ -282,15 +283,14 @@ function Invoke-PSLoginUser {
         $LocalVarAccepts = @('application/xml', 'application/json')
 
         $LocalVarUri = '/user/login'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$Username) {
-            throw "Error! $Username is required."
+            throw "Error! The required parameter `Username` missing when calling loginUser."
         }
         $LocalVarQueryParameters['username'] = $Username
 
         if (!$Password) {
-            throw "Error! $Password is required."
+            throw "Error! The required parameter `Password` missing when calling loginUser."
         }
         $LocalVarQueryParameters['password'] = $Password
 
@@ -329,7 +329,6 @@ function Invoke-PSLogoutUser {
 
         $Configuraiton = Get-PSConfiguration
         $LocalVarUri = '/user/logout'
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
@@ -353,10 +352,10 @@ function Invoke-PSLogoutUser {
 function Update-PSUser {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Username},
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${User}
     )
@@ -379,11 +378,13 @@ function Update-PSUser {
         $LocalVarContentTypes = @('application/json')
 
         $LocalVarUri = '/user/{username}'
+        if (!$Username) {
+            throw "Error! The required parameter `Username` missing when calling updateUser."
+        }
         $LocalVarUri = $LocalVarUri.replace('{username}', $Username)
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         if (!$User) {
-            throw "Error! $User is required."
+            throw "Error! The required parameter `User` missing when calling updateUser."
         }
 
         $LocalVarBodyParameter = $User | ConvertTo-Json

@@ -5,7 +5,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
     [CmdletBinding()]
     Param (
     {{#allParams}}
-        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = {{#required}}$true{{/required}}{{^required}}$false{{/required}})]
+        [Parameter(Position = {{vendorExtensions.x-index}}{{#-first}}, ValueFromPipeline = $true{{/-first}}, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [{{{vendorExtensions.x-powershell-data-type}}}]
         {{=<% %>=}}
         ${<%paramName%>}<%^-last%>,<%/-last%>
@@ -40,16 +40,18 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         $LocalVarUri = '{{{path}}}'
         {{=< >=}}
         <#pathParams>
+        if (!$<paramName>) {
+            throw "Error! The required parameter `<paramName>` missing when calling <operationId>."
+        }
         $LocalVarUri = $LocalVarUri.replace('{<baseName>}', $<paramName>)
         </pathParams>
         <={{ }}=>
-        #$LocalVarUri = $Configuration["BaseUrl"] + $LocalVarUri
 
         {{#headerParams}}
         {{#required}}
         {{^isNullable}}
         if (!${{{paramName}}}) {
-            throw "Error! ${{{paramName}}} is required."
+            throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
         }
         $LocalVarHeaderParameters['{{baseName}}'] = ${{{paramName}}}
 
@@ -72,7 +74,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{#required}}
         {{^isNullable}}
         if (!${{{paramName}}}) {
-            throw "Error! ${{{paramName}}} is required."
+            throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
         }
         $LocalVarQueryParameters['{{baseName}}'] = ${{{paramName}}}
 
@@ -95,7 +97,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{#required}}
         {{^isNullable}}
         if (!${{{paramName}}}) {
-            throw "Error! ${{{paramName}}} is required."
+            throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
         }
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
 
@@ -118,7 +120,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{#required}}
         {{^isNullable}}
         if (!${{{paramName}}}) {
-            throw "Error! ${{{paramName}}} is required."
+            throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
         }
 
         {{/isNullable}}

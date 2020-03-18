@@ -12,7 +12,9 @@ $body = (New-PSUser -Id 123  -Username "Username_example"  -FirstName "FirstName
 
 $Id = 38369
 
-#$result = Invoke-PetApiGetPetById -petId $Id -testHeader "testing only" -testQuery "testing something here"
+$result = Update-PSPetWithForm 
+
+#$result = Get-PSPetById -petId $Id #-testHeader "testing only" -testQuery "testing something here"
 
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls
@@ -31,13 +33,13 @@ $Id = 38369
 
 #$Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
 
-$file = Get-Item "./plus.gif"
-#$Result = Invoke-PetApiUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
-
-Set-PSConfiguration -Username "test_username" -Password "test_password"
-
-$conf = Get-PSConfiguration
-
-$conf | ConvertTo-Json | Write-Host
+#$file = Get-Item "./plus.gif"
+##$Result = Invoke-PetApiUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
+#
+#Set-PSConfiguration -Username "test_username" -Password "test_password"
+#
+#$conf = Get-PSConfiguration
+#
+#$conf | ConvertTo-Json | Write-Host
 
 
