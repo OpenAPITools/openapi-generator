@@ -1,0 +1,42 @@
+openapi: 3.0.2 # This should be 3.1, but the parser does not accept that version yet.
+info:
+  version: 1.0.0
+  title: security-oauth
+  license:
+    name: MIT
+servers:
+  - url: http://secured.api.example.xyz/v1
+
+components:
+  securitySchemes:
+    oAuthSample:
+      type: oauth2
+      description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
+      flows:
+        implicit:
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            read_pets: read your pets
+            write_pets: modify pets in your account
+    yolo:
+      type: oauth2
+      description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
+      flows:
+        implicit:
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            read_pets: read your pets
+            write_pets: modify pets in your account
+security:
+  - oAuthSample:
+      - read_pets
+
+paths:
+  /pets:
+    patch:
+      summary: Add a new pet
+      security:
+        - oAuthSample:
+            - write_pets
+        - yolo:
+            - read_pets

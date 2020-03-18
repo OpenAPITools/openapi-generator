@@ -71,6 +71,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
+    public static final String USE_SPRING_SECURITY = "useSpringSecurity";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -98,6 +99,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
+    protected boolean useSpringSecurity = false;
 
     public SpringCodegen() {
         super();
@@ -171,6 +173,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_SECURITY, "Use spring-security's @PreAuthorize annotation to invoke authorization rules"));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -335,6 +338,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
         }
         additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
+
+        if (additionalProperties.containsKey(USE_SPRING_SECURITY)) {
+            this.setUseSpringSecurity(Boolean.valueOf(additionalProperties.get(USE_SPRING_SECURITY).toString()));
+        }
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
@@ -548,7 +555,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(TITLE, this.title);
         }
 
-        if(!additionalProperties.containsKey(SERVER_PORT)) {
+        if (!additionalProperties.containsKey(SERVER_PORT)) {
             URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
             this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
         }
@@ -772,9 +779,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.singleContentTypes = singleContentTypes;
     }
 
-    public void setSkipDefaultInterface(boolean skipDefaultInterface) { this.skipDefaultInterface = skipDefaultInterface; }
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) {
+        this.skipDefaultInterface = skipDefaultInterface;
+    }
 
-    public void setJava8(boolean java8) { this.java8 = java8; }
+    public void setJava8(boolean java8) {
+        this.java8 = java8;
+    }
 
     public void setVirtualService(boolean virtualService) {
         this.virtualService = virtualService;
@@ -818,6 +829,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUnhandledException(boolean unhandledException) {
         this.unhandledException = unhandledException;
+    }
+
+    public void setUseSpringSecurity(boolean useSpringSecurity) {
+        this.useSpringSecurity = useSpringSecurity;
     }
 
     @Override
@@ -890,11 +905,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (p.defaultValue == null) {
             return;
         }
-        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
-        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length() - 1)));
+        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length() - 1)));
+        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length() - 1)));
         if (fixLong || fixDouble || fixFloat) {
-            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
+            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length() - 1);
         }
     }
 
