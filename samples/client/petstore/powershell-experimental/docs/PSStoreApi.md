@@ -26,7 +26,12 @@ Import-Module -Name PSPetstore
 $OrderId = "OrderId_example" # String | ID of the order that needs to be deleted (default to null)
 
 # Delete purchase order by ID
-Invoke-PSDeleteOrder -OrderId $OrderId
+try {
+    Invoke-PSDeleteOrder -OrderId $OrderId
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -70,7 +75,12 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 
 
 # Returns pet inventories by status
-{String, Int32} $Result = Get-PSInventory
+try {
+    {String, Int32} $Result = Get-PSInventory
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -107,7 +117,12 @@ Import-Module -Name PSPetstore
 $OrderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
 
 # Find purchase order by ID
-Order $Result = Get-PSOrderById -OrderId $OrderId
+try {
+    Order $Result = Get-PSOrderById -OrderId $OrderId
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -145,7 +160,12 @@ Import-Module -Name PSPetstore
 $Order = (New-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet
-Order $Result = Invoke-PSPlaceOrder -Order $Order
+try {
+    Order $Result = Invoke-PSPlaceOrder -Order $Order
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters

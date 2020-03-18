@@ -32,7 +32,12 @@ $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 $Pet = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
-Pet $Result = Add-PSPet -Pet $Pet
+try {
+    Pet $Result = Add-PSPet -Pet $Pet
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -76,7 +81,12 @@ $PetId = 987 # Int64 | Pet id to delete (default to null)
 $ApiKey = "ApiKey_example" # String |  (optional) (default to null)
 
 # Deletes a pet
-Remove-Pet -PetId $PetId -ApiKey $ApiKey
+try {
+    Remove-Pet -PetId $PetId -ApiKey $ApiKey
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -121,7 +131,12 @@ $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 $Status = @("Status_example") # String[] | Status values that need to be considered for filter (default to null)
 
 # Finds Pets by status
-Pet[] $Result = Find-PSPetsByStatus -Status $Status
+try {
+    Pet[] $Result = Find-PSPetsByStatus -Status $Status
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -165,7 +180,12 @@ $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 $Tags = @("Inner_example") # String[] | Tags to filter by (default to null)
 
 # Finds Pets by tags
-Pet[] $Result = Find-PSPetsByTags -Tags $Tags
+try {
+    Pet[] $Result = Find-PSPetsByTags -Tags $Tags
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -211,7 +231,12 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 $PetId = 987 # Int64 | ID of pet to return (default to null)
 
 # Find pet by ID
-Pet $Result = Get-PSPetById -PetId $PetId
+try {
+    Pet $Result = Get-PSPetById -PetId $PetId
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -253,7 +278,12 @@ $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 $Pet = (New-Pet -Id 123  -Category (New-Category -Id 123  -Name "Name_example")  -Name "Name_example"  -PhotoUrls @("PhotoUrls_example")  -Tags @((New-Tag -Id 123  -Name "Name_example"))  -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Update an existing pet
-Pet $Result = Update-PSPet -Pet $Pet
+try {
+    Pet $Result = Update-PSPet -Pet $Pet
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -299,7 +329,12 @@ $Name = "Name_example" # String | Updated name of the pet (optional) (default to
 $Status = "Status_example" # String | Updated status of the pet (optional) (default to null)
 
 # Updates a pet in the store with form data
-Update-PSPetWithForm -PetId $PetId -Name $Name -Status $Status
+try {
+    Update-PSPetWithForm -PetId $PetId -Name $Name -Status $Status
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -347,7 +382,12 @@ $AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to
 $File = 987 # System.IO.FileInfo | file to upload (optional) (default to null)
 
 # uploads an image
-ApiResponse $Result = Invoke-PSUploadFile -PetId $PetId -AdditionalMetadata $AdditionalMetadata -File $File
+try {
+    ApiResponse $Result = Invoke-PSUploadFile -PetId $PetId -AdditionalMetadata $AdditionalMetadata -File $File
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters

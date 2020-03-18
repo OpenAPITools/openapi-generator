@@ -53,7 +53,12 @@ ${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | 
 {{#summary}}
 # {{{.}}}
 {{/summary}}
-{{#returnType}}{{returnType}} $Result = {{/returnType}}{{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
+try {
+    {{#returnType}}{{returnType}} $Result = {{/returnType}}{{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters

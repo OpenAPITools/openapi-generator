@@ -36,7 +36,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 $User = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Created user object
 
 # Create user
-Invoke-PSCreateUser -User $User
+try {
+    Invoke-PSCreateUser -User $User
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -80,7 +85,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 $User = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
-Invoke-PSCreateUsersWithArrayInput -User $User
+try {
+    Invoke-PSCreateUsersWithArrayInput -User $User
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -124,7 +134,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 $User = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)) # User[] | List of user object
 
 # Creates list of users with given input array
-Invoke-PSCreateUsersWithListInput -User $User
+try {
+    Invoke-PSCreateUsersWithListInput -User $User
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -170,7 +185,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 $Username = "Username_example" # String | The name that needs to be deleted (default to null)
 
 # Delete user
-Invoke-PSDeleteUser -Username $Username
+try {
+    Invoke-PSDeleteUser -Username $Username
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -208,7 +228,12 @@ Import-Module -Name PSPetstore
 $Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
 # Get user by user name
-User $Result = Get-PSUserByName -Username $Username
+try {
+    User $Result = Get-PSUserByName -Username $Username
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -248,7 +273,12 @@ $Username = "Username_example" # String | The user name for login (default to nu
 $Password = "Password_example" # String | The password for login in clear text (default to null)
 
 # Logs user into the system
-String $Result = Invoke-PSLoginUser -Username $Username -Password $Password
+try {
+    String $Result = Invoke-PSLoginUser -Username $Username -Password $Password
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -291,7 +321,12 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 
 
 # Logs out current logged in user session
-Invoke-PSLogoutUser
+try {
+    Invoke-PSLogoutUser
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
@@ -336,7 +371,12 @@ $Username = "Username_example" # String | name that need to be deleted (default 
 $User = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123) # User | Updated user object
 
 # Updated user
-Update-PSUser -Username $Username -User $User
+try {
+    Update-PSUser -Username $Username -User $User
+} catch {
+    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
+    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+}
 ```
 
 ### Parameters
