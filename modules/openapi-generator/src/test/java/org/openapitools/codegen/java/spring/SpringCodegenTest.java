@@ -485,7 +485,7 @@ public class SpringCodegenTest {
         // we had an issue where int64, float, and double values were having single character string suffixes
         // included in their defaultValues
         // This test verifies that those characters are no longer present
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/issue1226.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue1226.yaml");
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setOpenAPI(openAPI);
 

@@ -66,7 +66,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void testPreprocessOpenAPI() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.preprocessOpenAPI(openAPI);
@@ -77,7 +77,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void testPreprocessOpenAPINumVersion() throws Exception {
-        final OpenAPI openAPIOtherNumVersion = TestUtils.parseSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
+        final OpenAPI openAPIOtherNumVersion = TestUtils.parseFlattenSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.preprocessOpenAPI(openAPIOtherNumVersion);
@@ -461,7 +461,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanTrueFromString() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -470,7 +470,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanTrueFromBoolean() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -479,7 +479,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromString() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -488,7 +488,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromBoolean() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -497,7 +497,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromGarbage() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -506,7 +506,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromNumeric() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
