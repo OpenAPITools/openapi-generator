@@ -342,6 +342,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_SPRING_SECURITY)) {
             this.setUseSpringSecurity(Boolean.valueOf(additionalProperties.get(USE_SPRING_SECURITY).toString()));
         }
+        writePropertyBack(USE_SPRING_SECURITY, this.useSpringSecurity);
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");

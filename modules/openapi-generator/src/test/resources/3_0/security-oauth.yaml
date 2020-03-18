@@ -34,6 +34,8 @@ security:
 
 paths:
   /pets:
+    get:
+      summary: Get the pet
     patch:
       summary: Add a new pet
       security:

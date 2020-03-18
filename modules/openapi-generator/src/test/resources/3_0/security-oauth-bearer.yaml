@@ -31,3 +31,4 @@ paths:
         - anotherAuth:
           - "scope:another"
     post:
+      summary: make the pet

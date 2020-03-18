@@ -52,6 +52,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
