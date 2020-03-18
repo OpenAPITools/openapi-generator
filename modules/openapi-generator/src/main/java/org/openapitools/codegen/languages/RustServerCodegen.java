@@ -336,7 +336,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         additionalProperties.put("serverHost", url.getHost());
-        additionalProperties.put("serverPort", URLPathUtils.getPort(url, 80));
+        additionalProperties.put("serverPort", URLPathUtils.getPort(url, serverPort));
 
         if (packageVersion == null || "".equals(packageVersion)) {
             List<String> versionComponents = new ArrayList<>(Arrays.asList(info.getVersion().split("[.]")));
@@ -706,9 +706,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // Don't prefix with '^' so that the templates can put the
             // basePath on the front.
             for (CodegenParameter param : op.pathParams) {
-                // Replace {paramName} with (?P<paramName>[^/?#]*) for regex
+                // Replace {baseName} with (?P<baseName>[^/?#]*) for regex
                 String paramSearch = "{" + param.baseName + "}";
-                String paramReplace = "(?P<" + param.paramName + ">[^/?#]*)";
+                String paramReplace = "(?P<" + param.baseName + ">[^/?#]*)";
 
                 regex = regex.replace(paramSearch, paramReplace);
             }
