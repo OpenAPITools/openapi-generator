@@ -34,10 +34,6 @@ function Get-PSConfiguration {
         $Configuration["ApiKeyPrefix"] = @{}
     }
 
-    #if (!$Configuration["User-Agent"]) {
-    #    $Configuration["User-Agent"] = "OpenAPI-Generator/0.1.2/powershell"
-    #}
-
     Return $Configuration
 
 }
@@ -65,11 +61,6 @@ function Set-PSConfiguration {
 
         If ($BaseUrl) {
             $Script:Configuration["BaseUrl"] = $BaseUrl
-            #if ($Script:Configuration.containsKey('BaseUrl')) {
-            #    $Script:Configuration["BaseUrl"] = $BaseUrl
-            #} else {
-            #    [void]$Script:Configuration.Add('BaseUrl', $BaseUrl)
-            #}
         }
 
         If ($Username) {
@@ -101,23 +92,29 @@ function Set-PSConfiguration {
 function Set-PSConfigurationApiKey {
     [CmdletBinding()]
     Param(
-        [string]$Key,
+        [string]$Id,
         [AllowEmptyString()]
-        [string]$Value
+        [string]$ApiKey
     )
     Process {
-        $Script:Configuration["ApiKey"][$Key] = $Value
+        if (!$Script:Configuration["ApiKey"]) {
+            $Script:Configuration["ApiKey"] = @{}
+        }
+        $Script:Configuration["ApiKey"][$Id] = $ApiKey
     }
 }
 
 function Set-PSConfigurationApiKeyPrefix {
     [CmdletBinding()]
     Param(
-        [string]$Key,
+        [string]$Id,
         [AllowEmptyString()]
-        [string]$Prefix
+        [string]$ApiKeyPrefix
     )
     Process {
-        $Script:Configuration["ApiKeyPrefix"][$Key] = $Prefix
+        if (!$Script:Configuration["ApiKeyPrefix"]) {
+            $Script:Configuration["ApiKeyPrefix"] = @{}
+        }
+        $Script:Configuration["ApiKeyPrefix"][$Id] = $ApiKeyPrefix
     }
 }

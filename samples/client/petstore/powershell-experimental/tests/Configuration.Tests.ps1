@@ -12,14 +12,18 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
                 -AccessToken "test_accesstoken" `
                 -BaseUrl "https://test.api.com:8080"
 
-            Set-PSConfigurationApiKey -Key "api_key" -Value "test_api_key"
-            Set-PSConfigurationApiKeyPrefix -Key "api_key" -Prefix "test_api_key_prefix"
+            Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzzzxxxxyyyy"
+            Set-PSConfigurationApiKeyPrefix -Id "api_key" -ApiKeyPrefix "Bearer"
 
             $Conf = Get-PSConfiguration
 
             $Conf."Username" | Should Be "test_username"
             $Conf."Password" | Should Be "test_password"
             $Conf."AccessToken" | Should Be "test_accesstoken"
+            $Conf."BaseUrl" | Should Be "https://test.api.com:8080"
+
+            $Conf["ApiKey"]["api_key"] | Should Be "zzzzxxxxyyyy"
+            $Conf["ApiKeyPrefix"]["api_key"] | Should Be "Bearer"
 
             $Conf | ConvertTo-Json | Write-Host
         }

@@ -28,10 +28,6 @@ function Get-{{apiNamePrefix}}Configuration {
         $Configuration["ApiKeyPrefix"] = @{}
     }
 
-    #if (!$Configuration["User-Agent"]) {
-    #    $Configuration["User-Agent"] = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/powershell{{/httpUserAgent}}"
-    #}
-
     Return $Configuration
 
 }
@@ -59,11 +55,6 @@ function Set-{{{apiNamePrefix}}}Configuration {
 
         If ($BaseUrl) {
             $Script:Configuration["BaseUrl"] = $BaseUrl
-            #if ($Script:Configuration.containsKey('BaseUrl')) {
-            #    $Script:Configuration["BaseUrl"] = $BaseUrl
-            #} else {
-            #    [void]$Script:Configuration.Add('BaseUrl', $BaseUrl)
-            #}
         }
 
         If ($Username) {
@@ -95,23 +86,29 @@ function Set-{{{apiNamePrefix}}}Configuration {
 function Set-{{{apiNamePrefix}}}ConfigurationApiKey {
     [CmdletBinding()]
     Param(
-        [string]$Key,
+        [string]$Id,
         [AllowEmptyString()]
-        [string]$Value
+        [string]$ApiKey
     )
     Process {
-        $Script:Configuration["ApiKey"][$Key] = $Value
+        if (!$Script:Configuration["ApiKey"]) {
+            $Script:Configuration["ApiKey"] = @{}
+        }
+        $Script:Configuration["ApiKey"][$Id] = $ApiKey
     }
 }
 
 function Set-{{{apiNamePrefix}}}ConfigurationApiKeyPrefix {
     [CmdletBinding()]
     Param(
-        [string]$Key,
+        [string]$Id,
         [AllowEmptyString()]
-        [string]$Prefix
+        [string]$ApiKeyPrefix
     )
     Process {
-        $Script:Configuration["ApiKeyPrefix"][$Key] = $Prefix
+        if (!$Script:Configuration["ApiKeyPrefix"]) {
+            $Script:Configuration["ApiKeyPrefix"] = @{}
+        }
+        $Script:Configuration["ApiKeyPrefix"][$Id] = $ApiKeyPrefix
     }
 }

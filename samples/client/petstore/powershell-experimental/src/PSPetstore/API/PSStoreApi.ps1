@@ -72,7 +72,7 @@ function Get-PSInventory {
 
         $LocalVarUri = '/store/inventory'
 
-        if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 

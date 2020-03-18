@@ -131,12 +131,12 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{#authMethods}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
-        if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
             $LocalVarHeaderParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
         }
         {{/isKeyInHeader}}
         {{#isKeyInQuery}}
-        if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
             $LocalVarQueryParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
         }
         {{/isKeyInQuery}}

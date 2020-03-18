@@ -12,9 +12,9 @@ $body = (New-PSUser -Id 123  -Username "Username_example"  -FirstName "FirstName
 
 $Id = 38369
 
-$result = Update-PSPetWithForm 
-
-#$result = Get-PSPetById -petId $Id #-testHeader "testing only" -testQuery "testing something here"
+#$result = Update-PSPetWithForm 
+Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzZZZZZZZZZZZZZ"
+$result = Get-PSPetById -petId $Id #-testHeader "testing only" -testQuery "testing something here"
 
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls

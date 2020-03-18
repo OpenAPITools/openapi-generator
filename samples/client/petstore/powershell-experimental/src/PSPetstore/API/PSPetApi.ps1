@@ -235,7 +235,7 @@ function Get-PSPetById {
         }
         $LocalVarUri = $LocalVarUri.replace('{petId}', $PetId)
 
-        if (!$Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
         }
 
