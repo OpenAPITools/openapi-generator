@@ -126,7 +126,7 @@ fn main() {
                   {{{vendorExtensions.example}}}{{^-last}},{{/-last}}
                 {{/allParams}}
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         {{#vendorExtensions}}
           {{#noClientExample}}
