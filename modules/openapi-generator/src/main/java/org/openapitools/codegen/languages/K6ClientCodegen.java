@@ -497,6 +497,14 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return name;
     }
 
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
+    }
+
     private String getTemplateString(String input) {
         return "`" + getTemplateVariable(input) + "`";
     }
