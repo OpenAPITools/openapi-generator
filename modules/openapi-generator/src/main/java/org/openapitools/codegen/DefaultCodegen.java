@@ -5305,7 +5305,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void fromBodyProperty(CodegenParameter codegenParameter, Schema schema, Set<String> imports, String bodyParameterName) {
         if (codegenParameter == null) {
-            codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER););
+            codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         }
 
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";
