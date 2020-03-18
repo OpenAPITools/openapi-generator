@@ -18,6 +18,7 @@ components:
           scopes:
             read_pets: read your pets
             write_pets: modify pets in your account
+            rw_pets: do both!
     yolo:
       type: oauth2
       description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
@@ -38,5 +39,6 @@ paths:
       security:
         - oAuthSample:
             - write_pets
+            - rw_pets
         - yolo:
             - read_pets

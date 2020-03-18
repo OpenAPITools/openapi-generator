@@ -13,18 +13,11 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      scopes:
-        - "scope:global"
-        - "scope:specific"
-        - "scope:another"
     anotherAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      scopes:
-        - "scope:global"
-        - "scope:specific"
-        - "scope:another"
+
 security:
   - bearerAuth:
     - "scope:global"
@@ -37,3 +30,4 @@ paths:
           - "scope:specific"
         - anotherAuth:
           - "scope:another"
+    post:

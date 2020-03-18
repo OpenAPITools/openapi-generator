@@ -1423,6 +1423,30 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
             }
+            if (security != null && SecurityScheme.Type.HTTP.toString().equals(security.type)) {
+                for (SecurityRequirement requirement : securities) {
+                    List<String> opScopes = requirement.get(security.name);
+                    if (opScopes != null) {
+                        // We have operation-level scopes for this method, so filter the auth method to
+                        // describe the operation auth method with only the scopes that it requires.
+                        // We have to create a new auth method instance because the original object must
+                        // not be modified.
+                        CodegenSecurity opSecurity = security.filterByScopeNames(Collections.emptyList());
+                        Iterator<String> it = opScopes.iterator();
+                        opSecurity.scopes = new ArrayList<>();
+                        while(it.hasNext()){
+                            Map<String, Object> scope = new HashMap<>();
+                            scope.put("scope", it.next());
+                            scope.put("hasMore", it.hasNext()? "true": null);
+                            opSecurity.scopes.add(scope);
+                        }
+                        opSecurity.hasMore = security.hasMore;
+                        result.add(opSecurity);
+                        filtered = true;
+                        break;
+                    }
+                }
+            }
 
             // If we didn't get a filtered version, then we can keep the original auth method.
             if (!filtered) {
