@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  version: 1.1.0
+  title: Multipart and Encoding test
+paths:
+  /multipart:
+    post:
+      summary: Multipart related and encoding param test
+      tags:
+        - multipart encoding
+      operationId: multipart
+      requestBody:
+        content:
+          multipart/related:
+            schema:
+              type: object
+              properties:
+                jsonData:
+                  "$ref": "#/components/schemas/data"
+                binaryData:
+                  type: string
+                  format: binary
+            encoding:
+              jsonData:
+                contentType: application/json
+              binaryData:
+                contentType: image/png
+        required: true
+      responses:
+        '200':
+          description: successful operation
+components:
+  schemas:
+    data:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
