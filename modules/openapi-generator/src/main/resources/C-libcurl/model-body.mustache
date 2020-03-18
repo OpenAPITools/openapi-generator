@@ -200,6 +200,9 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
 
 
 void {{classname}}_free({{classname}}_t *{{classname}}) {
+    if(NULL == {{classname}}){
+        return ;
+    }
     listEntry_t *listEntry;
     {{#vars}}
     {{^isContainer}}
