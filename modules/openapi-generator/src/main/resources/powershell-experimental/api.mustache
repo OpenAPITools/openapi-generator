@@ -14,7 +14,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
     )
 
     Process {
-        'Calling method: {{{vendorExtensions.x-powershell-method-name}}}' | Write-Host
+        'Calling method: {{{vendorExtensions.x-powershell-method-name}}}' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()

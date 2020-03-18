@@ -35,7 +35,8 @@ function Invoke-PSApiClient {
         [string]$ReturnType
     )
 
-    $PSBoundParameters | Out-DebugParameter | Write-Host
+    'Calling method: Invoke-PSApiClient' | Write-Debug
+    $PSBoundParameters | Out-DebugParameter | Write-Debug
 
     $Configuraiton = Get-PSConfiguration
     $RequestUri = $Configuration["BaseUrl"] + $Uri

@@ -14,7 +14,7 @@ function Invoke-PSCreateUser {
     )
 
     Process {
-        'Calling method: Invoke-PSCreateUser' | Write-Host
+        'Calling method: Invoke-PSCreateUser' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -66,7 +66,7 @@ function Invoke-PSCreateUsersWithArrayInput {
     )
 
     Process {
-        'Calling method: Invoke-PSCreateUsersWithArrayInput' | Write-Host
+        'Calling method: Invoke-PSCreateUsersWithArrayInput' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -118,7 +118,7 @@ function Invoke-PSCreateUsersWithListInput {
     )
 
     Process {
-        'Calling method: Invoke-PSCreateUsersWithListInput' | Write-Host
+        'Calling method: Invoke-PSCreateUsersWithListInput' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -170,7 +170,7 @@ function Invoke-PSDeleteUser {
     )
 
     Process {
-        'Calling method: Invoke-PSDeleteUser' | Write-Host
+        'Calling method: Invoke-PSDeleteUser' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -217,7 +217,7 @@ function Get-PSUserByName {
     )
 
     Process {
-        'Calling method: Get-PSUserByName' | Write-Host
+        'Calling method: Get-PSUserByName' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -266,7 +266,7 @@ function Invoke-PSLoginUser {
     )
 
     Process {
-        'Calling method: Invoke-PSLoginUser' | Write-Host
+        'Calling method: Invoke-PSLoginUser' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -315,7 +315,7 @@ function Invoke-PSLogoutUser {
     )
 
     Process {
-        'Calling method: Invoke-PSLogoutUser' | Write-Host
+        'Calling method: Invoke-PSLogoutUser' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -361,7 +361,7 @@ function Update-PSUser {
     )
 
     Process {
-        'Calling method: Update-PSUser' | Write-Host
+        'Calling method: Update-PSUser' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()

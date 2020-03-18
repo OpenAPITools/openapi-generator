@@ -14,7 +14,7 @@ function Add-PSPet {
     )
 
     Process {
-        'Calling method: Add-PSPet' | Write-Host
+        'Calling method: Add-PSPet' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -69,7 +69,7 @@ function Remove-Pet {
     )
 
     Process {
-        'Calling method: Remove-Pet' | Write-Host
+        'Calling method: Remove-Pet' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -117,7 +117,7 @@ function Find-PSPetsByStatus {
     )
 
     Process {
-        'Calling method: Find-PSPetsByStatus' | Write-Host
+        'Calling method: Find-PSPetsByStatus' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -165,7 +165,7 @@ function Find-PSPetsByTags {
     )
 
     Process {
-        'Calling method: Find-PSPetsByTags' | Write-Host
+        'Calling method: Find-PSPetsByTags' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -213,7 +213,7 @@ function Get-PSPetById {
     )
 
     Process {
-        'Calling method: Get-PSPetById' | Write-Host
+        'Calling method: Get-PSPetById' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -263,7 +263,7 @@ function Update-PSPet {
     )
 
     Process {
-        'Calling method: Update-PSPet' | Write-Host
+        'Calling method: Update-PSPet' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -321,7 +321,7 @@ function Update-PSPetWithForm {
     )
 
     Process {
-        'Calling method: Update-PSPetWithForm' | Write-Host
+        'Calling method: Update-PSPetWithForm' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -382,7 +382,7 @@ function Invoke-PSUploadFile {
     )
 
     Process {
-        'Calling method: Invoke-PSUploadFile' | Write-Host
+        'Calling method: Invoke-PSUploadFile' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()

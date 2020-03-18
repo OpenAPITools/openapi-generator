@@ -45,17 +45,7 @@ function Get-FunctionsToExport {
 }
 
 $ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
-#$ClientPath = ("depcreatedCsharpClientPath" | Resolve-Path).ProviderPath
 $FunctionPath = 'Api', 'Model', 'Client' | ForEach-Object {Join-Path "$ScriptDir\src\PSPetstore\" $_}
-$BinPath = "$ScriptDir\src\PSPetstore\Bin"
-
-#Start-Process -FilePath "$ClientPath\build.bat" -WorkingDirectory $ClientPath -Wait -NoNewWindow
-
-if (!(Test-Path "$ScriptDir\src\PSPetstore\Bin" -PathType Container)) {
-    New-Item "$ScriptDir\src\PSPetstore\Bin" -ItemType Directory > $null
-}
-
-#Copy-Item "$ClientPath\bin\*.dll" $BinPath
 
 $Manifest = @{
     Path = "$ScriptDir\src\PSPetstore\PSPetstore.psd1"
@@ -71,19 +61,12 @@ $Manifest = @{
 
     PowerShellVersion = '3.0'
 
-    RequiredAssemblies = Get-ChildItem "$BinPath\*.dll" | ForEach-Object {
-        Join-Path $_.Directory.Name $_.Name
-    }
-
     FunctionsToExport = $FunctionPath | Get-ChildItem -Filter *.ps1 | Get-FunctionsToExport
 
     VariablesToExport = @()
     AliasesToExport = @()
     CmdletsToExport = @()
 
-    # DefaultCommandPrefix = 'PSPetApi'
-    # DefaultCommandPrefix = 'PSStoreApi'
-    # DefaultCommandPrefix = 'PSUserApi'
 }
 
 New-ModuleManifest @Manifest

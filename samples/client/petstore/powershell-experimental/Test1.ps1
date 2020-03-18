@@ -3,10 +3,13 @@
 Remove-Module -FullyQualifiedName @{ModuleName = "PSPetstore"; ModuleVersion = "0.1.2"}
 #Remove-Module -FullyQualifiedName @{ModuleName = "PSPetstore"; ModuleVersion = "0.0"}
 
-Import-Module -Name '.\src\PSPetstore\PSPetstore.psd1' -Verbose
+Import-Module -Name '.\src\PSPetstore\PSPetstore.psd1'
+#Import-Module -Name '.\src\PSPetstore\PSPetstore.psd1' -Verbose
 #Import-Module -Name '.\src\PSOpenAPITools'
 #Import-Module -Name '.\src\Org.OpenAPITools'
 #Import-Module -Name './src/Org.OpenAPITools'
+
+#$DebugPreference = 'Continue'
 
 $body = (New-PSUser -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)
 
@@ -20,6 +23,8 @@ try {
     Write-Host ($_.ErrorDetails | ConvertFrom-Json)
     Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
 }
+
+$result | Write-Host
 
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls

@@ -29,7 +29,8 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         [string]$ReturnType
     )
 
-    $PSBoundParameters | Out-DebugParameter | Write-Host
+    'Calling method: Invoke-{{{apiNamePrefix}}}ApiClient' | Write-Debug
+    $PSBoundParameters | Out-DebugParameter | Write-Debug
 
     $Configuraiton = Get-{{{apiNamePrefix}}}Configuration
     $RequestUri = $Configuration["BaseUrl"] + $Uri

@@ -14,7 +14,7 @@ function Invoke-PSDeleteOrder {
     )
 
     Process {
-        'Calling method: Invoke-PSDeleteOrder' | Write-Host
+        'Calling method: Invoke-PSDeleteOrder' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -54,7 +54,7 @@ function Get-PSInventory {
     )
 
     Process {
-        'Calling method: Get-PSInventory' | Write-Host
+        'Calling method: Get-PSInventory' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -100,7 +100,7 @@ function Get-PSOrderById {
     )
 
     Process {
-        'Calling method: Get-PSOrderById' | Write-Host
+        'Calling method: Get-PSOrderById' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -146,7 +146,7 @@ function Invoke-PSPlaceOrder {
     )
 
     Process {
-        'Calling method: Invoke-PSPlaceOrder' | Write-Host
+        'Calling method: Invoke-PSPlaceOrder' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()

@@ -39,17 +39,7 @@ function Get-FunctionsToExport {
 }
 
 $ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
-#$ClientPath = ("depcreatedCsharpClientPath" | Resolve-Path).ProviderPath
 $FunctionPath = 'Api', 'Model', 'Client' | ForEach-Object {Join-Path "$ScriptDir\src\{{{packageName}}}\" $_}
-$BinPath = "$ScriptDir\src\{{{packageName}}}\Bin"
-
-#Start-Process -FilePath "$ClientPath\build.bat" -WorkingDirectory $ClientPath -Wait -NoNewWindow
-
-if (!(Test-Path "$ScriptDir\src\{{{packageName}}}\Bin" -PathType Container)) {
-    New-Item "$ScriptDir\src\{{{packageName}}}\Bin" -ItemType Directory > $null
-}
-
-#Copy-Item "$ClientPath\bin\*.dll" $BinPath
 
 $Manifest = @{
     Path = "$ScriptDir\src\{{{packageName}}}\{{{packageName}}}.psd1"
@@ -65,27 +55,12 @@ $Manifest = @{
 
     PowerShellVersion = '3.0'
 
-    RequiredAssemblies = Get-ChildItem "$BinPath\*.dll" | ForEach-Object {
-        Join-Path $_.Directory.Name $_.Name
-    }
-
     FunctionsToExport = $FunctionPath | Get-ChildItem -Filter *.ps1 | Get-FunctionsToExport
 
     VariablesToExport = @()
     AliasesToExport = @()
     CmdletsToExport = @()
 
-{{#apiInfo}}
-{{#apis}}
-{{#operations}}
-{{#operation}}
-{{#-first}}
-    # DefaultCommandPrefix = '{{{classname}}}'
-{{/-first}}
-{{/operation}}
-{{/operations}}
-{{/apis}}
-{{/apiInfo}}
 }
 
 New-ModuleManifest @Manifest
