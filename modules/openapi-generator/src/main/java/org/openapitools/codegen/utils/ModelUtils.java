@@ -1407,7 +1407,7 @@ public class ModelUtils {
     /**
      * Check if the contentType is for form parameters or not.
      *
-     * @param String contentType
+     * @param contentType Content type to check
      * @return true if contentType is of formparameters else false
      */
     public static boolean isTypeFormParam(String contentType) {
