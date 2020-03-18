@@ -17,7 +17,7 @@
 // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 //
 void
-StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId)
+StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -139,7 +139,7 @@ end:
 // For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 //
 order_t*
-StoreAPI_getOrderById(apiClient_t *apiClient, long orderId)
+StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -218,7 +218,8 @@ end:
 // Place an order for a pet
 //
 order_t*
-StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body)
+StoreAPI_placeOrder(apiClient_t *apiClient, 
+order_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
