@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -g aspnetcore -i modules/openapi-generator/src/test/resources/3_0/form-multipart-binary-array.yaml -t modules/openapi-generator/src/main/resources/aspnetcore/2.1/ -o samples/server/binary/aspnetcore --additional-properties packageGuid={3C799344-F285-4669-8FD5-7ED9B795D5C5} --additional-properties useIFormFileInsteadOfStream=true $@"
+ags="generate -g aspnetcore -i modules/openapi-generator/src/test/resources/3_0/form-multipart-binary-array.yaml -t modules/openapi-generator/src/main/resources/aspnetcore/2.1/ -o samples/server/binary/aspnetcore-iformfile --additional-properties packageGuid={3C799344-F285-4669-8FD5-7ED9B795D5C5} --additional-properties useIFormFileInsteadOfStream=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
