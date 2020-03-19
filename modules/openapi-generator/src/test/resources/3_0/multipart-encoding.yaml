@@ -11,6 +11,9 @@ paths:
       operationId: multipart
       requestBody:
         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/data'
           multipart/related:
             schema:
               type: object
@@ -29,6 +32,24 @@ paths:
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/data'
+            multipart/related:  # message with binary body part(s)
+              schema:
+                type: object
+                properties: # Request parts
+                  jsonData:
+                    $ref: '#/components/schemas/data'
+                  binaryData:
+                    type: string
+                    format: binary
+              encoding:
+                jsonData:
+                  contentType:  application/json
+                binaryData:
+                  contentType:  image/png
 components:
   schemas:
     data:
