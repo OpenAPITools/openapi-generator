@@ -25,16 +25,16 @@ type ApiResponse struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewApiResponse() *ApiResponse {
-    this := ApiResponse{}
-    return &this
+	this := ApiResponse{}
+	return &this
 }
 
 // NewApiResponseWithDefaults instantiates a new ApiResponse object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewApiResponseWithDefaults() *ApiResponse {
-    this := ApiResponse{}
-    return &this
+	this := ApiResponse{}
+	return &this
 }
 
 // GetCode returns the Code field value if set, zero value otherwise.
@@ -46,14 +46,14 @@ func (o *ApiResponse) GetCode() int32 {
 	return *o.Code
 }
 
-// GetCodeOk returns a tuple with the Code field value if set, zero value otherwise
+// GetCodeOk returns a tuple with the Code field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetCodeOk() (int32, bool) {
+
+func (o *ApiResponse) GetCodeOk() (*int32, bool) {
 	if o == nil || o.Code == nil {
-		var ret int32
-		return ret, false
+		return nil, false
 	}
-	return *o.Code, true
+	return o.Code, true
 }
 
 // HasCode returns a boolean if a field has been set.
@@ -79,14 +79,14 @@ func (o *ApiResponse) GetType() string {
 	return *o.Type
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, zero value otherwise
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetTypeOk() (string, bool) {
+
+func (o *ApiResponse) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Type, true
+	return o.Type, true
 }
 
 // HasType returns a boolean if a field has been set.
@@ -112,14 +112,14 @@ func (o *ApiResponse) GetMessage() string {
 	return *o.Message
 }
 
-// GetMessageOk returns a tuple with the Message field value if set, zero value otherwise
+// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetMessageOk() (string, bool) {
+
+func (o *ApiResponse) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Message, true
+	return o.Message, true
 }
 
 // HasMessage returns a boolean if a field has been set.

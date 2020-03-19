@@ -25,16 +25,16 @@ type OuterComposite struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewOuterComposite() *OuterComposite {
-    this := OuterComposite{}
-    return &this
+	this := OuterComposite{}
+	return &this
 }
 
 // NewOuterCompositeWithDefaults instantiates a new OuterComposite object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewOuterCompositeWithDefaults() *OuterComposite {
-    this := OuterComposite{}
-    return &this
+	this := OuterComposite{}
+	return &this
 }
 
 // GetMyNumber returns the MyNumber field value if set, zero value otherwise.
@@ -46,14 +46,14 @@ func (o *OuterComposite) GetMyNumber() float32 {
 	return *o.MyNumber
 }
 
-// GetMyNumberOk returns a tuple with the MyNumber field value if set, zero value otherwise
+// GetMyNumberOk returns a tuple with the MyNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OuterComposite) GetMyNumberOk() (float32, bool) {
+
+func (o *OuterComposite) GetMyNumberOk() (*float32, bool) {
 	if o == nil || o.MyNumber == nil {
-		var ret float32
-		return ret, false
+		return nil, false
 	}
-	return *o.MyNumber, true
+	return o.MyNumber, true
 }
 
 // HasMyNumber returns a boolean if a field has been set.
@@ -79,14 +79,14 @@ func (o *OuterComposite) GetMyString() string {
 	return *o.MyString
 }
 
-// GetMyStringOk returns a tuple with the MyString field value if set, zero value otherwise
+// GetMyStringOk returns a tuple with the MyString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OuterComposite) GetMyStringOk() (string, bool) {
+
+func (o *OuterComposite) GetMyStringOk() (*string, bool) {
 	if o == nil || o.MyString == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.MyString, true
+	return o.MyString, true
 }
 
 // HasMyString returns a boolean if a field has been set.
@@ -112,14 +112,14 @@ func (o *OuterComposite) GetMyBoolean() bool {
 	return *o.MyBoolean
 }
 
-// GetMyBooleanOk returns a tuple with the MyBoolean field value if set, zero value otherwise
+// GetMyBooleanOk returns a tuple with the MyBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OuterComposite) GetMyBooleanOk() (bool, bool) {
+
+func (o *OuterComposite) GetMyBooleanOk() (*bool, bool) {
 	if o == nil || o.MyBoolean == nil {
-		var ret bool
-		return ret, false
+		return nil, false
 	}
-	return *o.MyBoolean, true
+	return o.MyBoolean, true
 }
 
 // HasMyBoolean returns a boolean if a field has been set.

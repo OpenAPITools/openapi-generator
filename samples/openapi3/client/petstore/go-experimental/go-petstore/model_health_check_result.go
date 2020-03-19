@@ -23,35 +23,35 @@ type HealthCheckResult struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewHealthCheckResult() *HealthCheckResult {
-    this := HealthCheckResult{}
-    return &this
+	this := HealthCheckResult{}
+	return &this
 }
 
 // NewHealthCheckResultWithDefaults instantiates a new HealthCheckResult object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewHealthCheckResultWithDefaults() *HealthCheckResult {
-    this := HealthCheckResult{}
-    return &this
+	this := HealthCheckResult{}
+	return &this
 }
 
-// GetNullableMessage returns the NullableMessage field value if set, zero value otherwise.
-func (o *HealthCheckResult) GetNullableMessage() NullableString {
-	if o == nil  {
-		var ret NullableString
+// GetNullableMessage returns the NullableMessage field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *HealthCheckResult) GetNullableMessage() string {
+	if o == nil || o.NullableMessage.Get() == nil {
+		var ret string
 		return ret
 	}
-	return o.NullableMessage
+	return *o.NullableMessage.Get()
 }
 
-// GetNullableMessageOk returns a tuple with the NullableMessage field value if set, zero value otherwise
+// GetNullableMessageOk returns a tuple with the NullableMessage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthCheckResult) GetNullableMessageOk() (NullableString, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *HealthCheckResult) GetNullableMessageOk() (*string, bool) {
 	if o == nil  {
-		var ret NullableString
-		return ret, false
+		return nil, false
 	}
-	return o.NullableMessage, o.NullableMessage.IsSet()
+	return o.NullableMessage.Get(), o.NullableMessage.IsSet()
 }
 
 // HasNullableMessage returns a boolean if a field has been set.
@@ -64,8 +64,17 @@ func (o *HealthCheckResult) HasNullableMessage() bool {
 }
 
 // SetNullableMessage gets a reference to the given NullableString and assigns it to the NullableMessage field.
-func (o *HealthCheckResult) SetNullableMessage(v NullableString) {
-	o.NullableMessage = v
+func (o *HealthCheckResult) SetNullableMessage(v string) {
+	o.NullableMessage.Set(&v)
+}
+// SetNullableMessageNil sets the value for NullableMessage to be an explicit nil
+func (o *HealthCheckResult) SetNullableMessageNil() {
+	o.NullableMessage.Set(nil)
+}
+
+// UnsetNullableMessage ensures that no value is present for NullableMessage, not even an explicit nil
+func (o *HealthCheckResult) UnsetNullableMessage() {
+	o.NullableMessage.Unset()
 }
 
 func (o HealthCheckResult) MarshalJSON() ([]byte, error) {

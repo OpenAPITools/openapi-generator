@@ -24,31 +24,41 @@ type Animal struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewAnimal(className string, ) *Animal {
-    this := Animal{}
-    this.ClassName = className
+	this := Animal{}
+	this.ClassName = className
 	var color string = "red"
 	this.Color = &color
-    return &this
+	return &this
 }
 
 // NewAnimalWithDefaults instantiates a new Animal object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewAnimalWithDefaults() *Animal {
-    this := Animal{}
+	this := Animal{}
 	var color string = "red"
 	this.Color = &color
-    return &this
+	return &this
 }
 
 // GetClassName returns the ClassName field value
 func (o *Animal) GetClassName() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.ClassName
+}
+
+// GetClassNameOk returns a tuple with the ClassName field value
+// and a boolean to check if the value has been set.
+
+func (o *Animal) GetClassNameOk() (*string, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.ClassName, true
 }
 
 // SetClassName sets field value
@@ -65,14 +75,14 @@ func (o *Animal) GetColor() string {
 	return *o.Color
 }
 
-// GetColorOk returns a tuple with the Color field value if set, zero value otherwise
+// GetColorOk returns a tuple with the Color field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Animal) GetColorOk() (string, bool) {
+
+func (o *Animal) GetColorOk() (*string, bool) {
 	if o == nil || o.Color == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Color, true
+	return o.Color, true
 }
 
 // HasColor returns a boolean if a field has been set.

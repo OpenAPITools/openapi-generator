@@ -24,16 +24,16 @@ type Cat struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewCat() *Cat {
-    this := Cat{}
-    return &this
+	this := Cat{}
+	return &this
 }
 
 // NewCatWithDefaults instantiates a new Cat object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewCatWithDefaults() *Cat {
-    this := Cat{}
-    return &this
+	this := Cat{}
+	return &this
 }
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
@@ -45,14 +45,14 @@ func (o *Cat) GetDeclawed() bool {
 	return *o.Declawed
 }
 
-// GetDeclawedOk returns a tuple with the Declawed field value if set, zero value otherwise
+// GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cat) GetDeclawedOk() (bool, bool) {
+
+func (o *Cat) GetDeclawedOk() (*bool, bool) {
 	if o == nil || o.Declawed == nil {
-		var ret bool
-		return ret, false
+		return nil, false
 	}
-	return *o.Declawed, true
+	return o.Declawed, true
 }
 
 // HasDeclawed returns a boolean if a field has been set.

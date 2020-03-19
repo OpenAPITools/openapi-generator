@@ -29,7 +29,7 @@ const (
 // {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 {{#vendorExtensions.x-is-one-of-interface}}
-    {{classname}}Interface interface { {{#discriminator}}{{propertyGetter}}() {{propertyType}}{{/discriminator}} }
+	{{classname}}Interface interface { {{#discriminator}}{{propertyGetter}}() {{propertyType}}{{/discriminator}} }
 {{/vendorExtensions.x-is-one-of-interface}}
 {{^vendorExtensions.x-is-one-of-interface}}
 {{#parent}}
@@ -56,10 +56,10 @@ type {{classname}} struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func New{{classname}}({{#vars}}{{#required}}{{nameInCamelCase}} {{dataType}}, {{/required}}{{/vars}}) *{{classname}} {
-    this := {{classname}}{}
+	this := {{classname}}{}
 {{#vars}}
 {{#required}}
-    this.{{name}} = {{nameInCamelCase}}
+	this.{{name}} = {{nameInCamelCase}}
 {{/required}}
 {{^required}}
 {{#defaultValue}}
@@ -76,14 +76,14 @@ func New{{classname}}({{#vars}}{{#required}}{{nameInCamelCase}} {{dataType}}, {{
 {{/defaultValue}}
 {{/required}}
 {{/vars}}
-    return &this
+	return &this
 }
 
 // New{{classname}}WithDefaults instantiates a new {{classname}} object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func New{{classname}}WithDefaults() *{{classname}} {
-    this := {{classname}}{}
+	this := {{classname}}{}
 {{#vars}}
 {{#defaultValue}}
 {{^isContainer}}
@@ -99,49 +99,108 @@ func New{{classname}}WithDefaults() *{{classname}} {
 {{/isContainer}}
 {{/defaultValue}}
 {{/vars}}
-    return &this
+	return &this
 }
 
 {{#vars}}
 {{#required}}
 // Get{{name}} returns the {{name}} field value
-func (o *{{classname}}) Get{{name}}() {{dataType}} {
-	if o == nil {
-		var ret {{dataType}}
+func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-basetype}} {
+	if o == nil {{#isNullable}}{{^isContainer}}|| o.{{name}}.Get() == nil{{/isContainer}}{{/isNullable}} {
+		var ret {{vendorExtensions.x-basetype}}
 		return ret
 	}
 
+{{#isNullable}}
+{{#isContainer}}
 	return o.{{name}}
+{{/isContainer}}
+{{^isContainer}}
+	return *o.{{name}}.Get()
+{{/isContainer}}
+{{/isNullable}}
+{{^isNullable}}
+	return o.{{name}}
+{{/isNullable}}
+}
+
+// Get{{name}}Ok returns a tuple with the {{name}} field value
+// and a boolean to check if the value has been set.
+{{#isNullable}}
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+{{/isNullable}}
+func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-basetype}}, bool) {
+	if o == nil {{#isNullable}}{{#isContainer}}|| o.{{name}} == nil{{/isContainer}}{{/isNullable}} {
+		return nil, false
+	}
+{{#isNullable}}
+{{#isContainer}}
+	return &o.{{name}}, true
+{{/isContainer}}
+{{^isContainer}}
+	return o.{{name}}.Get(), o.{{name}}.IsSet()
+{{/isContainer}}
+{{/isNullable}}
+{{^isNullable}}
+	return &o.{{name}}, true
+{{/isNullable}}
 }
 
 // Set{{name}} sets field value
-func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
+func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-basetype}}) {
+{{#isNullable}}
+{{#isContainer}}
 	o.{{name}} = v
+{{/isContainer}}
+{{^isContainer}}
+	o.{{name}}.Set(&v)
+{{/isContainer}}
+{{/isNullable}}
+{{^isNullable}}
+	o.{{name}} = v
+{{/isNullable}}
 }
 
 {{/required}}
 {{^required}}
-// Get{{name}} returns the {{name}} field value if set, zero value otherwise.
-func (o *{{classname}}) Get{{name}}() {{dataType}} {
-	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}} {
-		var ret {{dataType}}
+// Get{{name}} returns the {{name}} field value if set, zero value otherwise{{#isNullable}} (both if not set or set to explicit null){{/isNullable}}.
+func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-basetype}} {
+	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{^isContainer}}|| o.{{name}}.Get() == nil{{/isContainer}}{{/isNullable}} {
+		var ret {{vendorExtensions.x-basetype}}
 		return ret
 	}
-	return {{^isNullable}}*{{/isNullable}}o.{{name}}
-}
-
-// Get{{name}}Ok returns a tuple with the {{name}} field value if set, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool) {
-	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}} {
-		var ret {{dataType}}
-		return ret, false
-	}
 {{#isNullable}}
-	return o.{{name}}, {{#isContainer}}o.{{name}} == nil{{/isContainer}}{{^isContainer}}o.{{name}}.IsSet(){{/isContainer}}
+{{#isContainer}}
+	return o.{{name}}
+{{/isContainer}}
+{{^isContainer}}
+	return *o.{{name}}.Get()
+{{/isContainer}}
 {{/isNullable}}
 {{^isNullable}}
-	return *o.{{name}}, true
+	return *o.{{name}}
+{{/isNullable}}
+}
+
+// Get{{name}}Ok returns a tuple with the {{name}} field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+{{#isNullable}}
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+{{/isNullable}}
+func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-basetype}}, bool) {
+	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{#isContainer}}|| o.{{name}} == nil{{/isContainer}}{{/isNullable}} {
+		return nil, false
+	}
+{{#isNullable}}
+{{#isContainer}}
+	return &o.{{name}}, true
+{{/isContainer}}
+{{^isContainer}}
+	return o.{{name}}.Get(), o.{{name}}.IsSet()
+{{/isContainer}}
+{{/isNullable}}
+{{^isNullable}}
+	return o.{{name}}, true
 {{/isNullable}}
 }
 
@@ -155,9 +214,32 @@ func (o *{{classname}}) Has{{name}}() bool {
 }
 
 // Set{{name}} gets a reference to the given {{dataType}} and assigns it to the {{name}} field.
-func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
-	o.{{name}} = {{^isNullable}}&{{/isNullable}}v
+func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-basetype}}) {
+{{#isNullable}}
+{{#isContainer}}
+	o.{{name}} = v
+{{/isContainer}}
+{{^isContainer}}
+	o.{{name}}.Set(&v)
+{{/isContainer}}
+{{/isNullable}}
+{{^isNullable}}
+	o.{{name}} = &v
+{{/isNullable}}
 }
+{{#isNullable}}
+{{^isContainer}}
+// Set{{name}}Nil sets the value for {{name}} to be an explicit nil
+func (o *{{classname}}) Set{{name}}Nil() {
+	o.{{name}}.Set(nil)
+}
+
+// Unset{{name}} ensures that no value is present for {{name}}, not even an explicit nil
+func (o *{{classname}}) Unset{{name}}() {
+	o.{{name}}.Unset()
+}
+{{/isContainer}}
+{{/isNullable}}
 
 {{/required}}
 {{/vars}}
@@ -203,53 +285,53 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 {{/vendorExtensions.x-is-one-of-interface}}
 {{#vendorExtensions.x-is-one-of-interface}}
 func (s {{classname}}) MarshalJSON() ([]byte, error) {
-    return json.Marshal(s.{{classname}}Interface)
+	return json.Marshal(s.{{classname}}Interface)
 }
 
 func (s *{{classname}}) UnmarshalJSON(src []byte) error {
-    var err error
-    {{#discriminator}}
-    var unmarshaled map[string]interface{}
-    err = json.Unmarshal(src, &unmarshaled)
-    if err != nil {
-        return err
-    }
-    if v, ok := unmarshaled["{{discriminator.propertyBaseName}}"]; ok {
-        switch v {
-        {{#discriminator.mappedModels}}
-            case "{{mappingName}}":
-                var result *{{modelName}} = &{{modelName}}{}
-                err = json.Unmarshal(src, result)
-                if err != nil {
-                    return err
-                }
-                s.{{classname}}Interface = result
-                return nil
-        {{/discriminator.mappedModels}}
-            default:
-                return fmt.Errorf("No oneOf model has '{{discriminator.propertyBaseName}}' equal to %s", v)
-        }
-    } else {
-        return fmt.Errorf("Discriminator property '{{discriminator.propertyBaseName}}' not found in unmarshaled payload: %+v", unmarshaled)
-    }
-    {{/discriminator}}
-    {{^discriminator}}
-    {{#oneOf}}
-    var unmarshaled{{{.}}} *{{{.}}} = &{{{.}}}{}
-    err = json.Unmarshal(src, unmarshaled{{{.}}})
-    if err == nil {
-        s.{{classname}}Interface = unmarshaled{{{.}}}
-        return nil
-    }
-    {{/oneOf}}
-    return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
-    {{/discriminator}}
+	var err error
+	{{#discriminator}}
+	var unmarshaled map[string]interface{}
+	err = json.Unmarshal(src, &unmarshaled)
+	if err != nil {
+		return err
+	}
+	if v, ok := unmarshaled["{{discriminator.propertyBaseName}}"]; ok {
+		switch v {
+		{{#discriminator.mappedModels}}
+			case "{{mappingName}}":
+				var result *{{modelName}} = &{{modelName}}{}
+				err = json.Unmarshal(src, result)
+				if err != nil {
+					return err
+				}
+				s.{{classname}}Interface = result
+				return nil
+		{{/discriminator.mappedModels}}
+			default:
+				return fmt.Errorf("No oneOf model has '{{discriminator.propertyBaseName}}' equal to %s", v)
+		}
+	} else {
+		return fmt.Errorf("Discriminator property '{{discriminator.propertyBaseName}}' not found in unmarshaled payload: %+v", unmarshaled)
+	}
+	{{/discriminator}}
+	{{^discriminator}}
+	{{#oneOf}}
+	var unmarshaled{{{.}}} *{{{.}}} = &{{{.}}}{}
+	err = json.Unmarshal(src, unmarshaled{{{.}}})
+	if err == nil {
+		s.{{classname}}Interface = unmarshaled{{{.}}}
+		return nil
+	}
+	{{/oneOf}}
+	return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
+	{{/discriminator}}
 }
 {{/vendorExtensions.x-is-one-of-interface}}
 {{#vendorExtensions.x-implements}}
 // As{{{.}}} wraps this instance of {{classname}} in {{{.}}}
 func (s *{{classname}}) As{{{.}}}() {{{.}}} {
-    return {{{.}}}{ {{{.}}}Interface: s }
+	return {{{.}}}{ {{{.}}}Interface: s }
 }
 {{/vendorExtensions.x-implements}}
 {{/isEnum}}

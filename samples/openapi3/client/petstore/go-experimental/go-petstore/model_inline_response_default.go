@@ -23,16 +23,16 @@ type InlineResponseDefault struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewInlineResponseDefault() *InlineResponseDefault {
-    this := InlineResponseDefault{}
-    return &this
+	this := InlineResponseDefault{}
+	return &this
 }
 
 // NewInlineResponseDefaultWithDefaults instantiates a new InlineResponseDefault object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewInlineResponseDefaultWithDefaults() *InlineResponseDefault {
-    this := InlineResponseDefault{}
-    return &this
+	this := InlineResponseDefault{}
+	return &this
 }
 
 // GetString returns the String field value if set, zero value otherwise.
@@ -44,14 +44,14 @@ func (o *InlineResponseDefault) GetString() Foo {
 	return *o.String
 }
 
-// GetStringOk returns a tuple with the String field value if set, zero value otherwise
+// GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineResponseDefault) GetStringOk() (Foo, bool) {
+
+func (o *InlineResponseDefault) GetStringOk() (*Foo, bool) {
 	if o == nil || o.String == nil {
-		var ret Foo
-		return ret, false
+		return nil, false
 	}
-	return *o.String, true
+	return o.String, true
 }
 
 // HasString returns a boolean if a field has been set.

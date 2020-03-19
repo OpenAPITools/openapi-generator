@@ -27,17 +27,17 @@ type InlineObject5 struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewInlineObject5(requiredFile *os.File, ) *InlineObject5 {
-    this := InlineObject5{}
-    this.RequiredFile = requiredFile
-    return &this
+	this := InlineObject5{}
+	this.RequiredFile = requiredFile
+	return &this
 }
 
 // NewInlineObject5WithDefaults instantiates a new InlineObject5 object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObject5WithDefaults() *InlineObject5 {
-    this := InlineObject5{}
-    return &this
+	this := InlineObject5{}
+	return &this
 }
 
 // GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
@@ -49,14 +49,14 @@ func (o *InlineObject5) GetAdditionalMetadata() string {
 	return *o.AdditionalMetadata
 }
 
-// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, zero value otherwise
+// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject5) GetAdditionalMetadataOk() (string, bool) {
+
+func (o *InlineObject5) GetAdditionalMetadataOk() (*string, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.AdditionalMetadata, true
+	return o.AdditionalMetadata, true
 }
 
 // HasAdditionalMetadata returns a boolean if a field has been set.
@@ -75,12 +75,22 @@ func (o *InlineObject5) SetAdditionalMetadata(v string) {
 
 // GetRequiredFile returns the RequiredFile field value
 func (o *InlineObject5) GetRequiredFile() *os.File {
-	if o == nil {
+	if o == nil  {
 		var ret *os.File
 		return ret
 	}
 
 	return o.RequiredFile
+}
+
+// GetRequiredFileOk returns a tuple with the RequiredFile field value
+// and a boolean to check if the value has been set.
+
+func (o *InlineObject5) GetRequiredFileOk() (**os.File, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.RequiredFile, true
 }
 
 // SetRequiredFile sets field value

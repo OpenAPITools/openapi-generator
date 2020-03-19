@@ -23,16 +23,16 @@ type AdditionalPropertiesArray struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewAdditionalPropertiesArray() *AdditionalPropertiesArray {
-    this := AdditionalPropertiesArray{}
-    return &this
+	this := AdditionalPropertiesArray{}
+	return &this
 }
 
 // NewAdditionalPropertiesArrayWithDefaults instantiates a new AdditionalPropertiesArray object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewAdditionalPropertiesArrayWithDefaults() *AdditionalPropertiesArray {
-    this := AdditionalPropertiesArray{}
-    return &this
+	this := AdditionalPropertiesArray{}
+	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -44,14 +44,14 @@ func (o *AdditionalPropertiesArray) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesArray) GetNameOk() (string, bool) {
+
+func (o *AdditionalPropertiesArray) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.

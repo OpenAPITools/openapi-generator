@@ -31,16 +31,16 @@ type User struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewUser() *User {
-    this := User{}
-    return &this
+	this := User{}
+	return &this
 }
 
 // NewUserWithDefaults instantiates a new User object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewUserWithDefaults() *User {
-    this := User{}
-    return &this
+	this := User{}
+	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -52,14 +52,14 @@ func (o *User) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetIdOk() (int64, bool) {
+
+func (o *User) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
-		var ret int64
-		return ret, false
+		return nil, false
 	}
-	return *o.Id, true
+	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -85,14 +85,14 @@ func (o *User) GetUsername() string {
 	return *o.Username
 }
 
-// GetUsernameOk returns a tuple with the Username field value if set, zero value otherwise
+// GetUsernameOk returns a tuple with the Username field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetUsernameOk() (string, bool) {
+
+func (o *User) GetUsernameOk() (*string, bool) {
 	if o == nil || o.Username == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Username, true
+	return o.Username, true
 }
 
 // HasUsername returns a boolean if a field has been set.
@@ -118,14 +118,14 @@ func (o *User) GetFirstName() string {
 	return *o.FirstName
 }
 
-// GetFirstNameOk returns a tuple with the FirstName field value if set, zero value otherwise
+// GetFirstNameOk returns a tuple with the FirstName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetFirstNameOk() (string, bool) {
+
+func (o *User) GetFirstNameOk() (*string, bool) {
 	if o == nil || o.FirstName == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.FirstName, true
+	return o.FirstName, true
 }
 
 // HasFirstName returns a boolean if a field has been set.
@@ -151,14 +151,14 @@ func (o *User) GetLastName() string {
 	return *o.LastName
 }
 
-// GetLastNameOk returns a tuple with the LastName field value if set, zero value otherwise
+// GetLastNameOk returns a tuple with the LastName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetLastNameOk() (string, bool) {
+
+func (o *User) GetLastNameOk() (*string, bool) {
 	if o == nil || o.LastName == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.LastName, true
+	return o.LastName, true
 }
 
 // HasLastName returns a boolean if a field has been set.
@@ -184,14 +184,14 @@ func (o *User) GetEmail() string {
 	return *o.Email
 }
 
-// GetEmailOk returns a tuple with the Email field value if set, zero value otherwise
+// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetEmailOk() (string, bool) {
+
+func (o *User) GetEmailOk() (*string, bool) {
 	if o == nil || o.Email == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Email, true
+	return o.Email, true
 }
 
 // HasEmail returns a boolean if a field has been set.
@@ -217,14 +217,14 @@ func (o *User) GetPassword() string {
 	return *o.Password
 }
 
-// GetPasswordOk returns a tuple with the Password field value if set, zero value otherwise
+// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetPasswordOk() (string, bool) {
+
+func (o *User) GetPasswordOk() (*string, bool) {
 	if o == nil || o.Password == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Password, true
+	return o.Password, true
 }
 
 // HasPassword returns a boolean if a field has been set.
@@ -250,14 +250,14 @@ func (o *User) GetPhone() string {
 	return *o.Phone
 }
 
-// GetPhoneOk returns a tuple with the Phone field value if set, zero value otherwise
+// GetPhoneOk returns a tuple with the Phone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetPhoneOk() (string, bool) {
+
+func (o *User) GetPhoneOk() (*string, bool) {
 	if o == nil || o.Phone == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Phone, true
+	return o.Phone, true
 }
 
 // HasPhone returns a boolean if a field has been set.
@@ -283,14 +283,14 @@ func (o *User) GetUserStatus() int32 {
 	return *o.UserStatus
 }
 
-// GetUserStatusOk returns a tuple with the UserStatus field value if set, zero value otherwise
+// GetUserStatusOk returns a tuple with the UserStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetUserStatusOk() (int32, bool) {
+
+func (o *User) GetUserStatusOk() (*int32, bool) {
 	if o == nil || o.UserStatus == nil {
-		var ret int32
-		return ret, false
+		return nil, false
 	}
-	return *o.UserStatus, true
+	return o.UserStatus, true
 }
 
 // HasUserStatus returns a boolean if a field has been set.

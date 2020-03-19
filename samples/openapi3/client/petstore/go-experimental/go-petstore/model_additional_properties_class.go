@@ -24,16 +24,16 @@ type AdditionalPropertiesClass struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewAdditionalPropertiesClass() *AdditionalPropertiesClass {
-    this := AdditionalPropertiesClass{}
-    return &this
+	this := AdditionalPropertiesClass{}
+	return &this
 }
 
 // NewAdditionalPropertiesClassWithDefaults instantiates a new AdditionalPropertiesClass object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewAdditionalPropertiesClassWithDefaults() *AdditionalPropertiesClass {
-    this := AdditionalPropertiesClass{}
-    return &this
+	this := AdditionalPropertiesClass{}
+	return &this
 }
 
 // GetMapProperty returns the MapProperty field value if set, zero value otherwise.
@@ -45,14 +45,14 @@ func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
 	return *o.MapProperty
 }
 
-// GetMapPropertyOk returns a tuple with the MapProperty field value if set, zero value otherwise
+// GetMapPropertyOk returns a tuple with the MapProperty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapPropertyOk() (map[string]string, bool) {
+
+func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*map[string]string, bool) {
 	if o == nil || o.MapProperty == nil {
-		var ret map[string]string
-		return ret, false
+		return nil, false
 	}
-	return *o.MapProperty, true
+	return o.MapProperty, true
 }
 
 // HasMapProperty returns a boolean if a field has been set.
@@ -78,14 +78,14 @@ func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]
 	return *o.MapOfMapProperty
 }
 
-// GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field value if set, zero value otherwise
+// GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (map[string]map[string]string, bool) {
+
+func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*map[string]map[string]string, bool) {
 	if o == nil || o.MapOfMapProperty == nil {
-		var ret map[string]map[string]string
-		return ret, false
+		return nil, false
 	}
-	return *o.MapOfMapProperty, true
+	return o.MapOfMapProperty, true
 }
 
 // HasMapOfMapProperty returns a boolean if a field has been set.

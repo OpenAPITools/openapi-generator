@@ -23,16 +23,16 @@ type ClassModel struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewClassModel() *ClassModel {
-    this := ClassModel{}
-    return &this
+	this := ClassModel{}
+	return &this
 }
 
 // NewClassModelWithDefaults instantiates a new ClassModel object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewClassModelWithDefaults() *ClassModel {
-    this := ClassModel{}
-    return &this
+	this := ClassModel{}
+	return &this
 }
 
 // GetClass returns the Class field value if set, zero value otherwise.
@@ -44,14 +44,14 @@ func (o *ClassModel) GetClass() string {
 	return *o.Class
 }
 
-// GetClassOk returns a tuple with the Class field value if set, zero value otherwise
+// GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClassModel) GetClassOk() (string, bool) {
+
+func (o *ClassModel) GetClassOk() (*string, bool) {
 	if o == nil || o.Class == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Class, true
+	return o.Class, true
 }
 
 // HasClass returns a boolean if a field has been set.

@@ -23,16 +23,16 @@ type Return struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewReturn() *Return {
-    this := Return{}
-    return &this
+	this := Return{}
+	return &this
 }
 
 // NewReturnWithDefaults instantiates a new Return object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewReturnWithDefaults() *Return {
-    this := Return{}
-    return &this
+	this := Return{}
+	return &this
 }
 
 // GetReturn returns the Return field value if set, zero value otherwise.
@@ -44,14 +44,14 @@ func (o *Return) GetReturn() int32 {
 	return *o.Return
 }
 
-// GetReturnOk returns a tuple with the Return field value if set, zero value otherwise
+// GetReturnOk returns a tuple with the Return field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Return) GetReturnOk() (int32, bool) {
+
+func (o *Return) GetReturnOk() (*int32, bool) {
 	if o == nil || o.Return == nil {
-		var ret int32
-		return ret, false
+		return nil, false
 	}
-	return *o.Return, true
+	return o.Return, true
 }
 
 // HasReturn returns a boolean if a field has been set.

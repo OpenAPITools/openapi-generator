@@ -27,16 +27,16 @@ type InlineObject1 struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewInlineObject1() *InlineObject1 {
-    this := InlineObject1{}
-    return &this
+	this := InlineObject1{}
+	return &this
 }
 
 // NewInlineObject1WithDefaults instantiates a new InlineObject1 object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObject1WithDefaults() *InlineObject1 {
-    this := InlineObject1{}
-    return &this
+	this := InlineObject1{}
+	return &this
 }
 
 // GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
@@ -48,14 +48,14 @@ func (o *InlineObject1) GetAdditionalMetadata() string {
 	return *o.AdditionalMetadata
 }
 
-// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, zero value otherwise
+// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject1) GetAdditionalMetadataOk() (string, bool) {
+
+func (o *InlineObject1) GetAdditionalMetadataOk() (*string, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.AdditionalMetadata, true
+	return o.AdditionalMetadata, true
 }
 
 // HasAdditionalMetadata returns a boolean if a field has been set.
@@ -81,14 +81,14 @@ func (o *InlineObject1) GetFile() *os.File {
 	return *o.File
 }
 
-// GetFileOk returns a tuple with the File field value if set, zero value otherwise
+// GetFileOk returns a tuple with the File field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject1) GetFileOk() (*os.File, bool) {
+
+func (o *InlineObject1) GetFileOk() (**os.File, bool) {
 	if o == nil || o.File == nil {
-		var ret *os.File
-		return ret, false
+		return nil, false
 	}
-	return *o.File, true
+	return o.File, true
 }
 
 // HasFile returns a boolean if a field has been set.

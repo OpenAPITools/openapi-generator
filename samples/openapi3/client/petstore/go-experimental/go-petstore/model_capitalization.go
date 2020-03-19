@@ -29,16 +29,16 @@ type Capitalization struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewCapitalization() *Capitalization {
-    this := Capitalization{}
-    return &this
+	this := Capitalization{}
+	return &this
 }
 
 // NewCapitalizationWithDefaults instantiates a new Capitalization object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewCapitalizationWithDefaults() *Capitalization {
-    this := Capitalization{}
-    return &this
+	this := Capitalization{}
+	return &this
 }
 
 // GetSmallCamel returns the SmallCamel field value if set, zero value otherwise.
@@ -50,14 +50,14 @@ func (o *Capitalization) GetSmallCamel() string {
 	return *o.SmallCamel
 }
 
-// GetSmallCamelOk returns a tuple with the SmallCamel field value if set, zero value otherwise
+// GetSmallCamelOk returns a tuple with the SmallCamel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetSmallCamelOk() (string, bool) {
+
+func (o *Capitalization) GetSmallCamelOk() (*string, bool) {
 	if o == nil || o.SmallCamel == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.SmallCamel, true
+	return o.SmallCamel, true
 }
 
 // HasSmallCamel returns a boolean if a field has been set.
@@ -83,14 +83,14 @@ func (o *Capitalization) GetCapitalCamel() string {
 	return *o.CapitalCamel
 }
 
-// GetCapitalCamelOk returns a tuple with the CapitalCamel field value if set, zero value otherwise
+// GetCapitalCamelOk returns a tuple with the CapitalCamel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetCapitalCamelOk() (string, bool) {
+
+func (o *Capitalization) GetCapitalCamelOk() (*string, bool) {
 	if o == nil || o.CapitalCamel == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.CapitalCamel, true
+	return o.CapitalCamel, true
 }
 
 // HasCapitalCamel returns a boolean if a field has been set.
@@ -116,14 +116,14 @@ func (o *Capitalization) GetSmallSnake() string {
 	return *o.SmallSnake
 }
 
-// GetSmallSnakeOk returns a tuple with the SmallSnake field value if set, zero value otherwise
+// GetSmallSnakeOk returns a tuple with the SmallSnake field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetSmallSnakeOk() (string, bool) {
+
+func (o *Capitalization) GetSmallSnakeOk() (*string, bool) {
 	if o == nil || o.SmallSnake == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.SmallSnake, true
+	return o.SmallSnake, true
 }
 
 // HasSmallSnake returns a boolean if a field has been set.
@@ -149,14 +149,14 @@ func (o *Capitalization) GetCapitalSnake() string {
 	return *o.CapitalSnake
 }
 
-// GetCapitalSnakeOk returns a tuple with the CapitalSnake field value if set, zero value otherwise
+// GetCapitalSnakeOk returns a tuple with the CapitalSnake field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetCapitalSnakeOk() (string, bool) {
+
+func (o *Capitalization) GetCapitalSnakeOk() (*string, bool) {
 	if o == nil || o.CapitalSnake == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.CapitalSnake, true
+	return o.CapitalSnake, true
 }
 
 // HasCapitalSnake returns a boolean if a field has been set.
@@ -182,14 +182,14 @@ func (o *Capitalization) GetSCAETHFlowPoints() string {
 	return *o.SCAETHFlowPoints
 }
 
-// GetSCAETHFlowPointsOk returns a tuple with the SCAETHFlowPoints field value if set, zero value otherwise
+// GetSCAETHFlowPointsOk returns a tuple with the SCAETHFlowPoints field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetSCAETHFlowPointsOk() (string, bool) {
+
+func (o *Capitalization) GetSCAETHFlowPointsOk() (*string, bool) {
 	if o == nil || o.SCAETHFlowPoints == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.SCAETHFlowPoints, true
+	return o.SCAETHFlowPoints, true
 }
 
 // HasSCAETHFlowPoints returns a boolean if a field has been set.
@@ -215,14 +215,14 @@ func (o *Capitalization) GetATT_NAME() string {
 	return *o.ATT_NAME
 }
 
-// GetATT_NAMEOk returns a tuple with the ATT_NAME field value if set, zero value otherwise
+// GetATT_NAMEOk returns a tuple with the ATT_NAME field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Capitalization) GetATT_NAMEOk() (string, bool) {
+
+func (o *Capitalization) GetATT_NAMEOk() (*string, bool) {
 	if o == nil || o.ATT_NAME == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.ATT_NAME, true
+	return o.ATT_NAME, true
 }
 
 // HasATT_NAME returns a boolean if a field has been set.

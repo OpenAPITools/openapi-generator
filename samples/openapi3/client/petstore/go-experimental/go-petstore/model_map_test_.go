@@ -26,16 +26,16 @@ type MapTest struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewMapTest() *MapTest {
-    this := MapTest{}
-    return &this
+	this := MapTest{}
+	return &this
 }
 
 // NewMapTestWithDefaults instantiates a new MapTest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewMapTestWithDefaults() *MapTest {
-    this := MapTest{}
-    return &this
+	this := MapTest{}
+	return &this
 }
 
 // GetMapMapOfString returns the MapMapOfString field value if set, zero value otherwise.
@@ -47,14 +47,14 @@ func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 	return *o.MapMapOfString
 }
 
-// GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, zero value otherwise
+// GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetMapMapOfStringOk() (map[string]map[string]string, bool) {
+
+func (o *MapTest) GetMapMapOfStringOk() (*map[string]map[string]string, bool) {
 	if o == nil || o.MapMapOfString == nil {
-		var ret map[string]map[string]string
-		return ret, false
+		return nil, false
 	}
-	return *o.MapMapOfString, true
+	return o.MapMapOfString, true
 }
 
 // HasMapMapOfString returns a boolean if a field has been set.
@@ -80,14 +80,14 @@ func (o *MapTest) GetMapOfEnumString() map[string]string {
 	return *o.MapOfEnumString
 }
 
-// GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, zero value otherwise
+// GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetMapOfEnumStringOk() (map[string]string, bool) {
+
+func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool) {
 	if o == nil || o.MapOfEnumString == nil {
-		var ret map[string]string
-		return ret, false
+		return nil, false
 	}
-	return *o.MapOfEnumString, true
+	return o.MapOfEnumString, true
 }
 
 // HasMapOfEnumString returns a boolean if a field has been set.
@@ -113,14 +113,14 @@ func (o *MapTest) GetDirectMap() map[string]bool {
 	return *o.DirectMap
 }
 
-// GetDirectMapOk returns a tuple with the DirectMap field value if set, zero value otherwise
+// GetDirectMapOk returns a tuple with the DirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetDirectMapOk() (map[string]bool, bool) {
+
+func (o *MapTest) GetDirectMapOk() (*map[string]bool, bool) {
 	if o == nil || o.DirectMap == nil {
-		var ret map[string]bool
-		return ret, false
+		return nil, false
 	}
-	return *o.DirectMap, true
+	return o.DirectMap, true
 }
 
 // HasDirectMap returns a boolean if a field has been set.
@@ -146,14 +146,14 @@ func (o *MapTest) GetIndirectMap() map[string]bool {
 	return *o.IndirectMap
 }
 
-// GetIndirectMapOk returns a tuple with the IndirectMap field value if set, zero value otherwise
+// GetIndirectMapOk returns a tuple with the IndirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetIndirectMapOk() (map[string]bool, bool) {
+
+func (o *MapTest) GetIndirectMapOk() (*map[string]bool, bool) {
 	if o == nil || o.IndirectMap == nil {
-		var ret map[string]bool
-		return ret, false
+		return nil, false
 	}
-	return *o.IndirectMap, true
+	return o.IndirectMap, true
 }
 
 // HasIndirectMap returns a boolean if a field has been set.

@@ -24,19 +24,19 @@ type Category struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewCategory(name string, ) *Category {
-    this := Category{}
-    this.Name = name
-    return &this
+	this := Category{}
+	this.Name = name
+	return &this
 }
 
 // NewCategoryWithDefaults instantiates a new Category object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewCategoryWithDefaults() *Category {
-    this := Category{}
+	this := Category{}
 	var name string = "default-name"
 	this.Name = name
-    return &this
+	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -48,14 +48,14 @@ func (o *Category) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Category) GetIdOk() (int64, bool) {
+
+func (o *Category) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
-		var ret int64
-		return ret, false
+		return nil, false
 	}
-	return *o.Id, true
+	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -74,12 +74,22 @@ func (o *Category) SetId(v int64) {
 
 // GetName returns the Name field value
 func (o *Category) GetName() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+
+func (o *Category) GetNameOk() (*string, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.Name, true
 }
 
 // SetName sets field value

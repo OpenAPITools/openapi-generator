@@ -23,16 +23,16 @@ type AdditionalPropertiesString struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewAdditionalPropertiesString() *AdditionalPropertiesString {
-    this := AdditionalPropertiesString{}
-    return &this
+	this := AdditionalPropertiesString{}
+	return &this
 }
 
 // NewAdditionalPropertiesStringWithDefaults instantiates a new AdditionalPropertiesString object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewAdditionalPropertiesStringWithDefaults() *AdditionalPropertiesString {
-    this := AdditionalPropertiesString{}
-    return &this
+	this := AdditionalPropertiesString{}
+	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -44,14 +44,14 @@ func (o *AdditionalPropertiesString) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesString) GetNameOk() (string, bool) {
+
+func (o *AdditionalPropertiesString) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.

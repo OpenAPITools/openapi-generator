@@ -23,20 +23,20 @@ type Foo struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewFoo() *Foo {
-    this := Foo{}
+	this := Foo{}
 	var bar string = "bar"
 	this.Bar = &bar
-    return &this
+	return &this
 }
 
 // NewFooWithDefaults instantiates a new Foo object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewFooWithDefaults() *Foo {
-    this := Foo{}
+	this := Foo{}
 	var bar string = "bar"
 	this.Bar = &bar
-    return &this
+	return &this
 }
 
 // GetBar returns the Bar field value if set, zero value otherwise.
@@ -48,14 +48,14 @@ func (o *Foo) GetBar() string {
 	return *o.Bar
 }
 
-// GetBarOk returns a tuple with the Bar field value if set, zero value otherwise
+// GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Foo) GetBarOk() (string, bool) {
+
+func (o *Foo) GetBarOk() (*string, bool) {
 	if o == nil || o.Bar == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Bar, true
+	return o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.

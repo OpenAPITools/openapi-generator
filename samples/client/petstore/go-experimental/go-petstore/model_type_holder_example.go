@@ -28,32 +28,42 @@ type TypeHolderExample struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewTypeHolderExample(stringItem string, numberItem float32, floatItem float32, integerItem int32, boolItem bool, arrayItem []int32, ) *TypeHolderExample {
-    this := TypeHolderExample{}
-    this.StringItem = stringItem
-    this.NumberItem = numberItem
-    this.FloatItem = floatItem
-    this.IntegerItem = integerItem
-    this.BoolItem = boolItem
-    this.ArrayItem = arrayItem
-    return &this
+	this := TypeHolderExample{}
+	this.StringItem = stringItem
+	this.NumberItem = numberItem
+	this.FloatItem = floatItem
+	this.IntegerItem = integerItem
+	this.BoolItem = boolItem
+	this.ArrayItem = arrayItem
+	return &this
 }
 
 // NewTypeHolderExampleWithDefaults instantiates a new TypeHolderExample object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewTypeHolderExampleWithDefaults() *TypeHolderExample {
-    this := TypeHolderExample{}
-    return &this
+	this := TypeHolderExample{}
+	return &this
 }
 
 // GetStringItem returns the StringItem field value
 func (o *TypeHolderExample) GetStringItem() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.StringItem
+}
+
+// GetStringItemOk returns a tuple with the StringItem field value
+// and a boolean to check if the value has been set.
+
+func (o *TypeHolderExample) GetStringItemOk() (*string, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.StringItem, true
 }
 
 // SetStringItem sets field value
@@ -63,12 +73,22 @@ func (o *TypeHolderExample) SetStringItem(v string) {
 
 // GetNumberItem returns the NumberItem field value
 func (o *TypeHolderExample) GetNumberItem() float32 {
-	if o == nil {
+	if o == nil  {
 		var ret float32
 		return ret
 	}
 
 	return o.NumberItem
+}
+
+// GetNumberItemOk returns a tuple with the NumberItem field value
+// and a boolean to check if the value has been set.
+
+func (o *TypeHolderExample) GetNumberItemOk() (*float32, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.NumberItem, true
 }
 
 // SetNumberItem sets field value
@@ -78,12 +98,22 @@ func (o *TypeHolderExample) SetNumberItem(v float32) {
 
 // GetFloatItem returns the FloatItem field value
 func (o *TypeHolderExample) GetFloatItem() float32 {
-	if o == nil {
+	if o == nil  {
 		var ret float32
 		return ret
 	}
 
 	return o.FloatItem
+}
+
+// GetFloatItemOk returns a tuple with the FloatItem field value
+// and a boolean to check if the value has been set.
+
+func (o *TypeHolderExample) GetFloatItemOk() (*float32, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.FloatItem, true
 }
 
 // SetFloatItem sets field value
@@ -93,12 +123,22 @@ func (o *TypeHolderExample) SetFloatItem(v float32) {
 
 // GetIntegerItem returns the IntegerItem field value
 func (o *TypeHolderExample) GetIntegerItem() int32 {
-	if o == nil {
+	if o == nil  {
 		var ret int32
 		return ret
 	}
 
 	return o.IntegerItem
+}
+
+// GetIntegerItemOk returns a tuple with the IntegerItem field value
+// and a boolean to check if the value has been set.
+
+func (o *TypeHolderExample) GetIntegerItemOk() (*int32, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.IntegerItem, true
 }
 
 // SetIntegerItem sets field value
@@ -108,12 +148,22 @@ func (o *TypeHolderExample) SetIntegerItem(v int32) {
 
 // GetBoolItem returns the BoolItem field value
 func (o *TypeHolderExample) GetBoolItem() bool {
-	if o == nil {
+	if o == nil  {
 		var ret bool
 		return ret
 	}
 
 	return o.BoolItem
+}
+
+// GetBoolItemOk returns a tuple with the BoolItem field value
+// and a boolean to check if the value has been set.
+
+func (o *TypeHolderExample) GetBoolItemOk() (*bool, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.BoolItem, true
 }
 
 // SetBoolItem sets field value
@@ -123,12 +173,22 @@ func (o *TypeHolderExample) SetBoolItem(v bool) {
 
 // GetArrayItem returns the ArrayItem field value
 func (o *TypeHolderExample) GetArrayItem() []int32 {
-	if o == nil {
+	if o == nil  {
 		var ret []int32
 		return ret
 	}
 
 	return o.ArrayItem
+}
+
+// GetArrayItemOk returns a tuple with the ArrayItem field value
+// and a boolean to check if the value has been set.
+
+func (o *TypeHolderExample) GetArrayItemOk() (*[]int32, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.ArrayItem, true
 }
 
 // SetArrayItem sets field value

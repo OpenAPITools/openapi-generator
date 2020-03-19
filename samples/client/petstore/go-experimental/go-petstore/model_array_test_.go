@@ -25,16 +25,16 @@ type ArrayTest struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewArrayTest() *ArrayTest {
-    this := ArrayTest{}
-    return &this
+	this := ArrayTest{}
+	return &this
 }
 
 // NewArrayTestWithDefaults instantiates a new ArrayTest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewArrayTestWithDefaults() *ArrayTest {
-    this := ArrayTest{}
-    return &this
+	this := ArrayTest{}
+	return &this
 }
 
 // GetArrayOfString returns the ArrayOfString field value if set, zero value otherwise.
@@ -46,14 +46,14 @@ func (o *ArrayTest) GetArrayOfString() []string {
 	return *o.ArrayOfString
 }
 
-// GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, zero value otherwise
+// GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
+
+func (o *ArrayTest) GetArrayOfStringOk() (*[]string, bool) {
 	if o == nil || o.ArrayOfString == nil {
-		var ret []string
-		return ret, false
+		return nil, false
 	}
-	return *o.ArrayOfString, true
+	return o.ArrayOfString, true
 }
 
 // HasArrayOfString returns a boolean if a field has been set.
@@ -79,14 +79,14 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 	return *o.ArrayArrayOfInteger
 }
 
-// GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, zero value otherwise
+// GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
+
+func (o *ArrayTest) GetArrayArrayOfIntegerOk() (*[][]int64, bool) {
 	if o == nil || o.ArrayArrayOfInteger == nil {
-		var ret [][]int64
-		return ret, false
+		return nil, false
 	}
-	return *o.ArrayArrayOfInteger, true
+	return o.ArrayArrayOfInteger, true
 }
 
 // HasArrayArrayOfInteger returns a boolean if a field has been set.
@@ -112,14 +112,14 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 	return *o.ArrayArrayOfModel
 }
 
-// GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, zero value otherwise
+// GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
+
+func (o *ArrayTest) GetArrayArrayOfModelOk() (*[][]ReadOnlyFirst, bool) {
 	if o == nil || o.ArrayArrayOfModel == nil {
-		var ret [][]ReadOnlyFirst
-		return ret, false
+		return nil, false
 	}
-	return *o.ArrayArrayOfModel, true
+	return o.ArrayArrayOfModel, true
 }
 
 // HasArrayArrayOfModel returns a boolean if a field has been set.

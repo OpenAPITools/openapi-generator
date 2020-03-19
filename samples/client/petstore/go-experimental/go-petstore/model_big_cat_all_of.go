@@ -23,16 +23,16 @@ type BigCatAllOf struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewBigCatAllOf() *BigCatAllOf {
-    this := BigCatAllOf{}
-    return &this
+	this := BigCatAllOf{}
+	return &this
 }
 
 // NewBigCatAllOfWithDefaults instantiates a new BigCatAllOf object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewBigCatAllOfWithDefaults() *BigCatAllOf {
-    this := BigCatAllOf{}
-    return &this
+	this := BigCatAllOf{}
+	return &this
 }
 
 // GetKind returns the Kind field value if set, zero value otherwise.
@@ -44,14 +44,14 @@ func (o *BigCatAllOf) GetKind() string {
 	return *o.Kind
 }
 
-// GetKindOk returns a tuple with the Kind field value if set, zero value otherwise
+// GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BigCatAllOf) GetKindOk() (string, bool) {
+
+func (o *BigCatAllOf) GetKindOk() (*string, bool) {
 	if o == nil || o.Kind == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Kind, true
+	return o.Kind, true
 }
 
 // HasKind returns a boolean if a field has been set.

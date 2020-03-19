@@ -24,16 +24,16 @@ type Dog struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewDog() *Dog {
-    this := Dog{}
-    return &this
+	this := Dog{}
+	return &this
 }
 
 // NewDogWithDefaults instantiates a new Dog object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewDogWithDefaults() *Dog {
-    this := Dog{}
-    return &this
+	this := Dog{}
+	return &this
 }
 
 // GetBreed returns the Breed field value if set, zero value otherwise.
@@ -45,14 +45,14 @@ func (o *Dog) GetBreed() string {
 	return *o.Breed
 }
 
-// GetBreedOk returns a tuple with the Breed field value if set, zero value otherwise
+// GetBreedOk returns a tuple with the Breed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Dog) GetBreedOk() (string, bool) {
+
+func (o *Dog) GetBreedOk() (*string, bool) {
 	if o == nil || o.Breed == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Breed, true
+	return o.Breed, true
 }
 
 // HasBreed returns a boolean if a field has been set.

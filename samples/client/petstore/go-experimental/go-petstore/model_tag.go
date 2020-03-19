@@ -24,16 +24,16 @@ type Tag struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewTag() *Tag {
-    this := Tag{}
-    return &this
+	this := Tag{}
+	return &this
 }
 
 // NewTagWithDefaults instantiates a new Tag object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewTagWithDefaults() *Tag {
-    this := Tag{}
-    return &this
+	this := Tag{}
+	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -45,14 +45,14 @@ func (o *Tag) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Tag) GetIdOk() (int64, bool) {
+
+func (o *Tag) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
-		var ret int64
-		return ret, false
+		return nil, false
 	}
-	return *o.Id, true
+	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -78,14 +78,14 @@ func (o *Tag) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Tag) GetNameOk() (string, bool) {
+
+func (o *Tag) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.

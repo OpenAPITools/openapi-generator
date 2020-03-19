@@ -26,16 +26,16 @@ type InlineObject struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewInlineObject() *InlineObject {
-    this := InlineObject{}
-    return &this
+	this := InlineObject{}
+	return &this
 }
 
 // NewInlineObjectWithDefaults instantiates a new InlineObject object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObjectWithDefaults() *InlineObject {
-    this := InlineObject{}
-    return &this
+	this := InlineObject{}
+	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -47,14 +47,14 @@ func (o *InlineObject) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject) GetNameOk() (string, bool) {
+
+func (o *InlineObject) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -80,14 +80,14 @@ func (o *InlineObject) GetStatus() string {
 	return *o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value if set, zero value otherwise
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject) GetStatusOk() (string, bool) {
+
+func (o *InlineObject) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Status, true
+	return o.Status, true
 }
 
 // HasStatus returns a boolean if a field has been set.

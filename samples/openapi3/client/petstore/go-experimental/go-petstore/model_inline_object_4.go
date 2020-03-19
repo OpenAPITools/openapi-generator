@@ -26,28 +26,38 @@ type InlineObject4 struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewInlineObject4(param string, param2 string, ) *InlineObject4 {
-    this := InlineObject4{}
-    this.Param = param
-    this.Param2 = param2
-    return &this
+	this := InlineObject4{}
+	this.Param = param
+	this.Param2 = param2
+	return &this
 }
 
 // NewInlineObject4WithDefaults instantiates a new InlineObject4 object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObject4WithDefaults() *InlineObject4 {
-    this := InlineObject4{}
-    return &this
+	this := InlineObject4{}
+	return &this
 }
 
 // GetParam returns the Param field value
 func (o *InlineObject4) GetParam() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.Param
+}
+
+// GetParamOk returns a tuple with the Param field value
+// and a boolean to check if the value has been set.
+
+func (o *InlineObject4) GetParamOk() (*string, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.Param, true
 }
 
 // SetParam sets field value
@@ -57,12 +67,22 @@ func (o *InlineObject4) SetParam(v string) {
 
 // GetParam2 returns the Param2 field value
 func (o *InlineObject4) GetParam2() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.Param2
+}
+
+// GetParam2Ok returns a tuple with the Param2 field value
+// and a boolean to check if the value has been set.
+
+func (o *InlineObject4) GetParam2Ok() (*string, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.Param2, true
 }
 
 // SetParam2 sets field value

@@ -23,16 +23,16 @@ type NumberOnly struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewNumberOnly() *NumberOnly {
-    this := NumberOnly{}
-    return &this
+	this := NumberOnly{}
+	return &this
 }
 
 // NewNumberOnlyWithDefaults instantiates a new NumberOnly object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewNumberOnlyWithDefaults() *NumberOnly {
-    this := NumberOnly{}
-    return &this
+	this := NumberOnly{}
+	return &this
 }
 
 // GetJustNumber returns the JustNumber field value if set, zero value otherwise.
@@ -44,14 +44,14 @@ func (o *NumberOnly) GetJustNumber() float32 {
 	return *o.JustNumber
 }
 
-// GetJustNumberOk returns a tuple with the JustNumber field value if set, zero value otherwise
+// GetJustNumberOk returns a tuple with the JustNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NumberOnly) GetJustNumberOk() (float32, bool) {
+
+func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
 	if o == nil || o.JustNumber == nil {
-		var ret float32
-		return ret, false
+		return nil, false
 	}
-	return *o.JustNumber, true
+	return o.JustNumber, true
 }
 
 // HasJustNumber returns a boolean if a field has been set.

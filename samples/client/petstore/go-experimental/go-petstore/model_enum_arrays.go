@@ -24,16 +24,16 @@ type EnumArrays struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewEnumArrays() *EnumArrays {
-    this := EnumArrays{}
-    return &this
+	this := EnumArrays{}
+	return &this
 }
 
 // NewEnumArraysWithDefaults instantiates a new EnumArrays object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewEnumArraysWithDefaults() *EnumArrays {
-    this := EnumArrays{}
-    return &this
+	this := EnumArrays{}
+	return &this
 }
 
 // GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
@@ -45,14 +45,14 @@ func (o *EnumArrays) GetJustSymbol() string {
 	return *o.JustSymbol
 }
 
-// GetJustSymbolOk returns a tuple with the JustSymbol field value if set, zero value otherwise
+// GetJustSymbolOk returns a tuple with the JustSymbol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetJustSymbolOk() (string, bool) {
+
+func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
 	if o == nil || o.JustSymbol == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.JustSymbol, true
+	return o.JustSymbol, true
 }
 
 // HasJustSymbol returns a boolean if a field has been set.
@@ -78,14 +78,14 @@ func (o *EnumArrays) GetArrayEnum() []string {
 	return *o.ArrayEnum
 }
 
-// GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, zero value otherwise
+// GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
+
+func (o *EnumArrays) GetArrayEnumOk() (*[]string, bool) {
 	if o == nil || o.ArrayEnum == nil {
-		var ret []string
-		return ret, false
+		return nil, false
 	}
-	return *o.ArrayEnum, true
+	return o.ArrayEnum, true
 }
 
 // HasArrayEnum returns a boolean if a field has been set.

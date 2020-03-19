@@ -33,22 +33,16 @@ GetSpecialPropertyName returns the SpecialPropertyName field if non-nil, zero va
 
 ### GetSpecialPropertyNameOk
 
-`func (o *SpecialModelName) GetSpecialPropertyNameOk() (int64, bool)`
+`func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool)`
 
 GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### HasSpecialPropertyName
-
-`func (o *SpecialModelName) HasSpecialPropertyName() bool`
-
-HasSpecialPropertyName returns a boolean if a field has been set.
 
 ### SetSpecialPropertyName
 
 `func (o *SpecialModelName) SetSpecialPropertyName(v int64)`
 
-SetSpecialPropertyName gets a reference to the given int64 and assigns it to the SpecialPropertyName field.
+SetSpecialPropertyName sets SpecialPropertyName field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -24,16 +24,16 @@ type File struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewFile() *File {
-    this := File{}
-    return &this
+	this := File{}
+	return &this
 }
 
 // NewFileWithDefaults instantiates a new File object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewFileWithDefaults() *File {
-    this := File{}
-    return &this
+	this := File{}
+	return &this
 }
 
 // GetSourceURI returns the SourceURI field value if set, zero value otherwise.
@@ -45,14 +45,14 @@ func (o *File) GetSourceURI() string {
 	return *o.SourceURI
 }
 
-// GetSourceURIOk returns a tuple with the SourceURI field value if set, zero value otherwise
+// GetSourceURIOk returns a tuple with the SourceURI field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *File) GetSourceURIOk() (string, bool) {
+
+func (o *File) GetSourceURIOk() (*string, bool) {
 	if o == nil || o.SourceURI == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.SourceURI, true
+	return o.SourceURI, true
 }
 
 // HasSourceURI returns a boolean if a field has been set.

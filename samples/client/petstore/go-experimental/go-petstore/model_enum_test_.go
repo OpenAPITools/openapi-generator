@@ -27,17 +27,17 @@ type EnumTest struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewEnumTest(enumStringRequired string, ) *EnumTest {
-    this := EnumTest{}
-    this.EnumStringRequired = enumStringRequired
-    return &this
+	this := EnumTest{}
+	this.EnumStringRequired = enumStringRequired
+	return &this
 }
 
 // NewEnumTestWithDefaults instantiates a new EnumTest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewEnumTestWithDefaults() *EnumTest {
-    this := EnumTest{}
-    return &this
+	this := EnumTest{}
+	return &this
 }
 
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
@@ -49,14 +49,14 @@ func (o *EnumTest) GetEnumString() string {
 	return *o.EnumString
 }
 
-// GetEnumStringOk returns a tuple with the EnumString field value if set, zero value otherwise
+// GetEnumStringOk returns a tuple with the EnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumStringOk() (string, bool) {
+
+func (o *EnumTest) GetEnumStringOk() (*string, bool) {
 	if o == nil || o.EnumString == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.EnumString, true
+	return o.EnumString, true
 }
 
 // HasEnumString returns a boolean if a field has been set.
@@ -75,12 +75,22 @@ func (o *EnumTest) SetEnumString(v string) {
 
 // GetEnumStringRequired returns the EnumStringRequired field value
 func (o *EnumTest) GetEnumStringRequired() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.EnumStringRequired
+}
+
+// GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field value
+// and a boolean to check if the value has been set.
+
+func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool) {
+    if o == nil  {
+        return nil, false
+    }
+    return &o.EnumStringRequired, true
 }
 
 // SetEnumStringRequired sets field value
@@ -97,14 +107,14 @@ func (o *EnumTest) GetEnumInteger() int32 {
 	return *o.EnumInteger
 }
 
-// GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, zero value otherwise
+// GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumIntegerOk() (int32, bool) {
+
+func (o *EnumTest) GetEnumIntegerOk() (*int32, bool) {
 	if o == nil || o.EnumInteger == nil {
-		var ret int32
-		return ret, false
+		return nil, false
 	}
-	return *o.EnumInteger, true
+	return o.EnumInteger, true
 }
 
 // HasEnumInteger returns a boolean if a field has been set.
@@ -130,14 +140,14 @@ func (o *EnumTest) GetEnumNumber() float64 {
 	return *o.EnumNumber
 }
 
-// GetEnumNumberOk returns a tuple with the EnumNumber field value if set, zero value otherwise
+// GetEnumNumberOk returns a tuple with the EnumNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumNumberOk() (float64, bool) {
+
+func (o *EnumTest) GetEnumNumberOk() (*float64, bool) {
 	if o == nil || o.EnumNumber == nil {
-		var ret float64
-		return ret, false
+		return nil, false
 	}
-	return *o.EnumNumber, true
+	return o.EnumNumber, true
 }
 
 // HasEnumNumber returns a boolean if a field has been set.
@@ -163,14 +173,14 @@ func (o *EnumTest) GetOuterEnum() OuterEnum {
 	return *o.OuterEnum
 }
 
-// GetOuterEnumOk returns a tuple with the OuterEnum field value if set, zero value otherwise
+// GetOuterEnumOk returns a tuple with the OuterEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetOuterEnumOk() (OuterEnum, bool) {
+
+func (o *EnumTest) GetOuterEnumOk() (*OuterEnum, bool) {
 	if o == nil || o.OuterEnum == nil {
-		var ret OuterEnum
-		return ret, false
+		return nil, false
 	}
-	return *o.OuterEnum, true
+	return o.OuterEnum, true
 }
 
 // HasOuterEnum returns a boolean if a field has been set.

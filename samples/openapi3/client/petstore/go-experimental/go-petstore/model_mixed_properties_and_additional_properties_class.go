@@ -26,16 +26,16 @@ type MixedPropertiesAndAdditionalPropertiesClass struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewMixedPropertiesAndAdditionalPropertiesClass() *MixedPropertiesAndAdditionalPropertiesClass {
-    this := MixedPropertiesAndAdditionalPropertiesClass{}
-    return &this
+	this := MixedPropertiesAndAdditionalPropertiesClass{}
+	return &this
 }
 
 // NewMixedPropertiesAndAdditionalPropertiesClassWithDefaults instantiates a new MixedPropertiesAndAdditionalPropertiesClass object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewMixedPropertiesAndAdditionalPropertiesClassWithDefaults() *MixedPropertiesAndAdditionalPropertiesClass {
-    this := MixedPropertiesAndAdditionalPropertiesClass{}
-    return &this
+	this := MixedPropertiesAndAdditionalPropertiesClass{}
+	return &this
 }
 
 // GetUuid returns the Uuid field value if set, zero value otherwise.
@@ -47,14 +47,14 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
 	return *o.Uuid
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, zero value otherwise
+// GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (string, bool) {
+
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (*string, bool) {
 	if o == nil || o.Uuid == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Uuid, true
+	return o.Uuid, true
 }
 
 // HasUuid returns a boolean if a field has been set.
@@ -80,14 +80,14 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time {
 	return *o.DateTime
 }
 
-// GetDateTimeOk returns a tuple with the DateTime field value if set, zero value otherwise
+// GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (time.Time, bool) {
+
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (*time.Time, bool) {
 	if o == nil || o.DateTime == nil {
-		var ret time.Time
-		return ret, false
+		return nil, false
 	}
-	return *o.DateTime, true
+	return o.DateTime, true
 }
 
 // HasDateTime returns a boolean if a field has been set.
@@ -113,14 +113,14 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal
 	return *o.Map
 }
 
-// GetMapOk returns a tuple with the Map field value if set, zero value otherwise
+// GetMapOk returns a tuple with the Map field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (map[string]Animal, bool) {
+
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]Animal, bool) {
 	if o == nil || o.Map == nil {
-		var ret map[string]Animal
-		return ret, false
+		return nil, false
 	}
-	return *o.Map, true
+	return o.Map, true
 }
 
 // HasMap returns a boolean if a field has been set.

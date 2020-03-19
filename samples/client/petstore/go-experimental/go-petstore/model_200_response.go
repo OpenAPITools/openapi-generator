@@ -24,16 +24,16 @@ type Model200Response struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewModel200Response() *Model200Response {
-    this := Model200Response{}
-    return &this
+	this := Model200Response{}
+	return &this
 }
 
 // NewModel200ResponseWithDefaults instantiates a new Model200Response object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewModel200ResponseWithDefaults() *Model200Response {
-    this := Model200Response{}
-    return &this
+	this := Model200Response{}
+	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -45,14 +45,14 @@ func (o *Model200Response) GetName() int32 {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Model200Response) GetNameOk() (int32, bool) {
+
+func (o *Model200Response) GetNameOk() (*int32, bool) {
 	if o == nil || o.Name == nil {
-		var ret int32
-		return ret, false
+		return nil, false
 	}
-	return *o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -78,14 +78,14 @@ func (o *Model200Response) GetClass() string {
 	return *o.Class
 }
 
-// GetClassOk returns a tuple with the Class field value if set, zero value otherwise
+// GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Model200Response) GetClassOk() (string, bool) {
+
+func (o *Model200Response) GetClassOk() (*string, bool) {
 	if o == nil || o.Class == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Class, true
+	return o.Class, true
 }
 
 // HasClass returns a boolean if a field has been set.

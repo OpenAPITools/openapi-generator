@@ -24,16 +24,16 @@ type FileSchemaTestClass struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewFileSchemaTestClass() *FileSchemaTestClass {
-    this := FileSchemaTestClass{}
-    return &this
+	this := FileSchemaTestClass{}
+	return &this
 }
 
 // NewFileSchemaTestClassWithDefaults instantiates a new FileSchemaTestClass object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewFileSchemaTestClassWithDefaults() *FileSchemaTestClass {
-    this := FileSchemaTestClass{}
-    return &this
+	this := FileSchemaTestClass{}
+	return &this
 }
 
 // GetFile returns the File field value if set, zero value otherwise.
@@ -45,14 +45,14 @@ func (o *FileSchemaTestClass) GetFile() File {
 	return *o.File
 }
 
-// GetFileOk returns a tuple with the File field value if set, zero value otherwise
+// GetFileOk returns a tuple with the File field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FileSchemaTestClass) GetFileOk() (File, bool) {
+
+func (o *FileSchemaTestClass) GetFileOk() (*File, bool) {
 	if o == nil || o.File == nil {
-		var ret File
-		return ret, false
+		return nil, false
 	}
-	return *o.File, true
+	return o.File, true
 }
 
 // HasFile returns a boolean if a field has been set.
@@ -78,14 +78,14 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 	return *o.Files
 }
 
-// GetFilesOk returns a tuple with the Files field value if set, zero value otherwise
+// GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
+
+func (o *FileSchemaTestClass) GetFilesOk() (*[]File, bool) {
 	if o == nil || o.Files == nil {
-		var ret []File
-		return ret, false
+		return nil, false
 	}
-	return *o.Files, true
+	return o.Files, true
 }
 
 // HasFiles returns a boolean if a field has been set.
