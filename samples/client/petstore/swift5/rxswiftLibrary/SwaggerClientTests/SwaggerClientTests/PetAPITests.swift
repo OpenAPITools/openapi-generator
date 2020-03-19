@@ -78,7 +78,7 @@ class PetAPITests: XCTestCase {
             fatalError()
         }
 
-        PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageURL).subscribe(onNext: { pet in
+        PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageURL).subscribe(onNext: { _ in
             FileUtils.deleteFile(fileURL: imageURL)
             expectation.fulfill()
         }, onError: { _ in

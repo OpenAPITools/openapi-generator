@@ -26,86 +26,84 @@ import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ModelUtilsTest {
 
     @Test
     public void testGetAllUsedSchemas() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/unusedSchemas.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
-        Assert.assertEquals(allUsedSchemas.size(), 41);
-
-        Assert.assertTrue(allUsedSchemas.contains("SomeObjShared"), "contains 'SomeObjShared'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj1"), "contains 'UnusedObj1'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj2"), "contains 'SomeObj2'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj3"), "contains 'SomeObj3'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj6"), "contains 'SomeObj6'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj7"), "contains 'SomeObj7'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj8"), "contains 'SomeObj8'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj9A"), "contains 'SomeObj9A'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj9B"), "contains 'SomeObj9B'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj10A"), "contains 'SomeObj10A'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj10B"), "contains 'SomeObj10B'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj11"), "contains 'SomeObj11'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeArrayObj12"), "contains 'SomeArrayObj12'");
-        Assert.assertTrue(allUsedSchemas.contains("ArrayItem12"), "contains 'ArrayItem12'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeArrayObj13"), "contains 'SomeArrayObj13'");
-        Assert.assertTrue(allUsedSchemas.contains("ArrayItem13"), "contains 'ArrayItem13'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj14"), "contains 'SomeObj14'");
-        Assert.assertTrue(allUsedSchemas.contains("PropertyObj14"), "contains 'PropertyObj14'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj15"), "contains 'SomeObj15'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeMapObj16"), "contains 'SomeMapObj16'");
-        Assert.assertTrue(allUsedSchemas.contains("MapItem16"), "contains 'MapItem16'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj17"), "contains 'SomeObj17'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj18"), "contains 'SomeObj18'");
-        Assert.assertTrue(allUsedSchemas.contains("Common18"), "contains 'Common18'");
-        Assert.assertTrue(allUsedSchemas.contains("Obj19ByAge"), "contains 'Obj19ByAge'");
-        Assert.assertTrue(allUsedSchemas.contains("Obj19ByType"), "contains 'Obj19ByType'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj20"), "contains 'SomeObj20'");
-        Assert.assertTrue(allUsedSchemas.contains("OtherObj20"), "contains 'OtherObj20'");
-        Assert.assertTrue(allUsedSchemas.contains("PingDataInput21"), "contains 'PingDataInput21'");
-        Assert.assertTrue(allUsedSchemas.contains("PingDataOutput21"), "contains 'PingDataOutput21'");
-        Assert.assertTrue(allUsedSchemas.contains("SInput22"), "contains 'SInput22'");
-        Assert.assertTrue(allUsedSchemas.contains("SOutput22"), "contains 'SInput22'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeHeader23"), "contains 'SomeHeader23'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeHeader24"), "contains 'SomeHeader24'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj25"), "contains 'SomeObj25'");
-        Assert.assertTrue(allUsedSchemas.contains("SomeObj26"), "contains 'SomeObj26'");
-        Assert.assertTrue(allUsedSchemas.contains("Param27"), "contains 'Param27'");
-        Assert.assertTrue(allUsedSchemas.contains("Param28"), "contains 'Param28'");
-        Assert.assertTrue(allUsedSchemas.contains("Parent30"), "contains 'Parent30'");
-        Assert.assertTrue(allUsedSchemas.contains("AChild30"), "contains 'AChild30'");
-        Assert.assertTrue(allUsedSchemas.contains("BChild30"), "contains 'BChild30'");
+        List<String> expectedallUsedSchemas = Arrays.asList(
+                "SomeObj1",
+                "SomeObj2",
+                "SomeObj3",
+                "SomeObjShared",
+                "SomeObj6",
+                "SomeObj7",
+                "SomeObj8",
+                "SomeObj9A",
+                "SomeObj9B",
+                "SomeObj10A",
+                "SomeObj10B",
+                "SomeObj11",
+                "SomeArrayObj12",
+                "ArrayItem12",
+                "SomeArrayObj13",
+                "ArrayItem13",
+                "SomeObj14",
+                "PropertyObj14",
+                "SomeObj15",
+                "SomeMapObj16",
+                "MapItem16",
+                "SomeObj17",
+                "SomeObj18",
+                "Common18",
+                "SomeObj18_allOf",
+                "Obj19ByAge",
+                "Obj19ByType",
+                "SomeObj20",
+                "OtherObj20",
+                "PingDataInput21",
+                "PingDataOutput21",
+                "SInput22",
+                "SOutput22",
+                "SomeHeader23",
+                "SomeHeader24",
+                "SomeObj25",
+                "SomeObj26",
+                "Param27",
+                "Param28",
+                "Parent30",
+                "AChild30",
+                "BChild30"
+        );
+        Assert.assertEquals(allUsedSchemas.size(), expectedallUsedSchemas.size());
+        Assert.assertTrue(allUsedSchemas.containsAll(expectedallUsedSchemas));
     }
 
     @Test
     public void testGetUnusedSchemas() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/unusedSchemas.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
-        Assert.assertEquals(unusedSchemas.size(), 7);
-        //UnusedObj1 is not used at all:
-        Assert.assertTrue(unusedSchemas.contains("UnusedObj1"), "contains 'UnusedObj1'");
-        //UnusedObj2 is used in a request body that is not used.
-        Assert.assertTrue(unusedSchemas.contains("UnusedObj2"), "contains 'UnusedObj2'");
-        //UnusedObj3 is used in a response that is not used.
-        Assert.assertTrue(unusedSchemas.contains("UnusedObj3"), "contains 'UnusedObj3'");
-        //UnusedObj4 is used in a parameter that is not used.
-        Assert.assertTrue(unusedSchemas.contains("UnusedObj4"), "contains 'UnusedObj4'");
-        //Parent29 is not used at all (only unused children AChild29 and BChild29 are referencing him):
-        Assert.assertTrue(unusedSchemas.contains("Parent29"), "contains 'Parent29'");
-        //AChild29 is not used at all:
-        Assert.assertTrue(unusedSchemas.contains("AChild29"), "contains 'AChild29'");
-        //BChild29 is not used at all:
-        Assert.assertTrue(unusedSchemas.contains("BChild29"), "contains 'BChild29'");
+        List<String> expectedUnusedSchemas = Arrays.asList(
+                "UnusedObj1",
+                "UnusedObj2",
+                "UnusedObj3",
+                "UnusedObj4",
+                "Parent29",
+                "AChild29",
+                "BChild29",
+                "AChild29_allOf",
+                "BChild29_allOf"
+        );
+        Assert.assertEquals(unusedSchemas.size(), expectedUnusedSchemas.size());
+        Assert.assertTrue(unusedSchemas.containsAll(expectedUnusedSchemas));
     }
 
     @Test
     public void testSchemasUsedOnlyInFormParam() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/unusedSchemas.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 3);
         //SomeObj2 is only used in an 'application/x-www-form-urlencoded' request
@@ -118,14 +116,14 @@ public class ModelUtilsTest {
 
     @Test
     public void testNoComponentsSection() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/ping.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
     }
 
     @Test
     public void testGlobalProducesConsumes() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/globalProducesConsumesTest.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/globalProducesConsumesTest.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
     }

@@ -46,6 +46,7 @@ The following generators are available:
 * [perl](generators/perl.md)  
 * [php](generators/php.md)  
 * [powershell](generators/powershell.md)  
+* [powershell-experimental (beta)](generators/powershell-experimental.md)  
 * [python](generators/python.md)  
 * [python-experimental (experimental)](generators/python-experimental.md)  
 * [r](generators/r.md)  
