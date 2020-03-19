@@ -1,30 +1,31 @@
-const Controller = require('./Controller');
-const service = require('../services/StoreService');
-
 /**
- * The {tag}Controller file is a very simple one, which does not need to be changed manually,
+ * The StoreController file is a very simple one, which does not need to be changed manually,
  * unless there's a case where business logic reoutes the request to an entity which is not
  * the service.
  * The heavy lifting of the Controller item is done in Request.js - that is where request
  * parameters are extracted and sent to the service, and where response is handled.
  */
 
+const camelCase = require('camelcase');
+const Controller = require('./Controller');
+const service = require('../services/StoreService');
 
 const deleteOrder = async (request, response) => {
-  await Controller.handleRequest(request, response, service.deleteOrder);
+  await Controller.handleRequest(request, response, camelCase(service.deleteOrder));
 };
 
 const getInventory = async (request, response) => {
-  await Controller.handleRequest(request, response, service.getInventory);
+  await Controller.handleRequest(request, response, camelCase(service.getInventory));
 };
 
 const getOrderById = async (request, response) => {
-  await Controller.handleRequest(request, response, service.getOrderById);
+  await Controller.handleRequest(request, response, camelCase(service.getOrderById));
 };
 
 const placeOrder = async (request, response) => {
-  await Controller.handleRequest(request, response, service.placeOrder);
+  await Controller.handleRequest(request, response, camelCase(service.placeOrder));
 };
+
 
 module.exports = {
   deleteOrder,

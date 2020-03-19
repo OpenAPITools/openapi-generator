@@ -269,7 +269,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
     @SuppressWarnings("unchecked")
     private static List<Map<String, Object>> getOperations(Map<String, Object> objs) {
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> result = new ArrayList<>();
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
         for (Map<String, Object> api : apis) {
@@ -285,9 +285,9 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             opsByPath.put(op.path, op);
         }
 
-        List<Map<String, Object>> opsByPathList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> opsByPathList = new ArrayList<>();
         for (Entry<String, Collection<CodegenOperation>> entry : opsByPath.asMap().entrySet()) {
-            Map<String, Object> opsByPathEntry = new HashMap<String, Object>();
+            Map<String, Object> opsByPathEntry = new HashMap<>();
             opsByPathList.add(opsByPathEntry);
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
@@ -369,14 +369,18 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                             operation.setOperationId(getOrGenerateOperationId(operation, pathname, method.toString()));
                         }
                         // add x-openapi-router-controller
+//                        if (operation.getExtensions() == null ||
+//                                operation.getExtensions().get("x-openapi-router-controller") == null) {
+//                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag) + "Controller");
+//                        }
+//                        // add x-openapi-router-service
+//                        if (operation.getExtensions() == null ||
+//                                operation.getExtensions().get("x-openapi-router-service") == null) {
+//                            operation.addExtension("x-openapi-router-service", sanitizeTag(tag) + "Service");
+//                        }
                         if (operation.getExtensions() == null ||
-                                operation.getExtensions().get("x-openapi-router-controller") == null) {
-                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag) + "Controller");
-                        }
-                        // add x-openapi-router-service
-                        if (operation.getExtensions() == null ||
-                                operation.getExtensions().get("x-openapi-router-service") == null) {
-                            operation.addExtension("x-openapi-router-service", sanitizeTag(tag) + "Service");
+                                operation.getExtensions().get("x-eov-operation-handler") == null) {
+                            operation.addExtension("x-eov-operation-handler", "controllers/" + sanitizeTag(tag) + "Controller");
                         }
                     }
                 }
