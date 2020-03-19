@@ -1389,10 +1389,17 @@ public class DefaultCodegenTest {
 
         Assert.assertTrue(co.hasRequiredRequestBody);
         Assert.assertTrue(co.isMultipart);
+        Assert.assertTrue(co.getHasBodyParam());
+        Assert.assertTrue(co.getHasFormParams());
 
-        Assert.assertEquals(co.consumes.size(), 1);
-        Assert.assertEquals(co.consumes.get(0).get("mediaType"), "multipart/related");
-        Assert.assertEquals(co.consumes.get(0).get("isForm"), "true");
+        Assert.assertEquals(co.consumes.size(), 2);
+        Assert.assertEquals(co.consumes.get(0).get("mediaType"), "application/json");
+        Assert.assertEquals(co.consumes.get(0).get("isBody"), "true");
+        Assert.assertEquals(co.consumes.get(1).get("mediaType"), "multipart/related");
+        Assert.assertEquals(co.consumes.get(1).get("isForm"), "true");
+
+        Assert.assertTrue(co.bodyParam.isBodyParam);
+        Assert.assertTrue(co.bodyParam.required);
 
         CodegenParameter cp = co.formParams.get(0);
         Assert.assertTrue(cp.isMultipartParam);
