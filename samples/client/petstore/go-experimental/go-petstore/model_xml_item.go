@@ -1121,7 +1121,7 @@ func (v NullableXmlItem) Get() *XmlItem {
 	return v.value
 }
 
-func (v NullableXmlItem) Set(val *XmlItem) {
+func (v *NullableXmlItem) Set(val *XmlItem) {
 	v.value = val
 	v.isSet = true
 }
@@ -1130,7 +1130,7 @@ func (v NullableXmlItem) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableXmlItem) Unset() {
+func (v *NullableXmlItem) Unset() {
 	v.value = nil
 	v.isSet = false
 }

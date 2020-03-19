@@ -94,7 +94,7 @@ func (v NullableCat) Get() *Cat {
 	return v.value
 }
 
-func (v NullableCat) Set(val *Cat) {
+func (v *NullableCat) Set(val *Cat) {
 	v.value = val
 	v.isSet = true
 }
@@ -103,7 +103,7 @@ func (v NullableCat) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableCat) Unset() {
+func (v *NullableCat) Unset() {
 	v.value = nil
 	v.isSet = false
 }

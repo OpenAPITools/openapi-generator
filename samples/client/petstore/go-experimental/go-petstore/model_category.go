@@ -107,7 +107,7 @@ func (v NullableCategory) Get() *Category {
 	return v.value
 }
 
-func (v NullableCategory) Set(val *Category) {
+func (v *NullableCategory) Set(val *Category) {
 	v.value = val
 	v.isSet = true
 }
@@ -116,7 +116,7 @@ func (v NullableCategory) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableCategory) Unset() {
+func (v *NullableCategory) Unset() {
 	v.value = nil
 	v.isSet = false
 }

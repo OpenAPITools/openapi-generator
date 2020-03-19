@@ -196,7 +196,7 @@ func (v NullableMapTest) Get() *MapTest {
 	return v.value
 }
 
-func (v NullableMapTest) Set(val *MapTest) {
+func (v *NullableMapTest) Set(val *MapTest) {
 	v.value = val
 	v.isSet = true
 }
@@ -205,7 +205,7 @@ func (v NullableMapTest) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableMapTest) Unset() {
+func (v *NullableMapTest) Unset() {
 	v.value = nil
 	v.isSet = false
 }

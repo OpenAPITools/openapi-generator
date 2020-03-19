@@ -85,7 +85,7 @@ func (v NullableClassModel) Get() *ClassModel {
 	return v.value
 }
 
-func (v NullableClassModel) Set(val *ClassModel) {
+func (v *NullableClassModel) Set(val *ClassModel) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableClassModel) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableClassModel) Unset() {
+func (v *NullableClassModel) Unset() {
 	v.value = nil
 	v.isSet = false
 }

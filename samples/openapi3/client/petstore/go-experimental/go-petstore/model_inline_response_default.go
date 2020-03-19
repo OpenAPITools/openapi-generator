@@ -85,7 +85,7 @@ func (v NullableInlineResponseDefault) Get() *InlineResponseDefault {
 	return v.value
 }
 
-func (v NullableInlineResponseDefault) Set(val *InlineResponseDefault) {
+func (v *NullableInlineResponseDefault) Set(val *InlineResponseDefault) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableInlineResponseDefault) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableInlineResponseDefault) Unset() {
+func (v *NullableInlineResponseDefault) Unset() {
 	v.value = nil
 	v.isSet = false
 }

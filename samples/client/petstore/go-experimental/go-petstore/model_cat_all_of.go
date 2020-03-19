@@ -85,7 +85,7 @@ func (v NullableCatAllOf) Get() *CatAllOf {
 	return v.value
 }
 
-func (v NullableCatAllOf) Set(val *CatAllOf) {
+func (v *NullableCatAllOf) Set(val *CatAllOf) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableCatAllOf) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableCatAllOf) Unset() {
+func (v *NullableCatAllOf) Unset() {
 	v.value = nil
 	v.isSet = false
 }

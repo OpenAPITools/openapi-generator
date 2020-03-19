@@ -32,7 +32,7 @@ func (v NullableEnumClass) Get() *EnumClass {
 	return v.value
 }
 
-func (v NullableEnumClass) Set(val *EnumClass) {
+func (v *NullableEnumClass) Set(val *EnumClass) {
 	v.value = val
 	v.isSet = true
 }
@@ -41,7 +41,7 @@ func (v NullableEnumClass) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableEnumClass) Unset() {
+func (v *NullableEnumClass) Unset() {
 	v.value = nil
 	v.isSet = false
 }

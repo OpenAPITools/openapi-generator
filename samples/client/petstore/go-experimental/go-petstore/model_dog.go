@@ -94,7 +94,7 @@ func (v NullableDog) Get() *Dog {
 	return v.value
 }
 
-func (v NullableDog) Set(val *Dog) {
+func (v *NullableDog) Set(val *Dog) {
 	v.value = val
 	v.isSet = true
 }
@@ -103,7 +103,7 @@ func (v NullableDog) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableDog) Unset() {
+func (v *NullableDog) Unset() {
 	v.value = nil
 	v.isSet = false
 }

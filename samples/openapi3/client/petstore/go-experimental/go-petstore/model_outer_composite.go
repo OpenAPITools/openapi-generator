@@ -159,7 +159,7 @@ func (v NullableOuterComposite) Get() *OuterComposite {
 	return v.value
 }
 
-func (v NullableOuterComposite) Set(val *OuterComposite) {
+func (v *NullableOuterComposite) Set(val *OuterComposite) {
 	v.value = val
 	v.isSet = true
 }
@@ -168,7 +168,7 @@ func (v NullableOuterComposite) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableOuterComposite) Unset() {
+func (v *NullableOuterComposite) Unset() {
 	v.value = nil
 	v.isSet = false
 }

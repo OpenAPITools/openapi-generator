@@ -500,7 +500,7 @@ func (v NullableFormatTest) Get() *FormatTest {
 	return v.value
 }
 
-func (v NullableFormatTest) Set(val *FormatTest) {
+func (v *NullableFormatTest) Set(val *FormatTest) {
 	v.value = val
 	v.isSet = true
 }
@@ -509,7 +509,7 @@ func (v NullableFormatTest) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableFormatTest) Unset() {
+func (v *NullableFormatTest) Unset() {
 	v.value = nil
 	v.isSet = false
 }

@@ -85,7 +85,7 @@ func (v NullableAdditionalPropertiesString) Get() *AdditionalPropertiesString {
 	return v.value
 }
 
-func (v NullableAdditionalPropertiesString) Set(val *AdditionalPropertiesString) {
+func (v *NullableAdditionalPropertiesString) Set(val *AdditionalPropertiesString) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableAdditionalPropertiesString) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableAdditionalPropertiesString) Unset() {
+func (v *NullableAdditionalPropertiesString) Unset() {
 	v.value = nil
 	v.isSet = false
 }

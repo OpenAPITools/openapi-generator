@@ -159,7 +159,7 @@ func (v NullableArrayTest) Get() *ArrayTest {
 	return v.value
 }
 
-func (v NullableArrayTest) Set(val *ArrayTest) {
+func (v *NullableArrayTest) Set(val *ArrayTest) {
 	v.value = val
 	v.isSet = true
 }
@@ -168,7 +168,7 @@ func (v NullableArrayTest) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableArrayTest) Unset() {
+func (v *NullableArrayTest) Unset() {
 	v.value = nil
 	v.isSet = false
 }

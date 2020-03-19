@@ -85,7 +85,7 @@ func (v NullableSpecialModelName) Get() *SpecialModelName {
 	return v.value
 }
 
-func (v NullableSpecialModelName) Set(val *SpecialModelName) {
+func (v *NullableSpecialModelName) Set(val *SpecialModelName) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableSpecialModelName) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableSpecialModelName) Unset() {
+func (v *NullableSpecialModelName) Unset() {
 	v.value = nil
 	v.isSet = false
 }

@@ -492,7 +492,7 @@ func (v NullableNullableClass) Get() *NullableClass {
 	return v.value
 }
 
-func (v NullableNullableClass) Set(val *NullableClass) {
+func (v *NullableNullableClass) Set(val *NullableClass) {
 	v.value = val
 	v.isSet = true
 }
@@ -501,7 +501,7 @@ func (v NullableNullableClass) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableNullableClass) Unset() {
+func (v *NullableNullableClass) Unset() {
 	v.value = nil
 	v.isSet = false
 }

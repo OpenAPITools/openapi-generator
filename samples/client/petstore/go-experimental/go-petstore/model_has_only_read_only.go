@@ -122,7 +122,7 @@ func (v NullableHasOnlyReadOnly) Get() *HasOnlyReadOnly {
 	return v.value
 }
 
-func (v NullableHasOnlyReadOnly) Set(val *HasOnlyReadOnly) {
+func (v *NullableHasOnlyReadOnly) Set(val *HasOnlyReadOnly) {
 	v.value = val
 	v.isSet = true
 }
@@ -131,7 +131,7 @@ func (v NullableHasOnlyReadOnly) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableHasOnlyReadOnly) Unset() {
+func (v *NullableHasOnlyReadOnly) Unset() {
 	v.value = nil
 	v.isSet = false
 }

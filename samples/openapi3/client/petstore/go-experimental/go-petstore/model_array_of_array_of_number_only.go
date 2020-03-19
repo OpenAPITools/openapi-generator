@@ -85,7 +85,7 @@ func (v NullableArrayOfArrayOfNumberOnly) Get() *ArrayOfArrayOfNumberOnly {
 	return v.value
 }
 
-func (v NullableArrayOfArrayOfNumberOnly) Set(val *ArrayOfArrayOfNumberOnly) {
+func (v *NullableArrayOfArrayOfNumberOnly) Set(val *ArrayOfArrayOfNumberOnly) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableArrayOfArrayOfNumberOnly) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableArrayOfArrayOfNumberOnly) Unset() {
+func (v *NullableArrayOfArrayOfNumberOnly) Unset() {
 	v.value = nil
 	v.isSet = false
 }

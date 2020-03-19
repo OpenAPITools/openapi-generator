@@ -86,7 +86,7 @@ func (v NullableFile) Get() *File {
 	return v.value
 }
 
-func (v NullableFile) Set(val *File) {
+func (v *NullableFile) Set(val *File) {
 	v.value = val
 	v.isSet = true
 }
@@ -95,7 +95,7 @@ func (v NullableFile) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableFile) Unset() {
+func (v *NullableFile) Unset() {
 	v.value = nil
 	v.isSet = false
 }

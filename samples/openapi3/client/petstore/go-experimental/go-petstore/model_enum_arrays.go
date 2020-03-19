@@ -122,7 +122,7 @@ func (v NullableEnumArrays) Get() *EnumArrays {
 	return v.value
 }
 
-func (v NullableEnumArrays) Set(val *EnumArrays) {
+func (v *NullableEnumArrays) Set(val *EnumArrays) {
 	v.value = val
 	v.isSet = true
 }
@@ -131,7 +131,7 @@ func (v NullableEnumArrays) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableEnumArrays) Unset() {
+func (v *NullableEnumArrays) Unset() {
 	v.value = nil
 	v.isSet = false
 }

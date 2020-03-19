@@ -85,7 +85,7 @@ func (v NullableList) Get() *List {
 	return v.value
 }
 
-func (v NullableList) Set(val *List) {
+func (v *NullableList) Set(val *List) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableList) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableList) Unset() {
+func (v *NullableList) Unset() {
 	v.value = nil
 	v.isSet = false
 }

@@ -85,7 +85,7 @@ func (v NullableClient) Get() *Client {
 	return v.value
 }
 
-func (v NullableClient) Set(val *Client) {
+func (v *NullableClient) Set(val *Client) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableClient) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableClient) Unset() {
+func (v *NullableClient) Unset() {
 	v.value = nil
 	v.isSet = false
 }

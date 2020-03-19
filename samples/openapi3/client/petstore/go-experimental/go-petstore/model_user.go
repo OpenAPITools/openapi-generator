@@ -345,7 +345,7 @@ func (v NullableUser) Get() *User {
 	return v.value
 }
 
-func (v NullableUser) Set(val *User) {
+func (v *NullableUser) Set(val *User) {
 	v.value = val
 	v.isSet = true
 }
@@ -354,7 +354,7 @@ func (v NullableUser) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableUser) Unset() {
+func (v *NullableUser) Unset() {
 	v.value = nil
 	v.isSet = false
 }

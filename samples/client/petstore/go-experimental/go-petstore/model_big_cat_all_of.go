@@ -85,7 +85,7 @@ func (v NullableBigCatAllOf) Get() *BigCatAllOf {
 	return v.value
 }
 
-func (v NullableBigCatAllOf) Set(val *BigCatAllOf) {
+func (v *NullableBigCatAllOf) Set(val *BigCatAllOf) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableBigCatAllOf) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableBigCatAllOf) Unset() {
+func (v *NullableBigCatAllOf) Unset() {
 	v.value = nil
 	v.isSet = false
 }

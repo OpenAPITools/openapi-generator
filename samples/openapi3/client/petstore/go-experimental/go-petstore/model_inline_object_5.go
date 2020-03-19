@@ -108,7 +108,7 @@ func (v NullableInlineObject5) Get() *InlineObject5 {
 	return v.value
 }
 
-func (v NullableInlineObject5) Set(val *InlineObject5) {
+func (v *NullableInlineObject5) Set(val *InlineObject5) {
 	v.value = val
 	v.isSet = true
 }
@@ -117,7 +117,7 @@ func (v NullableInlineObject5) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableInlineObject5) Unset() {
+func (v *NullableInlineObject5) Unset() {
 	v.value = nil
 	v.isSet = false
 }

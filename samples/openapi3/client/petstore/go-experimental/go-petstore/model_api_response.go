@@ -159,7 +159,7 @@ func (v NullableApiResponse) Get() *ApiResponse {
 	return v.value
 }
 
-func (v NullableApiResponse) Set(val *ApiResponse) {
+func (v *NullableApiResponse) Set(val *ApiResponse) {
 	v.value = val
 	v.isSet = true
 }
@@ -168,7 +168,7 @@ func (v NullableApiResponse) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableApiResponse) Unset() {
+func (v *NullableApiResponse) Unset() {
 	v.value = nil
 	v.isSet = false
 }

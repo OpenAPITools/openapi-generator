@@ -122,7 +122,7 @@ func (v NullableModel200Response) Get() *Model200Response {
 	return v.value
 }
 
-func (v NullableModel200Response) Set(val *Model200Response) {
+func (v *NullableModel200Response) Set(val *Model200Response) {
 	v.value = val
 	v.isSet = true
 }
@@ -131,7 +131,7 @@ func (v NullableModel200Response) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableModel200Response) Unset() {
+func (v *NullableModel200Response) Unset() {
 	v.value = nil
 	v.isSet = false
 }

@@ -271,7 +271,7 @@ func (v NullableCapitalization) Get() *Capitalization {
 	return v.value
 }
 
-func (v NullableCapitalization) Set(val *Capitalization) {
+func (v *NullableCapitalization) Set(val *Capitalization) {
 	v.value = val
 	v.isSet = true
 }
@@ -280,7 +280,7 @@ func (v NullableCapitalization) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableCapitalization) Unset() {
+func (v *NullableCapitalization) Unset() {
 	v.value = nil
 	v.isSet = false
 }

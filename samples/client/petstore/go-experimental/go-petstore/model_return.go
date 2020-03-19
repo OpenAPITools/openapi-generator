@@ -85,7 +85,7 @@ func (v NullableReturn) Get() *Return {
 	return v.value
 }
 
-func (v NullableReturn) Set(val *Return) {
+func (v *NullableReturn) Set(val *Return) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableReturn) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableReturn) Unset() {
+func (v *NullableReturn) Unset() {
 	v.value = nil
 	v.isSet = false
 }

@@ -122,7 +122,7 @@ func (v NullableTag) Get() *Tag {
 	return v.value
 }
 
-func (v NullableTag) Set(val *Tag) {
+func (v *NullableTag) Set(val *Tag) {
 	v.value = val
 	v.isSet = true
 }
@@ -131,7 +131,7 @@ func (v NullableTag) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableTag) Unset() {
+func (v *NullableTag) Unset() {
 	v.value = nil
 	v.isSet = false
 }

@@ -152,7 +152,7 @@ func (v NullableTypeHolderDefault) Get() *TypeHolderDefault {
 	return v.value
 }
 
-func (v NullableTypeHolderDefault) Set(val *TypeHolderDefault) {
+func (v *NullableTypeHolderDefault) Set(val *TypeHolderDefault) {
 	v.value = val
 	v.isSet = true
 }
@@ -161,7 +161,7 @@ func (v NullableTypeHolderDefault) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableTypeHolderDefault) Unset() {
+func (v *NullableTypeHolderDefault) Unset() {
 	v.value = nil
 	v.isSet = false
 }

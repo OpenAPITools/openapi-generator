@@ -237,7 +237,7 @@ func (v NullablePet) Get() *Pet {
 	return v.value
 }
 
-func (v NullablePet) Set(val *Pet) {
+func (v *NullablePet) Set(val *Pet) {
 	v.value = val
 	v.isSet = true
 }
@@ -246,7 +246,7 @@ func (v NullablePet) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullablePet) Unset() {
+func (v *NullablePet) Unset() {
 	v.value = nil
 	v.isSet = false
 }

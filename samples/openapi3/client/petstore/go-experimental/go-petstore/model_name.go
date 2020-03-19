@@ -179,7 +179,7 @@ func (v NullableName) Get() *Name {
 	return v.value
 }
 
-func (v NullableName) Set(val *Name) {
+func (v *NullableName) Set(val *Name) {
 	v.value = val
 	v.isSet = true
 }
@@ -188,7 +188,7 @@ func (v NullableName) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableName) Unset() {
+func (v *NullableName) Unset() {
 	v.value = nil
 	v.isSet = false
 }

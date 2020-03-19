@@ -32,7 +32,7 @@ func (v NullableOuterEnumInteger) Get() *OuterEnumInteger {
 	return v.value
 }
 
-func (v NullableOuterEnumInteger) Set(val *OuterEnumInteger) {
+func (v *NullableOuterEnumInteger) Set(val *OuterEnumInteger) {
 	v.value = val
 	v.isSet = true
 }
@@ -41,7 +41,7 @@ func (v NullableOuterEnumInteger) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableOuterEnumInteger) Unset() {
+func (v *NullableOuterEnumInteger) Unset() {
 	v.value = nil
 	v.isSet = false
 }

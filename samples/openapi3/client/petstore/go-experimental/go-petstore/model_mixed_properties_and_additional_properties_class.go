@@ -160,7 +160,7 @@ func (v NullableMixedPropertiesAndAdditionalPropertiesClass) Get() *MixedPropert
 	return v.value
 }
 
-func (v NullableMixedPropertiesAndAdditionalPropertiesClass) Set(val *MixedPropertiesAndAdditionalPropertiesClass) {
+func (v *NullableMixedPropertiesAndAdditionalPropertiesClass) Set(val *MixedPropertiesAndAdditionalPropertiesClass) {
 	v.value = val
 	v.isSet = true
 }
@@ -169,7 +169,7 @@ func (v NullableMixedPropertiesAndAdditionalPropertiesClass) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableMixedPropertiesAndAdditionalPropertiesClass) Unset() {
+func (v *NullableMixedPropertiesAndAdditionalPropertiesClass) Unset() {
 	v.value = nil
 	v.isSet = false
 }

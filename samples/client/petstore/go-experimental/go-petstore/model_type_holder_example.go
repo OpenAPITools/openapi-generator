@@ -168,7 +168,7 @@ func (v NullableTypeHolderExample) Get() *TypeHolderExample {
 	return v.value
 }
 
-func (v NullableTypeHolderExample) Set(val *TypeHolderExample) {
+func (v *NullableTypeHolderExample) Set(val *TypeHolderExample) {
 	v.value = val
 	v.isSet = true
 }
@@ -177,7 +177,7 @@ func (v NullableTypeHolderExample) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableTypeHolderExample) Unset() {
+func (v *NullableTypeHolderExample) Unset() {
 	v.value = nil
 	v.isSet = false
 }

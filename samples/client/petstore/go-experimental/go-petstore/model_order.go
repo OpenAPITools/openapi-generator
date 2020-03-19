@@ -276,7 +276,7 @@ func (v NullableOrder) Get() *Order {
 	return v.value
 }
 
-func (v NullableOrder) Set(val *Order) {
+func (v *NullableOrder) Set(val *Order) {
 	v.value = val
 	v.isSet = true
 }
@@ -285,7 +285,7 @@ func (v NullableOrder) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableOrder) Unset() {
+func (v *NullableOrder) Unset() {
 	v.value = nil
 	v.isSet = false
 }

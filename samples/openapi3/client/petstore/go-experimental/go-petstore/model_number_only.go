@@ -85,7 +85,7 @@ func (v NullableNumberOnly) Get() *NumberOnly {
 	return v.value
 }
 
-func (v NullableNumberOnly) Set(val *NumberOnly) {
+func (v *NullableNumberOnly) Set(val *NumberOnly) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableNumberOnly) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableNumberOnly) Unset() {
+func (v *NullableNumberOnly) Unset() {
 	v.value = nil
 	v.isSet = false
 }

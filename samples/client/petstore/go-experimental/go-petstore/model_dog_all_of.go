@@ -85,7 +85,7 @@ func (v NullableDogAllOf) Get() *DogAllOf {
 	return v.value
 }
 
-func (v NullableDogAllOf) Set(val *DogAllOf) {
+func (v *NullableDogAllOf) Set(val *DogAllOf) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableDogAllOf) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableDogAllOf) Unset() {
+func (v *NullableDogAllOf) Unset() {
 	v.value = nil
 	v.isSet = false
 }

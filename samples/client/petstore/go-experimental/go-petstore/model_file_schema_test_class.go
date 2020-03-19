@@ -122,7 +122,7 @@ func (v NullableFileSchemaTestClass) Get() *FileSchemaTestClass {
 	return v.value
 }
 
-func (v NullableFileSchemaTestClass) Set(val *FileSchemaTestClass) {
+func (v *NullableFileSchemaTestClass) Set(val *FileSchemaTestClass) {
 	v.value = val
 	v.isSet = true
 }
@@ -131,7 +131,7 @@ func (v NullableFileSchemaTestClass) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableFileSchemaTestClass) Unset() {
+func (v *NullableFileSchemaTestClass) Unset() {
 	v.value = nil
 	v.isSet = false
 }

@@ -216,7 +216,7 @@ func (v NullableEnumTest) Get() *EnumTest {
 	return v.value
 }
 
-func (v NullableEnumTest) Set(val *EnumTest) {
+func (v *NullableEnumTest) Set(val *EnumTest) {
 	v.value = val
 	v.isSet = true
 }
@@ -225,7 +225,7 @@ func (v NullableEnumTest) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableEnumTest) Unset() {
+func (v *NullableEnumTest) Unset() {
 	v.value = nil
 	v.isSet = false
 }

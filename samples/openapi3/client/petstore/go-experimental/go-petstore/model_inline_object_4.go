@@ -90,7 +90,7 @@ func (v NullableInlineObject4) Get() *InlineObject4 {
 	return v.value
 }
 
-func (v NullableInlineObject4) Set(val *InlineObject4) {
+func (v *NullableInlineObject4) Set(val *InlineObject4) {
 	v.value = val
 	v.isSet = true
 }
@@ -99,7 +99,7 @@ func (v NullableInlineObject4) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableInlineObject4) Unset() {
+func (v *NullableInlineObject4) Unset() {
 	v.value = nil
 	v.isSet = false
 }

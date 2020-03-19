@@ -94,7 +94,7 @@ func (v NullableBigCat) Get() *BigCat {
 	return v.value
 }
 
-func (v NullableBigCat) Set(val *BigCat) {
+func (v *NullableBigCat) Set(val *BigCat) {
 	v.value = val
 	v.isSet = true
 }
@@ -103,7 +103,7 @@ func (v NullableBigCat) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableBigCat) Unset() {
+func (v *NullableBigCat) Unset() {
 	v.value = nil
 	v.isSet = false
 }

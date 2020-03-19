@@ -85,7 +85,7 @@ func (v NullableHealthCheckResult) Get() *HealthCheckResult {
 	return v.value
 }
 
-func (v NullableHealthCheckResult) Set(val *HealthCheckResult) {
+func (v *NullableHealthCheckResult) Set(val *HealthCheckResult) {
 	v.value = val
 	v.isSet = true
 }
@@ -94,7 +94,7 @@ func (v NullableHealthCheckResult) IsSet() bool {
 	return v.isSet
 }
 
-func (v NullableHealthCheckResult) Unset() {
+func (v *NullableHealthCheckResult) Unset() {
 	v.value = nil
 	v.isSet = false
 }
