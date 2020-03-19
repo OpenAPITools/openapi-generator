@@ -779,7 +779,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         } else if (cp.isListContainer) { // array
             return getPSDataType(cp.items) + "[]";
         } else if (cp.isMapContainer) { // map
-            throw new RuntimeException("Map is not supported in the object's properties.");
+            return "Hashtable";
         } else { // model
             return "PSCustomObject";
         }
@@ -797,7 +797,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         } else if (cp.isListContainer) { // array
             return getPSDataType(cp.items) + "[]";
         } else if (cp.isMapContainer) { // map
-            throw new RuntimeException("Map not yet supported in the object's properties.");
+            return "Hashtable";
         } else { // model
             return "PSCustomObject";
         }
