@@ -48,6 +48,12 @@ and a boolean to check if the value has been set.
 
 SetEnumString sets EnumString field to given value.
 
+### HasEnumString
+
+`func (o *EnumTest) HasEnumString() bool`
+
+HasEnumString returns a boolean if a field has been set.
+
 ### GetEnumStringRequired
 
 `func (o *EnumTest) GetEnumStringRequired() string`
@@ -66,6 +72,7 @@ and a boolean to check if the value has been set.
 `func (o *EnumTest) SetEnumStringRequired(v string)`
 
 SetEnumStringRequired sets EnumStringRequired field to given value.
+
 
 ### GetEnumInteger
 
@@ -86,6 +93,12 @@ and a boolean to check if the value has been set.
 
 SetEnumInteger sets EnumInteger field to given value.
 
+### HasEnumInteger
+
+`func (o *EnumTest) HasEnumInteger() bool`
+
+HasEnumInteger returns a boolean if a field has been set.
+
 ### GetEnumNumber
 
 `func (o *EnumTest) GetEnumNumber() float64`
@@ -105,6 +118,12 @@ and a boolean to check if the value has been set.
 
 SetEnumNumber sets EnumNumber field to given value.
 
+### HasEnumNumber
+
+`func (o *EnumTest) HasEnumNumber() bool`
+
+HasEnumNumber returns a boolean if a field has been set.
+
 ### GetOuterEnum
 
 `func (o *EnumTest) GetOuterEnum() OuterEnum`
@@ -123,6 +142,12 @@ and a boolean to check if the value has been set.
 `func (o *EnumTest) SetOuterEnum(v OuterEnum)`
 
 SetOuterEnum sets OuterEnum field to given value.
+
+### HasOuterEnum
+
+`func (o *EnumTest) HasOuterEnum() bool`
+
+HasOuterEnum returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

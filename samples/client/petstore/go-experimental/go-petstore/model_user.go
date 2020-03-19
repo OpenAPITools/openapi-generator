@@ -54,7 +54,6 @@ func (o *User) GetId() int64 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *User) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
@@ -87,7 +86,6 @@ func (o *User) GetUsername() string {
 
 // GetUsernameOk returns a tuple with the Username field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *User) GetUsernameOk() (*string, bool) {
 	if o == nil || o.Username == nil {
 		return nil, false
@@ -120,7 +118,6 @@ func (o *User) GetFirstName() string {
 
 // GetFirstNameOk returns a tuple with the FirstName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *User) GetFirstNameOk() (*string, bool) {
 	if o == nil || o.FirstName == nil {
 		return nil, false
@@ -153,7 +150,6 @@ func (o *User) GetLastName() string {
 
 // GetLastNameOk returns a tuple with the LastName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *User) GetLastNameOk() (*string, bool) {
 	if o == nil || o.LastName == nil {
 		return nil, false
@@ -186,7 +182,6 @@ func (o *User) GetEmail() string {
 
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *User) GetEmailOk() (*string, bool) {
 	if o == nil || o.Email == nil {
 		return nil, false
@@ -219,7 +214,6 @@ func (o *User) GetPassword() string {
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *User) GetPasswordOk() (*string, bool) {
 	if o == nil || o.Password == nil {
 		return nil, false
@@ -252,7 +246,6 @@ func (o *User) GetPhone() string {
 
 // GetPhoneOk returns a tuple with the Phone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *User) GetPhoneOk() (*string, bool) {
 	if o == nil || o.Phone == nil {
 		return nil, false
@@ -285,7 +278,6 @@ func (o *User) GetUserStatus() int32 {
 
 // GetUserStatusOk returns a tuple with the UserStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *User) GetUserStatusOk() (*int32, bool) {
 	if o == nil || o.UserStatus == nil {
 		return nil, false

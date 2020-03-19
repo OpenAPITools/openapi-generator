@@ -54,6 +54,12 @@ and a boolean to check if the value has been set.
 
 SetMapString sets MapString field to given value.
 
+### HasMapString
+
+`func (o *AdditionalPropertiesClass) HasMapString() bool`
+
+HasMapString returns a boolean if a field has been set.
+
 ### GetMapNumber
 
 `func (o *AdditionalPropertiesClass) GetMapNumber() map[string]float32`
@@ -72,6 +78,12 @@ and a boolean to check if the value has been set.
 `func (o *AdditionalPropertiesClass) SetMapNumber(v map[string]float32)`
 
 SetMapNumber sets MapNumber field to given value.
+
+### HasMapNumber
+
+`func (o *AdditionalPropertiesClass) HasMapNumber() bool`
+
+HasMapNumber returns a boolean if a field has been set.
 
 ### GetMapInteger
 
@@ -92,6 +104,12 @@ and a boolean to check if the value has been set.
 
 SetMapInteger sets MapInteger field to given value.
 
+### HasMapInteger
+
+`func (o *AdditionalPropertiesClass) HasMapInteger() bool`
+
+HasMapInteger returns a boolean if a field has been set.
+
 ### GetMapBoolean
 
 `func (o *AdditionalPropertiesClass) GetMapBoolean() map[string]bool`
@@ -110,6 +128,12 @@ and a boolean to check if the value has been set.
 `func (o *AdditionalPropertiesClass) SetMapBoolean(v map[string]bool)`
 
 SetMapBoolean sets MapBoolean field to given value.
+
+### HasMapBoolean
+
+`func (o *AdditionalPropertiesClass) HasMapBoolean() bool`
+
+HasMapBoolean returns a boolean if a field has been set.
 
 ### GetMapArrayInteger
 
@@ -130,6 +154,12 @@ and a boolean to check if the value has been set.
 
 SetMapArrayInteger sets MapArrayInteger field to given value.
 
+### HasMapArrayInteger
+
+`func (o *AdditionalPropertiesClass) HasMapArrayInteger() bool`
+
+HasMapArrayInteger returns a boolean if a field has been set.
+
 ### GetMapArrayAnytype
 
 `func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string]interface{}`
@@ -148,6 +178,12 @@ and a boolean to check if the value has been set.
 `func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]map[string]interface{})`
 
 SetMapArrayAnytype sets MapArrayAnytype field to given value.
+
+### HasMapArrayAnytype
+
+`func (o *AdditionalPropertiesClass) HasMapArrayAnytype() bool`
+
+HasMapArrayAnytype returns a boolean if a field has been set.
 
 ### GetMapMapString
 
@@ -168,6 +204,12 @@ and a boolean to check if the value has been set.
 
 SetMapMapString sets MapMapString field to given value.
 
+### HasMapMapString
+
+`func (o *AdditionalPropertiesClass) HasMapMapString() bool`
+
+HasMapMapString returns a boolean if a field has been set.
+
 ### GetMapMapAnytype
 
 `func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map[string]interface{}`
@@ -186,6 +228,12 @@ and a boolean to check if the value has been set.
 `func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]map[string]interface{})`
 
 SetMapMapAnytype sets MapMapAnytype field to given value.
+
+### HasMapMapAnytype
+
+`func (o *AdditionalPropertiesClass) HasMapMapAnytype() bool`
+
+HasMapMapAnytype returns a boolean if a field has been set.
 
 ### GetAnytype1
 
@@ -206,6 +254,12 @@ and a boolean to check if the value has been set.
 
 SetAnytype1 sets Anytype1 field to given value.
 
+### HasAnytype1
+
+`func (o *AdditionalPropertiesClass) HasAnytype1() bool`
+
+HasAnytype1 returns a boolean if a field has been set.
+
 ### GetAnytype2
 
 `func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{}`
@@ -225,6 +279,12 @@ and a boolean to check if the value has been set.
 
 SetAnytype2 sets Anytype2 field to given value.
 
+### HasAnytype2
+
+`func (o *AdditionalPropertiesClass) HasAnytype2() bool`
+
+HasAnytype2 returns a boolean if a field has been set.
+
 ### GetAnytype3
 
 `func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{}`
@@ -243,6 +303,12 @@ and a boolean to check if the value has been set.
 `func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{})`
 
 SetAnytype3 sets Anytype3 field to given value.
+
+### HasAnytype3
+
+`func (o *AdditionalPropertiesClass) HasAnytype3() bool`
+
+HasAnytype3 returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

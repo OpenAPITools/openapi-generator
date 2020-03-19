@@ -52,7 +52,6 @@ func (o *Capitalization) GetSmallCamel() string {
 
 // GetSmallCamelOk returns a tuple with the SmallCamel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Capitalization) GetSmallCamelOk() (*string, bool) {
 	if o == nil || o.SmallCamel == nil {
 		return nil, false
@@ -85,7 +84,6 @@ func (o *Capitalization) GetCapitalCamel() string {
 
 // GetCapitalCamelOk returns a tuple with the CapitalCamel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Capitalization) GetCapitalCamelOk() (*string, bool) {
 	if o == nil || o.CapitalCamel == nil {
 		return nil, false
@@ -118,7 +116,6 @@ func (o *Capitalization) GetSmallSnake() string {
 
 // GetSmallSnakeOk returns a tuple with the SmallSnake field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Capitalization) GetSmallSnakeOk() (*string, bool) {
 	if o == nil || o.SmallSnake == nil {
 		return nil, false
@@ -151,7 +148,6 @@ func (o *Capitalization) GetCapitalSnake() string {
 
 // GetCapitalSnakeOk returns a tuple with the CapitalSnake field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Capitalization) GetCapitalSnakeOk() (*string, bool) {
 	if o == nil || o.CapitalSnake == nil {
 		return nil, false
@@ -184,7 +180,6 @@ func (o *Capitalization) GetSCAETHFlowPoints() string {
 
 // GetSCAETHFlowPointsOk returns a tuple with the SCAETHFlowPoints field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Capitalization) GetSCAETHFlowPointsOk() (*string, bool) {
 	if o == nil || o.SCAETHFlowPoints == nil {
 		return nil, false
@@ -217,7 +212,6 @@ func (o *Capitalization) GetATT_NAME() string {
 
 // GetATT_NAMEOk returns a tuple with the ATT_NAME field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Capitalization) GetATT_NAMEOk() (*string, bool) {
 	if o == nil || o.ATT_NAME == nil {
 		return nil, false

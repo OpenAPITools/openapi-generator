@@ -46,6 +46,12 @@ and a boolean to check if the value has been set.
 
 SetCode sets Code field to given value.
 
+### HasCode
+
+`func (o *ApiResponse) HasCode() bool`
+
+HasCode returns a boolean if a field has been set.
+
 ### GetType
 
 `func (o *ApiResponse) GetType() string`
@@ -65,6 +71,12 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
+### HasType
+
+`func (o *ApiResponse) HasType() bool`
+
+HasType returns a boolean if a field has been set.
+
 ### GetMessage
 
 `func (o *ApiResponse) GetMessage() string`
@@ -83,6 +95,12 @@ and a boolean to check if the value has been set.
 `func (o *ApiResponse) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
+
+### HasMessage
+
+`func (o *ApiResponse) HasMessage() bool`
+
+HasMessage returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

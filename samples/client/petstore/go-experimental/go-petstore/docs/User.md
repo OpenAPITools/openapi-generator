@@ -51,6 +51,12 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
+### HasId
+
+`func (o *User) HasId() bool`
+
+HasId returns a boolean if a field has been set.
+
 ### GetUsername
 
 `func (o *User) GetUsername() string`
@@ -69,6 +75,12 @@ and a boolean to check if the value has been set.
 `func (o *User) SetUsername(v string)`
 
 SetUsername sets Username field to given value.
+
+### HasUsername
+
+`func (o *User) HasUsername() bool`
+
+HasUsername returns a boolean if a field has been set.
 
 ### GetFirstName
 
@@ -89,6 +101,12 @@ and a boolean to check if the value has been set.
 
 SetFirstName sets FirstName field to given value.
 
+### HasFirstName
+
+`func (o *User) HasFirstName() bool`
+
+HasFirstName returns a boolean if a field has been set.
+
 ### GetLastName
 
 `func (o *User) GetLastName() string`
@@ -107,6 +125,12 @@ and a boolean to check if the value has been set.
 `func (o *User) SetLastName(v string)`
 
 SetLastName sets LastName field to given value.
+
+### HasLastName
+
+`func (o *User) HasLastName() bool`
+
+HasLastName returns a boolean if a field has been set.
 
 ### GetEmail
 
@@ -127,6 +151,12 @@ and a boolean to check if the value has been set.
 
 SetEmail sets Email field to given value.
 
+### HasEmail
+
+`func (o *User) HasEmail() bool`
+
+HasEmail returns a boolean if a field has been set.
+
 ### GetPassword
 
 `func (o *User) GetPassword() string`
@@ -145,6 +175,12 @@ and a boolean to check if the value has been set.
 `func (o *User) SetPassword(v string)`
 
 SetPassword sets Password field to given value.
+
+### HasPassword
+
+`func (o *User) HasPassword() bool`
+
+HasPassword returns a boolean if a field has been set.
 
 ### GetPhone
 
@@ -165,6 +201,12 @@ and a boolean to check if the value has been set.
 
 SetPhone sets Phone field to given value.
 
+### HasPhone
+
+`func (o *User) HasPhone() bool`
+
+HasPhone returns a boolean if a field has been set.
+
 ### GetUserStatus
 
 `func (o *User) GetUserStatus() int32`
@@ -183,6 +225,12 @@ and a boolean to check if the value has been set.
 `func (o *User) SetUserStatus(v int32)`
 
 SetUserStatus sets UserStatus field to given value.
+
+### HasUserStatus
+
+`func (o *User) HasUserStatus() bool`
+
+HasUserStatus returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

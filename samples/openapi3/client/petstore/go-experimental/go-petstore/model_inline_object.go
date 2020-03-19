@@ -49,7 +49,6 @@ func (o *InlineObject) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
@@ -82,7 +81,6 @@ func (o *InlineObject) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false

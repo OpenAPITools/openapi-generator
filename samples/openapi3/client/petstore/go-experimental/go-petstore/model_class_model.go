@@ -46,7 +46,6 @@ func (o *ClassModel) GetClass() string {
 
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *ClassModel) GetClassOk() (*string, bool) {
 	if o == nil || o.Class == nil {
 		return nil, false

@@ -48,7 +48,6 @@ func (o *OuterComposite) GetMyNumber() float32 {
 
 // GetMyNumberOk returns a tuple with the MyNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *OuterComposite) GetMyNumberOk() (*float32, bool) {
 	if o == nil || o.MyNumber == nil {
 		return nil, false
@@ -81,7 +80,6 @@ func (o *OuterComposite) GetMyString() string {
 
 // GetMyStringOk returns a tuple with the MyString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *OuterComposite) GetMyStringOk() (*string, bool) {
 	if o == nil || o.MyString == nil {
 		return nil, false
@@ -114,7 +112,6 @@ func (o *OuterComposite) GetMyBoolean() bool {
 
 // GetMyBooleanOk returns a tuple with the MyBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *OuterComposite) GetMyBooleanOk() (*bool, bool) {
 	if o == nil || o.MyBoolean == nil {
 		return nil, false

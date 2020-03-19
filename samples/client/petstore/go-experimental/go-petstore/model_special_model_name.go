@@ -46,7 +46,6 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 
 // GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool) {
 	if o == nil || o.SpecialPropertyName == nil {
 		return nil, false

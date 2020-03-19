@@ -53,13 +53,15 @@ and a boolean to check if the value has been set.
 
 Set{{name}} sets {{name}} field to given value.
 
-{{#isNullable}}
+{{^required}}
 ### Has{{name}}
 
 `func (o *{{classname}}) Has{{name}}() bool`
 
 Has{{name}} returns a boolean if a field has been set.
+{{/required}}
 
+{{#isNullable}}
 ### Set{{name}}Nil
 
 `func (o *{{classname}}) Set{{name}}Nil(b bool)`

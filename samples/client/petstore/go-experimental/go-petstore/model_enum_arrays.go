@@ -47,7 +47,6 @@ func (o *EnumArrays) GetJustSymbol() string {
 
 // GetJustSymbolOk returns a tuple with the JustSymbol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
 	if o == nil || o.JustSymbol == nil {
 		return nil, false
@@ -80,7 +79,6 @@ func (o *EnumArrays) GetArrayEnum() []string {
 
 // GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *EnumArrays) GetArrayEnumOk() (*[]string, bool) {
 	if o == nil || o.ArrayEnum == nil {
 		return nil, false

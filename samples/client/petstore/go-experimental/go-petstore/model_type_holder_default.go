@@ -60,12 +60,11 @@ func (o *TypeHolderDefault) GetStringItem() string {
 
 // GetStringItemOk returns a tuple with the StringItem field value
 // and a boolean to check if the value has been set.
-
 func (o *TypeHolderDefault) GetStringItemOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.StringItem, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.StringItem, true
 }
 
 // SetStringItem sets field value
@@ -85,12 +84,11 @@ func (o *TypeHolderDefault) GetNumberItem() float32 {
 
 // GetNumberItemOk returns a tuple with the NumberItem field value
 // and a boolean to check if the value has been set.
-
 func (o *TypeHolderDefault) GetNumberItemOk() (*float32, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.NumberItem, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.NumberItem, true
 }
 
 // SetNumberItem sets field value
@@ -110,12 +108,11 @@ func (o *TypeHolderDefault) GetIntegerItem() int32 {
 
 // GetIntegerItemOk returns a tuple with the IntegerItem field value
 // and a boolean to check if the value has been set.
-
 func (o *TypeHolderDefault) GetIntegerItemOk() (*int32, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.IntegerItem, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.IntegerItem, true
 }
 
 // SetIntegerItem sets field value
@@ -135,12 +132,11 @@ func (o *TypeHolderDefault) GetBoolItem() bool {
 
 // GetBoolItemOk returns a tuple with the BoolItem field value
 // and a boolean to check if the value has been set.
-
 func (o *TypeHolderDefault) GetBoolItemOk() (*bool, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.BoolItem, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.BoolItem, true
 }
 
 // SetBoolItem sets field value
@@ -160,12 +156,11 @@ func (o *TypeHolderDefault) GetArrayItem() []int32 {
 
 // GetArrayItemOk returns a tuple with the ArrayItem field value
 // and a boolean to check if the value has been set.
-
 func (o *TypeHolderDefault) GetArrayItemOk() (*[]int32, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.ArrayItem, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.ArrayItem, true
 }
 
 // SetArrayItem sets field value

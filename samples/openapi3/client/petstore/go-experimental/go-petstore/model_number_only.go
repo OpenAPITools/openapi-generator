@@ -46,7 +46,6 @@ func (o *NumberOnly) GetJustNumber() float32 {
 
 // GetJustNumberOk returns a tuple with the JustNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *NumberOnly) GetJustNumberOk() (*float32, bool) {
 	if o == nil || o.JustNumber == nil {
 		return nil, false

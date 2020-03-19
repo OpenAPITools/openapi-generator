@@ -46,6 +46,12 @@ and a boolean to check if the value has been set.
 
 SetArrayOfString sets ArrayOfString field to given value.
 
+### HasArrayOfString
+
+`func (o *ArrayTest) HasArrayOfString() bool`
+
+HasArrayOfString returns a boolean if a field has been set.
+
 ### GetArrayArrayOfInteger
 
 `func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64`
@@ -65,6 +71,12 @@ and a boolean to check if the value has been set.
 
 SetArrayArrayOfInteger sets ArrayArrayOfInteger field to given value.
 
+### HasArrayArrayOfInteger
+
+`func (o *ArrayTest) HasArrayArrayOfInteger() bool`
+
+HasArrayArrayOfInteger returns a boolean if a field has been set.
+
 ### GetArrayArrayOfModel
 
 `func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst`
@@ -83,6 +95,12 @@ and a boolean to check if the value has been set.
 `func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst)`
 
 SetArrayArrayOfModel sets ArrayArrayOfModel field to given value.
+
+### HasArrayArrayOfModel
+
+`func (o *ArrayTest) HasArrayArrayOfModel() bool`
+
+HasArrayArrayOfModel returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

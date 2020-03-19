@@ -79,7 +79,6 @@ func (o *InlineObject3) GetInteger() int32 {
 
 // GetIntegerOk returns a tuple with the Integer field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetIntegerOk() (*int32, bool) {
 	if o == nil || o.Integer == nil {
 		return nil, false
@@ -112,7 +111,6 @@ func (o *InlineObject3) GetInt32() int32 {
 
 // GetInt32Ok returns a tuple with the Int32 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetInt32Ok() (*int32, bool) {
 	if o == nil || o.Int32 == nil {
 		return nil, false
@@ -145,7 +143,6 @@ func (o *InlineObject3) GetInt64() int64 {
 
 // GetInt64Ok returns a tuple with the Int64 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetInt64Ok() (*int64, bool) {
 	if o == nil || o.Int64 == nil {
 		return nil, false
@@ -179,12 +176,11 @@ func (o *InlineObject3) GetNumber() float32 {
 
 // GetNumberOk returns a tuple with the Number field value
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetNumberOk() (*float32, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Number, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Number, true
 }
 
 // SetNumber sets field value
@@ -203,7 +199,6 @@ func (o *InlineObject3) GetFloat() float32 {
 
 // GetFloatOk returns a tuple with the Float field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetFloatOk() (*float32, bool) {
 	if o == nil || o.Float == nil {
 		return nil, false
@@ -237,12 +232,11 @@ func (o *InlineObject3) GetDouble() float64 {
 
 // GetDoubleOk returns a tuple with the Double field value
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetDoubleOk() (*float64, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Double, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Double, true
 }
 
 // SetDouble sets field value
@@ -261,7 +255,6 @@ func (o *InlineObject3) GetString() string {
 
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetStringOk() (*string, bool) {
 	if o == nil || o.String == nil {
 		return nil, false
@@ -295,12 +288,11 @@ func (o *InlineObject3) GetPatternWithoutDelimiter() string {
 
 // GetPatternWithoutDelimiterOk returns a tuple with the PatternWithoutDelimiter field value
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetPatternWithoutDelimiterOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.PatternWithoutDelimiter, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.PatternWithoutDelimiter, true
 }
 
 // SetPatternWithoutDelimiter sets field value
@@ -320,12 +312,11 @@ func (o *InlineObject3) GetByte() string {
 
 // GetByteOk returns a tuple with the Byte field value
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetByteOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Byte, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Byte, true
 }
 
 // SetByte sets field value
@@ -344,7 +335,6 @@ func (o *InlineObject3) GetBinary() *os.File {
 
 // GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetBinaryOk() (**os.File, bool) {
 	if o == nil || o.Binary == nil {
 		return nil, false
@@ -377,7 +367,6 @@ func (o *InlineObject3) GetDate() string {
 
 // GetDateOk returns a tuple with the Date field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetDateOk() (*string, bool) {
 	if o == nil || o.Date == nil {
 		return nil, false
@@ -410,7 +399,6 @@ func (o *InlineObject3) GetDateTime() time.Time {
 
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetDateTimeOk() (*time.Time, bool) {
 	if o == nil || o.DateTime == nil {
 		return nil, false
@@ -443,7 +431,6 @@ func (o *InlineObject3) GetPassword() string {
 
 // GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetPasswordOk() (*string, bool) {
 	if o == nil || o.Password == nil {
 		return nil, false
@@ -476,7 +463,6 @@ func (o *InlineObject3) GetCallback() string {
 
 // GetCallbackOk returns a tuple with the Callback field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject3) GetCallbackOk() (*string, bool) {
 	if o == nil || o.Callback == nil {
 		return nil, false

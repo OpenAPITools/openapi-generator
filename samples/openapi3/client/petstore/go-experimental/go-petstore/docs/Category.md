@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
+### HasId
+
+`func (o *Category) HasId() bool`
+
+HasId returns a boolean if a field has been set.
+
 ### GetName
 
 `func (o *Category) GetName() string`
@@ -63,6 +69,7 @@ and a boolean to check if the value has been set.
 `func (o *Category) SetName(v string)`
 
 SetName sets Name field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

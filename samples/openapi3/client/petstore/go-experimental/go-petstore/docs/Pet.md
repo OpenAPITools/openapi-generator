@@ -49,6 +49,12 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
+### HasId
+
+`func (o *Pet) HasId() bool`
+
+HasId returns a boolean if a field has been set.
+
 ### GetCategory
 
 `func (o *Pet) GetCategory() Category`
@@ -67,6 +73,12 @@ and a boolean to check if the value has been set.
 `func (o *Pet) SetCategory(v Category)`
 
 SetCategory sets Category field to given value.
+
+### HasCategory
+
+`func (o *Pet) HasCategory() bool`
+
+HasCategory returns a boolean if a field has been set.
 
 ### GetName
 
@@ -87,6 +99,7 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+
 ### GetPhotoUrls
 
 `func (o *Pet) GetPhotoUrls() []string`
@@ -105,6 +118,7 @@ and a boolean to check if the value has been set.
 `func (o *Pet) SetPhotoUrls(v []string)`
 
 SetPhotoUrls sets PhotoUrls field to given value.
+
 
 ### GetTags
 
@@ -125,6 +139,12 @@ and a boolean to check if the value has been set.
 
 SetTags sets Tags field to given value.
 
+### HasTags
+
+`func (o *Pet) HasTags() bool`
+
+HasTags returns a boolean if a field has been set.
+
 ### GetStatus
 
 `func (o *Pet) GetStatus() string`
@@ -143,6 +163,12 @@ and a boolean to check if the value has been set.
 `func (o *Pet) SetStatus(v string)`
 
 SetStatus sets Status field to given value.
+
+### HasStatus
+
+`func (o *Pet) HasStatus() bool`
+
+HasStatus returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -72,6 +72,12 @@ and a boolean to check if the value has been set.
 
 SetAttributeString sets AttributeString field to given value.
 
+### HasAttributeString
+
+`func (o *XmlItem) HasAttributeString() bool`
+
+HasAttributeString returns a boolean if a field has been set.
+
 ### GetAttributeNumber
 
 `func (o *XmlItem) GetAttributeNumber() float32`
@@ -90,6 +96,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetAttributeNumber(v float32)`
 
 SetAttributeNumber sets AttributeNumber field to given value.
+
+### HasAttributeNumber
+
+`func (o *XmlItem) HasAttributeNumber() bool`
+
+HasAttributeNumber returns a boolean if a field has been set.
 
 ### GetAttributeInteger
 
@@ -110,6 +122,12 @@ and a boolean to check if the value has been set.
 
 SetAttributeInteger sets AttributeInteger field to given value.
 
+### HasAttributeInteger
+
+`func (o *XmlItem) HasAttributeInteger() bool`
+
+HasAttributeInteger returns a boolean if a field has been set.
+
 ### GetAttributeBoolean
 
 `func (o *XmlItem) GetAttributeBoolean() bool`
@@ -128,6 +146,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetAttributeBoolean(v bool)`
 
 SetAttributeBoolean sets AttributeBoolean field to given value.
+
+### HasAttributeBoolean
+
+`func (o *XmlItem) HasAttributeBoolean() bool`
+
+HasAttributeBoolean returns a boolean if a field has been set.
 
 ### GetWrappedArray
 
@@ -148,6 +172,12 @@ and a boolean to check if the value has been set.
 
 SetWrappedArray sets WrappedArray field to given value.
 
+### HasWrappedArray
+
+`func (o *XmlItem) HasWrappedArray() bool`
+
+HasWrappedArray returns a boolean if a field has been set.
+
 ### GetNameString
 
 `func (o *XmlItem) GetNameString() string`
@@ -166,6 +196,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetNameString(v string)`
 
 SetNameString sets NameString field to given value.
+
+### HasNameString
+
+`func (o *XmlItem) HasNameString() bool`
+
+HasNameString returns a boolean if a field has been set.
 
 ### GetNameNumber
 
@@ -186,6 +222,12 @@ and a boolean to check if the value has been set.
 
 SetNameNumber sets NameNumber field to given value.
 
+### HasNameNumber
+
+`func (o *XmlItem) HasNameNumber() bool`
+
+HasNameNumber returns a boolean if a field has been set.
+
 ### GetNameInteger
 
 `func (o *XmlItem) GetNameInteger() int32`
@@ -204,6 +246,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetNameInteger(v int32)`
 
 SetNameInteger sets NameInteger field to given value.
+
+### HasNameInteger
+
+`func (o *XmlItem) HasNameInteger() bool`
+
+HasNameInteger returns a boolean if a field has been set.
 
 ### GetNameBoolean
 
@@ -224,6 +272,12 @@ and a boolean to check if the value has been set.
 
 SetNameBoolean sets NameBoolean field to given value.
 
+### HasNameBoolean
+
+`func (o *XmlItem) HasNameBoolean() bool`
+
+HasNameBoolean returns a boolean if a field has been set.
+
 ### GetNameArray
 
 `func (o *XmlItem) GetNameArray() []int32`
@@ -242,6 +296,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetNameArray(v []int32)`
 
 SetNameArray sets NameArray field to given value.
+
+### HasNameArray
+
+`func (o *XmlItem) HasNameArray() bool`
+
+HasNameArray returns a boolean if a field has been set.
 
 ### GetNameWrappedArray
 
@@ -262,6 +322,12 @@ and a boolean to check if the value has been set.
 
 SetNameWrappedArray sets NameWrappedArray field to given value.
 
+### HasNameWrappedArray
+
+`func (o *XmlItem) HasNameWrappedArray() bool`
+
+HasNameWrappedArray returns a boolean if a field has been set.
+
 ### GetPrefixString
 
 `func (o *XmlItem) GetPrefixString() string`
@@ -280,6 +346,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetPrefixString(v string)`
 
 SetPrefixString sets PrefixString field to given value.
+
+### HasPrefixString
+
+`func (o *XmlItem) HasPrefixString() bool`
+
+HasPrefixString returns a boolean if a field has been set.
 
 ### GetPrefixNumber
 
@@ -300,6 +372,12 @@ and a boolean to check if the value has been set.
 
 SetPrefixNumber sets PrefixNumber field to given value.
 
+### HasPrefixNumber
+
+`func (o *XmlItem) HasPrefixNumber() bool`
+
+HasPrefixNumber returns a boolean if a field has been set.
+
 ### GetPrefixInteger
 
 `func (o *XmlItem) GetPrefixInteger() int32`
@@ -318,6 +396,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetPrefixInteger(v int32)`
 
 SetPrefixInteger sets PrefixInteger field to given value.
+
+### HasPrefixInteger
+
+`func (o *XmlItem) HasPrefixInteger() bool`
+
+HasPrefixInteger returns a boolean if a field has been set.
 
 ### GetPrefixBoolean
 
@@ -338,6 +422,12 @@ and a boolean to check if the value has been set.
 
 SetPrefixBoolean sets PrefixBoolean field to given value.
 
+### HasPrefixBoolean
+
+`func (o *XmlItem) HasPrefixBoolean() bool`
+
+HasPrefixBoolean returns a boolean if a field has been set.
+
 ### GetPrefixArray
 
 `func (o *XmlItem) GetPrefixArray() []int32`
@@ -356,6 +446,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetPrefixArray(v []int32)`
 
 SetPrefixArray sets PrefixArray field to given value.
+
+### HasPrefixArray
+
+`func (o *XmlItem) HasPrefixArray() bool`
+
+HasPrefixArray returns a boolean if a field has been set.
 
 ### GetPrefixWrappedArray
 
@@ -376,6 +472,12 @@ and a boolean to check if the value has been set.
 
 SetPrefixWrappedArray sets PrefixWrappedArray field to given value.
 
+### HasPrefixWrappedArray
+
+`func (o *XmlItem) HasPrefixWrappedArray() bool`
+
+HasPrefixWrappedArray returns a boolean if a field has been set.
+
 ### GetNamespaceString
 
 `func (o *XmlItem) GetNamespaceString() string`
@@ -394,6 +496,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetNamespaceString(v string)`
 
 SetNamespaceString sets NamespaceString field to given value.
+
+### HasNamespaceString
+
+`func (o *XmlItem) HasNamespaceString() bool`
+
+HasNamespaceString returns a boolean if a field has been set.
 
 ### GetNamespaceNumber
 
@@ -414,6 +522,12 @@ and a boolean to check if the value has been set.
 
 SetNamespaceNumber sets NamespaceNumber field to given value.
 
+### HasNamespaceNumber
+
+`func (o *XmlItem) HasNamespaceNumber() bool`
+
+HasNamespaceNumber returns a boolean if a field has been set.
+
 ### GetNamespaceInteger
 
 `func (o *XmlItem) GetNamespaceInteger() int32`
@@ -432,6 +546,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetNamespaceInteger(v int32)`
 
 SetNamespaceInteger sets NamespaceInteger field to given value.
+
+### HasNamespaceInteger
+
+`func (o *XmlItem) HasNamespaceInteger() bool`
+
+HasNamespaceInteger returns a boolean if a field has been set.
 
 ### GetNamespaceBoolean
 
@@ -452,6 +572,12 @@ and a boolean to check if the value has been set.
 
 SetNamespaceBoolean sets NamespaceBoolean field to given value.
 
+### HasNamespaceBoolean
+
+`func (o *XmlItem) HasNamespaceBoolean() bool`
+
+HasNamespaceBoolean returns a boolean if a field has been set.
+
 ### GetNamespaceArray
 
 `func (o *XmlItem) GetNamespaceArray() []int32`
@@ -470,6 +596,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetNamespaceArray(v []int32)`
 
 SetNamespaceArray sets NamespaceArray field to given value.
+
+### HasNamespaceArray
+
+`func (o *XmlItem) HasNamespaceArray() bool`
+
+HasNamespaceArray returns a boolean if a field has been set.
 
 ### GetNamespaceWrappedArray
 
@@ -490,6 +622,12 @@ and a boolean to check if the value has been set.
 
 SetNamespaceWrappedArray sets NamespaceWrappedArray field to given value.
 
+### HasNamespaceWrappedArray
+
+`func (o *XmlItem) HasNamespaceWrappedArray() bool`
+
+HasNamespaceWrappedArray returns a boolean if a field has been set.
+
 ### GetPrefixNsString
 
 `func (o *XmlItem) GetPrefixNsString() string`
@@ -508,6 +646,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetPrefixNsString(v string)`
 
 SetPrefixNsString sets PrefixNsString field to given value.
+
+### HasPrefixNsString
+
+`func (o *XmlItem) HasPrefixNsString() bool`
+
+HasPrefixNsString returns a boolean if a field has been set.
 
 ### GetPrefixNsNumber
 
@@ -528,6 +672,12 @@ and a boolean to check if the value has been set.
 
 SetPrefixNsNumber sets PrefixNsNumber field to given value.
 
+### HasPrefixNsNumber
+
+`func (o *XmlItem) HasPrefixNsNumber() bool`
+
+HasPrefixNsNumber returns a boolean if a field has been set.
+
 ### GetPrefixNsInteger
 
 `func (o *XmlItem) GetPrefixNsInteger() int32`
@@ -546,6 +696,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetPrefixNsInteger(v int32)`
 
 SetPrefixNsInteger sets PrefixNsInteger field to given value.
+
+### HasPrefixNsInteger
+
+`func (o *XmlItem) HasPrefixNsInteger() bool`
+
+HasPrefixNsInteger returns a boolean if a field has been set.
 
 ### GetPrefixNsBoolean
 
@@ -566,6 +722,12 @@ and a boolean to check if the value has been set.
 
 SetPrefixNsBoolean sets PrefixNsBoolean field to given value.
 
+### HasPrefixNsBoolean
+
+`func (o *XmlItem) HasPrefixNsBoolean() bool`
+
+HasPrefixNsBoolean returns a boolean if a field has been set.
+
 ### GetPrefixNsArray
 
 `func (o *XmlItem) GetPrefixNsArray() []int32`
@@ -585,6 +747,12 @@ and a boolean to check if the value has been set.
 
 SetPrefixNsArray sets PrefixNsArray field to given value.
 
+### HasPrefixNsArray
+
+`func (o *XmlItem) HasPrefixNsArray() bool`
+
+HasPrefixNsArray returns a boolean if a field has been set.
+
 ### GetPrefixNsWrappedArray
 
 `func (o *XmlItem) GetPrefixNsWrappedArray() []int32`
@@ -603,6 +771,12 @@ and a boolean to check if the value has been set.
 `func (o *XmlItem) SetPrefixNsWrappedArray(v []int32)`
 
 SetPrefixNsWrappedArray sets PrefixNsWrappedArray field to given value.
+
+### HasPrefixNsWrappedArray
+
+`func (o *XmlItem) HasPrefixNsWrappedArray() bool`
+
+HasPrefixNsWrappedArray returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -46,7 +46,6 @@ func (o *Return) GetReturn() int32 {
 
 // GetReturnOk returns a tuple with the Return field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Return) GetReturnOk() (*int32, bool) {
 	if o == nil || o.Return == nil {
 		return nil, false

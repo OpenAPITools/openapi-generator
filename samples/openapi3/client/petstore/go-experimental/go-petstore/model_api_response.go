@@ -48,7 +48,6 @@ func (o *ApiResponse) GetCode() int32 {
 
 // GetCodeOk returns a tuple with the Code field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *ApiResponse) GetCodeOk() (*int32, bool) {
 	if o == nil || o.Code == nil {
 		return nil, false
@@ -81,7 +80,6 @@ func (o *ApiResponse) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *ApiResponse) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
@@ -114,7 +112,6 @@ func (o *ApiResponse) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *ApiResponse) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false

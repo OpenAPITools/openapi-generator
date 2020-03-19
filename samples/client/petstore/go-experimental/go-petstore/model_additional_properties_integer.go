@@ -46,7 +46,6 @@ func (o *AdditionalPropertiesInteger) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *AdditionalPropertiesInteger) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false

@@ -46,6 +46,12 @@ and a boolean to check if the value has been set.
 
 SetMyNumber sets MyNumber field to given value.
 
+### HasMyNumber
+
+`func (o *OuterComposite) HasMyNumber() bool`
+
+HasMyNumber returns a boolean if a field has been set.
+
 ### GetMyString
 
 `func (o *OuterComposite) GetMyString() string`
@@ -65,6 +71,12 @@ and a boolean to check if the value has been set.
 
 SetMyString sets MyString field to given value.
 
+### HasMyString
+
+`func (o *OuterComposite) HasMyString() bool`
+
+HasMyString returns a boolean if a field has been set.
+
 ### GetMyBoolean
 
 `func (o *OuterComposite) GetMyBoolean() bool`
@@ -83,6 +95,12 @@ and a boolean to check if the value has been set.
 `func (o *OuterComposite) SetMyBoolean(v bool)`
 
 SetMyBoolean sets MyBoolean field to given value.
+
+### HasMyBoolean
+
+`func (o *OuterComposite) HasMyBoolean() bool`
+
+HasMyBoolean returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

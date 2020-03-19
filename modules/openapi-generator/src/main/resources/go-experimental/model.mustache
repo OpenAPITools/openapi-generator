@@ -105,6 +105,9 @@ func New{{classname}}WithDefaults() *{{classname}} {
 {{#vars}}
 {{#required}}
 // Get{{name}} returns the {{name}} field value
+{{#isNullable}}
+// If the value is explicit nil, the zero value for {{vendorExtensions.x-basetype}} will be returned
+{{/isNullable}}
 func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-basetype}} {
 	if o == nil {{#isNullable}}{{^isContainer}}|| o.{{name}}.Get() == nil{{/isContainer}}{{/isNullable}} {
 		var ret {{vendorExtensions.x-basetype}}

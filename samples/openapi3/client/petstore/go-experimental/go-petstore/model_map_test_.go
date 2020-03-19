@@ -49,7 +49,6 @@ func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 
 // GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *MapTest) GetMapMapOfStringOk() (*map[string]map[string]string, bool) {
 	if o == nil || o.MapMapOfString == nil {
 		return nil, false
@@ -82,7 +81,6 @@ func (o *MapTest) GetMapOfEnumString() map[string]string {
 
 // GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool) {
 	if o == nil || o.MapOfEnumString == nil {
 		return nil, false
@@ -115,7 +113,6 @@ func (o *MapTest) GetDirectMap() map[string]bool {
 
 // GetDirectMapOk returns a tuple with the DirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *MapTest) GetDirectMapOk() (*map[string]bool, bool) {
 	if o == nil || o.DirectMap == nil {
 		return nil, false
@@ -148,7 +145,6 @@ func (o *MapTest) GetIndirectMap() map[string]bool {
 
 // GetIndirectMapOk returns a tuple with the IndirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *MapTest) GetIndirectMapOk() (*map[string]bool, bool) {
 	if o == nil || o.IndirectMap == nil {
 		return nil, false

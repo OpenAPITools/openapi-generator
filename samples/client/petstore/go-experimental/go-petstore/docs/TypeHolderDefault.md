@@ -48,6 +48,7 @@ and a boolean to check if the value has been set.
 
 SetStringItem sets StringItem field to given value.
 
+
 ### GetNumberItem
 
 `func (o *TypeHolderDefault) GetNumberItem() float32`
@@ -66,6 +67,7 @@ and a boolean to check if the value has been set.
 `func (o *TypeHolderDefault) SetNumberItem(v float32)`
 
 SetNumberItem sets NumberItem field to given value.
+
 
 ### GetIntegerItem
 
@@ -86,6 +88,7 @@ and a boolean to check if the value has been set.
 
 SetIntegerItem sets IntegerItem field to given value.
 
+
 ### GetBoolItem
 
 `func (o *TypeHolderDefault) GetBoolItem() bool`
@@ -105,6 +108,7 @@ and a boolean to check if the value has been set.
 
 SetBoolItem sets BoolItem field to given value.
 
+
 ### GetArrayItem
 
 `func (o *TypeHolderDefault) GetArrayItem() []int32`
@@ -123,6 +127,7 @@ and a boolean to check if the value has been set.
 `func (o *TypeHolderDefault) SetArrayItem(v []int32)`
 
 SetArrayItem sets ArrayItem field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

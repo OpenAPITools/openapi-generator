@@ -49,6 +49,12 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
+### HasId
+
+`func (o *Order) HasId() bool`
+
+HasId returns a boolean if a field has been set.
+
 ### GetPetId
 
 `func (o *Order) GetPetId() int64`
@@ -67,6 +73,12 @@ and a boolean to check if the value has been set.
 `func (o *Order) SetPetId(v int64)`
 
 SetPetId sets PetId field to given value.
+
+### HasPetId
+
+`func (o *Order) HasPetId() bool`
+
+HasPetId returns a boolean if a field has been set.
 
 ### GetQuantity
 
@@ -87,6 +99,12 @@ and a boolean to check if the value has been set.
 
 SetQuantity sets Quantity field to given value.
 
+### HasQuantity
+
+`func (o *Order) HasQuantity() bool`
+
+HasQuantity returns a boolean if a field has been set.
+
 ### GetShipDate
 
 `func (o *Order) GetShipDate() time.Time`
@@ -105,6 +123,12 @@ and a boolean to check if the value has been set.
 `func (o *Order) SetShipDate(v time.Time)`
 
 SetShipDate sets ShipDate field to given value.
+
+### HasShipDate
+
+`func (o *Order) HasShipDate() bool`
+
+HasShipDate returns a boolean if a field has been set.
 
 ### GetStatus
 
@@ -125,6 +149,12 @@ and a boolean to check if the value has been set.
 
 SetStatus sets Status field to given value.
 
+### HasStatus
+
+`func (o *Order) HasStatus() bool`
+
+HasStatus returns a boolean if a field has been set.
+
 ### GetComplete
 
 `func (o *Order) GetComplete() bool`
@@ -143,6 +173,12 @@ and a boolean to check if the value has been set.
 `func (o *Order) SetComplete(v bool)`
 
 SetComplete sets Complete field to given value.
+
+### HasComplete
+
+`func (o *Order) HasComplete() bool`
+
+HasComplete returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

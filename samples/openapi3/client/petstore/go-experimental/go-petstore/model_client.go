@@ -46,7 +46,6 @@ func (o *Client) GetClient() string {
 
 // GetClientOk returns a tuple with the Client field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Client) GetClientOk() (*string, bool) {
 	if o == nil || o.Client == nil {
 		return nil, false

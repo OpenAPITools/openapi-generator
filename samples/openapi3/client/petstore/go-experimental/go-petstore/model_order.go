@@ -57,7 +57,6 @@ func (o *Order) GetId() int64 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Order) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
@@ -90,7 +89,6 @@ func (o *Order) GetPetId() int64 {
 
 // GetPetIdOk returns a tuple with the PetId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Order) GetPetIdOk() (*int64, bool) {
 	if o == nil || o.PetId == nil {
 		return nil, false
@@ -123,7 +121,6 @@ func (o *Order) GetQuantity() int32 {
 
 // GetQuantityOk returns a tuple with the Quantity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Order) GetQuantityOk() (*int32, bool) {
 	if o == nil || o.Quantity == nil {
 		return nil, false
@@ -156,7 +153,6 @@ func (o *Order) GetShipDate() time.Time {
 
 // GetShipDateOk returns a tuple with the ShipDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Order) GetShipDateOk() (*time.Time, bool) {
 	if o == nil || o.ShipDate == nil {
 		return nil, false
@@ -189,7 +185,6 @@ func (o *Order) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Order) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
@@ -222,7 +217,6 @@ func (o *Order) GetComplete() bool {
 
 // GetCompleteOk returns a tuple with the Complete field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Order) GetCompleteOk() (*bool, bool) {
 	if o == nil || o.Complete == nil {
 		return nil, false

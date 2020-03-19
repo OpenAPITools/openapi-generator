@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetId sets Id field to given value.
 
+### HasId
+
+`func (o *Tag) HasId() bool`
+
+HasId returns a boolean if a field has been set.
+
 ### GetName
 
 `func (o *Tag) GetName() string`
@@ -63,6 +69,12 @@ and a boolean to check if the value has been set.
 `func (o *Tag) SetName(v string)`
 
 SetName sets Name field to given value.
+
+### HasName
+
+`func (o *Tag) HasName() bool`
+
+HasName returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+### HasName
+
+`func (o *InlineObject) HasName() bool`
+
+HasName returns a boolean if a field has been set.
+
 ### GetStatus
 
 `func (o *InlineObject) GetStatus() string`
@@ -63,6 +69,12 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject) SetStatus(v string)`
 
 SetStatus sets Status field to given value.
+
+### HasStatus
+
+`func (o *InlineObject) HasStatus() bool`
+
+HasStatus returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

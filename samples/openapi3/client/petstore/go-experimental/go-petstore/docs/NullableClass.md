@@ -335,6 +335,12 @@ and a boolean to check if the value has been set.
 
 SetArrayItemsNullable sets ArrayItemsNullable field to given value.
 
+### HasArrayItemsNullable
+
+`func (o *NullableClass) HasArrayItemsNullable() bool`
+
+HasArrayItemsNullable returns a boolean if a field has been set.
+
 ### GetObjectNullableProp
 
 `func (o *NullableClass) GetObjectNullableProp() map[string]map[string]interface{}`
@@ -423,6 +429,12 @@ and a boolean to check if the value has been set.
 `func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface{})`
 
 SetObjectItemsNullable sets ObjectItemsNullable field to given value.
+
+### HasObjectItemsNullable
+
+`func (o *NullableClass) HasObjectItemsNullable() bool`
+
+HasObjectItemsNullable returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

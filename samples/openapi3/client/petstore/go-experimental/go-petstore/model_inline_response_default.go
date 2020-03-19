@@ -46,7 +46,6 @@ func (o *InlineResponseDefault) GetString() Foo {
 
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineResponseDefault) GetStringOk() (*Foo, bool) {
 	if o == nil || o.String == nil {
 		return nil, false

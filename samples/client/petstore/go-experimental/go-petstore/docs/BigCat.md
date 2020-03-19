@@ -44,6 +44,12 @@ and a boolean to check if the value has been set.
 
 SetKind sets Kind field to given value.
 
+### HasKind
+
+`func (o *BigCat) HasKind() bool`
+
+HasKind returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

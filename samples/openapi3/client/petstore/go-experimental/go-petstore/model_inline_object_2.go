@@ -53,7 +53,6 @@ func (o *InlineObject2) GetEnumFormStringArray() []string {
 
 // GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject2) GetEnumFormStringArrayOk() (*[]string, bool) {
 	if o == nil || o.EnumFormStringArray == nil {
 		return nil, false
@@ -86,7 +85,6 @@ func (o *InlineObject2) GetEnumFormString() string {
 
 // GetEnumFormStringOk returns a tuple with the EnumFormString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject2) GetEnumFormStringOk() (*string, bool) {
 	if o == nil || o.EnumFormString == nil {
 		return nil, false

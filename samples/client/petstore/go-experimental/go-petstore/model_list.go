@@ -46,7 +46,6 @@ func (o *List) GetVar123List() string {
 
 // GetVar123ListOk returns a tuple with the Var123List field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *List) GetVar123ListOk() (*string, bool) {
 	if o == nil || o.Var123List == nil {
 		return nil, false

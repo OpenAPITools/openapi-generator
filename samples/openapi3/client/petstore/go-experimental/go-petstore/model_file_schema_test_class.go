@@ -47,7 +47,6 @@ func (o *FileSchemaTestClass) GetFile() File {
 
 // GetFileOk returns a tuple with the File field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FileSchemaTestClass) GetFileOk() (*File, bool) {
 	if o == nil || o.File == nil {
 		return nil, false
@@ -80,7 +79,6 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 
 // GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FileSchemaTestClass) GetFilesOk() (*[]File, bool) {
 	if o == nil || o.Files == nil {
 		return nil, false

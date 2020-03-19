@@ -44,6 +44,12 @@ and a boolean to check if the value has been set.
 
 SetVar123List sets Var123List field to given value.
 
+### HasVar123List
+
+`func (o *List) HasVar123List() bool`
+
+HasVar123List returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

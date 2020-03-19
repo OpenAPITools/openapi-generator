@@ -51,12 +51,11 @@ func (o *Name) GetName() int32 {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-
 func (o *Name) GetNameOk() (*int32, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Name, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Name, true
 }
 
 // SetName sets field value
@@ -75,7 +74,6 @@ func (o *Name) GetSnakeCase() int32 {
 
 // GetSnakeCaseOk returns a tuple with the SnakeCase field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Name) GetSnakeCaseOk() (*int32, bool) {
 	if o == nil || o.SnakeCase == nil {
 		return nil, false
@@ -108,7 +106,6 @@ func (o *Name) GetProperty() string {
 
 // GetPropertyOk returns a tuple with the Property field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Name) GetPropertyOk() (*string, bool) {
 	if o == nil || o.Property == nil {
 		return nil, false
@@ -141,7 +138,6 @@ func (o *Name) GetVar123Number() int32 {
 
 // GetVar123NumberOk returns a tuple with the Var123Number field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Name) GetVar123NumberOk() (*int32, bool) {
 	if o == nil || o.Var123Number == nil {
 		return nil, false

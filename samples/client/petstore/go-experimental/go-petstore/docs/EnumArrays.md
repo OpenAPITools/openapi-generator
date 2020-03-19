@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetJustSymbol sets JustSymbol field to given value.
 
+### HasJustSymbol
+
+`func (o *EnumArrays) HasJustSymbol() bool`
+
+HasJustSymbol returns a boolean if a field has been set.
+
 ### GetArrayEnum
 
 `func (o *EnumArrays) GetArrayEnum() []string`
@@ -63,6 +69,12 @@ and a boolean to check if the value has been set.
 `func (o *EnumArrays) SetArrayEnum(v []string)`
 
 SetArrayEnum sets ArrayEnum field to given value.
+
+### HasArrayEnum
+
+`func (o *EnumArrays) HasArrayEnum() bool`
+
+HasArrayEnum returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

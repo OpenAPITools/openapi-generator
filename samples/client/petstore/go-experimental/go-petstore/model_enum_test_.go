@@ -51,7 +51,6 @@ func (o *EnumTest) GetEnumString() string {
 
 // GetEnumStringOk returns a tuple with the EnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *EnumTest) GetEnumStringOk() (*string, bool) {
 	if o == nil || o.EnumString == nil {
 		return nil, false
@@ -85,12 +84,11 @@ func (o *EnumTest) GetEnumStringRequired() string {
 
 // GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field value
 // and a boolean to check if the value has been set.
-
 func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.EnumStringRequired, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.EnumStringRequired, true
 }
 
 // SetEnumStringRequired sets field value
@@ -109,7 +107,6 @@ func (o *EnumTest) GetEnumInteger() int32 {
 
 // GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *EnumTest) GetEnumIntegerOk() (*int32, bool) {
 	if o == nil || o.EnumInteger == nil {
 		return nil, false
@@ -142,7 +139,6 @@ func (o *EnumTest) GetEnumNumber() float64 {
 
 // GetEnumNumberOk returns a tuple with the EnumNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *EnumTest) GetEnumNumberOk() (*float64, bool) {
 	if o == nil || o.EnumNumber == nil {
 		return nil, false
@@ -175,7 +171,6 @@ func (o *EnumTest) GetOuterEnum() OuterEnum {
 
 // GetOuterEnumOk returns a tuple with the OuterEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *EnumTest) GetOuterEnumOk() (*OuterEnum, bool) {
 	if o == nil || o.OuterEnum == nil {
 		return nil, false

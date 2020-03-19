@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetBar sets Bar field to given value.
 
+### HasBar
+
+`func (o *ReadOnlyFirst) HasBar() bool`
+
+HasBar returns a boolean if a field has been set.
+
 ### GetBaz
 
 `func (o *ReadOnlyFirst) GetBaz() string`
@@ -63,6 +69,12 @@ and a boolean to check if the value has been set.
 `func (o *ReadOnlyFirst) SetBaz(v string)`
 
 SetBaz sets Baz field to given value.
+
+### HasBaz
+
+`func (o *ReadOnlyFirst) HasBaz() bool`
+
+HasBaz returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

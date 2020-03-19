@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetAdditionalMetadata sets AdditionalMetadata field to given value.
 
+### HasAdditionalMetadata
+
+`func (o *InlineObject5) HasAdditionalMetadata() bool`
+
+HasAdditionalMetadata returns a boolean if a field has been set.
+
 ### GetRequiredFile
 
 `func (o *InlineObject5) GetRequiredFile() *os.File`
@@ -63,6 +69,7 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject5) SetRequiredFile(v *os.File)`
 
 SetRequiredFile sets RequiredFile field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

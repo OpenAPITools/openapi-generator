@@ -50,7 +50,6 @@ func (o *Foo) GetBar() string {
 
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Foo) GetBarOk() (*string, bool) {
 	if o == nil || o.Bar == nil {
 		return nil, false

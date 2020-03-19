@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetMapProperty sets MapProperty field to given value.
 
+### HasMapProperty
+
+`func (o *AdditionalPropertiesClass) HasMapProperty() bool`
+
+HasMapProperty returns a boolean if a field has been set.
+
 ### GetMapOfMapProperty
 
 `func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]string`
@@ -63,6 +69,12 @@ and a boolean to check if the value has been set.
 `func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v map[string]map[string]string)`
 
 SetMapOfMapProperty sets MapOfMapProperty field to given value.
+
+### HasMapOfMapProperty
+
+`func (o *AdditionalPropertiesClass) HasMapOfMapProperty() bool`
+
+HasMapOfMapProperty returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

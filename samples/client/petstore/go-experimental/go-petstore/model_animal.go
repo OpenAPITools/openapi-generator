@@ -53,12 +53,11 @@ func (o *Animal) GetClassName() string {
 
 // GetClassNameOk returns a tuple with the ClassName field value
 // and a boolean to check if the value has been set.
-
 func (o *Animal) GetClassNameOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.ClassName, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.ClassName, true
 }
 
 // SetClassName sets field value
@@ -77,7 +76,6 @@ func (o *Animal) GetColor() string {
 
 // GetColorOk returns a tuple with the Color field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Animal) GetColorOk() (*string, bool) {
 	if o == nil || o.Color == nil {
 		return nil, false

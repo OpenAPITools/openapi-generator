@@ -44,6 +44,12 @@ and a boolean to check if the value has been set.
 
 SetClient sets Client field to given value.
 
+### HasClient
+
+`func (o *Client) HasClient() bool`
+
+HasClient returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

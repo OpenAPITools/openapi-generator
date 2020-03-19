@@ -68,7 +68,6 @@ func (o *FormatTest) GetInteger() int32 {
 
 // GetIntegerOk returns a tuple with the Integer field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetIntegerOk() (*int32, bool) {
 	if o == nil || o.Integer == nil {
 		return nil, false
@@ -101,7 +100,6 @@ func (o *FormatTest) GetInt32() int32 {
 
 // GetInt32Ok returns a tuple with the Int32 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetInt32Ok() (*int32, bool) {
 	if o == nil || o.Int32 == nil {
 		return nil, false
@@ -134,7 +132,6 @@ func (o *FormatTest) GetInt64() int64 {
 
 // GetInt64Ok returns a tuple with the Int64 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetInt64Ok() (*int64, bool) {
 	if o == nil || o.Int64 == nil {
 		return nil, false
@@ -168,12 +165,11 @@ func (o *FormatTest) GetNumber() float32 {
 
 // GetNumberOk returns a tuple with the Number field value
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetNumberOk() (*float32, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Number, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Number, true
 }
 
 // SetNumber sets field value
@@ -192,7 +188,6 @@ func (o *FormatTest) GetFloat() float32 {
 
 // GetFloatOk returns a tuple with the Float field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetFloatOk() (*float32, bool) {
 	if o == nil || o.Float == nil {
 		return nil, false
@@ -225,7 +220,6 @@ func (o *FormatTest) GetDouble() float64 {
 
 // GetDoubleOk returns a tuple with the Double field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetDoubleOk() (*float64, bool) {
 	if o == nil || o.Double == nil {
 		return nil, false
@@ -258,7 +252,6 @@ func (o *FormatTest) GetString() string {
 
 // GetStringOk returns a tuple with the String field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetStringOk() (*string, bool) {
 	if o == nil || o.String == nil {
 		return nil, false
@@ -292,12 +285,11 @@ func (o *FormatTest) GetByte() string {
 
 // GetByteOk returns a tuple with the Byte field value
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetByteOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Byte, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Byte, true
 }
 
 // SetByte sets field value
@@ -316,7 +308,6 @@ func (o *FormatTest) GetBinary() *os.File {
 
 // GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetBinaryOk() (**os.File, bool) {
 	if o == nil || o.Binary == nil {
 		return nil, false
@@ -350,12 +341,11 @@ func (o *FormatTest) GetDate() string {
 
 // GetDateOk returns a tuple with the Date field value
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetDateOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Date, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Date, true
 }
 
 // SetDate sets field value
@@ -374,7 +364,6 @@ func (o *FormatTest) GetDateTime() time.Time {
 
 // GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetDateTimeOk() (*time.Time, bool) {
 	if o == nil || o.DateTime == nil {
 		return nil, false
@@ -407,7 +396,6 @@ func (o *FormatTest) GetUuid() string {
 
 // GetUuidOk returns a tuple with the Uuid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetUuidOk() (*string, bool) {
 	if o == nil || o.Uuid == nil {
 		return nil, false
@@ -441,12 +429,11 @@ func (o *FormatTest) GetPassword() string {
 
 // GetPasswordOk returns a tuple with the Password field value
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetPasswordOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Password, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Password, true
 }
 
 // SetPassword sets field value
@@ -465,7 +452,6 @@ func (o *FormatTest) GetPatternWithDigits() string {
 
 // GetPatternWithDigitsOk returns a tuple with the PatternWithDigits field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetPatternWithDigitsOk() (*string, bool) {
 	if o == nil || o.PatternWithDigits == nil {
 		return nil, false
@@ -498,7 +484,6 @@ func (o *FormatTest) GetPatternWithDigitsAndDelimiter() string {
 
 // GetPatternWithDigitsAndDelimiterOk returns a tuple with the PatternWithDigitsAndDelimiter field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *FormatTest) GetPatternWithDigitsAndDelimiterOk() (*string, bool) {
 	if o == nil || o.PatternWithDigitsAndDelimiter == nil {
 		return nil, false

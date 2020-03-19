@@ -376,7 +376,6 @@ func (o *NullableClass) GetArrayItemsNullable() []map[string]interface{} {
 
 // GetArrayItemsNullableOk returns a tuple with the ArrayItemsNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *NullableClass) GetArrayItemsNullableOk() (*[]map[string]interface{}, bool) {
 	if o == nil || o.ArrayItemsNullable == nil {
 		return nil, false
@@ -475,7 +474,6 @@ func (o *NullableClass) GetObjectItemsNullable() map[string]map[string]interface
 
 // GetObjectItemsNullableOk returns a tuple with the ObjectItemsNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *NullableClass) GetObjectItemsNullableOk() (*map[string]map[string]interface{}, bool) {
 	if o == nil || o.ObjectItemsNullable == nil {
 		return nil, false

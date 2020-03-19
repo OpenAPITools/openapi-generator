@@ -47,7 +47,6 @@ func (o *HasOnlyReadOnly) GetBar() string {
 
 // GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *HasOnlyReadOnly) GetBarOk() (*string, bool) {
 	if o == nil || o.Bar == nil {
 		return nil, false
@@ -80,7 +79,6 @@ func (o *HasOnlyReadOnly) GetFoo() string {
 
 // GetFooOk returns a tuple with the Foo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *HasOnlyReadOnly) GetFooOk() (*string, bool) {
 	if o == nil || o.Foo == nil {
 		return nil, false

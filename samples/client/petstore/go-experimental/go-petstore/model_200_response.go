@@ -47,7 +47,6 @@ func (o *Model200Response) GetName() int32 {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Model200Response) GetNameOk() (*int32, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
@@ -80,7 +79,6 @@ func (o *Model200Response) GetClass() string {
 
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Model200Response) GetClassOk() (*string, bool) {
 	if o == nil || o.Class == nil {
 		return nil, false

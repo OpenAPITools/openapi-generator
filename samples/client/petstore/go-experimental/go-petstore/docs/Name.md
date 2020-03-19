@@ -47,6 +47,7 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+
 ### GetSnakeCase
 
 `func (o *Name) GetSnakeCase() int32`
@@ -65,6 +66,12 @@ and a boolean to check if the value has been set.
 `func (o *Name) SetSnakeCase(v int32)`
 
 SetSnakeCase sets SnakeCase field to given value.
+
+### HasSnakeCase
+
+`func (o *Name) HasSnakeCase() bool`
+
+HasSnakeCase returns a boolean if a field has been set.
 
 ### GetProperty
 
@@ -85,6 +92,12 @@ and a boolean to check if the value has been set.
 
 SetProperty sets Property field to given value.
 
+### HasProperty
+
+`func (o *Name) HasProperty() bool`
+
+HasProperty returns a boolean if a field has been set.
+
 ### GetVar123Number
 
 `func (o *Name) GetVar123Number() int32`
@@ -103,6 +116,12 @@ and a boolean to check if the value has been set.
 `func (o *Name) SetVar123Number(v int32)`
 
 SetVar123Number sets Var123Number field to given value.
+
+### HasVar123Number
+
+`func (o *Name) HasVar123Number() bool`
+
+HasVar123Number returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

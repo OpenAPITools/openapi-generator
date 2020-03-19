@@ -45,6 +45,7 @@ and a boolean to check if the value has been set.
 
 SetParam sets Param field to given value.
 
+
 ### GetParam2
 
 `func (o *InlineObject4) GetParam2() string`
@@ -63,6 +64,7 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject4) SetParam2(v string)`
 
 SetParam2 sets Param2 field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

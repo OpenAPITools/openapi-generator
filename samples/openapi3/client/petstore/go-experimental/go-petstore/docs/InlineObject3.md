@@ -57,6 +57,12 @@ and a boolean to check if the value has been set.
 
 SetInteger sets Integer field to given value.
 
+### HasInteger
+
+`func (o *InlineObject3) HasInteger() bool`
+
+HasInteger returns a boolean if a field has been set.
+
 ### GetInt32
 
 `func (o *InlineObject3) GetInt32() int32`
@@ -75,6 +81,12 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject3) SetInt32(v int32)`
 
 SetInt32 sets Int32 field to given value.
+
+### HasInt32
+
+`func (o *InlineObject3) HasInt32() bool`
+
+HasInt32 returns a boolean if a field has been set.
 
 ### GetInt64
 
@@ -95,6 +107,12 @@ and a boolean to check if the value has been set.
 
 SetInt64 sets Int64 field to given value.
 
+### HasInt64
+
+`func (o *InlineObject3) HasInt64() bool`
+
+HasInt64 returns a boolean if a field has been set.
+
 ### GetNumber
 
 `func (o *InlineObject3) GetNumber() float32`
@@ -113,6 +131,7 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject3) SetNumber(v float32)`
 
 SetNumber sets Number field to given value.
+
 
 ### GetFloat
 
@@ -133,6 +152,12 @@ and a boolean to check if the value has been set.
 
 SetFloat sets Float field to given value.
 
+### HasFloat
+
+`func (o *InlineObject3) HasFloat() bool`
+
+HasFloat returns a boolean if a field has been set.
+
 ### GetDouble
 
 `func (o *InlineObject3) GetDouble() float64`
@@ -151,6 +176,7 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject3) SetDouble(v float64)`
 
 SetDouble sets Double field to given value.
+
 
 ### GetString
 
@@ -171,6 +197,12 @@ and a boolean to check if the value has been set.
 
 SetString sets String field to given value.
 
+### HasString
+
+`func (o *InlineObject3) HasString() bool`
+
+HasString returns a boolean if a field has been set.
+
 ### GetPatternWithoutDelimiter
 
 `func (o *InlineObject3) GetPatternWithoutDelimiter() string`
@@ -189,6 +221,7 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject3) SetPatternWithoutDelimiter(v string)`
 
 SetPatternWithoutDelimiter sets PatternWithoutDelimiter field to given value.
+
 
 ### GetByte
 
@@ -209,6 +242,7 @@ and a boolean to check if the value has been set.
 
 SetByte sets Byte field to given value.
 
+
 ### GetBinary
 
 `func (o *InlineObject3) GetBinary() *os.File`
@@ -227,6 +261,12 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject3) SetBinary(v *os.File)`
 
 SetBinary sets Binary field to given value.
+
+### HasBinary
+
+`func (o *InlineObject3) HasBinary() bool`
+
+HasBinary returns a boolean if a field has been set.
 
 ### GetDate
 
@@ -247,6 +287,12 @@ and a boolean to check if the value has been set.
 
 SetDate sets Date field to given value.
 
+### HasDate
+
+`func (o *InlineObject3) HasDate() bool`
+
+HasDate returns a boolean if a field has been set.
+
 ### GetDateTime
 
 `func (o *InlineObject3) GetDateTime() time.Time`
@@ -265,6 +311,12 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject3) SetDateTime(v time.Time)`
 
 SetDateTime sets DateTime field to given value.
+
+### HasDateTime
+
+`func (o *InlineObject3) HasDateTime() bool`
+
+HasDateTime returns a boolean if a field has been set.
 
 ### GetPassword
 
@@ -285,6 +337,12 @@ and a boolean to check if the value has been set.
 
 SetPassword sets Password field to given value.
 
+### HasPassword
+
+`func (o *InlineObject3) HasPassword() bool`
+
+HasPassword returns a boolean if a field has been set.
+
 ### GetCallback
 
 `func (o *InlineObject3) GetCallback() string`
@@ -303,6 +361,12 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject3) SetCallback(v string)`
 
 SetCallback sets Callback field to given value.
+
+### HasCallback
+
+`func (o *InlineObject3) HasCallback() bool`
+
+HasCallback returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

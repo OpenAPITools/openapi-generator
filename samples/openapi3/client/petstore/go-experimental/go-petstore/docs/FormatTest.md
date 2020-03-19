@@ -58,6 +58,12 @@ and a boolean to check if the value has been set.
 
 SetInteger sets Integer field to given value.
 
+### HasInteger
+
+`func (o *FormatTest) HasInteger() bool`
+
+HasInteger returns a boolean if a field has been set.
+
 ### GetInt32
 
 `func (o *FormatTest) GetInt32() int32`
@@ -76,6 +82,12 @@ and a boolean to check if the value has been set.
 `func (o *FormatTest) SetInt32(v int32)`
 
 SetInt32 sets Int32 field to given value.
+
+### HasInt32
+
+`func (o *FormatTest) HasInt32() bool`
+
+HasInt32 returns a boolean if a field has been set.
 
 ### GetInt64
 
@@ -96,6 +108,12 @@ and a boolean to check if the value has been set.
 
 SetInt64 sets Int64 field to given value.
 
+### HasInt64
+
+`func (o *FormatTest) HasInt64() bool`
+
+HasInt64 returns a boolean if a field has been set.
+
 ### GetNumber
 
 `func (o *FormatTest) GetNumber() float32`
@@ -114,6 +132,7 @@ and a boolean to check if the value has been set.
 `func (o *FormatTest) SetNumber(v float32)`
 
 SetNumber sets Number field to given value.
+
 
 ### GetFloat
 
@@ -134,6 +153,12 @@ and a boolean to check if the value has been set.
 
 SetFloat sets Float field to given value.
 
+### HasFloat
+
+`func (o *FormatTest) HasFloat() bool`
+
+HasFloat returns a boolean if a field has been set.
+
 ### GetDouble
 
 `func (o *FormatTest) GetDouble() float64`
@@ -152,6 +177,12 @@ and a boolean to check if the value has been set.
 `func (o *FormatTest) SetDouble(v float64)`
 
 SetDouble sets Double field to given value.
+
+### HasDouble
+
+`func (o *FormatTest) HasDouble() bool`
+
+HasDouble returns a boolean if a field has been set.
 
 ### GetString
 
@@ -172,6 +203,12 @@ and a boolean to check if the value has been set.
 
 SetString sets String field to given value.
 
+### HasString
+
+`func (o *FormatTest) HasString() bool`
+
+HasString returns a boolean if a field has been set.
+
 ### GetByte
 
 `func (o *FormatTest) GetByte() string`
@@ -190,6 +227,7 @@ and a boolean to check if the value has been set.
 `func (o *FormatTest) SetByte(v string)`
 
 SetByte sets Byte field to given value.
+
 
 ### GetBinary
 
@@ -210,6 +248,12 @@ and a boolean to check if the value has been set.
 
 SetBinary sets Binary field to given value.
 
+### HasBinary
+
+`func (o *FormatTest) HasBinary() bool`
+
+HasBinary returns a boolean if a field has been set.
+
 ### GetDate
 
 `func (o *FormatTest) GetDate() string`
@@ -228,6 +272,7 @@ and a boolean to check if the value has been set.
 `func (o *FormatTest) SetDate(v string)`
 
 SetDate sets Date field to given value.
+
 
 ### GetDateTime
 
@@ -248,6 +293,12 @@ and a boolean to check if the value has been set.
 
 SetDateTime sets DateTime field to given value.
 
+### HasDateTime
+
+`func (o *FormatTest) HasDateTime() bool`
+
+HasDateTime returns a boolean if a field has been set.
+
 ### GetUuid
 
 `func (o *FormatTest) GetUuid() string`
@@ -266,6 +317,12 @@ and a boolean to check if the value has been set.
 `func (o *FormatTest) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
+
+### HasUuid
+
+`func (o *FormatTest) HasUuid() bool`
+
+HasUuid returns a boolean if a field has been set.
 
 ### GetPassword
 
@@ -286,6 +343,7 @@ and a boolean to check if the value has been set.
 
 SetPassword sets Password field to given value.
 
+
 ### GetPatternWithDigits
 
 `func (o *FormatTest) GetPatternWithDigits() string`
@@ -305,6 +363,12 @@ and a boolean to check if the value has been set.
 
 SetPatternWithDigits sets PatternWithDigits field to given value.
 
+### HasPatternWithDigits
+
+`func (o *FormatTest) HasPatternWithDigits() bool`
+
+HasPatternWithDigits returns a boolean if a field has been set.
+
 ### GetPatternWithDigitsAndDelimiter
 
 `func (o *FormatTest) GetPatternWithDigitsAndDelimiter() string`
@@ -323,6 +387,12 @@ and a boolean to check if the value has been set.
 `func (o *FormatTest) SetPatternWithDigitsAndDelimiter(v string)`
 
 SetPatternWithDigitsAndDelimiter sets PatternWithDigitsAndDelimiter field to given value.
+
+### HasPatternWithDigitsAndDelimiter
+
+`func (o *FormatTest) HasPatternWithDigitsAndDelimiter() bool`
+
+HasPatternWithDigitsAndDelimiter returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

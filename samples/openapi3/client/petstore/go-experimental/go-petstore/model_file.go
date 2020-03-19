@@ -47,7 +47,6 @@ func (o *File) GetSourceURI() string {
 
 // GetSourceURIOk returns a tuple with the SourceURI field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *File) GetSourceURIOk() (*string, bool) {
 	if o == nil || o.SourceURI == nil {
 		return nil, false

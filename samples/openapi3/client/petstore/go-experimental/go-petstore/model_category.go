@@ -50,7 +50,6 @@ func (o *Category) GetId() int64 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Category) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
@@ -84,12 +83,11 @@ func (o *Category) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-
 func (o *Category) GetNameOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Name, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Name, true
 }
 
 // SetName sets field value

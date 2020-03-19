@@ -46,7 +46,6 @@ func (o *DogAllOf) GetBreed() string {
 
 // GetBreedOk returns a tuple with the Breed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *DogAllOf) GetBreedOk() (*string, bool) {
 	if o == nil || o.Breed == nil {
 		return nil, false

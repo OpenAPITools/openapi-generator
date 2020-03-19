@@ -54,7 +54,6 @@ func (o *Pet) GetId() int64 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Pet) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
@@ -87,7 +86,6 @@ func (o *Pet) GetCategory() Category {
 
 // GetCategoryOk returns a tuple with the Category field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Pet) GetCategoryOk() (*Category, bool) {
 	if o == nil || o.Category == nil {
 		return nil, false
@@ -121,12 +119,11 @@ func (o *Pet) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-
 func (o *Pet) GetNameOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Name, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Name, true
 }
 
 // SetName sets field value
@@ -146,12 +143,11 @@ func (o *Pet) GetPhotoUrls() []string {
 
 // GetPhotoUrlsOk returns a tuple with the PhotoUrls field value
 // and a boolean to check if the value has been set.
-
 func (o *Pet) GetPhotoUrlsOk() (*[]string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.PhotoUrls, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.PhotoUrls, true
 }
 
 // SetPhotoUrls sets field value
@@ -170,7 +166,6 @@ func (o *Pet) GetTags() []Tag {
 
 // GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Pet) GetTagsOk() (*[]Tag, bool) {
 	if o == nil || o.Tags == nil {
 		return nil, false
@@ -203,7 +198,6 @@ func (o *Pet) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Pet) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false

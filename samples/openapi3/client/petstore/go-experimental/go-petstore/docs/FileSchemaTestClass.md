@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetFile sets File field to given value.
 
+### HasFile
+
+`func (o *FileSchemaTestClass) HasFile() bool`
+
+HasFile returns a boolean if a field has been set.
+
 ### GetFiles
 
 `func (o *FileSchemaTestClass) GetFiles() []File`
@@ -63,6 +69,12 @@ and a boolean to check if the value has been set.
 `func (o *FileSchemaTestClass) SetFiles(v []File)`
 
 SetFiles sets Files field to given value.
+
+### HasFiles
+
+`func (o *FileSchemaTestClass) HasFiles() bool`
+
+HasFiles returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

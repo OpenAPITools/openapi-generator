@@ -46,6 +46,12 @@ and a boolean to check if the value has been set.
 
 SetUuid sets Uuid field to given value.
 
+### HasUuid
+
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUuid() bool`
+
+HasUuid returns a boolean if a field has been set.
+
 ### GetDateTime
 
 `func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time`
@@ -65,6 +71,12 @@ and a boolean to check if the value has been set.
 
 SetDateTime sets DateTime field to given value.
 
+### HasDateTime
+
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) HasDateTime() bool`
+
+HasDateTime returns a boolean if a field has been set.
+
 ### GetMap
 
 `func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal`
@@ -83,6 +95,12 @@ and a boolean to check if the value has been set.
 `func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal)`
 
 SetMap sets Map field to given value.
+
+### HasMap
+
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) HasMap() bool`
+
+HasMap returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

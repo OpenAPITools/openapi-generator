@@ -46,7 +46,6 @@ func (o *CatAllOf) GetDeclawed() bool {
 
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *CatAllOf) GetDeclawedOk() (*bool, bool) {
 	if o == nil || o.Declawed == nil {
 		return nil, false

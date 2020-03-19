@@ -49,6 +49,12 @@ and a boolean to check if the value has been set.
 
 SetSmallCamel sets SmallCamel field to given value.
 
+### HasSmallCamel
+
+`func (o *Capitalization) HasSmallCamel() bool`
+
+HasSmallCamel returns a boolean if a field has been set.
+
 ### GetCapitalCamel
 
 `func (o *Capitalization) GetCapitalCamel() string`
@@ -67,6 +73,12 @@ and a boolean to check if the value has been set.
 `func (o *Capitalization) SetCapitalCamel(v string)`
 
 SetCapitalCamel sets CapitalCamel field to given value.
+
+### HasCapitalCamel
+
+`func (o *Capitalization) HasCapitalCamel() bool`
+
+HasCapitalCamel returns a boolean if a field has been set.
 
 ### GetSmallSnake
 
@@ -87,6 +99,12 @@ and a boolean to check if the value has been set.
 
 SetSmallSnake sets SmallSnake field to given value.
 
+### HasSmallSnake
+
+`func (o *Capitalization) HasSmallSnake() bool`
+
+HasSmallSnake returns a boolean if a field has been set.
+
 ### GetCapitalSnake
 
 `func (o *Capitalization) GetCapitalSnake() string`
@@ -105,6 +123,12 @@ and a boolean to check if the value has been set.
 `func (o *Capitalization) SetCapitalSnake(v string)`
 
 SetCapitalSnake sets CapitalSnake field to given value.
+
+### HasCapitalSnake
+
+`func (o *Capitalization) HasCapitalSnake() bool`
+
+HasCapitalSnake returns a boolean if a field has been set.
 
 ### GetSCAETHFlowPoints
 
@@ -125,6 +149,12 @@ and a boolean to check if the value has been set.
 
 SetSCAETHFlowPoints sets SCAETHFlowPoints field to given value.
 
+### HasSCAETHFlowPoints
+
+`func (o *Capitalization) HasSCAETHFlowPoints() bool`
+
+HasSCAETHFlowPoints returns a boolean if a field has been set.
+
 ### GetATT_NAME
 
 `func (o *Capitalization) GetATT_NAME() string`
@@ -143,6 +173,12 @@ and a boolean to check if the value has been set.
 `func (o *Capitalization) SetATT_NAME(v string)`
 
 SetATT_NAME sets ATT_NAME field to given value.
+
+### HasATT_NAME
+
+`func (o *Capitalization) HasATT_NAME() bool`
+
+HasATT_NAME returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

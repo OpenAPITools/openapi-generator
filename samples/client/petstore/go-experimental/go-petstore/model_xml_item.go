@@ -74,7 +74,6 @@ func (o *XmlItem) GetAttributeString() string {
 
 // GetAttributeStringOk returns a tuple with the AttributeString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetAttributeStringOk() (*string, bool) {
 	if o == nil || o.AttributeString == nil {
 		return nil, false
@@ -107,7 +106,6 @@ func (o *XmlItem) GetAttributeNumber() float32 {
 
 // GetAttributeNumberOk returns a tuple with the AttributeNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetAttributeNumberOk() (*float32, bool) {
 	if o == nil || o.AttributeNumber == nil {
 		return nil, false
@@ -140,7 +138,6 @@ func (o *XmlItem) GetAttributeInteger() int32 {
 
 // GetAttributeIntegerOk returns a tuple with the AttributeInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetAttributeIntegerOk() (*int32, bool) {
 	if o == nil || o.AttributeInteger == nil {
 		return nil, false
@@ -173,7 +170,6 @@ func (o *XmlItem) GetAttributeBoolean() bool {
 
 // GetAttributeBooleanOk returns a tuple with the AttributeBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetAttributeBooleanOk() (*bool, bool) {
 	if o == nil || o.AttributeBoolean == nil {
 		return nil, false
@@ -206,7 +202,6 @@ func (o *XmlItem) GetWrappedArray() []int32 {
 
 // GetWrappedArrayOk returns a tuple with the WrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetWrappedArrayOk() (*[]int32, bool) {
 	if o == nil || o.WrappedArray == nil {
 		return nil, false
@@ -239,7 +234,6 @@ func (o *XmlItem) GetNameString() string {
 
 // GetNameStringOk returns a tuple with the NameString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNameStringOk() (*string, bool) {
 	if o == nil || o.NameString == nil {
 		return nil, false
@@ -272,7 +266,6 @@ func (o *XmlItem) GetNameNumber() float32 {
 
 // GetNameNumberOk returns a tuple with the NameNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNameNumberOk() (*float32, bool) {
 	if o == nil || o.NameNumber == nil {
 		return nil, false
@@ -305,7 +298,6 @@ func (o *XmlItem) GetNameInteger() int32 {
 
 // GetNameIntegerOk returns a tuple with the NameInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNameIntegerOk() (*int32, bool) {
 	if o == nil || o.NameInteger == nil {
 		return nil, false
@@ -338,7 +330,6 @@ func (o *XmlItem) GetNameBoolean() bool {
 
 // GetNameBooleanOk returns a tuple with the NameBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNameBooleanOk() (*bool, bool) {
 	if o == nil || o.NameBoolean == nil {
 		return nil, false
@@ -371,7 +362,6 @@ func (o *XmlItem) GetNameArray() []int32 {
 
 // GetNameArrayOk returns a tuple with the NameArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNameArrayOk() (*[]int32, bool) {
 	if o == nil || o.NameArray == nil {
 		return nil, false
@@ -404,7 +394,6 @@ func (o *XmlItem) GetNameWrappedArray() []int32 {
 
 // GetNameWrappedArrayOk returns a tuple with the NameWrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNameWrappedArrayOk() (*[]int32, bool) {
 	if o == nil || o.NameWrappedArray == nil {
 		return nil, false
@@ -437,7 +426,6 @@ func (o *XmlItem) GetPrefixString() string {
 
 // GetPrefixStringOk returns a tuple with the PrefixString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixStringOk() (*string, bool) {
 	if o == nil || o.PrefixString == nil {
 		return nil, false
@@ -470,7 +458,6 @@ func (o *XmlItem) GetPrefixNumber() float32 {
 
 // GetPrefixNumberOk returns a tuple with the PrefixNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixNumberOk() (*float32, bool) {
 	if o == nil || o.PrefixNumber == nil {
 		return nil, false
@@ -503,7 +490,6 @@ func (o *XmlItem) GetPrefixInteger() int32 {
 
 // GetPrefixIntegerOk returns a tuple with the PrefixInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixIntegerOk() (*int32, bool) {
 	if o == nil || o.PrefixInteger == nil {
 		return nil, false
@@ -536,7 +522,6 @@ func (o *XmlItem) GetPrefixBoolean() bool {
 
 // GetPrefixBooleanOk returns a tuple with the PrefixBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixBooleanOk() (*bool, bool) {
 	if o == nil || o.PrefixBoolean == nil {
 		return nil, false
@@ -569,7 +554,6 @@ func (o *XmlItem) GetPrefixArray() []int32 {
 
 // GetPrefixArrayOk returns a tuple with the PrefixArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixArrayOk() (*[]int32, bool) {
 	if o == nil || o.PrefixArray == nil {
 		return nil, false
@@ -602,7 +586,6 @@ func (o *XmlItem) GetPrefixWrappedArray() []int32 {
 
 // GetPrefixWrappedArrayOk returns a tuple with the PrefixWrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixWrappedArrayOk() (*[]int32, bool) {
 	if o == nil || o.PrefixWrappedArray == nil {
 		return nil, false
@@ -635,7 +618,6 @@ func (o *XmlItem) GetNamespaceString() string {
 
 // GetNamespaceStringOk returns a tuple with the NamespaceString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNamespaceStringOk() (*string, bool) {
 	if o == nil || o.NamespaceString == nil {
 		return nil, false
@@ -668,7 +650,6 @@ func (o *XmlItem) GetNamespaceNumber() float32 {
 
 // GetNamespaceNumberOk returns a tuple with the NamespaceNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNamespaceNumberOk() (*float32, bool) {
 	if o == nil || o.NamespaceNumber == nil {
 		return nil, false
@@ -701,7 +682,6 @@ func (o *XmlItem) GetNamespaceInteger() int32 {
 
 // GetNamespaceIntegerOk returns a tuple with the NamespaceInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNamespaceIntegerOk() (*int32, bool) {
 	if o == nil || o.NamespaceInteger == nil {
 		return nil, false
@@ -734,7 +714,6 @@ func (o *XmlItem) GetNamespaceBoolean() bool {
 
 // GetNamespaceBooleanOk returns a tuple with the NamespaceBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNamespaceBooleanOk() (*bool, bool) {
 	if o == nil || o.NamespaceBoolean == nil {
 		return nil, false
@@ -767,7 +746,6 @@ func (o *XmlItem) GetNamespaceArray() []int32 {
 
 // GetNamespaceArrayOk returns a tuple with the NamespaceArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNamespaceArrayOk() (*[]int32, bool) {
 	if o == nil || o.NamespaceArray == nil {
 		return nil, false
@@ -800,7 +778,6 @@ func (o *XmlItem) GetNamespaceWrappedArray() []int32 {
 
 // GetNamespaceWrappedArrayOk returns a tuple with the NamespaceWrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetNamespaceWrappedArrayOk() (*[]int32, bool) {
 	if o == nil || o.NamespaceWrappedArray == nil {
 		return nil, false
@@ -833,7 +810,6 @@ func (o *XmlItem) GetPrefixNsString() string {
 
 // GetPrefixNsStringOk returns a tuple with the PrefixNsString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixNsStringOk() (*string, bool) {
 	if o == nil || o.PrefixNsString == nil {
 		return nil, false
@@ -866,7 +842,6 @@ func (o *XmlItem) GetPrefixNsNumber() float32 {
 
 // GetPrefixNsNumberOk returns a tuple with the PrefixNsNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixNsNumberOk() (*float32, bool) {
 	if o == nil || o.PrefixNsNumber == nil {
 		return nil, false
@@ -899,7 +874,6 @@ func (o *XmlItem) GetPrefixNsInteger() int32 {
 
 // GetPrefixNsIntegerOk returns a tuple with the PrefixNsInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixNsIntegerOk() (*int32, bool) {
 	if o == nil || o.PrefixNsInteger == nil {
 		return nil, false
@@ -932,7 +906,6 @@ func (o *XmlItem) GetPrefixNsBoolean() bool {
 
 // GetPrefixNsBooleanOk returns a tuple with the PrefixNsBoolean field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixNsBooleanOk() (*bool, bool) {
 	if o == nil || o.PrefixNsBoolean == nil {
 		return nil, false
@@ -965,7 +938,6 @@ func (o *XmlItem) GetPrefixNsArray() []int32 {
 
 // GetPrefixNsArrayOk returns a tuple with the PrefixNsArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixNsArrayOk() (*[]int32, bool) {
 	if o == nil || o.PrefixNsArray == nil {
 		return nil, false
@@ -998,7 +970,6 @@ func (o *XmlItem) GetPrefixNsWrappedArray() []int32 {
 
 // GetPrefixNsWrappedArrayOk returns a tuple with the PrefixNsWrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *XmlItem) GetPrefixNsWrappedArrayOk() (*[]int32, bool) {
 	if o == nil || o.PrefixNsWrappedArray == nil {
 		return nil, false

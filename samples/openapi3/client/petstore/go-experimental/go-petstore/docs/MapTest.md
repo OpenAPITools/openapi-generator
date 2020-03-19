@@ -47,6 +47,12 @@ and a boolean to check if the value has been set.
 
 SetMapMapOfString sets MapMapOfString field to given value.
 
+### HasMapMapOfString
+
+`func (o *MapTest) HasMapMapOfString() bool`
+
+HasMapMapOfString returns a boolean if a field has been set.
+
 ### GetMapOfEnumString
 
 `func (o *MapTest) GetMapOfEnumString() map[string]string`
@@ -65,6 +71,12 @@ and a boolean to check if the value has been set.
 `func (o *MapTest) SetMapOfEnumString(v map[string]string)`
 
 SetMapOfEnumString sets MapOfEnumString field to given value.
+
+### HasMapOfEnumString
+
+`func (o *MapTest) HasMapOfEnumString() bool`
+
+HasMapOfEnumString returns a boolean if a field has been set.
 
 ### GetDirectMap
 
@@ -85,6 +97,12 @@ and a boolean to check if the value has been set.
 
 SetDirectMap sets DirectMap field to given value.
 
+### HasDirectMap
+
+`func (o *MapTest) HasDirectMap() bool`
+
+HasDirectMap returns a boolean if a field has been set.
+
 ### GetIndirectMap
 
 `func (o *MapTest) GetIndirectMap() map[string]bool`
@@ -103,6 +121,12 @@ and a boolean to check if the value has been set.
 `func (o *MapTest) SetIndirectMap(v map[string]bool)`
 
 SetIndirectMap sets IndirectMap field to given value.
+
+### HasIndirectMap
+
+`func (o *MapTest) HasIndirectMap() bool`
+
+HasIndirectMap returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

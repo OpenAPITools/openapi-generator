@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+### HasName
+
+`func (o *Model200Response) HasName() bool`
+
+HasName returns a boolean if a field has been set.
+
 ### GetClass
 
 `func (o *Model200Response) GetClass() string`
@@ -63,6 +69,12 @@ and a boolean to check if the value has been set.
 `func (o *Model200Response) SetClass(v string)`
 
 SetClass sets Class field to given value.
+
+### HasClass
+
+`func (o *Model200Response) HasClass() bool`
+
+HasClass returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

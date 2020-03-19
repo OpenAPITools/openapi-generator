@@ -48,7 +48,6 @@ func (o *ArrayTest) GetArrayOfString() []string {
 
 // GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *ArrayTest) GetArrayOfStringOk() (*[]string, bool) {
 	if o == nil || o.ArrayOfString == nil {
 		return nil, false
@@ -81,7 +80,6 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 
 // GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *ArrayTest) GetArrayArrayOfIntegerOk() (*[][]int64, bool) {
 	if o == nil || o.ArrayArrayOfInteger == nil {
 		return nil, false
@@ -114,7 +112,6 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 
 // GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *ArrayTest) GetArrayArrayOfModelOk() (*[][]ReadOnlyFirst, bool) {
 	if o == nil || o.ArrayArrayOfModel == nil {
 		return nil, false

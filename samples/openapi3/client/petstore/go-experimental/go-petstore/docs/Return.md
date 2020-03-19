@@ -44,6 +44,12 @@ and a boolean to check if the value has been set.
 
 SetReturn sets Return field to given value.
 
+### HasReturn
+
+`func (o *Return) HasReturn() bool`
+
+HasReturn returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

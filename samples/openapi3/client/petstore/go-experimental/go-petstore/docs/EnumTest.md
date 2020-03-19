@@ -51,6 +51,12 @@ and a boolean to check if the value has been set.
 
 SetEnumString sets EnumString field to given value.
 
+### HasEnumString
+
+`func (o *EnumTest) HasEnumString() bool`
+
+HasEnumString returns a boolean if a field has been set.
+
 ### GetEnumStringRequired
 
 `func (o *EnumTest) GetEnumStringRequired() string`
@@ -69,6 +75,7 @@ and a boolean to check if the value has been set.
 `func (o *EnumTest) SetEnumStringRequired(v string)`
 
 SetEnumStringRequired sets EnumStringRequired field to given value.
+
 
 ### GetEnumInteger
 
@@ -89,6 +96,12 @@ and a boolean to check if the value has been set.
 
 SetEnumInteger sets EnumInteger field to given value.
 
+### HasEnumInteger
+
+`func (o *EnumTest) HasEnumInteger() bool`
+
+HasEnumInteger returns a boolean if a field has been set.
+
 ### GetEnumNumber
 
 `func (o *EnumTest) GetEnumNumber() float64`
@@ -107,6 +120,12 @@ and a boolean to check if the value has been set.
 `func (o *EnumTest) SetEnumNumber(v float64)`
 
 SetEnumNumber sets EnumNumber field to given value.
+
+### HasEnumNumber
+
+`func (o *EnumTest) HasEnumNumber() bool`
+
+HasEnumNumber returns a boolean if a field has been set.
 
 ### GetOuterEnum
 
@@ -162,6 +181,12 @@ and a boolean to check if the value has been set.
 
 SetOuterEnumInteger sets OuterEnumInteger field to given value.
 
+### HasOuterEnumInteger
+
+`func (o *EnumTest) HasOuterEnumInteger() bool`
+
+HasOuterEnumInteger returns a boolean if a field has been set.
+
 ### GetOuterEnumDefaultValue
 
 `func (o *EnumTest) GetOuterEnumDefaultValue() OuterEnumDefaultValue`
@@ -181,6 +206,12 @@ and a boolean to check if the value has been set.
 
 SetOuterEnumDefaultValue sets OuterEnumDefaultValue field to given value.
 
+### HasOuterEnumDefaultValue
+
+`func (o *EnumTest) HasOuterEnumDefaultValue() bool`
+
+HasOuterEnumDefaultValue returns a boolean if a field has been set.
+
 ### GetOuterEnumIntegerDefaultValue
 
 `func (o *EnumTest) GetOuterEnumIntegerDefaultValue() OuterEnumIntegerDefaultValue`
@@ -199,6 +230,12 @@ and a boolean to check if the value has been set.
 `func (o *EnumTest) SetOuterEnumIntegerDefaultValue(v OuterEnumIntegerDefaultValue)`
 
 SetOuterEnumIntegerDefaultValue sets OuterEnumIntegerDefaultValue field to given value.
+
+### HasOuterEnumIntegerDefaultValue
+
+`func (o *EnumTest) HasOuterEnumIntegerDefaultValue() bool`
+
+HasOuterEnumIntegerDefaultValue returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -52,12 +52,11 @@ func (o *InlineObject4) GetParam() string {
 
 // GetParamOk returns a tuple with the Param field value
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject4) GetParamOk() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Param, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Param, true
 }
 
 // SetParam sets field value
@@ -77,12 +76,11 @@ func (o *InlineObject4) GetParam2() string {
 
 // GetParam2Ok returns a tuple with the Param2 field value
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject4) GetParam2Ok() (*string, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.Param2, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Param2, true
 }
 
 // SetParam2 sets field value

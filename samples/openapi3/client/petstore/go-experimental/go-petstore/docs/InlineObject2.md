@@ -45,6 +45,12 @@ and a boolean to check if the value has been set.
 
 SetEnumFormStringArray sets EnumFormStringArray field to given value.
 
+### HasEnumFormStringArray
+
+`func (o *InlineObject2) HasEnumFormStringArray() bool`
+
+HasEnumFormStringArray returns a boolean if a field has been set.
+
 ### GetEnumFormString
 
 `func (o *InlineObject2) GetEnumFormString() string`
@@ -63,6 +69,12 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject2) SetEnumFormString(v string)`
 
 SetEnumFormString sets EnumFormString field to given value.
+
+### HasEnumFormString
+
+`func (o *InlineObject2) HasEnumFormString() bool`
+
+HasEnumFormString returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

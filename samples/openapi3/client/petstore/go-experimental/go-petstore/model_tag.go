@@ -47,7 +47,6 @@ func (o *Tag) GetId() int64 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Tag) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
@@ -80,7 +79,6 @@ func (o *Tag) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *Tag) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false

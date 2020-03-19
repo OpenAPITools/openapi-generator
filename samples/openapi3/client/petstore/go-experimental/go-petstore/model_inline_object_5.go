@@ -51,7 +51,6 @@ func (o *InlineObject5) GetAdditionalMetadata() string {
 
 // GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject5) GetAdditionalMetadataOk() (*string, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
 		return nil, false
@@ -85,12 +84,11 @@ func (o *InlineObject5) GetRequiredFile() *os.File {
 
 // GetRequiredFileOk returns a tuple with the RequiredFile field value
 // and a boolean to check if the value has been set.
-
 func (o *InlineObject5) GetRequiredFileOk() (**os.File, bool) {
-    if o == nil  {
-        return nil, false
-    }
-    return &o.RequiredFile, true
+	if o == nil  {
+		return nil, false
+	}
+	return &o.RequiredFile, true
 }
 
 // SetRequiredFile sets field value

@@ -47,7 +47,6 @@ func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
 
 // GetMapPropertyOk returns a tuple with the MapProperty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*map[string]string, bool) {
 	if o == nil || o.MapProperty == nil {
 		return nil, false
@@ -80,7 +79,6 @@ func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]
 
 // GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*map[string]map[string]string, bool) {
 	if o == nil || o.MapOfMapProperty == nil {
 		return nil, false

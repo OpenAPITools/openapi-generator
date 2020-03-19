@@ -47,7 +47,6 @@ func (o *BigCat) GetKind() string {
 
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-
 func (o *BigCat) GetKindOk() (*string, bool) {
 	if o == nil || o.Kind == nil {
 		return nil, false
