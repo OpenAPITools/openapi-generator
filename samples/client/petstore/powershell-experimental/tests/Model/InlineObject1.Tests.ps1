@@ -8,7 +8,8 @@
 Describe -tag 'PSPetstore' -name 'InlineObject1' {
     Context 'InlineObject1' {
         It 'New-InlineObject1' {
-            #$NewObject = New-InlineObject1 -AdditionalMetadata TEST_VALUE -File TEST_VALUE
+            # a simple test to create an object
+            #$NewObject = New-InlineObject1 -AdditionalMetadata "TEST_VALUE" -File "TEST_VALUE"
             #$NewObject | Should BeOfType InlineObject1
             #$NewObject.property | Should Be 0
         }
