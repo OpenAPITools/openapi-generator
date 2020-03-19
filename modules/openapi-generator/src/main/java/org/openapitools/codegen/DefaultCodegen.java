@@ -3387,6 +3387,33 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = true;
         }
 
+        Schema schema = ModelUtils.getSchemaFromResponse(response,"form");
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        Set<String> imports = new HashSet<String>();
+        if (schema != null) {
+            Map<String, Encoding> encoding = ModelUtils.getEncodingFromResponse(response);
+            Map<String, Schema> properties = schema.getProperties();
+            for (Map.Entry<String, Schema> entry : properties.entrySet()) {
+                CodegenParameter cp = fromFormProperty(entry.getKey(), entry.getValue(),imports);
+                if (encoding != null && (encoding.get(entry.getKey()) != null) ) {
+                    cp.encoding = fromEncodingProperty(encoding.get(entry.getKey()));
+                    cp.isMultipartParam = Boolean.TRUE;
+                    //cp.isFormParam = Boolean.FALSE;
+                }
+                r.formParams.add(cp);
+            }
+        }
+
+        Schema schemaBody = ModelUtils.getSchemaFromResponse(response,"body");
+        if (schemaBody != null) {
+            CodegenParameter cp = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+            fromBodyProperty(cp,schemaBody,imports,null);
+            r.bodyParam = cp;
+        }
+
+        r.hasFormParam = r.formParams.size() > 0;
+        r.hasBodyParam = r.bodyParam != null ? Boolean.TRUE : Boolean.FALSE;
+
         return r;
     }
 
