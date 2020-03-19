@@ -218,8 +218,7 @@ end:
 // Place an order for a pet
 //
 order_t*
-StoreAPI_placeOrder(apiClient_t *apiClient, 
-order_t * body )
+StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;

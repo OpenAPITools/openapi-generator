@@ -110,10 +110,6 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(photo_urls, "", *(double *)photo_urlsListEntry->data) == NULL)
-    {
-        goto fail;
-    }
     }
 
 

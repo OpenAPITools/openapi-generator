@@ -34,7 +34,6 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId );
 // Place an order for a pet
 //
 order_t*
-StoreAPI_placeOrder(apiClient_t *apiClient, 
-order_t * body );
+StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body );
 
 

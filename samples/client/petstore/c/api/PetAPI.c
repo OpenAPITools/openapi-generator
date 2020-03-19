@@ -58,8 +58,7 @@ end:
 // Add a new pet to the store
 //
 void
-PetAPI_addPet(apiClient_t *apiClient, 
-pet_t * body )
+PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -433,8 +432,7 @@ end:
 // Update an existing pet
 //
 void
-PetAPI_updatePet(apiClient_t *apiClient, 
-pet_t * body )
+PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;

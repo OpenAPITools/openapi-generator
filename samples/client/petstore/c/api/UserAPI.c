@@ -17,8 +17,7 @@
 // This can only be done by the logged in user.
 //
 void
-UserAPI_createUser(apiClient_t *apiClient, 
-user_t * body )
+UserAPI_createUser(apiClient_t *apiClient, user_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -521,8 +520,7 @@ end:
 // This can only be done by the logged in user.
 //
 void
-UserAPI_updateUser(apiClient_t *apiClient, char * username , 
-user_t * body )
+UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
