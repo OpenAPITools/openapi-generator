@@ -548,9 +548,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            // TODO not sure if the following map/hash declaration is correct
-            return "{String, " + getTypeDeclaration(inner) + "}";
+            return "Hashtable";
         } else if (!languageSpecificPrimitives.contains(getSchemaType(p))) {
             return super.getTypeDeclaration(p);
         }

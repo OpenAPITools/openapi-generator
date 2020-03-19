@@ -50,7 +50,7 @@ function Invoke-PSDeleteOrder {
 }
 
 function Get-PSInventory {
-    [OutputType("{String, Int32}")]
+    [OutputType("Hashtable")]
     [CmdletBinding()]
     Param (
     )
@@ -87,7 +87,7 @@ function Get-PSInventory {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "{String, Int32}"
+                                -ReturnType "Hashtable"
 
         return $LocalVarResult["Response"]
     }
