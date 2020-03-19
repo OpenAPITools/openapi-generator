@@ -4,6 +4,8 @@
 Describe -tag '{{{packageName}}}' -name '{{{classname}}}' {
     Context '{{{classname}}}' {
         It 'New-{{{classname}}}' {
+            # a simple test to create the object
+            $NewObject = New-{{{classname}}}
             #$NewObject = New-{{{classname}}}{{#vars}} -{{name}} TEST_VALUE{{/vars}}
             #$NewObject | Should BeOfType {{classname}}
             #$NewObject.property | Should Be 0

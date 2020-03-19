@@ -6,6 +6,7 @@
 #
 
 function Invoke-PSCreateUser {
+    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -58,6 +59,7 @@ function Invoke-PSCreateUser {
 }
 
 function Invoke-PSCreateUsersWithArrayInput {
+    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -110,6 +112,7 @@ function Invoke-PSCreateUsersWithArrayInput {
 }
 
 function Invoke-PSCreateUsersWithListInput {
+    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -162,6 +165,7 @@ function Invoke-PSCreateUsersWithListInput {
 }
 
 function Invoke-PSDeleteUser {
+    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -209,6 +213,7 @@ function Invoke-PSDeleteUser {
 }
 
 function Get-PSUserByName {
+    [OutputType("User")]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -255,6 +260,7 @@ function Get-PSUserByName {
 }
 
 function Invoke-PSLoginUser {
+    [OutputType("String")]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -310,6 +316,7 @@ function Invoke-PSLoginUser {
 }
 
 function Invoke-PSLogoutUser {
+    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
     )
@@ -350,6 +357,7 @@ function Invoke-PSLogoutUser {
 }
 
 function Update-PSUser {
+    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
