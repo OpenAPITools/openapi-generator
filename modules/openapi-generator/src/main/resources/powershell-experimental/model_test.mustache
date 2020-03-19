@@ -1,0 +1,14 @@
+{{> partial_header}}
+{{#models}}
+{{#model}}
+Describe -tag '{{{packageName}}}' -name '{{{classname}}}' {
+    Context '{{{classname}}}' {
+        It 'New-{{{classname}}}' {
+            #$NewObject = New-{{{classname}}}{{#vars}} -{{name}} TEST_VALUE{{/vars}}
+            #$NewObject | Should BeOfType {{classname}}
+            #$NewObject.property | Should Be 0
+        }
+    }
+}
+{{/model}}
+{{/models}}
