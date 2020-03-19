@@ -6,7 +6,7 @@
 #
 
 function Invoke-PSApiClient {
-  
+    [OutputType('System.Collections.Hashtable')]
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory)]
@@ -38,7 +38,7 @@ function Invoke-PSApiClient {
     'Calling method: Invoke-PSApiClient' | Write-Debug
     $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-    $Configuraiton = Get-PSConfiguration
+    $Configuration = Get-PSConfiguration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
 
     # cookie parameters

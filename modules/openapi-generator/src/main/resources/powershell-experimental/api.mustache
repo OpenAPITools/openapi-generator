@@ -2,6 +2,7 @@
 {{#operations}}
 {{#operation}}
 function {{{vendorExtensions.x-powershell-method-name}}} {
+    [OutputType({{#returnType}}"{{{.}}}"{{/returnType}}{{^returnType}}[System.Void]{{/returnType}})]
     [CmdletBinding()]
     Param (
     {{#allParams}}

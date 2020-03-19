@@ -44,7 +44,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     protected String packageVersion = "0.1.2";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected String testPath = "tests/";
+    protected String apiTestPath = "tests/Api";
+    protected String modelTestPath = "tests/Model";
     protected HashSet nullablePrimitives;
     protected HashSet powershellVerbs;
 
@@ -433,7 +434,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + "/" + testPath).replace('/', File.separatorChar);
+        return (outputFolder + "/" + apiTestPath).replace('/', File.separatorChar);
     }
 
     @Override
@@ -448,7 +449,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + "/" + testPath).replace('/', File.separatorChar);
+        return (outputFolder + "/" + modelTestPath).replace('/', File.separatorChar);
     }
 
     @Override
@@ -771,7 +772,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         String dataType;
         if (cp.isPrimitiveType) {
             dataType = cp.dataType;
-            if (!(cp.isString || cp.isFile)
+            if (!(cp.isString || cp.isFile || cp.isContainer)
                     && (cp.isNullable || !cp.required)) {
                 dataType = "System.Nullable[" + dataType + "]";
             }
@@ -789,7 +790,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         String dataType;
         if (cp.isPrimitiveType) {
             dataType = cp.dataType;
-            if (!(cp.isString || cp.isFile)
+            if (!(cp.isString || cp.isFile || cp.isContainer)
                     && (cp.isNullable || !cp.required)) {
                 dataType = "System.Nullable[" + dataType + "]";
             }

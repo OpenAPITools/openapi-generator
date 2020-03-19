@@ -1,6 +1,6 @@
 {{> partial_header}}
 function Invoke-{{{apiNamePrefix}}}ApiClient {
-  
+    [OutputType('System.Collections.Hashtable')]
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory)]
@@ -32,7 +32,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
     'Calling method: Invoke-{{{apiNamePrefix}}}ApiClient' | Write-Debug
     $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-    $Configuraiton = Get-{{{apiNamePrefix}}}Configuration
+    $Configuration = Get-{{{apiNamePrefix}}}Configuration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
 
     # cookie parameters
