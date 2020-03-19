@@ -71,9 +71,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public TypeScriptAngularClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         this.outputFolder = "generated-code/typescript-angular";
 
@@ -332,7 +330,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // set zone.js version
-        if (ngVersion.atLeast("8.0.0")) {
+        if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put("zonejsVersion", "0.10.2");
         } else if (ngVersion.atLeast("8.0.0")) {
             additionalProperties.put("zonejsVersion", "0.9.1");
@@ -456,7 +454,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
                         // Add the more complicated component instead of just the brace.
                         CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
-                        pathBuffer.append(toVarName(parameterName.toString()));
+                        pathBuffer.append(toParamName(parameterName.toString()));
                         if (parameter != null && parameter.isDateTime) {
                             pathBuffer.append(".toISOString()");
                         }

@@ -162,7 +162,7 @@ public class SpringCodegenTest {
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
-        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java", "@RequestParam");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java",  "@RequestParam");
     }
 
     @Test
@@ -334,14 +334,14 @@ public class SpringCodegenTest {
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeysApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/BearsApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PandasApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CrocodilesApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PolarBearsApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeysApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/BearsApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PandasApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CrocodilesApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PolarBearsApi.java",  "@RequestParam");
 
     }
 
@@ -371,7 +371,7 @@ public class SpringCodegenTest {
         codegen.cliOptions()
                 .stream()
                 .collect(groupingBy(CliOption::getOpt))
-                .forEach((k, v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
+                .forEach((k,v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
     }
 
     @Test
@@ -447,37 +447,37 @@ public class SpringCodegenTest {
 
     @Test
     public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+      beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
     public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+      beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+      File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+      output.deleteOnExit();
+      String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+      OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
 
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.setUseBeanValidation(useBeanValidation);
-        codegen.setPerformBeanValidation(performBeanValidation);
-        codegen.setJava8(java8);
+      SpringCodegen codegen = new SpringCodegen();
+      codegen.setOutputDir(output.getAbsolutePath());
+      codegen.setUseBeanValidation(useBeanValidation);
+      codegen.setPerformBeanValidation(performBeanValidation);
+      codegen.setJava8(java8);
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
+      ClientOptInput input = new ClientOptInput();
+      input.openAPI(openAPI);
+      input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(input).generate();
+      MockDefaultGenerator generator = new MockDefaultGenerator();
+      generator.opts(input).generate();
 
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", contains);
-        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
+      checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", contains);
+      checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
     }
 
     @Test
@@ -485,7 +485,7 @@ public class SpringCodegenTest {
         // we had an issue where int64, float, and double values were having single character string suffixes
         // included in their defaultValues
         // This test verifies that those characters are no longer present
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/issue1226.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue1226.yaml");
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -519,6 +519,32 @@ public class SpringCodegenTest {
         Assert.assertEquals(floatParam.defaultValue, floatVal);
         Assert.assertEquals(doubleParam.defaultValue, doubleVal);
     }
+
+    @Test
+    public void doGenerateCookieParams() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_5386.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java", "@CookieValue");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java", "@CookieValue");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/BirdsApi.java", "@CookieValue");
+    }
+
 
     @Test
     public void testPreAuthorizeOnOauth() throws IOException {

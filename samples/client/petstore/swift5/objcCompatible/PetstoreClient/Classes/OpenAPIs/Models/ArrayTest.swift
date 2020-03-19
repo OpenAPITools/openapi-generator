@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ArrayTest: Codable {
+@objc public class ArrayTest: NSObject, Codable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?

@@ -104,7 +104,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public SpringCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -129,7 +129,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/javaSpring";
         embeddedTemplateDir = templateDir = "JavaSpring";

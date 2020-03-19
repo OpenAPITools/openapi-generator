@@ -49,6 +49,7 @@ sidebar_label: typescript-node
 <li>Map</li>
 <li>Object</li>
 <li>ReadStream</li>
+<li>ReadonlyArray</li>
 <li>RequestDetailedFile</li>
 <li>RequestFile</li>
 <li>String</li>

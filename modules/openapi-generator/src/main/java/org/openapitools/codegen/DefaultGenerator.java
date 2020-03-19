@@ -785,7 +785,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 if (ignoreProcessor.allowsFile(new File(outputFilename))) {
-                    if (Arrays.stream(templatingEngine.getFileExtensions()).anyMatch(templateFile::endsWith)) {
+                    // support.templateFile is the unmodified/original supporting file name (e.g. build.sh.mustache)
+                    // templatingEngine.templateExists dispatches resolution to this, performing template-engine specific inspect of support file extensions.
+                    if (templatingEngine.templateExists(this, support.templateFile)) {
                         String templateContent = templatingEngine.compileTemplate(this, bundle, support.templateFile);
                         writeToFile(outputFilename, templateContent);
                         File written = new File(outputFilename);

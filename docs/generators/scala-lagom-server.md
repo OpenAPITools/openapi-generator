@@ -7,6 +7,7 @@ sidebar_label: scala-lagom-server
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
+|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (prefered for JDK 1.8+)</dd></dl>|java8|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |modelPackage|package for generated models| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
@@ -21,7 +22,6 @@ sidebar_label: scala-lagom-server
 | ---------- | ------- |
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.DateTime|
 |File|java.io.File|

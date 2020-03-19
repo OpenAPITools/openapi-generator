@@ -55,7 +55,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     public StaticHtml2Generator() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
                 .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
                 .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
@@ -63,7 +63,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
                 .globalFeatures(EnumSet.allOf(GlobalFeature.class))
                 .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
                 .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
-                .build();
+        );
 
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs2";
