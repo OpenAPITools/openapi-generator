@@ -400,7 +400,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         goto fail;
     }
     {{/isBoolean}}
-    {{^isNumeric}}
+    {{#isNumeric}}
     if(cJSON_AddNumberToObject({{{name}}}, "", *(double *){{{name}}}ListEntry->data) == NULL)
     {
         goto fail;
@@ -451,7 +451,6 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         }
         {{/isNumeric}}
         {{#isBoolean}}
-//         if(cJSON_AddBoolToObject(localMapObject, localKeyValue->key, (cJSON_bool)localKeyValue->value) == NULL)
         if(cJSON_AddBoolToObject(localMapObject, localKeyValue->key, *(cJSON_bool *)localKeyValue->value) == NULL)
         {
             goto fail;
