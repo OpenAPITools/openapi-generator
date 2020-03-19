@@ -1408,4 +1408,23 @@ public class DefaultCodegenTest {
         Assert.assertEquals(cp.encoding.style, "form");
     }
 
+    @Test
+    public void testVerifyMultipartResponse() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/multipart-encoding.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation operation = openAPI.getPaths().get("/multipart").getPost();
+        CodegenOperation co = codegen.fromOperation("/multipart", "post", operation, null);
+
+        Assert.assertEquals(co.produces.size(), 2);
+        Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
+        Assert.assertEquals(co.produces.get(0).get("isBody"), "true");
+        Assert.assertEquals(co.produces.get(1).get("mediaType"), "multipart/related");
+        Assert.assertEquals(co.produces.get(1).get("isForm"), "true");
+
+        Assert.assertTrue(co.responses.get(0).hasBodyParam);
+        Assert.assertTrue(co.responses.get(0).hasFormParam);
+    }
+
 }
