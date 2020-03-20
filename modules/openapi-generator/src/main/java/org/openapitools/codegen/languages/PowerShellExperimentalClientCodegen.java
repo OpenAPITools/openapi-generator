@@ -232,8 +232,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 "System.Nullable[UInt32]",
                 "System.Nullable[UInt64]",
                 "System.Nullable[Decimal]",
-                "System.Nullable[[Single]",
-                "System.Nullable[[Double]",
+                "System.Nullable[Single]",
+                "System.Nullable[Double]",
                 "System.Nullable[Boolean]"
         ));
 
