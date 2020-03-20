@@ -596,6 +596,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+        HashMap<String, Boolean> processedModelMaps = new HashMap<String, Boolean>();
 
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
@@ -608,7 +609,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             int index = 0;
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-powershell-data-type", getPSDataType(p));
-                p.vendorExtensions.put("x-powershell-example", constructExampleCode(p, modelMaps));
+                p.vendorExtensions.put("x-powershell-example", constructExampleCode(p, modelMaps, processedModelMaps));
                 p.vendorExtensions.put("x-index", index);
                 index++;
             }
@@ -622,9 +623,10 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             }
         }
 
+        processedModelMaps.clear();
         for (CodegenOperation operation : operationList) {
             for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-powershell-example", constructExampleCode(cp, modelMaps));
+                cp.vendorExtensions.put("x-powershell-example", constructExampleCode(cp, modelMaps, processedModelMaps));
             }
         }
 
@@ -672,9 +674,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         return name;
     }
 
-    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
+    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Boolean> processedModelMap) {
         if (codegenParameter.isListContainer) { // array
-            return "@(" + constructExampleCode(codegenParameter.items, modelMaps) + ")";
+            return "@(" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + ")";
         } else if (codegenParameter.isMapContainer) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType) ||
@@ -706,7 +708,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
                 return "TODO";
@@ -714,9 +716,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         }
     }
 
-    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
+    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Boolean> processedModelMap) {
         if (codegenProperty.isListContainer) { // array
-            return "@(" + constructExampleCode(codegenProperty.items, modelMaps) + ")";
+            return "@(" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
         } else if (codegenProperty.isMapContainer) { // map
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType) || // primitive type
@@ -748,7 +750,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
                 return "\"TODO\"";
@@ -756,12 +758,20 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         }
     }
 
-    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
+    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Boolean> processedModelMap) {
         String example;
+
+        // break recursion. In case a model is already processed in the current context, return.
+        String model = codegenModel.name;
+        if (processedModelMap.containsKey(model)) {
+            return "";
+        }
+        processedModelMap.put(model, true);
+
         example = "(New-" + codegenModel.name;
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.vars) {
-            propertyExamples.add(" -" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps));
+            propertyExamples.add(" -" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
         }
         example += StringUtils.join(propertyExamples, " ");
         example += ")";
