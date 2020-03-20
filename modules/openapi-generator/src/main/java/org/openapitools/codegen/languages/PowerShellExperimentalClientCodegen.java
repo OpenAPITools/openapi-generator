@@ -761,7 +761,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Boolean> processedModelMap) {
         String example;
 
-        // break recursion. In case a model is already processed in the current context, return.
+        // break infinite recursion. Return, in case a model is already processed in the current context.
         String model = codegenModel.name;
         if (processedModelMap.containsKey(model)) {
             return "";
