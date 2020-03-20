@@ -1291,6 +1291,7 @@
                 <module>samples/openapi3/client/petstore/go</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
+                <module>samples/openapi3/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
@@ -1383,8 +1384,10 @@
                 <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
+                <module>samples/client/petstore/dart2/petstore</module>
+                <module>samples/client/petstore/dart-jaguar/openapi</module>
+                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2</module>
@@ -1446,6 +1449,7 @@
                 <module>samples/client/petstore/erlang-proper</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
                 <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-jackson/</module>
                 <module>samples/client/petstore/kotlin-gson/</module>
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
                 <module>samples/client/petstore/kotlin-nullable/</module>
@@ -1591,12 +1595,12 @@
         <swagger-core-version>2.1.1</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
         <swagger-parser-version>2.0.17</swagger-parser-version>
-        <scala-version>2.11.1</scala-version>
+        <scala-version>2.11.12</scala-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.13</junit-version>
-        <jackson-version>2.8.9</jackson-version>
+        <jackson-version>2.10.2</jackson-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>3.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>

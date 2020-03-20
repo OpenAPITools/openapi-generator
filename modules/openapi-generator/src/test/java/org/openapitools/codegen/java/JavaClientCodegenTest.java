@@ -207,7 +207,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithAllOf() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
         final JavaClientCodegen codegen = new JavaClientCodegen();
 
         Operation operation = openAPI.getPaths().get("/ping").getPost();
@@ -433,7 +433,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testReferencedHeader() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue855.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -448,7 +448,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testAuthorizationScopeValues_Issue392() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue392.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue392.yaml");
 
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
@@ -476,7 +476,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testAuthorizationsHasMoreWhenFiltered() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue4584.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue4584.yaml");
 
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
@@ -496,7 +496,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testFreeFormObjects() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue796.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue796.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
@@ -578,7 +578,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testBearerAuth() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/pingBearerAuth.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/pingBearerAuth.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
 
         List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());

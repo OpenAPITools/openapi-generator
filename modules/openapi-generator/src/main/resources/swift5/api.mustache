@@ -16,7 +16,7 @@ extension {{projectName}}API {
 
 {{#description}}
 /** {{description}} */{{/description}}
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{classname}} {
+{{#objcCompatible}}@objc {{/objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{classname}}{{#objcCompatible}} : NSObject{{/objcCompatible}} {
 {{#operation}}
     {{#allParams}}
     {{#isEnum}}

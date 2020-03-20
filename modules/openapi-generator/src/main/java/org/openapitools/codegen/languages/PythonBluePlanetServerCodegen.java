@@ -33,7 +33,7 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
     public PythonBluePlanetServerCodegen() {
         super("python-blueplanet", true);
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -54,7 +54,7 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-blueplanet";

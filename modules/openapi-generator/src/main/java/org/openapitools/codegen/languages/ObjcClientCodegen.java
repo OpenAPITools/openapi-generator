@@ -66,7 +66,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public ObjcClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(
@@ -87,7 +87,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "objc";
