@@ -12,7 +12,6 @@ import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +56,6 @@ public interface PetApi {
         @ApiResponse(code = 405, message = "Invalid input") })
     @ApiImplicitParams({
     })
-    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
@@ -86,7 +84,6 @@ public interface PetApi {
     @ApiImplicitParams({
     @ApiImplicitParam(name = "apiKey", value = "",  dataType = "String", paramType = "header")
     })
-    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId) {
@@ -114,7 +111,6 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid status value") })
     @ApiImplicitParams({
     })
-    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -158,7 +154,6 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid tag value") })
     @ApiImplicitParams({
     })
-    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -245,7 +240,6 @@ public interface PetApi {
         @ApiResponse(code = 405, message = "Validation exception") })
     @ApiImplicitParams({
     })
-    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
@@ -273,7 +267,6 @@ public interface PetApi {
         @ApiResponse(code = 405, message = "Invalid input") })
     @ApiImplicitParams({
     })
-    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
@@ -301,7 +294,6 @@ public interface PetApi {
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     @ApiImplicitParams({
     })
-    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/{petId}/uploadImage",
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },

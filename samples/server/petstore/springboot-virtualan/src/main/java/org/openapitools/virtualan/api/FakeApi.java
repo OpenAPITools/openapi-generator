@@ -22,7 +22,6 @@ import io.virtualan.annotation.VirtualService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -398,7 +397,6 @@ public interface FakeApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/fake/{petId}/uploadImageWithRequiredFile",
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
