@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -213,6 +214,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // infrastructure destination folder
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
+        final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
 
         // additional properties
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -231,7 +233,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 processJVMOkHttpLibrary(infrastructureFolder);
                 break;
             case JVM_RETROFIT2:
-                processJVMRetrofit2Library(infrastructureFolder);
+                processJVMRetrofit2Library(infrastructureFolder, authFolder);
                 break;
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
@@ -312,11 +314,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
     }
 
-    private void processJVMRetrofit2Library(String infrastructureFolder) {
+    private void processJVMRetrofit2Library(String infrastructureFolder, String authFolder) {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_RETROFIT2, true);
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
+        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+        supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 
@@ -471,6 +475,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return objects;
     }
 
+        private boolean usesRetrofit2Library() {
+        return getLibrary() != null && getLibrary().contains(JVM_RETROFIT2);
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
@@ -485,6 +493,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     if (isMultipartType(operation.consumes)) {
                         operation.isMultipart = Boolean.TRUE;
                     }
+                }
+
+                if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                    operation.path = operation.path.substring(1);
                 }
 
                 // modify the data type of binary form parameters to a more friendly type for multiplatform builds

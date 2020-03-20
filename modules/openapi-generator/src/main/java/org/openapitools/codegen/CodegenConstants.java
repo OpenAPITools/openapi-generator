@@ -263,6 +263,9 @@ public class CodegenConstants {
     public static final String SOURCECODEONLY_GENERATION = "generateSourceCodeOnly";
     public static final String SOURCECODEONLY_GENERATION_DESC = "Specifies that only a library source code is to be generated.";
 
+    public static final String USE_COROUTINES = "useCoroutines";
+    public static final String USE_COROUTINES_DESC = "toggle \"suspend\" for generated apis";
+
     public static final String PARCELIZE_MODELS = "parcelizeModels";
     public static final String PARCELIZE_MODELS_DESC = "toggle \"@Parcelize\" for generated models";
 

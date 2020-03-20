@@ -45,19 +45,10 @@ public class ApiClient {
     this();
     for(String authName : authNames) {
       Interceptor auth;
-      if ("api_key".equals(authName)) {
-        
-        auth = new ApiKeyAuth("header", "api_key");
-      } else if ("api_key_query".equals(authName)) {
-        
-        auth = new ApiKeyAuth("query", "api_key_query");
-      } else if ("http_basic_test".equals(authName)) {
-        
+      if ("Bearer".equals(authName)) {
+        auth = new HttpBearerAuth("bearer");
+      } else if ("Basic".equals(authName)) {
         auth = new HttpBasicAuth();
-        
-      } else if ("petstore_auth".equals(authName)) {
-        
-        auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
@@ -75,16 +66,6 @@ public class ApiClient {
   }
 
   /**
-   * Helper constructor for single api key
-   * @param authName Authentication name
-   * @param apiKey API key
-   */
-  public ApiClient(String authName, String apiKey) {
-    this(authName);
-    this.setApiKey(apiKey);
-  }
-
-  /**
    * Helper constructor for single basic auth or password oauth2
    * @param authName Authentication name
    * @param username Username
@@ -93,6 +74,16 @@ public class ApiClient {
   public ApiClient(String authName, String username, String password) {
     this(authName);
     this.setCredentials(username,  password);
+  }
+
+  /**
+   * Helper constructor for single basic auth or password oauth2
+   * @param authName Authentication name
+   * @param token Username
+   */
+  public ApiClient(String authName, String token) {
+    this(authName);
+    this.setBearerToken(token);
   }
 
   /**

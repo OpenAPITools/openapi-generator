@@ -61,6 +61,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean useCoroutines = false;
     protected boolean parcelizeModels = false;
     protected boolean serializableModel = false;
     protected boolean needsDataClassBody = false;
@@ -194,6 +195,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
 
+        cliOptions.add(new CliOption(CodegenConstants.USE_COROUTINES, CodegenConstants.USE_COROUTINES_DESC));
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
@@ -418,6 +420,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_COROUTINES)) {
+            this.setUseCoroutines(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_COROUTINES));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_COROUTINES, useCoroutines);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
             this.setParcelizeModels(convertPropertyToBooleanAndWriteBack(CodegenConstants.PARCELIZE_MODELS));
         } else {
@@ -466,6 +474,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setTestFolder(String testFolder) {
         this.testFolder = testFolder;
+    }
+
+    public Boolean isUseCoroutines() {
+        return useCoroutines;
+    }
+
+    public void setUseCoroutines(Boolean useCoroutines) {
+        this.useCoroutines = useCoroutines;
     }
 
     public Boolean getParcelizeModels() {

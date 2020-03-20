@@ -1,43 +1,159 @@
 package {{packageName}}.infrastructure
 
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
+{{#isBasicBasic}}
+import {{packageName}}.auth.HttpBasicAuth
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+import {{packageName}}.auth.HttpBearerAuth
+{{/isBasicBearer}}
+{{/isBasic}}
+{{/authMethods}}
+{{/hasAuthMethods}}
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 {{#gson}}
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import retrofit2.converter.gson.GsonConverterFactory
 {{/gson}}
 {{#moshi}}
+import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
-    private var baseUrl: String = "{{{basePath}}}",
-    private var okHttpClient: OkHttpClient
+    private var baseUrl: String = BASE_URL,
+    private val okHttpClientBuilder: OkHttpClient.Builder? = null,
+    private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder
 ) {
+    private val apiAuthorizations = mutableMapOf<String, Interceptor>()
+
+    private val retrofitBuilder: Retrofit.Builder by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            {{#gson}}
+            .addConverterFactory(GsonConverterFactory.create(Serializer.gson))
+            {{/gson}}
+            {{#moshi}}
+            .addConverterFactory(MoshiConverterFactory.create(Serializer.moshi))
+            {{/moshi}}
+    }
+
+    private val clientBuilder: OkHttpClient.Builder by lazy {
+        okHttpClientBuilder ?: defaultClientBuilder
+    }
+
+    private val defaultClientBuilder: OkHttpClient.Builder by lazy {
+        OkHttpClient().newBuilder()
+    }
+
     init {
         normalizeBaseUrl()
     }
 
-    val retrofitBuilder: Retrofit.Builder by lazy {
+    {{#hasAuthMethods}}
+    constructor(
+        baseUrl: String = BASE_URL,
+        okHttpClientBuilder: OkHttpClient.Builder? = null,
+        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
+        authNames: Array<String>
+    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
+        authNames.forEach { authName ->
+            val auth = when (authName) {
+                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{/authMethods}}
+                else -> throw RuntimeException("auth name $authName not found in available auth names")
+            }
+            addAuthorization(authName, auth);
+        }
+    }
 
-        Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .addConverterFactory(ScalarsConverterFactory.create())
-        {{#gson}}
-        .addConverterFactory(GsonConverterFactory.create(Serializer.gson))
-        {{/gson}}
-        {{#moshi}}
-        .addConverterFactory(MoshiConverterFactory.create(Serializer.moshi))
-        {{/moshi}}
+    {{#authMethods}}
+    {{#isBasic}}
+    {{#isBasicBasic}}
+    constructor(
+        baseUrl: String = BASE_URL,
+        okHttpClientBuilder: OkHttpClient.Builder? = null,
+        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
+        authName: String, 
+        username: String, 
+        password: String
+    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
+        setCredentials(username, password)
+    }
+
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    constructor(
+        baseUrl: String = BASE_URL,
+        okHttpClientBuilder: OkHttpClient.Builder? = null,
+        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
+        authName: String, 
+        bearerToken: String
+    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
+        setBearerToken(bearerToken)
+    }
+
+    {{/isBasicBearer}}
+    {{/isBasic}}
+    {{/authMethods}}
+    {{#authMethods}}
+    {{#isBasic}}
+    {{#isBasicBasic}}
+    fun setCredentials(username: String, password: String): ApiClient {
+        apiAuthorizations.values.firstAs<Interceptor, HttpBasicAuth>()
+            .setCredentials(username, password);
+        return this
+    }
+
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    fun setBearerToken(bearerToken: String): ApiClient {
+        apiAuthorizations.values.firstAs<Interceptor, HttpBearerAuth>()
+            .bearerToken = bearerToken
+        return this
+    }
+
+    {{/isBasicBearer}}
+    {{/isBasic}}
+    {{/authMethods}}
+    {{/hasAuthMethods}}
+    /**
+     * Adds an authorization to be used by the client
+     * @param authName Authentication name
+     * @param authorization Authorization interceptor
+     * @return ApiClient
+     */
+    fun addAuthorization(authName: String, authorization: Interceptor): ApiClient {
+        if (apiAuthorizations.containsKey(authName)) {
+            throw RuntimeException("auth name $authName already in api authorizations")
+        }
+        apiAuthorizations[authName] = authorization
+        clientBuilder.addInterceptor(authorization)
+        return this
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        return retrofitBuilder.client(okHttpClient).build().create(serviceClass)
+        return retrofitBuilder.client(clientBuilder.build()).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {
         if (!baseUrl.endsWith("/")) {
             baseUrl += "/"
         }
+    }
+
+    private inline fun <T, reified U> Iterable<T>.firstAs(): U {
+        for (element in this) if (element is U) return element
+        throw NoSuchElementException("Collection contains no element for generic parameter U")
+    }
+
+    companion object {
+        const val BASE_URL: String = "{{{basePath}}}"
     }
 }

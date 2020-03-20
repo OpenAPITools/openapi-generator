@@ -1,0 +1,83 @@
+# {{classname}}{{#description}}
+{{description}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+
+{{summary}}{{#notes}}
+
+{{notes}}{{/notes}}
+
+### Example
+```kotlin
+// Import classes:
+//import {{{packageName}}}.*
+//import {{{packageName}}}.infrastructure.*
+//import {{{modelPackage}}}.*
+
+val apiClient = ApiClient()
+{{#authMethods}}
+{{#isBasic}}
+{{#isBasicBasic}}
+apiClient.setCredentials("USERNAME", "PASSWORD")
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+apiClient.setBearerToken("TOKEN")
+{{/isBasicBearer}}
+{{/isBasic}}
+{{/authMethods}}
+val webService = apiClient.createWebservice({{{classname}}}::class.java)
+{{#allParams}}
+val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+{{/allParams}}
+
+{{#useCoroutines}}
+launch(Dispatchers.IO) {
+{{/useCoroutines}}
+{{#useCoroutines}}    {{/useCoroutines}}{{#returnType}}val result : {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}} = {{/returnType}}webService.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+{{#useCoroutines}}
+}
+{{/useCoroutines}}
+```
+
+### Parameters
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#generateModelDocs}}[**{{dataType}}**]({{baseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{dataType}}**{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{#generateModelDocs}}[**{{returnType}}**]({{returnBaseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{returnType}}**{{/generateModelDocs}}{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}null (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}
+{{#authMethods}}
+{{#isBasic}}
+{{#isBasicBasic}}
+Configure {{name}}:
+    ApiClient().setCredentials("USERNAME", "PASSWORD")
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+Configure {{name}}:
+    ApiClient().setBearerToken("TOKEN")
+{{/isBasicBearer}}
+{{/isBasic}}
+{{/authMethods}}
+
+### HTTP request headers
+
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{/operation}}
+{{/operations}}

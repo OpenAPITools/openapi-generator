@@ -2,10 +2,19 @@ package {{apiPackage}}
 
 import {{packageName}}.infrastructure.CollectionFormats.*
 import retrofit2.http.*
+{{^useCoroutines}}
 import retrofit2.Call
+{{/useCoroutines}}
+{{#useCoroutines}}
+import retrofit2.Response
+{{/useCoroutines}}
 import okhttp3.RequestBody
+{{#isResponseFile}}
 import okhttp3.ResponseBody
+{{/isResponseFile}}
+{{#isMultipart}}
 import okhttp3.MultipartBody
+{{/isMultipart}}
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -13,6 +22,17 @@ import okhttp3.MultipartBody
 {{#operations}}
 interface {{classname}} {
     {{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     * Responses:{{#responses}}
+     *  - {{code}}: {{{message}}}{{/responses}}
+     * 
+    {{#allParams}} 
+     * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}} 
+    * @return {{^useCoroutines}}[Call]<{{/useCoroutines}}{{#isResponseFile}}[ResponseBody]{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}[{{{returnType}}}]{{/returnType}}{{^returnType}}[Unit]{{/returnType}}{{/isResponseFile}}{{^useCoroutines}}>{{/useCoroutines}}
+     */
     {{#isDeprecated}}
     @Deprecated("This api was deprecated")
     {{/isDeprecated}}
@@ -31,7 +51,7 @@ interface {{classname}} {
     {{/prioritizedContentTypes}}
     {{/formParams}}
     @{{httpMethod}}("{{{path}}}")
-    fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}: Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>
+    {{#useCoroutines}}suspend {{/useCoroutines}}fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}: {{^useCoroutines}}Call<{{/useCoroutines}}{{#useCoroutines}}Response<{{/useCoroutines}}{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>
 
     {{/operation}}
 }
