@@ -217,12 +217,12 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return List&lt;Pet&gt;
+   * @return Set&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    * @deprecated
    */
   @Deprecated
-  public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
+  public Set<Pet> findPetsByTags(Set<String> tags) throws ApiException {
     // verify the required parameter 'tags' is set
     if (tags == null) {
       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
@@ -264,7 +264,7 @@ public class PetApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {});
+      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {});
     } catch (IOException e) {
       throw new ApiException(e);
     } catch (InterruptedException e) {

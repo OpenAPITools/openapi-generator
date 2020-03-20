@@ -94,7 +94,7 @@ public class PetApi {
      * @param tags Tags to filter by (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void findPetsByTags(List<String> tags, Handler<AsyncResult<List<Pet>>> resultHandler) {
+    public void findPetsByTags(Set<String> tags, Handler<AsyncResult<Set<Pet>>> resultHandler) {
         delegate.findPetsByTags(tags, resultHandler);
     }
 
@@ -104,7 +104,7 @@ public class PetApi {
      * @param tags Tags to filter by (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<List<Pet>> rxFindPetsByTags(List<String> tags) {
+    public Single<Set<Pet>> rxFindPetsByTags(Set<String> tags) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.findPetsByTags(tags, fut);
         }));

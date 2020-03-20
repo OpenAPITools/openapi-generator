@@ -549,7 +549,7 @@ public class FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
@@ -568,7 +568,7 @@ public class FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API

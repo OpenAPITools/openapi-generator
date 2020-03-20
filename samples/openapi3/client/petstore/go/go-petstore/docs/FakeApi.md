@@ -411,7 +411,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **optional.String**| Query parameter enum test (string) | [default to -efg]
  **enumQueryInteger** | **optional.Int32**| Query parameter enum test (double) | 
  **enumQueryDouble** | **optional.Float64**| Query parameter enum test (double) | 
- **enumFormStringArray** | [**optional.Interface of []string**](string.md)| Form parameter enum test (string array) | [default to $]
+ **enumFormStringArray** | [**optional.Interface of []string**](string.md)| Form parameter enum test (string array) | 
  **enumFormString** | **optional.String**| Form parameter enum test (string) | [default to -efg]
 
 ### Return type

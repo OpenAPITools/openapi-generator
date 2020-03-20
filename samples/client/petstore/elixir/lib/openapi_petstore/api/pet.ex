@@ -111,7 +111,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, [%Pet{}, ...]} on success
   {:error, info} on failure
   """
-  @spec find_pets_by_tags(Tesla.Env.client, list(String.t), keyword()) :: {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
+  @spec find_pets_by_tags(Tesla.Env.client, list(String.t), keyword()) :: {:ok, } | {:error, Tesla.Env.t}
   def find_pets_by_tags(connection, tags, _opts \\ []) do
     %{}
     |> method(:get)

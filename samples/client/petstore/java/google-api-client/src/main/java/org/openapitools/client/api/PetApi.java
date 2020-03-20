@@ -303,12 +303,12 @@ public class PetApi {
     * <p><b>200</b> - successful operation
     * <p><b>400</b> - Invalid tag value
     * @param tags Tags to filter by
-    * @return List&lt;Pet&gt;
+    * @return Set&lt;Pet&gt;
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public List<Pet> findPetsByTags(List<String> tags) throws IOException {
+    public Set<Pet> findPetsByTags(Set<String> tags) throws IOException {
         HttpResponse response = findPetsByTagsForHttpResponse(tags);
-        TypeReference<List<Pet>> typeRef = new TypeReference<List<Pet>>() {};
+        TypeReference<Set<Pet>> typeRef = new TypeReference<Set<Pet>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -319,16 +319,16 @@ public class PetApi {
     * <p><b>400</b> - Invalid tag value
     * @param tags Tags to filter by
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
-    * @return List&lt;Pet&gt;
+    * @return Set&lt;Pet&gt;
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public List<Pet> findPetsByTags(List<String> tags, Map<String, Object> params) throws IOException {
+    public Set<Pet> findPetsByTags(Set<String> tags, Map<String, Object> params) throws IOException {
         HttpResponse response = findPetsByTagsForHttpResponse(tags, params);
-        TypeReference<List<Pet>> typeRef = new TypeReference<List<Pet>>() {};
+        TypeReference<Set<Pet>> typeRef = new TypeReference<Set<Pet>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse findPetsByTagsForHttpResponse(List<String> tags) throws IOException {
+    public HttpResponse findPetsByTagsForHttpResponse(Set<String> tags) throws IOException {
         // verify the required parameter 'tags' is set
         if (tags == null) {
             throw new IllegalArgumentException("Missing the required parameter 'tags' when calling findPetsByTags");
@@ -353,7 +353,7 @@ public class PetApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
-    public HttpResponse findPetsByTagsForHttpResponse(List<String> tags, Map<String, Object> params) throws IOException {
+    public HttpResponse findPetsByTagsForHttpResponse(Set<String> tags, Map<String, Object> params) throws IOException {
         // verify the required parameter 'tags' is set
         if (tags == null) {
             throw new IllegalArgumentException("Missing the required parameter 'tags' when calling findPetsByTags");

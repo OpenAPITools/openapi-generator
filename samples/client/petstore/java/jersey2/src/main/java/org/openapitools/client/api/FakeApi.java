@@ -682,7 +682,7 @@ if (paramCallback != null)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -705,7 +705,7 @@ if (paramCallback != null)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call

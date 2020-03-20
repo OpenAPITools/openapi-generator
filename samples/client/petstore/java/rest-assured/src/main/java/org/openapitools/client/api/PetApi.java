@@ -396,7 +396,7 @@ public class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @see #tagsQuery Tags to filter by (required)
-     * return List&lt;Pet&gt;
+     * return Set&lt;Pet&gt;
      * @deprecated
      */
     @Deprecated
@@ -428,17 +428,17 @@ public class PetApi {
         /**
          * GET /pet/findByTags
          * @param handler handler
-         * @return List&lt;Pet&gt;
+         * @return Set&lt;Pet&gt;
          */
-        public List<Pet> executeAs(Function<Response, Response> handler) {
-            Type type = new TypeToken<List<Pet>>(){}.getType();
+        public Set<Pet> executeAs(Function<Response, Response> handler) {
+            Type type = new TypeToken<Set<Pet>>(){}.getType();
             return execute(handler).as(type);
         }
 
         public static final String TAGS_QUERY = "tags";
 
         /**
-         * @param tags (List&lt;String&gt;) Tags to filter by (required)
+         * @param tags (Set&lt;String&gt;) Tags to filter by (required)
          * @return operation
          */
         public FindPetsByTagsOper tagsQuery(Object... tags) {

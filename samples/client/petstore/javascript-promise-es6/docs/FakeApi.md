@@ -501,7 +501,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enumQueryInteger** | **Number**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Number**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
+ **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] 
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type

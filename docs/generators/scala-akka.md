@@ -26,6 +26,7 @@ sidebar_label: scala-akka
 |DateTime|org.joda.time.DateTime|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |ListBuffer|scala.collection.mutable.ListBuffer|
 |ListSet|scala.collection.immutable.ListSet|
 |LocalDate|org.joda.time.*|

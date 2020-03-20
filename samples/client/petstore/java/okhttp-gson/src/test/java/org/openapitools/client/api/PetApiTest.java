@@ -310,7 +310,7 @@ public class PetApiTest {
 
         api.updatePet(pet);
 
-        List<Pet> pets = api.findPetsByTags(Arrays.asList("friendly"));
+        Set<Pet> pets = api.findPetsByTags(new HashSet<>(Arrays.asList("friendly")));
         assertNotNull(pets);
 
         boolean found = false;

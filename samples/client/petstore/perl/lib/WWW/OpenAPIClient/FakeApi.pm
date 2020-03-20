@@ -783,7 +783,7 @@ sub test_endpoint_parameters {
 # @param string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
 # @param int $enum_query_integer Query parameter enum test (double) (optional)
 # @param double $enum_query_double Query parameter enum test (double) (optional)
-# @param ARRAY[string] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
+# @param ARRAY[string] $enum_form_string_array Form parameter enum test (string array) (optional)
 # @param string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
 {
     my $params = {

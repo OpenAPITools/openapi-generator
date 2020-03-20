@@ -385,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `Pet` (
   `id` BIGINT DEFAULT NULL,
   `category` TEXT DEFAULT NULL,
   `name` TEXT NOT NULL,
-  `photoUrls` JSON NOT NULL,
+  `photoUrls` TEXT NOT NULL,
   `tags` JSON DEFAULT NULL,
   `status` ENUM('available', 'pending', 'sold') DEFAULT NULL COMMENT 'pet status in the store'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -160,7 +160,7 @@ public class PetApiImpl implements PetApi {
      * @param tags Tags to filter by (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void findPetsByTags(List<String> tags, Handler<AsyncResult<List<Pet>>> resultHandler) {
+    public void findPetsByTags(Set<String> tags, Handler<AsyncResult<Set<Pet>>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'tags' is set
@@ -189,7 +189,7 @@ public class PetApiImpl implements PetApi {
         String[] localVarAccepts = { "application/xml", "application/json" };
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        TypeReference<List<Pet>> localVarReturnType = new TypeReference<List<Pet>>() {};
+        TypeReference<Set<Pet>> localVarReturnType = new TypeReference<Set<Pet>>() {};
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**

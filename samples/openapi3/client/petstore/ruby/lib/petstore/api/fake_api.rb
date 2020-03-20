@@ -671,7 +671,7 @@ module Petstore
     # @option opts [String] :enum_query_string Query parameter enum test (string) (default to '-efg')
     # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
-    # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array) (default to '$')
+    # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
     # @option opts [String] :enum_form_string Form parameter enum test (string) (default to '-efg')
     # @return [nil]
     def test_enum_parameters(opts = {})

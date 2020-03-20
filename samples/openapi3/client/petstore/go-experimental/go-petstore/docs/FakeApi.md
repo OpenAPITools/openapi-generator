@@ -403,7 +403,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **string** | Query parameter enum test (string) | [default to -efg]
  **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
  **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
- **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to $]
+ **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | 
  **enumFormString** | **string** | Form parameter enum test (string) | [default to -efg]
 
 ### Return type

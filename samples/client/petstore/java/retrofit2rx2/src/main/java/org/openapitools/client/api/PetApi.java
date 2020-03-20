@@ -61,12 +61,12 @@ public interface PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return Observable&lt;List&lt;Pet&gt;&gt;
+   * @return Observable&lt;Set&lt;Pet&gt;&gt;
    * @deprecated
    */
   @Deprecated
   @GET("pet/findByTags")
-  Observable<List<Pet>> findPetsByTags(
+  Observable<Set<Pet>> findPetsByTags(
     @retrofit2.http.Query("tags") CSVParams tags
   );
 

@@ -25,6 +25,7 @@ sidebar_label: scala-gatling
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |ListBuffer|scala.collection.mutable.ListBuffer|
 |ListSet|scala.collection.immutable.ListSet|
 |LocalDate|org.joda.time.*|

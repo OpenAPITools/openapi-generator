@@ -17,7 +17,7 @@ public interface PetApi {
 
     void findPetsByStatus(List<String> status, Handler<AsyncResult<List<Pet>>> handler);
 
-    void findPetsByTags(List<String> tags, Handler<AsyncResult<List<Pet>>> handler);
+    void findPetsByTags(Set<String> tags, Handler<AsyncResult<Set<Pet>>> handler);
 
     void getPetById(Long petId, Handler<AsyncResult<Pet>> handler);
 

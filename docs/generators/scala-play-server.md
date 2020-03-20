@@ -30,6 +30,7 @@ sidebar_label: scala-play-server
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |ListBuffer|scala.collection.mutable.ListBuffer|
 |ListSet|scala.collection.immutable.ListSet|

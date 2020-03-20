@@ -462,7 +462,7 @@ export default class FakeApi {
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to '-efg')
      * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
      * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
-     * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array) (default to '$')
+     * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array)
      * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to '-efg')
      * @param {module:api/FakeApi~testEnumParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */

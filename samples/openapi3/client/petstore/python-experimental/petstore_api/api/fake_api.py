@@ -1233,7 +1233,7 @@ class FakeApi(object):
                 enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
                 enum_query_integer (int): Query parameter enum test (double). [optional]
                 enum_query_double (float): Query parameter enum test (double). [optional]
-                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
+                enum_form_string_array ([str]): Form parameter enum test (string array). [optional]
                 enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.

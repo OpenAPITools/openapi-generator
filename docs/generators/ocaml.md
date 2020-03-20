@@ -21,6 +21,7 @@ sidebar_label: ocaml
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |LocalDate|org.joda.time.*|
 |LocalDateTime|org.joda.time.*|

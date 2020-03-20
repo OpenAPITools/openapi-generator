@@ -699,7 +699,7 @@ enum_query_string_array = ['enum_query_string_array_example'] # [str] | Query pa
 enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of '$'
+enum_form_string_array = '$' # [str] | Form parameter enum test (string array) (optional)
 enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
 
     # example passing only required values which don't have defaults set
@@ -721,7 +721,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional]
- **enum_form_string_array** | **[str]**| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of '$'
+ **enum_form_string_array** | **[str]**| Form parameter enum test (string array) | [optional]
  **enum_form_string** | **str**| Form parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
 
 ### Return type
