@@ -75,11 +75,11 @@ class StoreApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   val placeOrderOperation = (apiOperation[Order]("placeOrder")
     summary "Place an order for a pet"
-    parameters(bodyParam[Order]("order").description(""))
+    parameters(bodyParam[Order]("body").description(""))
   )
 
   post("/store/order", operation(placeOrderOperation)) {
-    //println("order: " + order)
+    //println("body: " + body)
   }
 
 }

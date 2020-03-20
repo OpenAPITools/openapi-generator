@@ -12,7 +12,7 @@ import org.openapitools.vertxweb.server.model.Tag;
 /**
  * A pet for sale in the pet store
  **/
-@JsonInclude(JsonInclude.Include.NON_NULL) 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pet   {
   
   private Long id;

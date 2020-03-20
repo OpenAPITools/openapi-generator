@@ -1755,7 +1755,7 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 
 	localVarQueryParams.Add("pipe", parameterToString(*r.pipe, "csv"))
 	localVarQueryParams.Add("ioutil", parameterToString(*r.ioutil, "csv"))
-	localVarQueryParams.Add("http", parameterToString(*r.http, "space"))
+	localVarQueryParams.Add("http", parameterToString(*r.http, "ssv"))
 	localVarQueryParams.Add("url", parameterToString(*r.url, "csv"))
 	{
 		t := *r.context

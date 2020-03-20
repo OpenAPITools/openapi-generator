@@ -7,7 +7,9 @@
 
 import Foundation
 
-internal struct Client: Codable {
+
+internal struct Client: Codable { 
+
 
     internal var client: String?
 

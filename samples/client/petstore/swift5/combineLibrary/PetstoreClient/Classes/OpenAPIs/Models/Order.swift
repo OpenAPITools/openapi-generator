@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct Order: Codable {
+
+public struct Order: Codable { 
+
 
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"

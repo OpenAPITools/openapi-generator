@@ -6,7 +6,7 @@
         <ProjectGuid>{768B8DC6-54EE-4D40-9B20-7857E1D742A4}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Org.OpenAPITools.v2</RootNamespace>
+        <RootNamespace>Org.OpenAPITools._v2</RootNamespace>
         <AssemblyName>Org.OpenAPITools</AssemblyName>
             <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>

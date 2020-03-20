@@ -760,7 +760,7 @@ if (param2 != null)
 
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
-    localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+    localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("ssv", "http", http));
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
 

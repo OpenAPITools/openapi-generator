@@ -7,4 +7,5 @@
 
 import Foundation
 
+
 internal typealias AnimalFarm = [Animal]

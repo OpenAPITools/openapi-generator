@@ -1,128 +1,121 @@
-h1. OpenAPI Petstore This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+h1. OpenAPI Petstore
+
+This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
 *Version:* 1.0.0
 
 ----
 
+{expand:Table of Contents - Click to expand}
 {toc:printable=true|style=square|minLevel=2|maxLevel=3|type=list|outline=false|include=.*}
+{expand}
 
 h2. Endpoints
 
-    h3. addPet
-    {status:colour=Yellow|title=post|subtle=false}
-    {code}
-    post /pet
-    {code}
+
+h3. addPet
+{panel:title=addPet|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Add a new pet to the store
-    *Description:* 
+    *Description:* *No Description*
 
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/pet{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
 
-    h4. Parameters
-
-        h5. Body Parameter
+h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |pet |Pet object that needs to be added to the store |(/) | |  |
+        |body |Pet object that needs to be added to the store |(/) | |  |
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 405
-        *Message:*     Invalid input
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=405|subtle=false} |
+    	|| Message | Invalid input |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid input",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. deletePet
-    {status:colour=Yellow|title=delete|subtle=false}
-    {code}
-    delete /pet/{petId}
-    {code}
+{panel}
+
+
+
+h3. deletePet
+{panel:title=deletePet|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Deletes a pet
-    *Description:* 
+    *Description:* *No Description*
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=delete|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/pet/{petId}{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |petId |Pet id to delete |(/) |null |  |
 
 
 
-        h5. Header Parameters
+h5. Header Parameters
         ||Name||Description||Required||Default||Pattern||
         |apiKey | |(x) |null |  |
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 400
-        *Message:*     Invalid pet value
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid pet value |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid pet value",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. findPetsByStatus
-    {status:colour=Yellow|title=get|subtle=false}
-    {code}
-    get /pet/findByStatus
-    {code}
+{panel}
+
+
+
+h3. findPetsByStatus
+{panel:title=findPetsByStatus|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Finds Pets by status
     *Description:* Multiple status values can be provided with comma separated strings
 
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/pet/findByStatus{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+----
+h4. Parameters
 
-    h4. Parameters
 
 
-
-        h5. Query Parameters
+h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
         |status |Status values that need to be considered for filter |(/) |null |  |
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-array[Pet]
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | array[Pet] |
+    	|| Response Model | [array[Pet] Model|#array[Pet]ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : {
     "application/xml" : {
@@ -142,58 +135,51 @@ array[Pet]
       }
     }
   }
-}
-        {code}
-        *Status Code:* 400
-        *Message:*     Invalid status value
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid status value |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid status value",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. findPetsByTags
-    {status:colour=Yellow|title=get|subtle=false}
-    {code}
-    get /pet/findByTags
-    {code}
+{panel}
+
+
+
+h3. findPetsByTags
+{panel:title=findPetsByTags|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Finds Pets by tags
     *Description:* Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/pet/findByTags{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+----
+h4. Parameters
 
-    h4. Parameters
 
 
-
-        h5. Query Parameters
+h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
         |tags |Tags to filter by |(/) |null |  |
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-array[Pet]
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | array[Pet] |
+    	|| Response Model | [array[Pet] Model|#array[Pet]ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : {
     "application/xml" : {
@@ -213,58 +199,51 @@ array[Pet]
       }
     }
   }
-}
-        {code}
-        *Status Code:* 400
-        *Message:*     Invalid tag value
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid tag value |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid tag value",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. getPetById
-    {status:colour=Yellow|title=get|subtle=false}
-    {code}
-    get /pet/{petId}
-    {code}
+{panel}
+
+
+
+h3. getPetById
+{panel:title=getPetById|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Find pet by ID
     *Description:* Returns a single pet
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/pet/{petId}{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |petId |ID of pet to return |(/) |null |  |
 
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-Pet
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | Pet |
+    	|| Response Model | [Pet Model|#PetModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : {
     "application/xml" : {
@@ -278,181 +257,156 @@ Pet
       }
     }
   }
-}
-        {code}
-        *Status Code:* 400
-        *Message:*     Invalid ID supplied
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid ID supplied |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid ID supplied",
   "content" : { }
-}
-        {code}
-        *Status Code:* 404
-        *Message:*     Pet not found
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | Pet not found |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Pet not found",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. updatePet
-    {status:colour=Yellow|title=put|subtle=false}
-    {code}
-    put /pet
-    {code}
+{panel}
+
+
+
+h3. updatePet
+{panel:title=updatePet|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Update an existing pet
-    *Description:* 
+    *Description:* *No Description*
 
+	|| HttpMethod | {status:colour=Yellow|title=put|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/pet{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
 
-    h4. Parameters
-
-        h5. Body Parameter
+h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |pet |Pet object that needs to be added to the store |(/) | |  |
+        |body |Pet object that needs to be added to the store |(/) | |  |
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 400
-        *Message:*     Invalid ID supplied
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid ID supplied |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid ID supplied",
   "content" : { }
-}
-        {code}
-        *Status Code:* 404
-        *Message:*     Pet not found
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | Pet not found |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Pet not found",
   "content" : { }
-}
-        {code}
-        *Status Code:* 405
-        *Message:*     Validation exception
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=405|subtle=false} |
+    	|| Message | Validation exception |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Validation exception",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. updatePetWithForm
-    {status:colour=Yellow|title=post|subtle=false}
-    {code}
-    post /pet/{petId}
-    {code}
+{panel}
+
+
+
+h3. updatePetWithForm
+{panel:title=updatePetWithForm|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Updates a pet in the store with form data
-    *Description:* 
+    *Description:* *No Description*
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/pet/{petId}{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |petId |ID of pet that needs to be updated |(/) |null |  |
 
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 405
-        *Message:*     Invalid input
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=405|subtle=false} |
+    	|| Message | Invalid input |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid input",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. uploadFile
-    {status:colour=Yellow|title=post|subtle=false}
-    {code}
-    post /pet/{petId}/uploadImage
-    {code}
+{panel}
+
+
+
+h3. uploadFile
+{panel:title=uploadFile|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* uploads an image
-    *Description:* 
+    *Description:* *No Description*
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/pet/{petId}/uploadImage{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/json{noformat} |
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |petId |ID of pet to update |(/) |null |  |
 
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-ApiResponse
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | ApiResponse |
+    	|| Response Model | [ApiResponse Model|#ApiResponseModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : {
     "application/json" : {
@@ -461,93 +415,83 @@ ApiResponse
       }
     }
   }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. deleteOrder
-    {status:colour=Yellow|title=delete|subtle=false}
-    {code}
-    delete /store/order/{orderId}
-    {code}
+{panel}
+
+
+
+h3. deleteOrder
+{panel:title=deleteOrder|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Delete purchase order by ID
     *Description:* For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=delete|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/store/order/{orderId}{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |orderId |ID of the order that needs to be deleted |(/) |null |  |
 
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 400
-        *Message:*     Invalid ID supplied
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid ID supplied |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid ID supplied",
   "content" : { }
-}
-        {code}
-        *Status Code:* 404
-        *Message:*     Order not found
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | Order not found |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Order not found",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. getInventory
-    {status:colour=Yellow|title=get|subtle=false}
-    {code}
-    get /store/inventory
-    {code}
+{panel}
+
+
+
+h3. getInventory
+{panel:title=getInventory|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Returns pet inventories by status
     *Description:* Returns a map of status codes to quantities
 
-
-    h4. Parameters
-
-
-
-
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-map[String, Integer]
-        {code}
-        See [#models]
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/store/inventory{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/json{noformat} |
+----
+h4. Parameters
 
 
 
-        {code:title=Response Schema |collapse=true}
-{
+----
+h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | map[String, Integer] |
+    	|| Response Model | [map[String, Integer] Model|#map[String, Integer]ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : {
     "application/json" : {
@@ -560,43 +504,40 @@ map[String, Integer]
       }
     }
   }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. getOrderById
-    {status:colour=Yellow|title=get|subtle=false}
-    {code}
-    get /store/order/{orderId}
-    {code}
+{panel}
+
+
+
+h3. getOrderById
+{panel:title=getOrderById|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Find purchase order by ID
     *Description:* For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/store/order/{orderId}{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |orderId |ID of pet that needs to be fetched |(/) |null |  |
 
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-Order
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | Order |
+    	|| Response Model | [Order Model|#OrderModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : {
     "application/xml" : {
@@ -610,73 +551,62 @@ Order
       }
     }
   }
-}
-        {code}
-        *Status Code:* 400
-        *Message:*     Invalid ID supplied
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid ID supplied |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid ID supplied",
   "content" : { }
-}
-        {code}
-        *Status Code:* 404
-        *Message:*     Order not found
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | Order not found |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Order not found",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. placeOrder
-    {status:colour=Yellow|title=post|subtle=false}
-    {code}
-    post /store/order
-    {code}
+{panel}
+
+
+
+h3. placeOrder
+{panel:title=placeOrder|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Place an order for a pet
-    *Description:* 
+    *Description:* *No Description*
 
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/store/order{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+----
+h4. Parameters
 
-    h4. Parameters
-
-        h5. Body Parameter
+h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |order |order placed for purchasing the pet |(/) | |  |
+        |body |order placed for purchasing the pet |(/) | |  |
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-Order
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | Order |
+    	|| Response Model | [Order Model|#OrderModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : {
     "application/xml" : {
@@ -690,229 +620,206 @@ Order
       }
     }
   }
-}
-        {code}
-        *Status Code:* 400
-        *Message:*     Invalid Order
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid Order |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid Order",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. createUser
-    {status:colour=Yellow|title=post|subtle=false}
-    {code}
-    post /user
-    {code}
+{panel}
+
+
+
+h3. createUser
+{panel:title=createUser|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Create user
     *Description:* This can only be done by the logged in user.
 
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/user{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
 
-    h4. Parameters
-
-        h5. Body Parameter
+h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |user |Created user object |(/) | |  |
+        |body |Created user object |(/) | |  |
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 0
-        *Message:*     successful operation
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=0|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. createUsersWithArrayInput
-    {status:colour=Yellow|title=post|subtle=false}
-    {code}
-    post /user/createWithArray
-    {code}
+{panel}
+
+
+
+h3. createUsersWithArrayInput
+{panel:title=createUsersWithArrayInput|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Creates list of users with given input array
-    *Description:* 
+    *Description:* *No Description*
 
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/user/createWithArray{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
 
-    h4. Parameters
-
-        h5. Body Parameter
+h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |user |List of user object |(/) | |  |
+        |body |List of user object |(/) | |  |
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 0
-        *Message:*     successful operation
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=0|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. createUsersWithListInput
-    {status:colour=Yellow|title=post|subtle=false}
-    {code}
-    post /user/createWithList
-    {code}
+{panel}
+
+
+
+h3. createUsersWithListInput
+{panel:title=createUsersWithListInput|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Creates list of users with given input array
-    *Description:* 
+    *Description:* *No Description*
 
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/user/createWithList{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
 
-    h4. Parameters
-
-        h5. Body Parameter
+h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |user |List of user object |(/) | |  |
+        |body |List of user object |(/) | |  |
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 0
-        *Message:*     successful operation
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=0|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. deleteUser
-    {status:colour=Yellow|title=delete|subtle=false}
-    {code}
-    delete /user/{username}
-    {code}
+{panel}
+
+
+
+h3. deleteUser
+{panel:title=deleteUser|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Delete user
     *Description:* This can only be done by the logged in user.
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=delete|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/user/{username}{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |username |The name that needs to be deleted |(/) |null |  |
 
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 400
-        *Message:*     Invalid username supplied
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid username supplied |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid username supplied",
   "content" : { }
-}
-        {code}
-        *Status Code:* 404
-        *Message:*     User not found
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | User not found |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "User not found",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. getUserByName
-    {status:colour=Yellow|title=get|subtle=false}
-    {code}
-    get /user/{username}
-    {code}
+{panel}
+
+
+
+h3. getUserByName
+{panel:title=getUserByName|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Get user by user name
-    *Description:* 
+    *Description:* *No Description*
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/user/{username}{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |username |The name that needs to be fetched. Use user1 for testing. |(/) |null |  |
 
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-User
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | User |
+    	|| Response Model | [User Model|#UserModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : {
     "application/xml" : {
@@ -926,75 +833,63 @@ User
       }
     }
   }
-}
-        {code}
-        *Status Code:* 400
-        *Message:*     Invalid username supplied
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid username supplied |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid username supplied",
   "content" : { }
-}
-        {code}
-        *Status Code:* 404
-        *Message:*     User not found
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | User not found |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "User not found",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. loginUser
-    {status:colour=Yellow|title=get|subtle=false}
-    {code}
-    get /user/login
-    {code}
+{panel}
+
+
+
+h3. loginUser
+{panel:title=loginUser|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Logs user into the system
-    *Description:* 
+    *Description:* *No Description*
+
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/user/login{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+----
+h4. Parameters
 
 
-    h4. Parameters
 
-
-
-        h5. Query Parameters
+h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
         |username |The user name for login |(/) |null |  |
-
 |password |The password for login in clear text |(/) |null |  |
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 200
-        *Message:*     successful operation
-        {code:title=Response Type}
-String
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | String |
+    	|| Response Model | [String Model|#StringModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "headers" : {
     "X-Rate-Limit" : {
@@ -1024,156 +919,151 @@ String
       }
     }
   }
-}
-        {code}
-        *Status Code:* 400
-        *Message:*     Invalid username/password supplied
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid username/password supplied |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid username/password supplied",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. logoutUser
-    {status:colour=Yellow|title=get|subtle=false}
-    {code}
-    get /user/logout
-    {code}
+{panel}
+
+
+
+h3. logoutUser
+{panel:title=logoutUser|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Logs out current logged in user session
-    *Description:* 
+    *Description:* *No Description*
 
-
-    h4. Parameters
-
-
-
-
-
-
-
-    h4. Responses
-        *Status Code:* 0
-        *Message:*     successful operation
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/user/logout{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
 
 
 
-        {code:title=Response Schema |collapse=true}
-{
+----
+h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=0|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
-    h3. updateUser
-    {status:colour=Yellow|title=put|subtle=false}
-    {code}
-    put /user/{username}
-    {code}
+{panel}
+
+
+
+h3. updateUser
+{panel:title=updateUser|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Updated user
     *Description:* This can only be done by the logged in user.
 
-
-    h4. Parameters
-        h5. Path Parameters
+	|| HttpMethod | {status:colour=Yellow|title=put|subtle=false} |
+    || Protocol | {noformat:nopanel=true}http{noformat} |
+    || Path | {noformat:nopanel=true}/user/{username}{noformat} |
+    || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
+    
+----
+h4. Parameters
+h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
         |username |name that need to be deleted |(/) |null |  |
 
 
-        h5. Body Parameter
+h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        |user |Updated user object |(/) | |  |
+        |body |Updated user object |(/) | |  |
 
 
 
+----
+h4. Responses
 
-
-
-
-    h4. Responses
-        *Status Code:* 400
-        *Message:*     Invalid user supplied
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
-
-
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Invalid user supplied |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "Invalid user supplied",
   "content" : { }
-}
-        {code}
-        *Status Code:* 404
-        *Message:*     User not found
-        {code:title=Response Type}
-
-        {code}
-        See [#models]
+}{code} |
+    	
 
 
-
-        {code:title=Response Schema |collapse=true}
-{
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | User not found |
+    	|| Response Type |  |
+    	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
   "description" : "User not found",
   "content" : { }
-}
-        {code}
-    ----
+}{code} |
+    	
 
+{panel}
+
+
+{anchor:models}
 h2. Models
 
+        {anchor:ApiResponseModelAnchor}
         h3. ApiResponse
         ||Field Name||Required||Type||Description||
-         |code | |Integer | |
- |type | |String | |
- |message | |String | |
+         |code |(x) |{noformat:nopanel=true}Integer{noformat} | |
+ |type |(x) |{noformat:nopanel=true}String{noformat} | |
+ |message |(x) |{noformat:nopanel=true}String{noformat} | |
+        {anchor:CategoryModelAnchor}
         h3. Category
         ||Field Name||Required||Type||Description||
-         |id | |Long | |
- |name | |String | |
+         |id |(x) |{noformat:nopanel=true}Long{noformat} | |
+ |name |(x) |{noformat:nopanel=true}String{noformat} | |
+        {anchor:OrderModelAnchor}
         h3. Order
         ||Field Name||Required||Type||Description||
-         |id | |Long | |
- |petId | |Long | |
- |quantity | |Integer | |
- |shipDate | |Date | |
- |status | |String |Order Status |
- |complete | |Boolean | |
+         |id |(x) |{noformat:nopanel=true}Long{noformat} | |
+ |petId |(x) |{noformat:nopanel=true}Long{noformat} | |
+ |quantity |(x) |{noformat:nopanel=true}Integer{noformat} | |
+ |shipDate |(x) |{noformat:nopanel=true}Date{noformat} | |
+ |status |(x) |{noformat:nopanel=true}String{noformat} |Order Status |
+ |complete |(x) |{noformat:nopanel=true}Boolean{noformat} | |
+        {anchor:PetModelAnchor}
         h3. Pet
         ||Field Name||Required||Type||Description||
-         |id | |Long | |
- |category | |Category | |
- |name | |String | |
- |photoUrls | |array[String] | |
- |tags | |array[Tag] | |
- |status | |String |pet status in the store |
+         |id |(x) |{noformat:nopanel=true}Long{noformat} | |
+ |category |(x) |{noformat:nopanel=true}Category{noformat} | |
+ |name |(/) |{noformat:nopanel=true}String{noformat} | |
+ |photoUrls |(/) |{noformat:nopanel=true}array[String]{noformat} | |
+ |tags |(x) |{noformat:nopanel=true}array[Tag]{noformat} | |
+ |status |(x) |{noformat:nopanel=true}String{noformat} |pet status in the store |
+        {anchor:TagModelAnchor}
         h3. Tag
         ||Field Name||Required||Type||Description||
-         |id | |Long | |
- |name | |String | |
+         |id |(x) |{noformat:nopanel=true}Long{noformat} | |
+ |name |(x) |{noformat:nopanel=true}String{noformat} | |
+        {anchor:UserModelAnchor}
         h3. User
         ||Field Name||Required||Type||Description||
-         |id | |Long | |
- |username | |String | |
- |firstName | |String | |
- |lastName | |String | |
- |email | |String | |
- |password | |String | |
- |phone | |String | |
- |userStatus | |Integer |User Status |
+         |id |(x) |{noformat:nopanel=true}Long{noformat} | |
+ |username |(x) |{noformat:nopanel=true}String{noformat} | |
+ |firstName |(x) |{noformat:nopanel=true}String{noformat} | |
+ |lastName |(x) |{noformat:nopanel=true}String{noformat} | |
+ |email |(x) |{noformat:nopanel=true}String{noformat} | |
+ |password |(x) |{noformat:nopanel=true}String{noformat} | |
+ |phone |(x) |{noformat:nopanel=true}String{noformat} | |
+ |userStatus |(x) |{noformat:nopanel=true}Integer{noformat} |User Status |

@@ -160,23 +160,23 @@ open class StoreAPI: APIBase {
 
     /**
      Place an order for a pet
-     - parameter order: (body) order placed for purchasing the pet 
+     - parameter body: (body) order placed for purchasing the pet 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func placeOrder(order: Order, completion: @escaping ((_ data: Order?, _ error: ErrorResponse?) -> Void)) {
-        placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
+    open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?, _ error: ErrorResponse?) -> Void)) {
+        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
 
     /**
      Place an order for a pet
-     - parameter order: (body) order placed for purchasing the pet 
+     - parameter body: (body) order placed for purchasing the pet 
      - returns: Promise<Order>
      */
-    open class func placeOrder( order: Order) -> Promise<Order> {
+    open class func placeOrder( body: Order) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        placeOrder(order: order) { data, error in
+        placeOrder(body: body) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -189,13 +189,13 @@ open class StoreAPI: APIBase {
     /**
      Place an order for a pet
      - POST /store/order
-     - parameter order: (body) order placed for purchasing the pet 
+     - parameter body: (body) order placed for purchasing the pet 
      - returns: RequestBuilder<Order> 
      */
-    open class func placeOrderWithRequestBuilder(order: Order) -> RequestBuilder<Order> {
+    open class func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = order.encodeToJSON()
+        let parameters = body.encodeToJSON()
 
         let url = URLComponents(string: URLString)
 

@@ -42,7 +42,7 @@ public struct JSONDataEncoding: ParameterEncoding {
     }
 
     public static func encodingParameters(jsonData: Data?) -> Parameters? {
-        var returnedParams: Parameters?
+        var returnedParams: Parameters? = nil
         if let jsonData = jsonData, !jsonData.isEmpty {
             var params = Parameters()
             params[jsonDataKey] = jsonData
