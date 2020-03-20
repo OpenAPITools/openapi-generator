@@ -2397,7 +2397,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null) {
             Schema discSchema = (Schema) refSchema.getProperties().get(discPropName);
-            if (discSchema != null && ModelUtils.isStringSchema(discSchema)) {
+            if (discSchema != null && ModelUtils.isStringSchema(discSchema) && refSchema.getRequired().contains(discPropName)) {
                 return true;
             }
         }
@@ -2535,12 +2535,14 @@ public class DefaultCodegen implements CodegenConfig {
                     // because ref is how we get the model name
                     // we only hit this use case for a schema with inline composed schemas, and one of those
                     // schemas also has inline composed schemas
+                    // Note: if it is only inline one level, then the inline model resolver will move it into its own
+                    // schema and make it a $ref schema in the oneOf/anyOf location
                     throw new RuntimeException("Invalid inline schema defined in oneOf/anyOf in '" + composedSchemaName + "'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition");
                 }
                 Boolean discFound = discriminatorFound(sc, discPropName, openAPI);
                 String modelName = ModelUtils.getSimpleRef(ref);
                 if (discFound == false) {
-                    throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced schema '" + modelName + "' is missing it");
+                    throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced schema '" + modelName + "' is missing that required property");
                 }
                 MappedModel mm = new MappedModel(modelName, toModelName(modelName));
                 descendentSchemas.add(mm);
