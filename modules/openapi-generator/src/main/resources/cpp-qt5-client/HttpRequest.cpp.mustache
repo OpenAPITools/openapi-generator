@@ -45,7 +45,7 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 }
 
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), _timeOut(0) {
+    : QObject(parent), manager(nullptr), timeOutTimer() {
     qsrand(QDateTime::currentDateTime().toTime_t());
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();
@@ -53,6 +53,7 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 }
 
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {
+    QObject::disconnect(&timeOutTimer, nullptr, nullptr, nullptr);
     for (const auto &item : multiPartFields) {
         if (item != nullptr) {
             delete item;
@@ -86,8 +87,11 @@ QByteArray *{{prefix}}HttpRequestWorker::getMultiPartField(const QString &fieldn
     return nullptr;
 }
 
-void {{prefix}}HttpRequestWorker::setTimeOut(int timeOut) {
-    _timeOut = timeOut;
+void {{prefix}}HttpRequestWorker::setTimeOut(int timeOutMs) {
+    timeOutTimer.setInterval(timeOutMs);
+    if(timeOutTimer.interval() == 0) {
+        QObject::disconnect(&timeOutTimer, nullptr, nullptr, nullptr);
+    }
 }
 
 void {{prefix}}HttpRequestWorker::setWorkingDirectory(const QString &path) {
@@ -347,12 +351,14 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if (_timeOut > 0) {
-        QTimer::singleShot(_timeOut, [=]() { on_manager_timeout(reply); });
+    if (timeOutTimer.interval() > 0) {
+        timeOutTimer.callOnTimeout([=]() { on_manager_timeout(reply); });
     }
 }
 
 void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+    if(timeOutTimer.interval() > 0)
+        QObject::disconnect(&timeOutTimer, nullptr, nullptr, nullptr);
     error_type = reply->error();
     error_str = reply->errorString();
     if (reply->rawHeaderPairs().count() > 0) {
