@@ -6,7 +6,6 @@
 #
 
 function Invoke-PSDeleteOrder {
-    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -50,7 +49,6 @@ function Invoke-PSDeleteOrder {
 }
 
 function Get-PSInventory {
-    [OutputType("Hashtable")]
     [CmdletBinding()]
     Param (
     )
@@ -94,7 +92,6 @@ function Get-PSInventory {
 }
 
 function Get-PSOrderById {
-    [OutputType("Order")]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -141,7 +138,6 @@ function Get-PSOrderById {
 }
 
 function Invoke-PSPlaceOrder {
-    [OutputType("Order")]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
