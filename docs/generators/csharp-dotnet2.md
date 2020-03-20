@@ -42,6 +42,7 @@ sidebar_label: csharp-dotnet2
 <li>Int32</li>
 <li>Int64</li>
 <li>List</li>
+<li>Microsoft.AspNetCore.Http.IFormFile</li>
 <li>Object</li>
 <li>String</li>
 <li>System.IO.Stream</li>

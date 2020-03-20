@@ -55,6 +55,7 @@ sidebar_label: csharp-nancyfx
 <li>List</li>
 <li>LocalDate?</li>
 <li>LocalTime?</li>
+<li>Microsoft.AspNetCore.Http.IFormFile</li>
 <li>Object</li>
 <li>String</li>
 <li>System.IO.Stream</li>

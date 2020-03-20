@@ -34,9 +34,9 @@ sidebar_label: aspnetcore
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useDefaultRouting|Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.| |true|
 |useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.| |false|
+|useIFormFileInsteadOfStream|Change so that File inputs are generated as IFormFile data types instead of Stream| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
-|useIFormFileInsteadOfStream|Uses IFormfile type for file transfers instead of Stream| |true|
 
 ## IMPORT MAPPING
 
@@ -71,6 +71,7 @@ sidebar_label: aspnetcore
 <li>Int32</li>
 <li>Int64</li>
 <li>List</li>
+<li>Microsoft.AspNetCore.Http.IFormFile</li>
 <li>Object</li>
 <li>String</li>
 <li>System.IO.Stream</li>
