@@ -923,7 +923,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Languages         | Member (join date)                                                                                                                                                                                                                |
 | :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ActionScript      |                                                                                                                                                                                                                                   |
-| Ada               | @stcarrez (2018/02) @micheleISEP (2018/02)                                                                                                                                                                                        |
+| Ada               | @stcarrez (2018/02) @michelealbano (2018/02)                                                                                                                                                                                        |
 | Android           | @jaz-ah (2017/09)                                                                                                                                                                                                                 |
 | Apex              |                                                                                                                                                                                                                                   |
 | Bash              | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                       |
@@ -991,7 +991,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Marcin Stefaniuk](https://github.com/mstefaniuk)
 - [Martin Delille](https://github.com/MartinDelille)
 - [Masahiro Yamauchi](https://github.com/algas)
-- [Michele Albano](https://github.com/micheleISEP)
+- [Michele Albano](https://github.com/michelealbano)
 - [Ramzi Maalej](https://github.com/ramzimaalej)
 - [Ravindra Nikam](https://github.com/ravinikam)
 - [Ricardo Cardona](https://github.com/ricardona)
