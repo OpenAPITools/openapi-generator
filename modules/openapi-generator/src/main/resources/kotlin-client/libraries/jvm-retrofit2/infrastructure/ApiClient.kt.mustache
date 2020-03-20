@@ -38,10 +38,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             .baseUrl(baseUrl)
             .addConverterFactory(ScalarsConverterFactory.create())
             {{#gson}}
-            .addConverterFactory(GsonConverterFactory.create(Serializer.gson))
+            .addConverterFactory(GsonConverterFactory.create(serializerBuilder.create()))
             {{/gson}}
             {{#moshi}}
-            .addConverterFactory(MoshiConverterFactory.create(Serializer.moshi))
+            .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             {{/moshi}}
     }
 
