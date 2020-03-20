@@ -2799,6 +2799,8 @@ public class DefaultCodegen implements CodegenConfig {
                     op.isListContainer = true;
                 } else if ("array".equalsIgnoreCase(cm.containerType)) {
                     op.isListContainer = true;
+                } else if ("set".equalsIgnoreCase(cm.containerType)) {
+                    op.isListContainer = true;
                 }
             } else {
                 op.returnSimpleType = true;
@@ -2889,6 +2891,10 @@ public class DefaultCodegen implements CodegenConfig {
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
                     imports.add(r.baseType);
+                }
+                if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
+                    op.uniqueItems = true;
+                    imports.add(typeMapping.get(r.containerType));
                 }
                 r.isDefault = response == methodResponse;
                 op.responses.add(r);
@@ -3212,7 +3218,9 @@ public class DefaultCodegen implements CodegenConfig {
                 r.simpleType = false;
                 r.containerType = cp.containerType;
                 r.isMapContainer = "map".equals(cp.containerType);
-                r.isListContainer = "list".equalsIgnoreCase(cp.containerType) || "array".equalsIgnoreCase(cp.containerType);
+                r.isListContainer = "list".equalsIgnoreCase(cp.containerType) ||
+                    "array".equalsIgnoreCase(cp.containerType) ||
+                    "set".equalsIgnoreCase(cp.containerType);
             } else {
                 r.simpleType = true;
             }
