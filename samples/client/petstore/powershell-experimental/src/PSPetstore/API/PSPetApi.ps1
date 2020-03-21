@@ -26,7 +26,7 @@ function Add-PSPet {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -81,7 +81,7 @@ function Remove-Pet {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         $LocalVarUri = '/pet/{petId}'
         if (!$PetId) {
             throw "Error! The required parameter `PetId` missing when calling deletePet."
@@ -129,7 +129,7 @@ function Find-PSPetsByStatus {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -177,7 +177,7 @@ function Find-PSPetsByTags {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -225,7 +225,7 @@ function Get-PSPetById {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -275,7 +275,7 @@ function Update-PSPet {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -333,7 +333,7 @@ function Update-PSPetWithForm {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/x-www-form-urlencoded')
 
@@ -394,7 +394,7 @@ function Invoke-PSUploadFile {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/json')
 

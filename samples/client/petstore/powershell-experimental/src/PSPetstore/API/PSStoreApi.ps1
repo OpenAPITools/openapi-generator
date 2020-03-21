@@ -26,7 +26,7 @@ function Invoke-PSDeleteOrder {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         $LocalVarUri = '/store/order/{orderId}'
         if (!$OrderId) {
             throw "Error! The required parameter `OrderId` missing when calling deleteOrder."
@@ -66,7 +66,7 @@ function Get-PSInventory {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/json')
 
@@ -112,7 +112,7 @@ function Get-PSOrderById {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -158,7 +158,7 @@ function Invoke-PSPlaceOrder {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 

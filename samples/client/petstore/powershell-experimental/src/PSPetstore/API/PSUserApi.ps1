@@ -26,7 +26,7 @@ function Invoke-PSCreateUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')
 
@@ -78,7 +78,7 @@ function Invoke-PSCreateUsersWithArrayInput {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')
 
@@ -130,7 +130,7 @@ function Invoke-PSCreateUsersWithListInput {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')
 
@@ -182,7 +182,7 @@ function Invoke-PSDeleteUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         $LocalVarUri = '/user/{username}'
         if (!$Username) {
             throw "Error! The required parameter `Username` missing when calling deleteUser."
@@ -229,7 +229,7 @@ function Get-PSUserByName {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -278,7 +278,7 @@ function Invoke-PSLoginUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -327,7 +327,7 @@ function Invoke-PSLogoutUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         $LocalVarUri = '/user/logout'
 
         if ($Configuration["Cookie"]) {
@@ -373,7 +373,7 @@ function Update-PSUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')
 

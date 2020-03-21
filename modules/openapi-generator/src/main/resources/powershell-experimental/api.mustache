@@ -26,7 +26,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-{{{apiNamePrefix}}}Configuration
+        $Configuration = Get-{{{apiNamePrefix}}}Configuration
         {{#hasProduces}}
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}})
