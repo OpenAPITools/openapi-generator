@@ -199,3 +199,70 @@ components:
           type: integer
       allOf:
         - $ref: '#/components/schemas/Parent'
+    OneOfDiscMissingCase1:
+      oneOf:
+        - $ref: '#/components/schemas/DiscMissingCase1'
+      discriminator:
+        propertyName: fruitType
+    DiscMissingCase1:
+      type: object
+    OneOfDiscMissingCase2:
+      oneOf:
+        - $ref: '#/components/schemas/DiscMissingCase2'
+      discriminator:
+        propertyName: fruitType
+    DiscMissingCase2:
+      type: object
+      properties:
+        length:
+          type: integer
+    OneOfDiscOptionalTypeCorrect:
+      oneOf:
+        - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
+      discriminator:
+        propertyName: fruitType
+    DiscOptionalTypeCorrect:
+      type: object
+      properties:
+        fruitType:
+          type: string
+    OneOfDiscOptionalTypeIncorrect:
+      oneOf:
+        - $ref: '#/components/schemas/DiscOptionalTypeIncorrect'
+      discriminator:
+        propertyName: fruitType
+    DiscOptionalTypeIncorrect:
+      type: object
+      properties:
+        fruitType:
+          type: integer
+    OneOfDiscOptionalTypeInconsistent:
+      oneOf:
+        - $ref: '#/components/schemas/DiscOptionalTypeIncorrect'
+        - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
+      discriminator:
+        propertyName: fruitType
+    OneOfDiscTypeIncorrect:
+      oneOf:
+        - $ref: '#/components/schemas/DiscTypeIncorrect'
+      discriminator:
+        propertyName: fruitType
+    DiscTypeIncorrect:
+      type: object
+      properties:
+        fruitType:
+          type: integer
+      required:
+        - fruitType
+    OneOfDiscTypeInconsistent:
+      oneOf:
+        - $ref: '#/components/schemas/DiscTypeIncorrect'
+        - $ref: '#/components/schemas/FruitType'
+      discriminator:
+        propertyName: fruitType
+    OneOfDiscRequiredInconsistent:
+      oneOf:
+        - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
+        - $ref: '#/components/schemas/FruitType'
+      discriminator:
+        propertyName: fruitType
