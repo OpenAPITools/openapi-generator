@@ -28,6 +28,10 @@ function Get-{{apiNamePrefix}}Configuration {
         $Configuration["ApiKeyPrefix"] = @{}
     }
 
+    if (!$Configuration.containsKey("SkipCertificateCheck")) {
+        $Configuration["SkipCertificateCheck"] = $false
+    }
+
     Return $Configuration
 
 }
@@ -48,6 +52,7 @@ function Set-{{{apiNamePrefix}}}Configuration {
         [AllowEmptyString()]
         [string]$AccessToken,
         [switch]$PassThru,
+        [bool]$SkipCertificateCheck,
         [switch]$Force
     )
 
@@ -79,6 +84,10 @@ function Set-{{{apiNamePrefix}}}Configuration {
 
         If ($AccessToken) {
             $Script:Configuration['AccessToken'] = $AccessToken
+        }
+
+        If ($SkipCertificateCheck) {
+            $Script:Configuration['SkipCertificateCheck'] = $SkipCertificateCheck
         }
     }
 }
