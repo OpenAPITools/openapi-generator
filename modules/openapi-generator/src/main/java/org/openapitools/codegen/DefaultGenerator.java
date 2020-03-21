@@ -1410,7 +1410,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         for (CodegenSecurity security : authMethods) {
             boolean filtered = false;
-            if (security != null && security.scopes != null) {
+            if (security != null && security.scopes != null && SecurityScheme.Type.OAUTH2.toString().equals(security.type)) {
                 for (SecurityRequirement requirement : securities) {
                     List<String> opScopes = requirement.get(security.name);
                     if (opScopes != null) {
@@ -1426,14 +1426,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
             }
+            // This is separate than the oauth2 case since bearerAuths aren't declared in the scheme definition. They
+            // only exist at the api definition level
             if (security != null && SecurityScheme.Type.HTTP.toString().equals(security.type)) {
                 for (SecurityRequirement requirement : securities) {
                     List<String> opScopes = requirement.get(security.name);
                     if (opScopes != null) {
-                        // We have operation-level scopes for this method, so filter the auth method to
-                        // describe the operation auth method with only the scopes that it requires.
-                        // We have to create a new auth method instance because the original object must
-                        // not be modified.
                         CodegenSecurity opSecurity = security.filterByScopeNames(Collections.emptyList());
                         Iterator<String> it = opScopes.iterator();
                         opSecurity.scopes = new ArrayList<>();
