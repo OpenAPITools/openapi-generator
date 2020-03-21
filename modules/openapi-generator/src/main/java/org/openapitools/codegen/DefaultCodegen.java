@@ -2385,53 +2385,76 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Recursively look in Schema sc for the discriminator discPropName
+     * and return a CodegenProperty with the dataType and required params set
+     * the returned CodegenProperty may not be required and it may not be of type string
+     * @param composedSchemaName The name of the sc Schema
      * @param sc The Schema that may contain the discriminator
      * @param discPropName The String that is the discriminator propertyName in the schema
      */
-    private boolean discriminatorFound(Schema sc, String discPropName, OpenAPI openAPI) {
+    private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, OpenAPI openAPI) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
-        if (refSchema.getProperties() != null) {
+        if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
             Schema discSchema = (Schema) refSchema.getProperties().get(discPropName);
-            if (discSchema != null && ModelUtils.isStringSchema(discSchema) && refSchema.getRequired().contains(discPropName)) {
-                return true;
+            CodegenProperty cp = new CodegenProperty();
+            cp.setDatatype(discSchema.getType());
+            cp.setRequired(false);
+            if (refSchema.getRequired() != null && refSchema.getRequired().contains(discPropName)) {
+                cp.setRequired(true);
             }
+            return cp;
         }
         if (ModelUtils.isComposedSchema(refSchema)) {
             ComposedSchema composedSchema = (ComposedSchema) refSchema;
             if (composedSchema.getAllOf() != null) {
                 // If our discriminator is in one of the allOf schemas break when we find it
                 for  (Schema allOf: composedSchema.getAllOf()) {
-                    if (discriminatorFound(allOf, discPropName, openAPI)) {
-                        return true;
+                    CodegenProperty cp = discriminatorFound(composedSchemaName, allOf, discPropName, openAPI);
+                    if (cp != null) {
+                        return cp;
                     }
                 }
             }
             if (composedSchema.getOneOf() != null && composedSchema.getOneOf().size() != 0) {
                 // All oneOf definitions must contain the discriminator
-                Integer hasDiscriminatorCnt = 0;
+                CodegenProperty cp = new CodegenProperty();
                 for  (Schema oneOf: composedSchema.getOneOf()) {
-                    if (discriminatorFound(oneOf, discPropName, openAPI)) {
-                        hasDiscriminatorCnt++;
+                    String modelName = ModelUtils.getSimpleRef(oneOf.get$ref());
+                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, oneOf, discPropName, openAPI);
+                    if (thisCp == null) {
+                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced OneOf schema '" + modelName + "' is missing that required property");
+                    }
+                    if (cp.dataType == null) {
+                        cp = thisCp;
+                        continue;
+                    }
+                    if (cp != thisCp) {
+                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the OneOf schema '" + modelName + "' has a different "+discPropName+" definition than the prior OneOf schema's. Make sure the property type and required values are the same");
                     }
                 }
-                if (hasDiscriminatorCnt == composedSchema.getOneOf().size()) {
-                    return true;
-                }
+                return cp;
             }
             if (composedSchema.getAnyOf() != null && composedSchema.getAnyOf().size() != 0) {
                 // All anyOf definitions must contain the discriminator because a min of one must be selected
-                Integer hasDiscriminatorCnt = 0;
+                CodegenProperty cp = new CodegenProperty();
                 for  (Schema anyOf: composedSchema.getAnyOf()) {
-                    if (discriminatorFound(anyOf, discPropName, openAPI)) {
-                        hasDiscriminatorCnt++;
+                    String modelName = ModelUtils.getSimpleRef(anyOf.get$ref());
+                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, anyOf, discPropName, openAPI);
+                    if (thisCp == null) {
+                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced AnyOf schema '" + modelName + "' is missing that required property");
+                    }
+                    if (cp.dataType == null) {
+                        cp = thisCp;
+                        continue;
+                    }
+                    if (cp != thisCp) {
+                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the AnyOf schema '" + modelName + "' has a different "+discPropName+" definition than the prior AnyOf schema's. Make sure the property type and required values are the same");
                     }
                 }
-                if (hasDiscriminatorCnt == composedSchema.getAnyOf().size()) {
-                    return true;
-                }
+                return cp;
+
             }
         }
-        return false;
+        return null;
     }
 
     /**
@@ -2534,10 +2557,25 @@ public class DefaultCodegen implements CodegenConfig {
                     // schema and make it a $ref schema in the oneOf/anyOf location
                     throw new RuntimeException("Invalid inline schema defined in oneOf/anyOf in '" + composedSchemaName + "'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition");
                 }
-                Boolean discFound = discriminatorFound(sc, discPropName, openAPI);
+                CodegenProperty df = discriminatorFound(composedSchemaName, sc, discPropName, openAPI);
                 String modelName = ModelUtils.getSimpleRef(ref);
-                if (discFound == false) {
-                    throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced schema '" + modelName + "' is missing that required property");
+                if (df == null || !"string".equals(df.dataType) || df.required != true) {
+                    String msgSuffix = "";
+                    if (df == null) {
+                        msgSuffix += "the property is missing from the schema, define it as required and type string";
+                    } else {
+                        if (!"string".equals(df.dataType)) {
+                            msgSuffix += "invalid type for the property, set it to string";
+                        }
+                        if (df.required != true) {
+                            String spacer = "";
+                            if (msgSuffix.length() != 0) {
+                                spacer = " ";
+                            }
+                            msgSuffix += spacer+"invalid optional definition of the property, include it in required";
+                        }
+                    }
+                    throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced schema '" + modelName + "' is incorrect. "+msgSuffix);
                 }
                 MappedModel mm = new MappedModel(modelName, toModelName(modelName));
                 descendentSchemas.add(mm);
