@@ -31,14 +31,11 @@ extern crate swagger;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;
-#[cfg(feature = "client")]
-extern crate hyper_tls;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate openssl;
+#[cfg(feature = "server")]
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+extern crate hyper_openssl;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate mime_0_2;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate native_tls;
 #[cfg(feature = "server")]
 extern crate percent_encoding;
 #[cfg(any(feature = "client", feature = "server"))]

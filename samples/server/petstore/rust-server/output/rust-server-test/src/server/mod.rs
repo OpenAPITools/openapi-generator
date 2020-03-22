@@ -96,6 +96,16 @@ where
     }
 }
 
+type ServiceFuture = Box<dyn Future<Item = Response<Body>, Error = Error> + Send>;
+
+fn method_not_allowed() -> ServiceFuture {
+    Box::new(future::ok(
+        Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
+            .body(Body::empty())
+            .expect("Unable to create Method Not Allowed response")
+    ))
+}
+
 pub struct Service<T, RC> {
     api_impl: T,
     marker: PhantomData<RC>,
@@ -121,7 +131,7 @@ where
     type ReqBody = ContextualPayload<Body, C>;
     type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
+    type Future = ServiceFuture;
 
     fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -640,6 +650,14 @@ where
                 ) as Self::Future
             },
 
+            _ if path.matched(paths::ID_ALLOF) => method_not_allowed(),
+            _ if path.matched(paths::ID_DUMMY) => method_not_allowed(),
+            _ if path.matched(paths::ID_FILE_RESPONSE) => method_not_allowed(),
+            _ if path.matched(paths::ID_GET_STRUCTURED_YAML) => method_not_allowed(),
+            _ if path.matched(paths::ID_HTML) => method_not_allowed(),
+            _ if path.matched(paths::ID_POST_YAML) => method_not_allowed(),
+            _ if path.matched(paths::ID_RAW_JSON) => method_not_allowed(),
+            _ if path.matched(paths::ID_SOLO_OBJECT) => method_not_allowed(),
             _ => Box::new(future::ok(
                 Response::builder().status(StatusCode::NOT_FOUND)
                     .body(Body::empty())

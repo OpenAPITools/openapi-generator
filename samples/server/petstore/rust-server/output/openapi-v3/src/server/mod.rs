@@ -133,6 +133,16 @@ where
     }
 }
 
+type ServiceFuture = Box<dyn Future<Item = Response<Body>, Error = Error> + Send>;
+
+fn method_not_allowed() -> ServiceFuture {
+    Box::new(future::ok(
+        Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
+            .body(Body::empty())
+            .expect("Unable to create Method Not Allowed response")
+    ))
+}
+
 pub struct Service<T, RC> {
     api_impl: T,
     marker: PhantomData<RC>,
@@ -158,7 +168,7 @@ where
     type ReqBody = ContextualPayload<Body, C>;
     type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
+    type Future = ServiceFuture;
 
     fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -1403,6 +1413,23 @@ where
                 ) as Self::Future
             },
 
+            _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
+            _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => method_not_allowed(),
+            _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIGET) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => method_not_allowed(),
+            _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
+            _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
+            _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
+            _ if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => method_not_allowed(),
+            _ if path.matched(paths::ID_RFC7807) => method_not_allowed(),
+            _ if path.matched(paths::ID_UNTYPED_PROPERTY) => method_not_allowed(),
+            _ if path.matched(paths::ID_UUID) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML_EXTRA) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML_OTHER) => method_not_allowed(),
             _ => Box::new(future::ok(
                 Response::builder().status(StatusCode::NOT_FOUND)
                     .body(Body::empty())

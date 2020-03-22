@@ -189,6 +189,16 @@ where
     }
 }
 
+type ServiceFuture = Box<dyn Future<Item = Response<Body>, Error = Error> + Send>;
+
+fn method_not_allowed() -> ServiceFuture {
+    Box::new(future::ok(
+        Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
+            .body(Body::empty())
+            .expect("Unable to create Method Not Allowed response")
+    ))
+}
+
 pub struct Service<T, RC> {
     api_impl: T,
     marker: PhantomData<RC>,
@@ -214,7 +224,7 @@ where
     type ReqBody = ContextualPayload<Body, C>;
     type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
+    type Future = ServiceFuture;
 
     fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -3060,6 +3070,33 @@ where
                 ) as Self::Future
             },
 
+            _ if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_JSONFORMDATA) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OUTER_NUMBER) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OUTER_STRING) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET_FINDBYSTATUS) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET_FINDBYTAGS) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET_PETID) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => method_not_allowed(),
+            _ if path.matched(paths::ID_STORE_INVENTORY) => method_not_allowed(),
+            _ if path.matched(paths::ID_STORE_ORDER) => method_not_allowed(),
+            _ if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_CREATEWITHARRAY) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_CREATEWITHLIST) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_LOGIN) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_LOGOUT) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_USERNAME) => method_not_allowed(),
             _ => Box::new(future::ok(
                 Response::builder().status(StatusCode::NOT_FOUND)
                     .body(Body::empty())

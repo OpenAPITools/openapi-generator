@@ -3,6 +3,9 @@ extern crate petstore_with_fake_endpoints_models_for_testing;
 extern crate clap;
 extern crate env_logger;
 extern crate futures;
+
+// log may be unused if there are no examples
+#[allow(unused_imports)]
 #[macro_use]
 extern crate log;
 #[macro_use]
@@ -51,8 +54,13 @@ use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client,
                       UpdateUserResponse
                      };
 use clap::{App, Arg};
+
+// swagger::Has may be unused if there are no examples
+#[allow(unused_imports)]
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
+// rt may be unused if there are no examples
+#[allow(unused_mut)]
 fn main() {
     env_logger::init();
 
@@ -111,9 +119,7 @@ fn main() {
 
     let client = if matches.is_present("https") {
         // Using Simple HTTPS
-        Client::try_new_https(
-            &base_url,
-            "examples/ca.pem")
+        Client::try_new_https(&base_url)
             .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
