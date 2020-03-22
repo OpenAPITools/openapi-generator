@@ -11,7 +11,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
         @nullable
     {{/isNullable}}
     @BuiltValueField(wireName: r'{{baseName}}')
-    {{{dataType}}} get {{name}};
+    {{#isEnum}}{{classname}}{{{nameInCamelCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} get {{name}};
     {{#allowableValues}}
         {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}
     {{/allowableValues}}
@@ -22,5 +22,12 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
 
     factory {{classname}}([updates({{classname}}Builder b)]) = _${{classname}};
     static Serializer<{{classname}}> get serializer => _${{classVarName}}Serializer;
-
 }
+{{! Generate an enum for any variables that are declared as inline enums}}
+{{#vars}}
+    {{#isEnum}}
+
+{{>enum_inline}}
+
+    {{/isEnum}}
+{{/vars}}
