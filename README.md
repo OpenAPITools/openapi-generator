@@ -107,7 +107,7 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
 | 5.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.0.0-SNAPSHOT/) | 13.05.2020   | Major release with breaking changes (no fallback) |
-| 4.3.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.3.0-SNAPSHOT/) | 29.02.2020   | Minor release (breaking changes with fallbacks)   |
+| 4.3.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.3.0-SNAPSHOT/) | 27.03.2020   | Minor release (breaking changes with fallbacks)   |
 | [4.2.3](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.2.3) (latest stable release)                                                    | 31.01.2019   | Backward-compatible release                       |
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
@@ -923,7 +923,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Languages         | Member (join date)                                                                                                                                                                                                                |
 | :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ActionScript      |                                                                                                                                                                                                                                   |
-| Ada               | @stcarrez (2018/02) @micheleISEP (2018/02)                                                                                                                                                                                        |
+| Ada               | @stcarrez (2018/02) @michelealbano (2018/02)                                                                                                                                                                                        |
 | Android           | @jaz-ah (2017/09)                                                                                                                                                                                                                 |
 | Apex              |                                                                                                                                                                                                                                   |
 | Bash              | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                       |
@@ -991,7 +991,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Marcin Stefaniuk](https://github.com/mstefaniuk)
 - [Martin Delille](https://github.com/MartinDelille)
 - [Masahiro Yamauchi](https://github.com/algas)
-- [Michele Albano](https://github.com/micheleISEP)
+- [Michele Albano](https://github.com/michelealbano)
 - [Ramzi Maalej](https://github.com/ramzimaalej)
 - [Ravindra Nikam](https://github.com/ravinikam)
 - [Ricardo Cardona](https://github.com/ricardona)
