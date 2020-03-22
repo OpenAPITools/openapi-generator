@@ -141,6 +141,8 @@ func TestUpdateUser(t *testing.T) {
 	}
 }
 
+/* issue in the server side as deleting user no longer works (returning 500)
+   we may uncomment the following test when the server's issue is addressed
 func TestDeleteUser(t *testing.T) {
 	apiResponse, err := client.UserApi.DeleteUser(context.Background(), "gopher")
 
@@ -150,4 +152,4 @@ func TestDeleteUser(t *testing.T) {
 	if apiResponse.StatusCode != 200 {
 		t.Log(apiResponse)
 	}
-}
+}*/
