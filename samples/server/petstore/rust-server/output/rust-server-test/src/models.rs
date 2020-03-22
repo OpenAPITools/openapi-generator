@@ -68,7 +68,7 @@ impl std::string::ToString for ANullableContainer {
 impl std::str::FromStr for ANullableContainer {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -85,14 +85,14 @@ impl std::str::FromStr for ANullableContainer {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ANullableContainer".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ANullableContainer".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "NullableThing" => return Err("Parsing a nullable type in this style is not supported in ANullableContainer".to_string()),
-                    "RequiredNullableThing" => return Err("Parsing a nullable type in this style is not supported in ANullableContainer".to_string()),
-                    _ => return Err("Unexpected key while parsing ANullableContainer".to_string())
+                    "NullableThing" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ANullableContainer".to_string()),
+                    "RequiredNullableThing" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ANullableContainer".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing ANullableContainer".to_string())
                 }
             }
 
@@ -101,9 +101,9 @@ impl std::str::FromStr for ANullableContainer {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ANullableContainer {
-            nullable_thing: Err("Nullable types not supported in ANullableContainer".to_string())?,
-            required_nullable_thing: Err("Nullable types not supported in ANullableContainer".to_string())?,
+        std::result::Result::Ok(ANullableContainer {
+            nullable_thing: std::result::Result::Err("Nullable types not supported in ANullableContainer".to_string())?,
+            required_nullable_thing: std::result::Result::Err("Nullable types not supported in ANullableContainer".to_string())?,
         })
     }
 }
@@ -157,8 +157,8 @@ impl ::std::string::ToString for AdditionalPropertiesObject {
 impl ::std::str::FromStr for AdditionalPropertiesObject {
     type Err = &'static str;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Err("Parsing additionalProperties for AdditionalPropertiesObject is not supported")
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Err("Parsing additionalProperties for AdditionalPropertiesObject is not supported")
     }
 }
 
@@ -228,7 +228,7 @@ impl std::string::ToString for AllOfObject {
 impl std::str::FromStr for AllOfObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -245,14 +245,14 @@ impl std::str::FromStr for AllOfObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing AllOfObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing AllOfObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "sampleProperty" => intermediate_rep.sample_property.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "sampleBasePropery" => intermediate_rep.sample_base_propery.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing AllOfObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing AllOfObject".to_string())
                 }
             }
 
@@ -261,7 +261,7 @@ impl std::str::FromStr for AllOfObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(AllOfObject {
+        std::result::Result::Ok(AllOfObject {
             sample_property: intermediate_rep.sample_property.into_iter().next(),
             sample_base_propery: intermediate_rep.sample_base_propery.into_iter().next(),
         })
@@ -324,7 +324,7 @@ impl std::string::ToString for BaseAllOf {
 impl std::str::FromStr for BaseAllOf {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -340,13 +340,13 @@ impl std::str::FromStr for BaseAllOf {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing BaseAllOf".to_string())
+                None => return std::result::Result::Err("Missing value while parsing BaseAllOf".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "sampleBasePropery" => intermediate_rep.sample_base_propery.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing BaseAllOf".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing BaseAllOf".to_string())
                 }
             }
 
@@ -355,7 +355,7 @@ impl std::str::FromStr for BaseAllOf {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(BaseAllOf {
+        std::result::Result::Ok(BaseAllOf {
             sample_base_propery: intermediate_rep.sample_base_propery.into_iter().next(),
         })
     }
@@ -419,7 +419,7 @@ impl std::string::ToString for GetYamlResponse {
 impl std::str::FromStr for GetYamlResponse {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -435,13 +435,13 @@ impl std::str::FromStr for GetYamlResponse {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing GetYamlResponse".to_string())
+                None => return std::result::Result::Err("Missing value while parsing GetYamlResponse".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "value" => intermediate_rep.value.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing GetYamlResponse".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing GetYamlResponse".to_string())
                 }
             }
 
@@ -450,7 +450,7 @@ impl std::str::FromStr for GetYamlResponse {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(GetYamlResponse {
+        std::result::Result::Ok(GetYamlResponse {
             value: intermediate_rep.value.into_iter().next(),
         })
     }
@@ -520,7 +520,7 @@ impl std::string::ToString for InlineObject {
 impl std::str::FromStr for InlineObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -537,14 +537,14 @@ impl std::str::FromStr for InlineObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing InlineObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing InlineObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "id" => intermediate_rep.id.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "password" => intermediate_rep.password.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing InlineObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing InlineObject".to_string())
                 }
             }
 
@@ -553,7 +553,7 @@ impl std::str::FromStr for InlineObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(InlineObject {
+        std::result::Result::Ok(InlineObject {
             id: intermediate_rep.id.into_iter().next().ok_or("id missing in InlineObject".to_string())?,
             password: intermediate_rep.password.into_iter().next(),
         })
@@ -613,7 +613,7 @@ impl std::string::ToString for ObjectOfObjects {
 impl std::str::FromStr for ObjectOfObjects {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -629,13 +629,13 @@ impl std::str::FromStr for ObjectOfObjects {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectOfObjects".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectOfObjects".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "inner" => intermediate_rep.inner.push(models::ObjectOfObjectsInner::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing ObjectOfObjects".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectOfObjects".to_string())
                 }
             }
 
@@ -644,7 +644,7 @@ impl std::str::FromStr for ObjectOfObjects {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectOfObjects {
+        std::result::Result::Ok(ObjectOfObjects {
             inner: intermediate_rep.inner.into_iter().next(),
         })
     }
@@ -714,7 +714,7 @@ impl std::string::ToString for ObjectOfObjectsInner {
 impl std::str::FromStr for ObjectOfObjectsInner {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -731,14 +731,14 @@ impl std::str::FromStr for ObjectOfObjectsInner {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectOfObjectsInner".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectOfObjectsInner".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "required_thing" => intermediate_rep.required_thing.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "optional_thing" => intermediate_rep.optional_thing.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing ObjectOfObjectsInner".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectOfObjectsInner".to_string())
                 }
             }
 
@@ -747,7 +747,7 @@ impl std::str::FromStr for ObjectOfObjectsInner {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectOfObjectsInner {
+        std::result::Result::Ok(ObjectOfObjectsInner {
             required_thing: intermediate_rep.required_thing.into_iter().next().ok_or("required_thing missing in ObjectOfObjectsInner".to_string())?,
             optional_thing: intermediate_rep.optional_thing.into_iter().next(),
         })

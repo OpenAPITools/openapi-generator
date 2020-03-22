@@ -69,7 +69,7 @@ impl std::string::ToString for MultipartRelatedRequest {
 impl std::str::FromStr for MultipartRelatedRequest {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -87,15 +87,15 @@ impl std::str::FromStr for MultipartRelatedRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing MultipartRelatedRequest".to_string())
+                None => return std::result::Result::Err("Missing value while parsing MultipartRelatedRequest".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| format!("{}", x))?),
-                    "optional_binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
-                    "required_binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
-                    _ => return Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
+                    "optional_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
+                    "required_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
                 }
             }
 
@@ -104,7 +104,7 @@ impl std::str::FromStr for MultipartRelatedRequest {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(MultipartRelatedRequest {
+        std::result::Result::Ok(MultipartRelatedRequest {
             object_field: intermediate_rep.object_field.into_iter().next(),
             optional_binary_field: intermediate_rep.optional_binary_field.into_iter().next(),
             required_binary_field: intermediate_rep.required_binary_field.into_iter().next().ok_or("required_binary_field missing in MultipartRelatedRequest".to_string())?,
@@ -190,7 +190,7 @@ impl std::string::ToString for MultipartRequest {
 impl std::str::FromStr for MultipartRequest {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -209,7 +209,7 @@ impl std::str::FromStr for MultipartRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing MultipartRequest".to_string())
+                None => return std::result::Result::Err("Missing value while parsing MultipartRequest".to_string())
             };
 
             if let Some(key) = key_result {
@@ -217,8 +217,8 @@ impl std::str::FromStr for MultipartRequest {
                     "string_field" => intermediate_rep.string_field.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "optional_string_field" => intermediate_rep.optional_string_field.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| format!("{}", x))?),
-                    "binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRequest".to_string()),
-                    _ => return Err("Unexpected key while parsing MultipartRequest".to_string())
+                    "binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRequest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequest".to_string())
                 }
             }
 
@@ -227,7 +227,7 @@ impl std::str::FromStr for MultipartRequest {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(MultipartRequest {
+        std::result::Result::Ok(MultipartRequest {
             string_field: intermediate_rep.string_field.into_iter().next().ok_or("string_field missing in MultipartRequest".to_string())?,
             optional_string_field: intermediate_rep.optional_string_field.into_iter().next(),
             object_field: intermediate_rep.object_field.into_iter().next(),
@@ -300,7 +300,7 @@ impl std::string::ToString for MultipartRequestObjectField {
 impl std::str::FromStr for MultipartRequestObjectField {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -317,14 +317,14 @@ impl std::str::FromStr for MultipartRequestObjectField {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing MultipartRequestObjectField".to_string())
+                None => return std::result::Result::Err("Missing value while parsing MultipartRequestObjectField".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "field_a" => intermediate_rep.field_a.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    "field_b" => return Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
-                    _ => return Err("Unexpected key while parsing MultipartRequestObjectField".to_string())
+                    "field_b" => return std::result::Result::Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequestObjectField".to_string())
                 }
             }
 
@@ -333,7 +333,7 @@ impl std::str::FromStr for MultipartRequestObjectField {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(MultipartRequestObjectField {
+        std::result::Result::Ok(MultipartRequestObjectField {
             field_a: intermediate_rep.field_a.into_iter().next().ok_or("field_a missing in MultipartRequestObjectField".to_string())?,
             field_b: intermediate_rep.field_b.into_iter().next(),
         })

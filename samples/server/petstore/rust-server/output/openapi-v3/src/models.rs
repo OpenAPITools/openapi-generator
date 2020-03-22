@@ -20,7 +20,7 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlArra
 
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_snake_another_xml_inner<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
+fn wrap_in_snake_another_xml_inner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
     S: serde::ser::Serializer,
 {
@@ -104,13 +104,13 @@ impl std::string::ToString for AnotherXmlArray {
 impl std::str::FromStr for AnotherXmlArray {
     type Err = <String as std::str::FromStr>::Err;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
         for item in s.split(',')
         {
             items.push(item.parse()?);
         }
-        Ok(AnotherXmlArray(items))
+        std::result::Result::Ok(AnotherXmlArray(items))
     }
 }
 
@@ -137,8 +137,8 @@ impl std::convert::From<String> for AnotherXmlInner {
 
 impl std::str::FromStr for AnotherXmlInner {
     type Err = std::string::ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok(AnotherXmlInner(x.to_string()))
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(AnotherXmlInner(x.to_string()))
     }
 }
 
@@ -227,7 +227,7 @@ impl std::string::ToString for AnotherXmlObject {
 impl std::str::FromStr for AnotherXmlObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -243,13 +243,13 @@ impl std::str::FromStr for AnotherXmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing AnotherXmlObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing AnotherXmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing AnotherXmlObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing AnotherXmlObject".to_string())
                 }
             }
 
@@ -258,7 +258,7 @@ impl std::str::FromStr for AnotherXmlObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(AnotherXmlObject {
+        std::result::Result::Ok(AnotherXmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
         })
     }
@@ -346,7 +346,7 @@ impl std::string::ToString for DuplicateXmlObject {
 impl std::str::FromStr for DuplicateXmlObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -363,14 +363,14 @@ impl std::str::FromStr for DuplicateXmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing DuplicateXmlObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing DuplicateXmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "inner_array" => intermediate_rep.inner_array.push(models::XmlArray::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing DuplicateXmlObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing DuplicateXmlObject".to_string())
                 }
             }
 
@@ -379,7 +379,7 @@ impl std::str::FromStr for DuplicateXmlObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(DuplicateXmlObject {
+        std::result::Result::Ok(DuplicateXmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
             inner_array: intermediate_rep.inner_array.into_iter().next().ok_or("inner_array missing in DuplicateXmlObject".to_string())?,
         })
@@ -435,17 +435,109 @@ impl std::fmt::Display for EnumWithStarObject {
 impl std::str::FromStr for EnumWithStarObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "FOO" => Ok(EnumWithStarObject::FOO),
-            "BAR" => Ok(EnumWithStarObject::BAR),
-            "*" => Ok(EnumWithStarObject::STAR),
-            _ => Err(format!("Value not valid: {}", s)),
+            "FOO" => std::result::Result::Ok(EnumWithStarObject::FOO),
+            "BAR" => std::result::Result::Ok(EnumWithStarObject::BAR),
+            "*" => std::result::Result::Ok(EnumWithStarObject::STAR),
+            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
 }
 
 impl EnumWithStarObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct Err(String);
+
+impl std::convert::From<String> for Err {
+    fn from(x: String) -> Self {
+        Err(x)
+    }
+}
+
+impl std::str::FromStr for Err {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(Err(x.to_string()))
+    }
+}
+
+impl std::convert::From<Err> for String {
+    fn from(x: Err) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for Err {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for Err {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl Err {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct Error(String);
+
+impl std::convert::From<String> for Error {
+    fn from(x: String) -> Self {
+        Error(x)
+    }
+}
+
+impl std::str::FromStr for Error {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(Error(x.to_string()))
+    }
+}
+
+impl std::convert::From<Error> for String {
+    fn from(x: Error) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for Error {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for Error {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl Error {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -508,7 +600,7 @@ impl std::string::ToString for InlineResponse201 {
 impl std::str::FromStr for InlineResponse201 {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -524,13 +616,13 @@ impl std::str::FromStr for InlineResponse201 {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing InlineResponse201".to_string())
+                None => return std::result::Result::Err("Missing value while parsing InlineResponse201".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "foo" => intermediate_rep.foo.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing InlineResponse201".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing InlineResponse201".to_string())
                 }
             }
 
@@ -539,7 +631,7 @@ impl std::str::FromStr for InlineResponse201 {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(InlineResponse201 {
+        std::result::Result::Ok(InlineResponse201 {
             foo: intermediate_rep.foo.into_iter().next(),
         })
     }
@@ -686,13 +778,13 @@ impl std::string::ToString for MyIdList {
 impl std::str::FromStr for MyIdList {
     type Err = <i32 as std::str::FromStr>::Err;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
         for item in s.split(',')
         {
             items.push(item.parse()?);
         }
-        Ok(MyIdList(items))
+        std::result::Result::Ok(MyIdList(items))
     }
 }
 
@@ -809,7 +901,7 @@ impl std::string::ToString for NullableTest {
 impl std::str::FromStr for NullableTest {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -829,17 +921,17 @@ impl std::str::FromStr for NullableTest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing NullableTest".to_string())
+                None => return std::result::Result::Err("Missing value while parsing NullableTest".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "nullable" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
-                    "nullableWithNullDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
-                    "nullableWithPresentDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
-                    "nullableWithNoDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
-                    "nullableArray" => return Err("Parsing a container in this style is not supported in NullableTest".to_string()),
-                    _ => return Err("Unexpected key while parsing NullableTest".to_string())
+                    "nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithNullDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithPresentDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithNoDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableArray" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing NullableTest".to_string())
                 }
             }
 
@@ -848,12 +940,12 @@ impl std::str::FromStr for NullableTest {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(NullableTest {
-            nullable: Err("Nullable types not supported in NullableTest".to_string())?,
-            nullable_with_null_default: Err("Nullable types not supported in NullableTest".to_string())?,
-            nullable_with_present_default: Err("Nullable types not supported in NullableTest".to_string())?,
-            nullable_with_no_default: Err("Nullable types not supported in NullableTest".to_string())?,
-            nullable_array: Err("Nullable types not supported in NullableTest".to_string())?,
+        std::result::Result::Ok(NullableTest {
+            nullable: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_null_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_present_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_no_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_array: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
         })
     }
 }
@@ -930,7 +1022,7 @@ impl std::string::ToString for ObjectHeader {
 impl std::str::FromStr for ObjectHeader {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -947,14 +1039,14 @@ impl std::str::FromStr for ObjectHeader {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectHeader".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectHeader".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "requiredObjectHeader" => intermediate_rep.required_object_header.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
                     "optionalObjectHeader" => intermediate_rep.optional_object_header.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing ObjectHeader".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectHeader".to_string())
                 }
             }
 
@@ -963,7 +1055,7 @@ impl std::str::FromStr for ObjectHeader {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectHeader {
+        std::result::Result::Ok(ObjectHeader {
             required_object_header: intermediate_rep.required_object_header.into_iter().next().ok_or("requiredObjectHeader missing in ObjectHeader".to_string())?,
             optional_object_header: intermediate_rep.optional_object_header.into_iter().next(),
         })
@@ -1042,7 +1134,7 @@ impl std::string::ToString for ObjectParam {
 impl std::str::FromStr for ObjectParam {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -1059,14 +1151,14 @@ impl std::str::FromStr for ObjectParam {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectParam".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectParam".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "requiredParam" => intermediate_rep.required_param.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
                     "optionalParam" => intermediate_rep.optional_param.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing ObjectParam".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectParam".to_string())
                 }
             }
 
@@ -1075,7 +1167,7 @@ impl std::str::FromStr for ObjectParam {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectParam {
+        std::result::Result::Ok(ObjectParam {
             required_param: intermediate_rep.required_param.into_iter().next().ok_or("requiredParam missing in ObjectParam".to_string())?,
             optional_param: intermediate_rep.optional_param.into_iter().next(),
         })
@@ -1161,7 +1253,7 @@ impl std::string::ToString for ObjectUntypedProps {
 impl std::str::FromStr for ObjectUntypedProps {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -1180,7 +1272,7 @@ impl std::str::FromStr for ObjectUntypedProps {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectUntypedProps".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectUntypedProps".to_string())
             };
 
             if let Some(key) = key_result {
@@ -1189,7 +1281,7 @@ impl std::str::FromStr for ObjectUntypedProps {
                     "required_untyped_nullable" => intermediate_rep.required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
                     "not_required_untyped" => intermediate_rep.not_required_untyped.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
                     "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing ObjectUntypedProps".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
             }
 
@@ -1198,7 +1290,7 @@ impl std::str::FromStr for ObjectUntypedProps {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectUntypedProps {
+        std::result::Result::Ok(ObjectUntypedProps {
             required_untyped: intermediate_rep.required_untyped.into_iter().next().ok_or("required_untyped missing in ObjectUntypedProps".to_string())?,
             required_untyped_nullable: intermediate_rep.required_untyped_nullable.into_iter().next().ok_or("required_untyped_nullable missing in ObjectUntypedProps".to_string())?,
             not_required_untyped: intermediate_rep.not_required_untyped.into_iter().next(),
@@ -1271,7 +1363,7 @@ impl std::string::ToString for ObjectWithArrayOfObjects {
 impl std::str::FromStr for ObjectWithArrayOfObjects {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -1287,13 +1379,13 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectWithArrayOfObjects".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectWithArrayOfObjects".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "objectArray" => return Err("Parsing a container in this style is not supported in ObjectWithArrayOfObjects".to_string()),
-                    _ => return Err("Unexpected key while parsing ObjectWithArrayOfObjects".to_string())
+                    "objectArray" => return std::result::Result::Err("Parsing a container in this style is not supported in ObjectWithArrayOfObjects".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectWithArrayOfObjects".to_string())
                 }
             }
 
@@ -1302,7 +1394,7 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectWithArrayOfObjects {
+        std::result::Result::Ok(ObjectWithArrayOfObjects {
             object_array: intermediate_rep.object_array.into_iter().next(),
         })
     }
@@ -1310,6 +1402,52 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
 
 
 impl ObjectWithArrayOfObjects {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct Ok(String);
+
+impl std::convert::From<String> for Ok {
+    fn from(x: String) -> Self {
+        Ok(x)
+    }
+}
+
+impl std::str::FromStr for Ok {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(Ok(x.to_string()))
+    }
+}
+
+impl std::convert::From<Ok> for String {
+    fn from(x: Ok) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for Ok {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for Ok {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl Ok {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -1398,6 +1536,52 @@ impl RequiredObjectHeader {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct Result(String);
+
+impl std::convert::From<String> for Result {
+    fn from(x: String) -> Self {
+        Result(x)
+    }
+}
+
+impl std::str::FromStr for Result {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(Result(x.to_string()))
+    }
+}
+
+impl std::convert::From<Result> for String {
+    fn from(x: Result) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for Result {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for Result {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl Result {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
 /// which helps with FFI.
@@ -1424,11 +1608,11 @@ impl std::fmt::Display for StringEnum {
 impl std::str::FromStr for StringEnum {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "FOO" => Ok(StringEnum::FOO),
-            "BAR" => Ok(StringEnum::BAR),
-            _ => Err(format!("Value not valid: {}", s)),
+            "FOO" => std::result::Result::Ok(StringEnum::FOO),
+            "BAR" => std::result::Result::Ok(StringEnum::BAR),
+            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
 }
@@ -1454,8 +1638,8 @@ impl std::convert::From<String> for StringObject {
 
 impl std::str::FromStr for StringObject {
     type Err = std::string::ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok(StringObject(x.to_string()))
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(StringObject(x.to_string()))
     }
 }
 
@@ -1545,7 +1729,7 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlArray> {
 
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_camelXmlInner<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
+fn wrap_in_camelXmlInner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
     S: serde::ser::Serializer,
 {
@@ -1629,13 +1813,13 @@ impl std::string::ToString for XmlArray {
 impl std::str::FromStr for XmlArray {
     type Err = <String as std::str::FromStr>::Err;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
         for item in s.split(',')
         {
             items.push(item.parse()?);
         }
-        Ok(XmlArray(items))
+        std::result::Result::Ok(XmlArray(items))
     }
 }
 
@@ -1662,8 +1846,8 @@ impl std::convert::From<String> for XmlInner {
 
 impl std::str::FromStr for XmlInner {
     type Err = std::string::ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok(XmlInner(x.to_string()))
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(XmlInner(x.to_string()))
     }
 }
 
@@ -1763,7 +1947,7 @@ impl std::string::ToString for XmlObject {
 impl std::str::FromStr for XmlObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -1780,14 +1964,14 @@ impl std::str::FromStr for XmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing XmlObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing XmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "innerString" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "other_inner_rename" => intermediate_rep.other_inner_rename.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing XmlObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing XmlObject".to_string())
                 }
             }
 
@@ -1796,7 +1980,7 @@ impl std::str::FromStr for XmlObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(XmlObject {
+        std::result::Result::Ok(XmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
             other_inner_rename: intermediate_rep.other_inner_rename.into_iter().next(),
         })
