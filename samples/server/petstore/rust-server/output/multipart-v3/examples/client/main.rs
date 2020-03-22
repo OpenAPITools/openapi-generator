@@ -57,9 +57,7 @@ fn main() {
 
     let client = if matches.is_present("https") {
         // Using Simple HTTPS
-        Client::try_new_https(
-            &base_url,
-            "examples/ca.pem")
+        Client::try_new_https(&base_url)
             .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
