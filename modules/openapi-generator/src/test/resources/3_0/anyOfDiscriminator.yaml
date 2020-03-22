@@ -21,7 +21,7 @@ components:
       required:
       - fruitType
     FruitInlineDisc:
-      oneOf:
+      anyOf:
         - type: object
           required:
             - seeds
@@ -43,14 +43,14 @@ components:
       discriminator:
         propertyName: fruitType
     FruitInlineInlineDisc:
-      oneOf:
+      anyOf:
         - type: object
           required:
             - seeds
           properties:
             seeds:
               type: integer
-          oneOf:
+          anyOf:
             - type: object
               properties:
                 fruitType:
@@ -63,7 +63,7 @@ components:
           properties:
             length:
               type: integer
-          oneOf:
+          anyOf:
             - type: object
               properties:
                 fruitType:
@@ -73,7 +73,7 @@ components:
       discriminator:
         propertyName: fruitType
     FruitReqDisc:
-      oneOf:
+      anyOf:
         - $ref: '#/components/schemas/AppleReqDisc'
         - $ref: '#/components/schemas/BananaReqDisc'
       discriminator:
@@ -99,7 +99,7 @@ components:
         fruitType:
           type: string
     FruitAllOfDisc:
-      oneOf:
+      anyOf:
         - $ref: '#/components/schemas/AppleAllOfDisc'
         - $ref: '#/components/schemas/BananaAllOfDisc'
       discriminator:
@@ -123,7 +123,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/FruitType'
     FruitAnyOfDisc:
-      oneOf:
+      anyOf:
         - $ref: '#/components/schemas/AppleAnyOfDisc'
         - $ref: '#/components/schemas/BananaAnyOfDisc'
       discriminator:
@@ -146,32 +146,8 @@ components:
           type: integer
       anyOf:
         - $ref: '#/components/schemas/FruitType'
-    FruitOneOfDisc:
-      oneOf:
-        - $ref: '#/components/schemas/AppleOneOfDisc'
-        - $ref: '#/components/schemas/BananaOneOfDisc'
-      discriminator:
-        propertyName: fruitType
-    AppleOneOfDisc:
-      type: object
-      required:
-        - seeds
-      properties:
-        seeds:
-          type: integer
-      oneOf:
-        - $ref: '#/components/schemas/FruitType'
-    BananaOneOfDisc:
-      type: object
-      required:
-        - length
-      properties:
-        length:
-          type: integer
-      oneOf:
-        - $ref: '#/components/schemas/FruitType'
     FruitGrandparentDisc:
-      oneOf:
+      anyOf:
         - $ref: '#/components/schemas/AppleGrandparentDisc'
         - $ref: '#/components/schemas/BananaGrandparentDisc'
       discriminator:
@@ -199,25 +175,25 @@ components:
           type: integer
       allOf:
         - $ref: '#/components/schemas/Parent'
-    OneOfDiscMissingCase1:
-      oneOf:
-        - $ref: '#/components/schemas/DiscMissingCase1'
+    ComposedDiscMissingNoProperties:
+      anyOf:
+        - $ref: '#/components/schemas/DiscMissingNoProperties'
       discriminator:
         propertyName: fruitType
-    DiscMissingCase1:
+    DiscMissingNoProperties:
       type: object
-    OneOfDiscMissingCase2:
-      oneOf:
-        - $ref: '#/components/schemas/DiscMissingCase2'
+    ComposedDiscMissingFromProperties:
+      anyOf:
+        - $ref: '#/components/schemas/DiscMissingFromProperties'
       discriminator:
         propertyName: fruitType
-    DiscMissingCase2:
+    DiscMissingFromProperties:
       type: object
       properties:
         length:
           type: integer
-    OneOfDiscOptionalTypeCorrect:
-      oneOf:
+    ComposedDiscOptionalTypeCorrect:
+      anyOf:
         - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
       discriminator:
         propertyName: fruitType
@@ -226,8 +202,8 @@ components:
       properties:
         fruitType:
           type: string
-    OneOfDiscOptionalTypeIncorrect:
-      oneOf:
+    ComposedDiscOptionalTypeIncorrect:
+      anyOf:
         - $ref: '#/components/schemas/DiscOptionalTypeIncorrect'
       discriminator:
         propertyName: fruitType
@@ -236,14 +212,14 @@ components:
       properties:
         fruitType:
           type: integer
-    OneOfDiscOptionalTypeInconsistent:
-      oneOf:
+    ComposedDiscOptionalTypeInconsistent:
+      anyOf:
         - $ref: '#/components/schemas/DiscOptionalTypeIncorrect'
         - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
       discriminator:
         propertyName: fruitType
-    OneOfDiscTypeIncorrect:
-      oneOf:
+    ComposedDiscTypeIncorrect:
+      anyOf:
         - $ref: '#/components/schemas/DiscTypeIncorrect'
       discriminator:
         propertyName: fruitType
@@ -254,14 +230,14 @@ components:
           type: integer
       required:
         - fruitType
-    OneOfDiscTypeInconsistent:
-      oneOf:
+    ComposedDiscTypeInconsistent:
+      anyOf:
         - $ref: '#/components/schemas/DiscTypeIncorrect'
         - $ref: '#/components/schemas/FruitType'
       discriminator:
         propertyName: fruitType
-    OneOfDiscRequiredInconsistent:
-      oneOf:
+    ComposedDiscRequiredInconsistent:
+      anyOf:
         - $ref: '#/components/schemas/DiscOptionalTypeCorrect'
         - $ref: '#/components/schemas/FruitType'
       discriminator:

@@ -780,7 +780,6 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel pet = codegen.fromModel(modelName, sc);
         Assert.assertEquals(pet.discriminator, petDisc);
-        // TODO check that master branch sets 5 models in this discriminator mapping
 
         // the Reptile discriminator contains both reptiles
         List<String> reptileModelNames = Arrays.asList("Lizard", "Snake");
@@ -837,8 +836,157 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testComposedSchemaOneOfDiscriminatorsInvalid() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setOpenAPI(openAPI);
+
+        HashMap<String, String> hm = new HashMap<>();
+        hm.put("ComposedDiscMissingNoProperties", "'ComposedDiscMissingNoProperties' defines discriminator 'fruitType', but the referenced schema 'DiscMissingNoProperties' is incorrect. fruitType is missing from the schema, define it as required and type string");
+        hm.put("ComposedDiscMissingFromProperties", "'ComposedDiscMissingFromProperties' defines discriminator 'fruitType', but the referenced schema 'DiscMissingFromProperties' is incorrect. fruitType is missing from the schema, define it as required and type string");
+        hm.put("ComposedDiscOptionalTypeCorrect", "'ComposedDiscOptionalTypeCorrect' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
+        hm.put("ComposedDiscOptionalTypeIncorrect", "'ComposedDiscOptionalTypeIncorrect' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeIncorrect' is incorrect. invalid type for fruitType, set it to string. invalid optional definition of fruitType, include it in required");
+        hm.put("ComposedDiscOptionalTypeInconsistent", "'ComposedDiscOptionalTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeIncorrect' is incorrect. invalid type for fruitType, set it to string. invalid optional definition of fruitType, include it in required");
+        hm.put("ComposedDiscTypeIncorrect", "'ComposedDiscTypeIncorrect' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
+        hm.put("ComposedDiscTypeInconsistent", "'ComposedDiscTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
+        hm.put("ComposedDiscRequiredInconsistent", "'ComposedDiscRequiredInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
+
+        for(Map.Entry<String, String> entry : hm.entrySet()) {
+            String modelName = entry.getKey();
+            String errorMessageExpected = entry.getValue();
+
+            Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+
+            try {
+                codegen.fromModel(modelName, sc);
+                Assert.assertTrue(false, "A RuntimeException should have been thrown when processing "+modelName+ " but it was not");
+            } catch (RuntimeException re) {
+                Assert.assertEquals(re.getMessage(), errorMessageExpected);
+            }
+        }
+    }
+
+    @Test
+    public void testComposedSchemaAnyOfDiscriminatorsInvalid() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOfDiscriminator.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setOpenAPI(openAPI);
+
+        HashMap<String, String> hm = new HashMap<>();
+        hm.put("ComposedDiscMissingNoProperties", "'ComposedDiscMissingNoProperties' defines discriminator 'fruitType', but the referenced schema 'DiscMissingNoProperties' is incorrect. fruitType is missing from the schema, define it as required and type string");
+        hm.put("ComposedDiscMissingFromProperties", "'ComposedDiscMissingFromProperties' defines discriminator 'fruitType', but the referenced schema 'DiscMissingFromProperties' is incorrect. fruitType is missing from the schema, define it as required and type string");
+        hm.put("ComposedDiscOptionalTypeCorrect", "'ComposedDiscOptionalTypeCorrect' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
+        hm.put("ComposedDiscOptionalTypeIncorrect", "'ComposedDiscOptionalTypeIncorrect' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeIncorrect' is incorrect. invalid type for fruitType, set it to string. invalid optional definition of fruitType, include it in required");
+        hm.put("ComposedDiscOptionalTypeInconsistent", "'ComposedDiscOptionalTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeIncorrect' is incorrect. invalid type for fruitType, set it to string. invalid optional definition of fruitType, include it in required");
+        hm.put("ComposedDiscTypeIncorrect", "'ComposedDiscTypeIncorrect' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
+        hm.put("ComposedDiscTypeInconsistent", "'ComposedDiscTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
+        hm.put("ComposedDiscRequiredInconsistent", "'ComposedDiscRequiredInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
+
+        for(Map.Entry<String, String> entry : hm.entrySet()) {
+            String modelName = entry.getKey();
+            String errorMessageExpected = entry.getValue();
+
+            Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+
+            try {
+                codegen.fromModel(modelName, sc);
+                Assert.assertTrue(false, "A RuntimeException should have been thrown when processing "+modelName+ " but it was not");
+            } catch (RuntimeException re) {
+                Assert.assertEquals(re.getMessage(), errorMessageExpected);
+            }
+        }
+    }
+
+    @Test
+    public void testComposedSchemaAnyOfDiscriminatorMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOfDiscriminator.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+        java.util.LinkedHashSet hs;
+        String mn;
+
+        // inline anyOf models work because the inline schemas are turned into $refs
+        modelName = "FruitInlineDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "FruitInlineDisc_anyOf";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
+        mn = "FruitInlineDisc_anyOf_1";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // inline anyOf with inline anyOf model doesn't work because we have null $refs and we throw an exception
+        final String fmodelName = "FruitInlineInlineDisc";
+        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
+        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
+
+        // ref anyOf models with discriminator in properties in those models
+        modelName = "FruitReqDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleReqDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        mn = "BananaReqDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in allOf in those models
+        modelName = "FruitAllOfDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleAllOfDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        mn = "BananaAllOfDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in anyOf in those models
+        modelName = "FruitAnyOfDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleAnyOfDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        mn = "BananaAnyOfDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in anyOf in those models
+        modelName = "FruitAnyOfDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleAnyOfDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        mn = "BananaAnyOfDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in the grandparent schemas of those anyof models
+        modelName = "FruitGrandparentDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleGrandparentDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        mn = "BananaGrandparentDisc";
+        hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+    }
+
+    @Test
     public void testComposedSchemaOneOfDiscriminatorMap() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneoOfDiscriminator.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setDiscriminatorExplicitMappingVerbose(true);
         codegen.setOpenAPI(openAPI);
