@@ -8,7 +8,7 @@ import org.http4s.{EntityDecoder, EntityEncoder}
 import org.http4s.argonaut._
 import org.joda.time.DateTime
 
-import org.joda.time.DateTime
+import java.time.OffsetDateTime
 
 import Order._
 
@@ -16,7 +16,7 @@ case class Order (
   id: Option[Long],
 petId: Option[Long],
 quantity: Option[Integer],
-shipDate: Option[DateTime],
+shipDate: Option[OffsetDateTime],
 /* Order Status */
   status: Option[Status],
 complete: Option[Boolean])

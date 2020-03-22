@@ -35,19 +35,19 @@ public:
     HttpContent();
     virtual ~HttpContent();
 
-    virtual utility::string_t getContentDisposition();
+    virtual utility::string_t getContentDisposition() const;
     virtual void setContentDisposition( const utility::string_t& value );
 
-    virtual utility::string_t getName();
+    virtual utility::string_t getName() const;
     virtual void setName( const utility::string_t& value );
 
-    virtual utility::string_t getFileName();
+    virtual utility::string_t getFileName() const;
     virtual void setFileName( const utility::string_t& value );
 
-    virtual utility::string_t getContentType();
+    virtual utility::string_t getContentType() const;
     virtual void setContentType( const utility::string_t& value );
 
-    virtual std::shared_ptr<std::istream> getData();
+    virtual std::shared_ptr<std::istream> getData() const;
     virtual void setData( std::shared_ptr<std::istream> value );
 
     virtual void writeTo( std::ostream& stream );

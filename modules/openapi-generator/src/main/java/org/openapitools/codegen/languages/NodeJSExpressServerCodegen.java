@@ -57,7 +57,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     public NodeJSExpressServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(
@@ -75,7 +75,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

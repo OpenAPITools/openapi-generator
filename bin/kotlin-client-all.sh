@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ./bin/kotlin-client-gson.sh
+./bin/kotlin-client-jackson.sh
 ./bin/kotlin-client-moshi-codegen.sh
 ./bin/kotlin-client-nonpublic.sh
 ./bin/kotlin-client-okhttp3.sh

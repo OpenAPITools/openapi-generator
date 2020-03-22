@@ -133,7 +133,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 Arrays.asList(
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary"
+                        "NSError", "NSDictionary",
+                        // Cannot override with a stored property 'className'
+                        "className"
                 )
         );
 
@@ -245,6 +247,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Accept and cast values for simple types (string->bool, "
                         + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
@@ -634,7 +638,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "DefaultAPI";
         }
-        return camelize(name) + "API";
+        return camelize(apiNamePrefix + "_" + name) + "API";
     }
 
     @Override

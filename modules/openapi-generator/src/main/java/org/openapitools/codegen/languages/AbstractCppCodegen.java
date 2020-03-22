@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
@@ -34,10 +35,18 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
+
+    protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
+    protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
+    protected String reservedWordPrefix = "r_";
+    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION = "variableNameFirstCharacterUppercase";
+    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC = "Make first character of variable name uppercase (eg. value -> Value)";
+    protected boolean variableNameFirstCharacterUppercase = true;
 
     public AbstractCppCodegen() {
         super();
@@ -135,6 +144,13 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "xor",
                         "xor_eq")
         );
+
+        addOption(RESERVED_WORD_PREFIX_OPTION,
+                RESERVED_WORD_PREFIX_DESC,
+                this.reservedWordPrefix);
+        addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
+                  VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                  Boolean.toString(this.variableNameFirstCharacterUppercase));
     }
 
     @Override
@@ -181,7 +197,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return escapeReservedWord(name);
         }
 
-        if (name.length() > 1) {
+        if (variableNameFirstCharacterUppercase && name.length() > 1) {
             return sanitizeName(Character.toUpperCase(name.charAt(0)) + name.substring(1));
         }
 
@@ -200,7 +216,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return sanitizeName("_" + name);
+        return sanitizeName(reservedWordPrefix + name);
     }
 
     @Override
@@ -259,6 +275,17 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
+
+        if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
+            reservedWordPrefix = (String) additionalProperties.get(RESERVED_WORD_PREFIX_OPTION);
+        }
+
+        additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
+
+        if (additionalProperties.containsKey(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION))
+            variableNameFirstCharacterUppercase =
+                    convertPropertyToBooleanAndWriteBack(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION);
+        additionalProperties.put(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION, variableNameFirstCharacterUppercase);
     }
 
     @Override
@@ -313,7 +340,17 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // cannot handle inheritance from maps and arrays in C++
+            if((cm.isArrayModel || cm.isMapModel ) && (cm.parentModel == null)) {
+                cm.parent = null;
+            }
+        }
         return postProcessModelsEnum(objs);
     }
 }
