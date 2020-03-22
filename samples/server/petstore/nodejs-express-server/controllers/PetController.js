@@ -6,40 +6,38 @@
  * parameters are extracted and sent to the service, and where response is handled.
  */
 
-const camelCase = require('camelcase');
 const Controller = require('./Controller');
 const service = require('../services/PetService');
-
 const addPet = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.addPet));
+  await Controller.handleRequest(request, response, service.addPet);
 };
 
 const deletePet = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.deletePet));
+  await Controller.handleRequest(request, response, service.deletePet);
 };
 
 const findPetsByStatus = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.findPetsByStatus));
+  await Controller.handleRequest(request, response, service.findPetsByStatus);
 };
 
 const findPetsByTags = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.findPetsByTags));
+  await Controller.handleRequest(request, response, service.findPetsByTags);
 };
 
 const getPetById = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.getPetById));
+  await Controller.handleRequest(request, response, service.getPetById);
 };
 
 const updatePet = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.updatePet));
+  await Controller.handleRequest(request, response, service.updatePet);
 };
 
 const updatePetWithForm = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.updatePetWithForm));
+  await Controller.handleRequest(request, response, service.updatePetWithForm);
 };
 
 const uploadFile = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.uploadFile));
+  await Controller.handleRequest(request, response, service.uploadFile);
 };
 
 

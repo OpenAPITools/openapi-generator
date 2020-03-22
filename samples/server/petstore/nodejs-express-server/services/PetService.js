@@ -10,7 +10,9 @@ const Service = require('./Service');
 const addPet = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        body,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -29,7 +31,10 @@ const addPet = ({ body }) => new Promise(
 const deletePet = ({ petId, apiUnderscorekey }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        petId,
+        apiUnderscorekey,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -48,7 +53,9 @@ const deletePet = ({ petId, apiUnderscorekey }) => new Promise(
 const findPetsByStatus = ({ status }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        status,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -67,7 +74,9 @@ const findPetsByStatus = ({ status }) => new Promise(
 const findPetsByTags = ({ tags }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        tags,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -86,7 +95,9 @@ const findPetsByTags = ({ tags }) => new Promise(
 const getPetById = ({ petId }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        petId,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -104,7 +115,9 @@ const getPetById = ({ petId }) => new Promise(
 const updatePet = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        body,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -124,7 +137,11 @@ const updatePet = ({ body }) => new Promise(
 const updatePetWithForm = ({ petId, name, status }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        petId,
+        name,
+        status,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -144,7 +161,11 @@ const updatePetWithForm = ({ petId, name, status }) => new Promise(
 const uploadFile = ({ petId, additionalMetadata, file }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        petId,
+        additionalMetadata,
+        file,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',

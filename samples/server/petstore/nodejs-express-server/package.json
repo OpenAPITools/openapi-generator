@@ -1,5 +1,5 @@
 {
-  "name": "openapi-petstore",
+  "name":  "openapi-petstore",
   "version": "1.0.0",
   "description": "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.",
   "main": "index.js",
@@ -33,7 +33,7 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.17.2",
-    "mocha": "^6.1.4"
+    "mocha": "^7.1.1"
   },
   "eslintConfig": {
     "env": {

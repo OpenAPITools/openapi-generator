@@ -6,40 +6,38 @@
  * parameters are extracted and sent to the service, and where response is handled.
  */
 
-const camelCase = require('camelcase');
 const Controller = require('./Controller');
 const service = require('../services/UserService');
-
 const createUser = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.createUser));
+  await Controller.handleRequest(request, response, service.createUser);
 };
 
 const createUsersWithArrayInput = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.createUsersWithArrayInput));
+  await Controller.handleRequest(request, response, service.createUsersWithArrayInput);
 };
 
 const createUsersWithListInput = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.createUsersWithListInput));
+  await Controller.handleRequest(request, response, service.createUsersWithListInput);
 };
 
 const deleteUser = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.deleteUser));
+  await Controller.handleRequest(request, response, service.deleteUser);
 };
 
 const getUserByName = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.getUserByName));
+  await Controller.handleRequest(request, response, service.getUserByName);
 };
 
 const loginUser = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.loginUser));
+  await Controller.handleRequest(request, response, service.loginUser);
 };
 
 const logoutUser = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.logoutUser));
+  await Controller.handleRequest(request, response, service.logoutUser);
 };
 
 const updateUser = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.updateUser));
+  await Controller.handleRequest(request, response, service.updateUser);
 };
 
 

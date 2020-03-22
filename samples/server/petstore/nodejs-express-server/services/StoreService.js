@@ -11,7 +11,9 @@ const Service = require('./Service');
 const deleteOrder = ({ orderId }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        orderId,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -29,7 +31,8 @@ const deleteOrder = ({ orderId }) => new Promise(
 const getInventory = () => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -48,7 +51,9 @@ const getInventory = () => new Promise(
 const getOrderById = ({ orderId }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        orderId,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -66,7 +71,9 @@ const getOrderById = ({ orderId }) => new Promise(
 const placeOrder = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        body,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',

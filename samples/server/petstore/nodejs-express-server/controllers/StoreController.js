@@ -6,24 +6,22 @@
  * parameters are extracted and sent to the service, and where response is handled.
  */
 
-const camelCase = require('camelcase');
 const Controller = require('./Controller');
 const service = require('../services/StoreService');
-
 const deleteOrder = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.deleteOrder));
+  await Controller.handleRequest(request, response, service.deleteOrder);
 };
 
 const getInventory = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.getInventory));
+  await Controller.handleRequest(request, response, service.getInventory);
 };
 
 const getOrderById = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.getOrderById));
+  await Controller.handleRequest(request, response, service.getOrderById);
 };
 
 const placeOrder = async (request, response) => {
-  await Controller.handleRequest(request, response, camelCase(service.placeOrder));
+  await Controller.handleRequest(request, response, service.placeOrder);
 };
 
 

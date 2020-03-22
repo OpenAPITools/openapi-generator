@@ -11,7 +11,9 @@ const Service = require('./Service');
 const createUser = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        body,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -29,7 +31,9 @@ const createUser = ({ body }) => new Promise(
 const createUsersWithArrayInput = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        body,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -47,7 +51,9 @@ const createUsersWithArrayInput = ({ body }) => new Promise(
 const createUsersWithListInput = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        body,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -66,7 +72,9 @@ const createUsersWithListInput = ({ body }) => new Promise(
 const deleteUser = ({ username }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        username,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -84,7 +92,9 @@ const deleteUser = ({ username }) => new Promise(
 const getUserByName = ({ username }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        username,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -103,7 +113,10 @@ const getUserByName = ({ username }) => new Promise(
 const loginUser = ({ username, password }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        username,
+        password,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -120,7 +133,8 @@ const loginUser = ({ username, password }) => new Promise(
 const logoutUser = () => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
@@ -140,7 +154,10 @@ const logoutUser = () => new Promise(
 const updateUser = ({ username, body }) => new Promise(
   async (resolve, reject) => {
     try {
-      resolve(Service.successResponse(''));
+      resolve(Service.successResponse({
+        username,
+        body,
+      }));
     } catch (e) {
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
