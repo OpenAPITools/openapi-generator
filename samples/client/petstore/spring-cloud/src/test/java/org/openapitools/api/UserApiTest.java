@@ -28,7 +28,7 @@ public class UserApiTest {
         client.createUser(user).execute();
 
         User fetched = client.getUserByName(user.getUsername()).execute().getBody();
-        assertEquals(user.getId(), fetched.getId());
+        assertEquals(user.getName(), fetched.getName());
     }
 
     @Test
