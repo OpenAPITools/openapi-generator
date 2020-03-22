@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**dummy_get**](DefaultApi.md#dummy_get) | **Get** /dummy | A dummy endpoint to make the spec valid.
+[**dummy_get**](DefaultApi.md#dummy_get) | **GET** /dummy | A dummy endpoint to make the spec valid.
 
 
 

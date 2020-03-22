@@ -20,11 +20,11 @@ use futures::Future;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct DefaultApiClient<C: hyper::client::Connect> {
+pub struct DefaultApiClient<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> DefaultApiClient<C> {
+impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static> DefaultApiClient<C> {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> DefaultApiClient<C> {
         DefaultApiClient {
             configuration,
@@ -33,15 +33,16 @@ impl<C: hyper::client::Connect> DefaultApiClient<C> {
 }
 
 pub trait DefaultApi {
-    fn fileresponsetest(&self, ) -> Box<dyn Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>>;
+    fn fileresponsetest(&self, ) -> Box<dyn Future<Output = Result<std::path::PathBuf, Error<serde_json::Value>>>>;
 }
 
-impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
-    fn fileresponsetest(&self, ) -> Box<dyn Future<Item = std::path::PathBuf, Error = Error<serde_json::Value>>> {
-        let mut req = __internal_request::Request::new(hyper::Method::Get, "/tests/fileResponse".to_string())
+impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>DefaultApi for DefaultApiClient<C> {
+    fn fileresponsetest(&self, ) -> Box<dyn Future<Output = Result<std::path::PathBuf, Error<serde_json::Value>>>> {
+        let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/fileResponse".to_string())
         ;
 
-        req.execute(self.configuration.borrow())
+        // TODO: do not box here
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
 }

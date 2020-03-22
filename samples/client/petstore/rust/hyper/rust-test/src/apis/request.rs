@@ -1,13 +1,9 @@
-use std::borrow::Cow;
+// use std::borrow::Cow;
 use std::collections::HashMap;
 
 use super::{configuration, Error};
-use futures;
-use futures::{Future, Stream};
-use hyper;
-use hyper::header::UserAgent;
-use serde;
-use serde_json;
+use futures::{future::FutureExt, future::TryFutureExt, stream::TryStreamExt, Future};
+use hyper::header::{HeaderValue, AUTHORIZATION, CONTENT_LENGTH, CONTENT_TYPE, USER_AGENT};
 
 pub(crate) struct ApiKey {
     pub in_header: bool,
@@ -49,8 +45,8 @@ impl Request {
     pub fn new(method: hyper::Method, path: String) -> Self {
         Request {
             auth: Auth::None,
-            method: method,
-            path: path,
+            method,
+            path,
             query_params: HashMap::new(),
             path_params: HashMap::new(),
             form_params: HashMap::new(),
@@ -95,20 +91,20 @@ impl Request {
         self
     }
 
-    pub fn execute<'a, C, U>(
+    pub fn execute<C, U>(
         self,
         conf: &configuration::Configuration<C>,
-    ) -> Box<dyn Future<Item = U, Error = Error<serde_json::Value>> + 'a>
+    ) -> impl Future<Output = Result<U, Error<serde_json::Value>>>
     where
-        C: hyper::client::Connect,
-        U: Sized + 'a,
+        C: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
+        U: Sized,
         for<'de> U: serde::Deserialize<'de>,
     {
         let mut query_string = ::url::form_urlencoded::Serializer::new("".to_owned());
         // raw_headers is for headers we don't know the proper type of (e.g. custom api key
         // headers); headers is for ones we do know the type of.
         let mut raw_headers = HashMap::new();
-        let mut headers: hyper::header::Headers = hyper::header::Headers::new();
+        let mut headers = hyper::header::HeaderMap::new();
 
         let mut path = self.path;
         for (k, v) in self.path_params {
@@ -138,19 +134,19 @@ impl Request {
             }
             Auth::Basic => {
                 if let Some(ref auth_conf) = conf.basic_auth {
-                    let auth = hyper::header::Authorization(hyper::header::Basic {
-                        username: auth_conf.0.to_owned(),
-                        password: auth_conf.1.to_owned(),
-                    });
-                    headers.set(auth);
+                    let mut auth = auth_conf.0.clone();
+                    if let Some(password) = &auth_conf.1 {
+                        auth.push(' ');
+                        auth.push_str(password);
+                    }
+                    let auth = format!("Basic {}", base64::encode(&auth));
+                    headers.insert(AUTHORIZATION, HeaderValue::from_str(&auth).unwrap());
                 }
             }
             Auth::Oauth => {
                 if let Some(ref token) = conf.oauth_access_token {
-                    let auth = hyper::header::Authorization(hyper::header::Bearer {
-                        token: token.to_owned(),
-                    });
-                    headers.set(auth);
+                    let auth = format!("Bearer {}", token);
+                    headers.insert(AUTHORIZATION, HeaderValue::from_str(&auth).unwrap());
                 }
             }
             Auth::None => {}
@@ -163,77 +159,109 @@ impl Request {
             uri_str += "?";
             uri_str += &query_string_str;
         }
-        let uri: hyper::Uri = match uri_str.parse() {
+        let uri = match uri_str.parse::<hyper::Uri>() {
             Err(e) => {
-                return Box::new(futures::future::err(Error::UriError(e)));
+                return futures::future::err(Error::Http(e.into())).left_future();
             }
             Ok(u) => u,
         };
 
-        let mut req = hyper::Request::new(self.method, uri);
+        let mut builder = hyper::Request::builder();
+        builder = builder.method(self.method).uri(uri);
         {
-            let req_headers = req.headers_mut();
-            if let Some(ref user_agent) = conf.user_agent {
-                req_headers.set(UserAgent::new(Cow::Owned(user_agent.clone())));
-            }
+            if let Some(req_headers) = builder.headers_mut() {
+                if let Some(ref user_agent) = conf.user_agent {
+                    req_headers.insert(
+                        USER_AGENT,
+                        HeaderValue::from_str(&user_agent).expect("invalid user agent"),
+                    );
+                }
 
-            req_headers.extend(headers.iter());
+                req_headers.extend(headers.into_iter());
 
-            for (key, val) in raw_headers {
-                req_headers.set_raw(key, val);
+                for (key, val) in raw_headers {
+                    req_headers.insert(
+                        key.parse::<http::header::HeaderName>()
+                            .expect("invalid custom header name"),
+                        HeaderValue::from_str(&val).expect("invalid custom header value"),
+                    );
+                }
             }
         }
 
-        if self.form_params.len() > 0 {
-            req.headers_mut().set(hyper::header::ContentType::form_url_encoded());
+        let request_body = if self.form_params.len() > 0 {
+            builder.headers_mut().map(|headers| {
+                headers.insert(
+                    CONTENT_TYPE,
+                    HeaderValue::from_static("application/www-form-url-encoded"),
+                );
+            });
             let mut enc = ::url::form_urlencoded::Serializer::new("".to_owned());
             for (k, v) in self.form_params {
                 enc.append_pair(&k, &v);
             }
-            req.set_body(enc.finish());
-        }
-
-        if let Some(body) = self.serialized_body {
-            req.headers_mut().set(hyper::header::ContentType::json());
-            req.headers_mut()
-                .set(hyper::header::ContentLength(body.len() as u64));
-            req.set_body(body);
-        }
+            enc.finish()
+        } else if let Some(body) = self.serialized_body {
+            builder.headers_mut().map(|headers| {
+                headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                headers.insert(
+                    CONTENT_LENGTH,
+                    HeaderValue::from_str(&format!("{}", body.len())).unwrap(),
+                );
+            });
+            body
+        } else {
+            String::new()
+        };
+        let body = Result::<_, Box<dyn std::error::Error + Send + Sync>>::Ok(request_body);
+        let body = futures::stream::once(futures::future::ready(body));
+        let body = hyper::Body::wrap_stream(body);
+        let request = builder.body(body);
+        let request: hyper::Request<hyper::Body> = match request {
+            Ok(req) => req,
+            Err(err) => return futures::future::err(err.into()).left_future(),
+        };
 
         let no_ret_type = self.no_return_type;
-        let res = conf.client
-                .request(req)
-                .map_err(|e| Error::from(e))
-                .and_then(|resp| {
-                    let status = resp.status();
-                    resp.body()
-                        .concat2()
-                        .and_then(move |body| Ok((status, body)))
-                        .map_err(|e| Error::from(e))
+        let res = conf
+            .client
+            .request(request)
+            .map_err(|e| Error::from(e))
+            .map_ok(|mut resp| (resp.status(), std::mem::take(resp.body_mut())))
+            .and_then(|(status, body): (_, hyper::Body)| {
+                body.try_fold(Vec::new(), |mut cur: Vec<u8>, bytes: hyper::body::Bytes| {
+                    cur.extend(bytes);
+                    futures::future::ok(cur)
                 })
-                .and_then(|(status, body)| {
-                    if status.is_success() {
-                        Ok(body)
-                    } else {
-                        Err(Error::from((status, &*body)))
-                    }
-                });
-        Box::new(
-            res
-                .and_then(move |body| {
-                    let parsed: Result<U, _> = if no_ret_type {
-                        // This is a hack; if there's no_ret_type, U is (), but serde_json gives an
-                        // error when deserializing "" into (), so deserialize 'null' into it
-                        // instead.
-                        // An alternate option would be to require U: Default, and then return
-                        // U::default() here instead since () implements that, but then we'd
-                        // need to impl default for all models.
-                        serde_json::from_str("null")
-                    } else {
-                        serde_json::from_slice(&body)
-                    };
-                    parsed.map_err(|e| Error::from(e))
-                })
-        )
+                .map_ok(move |body: Vec<u8>| (status, body))
+                .map_err(Into::into)
+            })
+            //.map(|debug: Result<(hyper::StatusCode, Vec<u8>), _>| debug)
+            .and_then(|(status, body): (hyper::StatusCode, Vec<u8>)| {
+                if status.is_success() {
+                    futures::future::ok(body)
+                } else {
+                    futures::future::err(Error::from((status, &*body)))
+                }
+            });
+
+        res.and_then(move |body: Vec<u8>| {
+            let parsed: Result<U, _> = if no_ret_type {
+                // This is a hack; if there's no_ret_type, U is (), but serde_json gives an
+                // error when deserializing "" into (), so deserialize 'null' into it
+                // instead.
+                // An alternate option would be to require U: Default, and then return
+                // U::default() here instead since () implements that, but then we'd
+                // need to impl default for all models.
+                serde_json::from_str("null")
+            } else {
+                serde_json::from_slice(&body)
+            };
+            match parsed {
+                Ok(val) => futures::future::ok(val),
+                Err(e) => futures::future::err(e.into()),
+            }
+        })
+        .right_future()
     }
 }

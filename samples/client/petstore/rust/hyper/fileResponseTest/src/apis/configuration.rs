@@ -10,10 +10,10 @@
 
 use hyper;
 
-pub struct Configuration<C: hyper::client::Connect> {
+pub struct Configuration<C: hyper::client::connect::Connect + 'static> {
     pub base_path: String,
     pub user_agent: Option<String>,
-    pub client: hyper::client::Client<C>,
+    pub client: hyper::client::Client<C, hyper::Body>,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub api_key: Option<ApiKey>,
@@ -27,8 +27,8 @@ pub struct ApiKey {
     pub key: String,
 }
 
-impl<C: hyper::client::Connect> Configuration<C> {
-    pub fn new(client: hyper::client::Client<C>) -> Configuration<C> {
+impl<C: hyper::client::connect::Connect + 'static> Configuration<C> {
+    pub fn new(client: hyper::client::Client<C, hyper::Body>) -> Configuration<C> {
         Configuration {
             base_path: "http://localhost/v2".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),

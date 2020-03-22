@@ -456,9 +456,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
-            // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
+            // http method verb conversion, depending on client library (e.g. Hyper: PUT => PUT, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
-                operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+                // question to reviewer - is this toUpperCase() no-op?
+                operation.httpMethod = operation.httpMethod.toUpperCase(Locale.ROOT);
             } else if (REQWEST_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
             }

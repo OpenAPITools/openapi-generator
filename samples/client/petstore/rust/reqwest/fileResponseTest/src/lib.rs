@@ -1,3 +1,4 @@
+#![allow(unused_mut, unreachable_code)]
 #[macro_use]
 extern crate serde_derive;
 

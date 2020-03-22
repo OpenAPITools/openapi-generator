@@ -4,11 +4,33 @@ use serde_json;
 
 #[derive(Debug)]
 pub enum Error<T> {
-    UriError(hyper::error::UriError),
+    Http(http::Error),
     Hyper(hyper::Error),
     Serde(serde_json::Error),
     ApiError(ApiError<T>),
 }
+
+impl<T: std::fmt::Debug> std::error::Error for Error<T> {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Error::Http(inner) => Some(inner),
+            Error::Hyper(inner) => Some(inner),
+            Error::Serde(inner) => Some(inner),
+            Error::ApiError(_) => None
+        }
+    }
+}
+
+impl<T: std::fmt::Debug> std::fmt::Display for Error<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            Error::Http(inner) => write!(f, "query construction error: {}", inner),
+            Error::Hyper(inner) => write!(f, "transport error: {}", inner),
+            Error::Serde(inner) => write!(f, "serde error: {}", inner),
+            Error::ApiError(inner) => write!(f, "api error: {:?}", inner), 
+        }
+    }
+} 
 
 #[derive(Debug)]
 pub struct ApiError<T> {
@@ -39,13 +61,19 @@ impl<'de, T> From<(hyper::StatusCode, &'de [u8])> for Error<T>
 
 impl<T> From<hyper::Error> for Error<T> {
     fn from(e: hyper::Error) -> Self {
-        return Error::Hyper(e)
+        Error::Hyper(e)
     }
 }
 
 impl<T> From<serde_json::Error> for Error<T> {
     fn from(e: serde_json::Error) -> Self {
-        return Error::Serde(e)
+        Error::Serde(e)
+    }
+}
+
+impl<T> From<http::Error> for Error<T> {
+    fn from(e: http::Error) -> Self {
+        Error::Http(e)
     }
 }
 
