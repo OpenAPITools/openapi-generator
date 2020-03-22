@@ -2419,14 +2419,14 @@ public class DefaultCodegen implements CodegenConfig {
                     String modelName = ModelUtils.getSimpleRef(oneOf.get$ref());
                     CodegenProperty thisCp = discriminatorFound(composedSchemaName, oneOf, discPropName, openAPI);
                     if (thisCp == null) {
-                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced OneOf schema '" + modelName + "' is missing that required property");
+                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced OneOf schema '" + modelName + "' is missing "+discPropName);
                     }
                     if (cp.dataType == null) {
                         cp = thisCp;
                         continue;
                     }
                     if (cp != thisCp) {
-                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the OneOf schema '" + modelName + "' has a different "+discPropName+" definition than the prior OneOf schema's. Make sure the property type and required values are the same");
+                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the OneOf schema '" + modelName + "' has a different "+discPropName+" definition than the prior OneOf schema's. Make sure the "+discPropName+" type and required values are the same");
                     }
                 }
                 return cp;
@@ -2438,14 +2438,14 @@ public class DefaultCodegen implements CodegenConfig {
                     String modelName = ModelUtils.getSimpleRef(anyOf.get$ref());
                     CodegenProperty thisCp = discriminatorFound(composedSchemaName, anyOf, discPropName, openAPI);
                     if (thisCp == null) {
-                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced AnyOf schema '" + modelName + "' is missing that required property");
+                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced AnyOf schema '" + modelName + "' is missing "+discPropName);
                     }
                     if (cp.dataType == null) {
                         cp = thisCp;
                         continue;
                     }
                     if (cp != thisCp) {
-                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the AnyOf schema '" + modelName + "' has a different "+discPropName+" definition than the prior AnyOf schema's. Make sure the property type and required values are the same");
+                        throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the AnyOf schema '" + modelName + "' has a different "+discPropName+" definition than the prior AnyOf schema's. Make sure the "+discPropName+" type and required values are the same");
                     }
                 }
                 return cp;
@@ -2560,17 +2560,17 @@ public class DefaultCodegen implements CodegenConfig {
                 if (df == null || !"string".equals(df.dataType) || df.required != true) {
                     String msgSuffix = "";
                     if (df == null) {
-                        msgSuffix += "the property is missing from the schema, define it as required and type string";
+                        msgSuffix += discPropName+" is missing from the schema, define it as required and type string";
                     } else {
                         if (!"string".equals(df.dataType)) {
-                            msgSuffix += "invalid type for the property, set it to string";
+                            msgSuffix += "invalid type for "+discPropName+", set it to string";
                         }
                         if (df.required != true) {
                             String spacer = "";
                             if (msgSuffix.length() != 0) {
-                                spacer = " ";
+                                spacer = ". ";
                             }
-                            msgSuffix += spacer+"invalid optional definition of the property, include it in required";
+                            msgSuffix += spacer+"invalid optional definition of "+discPropName+", include it in required";
                         }
                     }
                     throw new RuntimeException("'" + composedSchemaName + "' defines discriminator '" + discPropName + "', but the referenced schema '" + modelName + "' is incorrect. "+msgSuffix);
