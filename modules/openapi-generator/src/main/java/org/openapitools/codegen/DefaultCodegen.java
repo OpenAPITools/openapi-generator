@@ -748,27 +748,16 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // also add all properties of all schemas to be checked for oneOf
-            Map<String, Schema> propertySchemas = new HashMap<String, Schema>();
-            for (Map.Entry<String, Schema> e : schemas.entrySet()) {
-                Schema s = e.getValue();
-                Map<String, Schema> props = s.getProperties();
-                if (props == null) {
-                    props = new HashMap<String, Schema>();
-                }
-                for (Map.Entry<String, Schema> p : props.entrySet()) {
-                    propertySchemas.put(e.getKey() + "/" + p.getKey(), p.getValue());
-                }
-            }
-            schemas.putAll(propertySchemas);
-
             // go through all gathered schemas and add them as interfaces to be created
             for (Map.Entry<String, Schema> e : schemas.entrySet()) {
                 String n = toModelName(e.getKey());
                 Schema s = e.getValue();
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
-                    addOneOfForComposedSchema(e, n, (ComposedSchema) s, nOneOf);
+                    addOneOfNameExtension((ComposedSchema) s, n);
+                    if (useOneOfInterfaces && "JavaSpring".equals(templateDir)){
+                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
+                    }
                 } else if (ModelUtils.isArraySchema(s)) {
                     Schema items = ((ArraySchema) s).getItems();
                     if (ModelUtils.isComposedSchema(items)) {
@@ -783,18 +772,6 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
-        }
-    }
-
-    protected void addOneOfForComposedSchema(Entry<String, Schema> stringSchemaEntry, String modelName, ComposedSchema composedSchema,
-        String nOneOf) {
-        if (stringSchemaEntry.getKey().contains("/")) {
-            // if this is property schema, we also need to generate the oneOf interface model
-            addOneOfNameExtension(composedSchema, nOneOf);
-            addOneOfInterfaceModel(composedSchema, nOneOf);
-        } else {
-            // else this is a component schema, so we will just use that as the oneOf interface model
-            addOneOfNameExtension(composedSchema, modelName);
         }
     }
 
@@ -5764,19 +5741,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Add a given ComposedSchema as an interface model to be generated, assuming it has `oneOf` defined
+     * Add a given ComposedSchema as an interface model to be generated
      * @param cs ComposedSchema object to create as interface model
      * @param type name to use for the generated interface model
      */
     public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
-        if (cs.getOneOf() == null) {
-            return;
-        }
         CodegenModel cm = new CodegenModel();
 
         cm.discriminator = createDiscriminator("", (Schema) cs);
-
-        for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {
+        for (Schema o : cs.getOneOf()) {
             if (o.get$ref() == null) {
                 if (cm.discriminator != null && o.get$ref() == null) {
                     // OpenAPI spec states that inline objects should not be considered when discriminator is used
