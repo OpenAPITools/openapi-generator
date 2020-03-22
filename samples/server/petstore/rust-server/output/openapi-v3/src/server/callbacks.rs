@@ -4,7 +4,8 @@ use hyper;
 use hyper::client::HttpConnector;
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{Body, Uri, Response};
-use hyper_tls::HttpsConnector;
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+use hyper_openssl::HttpsConnector;
 use serde_json;
 use std::borrow::Cow;
 use std::io::{Read, Error, ErrorKind};
@@ -16,9 +17,7 @@ use std::str;
 use std::str::FromStr;
 use std::string::ToString;
 use swagger;
-use swagger::client::Service;
-use swagger::connector;
-use swagger::{ApiError, XSpanIdString, Has, AuthData};
+use swagger::{ApiError, Connector, client::Service, XSpanIdString, Has, AuthData};
 use url::form_urlencoded;
 use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 use uuid;
@@ -69,24 +68,21 @@ impl Client<hyper::client::ResponseFuture>
     ///
     /// Intended for use with custom implementations of connect for e.g. protocol logging
     /// or similar functionality which requires wrapping the transport layer. When wrapping a TCP connection,
-    /// this function should be used in conjunction with
-    /// `swagger::{http_connector, https_connector, https_mutual_connector}`.
+    /// this function should be used in conjunction with `swagger::Connector::builder()`.
     ///
     /// For ordinary tcp connections, prefer the use of `new_http`, `new_https`
     /// and `new_https_mutual`, to avoid introducing a dependency on the underlying transport layer.
     ///
     /// # Arguments
     ///
-    /// * `connector_fn` - Function which returns an implementation of `hyper::client::Connect`
+    /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn new_with_connector<C>(
-        connector_fn: Box<dyn Fn() -> C + Send + Sync>,
+        connector: C,
     ) -> Self where
       C: hyper::client::connect::Connect + 'static,
       C::Transport: 'static,
       C::Future: 'static,
     {
-        let connector = connector_fn();
-
         let client_service = Box::new(hyper::client::Client::builder().build(connector));
 
         Client {
@@ -96,21 +92,41 @@ impl Client<hyper::client::ResponseFuture>
 
     /// Create an HTTP client.
     pub fn new_http() -> Self {
-        let http_connector = connector::http_connector();
+        let http_connector = Connector::builder().build();
         Self::new_with_connector(http_connector)
     }
 
     /// Create a client with a TLS connection to the server.
+    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+    pub fn new_https()  -> Result<Self, native_tls::Error>
+    {
+        let https_connector = Connector::builder().https().build()?;
+        Ok(Self::new_with_connector(https_connector))
+    }
+
+    /// Create a client with a TLS connection to the server.
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    pub fn new_https() -> Result<Self, openssl::error::ErrorStack>
+    {
+        let https_connector = Connector::builder().https().build()?;
+        Ok(Self::new_with_connector(https_connector))
+    }
+
+    /// Create a client with a TLS connection to the server, pinning the certificate
     ///
     /// # Arguments
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
-    pub fn new_https<CA>(
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    pub fn new_https_pinned<CA>(
         ca_certificate: CA,
-    ) -> Self where
+    ) -> Result<Self, openssl::error::ErrorStack> where
         CA: AsRef<Path>,
     {
-        let https_connector = connector::https_connector(ca_certificate);
-        Self::new_with_connector(https_connector)
+        let https_connector = Connector::builder()
+            .https()
+            .pin_server_certificate(ca_certificate)
+            .build()?;
+        Ok(Self::new_with_connector(https_connector))
     }
 
     /// Create a client with a mutually authenticated TLS connection to the server.
@@ -119,19 +135,23 @@ impl Client<hyper::client::ResponseFuture>
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn new_https_mutual<CA, K, D>(
         ca_certificate: CA,
         client_key: K,
         client_certificate: D,
-    ) -> Self
+    ) -> Result<Self, openssl::error::ErrorStack>
     where
         CA: AsRef<Path>,
         K: AsRef<Path>,
         D: AsRef<Path>,
     {
-        let https_connector =
-            connector::https_mutual_connector(ca_certificate, client_key, client_certificate);
-        Self::new_with_connector(https_connector)
+        let https_connector = Connector::builder()
+            .https()
+            .pin_server_certificate(ca_certificate)
+            .client_authentication(client_key, client_certificate)
+            .build()?;
+        Ok(Self::new_with_connector(https_connector))
     }
 }
 
