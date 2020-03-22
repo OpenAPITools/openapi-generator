@@ -5425,6 +5425,9 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
                             codegenModelName = "UNKNOWN_BASE_TYPE";
                             codegenModelDescription = "UNKNOWN_DESCRIPTION";
+                            if (useOneOfInterfaces && templateDir.equals("JavaSpring")){
+                                codegenModelName = codegenProperty.getComplexType()+"OneOf";
+                            }
                         }
 
                         if (StringUtils.isEmpty(bodyParameterName)) {
@@ -5439,7 +5442,7 @@ public class DefaultCodegen implements CodegenConfig {
                         codegenParameter.description = codegenModelDescription;
                         imports.add(codegenParameter.baseType);
 
-                        if (codegenProperty.complexType != null) {
+                        if (codegenProperty.complexType != null && (useOneOfInterfaces && !templateDir.equals("JavaSpring"))) {
                             imports.add(codegenProperty.complexType);
                         }
                     }
