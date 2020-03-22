@@ -63,7 +63,7 @@ public class UserApiTest {
         client.createUser(user).execute();
 
         String token = client.loginUser(user.getUsername(), user.getPassword()).execute().getBody();
-        assertTrue(token.startsWith("logged in user session:"));
+        assertTrue(token.contains("logged in user session:"));
     }
 
     @Test
