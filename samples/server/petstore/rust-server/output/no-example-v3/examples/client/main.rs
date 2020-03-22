@@ -1,5 +1,5 @@
 #![allow(missing_docs, unused_variables, trivial_casts)]
-extern crate {{{externCrateName}}};
+extern crate no_example_v3;
 extern crate clap;
 extern crate env_logger;
 extern crate futures;
@@ -11,29 +11,13 @@ extern crate log;
 #[macro_use]
 extern crate swagger;
 extern crate tokio;
-{{#hasCallbacks}}
-extern crate chrono;
-#[macro_use]
-extern crate error_chain;
-extern crate hyper;
-{{#apiUsesUuid}}
-extern crate uuid;
-{{/apiUsesUuid}}
-
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-extern crate openssl;
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-extern crate tokio_openssl;
-
-mod server;
-{{/hasCallbacks}}
 
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
-use {{{externCrateName}}}::{Api, ApiNoContext, Client, ContextWrapperExt,
-                      ApiError{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-                      {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+use no_example_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+                      ApiError,
+                      OpGetResponse
                      };
 use clap::{App, Arg};
 
@@ -50,19 +34,6 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-{{#apiInfo}}
-  {{#apis}}
-    {{#operations}}
-      {{#operation}}
-        {{#vendorExtensions}}
-          {{^noClientExample}}
-                "{{{operationId}}}",
-          {{/noClientExample}}
-        {{/vendorExtensions}}
-      {{/operation}}
-    {{/operations}}
-  {{/apis}}
-{{/apiInfo}}
             ])
             .required(true)
             .index(1))
@@ -72,12 +43,12 @@ fn main() {
         .arg(Arg::with_name("host")
             .long("host")
             .takes_value(true)
-            .default_value("{{{serverHost}}}")
+            .default_value("localhost")
             .help("Hostname to contact"))
         .arg(Arg::with_name("port")
             .long("port")
             .takes_value(true)
-            .default_value("{{{serverPort}}}")
+            .default_value("80")
             .help("Port to contact"))
         .get_matches();
 
@@ -104,39 +75,16 @@ fn main() {
     let client = client.with_context(context);
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
-{{#hasCallbacks}}
-
-    // We could do HTTPS here, but for simplicity we don't
-    rt.spawn(server::create("127.0.0.1:8081", false));
-{{/hasCallbacks}}
 
     match matches.value_of("operation") {
-{{#apiInfo}}
-  {{#apis}}
-    {{#operations}}
-      {{#operation}}
-        {{#vendorExtensions}}
-          {{#noClientExample}}
         /* Disabled because there's no example.
-          {{/noClientExample}}
-        {{/vendorExtensions}}
-        Some("{{{operationId}}}") => {
-            let result = rt.block_on(client.{{{vendorExtensions.operation_id}}}(
-                {{#allParams}}
-                  {{{vendorExtensions.example}}}{{^-last}},{{/-last}}
-                {{/allParams}}
+        Some("OpGet") => {
+            let result = rt.block_on(client.op_get(
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
-        {{#vendorExtensions}}
-          {{#noClientExample}}
         */
-          {{/noClientExample}}
-        {{/vendorExtensions}}
-      {{/operation}}
-    {{/operations}}
-  {{/apis}}
-{{/apiInfo}}
         _ => {
             panic!("Invalid operation provided")
         }
