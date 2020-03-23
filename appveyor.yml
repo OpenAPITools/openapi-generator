@@ -56,6 +56,7 @@ test_script:
   # test ps pestore
   - ps: |
       samples\client\petstore\powershell-experimental\Build.ps1
+      Import-Module samples\client\petstore\powershell-experimental\src\PSPetstore
       Invoke-Pester samples\client\petstore\powershell-experimental\ -EnableExit
       if ($LastExitCode -ne 0) {
           $host.SetShouldExit($LastExitCode)
