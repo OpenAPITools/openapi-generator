@@ -6,7 +6,6 @@
 #
 
 function Invoke-PSDeleteOrder {
-    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -27,7 +26,7 @@ function Invoke-PSDeleteOrder {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         $LocalVarUri = '/store/order/{orderId}'
         if (!$OrderId) {
             throw "Error! The required parameter `OrderId` missing when calling deleteOrder."
@@ -50,7 +49,6 @@ function Invoke-PSDeleteOrder {
 }
 
 function Get-PSInventory {
-    [OutputType("{String, Int32}")]
     [CmdletBinding()]
     Param (
     )
@@ -68,7 +66,7 @@ function Get-PSInventory {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/json')
 
@@ -87,14 +85,13 @@ function Get-PSInventory {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "{String, Int32}"
+                                -ReturnType "Hashtable"
 
         return $LocalVarResult["Response"]
     }
 }
 
 function Get-PSOrderById {
-    [OutputType("Order")]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -115,7 +112,7 @@ function Get-PSOrderById {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -141,7 +138,6 @@ function Get-PSOrderById {
 }
 
 function Invoke-PSPlaceOrder {
-    [OutputType("Order")]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -162,7 +158,7 @@ function Invoke-PSPlaceOrder {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 

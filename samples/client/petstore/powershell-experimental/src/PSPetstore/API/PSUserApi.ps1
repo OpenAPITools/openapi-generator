@@ -6,7 +6,6 @@
 #
 
 function Invoke-PSCreateUser {
-    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -27,7 +26,7 @@ function Invoke-PSCreateUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')
 
@@ -59,7 +58,6 @@ function Invoke-PSCreateUser {
 }
 
 function Invoke-PSCreateUsersWithArrayInput {
-    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -80,7 +78,7 @@ function Invoke-PSCreateUsersWithArrayInput {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')
 
@@ -112,7 +110,6 @@ function Invoke-PSCreateUsersWithArrayInput {
 }
 
 function Invoke-PSCreateUsersWithListInput {
-    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -133,7 +130,7 @@ function Invoke-PSCreateUsersWithListInput {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')
 
@@ -165,7 +162,6 @@ function Invoke-PSCreateUsersWithListInput {
 }
 
 function Invoke-PSDeleteUser {
-    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -186,7 +182,7 @@ function Invoke-PSDeleteUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         $LocalVarUri = '/user/{username}'
         if (!$Username) {
             throw "Error! The required parameter `Username` missing when calling deleteUser."
@@ -213,7 +209,6 @@ function Invoke-PSDeleteUser {
 }
 
 function Get-PSUserByName {
-    [OutputType("User")]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -234,7 +229,7 @@ function Get-PSUserByName {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -260,7 +255,6 @@ function Get-PSUserByName {
 }
 
 function Invoke-PSLoginUser {
-    [OutputType("String")]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -284,7 +278,7 @@ function Invoke-PSLoginUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
 
@@ -316,7 +310,6 @@ function Invoke-PSLoginUser {
 }
 
 function Invoke-PSLogoutUser {
-    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
     )
@@ -334,7 +327,7 @@ function Invoke-PSLogoutUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         $LocalVarUri = '/user/logout'
 
         if ($Configuration["Cookie"]) {
@@ -357,7 +350,6 @@ function Invoke-PSLogoutUser {
 }
 
 function Update-PSUser {
-    [OutputType([System.Void])]
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -381,7 +373,7 @@ function Update-PSUser {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-PSConfiguration
+        $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')
 
