@@ -1,17 +1,24 @@
 package {{packageName}}.infrastructure
 
+{{#hasOAuthMethods}}
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
+import {{packageName}}.auth.ApiKeyAuth
+import {{packageName}}.auth.OAuth
+import {{packageName}}.auth.OAuth.AccessTokenListener
+import {{packageName}}.auth.OAuthFlow
+{{/hasOAuthMethods}}
+
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
-{{#isBasicBasic}}
-import {{packageName}}.auth.HttpBasicAuth
-{{/isBasicBasic}}
 {{#isBasicBearer}}
 import {{packageName}}.auth.HttpBearerAuth
 {{/isBasicBearer}}
 {{/isBasic}}
 {{/authMethods}}
 {{/hasAuthMethods}}
+import {{packageName}}.auth.HttpBasicAuth
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -66,7 +73,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
         authNames.forEach { authName ->
             val auth = when (authName) {
-                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{/authMethods}}
+                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
             addAuthorization(authName, auth);
@@ -102,20 +109,32 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     {{/isBasicBearer}}
     {{/isBasic}}
     {{/authMethods}}
-    {{#authMethods}}
-    {{#isBasic}}
-    {{#isBasicBasic}}
-    fun setCredentials(username: String, password: String): ApiClient {
-        apiAuthorizations.values.firstAs<Interceptor, HttpBasicAuth>()
-            .setCredentials(username, password);
-        return this
+    {{#hasOAuthMethods}}
+    constructor(
+        baseUrl: String = BASE_URL,
+        okHttpClientBuilder: OkHttpClient.Builder? = null,
+        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
+        authName: String, 
+        clientId: String, 
+        secret: String, 
+        username: String, 
+        password: String
+    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
+        getTokenEndPoint()
+            ?.setClientId(clientId)
+            ?.setClientSecret(secret)
+            ?.setUsername(username)
+            ?.setPassword(password)
     }
 
-    {{/isBasicBasic}}
+    {{/hasOAuthMethods}}
+    {{#authMethods}}
+    {{#isBasic}}
     {{#isBasicBearer}}
     fun setBearerToken(bearerToken: String): ApiClient {
-        apiAuthorizations.values.firstAs<Interceptor, HttpBearerAuth>()
-            .bearerToken = bearerToken
+        apiAuthorizations.values.runOnFirst<Interceptor, HttpBearerAuth> {
+            bearerToken = bearerToken
+        }
         return this
     }
 
@@ -123,6 +142,88 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     {{/isBasic}}
     {{/authMethods}}
     {{/hasAuthMethods}}
+    fun setCredentials(username: String, password: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, HttpBasicAuth> {
+            setCredentials(username, password);
+        }
+        {{#hasOAuthMethods}}
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            tokenRequestBuilder.setUsername(username).setPassword(password)
+        }
+        {{/hasOAuthMethods}}    
+        return this
+    }
+
+    {{#hasOAuthMethods}}
+    /**
+    * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+    * @return Token request builder
+    */
+    fun getTokenEndPoint(): TokenRequestBuilder? {
+        var result: TokenRequestBuilder? = null
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            result = tokenRequestBuilder
+        }
+        return result
+    }
+
+    /**
+    * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+    * @return Authentication request builder
+    */
+    fun getAuthorizationEndPoint(): AuthenticationRequestBuilder? {
+        var result: AuthenticationRequestBuilder? = null
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            result = authenticationRequestBuilder
+        }
+        return result
+    }
+
+    /**
+    * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+    * @param accessToken Access token
+    * @return ApiClient
+    */
+    fun setAccessToken(accessToken: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            setAccessToken(accessToken)
+        }
+        return this
+    }
+
+    /**
+    * Helper method to configure the oauth accessCode/implicit flow parameters
+    * @param clientId Client ID
+    * @param clientSecret Client secret
+    * @param redirectURI Redirect URI
+    * @return ApiClient
+    */
+    fun configureAuthorizationFlow(clientId: String, clientSecret: String, redirectURI: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            tokenRequestBuilder
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setRedirectURI(redirectURI)
+            authenticationRequestBuilder
+                ?.setClientId(clientId)
+                ?.setRedirectURI(redirectURI)
+        }
+        return this;
+    }
+
+    /**
+    * Configures a listener which is notified when a new access token is received.
+    * @param accessTokenListener Access token listener
+    * @return ApiClient
+    */
+    fun registerAccessTokenListener(accessTokenListener: AccessTokenListener): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            registerAccessTokenListener(accessTokenListener)
+        }
+        return this;
+    }
+    {{/hasOAuthMethods}}
+
     /**
      * Adds an authorization to be used by the client
      * @param authName Authentication name
@@ -148,9 +249,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
     }
 
-    private inline fun <T, reified U> Iterable<T>.firstAs(): U {
-        for (element in this) if (element is U) return element
-        throw NoSuchElementException("Collection contains no element for generic parameter U")
+    private inline fun <T, reified U> Iterable<T>.runOnFirst(callback: U.() -> Unit) {
+        for (element in this) {
+            if (element is U)  {
+                callback.invoke(element)
+                break
+            }
+        }
     }
 
     companion object {

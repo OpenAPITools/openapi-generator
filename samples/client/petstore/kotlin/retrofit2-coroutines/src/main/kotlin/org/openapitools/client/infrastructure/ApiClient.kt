@@ -1,5 +1,13 @@
 package org.openapitools.client.infrastructure
 
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
+import org.openapitools.client.auth.ApiKeyAuth
+import org.openapitools.client.auth.OAuth
+import org.openapitools.client.auth.OAuth.AccessTokenListener
+import org.openapitools.client.auth.OAuthFlow
+
+import org.openapitools.client.auth.HttpBasicAuth
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -18,7 +26,7 @@ class ApiClient(
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(Serializer.moshi))
+            .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
     }
 
     private val clientBuilder: OkHttpClient.Builder by lazy {
@@ -41,11 +49,106 @@ class ApiClient(
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
         authNames.forEach { authName ->
             val auth = when (authName) {
-                "api_key" -> "petstore_auth" -> 
+                "api_key" -> ApiKeyAuth("header", "api_key")"petstore_auth" -> OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets")
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
             addAuthorization(authName, auth);
         }
+    }
+
+    constructor(
+        baseUrl: String = BASE_URL,
+        okHttpClientBuilder: OkHttpClient.Builder? = null,
+        serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
+        authName: String, 
+        clientId: String, 
+        secret: String, 
+        username: String, 
+        password: String
+    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
+        getTokenEndPoint()
+            ?.setClientId(clientId)
+            ?.setClientSecret(secret)
+            ?.setUsername(username)
+            ?.setPassword(password)
+    }
+
+    fun setCredentials(username: String, password: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, HttpBasicAuth> {
+            setCredentials(username, password);
+        }
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            tokenRequestBuilder.setUsername(username).setPassword(password)
+        }
+        return this
+    }
+
+    /**
+    * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+    * @return Token request builder
+    */
+    fun getTokenEndPoint(): TokenRequestBuilder? {
+        var result: TokenRequestBuilder? = null
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            result = tokenRequestBuilder
+        }
+        return result
+    }
+
+    /**
+    * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+    * @return Authentication request builder
+    */
+    fun getAuthorizationEndPoint(): AuthenticationRequestBuilder? {
+        var result: AuthenticationRequestBuilder? = null
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            result = authenticationRequestBuilder
+        }
+        return result
+    }
+
+    /**
+    * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+    * @param accessToken Access token
+    * @return ApiClient
+    */
+    fun setAccessToken(accessToken: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            setAccessToken(accessToken)
+        }
+        return this
+    }
+
+    /**
+    * Helper method to configure the oauth accessCode/implicit flow parameters
+    * @param clientId Client ID
+    * @param clientSecret Client secret
+    * @param redirectURI Redirect URI
+    * @return ApiClient
+    */
+    fun configureAuthorizationFlow(clientId: String, clientSecret: String, redirectURI: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            tokenRequestBuilder
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setRedirectURI(redirectURI)
+            authenticationRequestBuilder
+                ?.setClientId(clientId)
+                ?.setRedirectURI(redirectURI)
+        }
+        return this;
+    }
+
+    /**
+    * Configures a listener which is notified when a new access token is received.
+    * @param accessTokenListener Access token listener
+    * @return ApiClient
+    */
+    fun registerAccessTokenListener(accessTokenListener: AccessTokenListener): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            registerAccessTokenListener(accessTokenListener)
+        }
+        return this;
     }
 
     /**
@@ -73,9 +176,13 @@ class ApiClient(
         }
     }
 
-    private inline fun <T, reified U> Iterable<T>.firstAs(): U {
-        for (element in this) if (element is U) return element
-        throw NoSuchElementException("Collection contains no element for generic parameter U")
+    private inline fun <T, reified U> Iterable<T>.runOnFirst(callback: U.() -> Unit) {
+        for (element in this) {
+            if (element is U)  {
+                callback.invoke(element)
+                break
+            }
+        }
     }
 
     companion object {

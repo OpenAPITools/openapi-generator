@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate  --artifact-id "kotlin-petstore-retrofit2" -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g kotlin --library jvm-retrofit2 --useCoroutines true -o samples\client\petstore\kotlin\retrofit2\coroutines
+set ags=generate  --artifact-id "kotlin-petstore-retrofit2" -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g kotlin --library jvm-retrofit2 --additional-properties useCoroutines=true -o samples\client\petstore\kotlin\retrofit2-coroutines
 
 java %JAVA_OPTS% -jar %executable% %ags%

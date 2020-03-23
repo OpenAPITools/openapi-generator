@@ -35,6 +35,9 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    {{#hasOAuthMethods}}
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
+    {{/hasOAuthMethods}}
     {{#moshi}}
     {{^moshiCodeGen}}
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

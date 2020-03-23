@@ -14,18 +14,15 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 /**
- * Describes the result of uploading an image resource
- * @param code 
- * @param type 
- * @param message 
+ * A category for a pet
+ * @param id 
+ * @param name 
  */
 
-data class ApiResponse (
-    @Json(name = "code")
-    val code: kotlin.Int? = null,
-    @Json(name = "type")
-    val type: kotlin.String? = null,
-    @Json(name = "message")
-    val message: kotlin.String? = null
+data class Category (
+    @Json(name = "id")
+    val id: kotlin.Long? = null,
+    @Json(name = "name")
+    val name: kotlin.String? = null
 )
 
