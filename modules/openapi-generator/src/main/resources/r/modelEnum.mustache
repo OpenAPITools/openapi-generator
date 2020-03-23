@@ -1,8 +1,7 @@
-{{#isEnum}}
-#' @export
+# add to utils.R
 {{#allowableValues}}
-{{name}}_Enum <- function() {
-    res <- gsub("\\[|\\]", "",
+.parse_{{name}} <- function(vals) {
+    res <- gsub("^\\[|\\]$", "",
         "{{values}}"
     )
     htmlEncoded <- any(grepl("[&;]", res))
@@ -18,22 +17,43 @@
         }
         res <- html2txt(res)
     }
-
-    .names_table <- data.frame(
-        op = c("=", "!=", ">", "<", ">=", "<=", "in", "and", "or", "not"),
-        name = c("==", "!=", ">", "<", ">=", "<=", "%in%", "&", "|", "!"),
-        stringsAsFactors = FALSE
-    )
-
-    res <- unlist(strsplit(res, ", "))
-    if (all(res %in% .names_table[["op"]]))
-       res <- setNames(
-           .names_table[na.omit(match(res, .names_table[["op"]])), "name"],
-           res
-       )
-    else
-        res <- setNames(res, res)
-    as.list(res)
+    unlist(strsplit(res, ", "))
 }
+
+#' @export
+{{classname}} <- R6::R6Class(
+    "{{classname}}",
+    public = list(
+        `{{name}}` = NULL,
+        initialize = function({{#requiredVars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/requiredVars}}{{#optionalVars}}{{#-first}}{{#requiredVars.0}}, {{/requiredVars.0}}{{/-first}}`{{baseName}}`={{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}NULL{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}}, ...) {
+            local.optional.var <- list(...)
+            val <- unlist(local.optional.var)
+            enumvec <- .parse_{{name}}()
+
+            stopifnot(length(val) == 1L)
+
+            if (!val %in% enumvec)
+                stop("Use one of the valid values: ",
+                    paste0(enumvec, collapse = ", "))
+            self$`{{name}}` <- val
+        },
+        toJSON = function() {
+            jsonlite::toJSON(self$`{{name}}`, auto_unbox = TRUE)
+        },
+        fromJSON = function() {
+            self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json,
+                simplifyVector = FALSE)
+            self
+        },
+        toJSONString = function() {
+            as.character(jsonlite::toJSON(self$`{{name}}`,
+                auto_unbox = TRUE))
+        },
+        fromJSONString = function() {
+            self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json,
+                simplifyVector = FALSE)
+            self
+        }
+    )
+)
 {{/allowableValues}}
-{{/isEnum}}
