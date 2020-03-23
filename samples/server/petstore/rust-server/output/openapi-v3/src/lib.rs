@@ -31,12 +31,9 @@ extern crate swagger;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;
-#[cfg(feature = "client")]
-extern crate hyper_tls;
 #[cfg(any(feature = "client", feature = "server"))]
-extern crate openssl;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate native_tls;
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+extern crate hyper_openssl;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate percent_encoding;
 #[cfg(any(feature = "client", feature = "server"))]
@@ -61,9 +58,6 @@ use std::io::Error;
 
 #[allow(unused_imports)]
 use std::collections::HashMap;
-
-#[cfg(any(feature = "client", feature = "server"))]
-mod mimetypes;
 
 #[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};
@@ -99,6 +93,7 @@ pub enum MergePatchJsonGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum MultigetGetResponse {
     /// JSON rsp
     JSONRsp
@@ -161,6 +156,7 @@ pub enum RequiredOctetStreamPutResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum ResponsesWithHeadersGetResponse {
     /// Success
     Success
@@ -179,6 +175,7 @@ pub enum ResponsesWithHeadersGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum Rfc7807GetResponse {
     /// OK
     OK
@@ -207,6 +204,7 @@ pub enum UuidGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlExtraPostResponse {
     /// OK
     OK
@@ -216,6 +214,7 @@ pub enum XmlExtraPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlOtherPostResponse {
     /// OK
     OK
@@ -225,6 +224,7 @@ pub enum XmlOtherPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlOtherPutResponse {
     /// OK
     OK
@@ -234,6 +234,7 @@ pub enum XmlOtherPutResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlPostResponse {
     /// OK
     OK
@@ -243,6 +244,7 @@ pub enum XmlPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlPutResponse {
     /// OK
     OK

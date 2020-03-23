@@ -30,9 +30,6 @@ The following tree shows which templates include which:
 - `header.mustache`
 - `lib.mustache`
   - `response.mustache`
-- `mimetypes.mustache`
-  - `mimetypes-request.mustache`
-  - `mimetypes-response.mustache`
 - `model_doc.mustache`
 - `models.mustache`
 - `openapi.mustache`

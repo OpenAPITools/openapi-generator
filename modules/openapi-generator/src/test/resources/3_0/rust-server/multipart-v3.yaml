@@ -50,6 +50,29 @@ paths:
       responses:
         '201':
           description: 'OK'
+  /multiple-identical-mime-types:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/related:
+            schema:
+              type: object
+              properties:
+                binary1:
+                  type: string
+                  format: binary
+                binary2:
+                  type: string
+                  format: binary
+            encoding:
+              binary1:
+                contentType: application/octet-stream
+              binary2:
+                contentType: application/octet-stream
+      responses:
+        200:
+          description: OK
 components:
   schemas:
     multipart_request:

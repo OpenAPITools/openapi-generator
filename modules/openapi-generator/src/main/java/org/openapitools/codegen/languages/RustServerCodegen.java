@@ -239,7 +239,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("context.mustache", "src", "context.rs"));
         supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
-        supportingFiles.add(new SupportingFile("mimetypes.mustache", "src", "mimetypes.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));
         supportingFiles.add(new SupportingFile("example-server-main.mustache", "examples/server", "main.rs"));
@@ -726,6 +725,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         op.vendorExtensions.put("PATH_ID", pathId);
         op.vendorExtensions.put("hasPathParams", hasPathParams);
         op.vendorExtensions.put("HttpMethod", op.httpMethod.toUpperCase(Locale.ROOT));
+
+        if (!op.vendorExtensions.containsKey("x-mustUseResponse")) {
+          // If there's more than one response, than by default the user must explicitly handle them
+          op.vendorExtensions.put("x-mustUseResponse", op.responses.size() > 1);
+        }
+
         for (CodegenParameter param : op.allParams) {
             processParam(param, op);
         }
