@@ -58,7 +58,7 @@ end:
 // Add a new pet to the store
 //
 void
-PetAPI_addPet(apiClient_t *apiClient, pet_t * body)
+PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -117,7 +117,7 @@ end:
 // Deletes a pet
 //
 void
-PetAPI_deletePet(apiClient_t *apiClient, long petId, char * api_key)
+PetAPI_deletePet(apiClient_t *apiClient, long petId , char * api_key )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_create();
@@ -195,7 +195,7 @@ end:
 // Multiple status values can be provided with comma separated strings
 //
 list_t*
-PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status)
+PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
 {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = NULL;
@@ -274,7 +274,7 @@ end:
 // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 //
 list_t*
-PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags)
+PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
 {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = NULL;
@@ -353,7 +353,7 @@ end:
 // Returns a single pet
 //
 pet_t*
-PetAPI_getPetById(apiClient_t *apiClient, long petId)
+PetAPI_getPetById(apiClient_t *apiClient, long petId )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -432,7 +432,7 @@ end:
 // Update an existing pet
 //
 void
-PetAPI_updatePet(apiClient_t *apiClient, pet_t * body)
+PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -497,7 +497,7 @@ end:
 // Updates a pet in the store with form data
 //
 void
-PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char * name, char * status)
+PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char * status )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -589,7 +589,7 @@ end:
 // uploads an image
 //
 api_response_t*
-PetAPI_uploadFile(apiClient_t *apiClient, long petId, char * additionalMetadata, binary_t* file)
+PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata , binary_t* file )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
