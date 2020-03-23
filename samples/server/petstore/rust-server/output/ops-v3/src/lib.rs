@@ -31,12 +31,9 @@ extern crate swagger;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;
-#[cfg(feature = "client")]
-extern crate hyper_tls;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate openssl;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate native_tls;
+#[cfg(feature = "server")]
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+extern crate hyper_openssl;
 #[cfg(feature = "server")]
 extern crate percent_encoding;
 #[cfg(any(feature = "client", feature = "server"))]
@@ -61,9 +58,6 @@ use std::io::Error;
 
 #[allow(unused_imports)]
 use std::collections::HashMap;
-
-#[cfg(any(feature = "client", feature = "server"))]
-mod mimetypes;
 
 #[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};

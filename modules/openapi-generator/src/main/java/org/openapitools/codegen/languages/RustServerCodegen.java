@@ -238,7 +238,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("context.mustache", "src", "context.rs"));
         supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
-        supportingFiles.add(new SupportingFile("mimetypes.mustache", "src", "mimetypes.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));
         supportingFiles.add(new SupportingFile("example-server-main.mustache", "examples/server", "main.rs"));
