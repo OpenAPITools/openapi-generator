@@ -93,6 +93,7 @@ pub enum MergePatchJsonGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum MultigetGetResponse {
     /// JSON rsp
     JSONRsp
@@ -155,6 +156,7 @@ pub enum RequiredOctetStreamPutResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum ResponsesWithHeadersGetResponse {
     /// Success
     Success
@@ -173,6 +175,7 @@ pub enum ResponsesWithHeadersGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum Rfc7807GetResponse {
     /// OK
     OK
@@ -201,6 +204,7 @@ pub enum UuidGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlExtraPostResponse {
     /// OK
     OK
@@ -210,6 +214,7 @@ pub enum XmlExtraPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlOtherPostResponse {
     /// OK
     OK
@@ -219,6 +224,7 @@ pub enum XmlOtherPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlOtherPutResponse {
     /// OK
     OK
@@ -228,6 +234,7 @@ pub enum XmlOtherPutResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlPostResponse {
     /// OK
     OK
@@ -237,6 +244,7 @@ pub enum XmlPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlPutResponse {
     /// OK
     OK

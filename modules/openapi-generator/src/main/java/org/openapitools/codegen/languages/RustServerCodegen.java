@@ -716,6 +716,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         op.vendorExtensions.put("PATH_ID", pathId);
         op.vendorExtensions.put("hasPathParams", hasPathParams);
         op.vendorExtensions.put("HttpMethod", op.httpMethod.toUpperCase(Locale.ROOT));
+
+        if (!op.vendorExtensions.containsKey("x-mustUseResponse")) {
+          // If there's more than one response, than by default the user must explicitly handle them
+          op.vendorExtensions.put("x-mustUseResponse", op.responses.size() > 1);
+        }
+
         for (CodegenParameter param : op.allParams) {
             processParam(param, op);
         }
