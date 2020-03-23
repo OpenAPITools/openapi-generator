@@ -28,6 +28,11 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_get_composed_info,
 )
+try:
+    from petstore_api.models import bytes
+except ImportError:
+    bytes = sys.modules[
+        'petstore_api.models.bytes']
 
 
 class FormatTest(ModelNormal):
@@ -109,7 +114,7 @@ class FormatTest(ModelNormal):
         """
         return {
             'number': (float,),  # noqa: E501
-            'byte': (str,),  # noqa: E501
+            'byte': (bytes,),  # noqa: E501
             'date': (date,),  # noqa: E501
             'password': (str,),  # noqa: E501
             'integer': (int,),  # noqa: E501
@@ -160,7 +165,7 @@ class FormatTest(ModelNormal):
 
         Args:
             number (float):
-            byte (str):
+            byte (bytes):
             date (date):
             password (str):
 

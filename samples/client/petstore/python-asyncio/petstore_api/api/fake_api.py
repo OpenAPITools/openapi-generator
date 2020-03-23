@@ -907,7 +907,7 @@ class FakeApi(object):
         :param float number: None (required)
         :param float double: None (required)
         :param str pattern_without_delimiter: None (required)
-        :param str byte: None (required)
+        :param bytes byte: None (required)
         :param int integer: None
         :param int int32: None
         :param int int64: None
@@ -945,7 +945,7 @@ class FakeApi(object):
         :param float number: None (required)
         :param float double: None (required)
         :param str pattern_without_delimiter: None (required)
-        :param str byte: None (required)
+        :param bytes byte: None (required)
         :param int integer: None
         :param int int32: None
         :param int int64: None

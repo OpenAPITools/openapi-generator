@@ -41,6 +41,7 @@ from petstore_api.models import outer_number
 from petstore_api.models import file_schema_test_class
 from petstore_api.models import user
 from petstore_api.models import client
+from petstore_api.models import bytes
 
 
 class FakeApi(object):
@@ -1275,7 +1276,7 @@ class FakeApi(object):
                 number (float): None
                 double (float): None
                 pattern_without_delimiter (str): None
-                byte (str): None
+                byte (bytes): None
 
             Keyword Args:
                 integer (int): None. [optional]
@@ -1445,7 +1446,7 @@ class FakeApi(object):
                     'pattern_without_delimiter':
                         (str,),
                     'byte':
-                        (str,),
+                        (bytes,),
                     'integer':
                         (int,),
                     'int32':
