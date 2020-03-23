@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.
+ * This is a sample server Petstore server.  For this sample, you can use the api key \"special-key\" to test the authorization filters
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -19,7 +19,7 @@ const BASE_URL = "http://petstore.swagger.io/v2";
 // You might want to edit the value of this variable or remove calls to the sleep function on the script.
 const SLEEP_DURATION = 0.1;
 // Global variables should be initialized.
-let api_key = "TODO_EDIT_THE_API_KEY";
+let apiKey = "TODO_EDIT_THE_API_KEY";
 
 export default function() {
     group("/pet", () => {
@@ -76,7 +76,7 @@ export default function() {
         sleep(SLEEP_DURATION);
 
         // Request No. 3
-        params = {headers: {"api_key": `${api_key}`}};
+        params = {headers: {"api_key": `${apiKey}`}};
         request = http.delete(url, params);
         sleep(SLEEP_DURATION);
     });
