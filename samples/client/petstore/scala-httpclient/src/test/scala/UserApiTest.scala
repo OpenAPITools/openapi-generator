@@ -1,7 +1,7 @@
 import org.openapitools.client._
 import org.openapitools.client.api._
 import org.openapitools.client.model._
-
+ 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest._
@@ -52,7 +52,6 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
     }
   }
 
-/* 2020/03/20 - comment out the following test as it's failing itself without any changes in the scala client
   it should "authenticate a user" in {
     api.loginUser("scala-test-username", "SCALATEST") match {
       case Some(status) => status.startsWith("logged in user session") match {
@@ -62,7 +61,6 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
       case None => fail("not able to login")
     }
   }
-*/
 
   it should "log out a user" in {
     api.logoutUser
