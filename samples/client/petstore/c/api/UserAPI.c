@@ -17,7 +17,7 @@
 // This can only be done by the logged in user.
 //
 void
-UserAPI_createUser(apiClient_t *apiClient, user_t * body)
+UserAPI_createUser(apiClient_t *apiClient, user_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -74,7 +74,7 @@ end:
 // Creates list of users with given input array
 //
 void
-UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body)
+UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -153,7 +153,7 @@ end:
 // Creates list of users with given input array
 //
 void
-UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body)
+UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -234,7 +234,7 @@ end:
 // This can only be done by the logged in user.
 //
 void
-UserAPI_deleteUser(apiClient_t *apiClient, char * username)
+UserAPI_deleteUser(apiClient_t *apiClient, char * username )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -294,7 +294,7 @@ end:
 // Get user by user name
 //
 user_t*
-UserAPI_getUserByName(apiClient_t *apiClient, char * username)
+UserAPI_getUserByName(apiClient_t *apiClient, char * username )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -369,7 +369,7 @@ end:
 // Logs user into the system
 //
 char*
-UserAPI_loginUser(apiClient_t *apiClient, char * username, char * password)
+UserAPI_loginUser(apiClient_t *apiClient, char * username , char * password )
 {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = NULL;
@@ -520,7 +520,7 @@ end:
 // This can only be done by the logged in user.
 //
 void
-UserAPI_updateUser(apiClient_t *apiClient, char * username, user_t * body)
+UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;

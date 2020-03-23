@@ -1,9 +1,11 @@
 {{> partial_header}}
 version: 1.0.{build}
 image:
-  - Visual Studio 2017
-  - Ubuntu
+  - Visual Studio 2017 # PS 5.x
+  - Ubuntu # PS 6.x
+  - macOS # PS 6.x
 install:
+  - ps: $PSVersionTable.PSVersion
   - ps: Install-Module Pester -Force -Scope CurrentUser
 build: off
 test_script:
