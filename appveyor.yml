@@ -56,12 +56,8 @@ test_script:
   # test ps pestore
   - ps: >-
       samples\client\petstore\powershell-experimental\Build.ps1
-      $Result = Invoke-Pester samples\client\petstore\powershell-experimental\ -EnableExit
-      if ($Result.ExitCode -ne 0)
-      {
-        exit 1
-      }
-      exit 2
+      Invoke-Pester samples\client\petstore\powershell-experimental\ -EnableExit
+      if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
       #  # restore test-related files
       #  - copy /b/v/y CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
       #  # test c# API client (netcore)
