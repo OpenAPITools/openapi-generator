@@ -3,7 +3,7 @@
     /// </summary>
     [DataContract]
     {{#discriminator}}
-    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]{{#children}}
+    [JsonConverter(typeof(JsonSubtypes), "{{#lambda.camelcase_param}}{{{discriminatorName}}}{{/lambda.camelcase_param}}")]{{#children}}
     [JsonSubtypes.KnownSubType(typeof({{classname}}), "{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}")]{{/children}}
     {{/discriminator}}
     {{#generatePropertyChanged}}
