@@ -57,7 +57,10 @@ test_script:
   - ps: |
       samples\client\petstore\powershell-experimental\Build.ps1
       Invoke-Pester samples\client\petstore\powershell-experimental\ -EnableExit
-      if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
+      if ($LastExitCode -ne 0) {
+          $host.SetShouldExit($LastExitCode)
+          exit $LastExitCode
+      }
 cache:
   - C:\maven\
   - C:\gradle\
