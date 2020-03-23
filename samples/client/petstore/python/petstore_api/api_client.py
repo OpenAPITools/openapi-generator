@@ -183,7 +183,7 @@ class ApiClient(object):
             _preload_content=_preload_content,
             _request_timeout=_request_timeout)
 
-        content_type = r.getheader('content-type')
+        content_type = response_data.getheader('content-type')
 
         if six.PY3:
             if response_type not in ["file", "bytes"]:
