@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class EnumTest: NSObject, Codable { 
+@objc public class EnumTest: NSObject, Codable {
 
     public enum EnumString: String, Codable {
         case upper = "UPPER"
@@ -43,7 +41,7 @@ import Foundation
         self.outerEnum = outerEnum
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
         case enumInteger = "enum_integer"

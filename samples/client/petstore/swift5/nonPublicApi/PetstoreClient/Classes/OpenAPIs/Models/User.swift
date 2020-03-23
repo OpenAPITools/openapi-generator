@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-internal struct User: Codable { 
-
+internal struct User: Codable {
 
     internal var id: Int64?
     internal var username: String?

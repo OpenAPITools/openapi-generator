@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class EnumArrays: NSObject, Codable { 
+@objc public class EnumArrays: NSObject, Codable {
 
     public enum JustSymbol: String, Codable {
         case greaterThanOrEqualTo = ">="
@@ -27,7 +25,7 @@ import Foundation
         self.arrayEnum = arrayEnum
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case justSymbol = "just_symbol"
         case arrayEnum = "array_enum"
     }

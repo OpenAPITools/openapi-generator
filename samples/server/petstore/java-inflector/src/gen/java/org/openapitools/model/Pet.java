@@ -18,13 +18,13 @@ import org.openapitools.model.Tag;
 
 public class Pet   {
   @JsonProperty("id")
-  private Long id;
+  private Long id = null;
 
   @JsonProperty("category")
-  private Category category;
+  private Category category = null;
 
   @JsonProperty("name")
-  private String name;
+  private String name = null;
 
   @JsonProperty("photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
@@ -61,12 +61,12 @@ public class Pet   {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
   @JsonProperty("status")
-  private StatusEnum status;
+  private StatusEnum status = null;
 
   /**
    **/

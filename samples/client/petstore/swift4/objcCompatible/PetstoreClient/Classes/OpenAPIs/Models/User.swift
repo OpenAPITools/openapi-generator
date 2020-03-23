@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class User: NSObject, Codable { 
+@objc public class User: NSObject, Codable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {
@@ -42,7 +40,7 @@ import Foundation
         self.userStatus = userStatus
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case _id = "id"
         case username
         case firstName

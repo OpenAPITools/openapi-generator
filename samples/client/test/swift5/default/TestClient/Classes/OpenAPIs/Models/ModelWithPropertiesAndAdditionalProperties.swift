@@ -8,8 +8,7 @@
 import Foundation
 
 /** This is an empty model with no properties and only additionalProperties of type int32 */
-public struct ModelWithPropertiesAndAdditionalProperties: Codable { 
-
+public struct ModelWithPropertiesAndAdditionalProperties: Codable {
 
     public var myIntegerReq: Int
     public var myIntegerOpt: Int?
@@ -30,7 +29,7 @@ public struct ModelWithPropertiesAndAdditionalProperties: Codable {
         self.myPrimitiveArrayReq = myPrimitiveArrayReq
         self.myPrimitiveArrayOpt = myPrimitiveArrayOpt
     }
-    public var additionalProperties: [String:String] = [:]
+    public var additionalProperties: [String: String] = [:]
 
     public subscript(key: String) -> String? {
         get {
@@ -86,6 +85,5 @@ public struct ModelWithPropertiesAndAdditionalProperties: Codable {
         nonAdditionalPropertyKeys.insert("myPrimitiveArrayOpt")
         additionalProperties = try container.decodeMap(String.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
 
 }

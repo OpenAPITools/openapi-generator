@@ -407,7 +407,7 @@ public interface FakeApi extends ApiClient.Api {
       return this;
     }
     public TestQueryParameterCollectionFormatQueryParams http(final List<String> value) {
-      put("http", EncodingUtils.encodeCollection(value, "ssv"));
+      put("http", EncodingUtils.encodeCollection(value, "space"));
       return this;
     }
     public TestQueryParameterCollectionFormatQueryParams url(final List<String> value) {

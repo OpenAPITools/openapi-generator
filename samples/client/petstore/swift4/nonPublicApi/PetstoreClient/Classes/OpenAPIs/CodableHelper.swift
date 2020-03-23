@@ -47,9 +47,9 @@ internal class CodableHelper {
         set { self.customJSONEncoder = newValue }
     }
 
-    internal class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T : Decodable {
-        var returnedDecodable: T? = nil
-        var returnedError: Error? = nil
+    internal class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T: Decodable {
+        var returnedDecodable: T?
+        var returnedError: Error?
 
         do {
             returnedDecodable = try self.jsonDecoder.decode(type, from: data)
@@ -60,9 +60,9 @@ internal class CodableHelper {
         return (returnedDecodable, returnedError)
     }
 
-    internal class func encode<T>(_ value: T) -> EncodeResult where T : Encodable {
+    internal class func encode<T>(_ value: T) -> EncodeResult where T: Encodable {
         var returnedData: Data?
-        var returnedError: Error? = nil
+        var returnedError: Error?
 
         do {
             returnedData = try self.jsonEncoder.encode(value)

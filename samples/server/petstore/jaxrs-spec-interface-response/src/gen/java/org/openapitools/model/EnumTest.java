@@ -40,13 +40,13 @@ public enum EnumStringEnum {
     }
 
     @JsonCreator
-    public static EnumStringEnum fromValue(String value) {
+    public static EnumStringEnum fromValue(String v) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -74,13 +74,13 @@ public enum EnumStringRequiredEnum {
     }
 
     @JsonCreator
-    public static EnumStringRequiredEnum fromValue(String value) {
+    public static EnumStringRequiredEnum fromValue(String v) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -108,13 +108,13 @@ public enum EnumIntegerEnum {
     }
 
     @JsonCreator
-    public static EnumIntegerEnum fromValue(Integer value) {
+    public static EnumIntegerEnum fromValue(String v) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -142,18 +142,18 @@ public enum EnumNumberEnum {
     }
 
     @JsonCreator
-    public static EnumNumberEnum fromValue(Double value) {
+    public static EnumNumberEnum fromValue(String v) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
   private @Valid EnumNumberEnum enumNumber;
-  private @Valid OuterEnum outerEnum;
+  private @Valid OuterEnum outerEnum = null;
 
   /**
    **/
@@ -251,11 +251,11 @@ public enum EnumNumberEnum {
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(this.enumString, enumTest.enumString) &&
-        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
-        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
-        Objects.equals(this.outerEnum, enumTest.outerEnum);
+    return Objects.equals(enumString, enumTest.enumString) &&
+        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(enumInteger, enumTest.enumInteger) &&
+        Objects.equals(enumNumber, enumTest.enumNumber) &&
+        Objects.equals(outerEnum, enumTest.outerEnum);
   }
 
   @Override

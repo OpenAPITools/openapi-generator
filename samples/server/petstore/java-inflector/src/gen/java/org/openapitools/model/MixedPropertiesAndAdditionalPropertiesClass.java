@@ -19,10 +19,10 @@ import org.openapitools.model.Animal;
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  private UUID uuid;
+  private UUID uuid = null;
 
   @JsonProperty("dateTime")
-  private Date dateTime;
+  private Date dateTime = null;
 
   @JsonProperty("map")
   private Map<String, Animal> map = null;

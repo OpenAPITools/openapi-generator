@@ -14,11 +14,11 @@
 %% @doc Add a new pet to the store
 %% 
 -spec add_pet(ctx:ctx(), petstore_pet:petstore_pet()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-add_pet(Ctx, Body) ->
-    add_pet(Ctx, Body, #{}).
+add_pet(Ctx, PetstorePet) ->
+    add_pet(Ctx, PetstorePet, #{}).
 
 -spec add_pet(ctx:ctx(), petstore_pet:petstore_pet(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-add_pet(Ctx, Body, Optional) ->
+add_pet(Ctx, PetstorePet, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
@@ -26,7 +26,7 @@ add_pet(Ctx, Body, Optional) ->
     Path = ["/pet"],
     QS = [],
     Headers = [],
-    Body1 = Body,
+    Body1 = PetstorePet,
     ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>, <<"application/xml">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
@@ -119,11 +119,11 @@ get_pet_by_id(Ctx, PetId, Optional) ->
 %% @doc Update an existing pet
 %% 
 -spec update_pet(ctx:ctx(), petstore_pet:petstore_pet()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-update_pet(Ctx, Body) ->
-    update_pet(Ctx, Body, #{}).
+update_pet(Ctx, PetstorePet) ->
+    update_pet(Ctx, PetstorePet, #{}).
 
 -spec update_pet(ctx:ctx(), petstore_pet:petstore_pet(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-update_pet(Ctx, Body, Optional) ->
+update_pet(Ctx, PetstorePet, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
@@ -131,7 +131,7 @@ update_pet(Ctx, Body, Optional) ->
     Path = ["/pet"],
     QS = [],
     Headers = [],
-    Body1 = Body,
+    Body1 = PetstorePet,
     ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>, <<"application/xml">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 

@@ -13,13 +13,13 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class ModelApiResponse   {
   @JsonProperty("code")
-  private Integer code;
+  private Integer code = null;
 
   @JsonProperty("type")
-  private String type;
+  private String type = null;
 
   @JsonProperty("message")
-  private String message;
+  private String message = null;
 
   /**
    **/

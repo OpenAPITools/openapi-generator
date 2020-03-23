@@ -58,11 +58,11 @@ class EnumApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
             }
         }
     }

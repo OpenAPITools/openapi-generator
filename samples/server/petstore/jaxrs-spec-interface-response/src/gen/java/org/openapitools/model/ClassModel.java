@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 /**
  * Model for testing model with \&quot;_class\&quot; property
  **/
@@ -48,7 +47,7 @@ public class ClassModel  implements Serializable {
       return false;
     }
     ClassModel classModel = (ClassModel) o;
-    return Objects.equals(this.propertyClass, classModel.propertyClass);
+    return Objects.equals(propertyClass, classModel.propertyClass);
   }
 
   @Override

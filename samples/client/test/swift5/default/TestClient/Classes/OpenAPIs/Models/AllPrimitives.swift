@@ -8,8 +8,7 @@
 import Foundation
 
 /** Object which contains lots of different primitive OpenAPI types */
-public struct AllPrimitives: Codable { 
-
+public struct AllPrimitives: Codable {
 
     public enum MyInlineStringEnum: String, Codable, CaseIterable {
         case inlinestringenumvalue1 = "inlineStringEnumValue1"

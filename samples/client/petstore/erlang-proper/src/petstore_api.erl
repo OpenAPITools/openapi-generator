@@ -16,11 +16,11 @@
 %% This can only be done by the logged in user.
 -spec create_user(petstore_user:petstore_user()) ->
   petstore_utils:response().
-create_user(Body) ->
+create_user(PetstoreUser) ->
   Method      = post,
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user"],
-  Body        = Body,
+  Body        = PetstoreUser,
   ContentType = "text/plain",
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
@@ -29,11 +29,11 @@ create_user(Body) ->
 %% 
 -spec create_users_with_array_input(list(petstore_user:petstore_user())) ->
   petstore_utils:response().
-create_users_with_array_input(Body) ->
+create_users_with_array_input(PetstoreUserArray) ->
   Method      = post,
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/createWithArray"],
-  Body        = Body,
+  Body        = PetstoreUserArray,
   ContentType = "text/plain",
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
@@ -42,11 +42,11 @@ create_users_with_array_input(Body) ->
 %% 
 -spec create_users_with_list_input(list(petstore_user:petstore_user())) ->
   petstore_utils:response().
-create_users_with_list_input(Body) ->
+create_users_with_list_input(PetstoreUserArray) ->
   Method      = post,
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/createWithList"],
-  Body        = Body,
+  Body        = PetstoreUserArray,
   ContentType = "text/plain",
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
@@ -100,11 +100,11 @@ logout_user() ->
 %% This can only be done by the logged in user.
 -spec update_user(binary(), petstore_user:petstore_user()) ->
   petstore_utils:response().
-update_user(Username, Body) ->
+update_user(Username, PetstoreUser) ->
   Method      = put,
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/", Username, ""],
-  Body        = Body,
+  Body        = PetstoreUser,
   ContentType = "text/plain",
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).

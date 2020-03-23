@@ -52,11 +52,11 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 /// Create user
 /// This can only be done by the logged in user.
-///  @param body Created user object (optional)
+///  @param user Created user object (optional)
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) createUserWithBody: (SWGUser*) body
+-(NSURLSessionTask*) createUserWithUser: (SWGUser*) user
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user"];
 
@@ -83,7 +83,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = user;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -107,11 +107,11 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 /// Creates list of users with given input array
 /// 
-///  @param body List of user object (optional)
+///  @param user List of user object (optional)
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithArrayInputWithUser: (NSArray<SWGUser>*) user
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/createWithArray"];
 
@@ -138,7 +138,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = user;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -162,11 +162,11 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 /// Creates list of users with given input array
 /// 
-///  @param body List of user object (optional)
+///  @param user List of user object (optional)
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithListInputWithUser: (NSArray<SWGUser>*) user
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/createWithList"];
 
@@ -193,7 +193,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = user;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -470,12 +470,12 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 /// This can only be done by the logged in user.
 ///  @param username name that need to be deleted 
 ///
-///  @param body Updated user object (optional)
+///  @param user Updated user object (optional)
 ///
 ///  @returns void
 ///
 -(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
-    body: (SWGUser*) body
+    user: (SWGUser*) user
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
@@ -516,7 +516,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = body;
+    bodyParam = user;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"PUT"

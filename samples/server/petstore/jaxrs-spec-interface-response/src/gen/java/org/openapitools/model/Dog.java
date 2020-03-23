@@ -3,7 +3,6 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -47,13 +46,12 @@ public class Dog extends Animal implements Serializable {
       return false;
     }
     Dog dog = (Dog) o;
-    return Objects.equals(this.breed, dog.breed) &&
-        super.equals(o);
+    return Objects.equals(breed, dog.breed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed, super.hashCode());
+    return Objects.hash(breed);
   }
 
   @Override

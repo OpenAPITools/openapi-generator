@@ -14,13 +14,13 @@ import java.math.BigDecimal;
 
 public class OuterComposite   {
   @JsonProperty("my_number")
-  private BigDecimal myNumber;
+  private BigDecimal myNumber = null;
 
   @JsonProperty("my_string")
-  private String myString;
+  private String myString = null;
 
   @JsonProperty("my_boolean")
-  private Boolean myBoolean;
+  private Boolean myBoolean = null;
 
   /**
    **/

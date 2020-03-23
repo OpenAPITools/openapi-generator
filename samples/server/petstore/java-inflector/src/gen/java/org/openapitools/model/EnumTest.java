@@ -43,12 +43,12 @@ public class EnumTest   {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString;
+  private EnumStringEnum enumString = null;
 
   /**
    * Gets or Sets enumStringRequired
@@ -79,12 +79,12 @@ public class EnumTest   {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
   @JsonProperty("enum_string_required")
-  private EnumStringRequiredEnum enumStringRequired;
+  private EnumStringRequiredEnum enumStringRequired = null;
 
   /**
    * Gets or Sets enumInteger
@@ -113,12 +113,12 @@ public class EnumTest   {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger;
+  private EnumIntegerEnum enumInteger = null;
 
   /**
    * Gets or Sets enumNumber
@@ -147,15 +147,15 @@ public class EnumTest   {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber;
+  private EnumNumberEnum enumNumber = null;
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum;
+  private OuterEnum outerEnum = null;
 
   /**
    **/

@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class SpecialModelName: NSObject, Codable { 
+@objc public class SpecialModelName: NSObject, Codable {
 
     public var specialPropertyName: Int64?
     public var specialPropertyNameNum: NSNumber? {
@@ -22,7 +20,7 @@ import Foundation
         self.specialPropertyName = specialPropertyName
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case specialPropertyName = "$special[property.name]"
     }
 

@@ -13,10 +13,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Category   {
   @JsonProperty("id")
-  private Long id;
+  private Long id = null;
 
   @JsonProperty("name")
-  private String name = "default-name";
+  private String name = null;
 
   /**
    **/
@@ -43,7 +43,7 @@ public class Category   {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;

@@ -21,7 +21,7 @@ public class FakeClassnameTestController  {
    **/
 
   /*
-    public ResponseContext testClassname(RequestContext request , Client body) {
+    public ResponseContext testClassname(RequestContext request , Client client) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

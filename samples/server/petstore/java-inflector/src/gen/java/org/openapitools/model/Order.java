@@ -15,16 +15,16 @@ import java.util.Date;
 
 public class Order   {
   @JsonProperty("id")
-  private Long id;
+  private Long id = null;
 
   @JsonProperty("petId")
-  private Long petId;
+  private Long petId = null;
 
   @JsonProperty("quantity")
-  private Integer quantity;
+  private Integer quantity = null;
 
   @JsonProperty("shipDate")
-  private Date shipDate;
+  private Date shipDate = null;
 
   /**
    * Order Status
@@ -55,12 +55,12 @@ public class Order   {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
   @JsonProperty("status")
-  private StatusEnum status;
+  private StatusEnum status = null;
 
   @JsonProperty("complete")
   private Boolean complete = false;

@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class Animal: NSObject, Codable { 
+@objc public class Animal: NSObject, Codable {
 
     public var _className: String
     public var color: String? = "red"
@@ -19,7 +17,7 @@ import Foundation
         self.color = color
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case _className = "className"
         case color
     }

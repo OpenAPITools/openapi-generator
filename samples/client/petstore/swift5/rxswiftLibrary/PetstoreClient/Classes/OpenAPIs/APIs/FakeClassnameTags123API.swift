@@ -8,8 +8,6 @@
 import Foundation
 import RxSwift
 
-
-
 open class FakeClassnameTags123API {
     /**
      To test class name in snake case

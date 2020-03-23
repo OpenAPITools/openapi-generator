@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 open class FakeClassnameTags123API {
     /**
      To test class name in snake case

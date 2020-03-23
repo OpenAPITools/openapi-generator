@@ -14,10 +14,6 @@ module PetApiServiceImplementation =
       interface IPetApiService with
       
         member this.AddPet ctx args =
-          if true then 
-            let content = "successful operation" :> obj :?> Pet // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            AddPetDefaultStatusCode { content = content }
-          else
             let content = "Invalid input" 
             AddPetStatusCode405 { content = content }
 
@@ -54,9 +50,6 @@ module PetApiServiceImplementation =
 
         member this.UpdatePet ctx args =
           if true then 
-            let content = "successful operation" :> obj :?> Pet // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            UpdatePetDefaultStatusCode { content = content }
-          else if true then 
             let content = "Invalid ID supplied" 
             UpdatePetStatusCode400 { content = content }
           else if true then 

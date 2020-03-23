@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class FormatTest: NSObject, Codable { 
+@objc public class FormatTest: NSObject, Codable {
 
     public var integer: Int?
     public var integerNum: NSNumber? {
