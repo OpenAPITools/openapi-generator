@@ -33,6 +33,8 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+use swagger::headers::SafeHeaders;
+
 {{#apiUsesMultipart}}
 use hyper::mime::Mime; 
 use std::io::Cursor; 
@@ -260,8 +262,8 @@ impl<F, C> Api<C> for Client<F> where
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
     fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError>> {
         let mut uri = format!(
-            "{}{{{basePathWithoutHost}}}{{path}}",
-            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}
+            "{}{{{basePathWithoutHost}}}{{{vendorExtensions.x-path-format-string}}}",
+            self.base_path{{#pathParams}}, {{{paramName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}
         );
 
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
@@ -417,7 +419,7 @@ impl<F, C> Api<C> for Client<F> where
 {{/vendorExtensions}}
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
-{{#vendorExtensions.hasHeaderAuthMethods}}
+{{#vendorExtensions.x-has-header-auth-methods}}
 
         (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
             // Currently only authentication with Basic, API Key, and Bearer are supported
@@ -460,14 +462,14 @@ impl<F, C> Api<C> for Client<F> where
                 _ => {}
             }
         });
-{{/vendorExtensions.hasHeaderAuthMethods}}
+{{/vendorExtensions.x-has-header-auth-methods}}
 {{#headerParams}}
 {{#-first}}
 
         // Header parameters
-{{/-first}}{{^isMapContainer}}        header! { (Request{{vendorExtensions.typeName}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
-{{#required}}        request.headers_mut().set(Request{{vendorExtensions.typeName}}(param_{{{paramName}}}{{#isListContainer}}.clone(){{/isListContainer}}));
-{{/required}}{{^required}}        param_{{{paramName}}}.map(|header| request.headers_mut().set(Request{{vendorExtensions.typeName}}(header{{#isListContainer}}.clone(){{/isListContainer}})));
+{{/-first}}{{^isMapContainer}}        header! { (Request{{vendorExtensions.x-type-name}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
+{{#required}}        request.headers_mut().set(Request{{vendorExtensions.x-type-name}}(param_{{{paramName}}}{{#isListContainer}}.clone(){{/isListContainer}}));
+{{/required}}{{^required}}        param_{{{paramName}}}.map(|header| request.headers_mut().set(Request{{vendorExtensions.x-type-name}}(header{{#isListContainer}}.clone(){{/isListContainer}})));
 {{/required}}{{/isMapContainer}}{{#isMapContainer}}                let param_{{{paramName}}}: Option<{{{dataType}}}> = None;
 {{/isMapContainer}}
 {{/headerParams}}
@@ -478,7 +480,7 @@ impl<F, C> Api<C> for Client<F> where
 {{#responses}}
                 {{{code}}} => {
 {{#headers}}                    header! { (Response{{{nameInCamelCase}}}, "{{{baseName}}}") => [{{{datatype}}}] }
-                    let response_{{{name}}} = match response.headers().get::<Response{{{nameInCamelCase}}}>() {
+                    let response_{{{name}}} = match response.headers().safe_get::<Response{{{nameInCamelCase}}}>() {
                         Some(response_{{{name}}}) => response_{{{name}}}.0.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
                     };

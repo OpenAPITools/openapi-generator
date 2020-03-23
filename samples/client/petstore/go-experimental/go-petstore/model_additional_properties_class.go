@@ -29,6 +29,23 @@ type AdditionalPropertiesClass struct {
 	Anytype3 *map[string]interface{} `json:"anytype_3,omitempty"`
 }
 
+// NewAdditionalPropertiesClass instantiates a new AdditionalPropertiesClass object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewAdditionalPropertiesClass() *AdditionalPropertiesClass {
+    this := AdditionalPropertiesClass{}
+    return &this
+}
+
+// NewAdditionalPropertiesClassWithDefaults instantiates a new AdditionalPropertiesClass object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewAdditionalPropertiesClassWithDefaults() *AdditionalPropertiesClass {
+    this := AdditionalPropertiesClass{}
+    return &this
+}
+
 // GetMapString returns the MapString field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapString() map[string]string {
 	if o == nil || o.MapString == nil {

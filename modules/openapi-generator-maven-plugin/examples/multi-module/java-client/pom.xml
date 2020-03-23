@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>java-client</name>
-    <url>http://maven.apache.org</url>
+    <url>https://maven.apache.org</url>
     <build>
         <plugins>
             <!-- activate the plugin -->
@@ -19,7 +19,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>4.2.3-SNAPSHOT</version>
+                <version>4.3.0-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <dependencies>
                     <dependency>

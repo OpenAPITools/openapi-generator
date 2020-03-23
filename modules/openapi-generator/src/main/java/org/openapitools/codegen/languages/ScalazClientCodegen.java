@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -42,6 +44,24 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
     public ScalazClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         outputFolder = "generated-code/scalaz";
         embeddedTemplateDir = templateDir = "scalaz";
         apiPackage = "org.openapitools.client.api";
@@ -76,8 +96,6 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
-        
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         // Overrides defaults applied in DefaultCodegen which don't apply cleanly to Scala.
         importMapping.put("Date", "java.util.Date");
@@ -110,55 +128,11 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         instantiationTypes.put("map", "HashMap");
 
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
-
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
-        }
-    }
-
-    public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
-            this.modelPropertyNaming = naming;
-        } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
-        }
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if ("_".equals(name)) {
-            name = "_u";
-        }
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
-        name = getNameUsingModelPropertyNaming(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
     }
 
     @Override
@@ -214,7 +188,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            String collectionType = typeMapping.get("array");
+            String collectionType = ModelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
 
             // We assume that users would map these collections to a monoid with an identity function
             // There's no reason to assume mutable structure here (which may make consumption more difficult)
@@ -254,31 +228,6 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         }
 
         return camelize(operationId, true);
-    }
-
-    @Override
-    public String toModelName(final String name) {
-        final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        final String camelizedName = camelize(sanitizedName);
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(camelizedName)) {
-            final String modelName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-        return camelizedName;
     }
 
     private static abstract class CustomLambda implements Mustache.Lambda {

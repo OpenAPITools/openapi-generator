@@ -9,7 +9,7 @@ info:
   title: OpenAPI Petstore
   license:
     name: Apache-2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - name: pet
     description: Everything about your Pets
@@ -26,6 +26,15 @@ paths:
       description: ''
       operationId: addPet
       responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '405':
           description: Invalid input
       security:
@@ -41,6 +50,15 @@ paths:
       description: ''
       operationId: updatePet
       responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid ID supplied
         '404':

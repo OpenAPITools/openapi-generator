@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,6 +30,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,24 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     public NodeJSServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
 
         // mark the generator as deprecated in the documentation
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -97,7 +116,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         setReservedWordsLowerCase(
                 Arrays.asList(
                         "break", "case", "class", "catch", "const", "continue", "debugger",
-                        "default", "delete", "do", "else", "export", "extends", "finally",
+                        "default", "delete", "do", "else", "enum", "export", "extends", "finally",
                         "for", "function", "if", "import", "in", "instanceof", "let", "new",
                         "return", "super", "switch", "this", "throw", "try", "typeof", "var",
                         "void", "while", "with", "yield")

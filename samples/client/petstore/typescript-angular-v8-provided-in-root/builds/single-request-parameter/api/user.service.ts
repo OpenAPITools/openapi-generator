@@ -17,39 +17,48 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { User } from '../model/user';
+import { User } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateUserRequestParams {
+    /** Created user object */
     body: User;
 }
 
 export interface CreateUsersWithArrayInputRequestParams {
+    /** List of user object */
     body: Array<User>;
 }
 
 export interface CreateUsersWithListInputRequestParams {
+    /** List of user object */
     body: Array<User>;
 }
 
 export interface DeleteUserRequestParams {
+    /** The name that needs to be deleted */
     username: string;
 }
 
 export interface GetUserByNameRequestParams {
+    /** The name that needs to be fetched. Use user1 for testing. */
     username: string;
 }
 
 export interface LoginUserRequestParams {
+    /** The user name for login */
     username: string;
+    /** The password for login in clear text */
     password: string;
 }
 
 export interface UpdateUserRequestParams {
+    /** name that need to be deleted */
     username: string;
+    /** Updated user object */
     body: User;
 }
 
@@ -78,6 +87,42 @@ export class UserService {
     }
 
 
+
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object" && value instanceof Date === false) {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
+        if (value == null) {
+            return httpParams;
+        }
+
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams = httpParams.append(key,
+                        (value as Date).toISOString().substr(0, 10));
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            httpParams = httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
 
     /**
      * Create user
@@ -356,10 +401,12 @@ export class UserService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (username !== undefined && username !== null) {
-            queryParameters = queryParameters.set('username', <any>username);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>username, 'username');
         }
         if (password !== undefined && password !== null) {
-            queryParameters = queryParameters.set('password', <any>password);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>password, 'password');
         }
 
         let headers = this.defaultHeaders;

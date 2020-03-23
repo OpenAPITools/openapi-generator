@@ -45,6 +45,7 @@ use std::collections::BTreeSet;
 pub use swagger::auth::Authorization;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
 use swagger::auth::Scopes;
+use swagger::headers::SafeHeaders;
 
 use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
      {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
@@ -140,7 +141,7 @@ where
         match &method {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            &hyper::Method::{{vendorExtensions.HttpMethod}} if path.matched(paths::ID_{{vendorExtensions.PATH_ID}}) => {
+            &hyper::Method::{{vendorExtensions.x-http-method}} if path.matched(paths::ID_{{vendorExtensions.x-path-id}}) => {
 {{#hasAuthMethods}}
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
@@ -178,7 +179,7 @@ where
 {{#vendorExtensions}}
   {{#consumesMultipart}} 
                 let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary.to_string(),
+                    Some(boundary) => boundary,
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
                 };
   {{/consumesMultipart}}
@@ -194,27 +195,27 @@ where
   {{/hasPathParams}}
 {{/vendorExtensions}}
 {{#pathParams}}
-                let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{baseName}}}"].as_bytes()).decode_utf8() {
+                let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{paramName}}}"].as_bytes()).decode_utf8() {
                     Ok(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter {{{baseName}}}: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{baseName}}}"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{paramName}}}"]))))
                 };
 {{/pathParams}}
 {{#headerParams}}
   {{#-first}}
                 // Header parameters
   {{/-first}}
-                header! { (Request{{vendorExtensions.typeName}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
+                header! { (Request{{vendorExtensions.x-type-name}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
   {{#required}}
-                let param_{{{paramName}}} = match headers.get::<Request{{vendorExtensions.typeName}}>() {
+                let param_{{{paramName}}} = match headers.get::<Request{{vendorExtensions.x-type-name}}>() {
                     Some(param_{{{paramName}}}) => param_{{{paramName}}}.0.clone(),
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing or invalid required header {{{baseName}}}"))),
                 };
   {{/required}}
   {{^required}}
-                let param_{{{paramName}}} = headers.get::<Request{{vendorExtensions.typeName}}>().map(|header| header.0.clone());
+                let param_{{{paramName}}} = headers.safe_get::<Request{{vendorExtensions.x-type-name}}>().map(|header| header.0.clone());
   {{/required}}
 {{/headerParams}}
 {{#queryParams}}
@@ -530,11 +531,11 @@ impl<T, C> Clone for Service<T, C>
 
 {{#apiUsesMultipart}}
 /// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
+fn multipart_boundary(headers: &Headers) -> Option<String> {
+    headers.safe_get::<ContentType>().and_then(|content_type| {
+        let ContentType(mime) = content_type;
         if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
-            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
+            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str().to_string())
         } else {
             None
         }
@@ -550,7 +551,7 @@ impl RequestParser for ApiRequestParser {
         match request.method() {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            &hyper::Method::{{{vendorExtensions.HttpMethod}}} if path.matched(paths::ID_{{{vendorExtensions.PATH_ID}}}) => Ok("{{{operationId}}}"),
+            &hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Ok("{{{operationId}}}"),
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}            _ => Err(()),
         }
     }

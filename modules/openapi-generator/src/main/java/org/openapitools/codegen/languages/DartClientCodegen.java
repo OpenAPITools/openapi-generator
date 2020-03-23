@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,37 +36,6 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-// import static org.openapitools.codegen.utils.StringUtils.camelize;
-// import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-// import java.io.BufferedReader;
-// import java.io.File;
-// import java.io.FileInputStream;
-// import java.io.InputStreamReader;
-// import java.nio.charset.Charset;
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.HashSet;
-// import java.util.List;
-// import java.util.Map;
-// import java.util.Set;
-
-// import javax.xml.validation.Schema;
-
-// import org.apache.commons.io.FilenameUtils;
-// import org.openapitools.codegen.CodegenConfig;
-// import org.openapitools.codegen.CodegenConstants;
-// import org.openapitools.codegen.CodegenModel;
-// import org.openapitools.codegen.CodegenProperty;
-// import org.openapitools.codegen.CodegenType;
-// import org.openapitools.codegen.DefaultCodegen;
-// import org.openapitools.codegen.utils.ModelUtils;
-// import org.openapitools.codegen.utils.StringUtils;
-// import org.slf4j.LoggerFactory;
-
-// import io.swagger.v3.oas.models.media.ArraySchema;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
@@ -95,6 +65,30 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public DartClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+        );
 
         // clear import mapping (from default generator) as dart does not use it at the moment
         importMapping.clear();
@@ -475,25 +469,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         Map<String, Object> allowableValues = cm.allowableValues;
         List<Object> values = (List<Object>) allowableValues.get("values");
-        List<Map<String, String>> enumVars =
-                new ArrayList<Map<String, String>>();
-        String commonPrefix = findCommonPrefixOfVars(values);
-        int truncateIdx = commonPrefix.length();
-        for (Object value : values) {
-            Map<String, String> enumVar = new HashMap<String, String>();
-            String enumName;
-            if (truncateIdx == 0) {
-                enumName = value.toString();
-            } else {
-                enumName = value.toString().substring(truncateIdx);
-                if ("".equals(enumName)) {
-                    enumName = value.toString();
-                }
-            }
-            enumVar.put("name", toEnumVarName(enumName, cm.dataType));
-            enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
-            enumVars.add(enumVar);
-        }
+        List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
         cm.allowableValues.put("enumVars", enumVars);
         return true;
     }

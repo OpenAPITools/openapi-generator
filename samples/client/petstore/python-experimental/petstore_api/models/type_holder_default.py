@@ -15,6 +15,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
+import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -45,8 +46,6 @@ class TypeHolderDefault(ModelNormal):
           and the value is json key in definition.
       discriminator_value_class_map (dict): A dict to go from the discriminator
           variable value to the discriminator class name.
-      openapi_types (dict): The key is attribute name
-          and the value is attribute type.
       validations (dict): The key is the tuple path to the attribute
           and the for var_name this is (var_name,). The value is a dict
           that stores validations for max_length, min_length, max_items,
@@ -59,20 +58,30 @@ class TypeHolderDefault(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
-        'string_item': (str,),  # noqa: E501
-        'number_item': (float,),  # noqa: E501
-        'integer_item': (int,),  # noqa: E501
-        'bool_item': (bool,),  # noqa: E501
-        'array_item': ([int],),  # noqa: E501
-        'date_item': (date,),  # noqa: E501
-        'datetime_item': (datetime,),  # noqa: E501
-    }
-
     validations = {
     }
 
     additional_properties_type = None
+
+    @staticmethod
+    def openapi_types():
+        """
+        This must be a class method so a model may have properties that are
+        of type self, this ensures that we don't create a cyclic import
+
+        Returns
+            openapi_types (dict): The key is attribute name
+                and the value is attribute type.
+        """
+        return {
+            'string_item': (str,),  # noqa: E501
+            'number_item': (float,),  # noqa: E501
+            'integer_item': (int,),  # noqa: E501
+            'bool_item': (bool,),  # noqa: E501
+            'array_item': ([int],),  # noqa: E501
+            'date_item': (date,),  # noqa: E501
+            'datetime_item': (datetime,),  # noqa: E501
+        }
 
     @staticmethod
     def discriminator():
@@ -107,10 +116,10 @@ class TypeHolderDefault(ModelNormal):
             array_item ([int]):
 
         Keyword Args:
-            string_item (str): defaults to 'what', must be one of ['what']  # noqa: E501
-            number_item (float): defaults to 1.234, must be one of [1.234]  # noqa: E501
-            integer_item (int): defaults to -2, must be one of [-2]  # noqa: E501
-            bool_item (bool): defaults to True, must be one of [True]  # noqa: E501
+            string_item (str): defaults to 'what'  # noqa: E501
+            number_item (float): defaults to 1.234  # noqa: E501
+            integer_item (int): defaults to -2  # noqa: E501
+            bool_item (bool): defaults to True  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -140,4 +149,10 @@ class TypeHolderDefault(ModelNormal):
         self.bool_item = bool_item
         self.array_item = array_item
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name not in self.attribute_map and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        self.additional_properties_type is None:
+                # discard variable.
+                continue
             setattr(self, var_name, var_value)

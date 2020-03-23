@@ -176,7 +176,7 @@ module {{moduleName}}
           },
 {{/isApiKey}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
         '{{name}}' =>
           {
             type: 'basic',
@@ -184,7 +184,7 @@ module {{moduleName}}
             key: 'Authorization',
             value: basic_auth_token
           },
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
         '{{name}}' =>
           {

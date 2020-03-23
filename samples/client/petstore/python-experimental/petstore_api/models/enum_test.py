@@ -15,6 +15,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
+import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -31,7 +32,8 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import outer_enum
 except ImportError:
-    outer_enum = sys.modules['petstore_api.models.outer_enum']
+    outer_enum = sys.modules[
+        'petstore_api.models.outer_enum']
 
 
 class EnumTest(ModelNormal):
@@ -49,8 +51,6 @@ class EnumTest(ModelNormal):
           and the value is json key in definition.
       discriminator_value_class_map (dict): A dict to go from the discriminator
           variable value to the discriminator class name.
-      openapi_types (dict): The key is attribute name
-          and the value is attribute type.
       validations (dict): The key is the tuple path to the attribute
           and the for var_name this is (var_name,). The value is a dict
           that stores validations for max_length, min_length, max_items,
@@ -81,18 +81,28 @@ class EnumTest(ModelNormal):
         },
     }
 
-    openapi_types = {
-        'enum_string_required': (str,),  # noqa: E501
-        'enum_string': (str,),  # noqa: E501
-        'enum_integer': (int,),  # noqa: E501
-        'enum_number': (float,),  # noqa: E501
-        'outer_enum': (outer_enum.OuterEnum,),  # noqa: E501
-    }
-
     validations = {
     }
 
     additional_properties_type = None
+
+    @staticmethod
+    def openapi_types():
+        """
+        This must be a class method so a model may have properties that are
+        of type self, this ensures that we don't create a cyclic import
+
+        Returns
+            openapi_types (dict): The key is attribute name
+                and the value is attribute type.
+        """
+        return {
+            'enum_string_required': (str,),  # noqa: E501
+            'enum_string': (str,),  # noqa: E501
+            'enum_integer': (int,),  # noqa: E501
+            'enum_number': (float,),  # noqa: E501
+            'outer_enum': (outer_enum.OuterEnum,),  # noqa: E501
+        }
 
     @staticmethod
     def discriminator():
@@ -152,4 +162,10 @@ class EnumTest(ModelNormal):
 
         self.enum_string_required = enum_string_required
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name not in self.attribute_map and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        self.additional_properties_type is None:
+                # discard variable.
+                continue
             setattr(self, var_name, var_value)

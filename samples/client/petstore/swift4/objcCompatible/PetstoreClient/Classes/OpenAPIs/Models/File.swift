@@ -9,7 +9,7 @@ import Foundation
 
 /** Must be named &#x60;File&#x60; for test. */
 
-public struct File: Codable {
+@objc public class File: NSObject, Codable {
 
     /** Test capitalization */
     public var sourceURI: String?

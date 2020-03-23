@@ -17,7 +17,7 @@
     <licenses>
         <license>
             <name>Unlicense</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -144,7 +144,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.1.1</version>
+                <configuration>
+                    <doclint>none</doclint>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -267,8 +270,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <spring-web-version>4.3.9.RELEASE</spring-web-version>
-        <jackson-version>2.9.10</jackson-version>
-        <jackson-databind-version>2.9.10.1</jackson-databind-version>
+        <jackson-version>2.10.3</jackson-version>
+        <jackson-databind-version>2.10.3</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>

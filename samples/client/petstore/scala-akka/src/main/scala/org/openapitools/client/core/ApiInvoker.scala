@@ -25,9 +25,6 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
 import akka.util.{ ByteString, Timeout }
 import de.heikoseeberger.akkahttpjson4s.Json4sSupport
-import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
-import org.json4s.JsonAST.JString
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
@@ -39,10 +36,10 @@ import scala.reflect.ClassTag
 object ApiInvoker {
 
   def apply()(implicit system: ActorSystem): ApiInvoker =
-    apply(DefaultFormats + DateTimeSerializer)
+    apply(DefaultFormats ++ Serializers.all)
 
   def apply(serializers: Iterable[Serializer[_]])(implicit system: ActorSystem): ApiInvoker =
-    apply(DefaultFormats + DateTimeSerializer ++ serializers)
+    apply(DefaultFormats ++ Serializers.all ++ serializers)
 
   def apply(formats: Formats)(implicit system: ActorSystem): ApiInvoker = new ApiInvoker(formats)
 
@@ -55,7 +52,7 @@ object ApiInvoker {
     *
     * @param request the apiRequest to be executed
     */
-  implicit class ApiRequestImprovements[T](request: ApiRequest[T]) {
+  implicit class ApiRequestImprovements[T: Manifest](request: ApiRequest[T]) {
 
     def response(invoker: ApiInvoker)(implicit ec: ExecutionContext, system: ActorSystem): Future[ApiResponse[T]] =
       response(ec, system, invoker)
@@ -76,15 +73,6 @@ object ApiInvoker {
   implicit class ApiMethodExtensions(val method: ApiMethod) {
     def toAkkaHttpMethod: HttpMethod = HttpMethods.getForKey(method.value).getOrElse(HttpMethods.GET)
   }
-
-  case object DateTimeSerializer extends CustomSerializer[DateTime](format => ( {
-    case JString(s) =>
-      ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s)
-  }, {
-    case d: DateTime =>
-      JString(ISODateTimeFormat.dateTime().print(d))
-  })
-  )
 
 }
 
@@ -128,6 +116,8 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           req.withHeaders(Authorization(BasicHttpCredentials(login, password)))
         case (req, ApiKeyCredentials(keyValue, keyName, ApiKeyLocations.HEADER)) =>
           req.withHeaders(RawHeader(keyName, keyValue.value))
+        case (req, BearerToken(token)) =>
+            req.withHeaders(RawHeader("Authorization", s"Bearer $token"))
         case (req, _) => req
       }
   }
@@ -182,7 +172,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
   private def createRequest(uri: Uri, request: ApiRequest[_]): HttpRequest = {
     val httpRequest = request.method.toAkkaHttpMethod match {
       case m@(HttpMethods.GET | HttpMethods.DELETE) => HttpRequest(m, uri)
-      case m@(HttpMethods.POST | HttpMethods.PUT) =>
+      case m@(HttpMethods.POST | HttpMethods.PUT | HttpMethods.PATCH) =>
         formDataContent(request) orElse bodyContent(request) match {
           case Some(c: FormData) =>
             HttpRequest(m, uri, entity = c.toEntity)
@@ -225,7 +215,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
     Uri(r.basePath + opPathWithParams).withQuery(query)
   }
 
-  def execute[T](r: ApiRequest[T]): Future[ApiResponse[T]] = {
+  def execute[T: Manifest](r: ApiRequest[T]): Future[ApiResponse[T]] = {
     implicit val timeout: Timeout = settings.connectionTimeout
 
     val request = createRequest(makeUri(r), r)
@@ -249,8 +239,8 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
       .flatMap(unmarshallApiResponse(r))
   }
 
-  def unmarshallApiResponse[T](request: ApiRequest[T])(response: HttpResponse): Future[ApiResponse[T]] = {
-    def responseForState[V](state: ResponseState, value: V) = {
+  def unmarshallApiResponse[T: Manifest](request: ApiRequest[T])(response: HttpResponse): Future[ApiResponse[T]] = {
+    def responseForState[V](state: ResponseState, value: V): ApiResponse[V] = {
       state match {
         case ResponseState.Success =>
           ApiResponse(response.status.intValue, value, response.headers.map(header => (header.name, header.value)).toMap)
@@ -263,31 +253,29 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           )
       }
     }
-
+    val mf = implicitly(manifest[T])
     request
-      .responseForCode(response.status.intValue)
-      .map {
-        case (Manifest.Unit, state: ResponseState) =>
-          // FIXME Casting is ugly, how to do better?
-          Future(responseForState(state, Unit)).asInstanceOf[Future[ApiResponse[T]]]
-        case (manifest: Manifest[T], state: ResponseState) =>
-          implicit val m: Unmarshaller[HttpEntity, T] = unmarshaller[T](manifest, serialization, formats)
-
-          Unmarshal(response.entity)
-            .to[T]
-            .recoverWith {
-              case e ⇒ throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), e)
-            }
-            .map(value => responseForState(state, value))
-      }
-      .getOrElse(Future.failed(ApiError(response.status.intValue, "Unexpected response code", Some(response.entity.toString))))
+      .responseForCode(response.status.intValue) match {
+      case Some((Manifest.Unit, state: ResponseState)) =>
+        Future(responseForState(state, Unit).asInstanceOf[ApiResponse[T]])
+      case Some((manifest, state: ResponseState)) if manifest == mf =>
+        implicit val m: Unmarshaller[HttpEntity, T] = unmarshaller[T](mf, serialization, formats)
+        Unmarshal(response.entity)
+          .to[T]
+          .recoverWith {
+            case e ⇒ throw ApiError(response.status.intValue, s"Unable to unmarshall content to [$manifest]", Some(response.entity.toString), e)
+          }
+          .map(value => responseForState(state, value))
+      case None | Some(_) =>
+        Future.failed(ApiError(response.status.intValue, "Unexpected response code", Some(response.entity.toString)))
+    }
   }
 }
 
 sealed trait CustomContentTypes {
 
   protected def normalizedContentType(original: String): ContentType =
-    ContentType(MediaTypes.forExtension(original), () => HttpCharsets.`UTF-8`)
+     ContentType(parseContentType(original).mediaType, () => HttpCharsets.`UTF-8`)
 
   protected def parseContentType(contentType: String): ContentType = {
 

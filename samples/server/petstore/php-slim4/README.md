@@ -46,6 +46,8 @@ Command | Target
 `$ composer test` | All tests
 `$ composer test-apis` | Apis tests
 `$ composer test-models` | Models tests
+`$ composer test-mock` | Mock feature tests
+`$ composer test-utils` | Utils tests
 
 #### Config
 
@@ -99,6 +101,8 @@ Switch on option in `./index.php`:
 +++ $app->addErrorMiddleware(true, true, true);
 ```
 
+## [Mock Server Documentation](./docs/MockServer.md)
+
 ## API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -136,7 +140,7 @@ Class | Method | HTTP request | Description
 *AbstractFakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
 *AbstractFakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
 *AbstractFakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
-*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 *AbstractFakeApi* | **testEnumParameters** | **GET** /fake | To test enum parameters
 *AbstractFakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *AbstractFakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties

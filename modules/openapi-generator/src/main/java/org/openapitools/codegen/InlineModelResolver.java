@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -157,6 +157,7 @@ public class InlineModelResolver {
                 ObjectSchema op = (ObjectSchema) inner;
                 if (op.getProperties() != null && op.getProperties().size() > 0) {
                     flattenProperties(op.getProperties(), pathname);
+                    // Generate a unique model name based on the title.
                     String modelName = resolveModelName(op.getTitle(), null);
                     Schema innerModel = modelFromProperty(op, modelName);
                     String existing = matchGenerated(innerModel);
@@ -327,6 +328,33 @@ public class InlineModelResolver {
         }
     }
 
+    /**
+     * Flattens properties of inline object schemas that belong to a composed schema into a
+     * single flat list of properties. This is useful to generate a single or multiple
+     * inheritance model.
+     * 
+     * In the example below, codegen may generate a 'Dog' class that extends from the
+     * generated 'Animal' class. 'Dog' has additional properties 'name', 'age' and 'breed' that
+     * are flattened as a single list of properties.
+     * 
+     * Dog:
+     *   allOf:
+     *     - $ref: '#/components/schemas/Animal'
+     *     - type: object
+     *       properties:
+     *         name:
+     *           type: string
+     *         age:
+     *           type: string
+     *     - type: object
+     *       properties:
+     *         breed:
+     *           type: string
+     * 
+     * @param openAPI the OpenAPI document
+     * @param key a unique name ofr the composed schema.
+     * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
+     */
     private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
         if (children == null || children.isEmpty()) {
             return;
@@ -337,6 +365,16 @@ public class InlineModelResolver {
             if (component instanceof ObjectSchema) {
                 ObjectSchema op = (ObjectSchema) component;
                 if (op.get$ref() == null && op.getProperties() != null && op.getProperties().size() > 0) {
+                    // If a `title` attribute is defined in the inline schema, codegen uses it to name the
+                    // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
+                    // We know that this is not the best way to name the model.
+                    //
+                    // Such naming strategy may result in issues. If the value of the 'title' attribute
+                    // happens to match a schema defined elsewhere in the specification, 'innerModelName'
+                    // will be the same as that other schema.
+                    //
+                    // To have complete control of the model naming, one can define the model separately
+                    // instead of inline.
                     String innerModelName = resolveModelName(op.getTitle(), key);
                     Schema innerModel = modelFromProperty(op, innerModelName);
                     String existing = matchGenerated(innerModel);

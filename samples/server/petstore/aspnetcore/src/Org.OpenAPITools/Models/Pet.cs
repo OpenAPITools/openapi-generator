@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Models
     /// </summary>
     [DataContract]
     public partial class Pet : IEquatable<Pet>
-    { 
+    {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
@@ -57,6 +57,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         [DataMember(Name="tags", EmitDefaultValue=false)]
         public List<Tag> Tags { get; set; }
+
 
         /// <summary>
         /// pet status in the store

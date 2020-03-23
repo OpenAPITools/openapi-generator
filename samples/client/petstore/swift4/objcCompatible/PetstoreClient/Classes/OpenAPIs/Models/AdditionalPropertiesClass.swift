@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AdditionalPropertiesClass: Codable {
+@objc public class AdditionalPropertiesClass: NSObject, Codable {
 
     public var mapString: [String: String]?
     public var mapMapString: [String: [String: String]]?
