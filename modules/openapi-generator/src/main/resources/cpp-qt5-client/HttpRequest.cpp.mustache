@@ -45,15 +45,17 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 }
 
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), timeOutTimer() {
+    : QObject(parent), manager(nullptr), timeOutTimer(this) {
     qsrand(QDateTime::currentDateTime().toTime_t());
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();
     connect(manager, &QNetworkAccessManager::finished, this, &{{prefix}}HttpRequestWorker::on_manager_finished);
+    timeOutTimer.setSingleShot(true);
 }
 
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {
-    QObject::disconnect(&timeOutTimer, nullptr, nullptr, nullptr);
+    QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+    timeOutTimer.stop();
     for (const auto &item : multiPartFields) {
         if (item != nullptr) {
             delete item;
@@ -90,7 +92,7 @@ QByteArray *{{prefix}}HttpRequestWorker::getMultiPartField(const QString &fieldn
 void {{prefix}}HttpRequestWorker::setTimeOut(int timeOutMs) {
     timeOutTimer.setInterval(timeOutMs);
     if(timeOutTimer.interval() == 0) {
-        QObject::disconnect(&timeOutTimer, nullptr, nullptr, nullptr);
+        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
     }
 }
 
@@ -352,13 +354,16 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
 #endif
     }
     if (timeOutTimer.interval() > 0) {
-        timeOutTimer.callOnTimeout([=]() { on_manager_timeout(reply); });
+        QObject::connect(&timeOutTimer, &QTimer::timeout, [=]() { on_manager_timeout(reply); });
+        timeOutTimer.start();
     }
 }
 
 void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
-    if(timeOutTimer.interval() > 0)
-        QObject::disconnect(&timeOutTimer, nullptr, nullptr, nullptr);
+    if(timeOutTimer.isActive()) {
+        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+        timeOutTimer.stop();
+    }
     error_type = reply->error();
     error_str = reply->errorString();
     if (reply->rawHeaderPairs().count() > 0) {
