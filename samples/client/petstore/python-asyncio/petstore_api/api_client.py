@@ -194,7 +194,7 @@ class ApiClient(object):
                     print("Parsing response data...")
                     match = None
                     if content_type is not None:
-                        match = re.search("charset=([[a-zA-Z\-\d]+)[\s\;]?", content_type)
+                        match = re.search(r"charset=([[a-zA-Z\-\d]+)[\s\;]?", content_type)
                     encoding = match.group(1) if match else "utf-8"
                     response_data.data = response_data.data.decode(encoding)
 
