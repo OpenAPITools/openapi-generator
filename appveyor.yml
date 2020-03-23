@@ -38,6 +38,8 @@ install:
 build_script:
   - dotnet --info
   # test ps pestore
+  - ps: samples\client\petstore\powershell-experimental\Build.ps1
+  - ps: Import-Module 'samples\client\petstore\powershell-experimental\src\PSPetstore'
   - ps: Invoke-Pester samples\client\petstore\powershell-experimental\ -EnableExit
   # build C# API client (netcore)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
