@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Animal
     /// </summary>
     [DataContract]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
+    [JsonConverter(typeof(JsonSubtypes), "className")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(BigCat), "BigCat")]
