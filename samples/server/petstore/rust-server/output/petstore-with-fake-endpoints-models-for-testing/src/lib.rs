@@ -63,9 +63,6 @@ use std::io::Error;
 #[allow(unused_imports)]
 use std::collections::HashMap;
 
-#[cfg(any(feature = "client", feature = "server"))]
-mod mimetypes;
-
 #[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};
 #[deprecated(note = "Import futures directly")]

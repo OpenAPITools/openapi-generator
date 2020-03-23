@@ -23,7 +23,6 @@ use swagger::{ApiError, Connector, client::Service, XSpanIdString, Has, AuthData
 use url::form_urlencoded;
 use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 
-use mimetypes;
 use models;
 use header;
 
@@ -449,7 +448,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = serde_json::to_string(&param_nested_response).expect("impossible to fail to serialize");
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::DUMMY_PUT;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -694,7 +693,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = param_body;
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::HTML_POST;
+        let header = "text/html";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -785,7 +784,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = param_value;
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::POST_YAML;
+        let header = "application/yaml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -949,7 +948,7 @@ impl<C, F> Api<C> for Client<F> where
 
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::SOLO_OBJECT_POST;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))

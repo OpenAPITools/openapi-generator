@@ -6,7 +6,6 @@ use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use url::form_urlencoded;
-use mimetypes;
 use serde_json;
 use std::io;
 #[allow(unused_imports)]
@@ -296,7 +295,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -408,7 +407,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN)
+                                                        HeaderValue::from_str("*/*")
                                                             .expect("Unable to create Content-Type header for FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -484,7 +483,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_COMPOSITE_SERIALIZE_OUTPUT_COMPOSITE)
+                                                        HeaderValue::from_str("*/*")
                                                             .expect("Unable to create Content-Type header for FAKE_OUTER_COMPOSITE_SERIALIZE_OUTPUT_COMPOSITE"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -560,7 +559,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_NUMBER_SERIALIZE_OUTPUT_NUMBER)
+                                                        HeaderValue::from_str("*/*")
                                                             .expect("Unable to create Content-Type header for FAKE_OUTER_NUMBER_SERIALIZE_OUTPUT_NUMBER"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -636,7 +635,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING)
+                                                        HeaderValue::from_str("*/*")
                                                             .expect("Unable to create Content-Type header for FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -916,7 +915,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -1295,7 +1294,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::TEST_CLASSNAME_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for TEST_CLASSNAME_SUCCESSFUL_OPERATION"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -1588,7 +1587,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -1672,7 +1671,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -1753,7 +1752,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::GET_PET_BY_ID_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for GET_PET_BY_ID_SUCCESSFUL_OPERATION"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -2148,7 +2147,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::UPLOAD_FILE_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for UPLOAD_FILE_SUCCESSFUL_OPERATION"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -2272,7 +2271,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::GET_INVENTORY_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for GET_INVENTORY_SUCCESSFUL_OPERATION"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -2339,7 +2338,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::GET_ORDER_BY_ID_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for GET_ORDER_BY_ID_SUCCESSFUL_OPERATION"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -2427,7 +2426,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::PLACE_ORDER_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for PLACE_ORDER_SUCCESSFUL_OPERATION"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -2805,7 +2804,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::GET_USER_BY_NAME_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for GET_USER_BY_NAME_SUCCESSFUL_OPERATION"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -2903,7 +2902,7 @@ where
                                                     );
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::LOGIN_USER_SUCCESSFUL_OPERATION)
+                                                        HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for LOGIN_USER_SUCCESSFUL_OPERATION"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);

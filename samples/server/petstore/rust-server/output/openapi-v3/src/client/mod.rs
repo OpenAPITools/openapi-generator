@@ -25,7 +25,6 @@ use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_
 use uuid;
 use serde_xml_rs;
 
-use mimetypes;
 use models;
 use header;
 
@@ -1158,7 +1157,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = param_body.0;
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::REQUIRED_OCTET_STREAM_PUT;
+        let header = "application/octet-stream";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1482,7 +1481,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::UNTYPED_PROPERTY_GET;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1649,7 +1648,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::XML_EXTRA_POST;
+        let header = "application/xml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1741,7 +1740,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::XML_OTHER_POST;
+        let header = "application/xml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1833,7 +1832,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::XML_OTHER_PUT;
+        let header = "application/xml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1925,7 +1924,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::XML_POST;
+        let header = "application/xml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -2018,7 +2017,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::XML_PUT;
+        let header = "application/xml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
