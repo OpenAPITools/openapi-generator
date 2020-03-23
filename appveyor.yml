@@ -37,31 +37,31 @@ install:
   - ps: Install-Module Pester -Force -Scope CurrentUser
 build_script:
   - dotnet --info
-  # build C# API client (netcore)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
-  # build C# API client
-  - nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
-  - msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  # build C# API client (with PropertyChanged)
-  - nuget restore samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln
-  - msbuild samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  # build C# .net standard 1.3+ API client
-  - nuget restore samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln
-  - msbuild samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  # install openapi-generator locally
-  - mvn clean install --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error # run the locally installed openapi-generator-gradle-plugin
-  - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
+    #  # build C# API client (netcore)
+    #  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
+    #  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
+    #  # build C# API client
+    #  - nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
+    #  - msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    #  # build C# API client (with PropertyChanged)
+    #  - nuget restore samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln
+    #  - msbuild samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    #  # build C# .net standard 1.3+ API client
+    #  - nuget restore samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln
+    #  - msbuild samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    #  # install openapi-generator locally
+    #  - mvn clean install --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error # run the locally installed openapi-generator-gradle-plugin
+    #  - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
 test_script:
   # test ps pestore
   - ps: |
       cd samples\client\petstore\powershell-experimental\
       Build.ps1
       Import-Module -Name '.\src\PSPetstore'
-      Invoke-Pester -EnableExit
-      if ($LastExitCode -ne 0) {
-          $host.SetShouldExit($LastExitCode)
-          exit $LastExitCode
+      $Result = Invoke-Pester -PassThru
+      if ($Result.FailedCount -gt 0) {
+          $host.SetShouldExit($Result.FailedCount)
+          exit $Result.FailedCount
       }
 cache:
   - C:\maven\
