@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## add_pet
 
-> crate::models::Pet add_pet(pet)
+> add_pet(pet)
 Add a new pet to the store
 
 ### Parameters
@@ -29,7 +29,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Pet**](Pet.md)
+ (empty response body)
 
 ### Authorization
 
@@ -38,7 +38,7 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: application/xml, application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -164,7 +164,7 @@ Name | Type | Description  | Required | Notes
 
 ## update_pet
 
-> crate::models::Pet update_pet(pet)
+> update_pet(pet)
 Update an existing pet
 
 ### Parameters
@@ -176,7 +176,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Pet**](Pet.md)
+ (empty response body)
 
 ### Authorization
 
@@ -185,7 +185,7 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: application/xml, application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

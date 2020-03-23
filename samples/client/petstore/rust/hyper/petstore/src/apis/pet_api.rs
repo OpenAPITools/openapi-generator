@@ -33,18 +33,18 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static> PetApiC
 }
 
 pub trait PetApi {
-    fn add_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>;
-    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>;
-    fn find_pets_by_status(&self, status: Vec<String>) -> Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error<serde_json::Value>>>>;
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error<serde_json::Value>>>>;
-    fn get_pet_by_id(&self, pet_id: i64) -> Box<dyn Future<Output = Result<crate::models::Pet, Error<serde_json::Value>>>>;
-    fn update_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>;
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Box<dyn Future<Output = Result<crate::models::ApiResponse, Error<serde_json::Value>>>>;
+    fn add_pet(&self, body: crate::models::Pet) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
+    fn find_pets_by_status(&self, status: Vec<String>) -> std::pin::Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error<serde_json::Value>>>>>;
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> std::pin::Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error<serde_json::Value>>>>>;
+    fn get_pet_by_id(&self, pet_id: i64) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error<serde_json::Value>>>>>;
+    fn update_pet(&self, body: crate::models::Pet) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::ApiResponse, Error<serde_json::Value>>>>>;
 }
 
 impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>PetApi for PetApiClient<C> {
-    fn add_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>> {
+    fn add_pet(&self, body: crate::models::Pet) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -52,10 +52,10 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>PetApi f
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
-    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>> {
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::DELETE, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -66,30 +66,30 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>PetApi f
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
-    fn find_pets_by_status(&self, status: Vec<String>) -> Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error<serde_json::Value>>>> {
+    fn find_pets_by_status(&self, status: Vec<String>) -> std::pin::Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/findByStatus".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
         req = req.with_query_param("status".to_string(), status.join(",").to_string());
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error<serde_json::Value>>>> {
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> std::pin::Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/findByTags".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
         req = req.with_query_param("tags".to_string(), tags.join(",").to_string());
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
-    fn get_pet_by_id(&self, pet_id: i64) -> Box<dyn Future<Output = Result<crate::models::Pet, Error<serde_json::Value>>>> {
+    fn get_pet_by_id(&self, pet_id: i64) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
@@ -100,10 +100,10 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>PetApi f
         req = req.with_path_param("petId".to_string(), pet_id.to_string());
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
-    fn update_pet(&self, body: crate::models::Pet) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>> {
+    fn update_pet(&self, body: crate::models::Pet) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::PUT, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -111,10 +111,10 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>PetApi f
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>> {
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -128,10 +128,10 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>PetApi f
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Box<dyn Future<Output = Result<crate::models::ApiResponse, Error<serde_json::Value>>>> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::ApiResponse, Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pet/{petId}/uploadImage".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -144,7 +144,7 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>PetApi f
         }
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
 }

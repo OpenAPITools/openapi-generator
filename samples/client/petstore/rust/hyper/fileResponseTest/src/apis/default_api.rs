@@ -33,16 +33,16 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static> Default
 }
 
 pub trait DefaultApi {
-    fn fileresponsetest(&self, ) -> Box<dyn Future<Output = Result<std::path::PathBuf, Error<serde_json::Value>>>>;
+    fn fileresponsetest(&self, ) -> std::pin::Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error<serde_json::Value>>>>>;
 }
 
 impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>DefaultApi for DefaultApiClient<C> {
-    fn fileresponsetest(&self, ) -> Box<dyn Future<Output = Result<std::path::PathBuf, Error<serde_json::Value>>>> {
+    fn fileresponsetest(&self, ) -> std::pin::Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/fileResponse".to_string())
         ;
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
 }

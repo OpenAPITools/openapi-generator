@@ -33,17 +33,17 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static> Default
 }
 
 pub trait DefaultApi {
-    fn dummy_get(&self, ) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>;
+    fn dummy_get(&self, ) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
 }
 
 impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>DefaultApi for DefaultApiClient<C> {
-    fn dummy_get(&self, ) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>> {
+    fn dummy_get(&self, ) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/dummy".to_string())
         ;
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::new(req.execute(self.configuration.borrow()))
+        Box::pin(req.execute(self.configuration.borrow()))
     }
 
 }
