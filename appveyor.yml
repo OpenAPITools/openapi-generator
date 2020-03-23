@@ -54,26 +54,10 @@ build_script:
   - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
 test_script:
   # test ps pestore
-  - ps: >-
+  - ps: |
       samples\client\petstore\powershell-experimental\Build.ps1
       Invoke-Pester samples\client\petstore\powershell-experimental\ -EnableExit
       if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
-      #  # restore test-related files
-      #  - copy /b/v/y CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-      #  # test c# API client (netcore)
-      #  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-      #  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-      #  # test c# API client
-      #  - nunit3-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
-      #  # test c# API client (with PropertyChanged)
-      #  - nunit3-console samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
-      #
-      #  # generate all petstore clients
-      #  - .\bin\windows\run-all-petstore.cmd
-      #
-      #  # generate all petstore clients (openapi3)
-      #  - .\bin\openapi3\windows\run-all-petstore.cmd
-
 cache:
   - C:\maven\
   - C:\gradle\
