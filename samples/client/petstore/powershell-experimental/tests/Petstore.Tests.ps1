@@ -58,6 +58,8 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             # Delete
             $Result = Remove-Pet -petId $Id
 
+            $true | Should Be $false
+
         }
     }
 }
