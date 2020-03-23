@@ -37,11 +37,6 @@ install:
   - ps: Install-Module Pester -Force -Scope CurrentUser
 build_script:
   - dotnet --info
-  # test ps pestore
-  - ps: >-
-      samples\client\petstore\powershell-experimental\Build.ps1
-      Import-Module "./samples/client/petstore/powershell-experimental/src/PSPetstore/"
-      Invoke-Pester samples\client\petstore\powershell-experimental\ -EnableExit
   # build C# API client (netcore)
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
   - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
@@ -58,6 +53,10 @@ build_script:
   - mvn clean install --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error # run the locally installed openapi-generator-gradle-plugin
   - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
 test_script:
+  # test ps pestore
+  - ps: >-
+      samples\client\petstore\powershell-experimental\Build.ps1
+      Invoke-Pester samples\client\petstore\powershell-experimental\ -EnableExit
   # restore test-related files
   - copy /b/v/y CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (netcore)
