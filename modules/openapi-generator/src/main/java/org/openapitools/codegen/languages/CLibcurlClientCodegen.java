@@ -372,10 +372,10 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             }
         }
         if (ModelUtils.isDateSchema(schema)) {
-            example = "datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date()";
+            example = "\"2013-10-20\"";
             return example;
         } else if (ModelUtils.isDateTimeSchema(schema)) {
-            example = "datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')";
+            example = "\"2013-10-20T19:20:30+01:00\"";
             return example;
         } else if (ModelUtils.isBinarySchema(schema)) {
             example = "bytes(b'blah')";
