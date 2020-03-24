@@ -84,7 +84,7 @@ declare -a samples=(
 "${root}/bin/typescript-redux-query-petstore-with-npm-version.sh"
 "${root}/bin/cpp-restsdk-petstore.sh"
 "${root}/bin/cpp-qt5-qhttpengine-server-petstore.sh"
-"${root}/bin/openapi3/powershell-experimental-petstore.sh"
+#"${root}/bin/openapi3/powershell-experimental-petstore.sh"
 )
 
 # Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
