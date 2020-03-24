@@ -59,7 +59,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
-    public boolean isContainer;
+    public boolean isContainer; // true if this property is an array of items or a map container.
     public boolean isString;
     public boolean isNumeric;
     public boolean isInteger;
