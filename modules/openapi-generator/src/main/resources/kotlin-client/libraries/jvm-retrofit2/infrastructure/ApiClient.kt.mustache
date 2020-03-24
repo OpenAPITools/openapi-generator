@@ -24,6 +24,7 @@ import {{packageName}}.auth.HttpBearerAuth
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.scalars.ScalarsConverterFactory
 {{#gson}}
 import com.google.gson.Gson
@@ -41,6 +42,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
+    private var logger: ((String) -> Unit)? = null
 
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
@@ -59,7 +61,15 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     }
 
     private val defaultClientBuilder: OkHttpClient.Builder by lazy {
-        OkHttpClient().newBuilder()
+        OkHttpClient()
+            .newBuilder()
+            .addInterceptor(HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+                override fun log(message: String) {
+                    logger?.invoke(message)
+                }
+            }).apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
     }
 
     init {
@@ -127,6 +137,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             ?.setClientSecret(secret)
             ?.setUsername(username)
             ?.setPassword(password)
+    }
+
+    fun setLogger(logger: (String) -> Unit): ApiClient {
+        this.logger = logger
+        return this
     }
 
     {{/hasOAuthMethods}}
@@ -236,7 +251,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
         return this;
     }
-    
+
     {{/hasOAuthMethods}}
     /**
      * Adds an authorization to be used by the client
