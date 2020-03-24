@@ -34,6 +34,10 @@ function Get-PSConfiguration {
         $Configuration["ApiKeyPrefix"] = @{}
     }
 
+    if (!$Configuration.containsKey("SkipCertificateCheck")) {
+        $Configuration["SkipCertificateCheck"] = $false
+    }
+
     Return $Configuration
 
 }
@@ -54,6 +58,7 @@ function Set-PSConfiguration {
         [AllowEmptyString()]
         [string]$AccessToken,
         [switch]$PassThru,
+        [bool]$SkipCertificateCheck,
         [switch]$Force
     )
 
@@ -85,6 +90,10 @@ function Set-PSConfiguration {
 
         If ($AccessToken) {
             $Script:Configuration['AccessToken'] = $AccessToken
+        }
+
+        If ($SkipCertificateCheck) {
+            $Script:Configuration['SkipCertificateCheck'] = $SkipCertificateCheck
         }
     }
 }

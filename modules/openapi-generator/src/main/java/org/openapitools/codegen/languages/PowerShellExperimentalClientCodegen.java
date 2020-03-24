@@ -594,7 +594,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Boolean> processedModelMaps = new HashMap<String, Boolean>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
 
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
@@ -672,7 +672,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         return name;
     }
 
-    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Boolean> processedModelMap) {
+    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenParameter.isListContainer) { // array
             return "@(" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + ")";
         } else if (codegenParameter.isMapContainer) { // TODO: map, file type
@@ -714,7 +714,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         }
     }
 
-    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Boolean> processedModelMap) {
+    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isListContainer) { // array
             return "@(" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
         } else if (codegenProperty.isMapContainer) { // map
@@ -756,15 +756,23 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         }
     }
 
-    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Boolean> processedModelMap) {
+    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         String example;
 
         // break infinite recursion. Return, in case a model is already processed in the current context.
         String model = codegenModel.name;
         if (processedModelMap.containsKey(model)) {
-            return "";
+            int count = processedModelMap.get(model);
+            if (count == 1) {
+                processedModelMap.put(model, 2);
+            } else if (count == 2) {
+                return "";
+            } else {
+                throw new RuntimeException("Invalid count when constructing example: " + count);
+            }
+        } else {
+            processedModelMap.put(model, 1);
         }
-        processedModelMap.put(model, true);
 
         example = "(New-" + codegenModel.name;
         List<String> propertyExamples = new ArrayList<>();
