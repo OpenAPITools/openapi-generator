@@ -55,8 +55,9 @@ build_script:
 test_script:
   # test ps pestore
   - ps: |
+      $ErrorActionPreference = "Stop"
       cd samples\client\petstore\powershell-experimental\
-      Build.ps1
+      .\Build.ps1
       Import-Module -Name '.\src\PSPetstore'
       $Result = Invoke-Pester -PassThru
       if ($Result.FailedCount -gt 0) {
