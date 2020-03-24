@@ -15,7 +15,6 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonFormat
 /**
  * A pet for sale in the pet store
  * @param name 
@@ -28,24 +27,18 @@ import com.fasterxml.jackson.annotation.JsonFormat
 
 data class Pet (
     @JsonProperty("name")
-    val name: kotlin.String
-,
+    val name: kotlin.String,
     @JsonProperty("photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>
-,
+    val photoUrls: kotlin.Array<kotlin.String>,
     @JsonProperty("id")
-    val id: kotlin.Long? = null
-,
+    val id: kotlin.Long? = null,
     @JsonProperty("category")
-    val category: Category? = null
-,
+    val category: Category? = null,
     @JsonProperty("tags")
-    val tags: kotlin.Array<Tag>? = null
-,
+    val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
     @JsonProperty("status")
     val status: Pet.Status? = null
-
 ) {
 
     /**
@@ -53,7 +46,6 @@ data class Pet (
     * Values: AVAILABLE,PENDING,SOLD
     */
     
-    @JsonFormat(shape = JsonFormat.Shape.NATURAL)
     enum class Status(val value: kotlin.String){
         @JsonProperty(value="available") AVAILABLE("available"),
         @JsonProperty(value="pending") PENDING("pending"),

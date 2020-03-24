@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -27,28 +26,37 @@ type InlineObject4 struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewInlineObject4(param string, param2 string, ) *InlineObject4 {
-    this := InlineObject4{}
-    this.Param = param
-    this.Param2 = param2
-    return &this
+	this := InlineObject4{}
+	this.Param = param
+	this.Param2 = param2
+	return &this
 }
 
 // NewInlineObject4WithDefaults instantiates a new InlineObject4 object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObject4WithDefaults() *InlineObject4 {
-    this := InlineObject4{}
-    return &this
+	this := InlineObject4{}
+	return &this
 }
 
 // GetParam returns the Param field value
 func (o *InlineObject4) GetParam() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.Param
+}
+
+// GetParamOk returns a tuple with the Param field value
+// and a boolean to check if the value has been set.
+func (o *InlineObject4) GetParamOk() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Param, true
 }
 
 // SetParam sets field value
@@ -58,7 +66,7 @@ func (o *InlineObject4) SetParam(v string) {
 
 // GetParam2 returns the Param2 field value
 func (o *InlineObject4) GetParam2() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
@@ -66,30 +74,63 @@ func (o *InlineObject4) GetParam2() string {
 	return o.Param2
 }
 
+// GetParam2Ok returns a tuple with the Param2 field value
+// and a boolean to check if the value has been set.
+func (o *InlineObject4) GetParam2Ok() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Param2, true
+}
+
 // SetParam2 sets field value
 func (o *InlineObject4) SetParam2(v string) {
 	o.Param2 = v
 }
 
+func (o InlineObject4) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["param"] = o.Param
+	}
+	if true {
+		toSerialize["param2"] = o.Param2
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableInlineObject4 struct {
-	Value InlineObject4
-	ExplicitNull bool
+	value *InlineObject4
+	isSet bool
+}
+
+func (v NullableInlineObject4) Get() *InlineObject4 {
+	return v.value
+}
+
+func (v *NullableInlineObject4) Set(val *InlineObject4) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableInlineObject4) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableInlineObject4) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableInlineObject4(val *InlineObject4) *NullableInlineObject4 {
+	return &NullableInlineObject4{value: val, isSet: true}
 }
 
 func (v NullableInlineObject4) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject4) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
