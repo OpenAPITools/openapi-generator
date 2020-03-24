@@ -244,22 +244,22 @@ GetArbitraryObject returns the ArbitraryObject field if non-nil, zero value othe
 
 ### GetArbitraryObjectOk
 
-`func (o *User) GetArbitraryObjectOk() (map[string]interface{}, bool)`
+`func (o *User) GetArbitraryObjectOk() (*map[string]interface{}, bool)`
 
 GetArbitraryObjectOk returns a tuple with the ArbitraryObject field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetArbitraryObject
+
+`func (o *User) SetArbitraryObject(v map[string]interface{})`
+
+SetArbitraryObject sets ArbitraryObject field to given value.
 
 ### HasArbitraryObject
 
 `func (o *User) HasArbitraryObject() bool`
 
 HasArbitraryObject returns a boolean if a field has been set.
-
-### SetArbitraryObject
-
-`func (o *User) SetArbitraryObject(v map[string]interface{})`
-
-SetArbitraryObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryObject field.
 
 ### GetArbitraryNullableObject
 
@@ -269,10 +269,16 @@ GetArbitraryNullableObject returns the ArbitraryNullableObject field if non-nil,
 
 ### GetArbitraryNullableObjectOk
 
-`func (o *User) GetArbitraryNullableObjectOk() (map[string]interface{}, bool)`
+`func (o *User) GetArbitraryNullableObjectOk() (*map[string]interface{}, bool)`
 
 GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetArbitraryNullableObject
+
+`func (o *User) SetArbitraryNullableObject(v map[string]interface{})`
+
+SetArbitraryNullableObject sets ArbitraryNullableObject field to given value.
 
 ### HasArbitraryNullableObject
 
@@ -280,19 +286,16 @@ and a boolean to check if the value has been set.
 
 HasArbitraryNullableObject returns a boolean if a field has been set.
 
-### SetArbitraryNullableObject
+### SetArbitraryNullableObjectNil
 
-`func (o *User) SetArbitraryNullableObject(v map[string]interface{})`
+`func (o *User) SetArbitraryNullableObjectNil(b bool)`
 
-SetArbitraryNullableObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryNullableObject field.
+ SetArbitraryNullableObjectNil sets the value for ArbitraryNullableObject to be an explicit nil
 
-### SetArbitraryNullableObjectExplicitNull
+### UnsetArbitraryNullableObject
+`func (o *User) UnsetArbitraryNullableObject()`
 
-`func (o *User) SetArbitraryNullableObjectExplicitNull(b bool)`
-
-SetArbitraryNullableObjectExplicitNull (un)sets ArbitraryNullableObject to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The ArbitraryNullableObject value is set to nil even if false is passed
+UnsetArbitraryNullableObject ensures that no value is present for ArbitraryNullableObject, not even an explicit nil
 ### GetArbitraryTypeValue
 
 `func (o *User) GetArbitraryTypeValue() interface{}`
@@ -301,22 +304,22 @@ GetArbitraryTypeValue returns the ArbitraryTypeValue field if non-nil, zero valu
 
 ### GetArbitraryTypeValueOk
 
-`func (o *User) GetArbitraryTypeValueOk() (interface{}, bool)`
+`func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool)`
 
 GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetArbitraryTypeValue
+
+`func (o *User) SetArbitraryTypeValue(v interface{})`
+
+SetArbitraryTypeValue sets ArbitraryTypeValue field to given value.
 
 ### HasArbitraryTypeValue
 
 `func (o *User) HasArbitraryTypeValue() bool`
 
 HasArbitraryTypeValue returns a boolean if a field has been set.
-
-### SetArbitraryTypeValue
-
-`func (o *User) SetArbitraryTypeValue(v interface{})`
-
-SetArbitraryTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryTypeValue field.
 
 ### GetArbitraryNullableTypeValue
 
@@ -326,10 +329,16 @@ GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field if no
 
 ### GetArbitraryNullableTypeValueOk
 
-`func (o *User) GetArbitraryNullableTypeValueOk() (interface{}, bool)`
+`func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool)`
 
 GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetArbitraryNullableTypeValue
+
+`func (o *User) SetArbitraryNullableTypeValue(v interface{})`
+
+SetArbitraryNullableTypeValue sets ArbitraryNullableTypeValue field to given value.
 
 ### HasArbitraryNullableTypeValue
 
@@ -337,19 +346,16 @@ and a boolean to check if the value has been set.
 
 HasArbitraryNullableTypeValue returns a boolean if a field has been set.
 
-### SetArbitraryNullableTypeValue
+### SetArbitraryNullableTypeValueNil
 
-`func (o *User) SetArbitraryNullableTypeValue(v interface{})`
+`func (o *User) SetArbitraryNullableTypeValueNil(b bool)`
 
-SetArbitraryNullableTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryNullableTypeValue field.
+ SetArbitraryNullableTypeValueNil sets the value for ArbitraryNullableTypeValue to be an explicit nil
 
-### SetArbitraryNullableTypeValueExplicitNull
+### UnsetArbitraryNullableTypeValue
+`func (o *User) UnsetArbitraryNullableTypeValue()`
 
-`func (o *User) SetArbitraryNullableTypeValueExplicitNull(b bool)`
-
-SetArbitraryNullableTypeValueExplicitNull (un)sets ArbitraryNullableTypeValue to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The ArbitraryNullableTypeValue value is set to nil even if false is passed
+UnsetArbitraryNullableTypeValue ensures that no value is present for ArbitraryNullableTypeValue, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
