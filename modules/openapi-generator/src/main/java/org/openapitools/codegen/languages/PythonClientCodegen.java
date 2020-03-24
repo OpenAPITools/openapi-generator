@@ -119,6 +119,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         languageSpecificPrimitives.add("object");
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
+        languageSpecificPrimitives.add("bytes");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
