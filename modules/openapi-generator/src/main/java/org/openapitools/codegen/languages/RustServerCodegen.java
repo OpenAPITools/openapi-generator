@@ -1056,6 +1056,26 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return dataType != null && dataType.equals(typeMapping.get("File").toString());
     }
 
+    /**
+     * Add operation to group
+     *
+     * @param tag          name of the tag
+     * @param resourcePath path of the resource
+     * @param operation    OAS Operation object
+     * @param co           Codegen Operation object
+     * @param operations   map of Codegen operations
+     */
+    @SuppressWarnings("static-method")
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
+            co, Map<String, List<CodegenOperation>> operations) {
+        // only generate operation for the first tag of the tags
+        if (tag != null && co.tags.size() > 1 && !tag.equals(co.tags.get(0).getName())) {
+            LOGGER.warn("generated skip operationId `" + co.operationId + "` with the repeating tag=" + tag);
+            return;
+        }
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+    }
+
     // This is a really terrible hack. We're working around the fact that the
     // base version of `fromRequestBody` checks to see whether the body is a
     // ref. If so, it unwraps the reference and replaces it with its inner
