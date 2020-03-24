@@ -26,6 +26,10 @@ void UserApiTests::createUserTest() {
         userCreated = true;
         loop.quit();
     });
+    connect(&api, &PFXUserApi::createUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+        qDebug() << "Error happened while issuing request : " << error_str;
+        loop.quit();
+    });
 
     api.createUser(createRandomUser());
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
@@ -40,6 +44,10 @@ void UserApiTests::createUsersWithArrayInputTest() {
 
     connect(&api, &PFXUserApi::createUsersWithArrayInputSignal, [&]() {
         usersCreated = true;
+        loop.quit();
+    });
+    connect(&api, &PFXUserApi::createUsersWithArrayInputSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
@@ -60,6 +68,10 @@ void UserApiTests::createUsersWithListInputTest() {
 
     connect(&api, &PFXUserApi::createUsersWithListInputSignal, [&]() {
         usersCreated = true;
+        loop.quit();
+    });
+    connect(&api, &PFXUserApi::createUsersWithListInputSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
@@ -86,6 +98,11 @@ void UserApiTests::deleteUserTest() {
         userDeleted = true;
         loop.quit();
     });
+    connect(&api, &PFXUserApi::deleteUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+        userDeleted = true;
+        qDebug() << "Error happened while issuing request : " << error_str;
+        loop.quit();
+    });
 
     api.deleteUser("rambo");
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
@@ -102,6 +119,11 @@ void UserApiTests::getUserByNameTest() {
         userFetched = true;
         qDebug() << summary.getUsername();
         QVERIFY(summary.getUsername() == "johndoe");
+        loop.quit();
+    });
+    connect(&api, &PFXUserApi::getUserByNameSignalE, [&](PFXUser, QNetworkReply::NetworkError, QString error_str) {
+        userFetched = true;
+        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
@@ -121,6 +143,11 @@ void UserApiTests::loginUserTest() {
         qDebug() << summary;
         loop.quit();
     });
+    connect(&api, &PFXUserApi::loginUserSignalE, [&](QString, QNetworkReply::NetworkError, QString error_str) {
+        userLogged = true;
+        qDebug() << "Error happened while issuing request : " << error_str;
+        loop.quit();
+    });
 
     api.loginUser("johndoe", "123456789");
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
@@ -137,6 +164,10 @@ void UserApiTests::logoutUserTest() {
         userLoggedOut = true;
         loop.quit();
     });
+    connect(&api, &PFXUserApi::logoutUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+        qDebug() << "Error happened while issuing request : " << error_str;
+        loop.quit();
+    });
 
     api.logoutUser();
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
@@ -151,6 +182,10 @@ void UserApiTests::updateUserTest() {
 
     connect(&api, &PFXUserApi::updateUserSignal, [&]() {
         userUpdated = true;
+        loop.quit();
+    });
+    connect(&api, &PFXUserApi::updateUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
