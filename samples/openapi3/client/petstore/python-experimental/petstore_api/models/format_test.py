@@ -115,7 +115,7 @@ class FormatTest(ModelNormal):
         """
         return {
             'number': (float,),  # noqa: E501
-            'byte': (str,),  # noqa: E501
+            'byte': (bytes,),  # noqa: E501
             'date': (date,),  # noqa: E501
             'password': (str,),  # noqa: E501
             'integer': (int,),  # noqa: E501
@@ -137,7 +137,7 @@ class FormatTest(ModelNormal):
 
     attribute_map = {
         'number': 'number',  # noqa: E501
-        'byte': 'byte',  # noqa: E501
+        'byte': b'byte',  # noqa: E501
         'date': 'date',  # noqa: E501
         'password': 'password',  # noqa: E501
         'integer': 'integer',  # noqa: E501

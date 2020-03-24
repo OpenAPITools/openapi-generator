@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
 **string** | **str** |  | [optional] 
-**byte** | [**bytes**](bytes.md) |  | 
+**byte** | **bytes** |  | 
 **binary** | **file** |  | [optional] 
 **date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 

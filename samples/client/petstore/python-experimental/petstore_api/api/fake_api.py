@@ -41,7 +41,6 @@ from petstore_api.models import outer_number
 from petstore_api.models import file_schema_test_class
 from petstore_api.models import user
 from petstore_api.models import client
-from petstore_api.models import bytes
 
 
 class FakeApi(object):

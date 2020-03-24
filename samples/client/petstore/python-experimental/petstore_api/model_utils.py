@@ -33,6 +33,7 @@ if six.PY3:
     # these are needed for when other modules import str and int from here
     str = str
     int = int
+    bytes = bytes
 else:
     file_type = file  # noqa: F821
     str_py2 = str
@@ -41,6 +42,7 @@ else:
     int_py2 = int
     # this requires that the future library is installed
     from builtins import int, str
+    bytes = str
 
 
 class OpenApiModel(object):

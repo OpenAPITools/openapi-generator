@@ -26,13 +26,9 @@ from petstore_api.model_utils import (  # noqa: F401
     int,
     none_type,
     str,
+    bytes,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.models import bytes
-except ImportError:
-    bytes = sys.modules[
-        'petstore_api.models.bytes']
 
 
 class FormatTest(ModelNormal):
@@ -69,7 +65,7 @@ class FormatTest(ModelNormal):
         },
         ('byte',): {
             'regex': {
-                'pattern': r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$',  # noqa: E501
+                'pattern': br'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$',  # noqa: E501
             },
         },
         ('password',): {
