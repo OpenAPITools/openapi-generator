@@ -8,17 +8,19 @@ import {{packageName}}.auth.OAuth
 import {{packageName}}.auth.OAuth.AccessTokenListener
 import {{packageName}}.auth.OAuthFlow
 {{/hasOAuthMethods}}
-
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
+{{#isBasicBasic}}
+import {{packageName}}.auth.HttpBasicAuth
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 import {{packageName}}.auth.HttpBearerAuth
 {{/isBasicBearer}}
 {{/isBasic}}
 {{/authMethods}}
 {{/hasAuthMethods}}
-import {{packageName}}.auth.HttpBasicAuth
+
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -130,18 +132,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     {{/hasOAuthMethods}}
     {{#authMethods}}
     {{#isBasic}}
-    {{#isBasicBearer}}
-    fun setBearerToken(bearerToken: String): ApiClient {
-        apiAuthorizations.values.runOnFirst<Interceptor, HttpBearerAuth> {
-            bearerToken = bearerToken
-        }
-        return this
-    }
-
-    {{/isBasicBearer}}
-    {{/isBasic}}
-    {{/authMethods}}
-    {{/hasAuthMethods}}
+    {{#isBasicBasic}}
     fun setCredentials(username: String, password: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, HttpBasicAuth> {
             setCredentials(username, password);
@@ -154,6 +145,29 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         return this
     }
 
+    {{/isBasicBasic}}
+    {{^isBasicBasic}}
+    {{#hasOAuthMethods}}
+    fun setCredentials(username: String, password: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            tokenRequestBuilder.setUsername(username).setPassword(password)
+        }
+        return this
+    }
+    {{/hasOAuthMethods}}    
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    fun setBearerToken(bearerToken: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, HttpBearerAuth> {
+            this.bearerToken = bearerToken
+        }
+        return this
+    }
+
+    {{/isBasicBearer}}
+    {{/isBasic}}
+    {{/authMethods}}
+    {{/hasAuthMethods}}
     {{#hasOAuthMethods}}
     /**
     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
@@ -222,8 +236,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
         return this;
     }
+    
     {{/hasOAuthMethods}}
-
     /**
      * Adds an authorization to be used by the client
      * @param authName Authentication name

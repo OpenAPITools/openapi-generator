@@ -95,6 +95,30 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns true if at least one operation has Bearer security schema defined
+     *
+     * @param objs Map of operations
+     * @return True if at least one operation has Bearer security schema defined
+     */
+    public static boolean hasHttpBasicMethods(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
+                    for (CodegenSecurity cs : operation.authMethods) {
+                        if (Boolean.TRUE.equals(cs.isBasicBasic)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns true if the specified OAS model has at least one operation with the HTTP basic
      * security scheme.
      * 

@@ -11,7 +11,7 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 
 
@@ -28,12 +28,12 @@ class OAuthOkHttpClient(
             requestMethod: String, 
             responseClass: Class<T>?): T {
 
-        var mediaType = MediaType.parse("application/json")
+        var mediaType = "application/json".toMediaTypeOrNull()
         val requestBuilder = Request.Builder().url(request.locationUri)
 
         headers?.forEach { entry ->
             if (entry.key.equals("Content-Type", true)) {
-                mediaType = MediaType.parse(entry.value)
+                mediaType = entry.value.toMediaTypeOrNull()
             } else {
                 requestBuilder.addHeader(entry.key, entry.value)
             }
@@ -45,9 +45,9 @@ class OAuthOkHttpClient(
         try {
             val response = client.newCall(requestBuilder.build()).execute()
             return OAuthClientResponseFactory.createCustomResponse(
-                    response.body()?.string(), 
-                    response.body()?.contentType()?.toString(),
-                    response.code(),
+                    response.body?.string(), 
+                    response.body?.contentType()?.toString(),
+                    response.code,
                     responseClass)
         } catch (e: IOException) {
             throw OAuthSystemException(e)

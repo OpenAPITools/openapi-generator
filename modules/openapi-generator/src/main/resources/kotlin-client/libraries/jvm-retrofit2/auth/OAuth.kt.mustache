@@ -91,7 +91,7 @@ class OAuth(
 
             val requestAccessToken = accessToken
             try {
-                oAuthRequest = OAuthBearerClientRequest(request.url().toString())
+                oAuthRequest = OAuthBearerClientRequest(request.url.toString())
                         .setAccessToken(requestAccessToken)
                         .buildHeaderMessage()
             } catch (e: OAuthSystemException) {
@@ -107,14 +107,14 @@ class OAuth(
             val response = chain.proceed(rb.build())
 
             // 401/403 most likely indicates that access token has expired. Unless it happens two times in a row.
-            if ((response.code() == HTTP_UNAUTHORIZED || response.code() == HTTP_FORBIDDEN) && updateTokenAndRetryOnAuthorizationFailure) {
+            if ((response.code == HTTP_UNAUTHORIZED || response.code == HTTP_FORBIDDEN) && updateTokenAndRetryOnAuthorizationFailure) {
                 try {
                     if (updateAccessToken(requestAccessToken)) {
-                        response.body()?.close()
+                        response.body?.close()
                         return retryingIntercept(chain, false)
                     }
                 } catch (e: Exception) {
-                    response.body()?.close()
+                    response.body?.close()
                     throw e
                 }
             }
