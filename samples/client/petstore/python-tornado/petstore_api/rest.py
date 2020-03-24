@@ -16,7 +16,6 @@ import logging
 import re
 
 # python 2 and python 3 compatibility library
-import six
 from six.moves.urllib.parse import urlencode
 import tornado
 import tornado.gen
