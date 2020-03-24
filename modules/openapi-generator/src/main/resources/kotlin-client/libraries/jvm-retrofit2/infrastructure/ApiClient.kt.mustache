@@ -78,7 +78,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
     {{#hasAuthMethods}}
     constructor(
-        baseUrl: String = BASE_URL,
+        baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
         authNames: Array<String>
@@ -96,7 +96,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     {{#isBasic}}
     {{#isBasicBasic}}
     constructor(
-        baseUrl: String = BASE_URL,
+        baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
         authName: String, 
@@ -109,7 +109,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     {{/isBasicBasic}}
     {{#isBasicBearer}}
     constructor(
-        baseUrl: String = BASE_URL,
+        baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
         authName: String, 
@@ -123,7 +123,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     {{/authMethods}}
     {{#hasOAuthMethods}}
     constructor(
-        baseUrl: String = BASE_URL,
+        baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
         authName: String, 

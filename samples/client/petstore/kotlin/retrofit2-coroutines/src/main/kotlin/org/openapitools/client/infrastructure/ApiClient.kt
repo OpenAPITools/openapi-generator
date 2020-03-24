@@ -7,20 +7,21 @@ import org.openapitools.client.auth.OAuth
 import org.openapitools.client.auth.OAuth.AccessTokenListener
 import org.openapitools.client.auth.OAuthFlow
 
-import org.openapitools.client.auth.HttpBasicAuth
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class ApiClient(
-    private var baseUrl: String = BASE_URL,
+    private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
+    private var logger: ((String) -> Unit)? = null
 
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
@@ -34,7 +35,15 @@ class ApiClient(
     }
 
     private val defaultClientBuilder: OkHttpClient.Builder by lazy {
-        OkHttpClient().newBuilder()
+        OkHttpClient()
+            .newBuilder()
+            .addInterceptor(HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+                override fun log(message: String) {
+                    logger?.invoke(message)
+                }
+            }).apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
     }
 
     init {
@@ -42,7 +51,7 @@ class ApiClient(
     }
 
     constructor(
-        baseUrl: String = BASE_URL,
+        baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
         authNames: Array<String>
@@ -57,7 +66,7 @@ class ApiClient(
     }
 
     constructor(
-        baseUrl: String = BASE_URL,
+        baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
         authName: String, 
@@ -73,13 +82,8 @@ class ApiClient(
             ?.setPassword(password)
     }
 
-    fun setCredentials(username: String, password: String): ApiClient {
-        apiAuthorizations.values.runOnFirst<Interceptor, HttpBasicAuth> {
-            setCredentials(username, password);
-        }
-        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
-            tokenRequestBuilder.setUsername(username).setPassword(password)
-        }
+    fun setLogger(logger: (String) -> Unit): ApiClient {
+        this.logger = logger
         return this
     }
 
@@ -185,7 +189,10 @@ class ApiClient(
         }
     }
 
-    companion object {
-        const val BASE_URL: String = "http://petstore.swagger.io/v2"
+    companion object {        
+        @JvmStatic
+        val defaultBasePath: String by lazy {
+            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
+        }
     }
 }
