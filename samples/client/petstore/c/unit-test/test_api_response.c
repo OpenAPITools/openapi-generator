@@ -1,10 +1,10 @@
-#ifndef _TEST
-#define _TEST
+#ifndef api_response_TEST
+#define api_response_TEST
 
 // the following is to include only the main from the first c file
 #ifndef TEST_MAIN
 #define TEST_MAIN
-#define _MAIN
+#define api_response_MAIN
 #endif // TEST_MAIN
 
 #include <stdlib.h>
@@ -14,12 +14,16 @@
 #include "../external/cJSON.h"
 
 
+
 #include "../model/api_response.h"
 api_response_t* instantiate_api_response(int include_optional);
 
 
+
 api_response_t* instantiate_api_response(int include_optional) {
-  api_response_t* api_response = api_response_create(
+  api_response_t* api_response = NULL;
+if (include_optional) {
+  api_response = api_response_create(
 56
 //primitive
 , // code
@@ -30,11 +34,22 @@ api_response_t* instantiate_api_response(int include_optional) {
 //primitive
  // message
   );
+} else {
+  api_response = api_response_create(
+56
+, // code
+"0"
+, // type
+"0"
+ // message
+  );
+}
+
 return api_response;
 }
 
 
-#ifdef _MAIN
+#ifdef api_response_MAIN
 
 void test_api_response(int include_optional) {
     api_response_t* api_response_1 = instantiate_api_response(include_optional);
@@ -54,5 +69,5 @@ int main() {
   return 0;
 }
 
-#endif // _MAIN
-#endif // _TEST
+#endif // api_response_MAIN
+#endif // api_response_TEST

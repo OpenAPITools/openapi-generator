@@ -12,6 +12,9 @@
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 
+typedef struct api_response_t api_response_t;
+
+
 
 
 typedef struct api_response_t {

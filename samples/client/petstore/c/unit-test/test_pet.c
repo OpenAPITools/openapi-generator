@@ -1,10 +1,10 @@
-#ifndef _TEST
-#define _TEST
+#ifndef pet_TEST
+#define pet_TEST
 
 // the following is to include only the main from the first c file
 #ifndef TEST_MAIN
 #define TEST_MAIN
-#define _MAIN
+#define pet_MAIN
 #endif // TEST_MAIN
 
 #include <stdlib.h>
@@ -13,17 +13,19 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-// this one in import:
-#include "../model/category.h"
-// this one in import:
-#include "../model/tag.h"
+
 
 #include "../model/pet.h"
 pet_t* instantiate_pet(int include_optional);
 
+    
+#include "test_category.c"
+
 
 pet_t* instantiate_pet(int include_optional) {
-  pet_t* pet = pet_create(
+  pet_t* pet = NULL;
+if (include_optional) {
+  pet = pet_create(
 56
 //primitive
 , // id
@@ -31,7 +33,9 @@ pet_t* instantiate_pet(int include_optional) {
 
     
 	// modello normale category_t *
-0, // category
+    
+	instantiate_category(0) // false, not to have infinite recursion 
+, // category
 "doggie"
 //primitive
 , // name
@@ -49,11 +53,30 @@ openapi_petstore_pet_STATUS_available
 //primitive
  // status
   );
+} else {
+  pet = pet_create(
+56
+, // id
+
+    
+	NULL
+, // category
+"doggie"
+, // name
+list_create()
+, // photo_urls
+list_create()
+, // tags
+openapi_petstore_pet_STATUS_available
+ // status
+  );
+}
+
 return pet;
 }
 
 
-#ifdef _MAIN
+#ifdef pet_MAIN
 
 void test_pet(int include_optional) {
     pet_t* pet_1 = instantiate_pet(include_optional);
@@ -73,5 +96,5 @@ int main() {
   return 0;
 }
 
-#endif // _MAIN
-#endif // _TEST
+#endif // pet_MAIN
+#endif // pet_TEST

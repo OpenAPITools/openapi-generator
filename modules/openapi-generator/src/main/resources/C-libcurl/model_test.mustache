@@ -1,3 +1,5 @@
+{{#models}}
+{{#model}}
 #ifndef {{classFilename}}_TEST
 #define {{classFilename}}_TEST
 
@@ -13,23 +15,23 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-{{#imports}}
-// this one in import:
-{{{import}}}
-{{/imports}}
 
-{{#models}}
-{{#model}}
+
 #include "../model/{{classFilename}}.h"
 {{classname}}_t* instantiate_{{classname}}(int include_optional);
-{{/model}}
-{{/models}}
+
+{{#vars}}
+  {{#isModel}}
+    {{#isEnum}}// michele model enum : {{/isEnum}}
+{{^isEnum}}#include "test_{{{dataType}}}.c"{{/isEnum}}
+  {{/isModel}}
+{{/vars}}
 
 
-{{#models}}
-{{#model}}
 {{classname}}_t* instantiate_{{classname}}(int include_optional) {
-  {{classname}}_t* {{classname}} = {{classname}}_create(
+  {{classname}}_t* {{classname}} = NULL;
+if (include_optional) {
+  {{classname}} = {{classname}}_create(
 {{#vars}}
 {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{#example}}{{{.}}}{{/example}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#example}}{{{.}}}{{/example}}{{/isEnum}}
 {{#isPrimitiveType}}//primitive{{/isPrimitiveType}}
@@ -41,14 +43,37 @@
     {{#isEnum}}// enum {{datatypeWithEnum}}_e{{/isEnum}}
 	{{^isEnum}}// modello normale {{{dataType}}}_t *{{/isEnum}}
   {{/isModel}}
-{{^example}}0{{/example}}{{#hasMore}},{{/hasMore}} // {{name}}
+{{^example}}
+  {{#isModel}}
+    {{#isEnum}}// enum {{datatypeWithEnum}}_e{{/isEnum}}
+	{{^isEnum}}instantiate_{{{dataType}}}(0) // false, not to have infinite recursion {{/isEnum}}
+  {{/isModel}}
+  {{^isModel}}
+0
+  {{/isModel}}
+{{/example}}{{#hasMore}},{{/hasMore}} // {{name}}
 {{/vars}}
   );
+} else {
+  {{classname}} = {{classname}}_create(
+{{#vars}}
+{{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{#example}}{{{.}}}{{/example}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#example}}{{{.}}}{{/example}}{{/isEnum}}
+{{^example}}
+  {{#isModel}}
+    {{#isEnum}}// enum {{datatypeWithEnum}}_e{{/isEnum}}
+	{{^isEnum}}NULL{{/isEnum}}
+  {{/isModel}}
+  {{^isModel}}
+0
+  {{/isModel}}
+{{/example}}{{#hasMore}},{{/hasMore}} // {{name}}
+{{/vars}}
+  );
+}
+
 return {{classname}};
 }
 
-{{/model}}
-{{/models}}
 
 #ifdef {{classFilename}}_MAIN
 
@@ -76,3 +101,5 @@ int main() {
 
 #endif // {{classFilename}}_MAIN
 #endif // {{classFilename}}_TEST
+{{/model}}
+{{/models}}

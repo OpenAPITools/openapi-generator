@@ -1,10 +1,10 @@
-#ifndef _TEST
-#define _TEST
+#ifndef user_TEST
+#define user_TEST
 
 // the following is to include only the main from the first c file
 #ifndef TEST_MAIN
 #define TEST_MAIN
-#define _MAIN
+#define user_MAIN
 #endif // TEST_MAIN
 
 #include <stdlib.h>
@@ -14,12 +14,16 @@
 #include "../external/cJSON.h"
 
 
+
 #include "../model/user.h"
 user_t* instantiate_user(int include_optional);
 
 
+
 user_t* instantiate_user(int include_optional) {
-  user_t* user = user_create(
+  user_t* user = NULL;
+if (include_optional) {
+  user = user_create(
 56
 //primitive
 , // id
@@ -45,11 +49,32 @@ user_t* instantiate_user(int include_optional) {
 //primitive
  // user_status
   );
+} else {
+  user = user_create(
+56
+, // id
+"0"
+, // username
+"0"
+, // first_name
+"0"
+, // last_name
+"0"
+, // email
+"0"
+, // password
+"0"
+, // phone
+56
+ // user_status
+  );
+}
+
 return user;
 }
 
 
-#ifdef _MAIN
+#ifdef user_MAIN
 
 void test_user(int include_optional) {
     user_t* user_1 = instantiate_user(include_optional);
@@ -69,5 +94,5 @@ int main() {
   return 0;
 }
 
-#endif // _MAIN
-#endif // _TEST
+#endif // user_MAIN
+#endif // user_TEST

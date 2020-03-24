@@ -1,10 +1,10 @@
-#ifndef _TEST
-#define _TEST
+#ifndef category_TEST
+#define category_TEST
 
 // the following is to include only the main from the first c file
 #ifndef TEST_MAIN
 #define TEST_MAIN
-#define _MAIN
+#define category_MAIN
 #endif // TEST_MAIN
 
 #include <stdlib.h>
@@ -14,12 +14,16 @@
 #include "../external/cJSON.h"
 
 
+
 #include "../model/category.h"
 category_t* instantiate_category(int include_optional);
 
 
+
 category_t* instantiate_category(int include_optional) {
-  category_t* category = category_create(
+  category_t* category = NULL;
+if (include_optional) {
+  category = category_create(
 56
 //primitive
 , // id
@@ -27,11 +31,20 @@ category_t* instantiate_category(int include_optional) {
 //primitive
  // name
   );
+} else {
+  category = category_create(
+56
+, // id
+"0"
+ // name
+  );
+}
+
 return category;
 }
 
 
-#ifdef _MAIN
+#ifdef category_MAIN
 
 void test_category(int include_optional) {
     category_t* category_1 = instantiate_category(include_optional);
@@ -51,5 +64,5 @@ int main() {
   return 0;
 }
 
-#endif // _MAIN
-#endif // _TEST
+#endif // category_MAIN
+#endif // category_TEST

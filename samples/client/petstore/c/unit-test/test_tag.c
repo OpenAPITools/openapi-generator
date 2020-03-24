@@ -1,10 +1,10 @@
-#ifndef _TEST
-#define _TEST
+#ifndef tag_TEST
+#define tag_TEST
 
 // the following is to include only the main from the first c file
 #ifndef TEST_MAIN
 #define TEST_MAIN
-#define _MAIN
+#define tag_MAIN
 #endif // TEST_MAIN
 
 #include <stdlib.h>
@@ -14,12 +14,16 @@
 #include "../external/cJSON.h"
 
 
+
 #include "../model/tag.h"
 tag_t* instantiate_tag(int include_optional);
 
 
+
 tag_t* instantiate_tag(int include_optional) {
-  tag_t* tag = tag_create(
+  tag_t* tag = NULL;
+if (include_optional) {
+  tag = tag_create(
 56
 //primitive
 , // id
@@ -27,11 +31,20 @@ tag_t* instantiate_tag(int include_optional) {
 //primitive
  // name
   );
+} else {
+  tag = tag_create(
+56
+, // id
+"0"
+ // name
+  );
+}
+
 return tag;
 }
 
 
-#ifdef _MAIN
+#ifdef tag_MAIN
 
 void test_tag(int include_optional) {
     tag_t* tag_1 = instantiate_tag(include_optional);
@@ -51,5 +64,5 @@ int main() {
   return 0;
 }
 
-#endif // _MAIN
-#endif // _TEST
+#endif // tag_MAIN
+#endif // tag_TEST

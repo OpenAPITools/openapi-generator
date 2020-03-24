@@ -1,10 +1,10 @@
-#ifndef _TEST
-#define _TEST
+#ifndef order_TEST
+#define order_TEST
 
 // the following is to include only the main from the first c file
 #ifndef TEST_MAIN
 #define TEST_MAIN
-#define _MAIN
+#define order_MAIN
 #endif // TEST_MAIN
 
 #include <stdlib.h>
@@ -14,12 +14,16 @@
 #include "../external/cJSON.h"
 
 
+
 #include "../model/order.h"
 order_t* instantiate_order(int include_optional);
 
 
+
 order_t* instantiate_order(int include_optional) {
-  order_t* order = order_create(
+  order_t* order = NULL;
+if (include_optional) {
+  order = order_create(
 56
 //primitive
 , // id
@@ -39,11 +43,28 @@ openapi_petstore_order_STATUS_placed
 //primitive
  // complete
   );
+} else {
+  order = order_create(
+56
+, // id
+56
+, // pet_id
+56
+, // quantity
+"2013-10-20T19:20:30+01:00"
+, // ship_date
+openapi_petstore_order_STATUS_placed
+, // status
+1
+ // complete
+  );
+}
+
 return order;
 }
 
 
-#ifdef _MAIN
+#ifdef order_MAIN
 
 void test_order(int include_optional) {
     order_t* order_1 = instantiate_order(include_optional);
@@ -63,5 +84,5 @@ int main() {
   return 0;
 }
 
-#endif // _MAIN
-#endif // _TEST
+#endif // order_MAIN
+#endif // order_TEST

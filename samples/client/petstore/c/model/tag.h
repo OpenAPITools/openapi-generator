@@ -12,6 +12,9 @@
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 
+typedef struct tag_t tag_t;
+
+
 
 
 typedef struct tag_t {

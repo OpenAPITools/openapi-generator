@@ -530,7 +530,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelTestFilename(String name) {
-        return ("test_" + toModelFilename(name)).replaceAll("_", "-");
+        return ("test_" + toModelFilename(name));
+//        return ("test_" + toModelFilename(name)).replaceAll("_", "-");
     }
 
     @Override
