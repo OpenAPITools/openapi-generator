@@ -753,7 +753,7 @@ public class DefaultCodegen implements CodegenConfig {
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
                     addOneOfNameExtension((ComposedSchema) s, n);
-                    if (useOneOfInterfaces && templateDir.equals("JavaSpring")){
+                    if (useOneOfInterfaces && "JavaSpring".equals(templateDir)){
                         addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
                     }
                 } else if (ModelUtils.isArraySchema(s)) {
