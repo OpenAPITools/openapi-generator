@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -92,7 +92,6 @@ public class PetApiTest {
 
         Pet fetched = api.getPetById(pet.getId());
         assertPetMatches(pet, fetched);
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -106,7 +105,6 @@ public class PetApiTest {
         Pet fetched = resp.getData();
 
         assertPetMatches(pet, fetched);
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -153,7 +151,6 @@ public class PetApiTest {
             }
         } while (result.isEmpty());
         assertPetMatches(pet, fetched);
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -207,7 +204,6 @@ public class PetApiTest {
         assertEquals(404, exception.getCode());
         assertEquals("Not Found", exception.getMessage());
         assertEquals("application/json", exception.getResponseHeaders().get("Content-Type").get(0));
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -266,31 +262,27 @@ public class PetApiTest {
         final ApiException exception = getCallback3.getException();
         assertNotNull(exception);
         assertEquals(404, exception.getCode());
-        api.deletePet(pet1.getId(), null);
-        api.deletePet(pet2.getId(), null);
     }
 
 
     @Test
     public void testUpdatePet() throws Exception {
         Pet pet = createPet();
-        api.addPet(pet);
         pet.setName("programmer");
 
         api.updatePet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
         assertPetMatches(pet, fetched);
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
     public void testFindPetsByStatus() throws Exception {
-        assertEquals(basePath, api.getApiClient().getBasePath());
         Pet pet = createPet();
-        api.addPet(pet);
         pet.setName("programmer");
         pet.setStatus(Pet.StatusEnum.PENDING);
+
+        assertEquals(basePath, api.getApiClient().getBasePath());
         api.updatePet(pet);
 
         List<Pet> pets = api.findPetsByStatus(Arrays.asList("pending"));
@@ -351,7 +343,6 @@ public class PetApiTest {
         Pet updated = api.getPetById(fetched.getId());
 
         assertEquals(updated.getName(), "furt");
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -360,7 +351,7 @@ public class PetApiTest {
         api.addPet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
-        api.deletePet(pet.getId(), null);
+        api.deletePet(fetched.getId(), null);
 
         try {
             fetched = api.getPetById(fetched.getId());
@@ -382,7 +373,6 @@ public class PetApiTest {
         writer.close();
 
         api.uploadFile(pet.getId(), "a test file", new File(file.getAbsolutePath()));
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -415,7 +405,7 @@ public class PetApiTest {
 
     private Pet createPet() {
         Pet pet = new Pet();
-        pet.setId(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE));
+        pet.setId(new Random().nextLong());
         pet.setName("gorilla");
 
         Category category = new Category();
