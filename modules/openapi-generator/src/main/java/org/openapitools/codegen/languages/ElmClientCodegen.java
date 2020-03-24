@@ -76,7 +76,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public ElmClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -95,7 +95,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/elm";
         modelTemplateFiles.put("model.mustache", ".elm");

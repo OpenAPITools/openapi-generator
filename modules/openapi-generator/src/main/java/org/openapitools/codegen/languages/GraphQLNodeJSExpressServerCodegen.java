@@ -50,7 +50,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
     public GraphQLNodeJSExpressServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(
@@ -68,7 +68,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         packageName = "openapi3graphql-server";
         packageVersion = "1.0.0";

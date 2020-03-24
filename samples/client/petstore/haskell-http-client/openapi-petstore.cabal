@@ -51,11 +51,11 @@ library
     , iso8601-time >=0.1.3 && <0.2.0
     , microlens >= 0.4.3 && <0.5
     , mtl >=2.2.1
-    , network >=2.6.2 && <2.9
+    , network >=2.6.2 && <3.9
     , random >=1.1
     , safe-exceptions <0.2
     , text >=0.11 && <1.3
-    , time >=1.5 && <1.10
+    , time (>=1.5 && <1.9) || (>=1.10 && <2.0)
     , transformers >=0.4.0.0
     , unordered-containers
     , vector >=0.10.9 && <0.13

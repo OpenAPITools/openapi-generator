@@ -1,0 +1,197 @@
+{{> partial_header}}
+{{#operations}}
+{{#operation}}
+<#
+.SYNOPSIS
+
+{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+
+.DESCRIPTION
+
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{#allParams}}
+.PARAMETER {{{paramName}}}
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{/allParams}}
+.OUTPUTS
+
+{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}None{{/returnType}}
+#>
+function {{{vendorExtensions.x-powershell-method-name}}} {
+    [CmdletBinding()]
+    Param (
+    {{#allParams}}
+        [Parameter(Position = {{vendorExtensions.x-index}}{{#-first}}, ValueFromPipeline = $true{{/-first}}, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [{{{vendorExtensions.x-powershell-data-type}}}]
+        {{=<% %>=}}
+        ${<%paramName%>}<%^-last%>,<%/-last%>
+        <%={{ }}=%>
+    {{/allParams}}
+    )
+
+    Process {
+        'Calling method: {{{vendorExtensions.x-powershell-method-name}}}' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
+        $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter
+
+        $Configuration = Get-{{{apiNamePrefix}}}Configuration
+        {{#hasProduces}}
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}})
+
+        {{/hasProduces}}
+        {{#hasConsumes}}
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @({{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}})
+
+        {{/hasConsumes}}
+        $LocalVarUri = '{{{path}}}'
+        {{=< >=}}
+        <#pathParams>
+        if (!$<paramName>) {
+            throw "Error! The required parameter `<paramName>` missing when calling <operationId>."
+        }
+        $LocalVarUri = $LocalVarUri.replace('{<baseName>}', $<paramName>)
+        </pathParams>
+        <={{ }}=>
+
+        {{#headerParams}}
+        {{#required}}
+        {{^isNullable}}
+        if (!${{{paramName}}}) {
+            throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
+        }
+        $LocalVarHeaderParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        {{^isNullable}}
+        if (${{{paramName}}}) {
+            $LocalVarHeaderParameters['{{baseName}}'] = ${{{paramName}}}
+        }
+
+        {{/isNullable}}
+        {{#isNullable}}
+        $LocalVarHeaderParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/isNullable}}
+        {{/required}}
+        {{/headerParams}}
+        {{#queryParams}}
+        {{#required}}
+        {{^isNullable}}
+        if (!${{{paramName}}}) {
+            throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
+        }
+        $LocalVarQueryParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        {{^isNullable}}
+        if (${{{paramName}}}) {
+            $LocalVarQueryParameters['{{baseName}}'] = ${{{paramName}}}
+        }
+
+        {{/isNullable}}
+        {{#isNullable}}
+        $LocalVarQueryParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/isNullable}}
+        {{/required}}
+        {{/queryParams}}
+        {{#formParams}}
+        {{#required}}
+        {{^isNullable}}
+        if (!${{{paramName}}}) {
+            throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
+        }
+        $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/isNullable}}
+        {{/required}}
+        {{^required}}
+        {{^isNullable}}
+        if (${{{paramName}}}) {
+            $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+        }
+
+        {{/isNullable}}
+        {{#isNullable}}
+        $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+
+        {{/isNullable}}
+        {{/required}}
+        {{/formParams}}
+        {{#bodyParam}}
+        {{#required}}
+        {{^isNullable}}
+        if (!${{{paramName}}}) {
+            throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
+        }
+
+        {{/isNullable}}
+        {{/required}}
+        $LocalVarBodyParameter = ${{{paramName}}} | ConvertTo-Json
+
+        {{/bodyParam}}
+        {{#authMethods}}
+        {{#isApiKey}}
+        {{#isKeyInHeader}}
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
+            $LocalVarHeaderParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
+        }
+        {{/isKeyInHeader}}
+        {{#isKeyInQuery}}
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
+            $LocalVarQueryParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
+        }
+        {{/isKeyInQuery}}
+        {{#isKeyInCookie}}
+        if ($Configuration["Cookie"]) {
+            $LocalVarCookieParameters['{{{name}}}'] = $Configuration["Cookie"]
+        }
+        {{/isKeyInCookie}}
+        {{/isApiKey}}
+        {{#isBasicBasic}}
+        if ($Configuration["Username"] -and $Configuration["Password"]]) {
+            $LocalVarBytes = [System.Text.Encoding]::UTF8.GetBytes($Configuration["Username"] + ":" + $Configuration["Password"])
+            $LocalVarBase64Text =[Convert]::ToBase64String($LocalVarBytes)
+            $LocalVarHeaderParameters['Authorization'] = "Basic " + $LocalVarBase64Text
+        }
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        if ($Configuration["AccessToken"]) {
+            $LocalVarHeaderParameters['Authorization'] = "Bearer " + $Configuration["AccessToken"]
+        }
+        {{/isBasicBearer}}
+
+        {{/authMethods}}
+        $LocalVarResult = Invoke-{{{apiNamePrefix}}}ApiClient -Method '{{httpMethod}}' `
+                                -Uri $LocalVarUri `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameter `
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "{{#returnType}}{{{.}}}{{/returnType}}"
+
+        return $LocalVarResult["Response"]
+    }
+}
+
+{{/operation}}
+{{/operations}}
