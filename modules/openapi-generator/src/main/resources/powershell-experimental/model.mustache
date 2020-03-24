@@ -1,0 +1,32 @@
+{{> partial_header}}
+{{#models}}
+{{#model}}
+function New-{{{apiNamePrefix}}}{{{classname}}} {
+    [CmdletBinding()]
+    Param (
+{{#vars}}
+        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
+        [{{vendorExtensions.x-powershell-data-type}}]
+        {{=<% %>=}}
+        ${<%name%>}<%^-last%>,<%/-last%>
+        <%={{ }}=%>
+{{/vars}}
+    )
+
+    Process {
+        'Creating object: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $PSO = [PSCustomObject]@{
+            {{=<< >>=}}
+            <<#vars>>
+            "<<baseName>>" = ${<<name>>}
+            <</vars>>
+            <<={{ }}=>>
+        }
+
+        return $PSO
+    }
+}
+{{/model}}
+{{/models}}
