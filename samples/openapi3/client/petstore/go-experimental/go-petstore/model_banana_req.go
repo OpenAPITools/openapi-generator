@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -25,27 +24,36 @@ type BananaReq struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewBananaReq(lengthCm float32, ) *BananaReq {
-    this := BananaReq{}
-    this.LengthCm = lengthCm
-    return &this
+	this := BananaReq{}
+	this.LengthCm = lengthCm
+	return &this
 }
 
 // NewBananaReqWithDefaults instantiates a new BananaReq object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewBananaReqWithDefaults() *BananaReq {
-    this := BananaReq{}
-    return &this
+	this := BananaReq{}
+	return &this
 }
 
 // GetLengthCm returns the LengthCm field value
 func (o *BananaReq) GetLengthCm() float32 {
-	if o == nil {
+	if o == nil  {
 		var ret float32
 		return ret
 	}
 
 	return o.LengthCm
+}
+
+// GetLengthCmOk returns a tuple with the LengthCm field value
+// and a boolean to check if the value has been set.
+func (o *BananaReq) GetLengthCmOk() (*float32, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.LengthCm, true
 }
 
 // SetLengthCm sets field value
@@ -62,14 +70,13 @@ func (o *BananaReq) GetSweet() bool {
 	return *o.Sweet
 }
 
-// GetSweetOk returns a tuple with the Sweet field value if set, zero value otherwise
+// GetSweetOk returns a tuple with the Sweet field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BananaReq) GetSweetOk() (bool, bool) {
+func (o *BananaReq) GetSweetOk() (*bool, bool) {
 	if o == nil || o.Sweet == nil {
-		var ret bool
-		return ret, false
+		return nil, false
 	}
-	return *o.Sweet, true
+	return o.Sweet, true
 }
 
 // HasSweet returns a boolean if a field has been set.
@@ -86,29 +93,53 @@ func (o *BananaReq) SetSweet(v bool) {
 	o.Sweet = &v
 }
 
+func (o BananaReq) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["lengthCm"] = o.LengthCm
+	}
+	if o.Sweet != nil {
+		toSerialize["sweet"] = o.Sweet
+	}
+	return json.Marshal(toSerialize)
+}
+
 // AsFruitReq wraps this instance of BananaReq in FruitReq
 func (s *BananaReq) AsFruitReq() FruitReq {
-    return FruitReq{ FruitReqInterface: s }
+	return FruitReq{ FruitReqInterface: s }
 }
 type NullableBananaReq struct {
-	Value BananaReq
-	ExplicitNull bool
+	value *BananaReq
+	isSet bool
+}
+
+func (v NullableBananaReq) Get() *BananaReq {
+	return v.value
+}
+
+func (v *NullableBananaReq) Set(val *BananaReq) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableBananaReq) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableBananaReq) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableBananaReq(val *BananaReq) *NullableBananaReq {
+	return &NullableBananaReq{value: val, isSet: true}
 }
 
 func (v NullableBananaReq) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableBananaReq) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

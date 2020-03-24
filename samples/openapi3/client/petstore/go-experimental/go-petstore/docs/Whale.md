@@ -35,22 +35,22 @@ GetHasBaleen returns the HasBaleen field if non-nil, zero value otherwise.
 
 ### GetHasBaleenOk
 
-`func (o *Whale) GetHasBaleenOk() (bool, bool)`
+`func (o *Whale) GetHasBaleenOk() (*bool, bool)`
 
 GetHasBaleenOk returns a tuple with the HasBaleen field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetHasBaleen
+
+`func (o *Whale) SetHasBaleen(v bool)`
+
+SetHasBaleen sets HasBaleen field to given value.
 
 ### HasHasBaleen
 
 `func (o *Whale) HasHasBaleen() bool`
 
 HasHasBaleen returns a boolean if a field has been set.
-
-### SetHasBaleen
-
-`func (o *Whale) SetHasBaleen(v bool)`
-
-SetHasBaleen gets a reference to the given bool and assigns it to the HasBaleen field.
 
 ### GetHasTeeth
 
@@ -60,22 +60,22 @@ GetHasTeeth returns the HasTeeth field if non-nil, zero value otherwise.
 
 ### GetHasTeethOk
 
-`func (o *Whale) GetHasTeethOk() (bool, bool)`
+`func (o *Whale) GetHasTeethOk() (*bool, bool)`
 
 GetHasTeethOk returns a tuple with the HasTeeth field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetHasTeeth
+
+`func (o *Whale) SetHasTeeth(v bool)`
+
+SetHasTeeth sets HasTeeth field to given value.
 
 ### HasHasTeeth
 
 `func (o *Whale) HasHasTeeth() bool`
 
 HasHasTeeth returns a boolean if a field has been set.
-
-### SetHasTeeth
-
-`func (o *Whale) SetHasTeeth(v bool)`
-
-SetHasTeeth gets a reference to the given bool and assigns it to the HasTeeth field.
 
 ### GetClassName
 
@@ -85,22 +85,17 @@ GetClassName returns the ClassName field if non-nil, zero value otherwise.
 
 ### GetClassNameOk
 
-`func (o *Whale) GetClassNameOk() (string, bool)`
+`func (o *Whale) GetClassNameOk() (*string, bool)`
 
 GetClassNameOk returns a tuple with the ClassName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### HasClassName
-
-`func (o *Whale) HasClassName() bool`
-
-HasClassName returns a boolean if a field has been set.
 
 ### SetClassName
 
 `func (o *Whale) SetClassName(v string)`
 
-SetClassName gets a reference to the given string and assigns it to the ClassName field.
+SetClassName sets ClassName field to given value.
+
 
 
 ### AsMammal
