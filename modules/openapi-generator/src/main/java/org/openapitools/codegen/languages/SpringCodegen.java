@@ -18,9 +18,12 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -52,6 +55,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String KEEP_DISCRIMINATOR_PROPERTY = "keepDiscriminatorProperty";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
@@ -98,6 +102,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
+    protected boolean keepDiscriminatorProperty = true;
 
     public SpringCodegen() {
         super();
@@ -171,6 +176,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
+        cliOptions.add(CliOption.newBoolean(KEEP_DISCRIMINATOR_PROPERTY, "if false the discriminator properties are deleted from model, even if they are defined", keepDiscriminatorProperty));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -325,6 +331,12 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(HATEOAS)) {
             this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
+        }
+
+        if (additionalProperties.containsKey(KEEP_DISCRIMINATOR_PROPERTY)) {
+            this.setKeepDiscriminatorProperty(Boolean.valueOf(additionalProperties.get(KEEP_DISCRIMINATOR_PROPERTY).toString()));
+        } else {
+            additionalProperties.put(KEEP_DISCRIMINATOR_PROPERTY, this.isKeepDiscriminatorProperty());
         }
 
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
@@ -579,6 +591,27 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
         }
+
+        Components components = openAPI.getComponents();
+        if (!isKeepDiscriminatorProperty() && components != null) {
+            Map<String, Schema> schemas = components.getSchemas();
+            if (schemas != null) {
+                for (Schema schema : schemas.values()) {
+                    Discriminator discriminator = schema.getDiscriminator();
+                    if (discriminator != null) {
+                        String propertyName = discriminator.getPropertyName();
+                        List<String> required = schema.getRequired();
+                        if (required != null) {
+                            required.remove(propertyName);
+                        }
+                        Map<String, Schema> properties = schema.getProperties();
+                        if (properties != null) {
+                            properties.remove(propertyName);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -810,6 +843,14 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setHateoas(boolean hateoas) {
         this.hateoas = hateoas;
+    }
+
+    public void setKeepDiscriminatorProperty(final boolean keepDiscriminatorProperty) {
+        this.keepDiscriminatorProperty = keepDiscriminatorProperty;
+    }
+
+    public boolean isKeepDiscriminatorProperty() {
+        return keepDiscriminatorProperty;
     }
 
     public void setReturnSuccessCode(boolean returnSuccessCode) {
