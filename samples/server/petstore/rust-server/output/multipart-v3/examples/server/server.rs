@@ -12,7 +12,6 @@ use chrono;
 use futures::{future, Future, Stream};
 use hyper::server::conn::Http;
 use hyper::service::MakeService as _;
-use native_tls;
 use openssl::ssl::SslAcceptorBuilder;
 use std::collections::HashMap;
 use std::marker::PhantomData;
@@ -23,12 +22,18 @@ use swagger::{Has, XSpanIdString};
 use swagger::auth::MakeAllowAllAuthenticator;
 use swagger::EmptyContext;
 use tokio::net::TcpListener;
-use tokio_tls::TlsAcceptorExt;
 
+
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+use tokio_openssl::SslAcceptorExt;
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 use multipart_v3::models;
 
-pub fn create(addr: &str, https: Option<SslAcceptorBuilder>) -> Box<Future<Item = (), Error = ()> + Send> {
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+/// Builds an SSL implementation for Simple HTTPS from some hard-coded file names
+pub fn create(addr: &str, https: bool) -> Box<dyn Future<Item = (), Error = ()> + Send> {
     let addr = addr.parse().expect("Failed to parse bind address");
 
     let server = Server::new();
@@ -42,30 +47,44 @@ pub fn create(addr: &str, https: Option<SslAcceptorBuilder>) -> Box<Future<Item 
             service_fn
         );
 
-    if let Some(ssl) = https {
-        let builder: native_tls::TlsAcceptorBuilder = native_tls::backend::openssl::TlsAcceptorBuilderExt::from_openssl(ssl);
-        let tls_acceptor = builder.build().expect("Failed to build TLS acceptor");
-        let service_fn = Arc::new(Mutex::new(service_fn));
-        let tls_listener = TcpListener::bind(&addr).unwrap().incoming().for_each(move |tcp| {
-           let addr = tcp.peer_addr().expect("Unable to get remote address");
+    if https {
+        #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+        {
+            unimplemented!("SSL is not implemented for the examples on MacOS, Windows or iOS");
+        }
 
-           let service_fn = service_fn.clone();
+        #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+        {
+            let mut ssl = SslAcceptor::mozilla_intermediate_v5(SslMethod::tls()).expect("Failed to create SSL Acceptor");
 
-           hyper::rt::spawn(tls_acceptor.accept_async(tcp).map_err(|_| ()).and_then(move |tls| {
-               let ms = {
-                   let mut service_fn = service_fn.lock().unwrap();
-                   service_fn.make_service(&addr)
-               };
+            // Server authentication
+            ssl.set_private_key_file("examples/server-key.pem", SslFiletype::PEM).expect("Failed to set private key");
+            ssl.set_certificate_chain_file("examples/server-chain.pem").expect("Failed to set cerificate chain");
+            ssl.check_private_key().expect("Failed to check private key");
 
-               ms.and_then(move |service| {
-                   Http::new().serve_connection(tls, service)
-               }).map_err(|_| ())
-           }));
+            let tls_acceptor = ssl.build();
+            let service_fn = Arc::new(Mutex::new(service_fn));
+            let tls_listener = TcpListener::bind(&addr).unwrap().incoming().for_each(move |tcp| {
+                let addr = tcp.peer_addr().expect("Unable to get remote address");
 
-           Ok(())
-        }).map_err(|_| ());
+                let service_fn = service_fn.clone();
 
-        Box::new(tls_listener)
+                hyper::rt::spawn(tls_acceptor.accept_async(tcp).map_err(|_| ()).and_then(move |tls| {
+                    let ms = {
+                        let mut service_fn = service_fn.lock().unwrap();
+                        service_fn.make_service(&addr)
+                    };
+
+                    ms.and_then(move |service| {
+                        Http::new().serve_connection(tls, service)
+                    }).map_err(|_| ())
+                }));
+
+                Ok(())
+            }).map_err(|_| ());
+
+            Box::new(tls_listener)
+        }
     } else {
         // Using HTTP
         Box::new(hyper::server::Server::bind(&addr).serve(service_fn).map_err(|e| panic!("{:?}", e)))
@@ -89,6 +108,7 @@ use multipart_v3::{
     ApiError,
     MultipartRelatedRequestPostResponse,
     MultipartRequestPostResponse,
+    MultipleIdenticalMimeTypesPostResponse,
 };
 use multipart_v3::server::MakeService;
 
@@ -115,6 +135,17 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("multipart_request_post(\"{}\", {:?}, {:?}, {:?}) - X-Span-ID: {:?}", string_field, binary_field, optional_string_field, object_field, context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn multiple_identical_mime_types_post(
+        &self,
+        binary1: Option<swagger::ByteArray>,
+        binary2: Option<swagger::ByteArray>,
+        context: &C) -> Box<Future<Item=MultipleIdenticalMimeTypesPostResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("multiple_identical_mime_types_post({:?}, {:?}) - X-Span-ID: {:?}", binary1, binary2, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 

@@ -41,10 +41,14 @@ extern crate swagger;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;
-#[cfg(feature = "client")]
-extern crate hyper_tls;
+{{#hasCallbacks}}
 #[cfg(any(feature = "client", feature = "server"))]
-extern crate openssl;
+{{/hasCallbacks}}
+{{^hasCallbacks}}
+#[cfg(feature = "server")]
+{{/hasCallbacks}}
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+extern crate hyper_openssl;
 {{#apiUsesMultipart}}
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate mime_0_2;
@@ -53,8 +57,6 @@ extern crate mime_0_2;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate mime_multipart;
 {{/apiUsesMultipartRelated}}
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate native_tls;
 {{#hasCallbacks}}
 #[cfg(any(feature = "client", feature = "server"))]
 {{/hasCallbacks}}
@@ -88,9 +90,6 @@ use std::io::Error;
 
 #[allow(unused_imports)]
 use std::collections::HashMap;
-
-#[cfg(any(feature = "client", feature = "server"))]
-mod mimetypes;
 
 #[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};

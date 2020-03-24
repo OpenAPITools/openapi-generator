@@ -6,7 +6,6 @@ use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use url::form_urlencoded;
-use mimetypes;
 use serde_json;
 use std::io;
 #[allow(unused_imports)]
@@ -137,6 +136,16 @@ where
     }
 }
 
+type ServiceFuture = Box<dyn Future<Item = Response<Body>, Error = Error> + Send>;
+
+fn method_not_allowed() -> ServiceFuture {
+    Box::new(future::ok(
+        Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
+            .body(Body::empty())
+            .expect("Unable to create Method Not Allowed response")
+    ))
+}
+
 pub struct Service<T, RC> {
     api_impl: T,
     marker: PhantomData<RC>,
@@ -162,7 +171,7 @@ where
     type ReqBody = ContextualPayload<Body, C>;
     type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
+    type Future = ServiceFuture;
 
     fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -359,7 +368,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::MERGE_PATCH_JSON_GET_MERGE)
+                                                        HeaderValue::from_str("application/merge-patch+json")
                                                             .expect("Unable to create Content-Type header for MERGE_PATCH_JSON_GET_MERGE"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -402,7 +411,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::MULTIGET_GET_JSON_RSP)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_JSON_RSP"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -413,7 +422,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::MULTIGET_GET_XML_RSP)
+                                                        HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_XML_RSP"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -424,7 +433,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(202).expect("Unable to turn 202 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::MULTIGET_GET_OCTET_RSP)
+                                                        HeaderValue::from_str("application/octet-stream")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_OCTET_RSP"));
                                                     let body = body.0;
                                                     *response.body_mut() = Body::from(body);
@@ -435,7 +444,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(203).expect("Unable to turn 203 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::MULTIGET_GET_STRING_RSP)
+                                                        HeaderValue::from_str("text/plain")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_STRING_RSP"));
                                                     let body = body;
                                                     *response.body_mut() = Body::from(body);
@@ -446,7 +455,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -457,7 +466,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(205).expect("Unable to turn 205 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_2)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_2"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -468,7 +477,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(206).expect("Unable to turn 206 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_3)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_3"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -628,7 +637,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::PARAMGET_GET_JSON_RSP)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for PARAMGET_GET_JSON_RSP"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -849,7 +858,7 @@ where
                                                 ResponsesWithHeadersGetResponse::Success
                                                     {
                                                         body,
-                                                        success_info, 
+                                                        success_info,
                                                         object_header
                                                     }
                                                 => {
@@ -864,14 +873,14 @@ where
                                                     );
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::RESPONSES_WITH_HEADERS_GET_SUCCESS)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for RESPONSES_WITH_HEADERS_GET_SUCCESS"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
                                                 ResponsesWithHeadersGetResponse::PreconditionFailed
                                                     {
-                                                        further_info, 
+                                                        further_info,
                                                         failure_info
                                                     }
                                                 => {
@@ -923,7 +932,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_OK)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for RFC7807_GET_OK"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -934,7 +943,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_NOT_FOUND)
+                                                        HeaderValue::from_str("application/problem+json")
                                                             .expect("Unable to create Content-Type header for RFC7807_GET_NOT_FOUND"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -945,7 +954,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(406).expect("Unable to turn 406 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_NOT_ACCEPTABLE)
+                                                        HeaderValue::from_str("application/problem+xml")
                                                             .expect("Unable to create Content-Type header for RFC7807_GET_NOT_ACCEPTABLE"));
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -1057,7 +1066,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::UUID_GET_DUPLICATE_RESPONSE_LONG_TEXT)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for UUID_GET_DUPLICATE_RESPONSE_LONG_TEXT"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -1443,6 +1452,24 @@ where
                 ) as Self::Future
             },
 
+            _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
+            _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => method_not_allowed(),
+            _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIGET) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => method_not_allowed(),
+            _ if path.matched(paths::ID_OVERRIDE_SERVER) => method_not_allowed(),
+            _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
+            _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
+            _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
+            _ if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => method_not_allowed(),
+            _ if path.matched(paths::ID_RFC7807) => method_not_allowed(),
+            _ if path.matched(paths::ID_UNTYPED_PROPERTY) => method_not_allowed(),
+            _ if path.matched(paths::ID_UUID) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML_EXTRA) => method_not_allowed(),
+            _ if path.matched(paths::ID_XML_OTHER) => method_not_allowed(),
             _ => Box::new(future::ok(
                 Response::builder().status(StatusCode::NOT_FOUND)
                     .body(Body::empty())

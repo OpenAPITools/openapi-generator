@@ -3,6 +3,9 @@ extern crate openapi_v3;
 extern crate clap;
 extern crate env_logger;
 extern crate futures;
+
+// log may be unused if there are no examples
+#[allow(unused_imports)]
 #[macro_use]
 extern crate log;
 #[macro_use]
@@ -12,10 +15,12 @@ extern crate chrono;
 #[macro_use]
 extern crate error_chain;
 extern crate hyper;
-extern crate openssl;
-extern crate native_tls;
-extern crate tokio_tls;
 extern crate uuid;
+
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+extern crate openssl;
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+extern crate tokio_openssl;
 
 mod server;
 
@@ -46,8 +51,13 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       XmlPutResponse
                      };
 use clap::{App, Arg};
+
+// swagger::Has may be unused if there are no examples
+#[allow(unused_imports)]
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
+// rt may be unused if there are no examples
+#[allow(unused_mut)]
 fn main() {
     env_logger::init();
 
@@ -100,9 +110,7 @@ fn main() {
 
     let client = if matches.is_present("https") {
         // Using Simple HTTPS
-        Client::try_new_https(
-            &base_url,
-            "examples/ca.pem")
+        Client::try_new_https(&base_url)
             .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
@@ -119,7 +127,7 @@ fn main() {
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
     // We could do HTTPS here, but for simplicity we don't
-    rt.spawn(server::create("127.0.0.1:8081", None));
+    rt.spawn(server::create("127.0.0.1:8081", false));
 
     match matches.value_of("operation") {
         Some("CallbackWithHeaderPost") => {

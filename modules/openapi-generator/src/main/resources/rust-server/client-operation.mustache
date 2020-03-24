@@ -143,7 +143,7 @@
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        let header = &mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}};
+        let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -203,7 +203,7 @@
         // Add the message body to the request object.
         *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}};
+        let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
         request.headers_mut().insert(CONTENT_TYPE,
         match HeaderValue::from_bytes(
             &[header.as_bytes(), "; boundary=".as_bytes(), &boundary, "; type=\"application/json\"".as_bytes()].concat()
@@ -261,7 +261,7 @@
         }
         {{/required}}
 
-        let header = &mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}};
+        let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))

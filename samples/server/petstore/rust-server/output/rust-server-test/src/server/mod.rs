@@ -6,7 +6,6 @@ use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use url::form_urlencoded;
-use mimetypes;
 use serde_json;
 use std::io;
 #[allow(unused_imports)]
@@ -97,6 +96,16 @@ where
     }
 }
 
+type ServiceFuture = Box<dyn Future<Item = Response<Body>, Error = Error> + Send>;
+
+fn method_not_allowed() -> ServiceFuture {
+    Box::new(future::ok(
+        Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
+            .body(Body::empty())
+            .expect("Unable to create Method Not Allowed response")
+    ))
+}
+
 pub struct Service<T, RC> {
     api_impl: T,
     marker: PhantomData<RC>,
@@ -122,7 +131,7 @@ where
     type ReqBody = ContextualPayload<Body, C>;
     type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
+    type Future = ServiceFuture;
 
     fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -156,7 +165,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::ALL_OF_GET_OK)
+                                                        HeaderValue::from_str("*/*")
                                                             .expect("Unable to create Content-Type header for ALL_OF_GET_OK"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -314,7 +323,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::FILE_RESPONSE_GET_SUCCESS)
+                                                        HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for FILE_RESPONSE_GET_SUCCESS"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -357,7 +366,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::GET_STRUCTURED_YAML_OK)
+                                                        HeaderValue::from_str("application/yaml")
                                                             .expect("Unable to create Content-Type header for GET_STRUCTURED_YAML_OK"));
                                                     let body = body;
                                                     *response.body_mut() = Body::from(body);
@@ -425,7 +434,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::HTML_POST_SUCCESS)
+                                                        HeaderValue::from_str("text/html")
                                                             .expect("Unable to create Content-Type header for HTML_POST_SUCCESS"));
                                                     let body = body;
                                                     *response.body_mut() = Body::from(body);
@@ -541,7 +550,7 @@ where
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::RAW_JSON_GET_SUCCESS)
+                                                        HeaderValue::from_str("*/*")
                                                             .expect("Unable to create Content-Type header for RAW_JSON_GET_SUCCESS"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
@@ -641,6 +650,14 @@ where
                 ) as Self::Future
             },
 
+            _ if path.matched(paths::ID_ALLOF) => method_not_allowed(),
+            _ if path.matched(paths::ID_DUMMY) => method_not_allowed(),
+            _ if path.matched(paths::ID_FILE_RESPONSE) => method_not_allowed(),
+            _ if path.matched(paths::ID_GET_STRUCTURED_YAML) => method_not_allowed(),
+            _ if path.matched(paths::ID_HTML) => method_not_allowed(),
+            _ if path.matched(paths::ID_POST_YAML) => method_not_allowed(),
+            _ if path.matched(paths::ID_RAW_JSON) => method_not_allowed(),
+            _ if path.matched(paths::ID_SOLO_OBJECT) => method_not_allowed(),
             _ => Box::new(future::ok(
                 Response::builder().status(StatusCode::NOT_FOUND)
                     .body(Body::empty())

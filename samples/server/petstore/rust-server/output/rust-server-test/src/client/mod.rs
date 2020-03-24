@@ -4,7 +4,8 @@ use hyper;
 use hyper::client::HttpConnector;
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{Body, Uri, Response};
-use hyper_tls::HttpsConnector;
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+use hyper_openssl::HttpsConnector;
 use serde_json;
 use std::borrow::Cow;
 #[allow(unused_imports)]
@@ -18,13 +19,10 @@ use std::str;
 use std::str::FromStr;
 use std::string::ToString;
 use swagger;
-use swagger::client::Service;
-use swagger::connector;
-use swagger::{ApiError, XSpanIdString, Has, AuthData};
+use swagger::{ApiError, Connector, client::Service, XSpanIdString, Has, AuthData};
 use url::form_urlencoded;
 use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 
-use mimetypes;
 use models;
 use header;
 
@@ -64,7 +62,7 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 
     let host = uri.host().ok_or_else(|| ClientInitError::MissingHost)?;
     let port = uri.port_part().map(|x| format!(":{}", x)).unwrap_or_default();
-    Ok(format!("{}://{}{}", scheme, host, port))
+    Ok(format!("{}://{}{}{}", scheme, host, port, uri.path().trim_end_matches('/')))
 }
 
 /// A client that implements the API by making HTTP calls out to a server.
@@ -100,8 +98,7 @@ impl Client<hyper::client::ResponseFuture>
     ///
     /// Intended for use with custom implementations of connect for e.g. protocol logging
     /// or similar functionality which requires wrapping the transport layer. When wrapping a TCP connection,
-    /// this function should be used in conjunction with
-    /// `swagger::{http_connector, https_connector, https_mutual_connector}`.
+    /// this function should be used in conjunction with `swagger::Connector::builder()`.
     ///
     /// For ordinary tcp connections, prefer the use of `try_new_http`, `try_new_https`
     /// and `try_new_https_mutual`, to avoid introducing a dependency on the underlying transport layer.
@@ -110,18 +107,16 @@ impl Client<hyper::client::ResponseFuture>
     ///
     /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
     /// * `protocol` - Which protocol to use when constructing the request url, e.g. `Some("http")`
-    /// * `connector_fn` - Function which returns an implementation of `hyper::client::Connect`
+    /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
     pub fn try_new_with_connector<C>(
         base_path: &str,
         protocol: Option<&'static str>,
-        connector_fn: Box<dyn Fn() -> C + Send + Sync>,
+        connector: C,
     ) -> Result<Self, ClientInitError> where
       C: hyper::client::connect::Connect + 'static,
       C::Transport: 'static,
       C::Future: 'static,
     {
-        let connector = connector_fn();
-
         let client_service = Box::new(hyper::client::Client::builder().build(connector));
 
         Ok(Client {
@@ -137,24 +132,42 @@ impl Client<hyper::client::ResponseFuture>
     pub fn try_new_http(
         base_path: &str,
     ) -> Result<Self, ClientInitError> {
-        let http_connector = connector::http_connector();
+        let http_connector = Connector::builder().build();
 
         Self::try_new_with_connector(base_path, Some("http"), http_connector)
     }
 
-    /// Create a client with a TLS connection to the server.
+    /// Create a client with a TLS connection to the server
+    ///
+    /// # Arguments
+    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
+    {
+        let https_connector = Connector::builder()
+            .https()
+            .build()
+            .map_err(|e| ClientInitError::SslError(e))?;
+        Self::try_new_with_connector(base_path, Some("https"), https_connector)
+    }
+
+    /// Create a client with a TLS connection to the server using a pinned certificate
     ///
     /// # Arguments
     /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
-    pub fn try_new_https<CA>(
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    pub fn try_new_https_pinned<CA>(
         base_path: &str,
         ca_certificate: CA,
     ) -> Result<Self, ClientInitError>
     where
         CA: AsRef<Path>,
     {
-        let https_connector = connector::https_connector(ca_certificate);
+        let https_connector = Connector::builder()
+            .https()
+            .pin_server_certificate(ca_certificate)
+            .build()
+            .map_err(|e| ClientInitError::SslError(e))?;
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
@@ -165,6 +178,7 @@ impl Client<hyper::client::ResponseFuture>
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn try_new_https_mutual<CA, K, D>(
         base_path: &str,
         ca_certificate: CA,
@@ -176,8 +190,12 @@ impl Client<hyper::client::ResponseFuture>
         K: AsRef<Path>,
         D: AsRef<Path>,
     {
-        let https_connector =
-            connector::https_mutual_connector(ca_certificate, client_key, client_certificate);
+        let https_connector = Connector::builder()
+            .https()
+            .pin_server_certificate(ca_certificate)
+            .client_authentication(client_key, client_certificate)
+            .build()
+            .map_err(|e| ClientInitError::SslError(e))?;
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 }
@@ -211,18 +229,17 @@ pub enum ClientInitError {
     MissingHost,
 
     /// SSL Connection Error
-    SslError(openssl::error::ErrorStack)
+    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+    SslError(native_tls::Error),
+
+    /// SSL Connection Error
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    SslError(openssl::error::ErrorStack),
 }
 
 impl From<hyper::http::uri::InvalidUri> for ClientInitError {
     fn from(err: hyper::http::uri::InvalidUri) -> ClientInitError {
         ClientInitError::InvalidUri(err)
-    }
-}
-
-impl From<openssl::error::ErrorStack> for ClientInitError {
-    fn from(err: openssl::error::ErrorStack) -> ClientInitError {
-        ClientInitError::SslError(err)
     }
 }
 
@@ -431,7 +448,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = serde_json::to_string(&param_nested_response).expect("impossible to fail to serialize");
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::DUMMY_PUT;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -676,7 +693,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = param_body;
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::HTML_POST;
+        let header = "text/html";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -767,7 +784,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = param_value;
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::POST_YAML;
+        let header = "application/yaml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -931,7 +948,7 @@ impl<C, F> Api<C> for Client<F> where
 
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::SOLO_OBJECT_POST;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
