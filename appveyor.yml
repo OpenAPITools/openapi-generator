@@ -48,7 +48,8 @@ build_script:
   - nuget restore samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln
   - msbuild samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # install openapi-generator locally
-  - mvn clean install --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error # run the locally installed openapi-generator-gradle-plugin
+  - mvn clean install --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  # run the locally installed openapi-generator-gradle-plugin
   - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
 test_script:
   # restore test-related files
