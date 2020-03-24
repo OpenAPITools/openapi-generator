@@ -57,7 +57,7 @@ No authorization required
 
 <a name="Get-PSInventory"></a>
 # **Get-PSInventory**
-> {String, Int32} Get-PSInventory<br>
+> Hashtable Get-PSInventory<br>
 
 Returns pet inventories by status
 
@@ -76,7 +76,7 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 
 # Returns pet inventories by status
 try {
-    {String, Int32} $Result = Get-PSInventory
+    Hashtable $Result = Get-PSInventory
 } catch {
     Write-Host ($_.ErrorDetails | ConvertFrom-Json)
     Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
@@ -88,7 +88,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{String, Int32}**
+**Hashtable**
 
 ### Authorization
 

@@ -37,7 +37,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
-    private var baseUrl: String = BASE_URL,
+    private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder
 ) {
@@ -287,7 +287,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
     }
 
-    companion object {
-        const val BASE_URL: String = "{{{basePath}}}"
+    companion object {        
+        @JvmStatic
+        val defaultBasePath: String by lazy {
+            System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")
+        }
     }
 }

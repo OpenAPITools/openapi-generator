@@ -40,14 +40,17 @@ function Invoke-PSApiClient {
 
     $Configuration = Get-PSConfiguration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
+    $SkipCertificateCheck = $Configuration["SkipCertificateCheck"]
 
     # cookie parameters
-    foreach ($Parameter in $CookieParameters) {
-        if ($CookieParameters[$Parameter]) {
-            $HeaderParameters["Cookie"] = $CookieParameters[$Parameter]
+    foreach ($Parameter in $CookieParameters.GetEnumerator()) {
+        if ($Parameter.Name -eq "cookieAuth") {
+            $HeaderParameters["Cookie"] = $Parameter.Value
+        } else {
+            $HeaderParameters[$Parameter.Name] = $Parameter.Value
         }
     }
-    if ($CookieParametters -and $CookieParameters.Count -gt 1) {
+    if ($CookieParameters -and $CookieParameters.Count -gt 1) {
         Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
     }
 
@@ -86,11 +89,21 @@ function Invoke-PSApiClient {
         $RequestBody = $Body
     }
 
-    $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+    if ($SkipCertificateCheck -eq $true) {
+        $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                  -Method $Method `
+                                  -Headers $HeaderParameters `
+                                  -Body $RequestBody `
+                                  -ErrorAction Stop `
+                                  -SkipCertificateCheck
+
+    } else {
+        $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
                                   -Method $Method `
                                   -Headers $HeaderParameters `
                                   -Body $RequestBody `
                                   -ErrorAction Stop
+    }
 
     return @{
         Response = DeserializeResponse -Response $Response -ReturnType $ReturnType
