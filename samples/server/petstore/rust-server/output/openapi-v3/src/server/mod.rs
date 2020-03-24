@@ -30,6 +30,7 @@ use {Api,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
+     OverrideServerGetResponse,
      ParamgetGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RegisterCallbackPostResponse,
@@ -58,6 +59,7 @@ mod paths {
             r"^/merge-patch-json$",
             r"^/multiget$",
             r"^/multiple_auth_scheme$",
+            r"^/override-server$",
             r"^/paramget$",
             r"^/readonly_auth_scheme$",
             r"^/register-callback$",
@@ -83,17 +85,18 @@ mod paths {
     pub static ID_MERGE_PATCH_JSON: usize = 3;
     pub static ID_MULTIGET: usize = 4;
     pub static ID_MULTIPLE_AUTH_SCHEME: usize = 5;
-    pub static ID_PARAMGET: usize = 6;
-    pub static ID_READONLY_AUTH_SCHEME: usize = 7;
-    pub static ID_REGISTER_CALLBACK: usize = 8;
-    pub static ID_REQUIRED_OCTET_STREAM: usize = 9;
-    pub static ID_RESPONSES_WITH_HEADERS: usize = 10;
-    pub static ID_RFC7807: usize = 11;
-    pub static ID_UNTYPED_PROPERTY: usize = 12;
-    pub static ID_UUID: usize = 13;
-    pub static ID_XML: usize = 14;
-    pub static ID_XML_EXTRA: usize = 15;
-    pub static ID_XML_OTHER: usize = 16;
+    pub static ID_OVERRIDE_SERVER: usize = 6;
+    pub static ID_PARAMGET: usize = 7;
+    pub static ID_READONLY_AUTH_SCHEME: usize = 8;
+    pub static ID_REGISTER_CALLBACK: usize = 9;
+    pub static ID_REQUIRED_OCTET_STREAM: usize = 10;
+    pub static ID_RESPONSES_WITH_HEADERS: usize = 11;
+    pub static ID_RFC7807: usize = 12;
+    pub static ID_UNTYPED_PROPERTY: usize = 13;
+    pub static ID_UUID: usize = 14;
+    pub static ID_XML: usize = 15;
+    pub static ID_XML_EXTRA: usize = 16;
+    pub static ID_XML_OTHER: usize = 17;
 }
 
 pub struct MakeService<T, RC> {
@@ -544,6 +547,42 @@ where
                                                 MultipleAuthSchemeGetResponse::CheckThatLimitingToMultipleRequiredAuthSchemesWorks
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
+            // OverrideServerGet - GET /override-server
+            &hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => {
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.override_server_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                OverrideServerGetResponse::Success
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
                                                 },
                                             },
                                             Err(_) => {
@@ -1419,6 +1458,7 @@ where
             _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIGET) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => method_not_allowed(),
+            _ if path.matched(paths::ID_OVERRIDE_SERVER) => method_not_allowed(),
             _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
             _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
             _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
@@ -1467,6 +1507,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Ok("MultigetGet"),
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
             &hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Ok("MultipleAuthSchemeGet"),
+            // OverrideServerGet - GET /override-server
+            &hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => Ok("OverrideServerGet"),
             // ParamgetGet - GET /paramget
             &hyper::Method::GET if path.matched(paths::ID_PARAMGET) => Ok("ParamgetGet"),
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme

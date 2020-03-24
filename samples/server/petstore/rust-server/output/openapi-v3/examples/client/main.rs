@@ -35,6 +35,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
+                      OverrideServerGetResponse,
                       ParamgetGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RegisterCallbackPostResponse,
@@ -69,6 +70,7 @@ fn main() {
                 "MergePatchJsonGet",
                 "MultigetGet",
                 "MultipleAuthSchemeGet",
+                "OverrideServerGet",
                 "ParamgetGet",
                 "ReadonlyAuthSchemeGet",
                 "RegisterCallbackPost",
@@ -160,6 +162,11 @@ fn main() {
         },
         Some("MultipleAuthSchemeGet") => {
             let result = rt.block_on(client.multiple_auth_scheme_get(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
+        Some("OverrideServerGet") => {
+            let result = rt.block_on(client.override_server_get(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
