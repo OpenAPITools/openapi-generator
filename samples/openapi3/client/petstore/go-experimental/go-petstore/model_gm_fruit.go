@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -26,16 +25,16 @@ type GmFruit struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewGmFruit() *GmFruit {
-    this := GmFruit{}
-    return &this
+	this := GmFruit{}
+	return &this
 }
 
 // NewGmFruitWithDefaults instantiates a new GmFruit object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewGmFruitWithDefaults() *GmFruit {
-    this := GmFruit{}
-    return &this
+	this := GmFruit{}
+	return &this
 }
 
 // GetColor returns the Color field value if set, zero value otherwise.
@@ -47,14 +46,13 @@ func (o *GmFruit) GetColor() string {
 	return *o.Color
 }
 
-// GetColorOk returns a tuple with the Color field value if set, zero value otherwise
+// GetColorOk returns a tuple with the Color field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GmFruit) GetColorOk() (string, bool) {
+func (o *GmFruit) GetColorOk() (*string, bool) {
 	if o == nil || o.Color == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Color, true
+	return o.Color, true
 }
 
 // HasColor returns a boolean if a field has been set.
@@ -80,14 +78,13 @@ func (o *GmFruit) GetCultivar() string {
 	return *o.Cultivar
 }
 
-// GetCultivarOk returns a tuple with the Cultivar field value if set, zero value otherwise
+// GetCultivarOk returns a tuple with the Cultivar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GmFruit) GetCultivarOk() (string, bool) {
+func (o *GmFruit) GetCultivarOk() (*string, bool) {
 	if o == nil || o.Cultivar == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Cultivar, true
+	return o.Cultivar, true
 }
 
 // HasCultivar returns a boolean if a field has been set.
@@ -113,14 +110,13 @@ func (o *GmFruit) GetLengthCm() float32 {
 	return *o.LengthCm
 }
 
-// GetLengthCmOk returns a tuple with the LengthCm field value if set, zero value otherwise
+// GetLengthCmOk returns a tuple with the LengthCm field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GmFruit) GetLengthCmOk() (float32, bool) {
+func (o *GmFruit) GetLengthCmOk() (*float32, bool) {
 	if o == nil || o.LengthCm == nil {
-		var ret float32
-		return ret, false
+		return nil, false
 	}
-	return *o.LengthCm, true
+	return o.LengthCm, true
 }
 
 // HasLengthCm returns a boolean if a field has been set.
@@ -137,25 +133,52 @@ func (o *GmFruit) SetLengthCm(v float32) {
 	o.LengthCm = &v
 }
 
+func (o GmFruit) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Color != nil {
+		toSerialize["color"] = o.Color
+	}
+	if o.Cultivar != nil {
+		toSerialize["cultivar"] = o.Cultivar
+	}
+	if o.LengthCm != nil {
+		toSerialize["lengthCm"] = o.LengthCm
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableGmFruit struct {
-	Value GmFruit
-	ExplicitNull bool
+	value *GmFruit
+	isSet bool
+}
+
+func (v NullableGmFruit) Get() *GmFruit {
+	return v.value
+}
+
+func (v *NullableGmFruit) Set(val *GmFruit) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableGmFruit) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableGmFruit) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableGmFruit(val *GmFruit) *NullableGmFruit {
+	return &NullableGmFruit{value: val, isSet: true}
 }
 
 func (v NullableGmFruit) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableGmFruit) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
