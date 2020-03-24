@@ -36,37 +36,42 @@ but it doesn't guarantee that properties required by API are set
 {{#vars}}
 ### Get{{name}}
 
-`func (o *{{classname}}) Get{{name}}() {{dataType}}`
+`func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-basetype}}`
 
 Get{{name}} returns the {{name}} field if non-nil, zero value otherwise.
 
 ### Get{{name}}Ok
 
-`func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool)`
+`func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-basetype}}, bool)`
 
 Get{{name}}Ok returns a tuple with the {{name}} field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
+### Set{{name}}
+
+`func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-basetype}})`
+
+Set{{name}} sets {{name}} field to given value.
+
+{{^required}}
 ### Has{{name}}
 
 `func (o *{{classname}}) Has{{name}}() bool`
 
 Has{{name}} returns a boolean if a field has been set.
-
-### Set{{name}}
-
-`func (o *{{classname}}) Set{{name}}(v {{dataType}})`
-
-Set{{name}} gets a reference to the given {{dataType}} and assigns it to the {{name}} field.
+{{/required}}
 
 {{#isNullable}}
-### Set{{name}}ExplicitNull
+### Set{{name}}Nil
 
-`func (o *{{classname}}) Set{{name}}ExplicitNull(b bool)`
+`func (o *{{classname}}) Set{{name}}Nil(b bool)`
 
-Set{{name}}ExplicitNull (un)sets {{name}} to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The {{name}} value is set to nil even if false is passed
+ Set{{name}}Nil sets the value for {{name}} to be an explicit nil
+
+### Unset{{name}}
+`func (o *{{classname}}) Unset{{name}}()`
+
+Unset{{name}} ensures that no value is present for {{name}}, not even an explicit nil
 {{/isNullable}}
 {{/vars}}
 {{#vendorExtensions.x-implements}}
