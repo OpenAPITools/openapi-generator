@@ -35,22 +35,22 @@ GetColor returns the Color field if non-nil, zero value otherwise.
 
 ### GetColorOk
 
-`func (o *GmFruit) GetColorOk() (string, bool)`
+`func (o *GmFruit) GetColorOk() (*string, bool)`
 
 GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetColor
+
+`func (o *GmFruit) SetColor(v string)`
+
+SetColor sets Color field to given value.
 
 ### HasColor
 
 `func (o *GmFruit) HasColor() bool`
 
 HasColor returns a boolean if a field has been set.
-
-### SetColor
-
-`func (o *GmFruit) SetColor(v string)`
-
-SetColor gets a reference to the given string and assigns it to the Color field.
 
 ### GetCultivar
 
@@ -60,22 +60,22 @@ GetCultivar returns the Cultivar field if non-nil, zero value otherwise.
 
 ### GetCultivarOk
 
-`func (o *GmFruit) GetCultivarOk() (string, bool)`
+`func (o *GmFruit) GetCultivarOk() (*string, bool)`
 
 GetCultivarOk returns a tuple with the Cultivar field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetCultivar
+
+`func (o *GmFruit) SetCultivar(v string)`
+
+SetCultivar sets Cultivar field to given value.
 
 ### HasCultivar
 
 `func (o *GmFruit) HasCultivar() bool`
 
 HasCultivar returns a boolean if a field has been set.
-
-### SetCultivar
-
-`func (o *GmFruit) SetCultivar(v string)`
-
-SetCultivar gets a reference to the given string and assigns it to the Cultivar field.
 
 ### GetLengthCm
 
@@ -85,22 +85,22 @@ GetLengthCm returns the LengthCm field if non-nil, zero value otherwise.
 
 ### GetLengthCmOk
 
-`func (o *GmFruit) GetLengthCmOk() (float32, bool)`
+`func (o *GmFruit) GetLengthCmOk() (*float32, bool)`
 
 GetLengthCmOk returns a tuple with the LengthCm field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetLengthCm
+
+`func (o *GmFruit) SetLengthCm(v float32)`
+
+SetLengthCm sets LengthCm field to given value.
 
 ### HasLengthCm
 
 `func (o *GmFruit) HasLengthCm() bool`
 
 HasLengthCm returns a boolean if a field has been set.
-
-### SetLengthCm
-
-`func (o *GmFruit) SetLengthCm(v float32)`
-
-SetLengthCm gets a reference to the given float32 and assigns it to the LengthCm field.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

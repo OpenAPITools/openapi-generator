@@ -1,8 +1,25 @@
 {{> partial_header}}
 {{#operations}}
 {{#operation}}
+<#
+.SYNOPSIS
+
+{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+
+.DESCRIPTION
+
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{#allParams}}
+.PARAMETER {{{paramName}}}
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{/allParams}}
+.OUTPUTS
+
+{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}None{{/returnType}}
+#>
 function {{{vendorExtensions.x-powershell-method-name}}} {
-    [OutputType({{#returnType}}"{{{.}}}"{{/returnType}}{{^returnType}}[System.Void]{{/returnType}})]
     [CmdletBinding()]
     Param (
     {{#allParams}}
@@ -27,7 +44,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         $LocalVarCookieParameters = @{}
         $LocalVarBodyParameter
 
-        $Configuraiton = Get-{{{apiNamePrefix}}}Configuration
+        $Configuration = Get-{{{apiNamePrefix}}}Configuration
         {{#hasProduces}}
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}})

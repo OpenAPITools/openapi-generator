@@ -617,9 +617,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         } else {
             setProjectName(defaultProjectName);
         }
-        System.out.println("michele was here preprocessOpenAPI "+projectName);
         additionalProperties.put(PROJECT_NAME, projectName);
-        System.out.println("michele was here preprocessOpenAPI after "+projectName);
     }
 
     public void setProjectName(String projectName) {
