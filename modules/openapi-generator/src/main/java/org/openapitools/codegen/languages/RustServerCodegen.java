@@ -28,6 +28,7 @@ import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -238,7 +239,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("context.mustache", "src", "context.rs"));
         supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
-        supportingFiles.add(new SupportingFile("mimetypes.mustache", "src", "mimetypes.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));
         supportingFiles.add(new SupportingFile("example-server-main.mustache", "examples/server", "main.rs"));
@@ -254,6 +254,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("RUST_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable RUST_POST_PROCESS_FILE not defined. rustfmt will be used" +
+                        " by default. To choose a different tool, try" +
+                        " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` " +
+                        " (--enable-post-process-file for CLI).");
+        }
 
         if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
             LOGGER.warn("generateAliasAsModel is set to false, which means array/map will be generated as model instead and the resulting code may have issues. Please enable `generateAliasAsModel` to address the issue.");
@@ -717,6 +725,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         op.vendorExtensions.put("PATH_ID", pathId);
         op.vendorExtensions.put("hasPathParams", hasPathParams);
         op.vendorExtensions.put("HttpMethod", op.httpMethod.toUpperCase(Locale.ROOT));
+
+        if (!op.vendorExtensions.containsKey("x-mustUseResponse")) {
+          // If there's more than one response, than by default the user must explicitly handle them
+          op.vendorExtensions.put("x-mustUseResponse", op.responses.size() > 1);
+        }
+
         for (CodegenParameter param : op.allParams) {
             processParam(param, op);
         }
@@ -1559,6 +1573,33 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // Not required, so override the format string and example
             param.vendorExtensions.put("formatString", "{:?}");
             param.vendorExtensions.put("example", (example != null) ? "Some(" + example + ")" : "None");
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String commandPrefix = System.getenv("RUST_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(commandPrefix)) {
+            commandPrefix = "rustfmt";
+        }
+
+        // only process files with .rs extension
+        if ("rs".equals(FilenameUtils.getExtension(file.toString()))) {
+            try {
+                Process p = Runtime.getRuntime().exec(new String[] {commandPrefix, file.toString()});
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file.toString(), exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file.toString());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file.toString(), e.getMessage());
+            }
         }
     }
 }

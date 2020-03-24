@@ -6,7 +6,6 @@ use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use url::form_urlencoded;
-use mimetypes;
 use serde_json;
 use std::io;
 #[allow(unused_imports)]
@@ -183,6 +182,16 @@ where
     }
 }
 
+type ServiceFuture = Box<dyn Future<Item = Response<Body>, Error = Error> + Send>;
+
+fn method_not_allowed() -> ServiceFuture {
+    Box::new(future::ok(
+        Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
+            .body(Body::empty())
+            .expect("Unable to create Method Not Allowed response")
+    ))
+}
+
 pub struct Service<T, RC> {
     api_impl: T,
     marker: PhantomData<RC>,
@@ -208,7 +217,7 @@ where
     type ReqBody = ContextualPayload<Body, C>;
     type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
+    type Future = ServiceFuture;
 
     fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -1552,6 +1561,43 @@ where
                 }) as Self::Future
             },
 
+            _ if path.matched(paths::ID_OP1) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP10) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP11) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP12) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP13) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP14) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP15) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP16) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP17) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP18) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP19) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP2) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP20) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP21) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP22) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP23) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP24) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP25) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP26) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP27) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP28) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP29) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP3) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP30) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP31) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP32) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP33) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP34) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP35) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP36) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP37) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP4) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP5) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP6) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP7) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP8) => method_not_allowed(),
+            _ if path.matched(paths::ID_OP9) => method_not_allowed(),
             _ => Box::new(future::ok(
                 Response::builder().status(StatusCode::NOT_FOUND)
                     .body(Body::empty())
