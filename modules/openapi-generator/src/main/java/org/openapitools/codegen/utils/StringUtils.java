@@ -9,7 +9,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -89,8 +88,7 @@ public class StringUtils {
 
     private static Pattern camelizeSlashPattern = Pattern.compile("\\/(.?)");
     private static Pattern camelizeUppercasePattern = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
-    private static Pattern camelizeUnderscorePattern = Pattern.compile("(_)(.)");
-    private static Pattern camelizeHyphenPattern = Pattern.compile("(-)(.)");
+    private static Pattern camelizeCharsPattern = Pattern.compile("([_ -])(.)");
 
     /**
      * Camelize name (parameter, property, method, etc)
@@ -137,23 +135,17 @@ public class StringUtils {
             }
 
             // Remove all underscores (underscore_case to camelCase)
-            m = camelizeUnderscorePattern.matcher(word);
+            // Remove all hyphens (hyphen-case to camelCase)
+            m = camelizeCharsPattern.matcher(word);
             while (m.find()) {
                 String original = m.group(2);
                 String upperCase = original.toUpperCase(Locale.ROOT);
                 if (original.equals(upperCase)) {
-                    word = word.replaceFirst("_", "");
+                    word = word.replaceFirst("[_ -]", "");
                 } else {
                     word = m.replaceFirst(upperCase);
                 }
-                m = camelizeUnderscorePattern.matcher(word);
-            }
-
-            // Remove all hyphens (hyphen-case to camelCase)
-            m = camelizeHyphenPattern.matcher(word);
-            while (m.find()) {
-                word = m.replaceFirst(m.group(2).toUpperCase(Locale.ROOT));
-                m = camelizeHyphenPattern.matcher(word);
+                m = camelizeCharsPattern.matcher(word);
             }
 
             if (lowerFirstLetter && word.length() > 0) {

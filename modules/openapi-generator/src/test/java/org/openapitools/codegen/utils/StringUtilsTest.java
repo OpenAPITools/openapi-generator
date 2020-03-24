@@ -19,12 +19,18 @@ public class StringUtilsTest {
         Assert.assertEquals(camelize("some-value"), "SomeValue");
         Assert.assertEquals(camelize("some_value"), "SomeValue");
         Assert.assertEquals(camelize("$type"), "$Type");
+        Assert.assertEquals(camelize("Upper lower"), "UpperLower");
+        Assert.assertEquals(camelize("Upper Upper"), "UpperUpper");
+        Assert.assertEquals(camelize("lower Upper"), "LowerUpper");
 
         Assert.assertEquals(camelize("abcd", true), "abcd");
         Assert.assertEquals(camelize("some-value", true), "someValue");
         Assert.assertEquals(camelize("some_value", true), "someValue");
         Assert.assertEquals(camelize("Abcd", true), "abcd");
         Assert.assertEquals(camelize("$type", true), "$type");
+        Assert.assertEquals(camelize("Upper lower", true), "upperLower");
+        Assert.assertEquals(camelize("Upper Upper", true), "upperUpper");
+        Assert.assertEquals(camelize("lower Upper", true), "lowerUpper");
 
         Assert.assertEquals(camelize("123", true), "123");
         Assert.assertEquals(camelize("$123", true), "$123");
