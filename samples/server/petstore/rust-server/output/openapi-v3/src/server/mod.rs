@@ -819,7 +819,7 @@ where
                                                 ResponsesWithHeadersGetResponse::Success
                                                     {
                                                         body,
-                                                        success_info, 
+                                                        success_info,
                                                         object_header
                                                     }
                                                 => {
@@ -841,7 +841,7 @@ where
                                                 },
                                                 ResponsesWithHeadersGetResponse::PreconditionFailed
                                                     {
-                                                        further_info, 
+                                                        further_info,
                                                         failure_info
                                                     }
                                                 => {

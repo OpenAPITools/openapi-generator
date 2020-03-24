@@ -2887,7 +2887,7 @@ where
                                                 LoginUserResponse::SuccessfulOperation
                                                     {
                                                         body,
-                                                        x_rate_limit, 
+                                                        x_rate_limit,
                                                         x_expires_after
                                                     }
                                                 => {
