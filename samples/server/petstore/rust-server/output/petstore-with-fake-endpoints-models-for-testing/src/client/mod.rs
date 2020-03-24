@@ -93,7 +93,7 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 
     let host = uri.host().ok_or_else(|| ClientInitError::MissingHost)?;
     let port = uri.port_part().map(|x| format!(":{}", x)).unwrap_or_default();
-    Ok(format!("{}://{}{}", scheme, host, port))
+    Ok(format!("{}://{}{}{}", scheme, host, port, uri.path().trim_end_matches('/')))
 }
 
 /// A client that implements the API by making HTTP calls out to a server.
