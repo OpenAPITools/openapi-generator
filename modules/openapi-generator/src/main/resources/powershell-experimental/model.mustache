@@ -1,6 +1,25 @@
 {{> partial_header}}
 {{#models}}
 {{#model}}
+<#
+.SYNOPSIS
+
+{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+
+.DESCRIPTION
+
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{#vars}}
+.PARAMETER {{{name}}}
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{/vars}}
+.OUTPUTS
+
+{{{classname}}}<PSCustomObject>
+#>
+
 function New-{{{apiNamePrefix}}}{{{classname}}} {
     [CmdletBinding()]
     Param (

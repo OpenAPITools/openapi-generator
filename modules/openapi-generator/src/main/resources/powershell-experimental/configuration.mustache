@@ -1,4 +1,17 @@
 {{> partial_header}}
+<#
+.SYNOPSIS
+
+Get the configuration object '{{apiNamePrefix}}Configuration'.
+
+.DESCRIPTION
+
+Get the configuration object '{{apiNamePrefix}}Configuration'.
+
+.OUTPUTS
+
+System.Collections.Hashtable
+#>
 function Get-{{apiNamePrefix}}Configuration {
 
     $Configuration = $Script:Configuration
@@ -36,6 +49,43 @@ function Get-{{apiNamePrefix}}Configuration {
 
 }
 
+<#
+.SYNOPSIS
+
+Set the configuration.
+
+.DESCRIPTION
+
+Set the configuration.
+
+.PARAMETER BaseUrl
+Base URL of the HTTP endpoints
+
+.PARAMETER Username
+Username in HTTP basic authentication
+
+.PARAMETER Passowrd
+Password in HTTP basic authentication
+
+.PARAMETER ApiKey
+API Keys for authentication/authorization
+
+.PARAMETER ApiKeyPrefix
+Prefix in the API Keys
+
+.PARAMETER Cookie
+Cookie for authentication/authorization
+
+.PARAMETER AccessToken
+Access token for authentication/authorization
+
+.PARAMETER SkipCertificateCheck
+Skip certificate verification
+
+.OUTPUTS
+
+System.Collections.Hashtable
+#>
 function Set-{{{apiNamePrefix}}}Configuration {
 
     [CmdletBinding()]
@@ -92,6 +142,25 @@ function Set-{{{apiNamePrefix}}}Configuration {
     }
 }
 
+<#
+.SYNOPSIS
+
+Set the API Key.
+
+.DESCRIPTION
+
+Set the API Key.
+
+.PARAMETER Id
+ID of the security schema
+
+.PARAMETER ApiKey
+API Key
+
+.OUTPUTS
+
+None
+#>
 function Set-{{{apiNamePrefix}}}ConfigurationApiKey {
     [CmdletBinding()]
     Param(
@@ -107,6 +176,25 @@ function Set-{{{apiNamePrefix}}}ConfigurationApiKey {
     }
 }
 
+<#
+.SYNOPSIS
+
+Set the API Key prefix.
+
+.DESCRIPTION
+
+Set the API Key prefix.
+
+.PARAMETER Id
+ID of the security schema
+
+.PARAMETER ApiKey
+API Key prefix
+
+.OUTPUTS
+
+None
+#>
 function Set-{{{apiNamePrefix}}}ConfigurationApiKeyPrefix {
     [CmdletBinding()]
     Param(
