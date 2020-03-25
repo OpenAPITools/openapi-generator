@@ -10,11 +10,9 @@ import java.util.Date
 
 object Serializer {
     @JvmStatic
-    var jacksonObjectMapper: ObjectMapper by lazy {
-        jacksonObjectMapper()
-            .registerModule(Jdk8Module())
-            .registerModule(JavaTimeModule())
-            .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-    }
+    val jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
+        .registerModule(Jdk8Module())
+        .registerModule(JavaTimeModule())
+        .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
+        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 }

@@ -29,7 +29,6 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "com.squareup.moshi:moshi-kotlin:1.9.2"
     compile "com.squareup.moshi:moshi-adapters:1.9.2"

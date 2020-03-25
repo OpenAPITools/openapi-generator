@@ -6,15 +6,13 @@ import java.util.Date
 
 object Serializer {
     @JvmStatic
-    val moshiBuilder: Moshi.Builder by lazy { 
-        Moshi.Builder()
-            .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
-            .add(OffsetDateTimeAdapter())
-            .add(LocalDateTimeAdapter())
-            .add(LocalDateAdapter())
-            .add(UUIDAdapter())
-            .add(ByteArrayAdapter())
-    }
+    val moshiBuilder: Moshi.Builder = Moshi.Builder()
+        .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+        .add(OffsetDateTimeAdapter())
+        .add(LocalDateTimeAdapter())
+        .add(LocalDateAdapter())
+        .add(UUIDAdapter())
+        .add(ByteArrayAdapter())
 
     @JvmStatic
     val moshi: Moshi by lazy {
