@@ -710,7 +710,7 @@ public class DefaultCodegen implements CodegenConfig {
     //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (useOneOfInterfaces && openAPI.getComponents() != null) {
+        if (useOneOfInterfaces) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
             if (schemas == null) {
@@ -733,13 +733,11 @@ public class DefaultCodegen implements CodegenConfig {
                             schemas.put(opId, requestSchema);
                         }
                         // process all response bodies
-                        if (op.getValue().getResponses() != null){
-                            for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
-                                ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
-                                Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
-                                if (responseSchema != null) {
-                                    schemas.put(opId + ar.getKey(), responseSchema);
-                                }
+                        for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
+                            ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
+                            Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                            if (responseSchema != null) {
+                                schemas.put(opId + ar.getKey(), responseSchema);
                             }
                         }
                     }
@@ -752,9 +750,13 @@ public class DefaultCodegen implements CodegenConfig {
                 Schema s = e.getValue();
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
-                    addOneOfNameExtension((ComposedSchema) s, n);
-                    if (useOneOfInterfaces && "JavaSpring".equals(templateDir)){
+                    if (e.getKey().contains("/")) {
+                        // if this is property schema, we also need to generate the oneOf interface model
+                        addOneOfNameExtension((ComposedSchema) s, nOneOf);
                         addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
+                    } else {
+                        // else this is a component schema, so we will just use that as the oneOf interface model
+                        addOneOfNameExtension((ComposedSchema) s, n);
                     }
                 } else if (ModelUtils.isArraySchema(s)) {
                     Schema items = ((ArraySchema) s).getItems();
@@ -5430,9 +5432,6 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
                             codegenModelName = "UNKNOWN_BASE_TYPE";
                             codegenModelDescription = "UNKNOWN_DESCRIPTION";
-                            if (useOneOfInterfaces && templateDir.equals("JavaSpring")){
-                                codegenModelName = codegenProperty.getComplexType()+"OneOf";
-                            }
                         }
 
                         if (StringUtils.isEmpty(bodyParameterName)) {
@@ -5447,7 +5446,7 @@ public class DefaultCodegen implements CodegenConfig {
                         codegenParameter.description = codegenModelDescription;
                         imports.add(codegenParameter.baseType);
 
-                        if (codegenProperty.complexType != null && (useOneOfInterfaces && !templateDir.equals("JavaSpring"))) {
+                        if (codegenProperty.complexType != null) {
                             imports.add(codegenProperty.complexType);
                         }
                     }
