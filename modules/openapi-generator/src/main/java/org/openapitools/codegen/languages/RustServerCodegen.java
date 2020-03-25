@@ -1103,7 +1103,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // defined.
             if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
                 codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
-            } else {
+            } else if (!codegenParameter.required) {
+                //mandatory parameter use the example in the yaml. if no example, it is also null.
                 codegenParameter.example = null;
             }
         }
