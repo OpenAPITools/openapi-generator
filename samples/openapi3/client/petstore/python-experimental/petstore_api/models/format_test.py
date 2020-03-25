@@ -27,6 +27,7 @@ from petstore_api.model_utils import (  # noqa: F401
     int,
     none_type,
     str,
+    bytes,
     validate_get_composed_info,
 )
 
@@ -138,7 +139,7 @@ class FormatTest(ModelNormal):
 
     attribute_map = {
         'number': 'number',  # noqa: E501
-        'byte': b'byte',  # noqa: E501
+        'byte': 'byte',  # noqa: E501
         'date': 'date',  # noqa: E501
         'password': 'password',  # noqa: E501
         'integer': 'integer',  # noqa: E501
@@ -171,7 +172,7 @@ class FormatTest(ModelNormal):
 
         Args:
             number (float):
-            byte (str):
+            byte (bytes):
             date (date):
             password (str):
 
