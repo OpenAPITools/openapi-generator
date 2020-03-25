@@ -20,12 +20,33 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
-    public String openApiType, baseName, complexType, getter, setter, description, dataType,
-            datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
-            baseType, containerType, title;
+    /**
+     * The value of the 'type' attribute in the OpenAPI schema.
+     */
+    public String openApiType;
+    public String baseName;
+    public String complexType;
+    public String getter;
+    public String setter;
+    /**
+     * The value of the 'description' attribute in the OpenAPI schema.
+     */
+    public String description;
+    public String dataType;
+    public String datatypeWithEnum;
+    public String dataFormat;
+    public String name;
+    public String defaultValue;
+    public String defaultValueWithParam;
+    public String baseType;
+    public String containerType;
+    /**
+     * The value of the 'title' attribute in the OpenAPI schema.
+     */
+    public String title;
 
     /**
-     * The 'description' string without escape charcters needed by some programming languages/targets
+     * The 'description' string without escape characters needed by some programming languages/targets
      */
     public String unescapedDescription;
 
@@ -47,10 +68,30 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String example;
 
     public String jsonSchema;
+    /**
+     * The value of the 'minimum' attribute in the OpenAPI schema.
+     * The value of "minimum" MUST be a number, representing an inclusive lower limit for a numeric instance.
+     */
     public String minimum;
+    /**
+     * The value of the 'maximum' attribute in the OpenAPI schema.
+     * The value of "maximum" MUST be a number, representing an inclusive upper limit for a numeric instance.
+     */
     public String maximum;
+    /**
+     * The value of the 'multipleOf' attribute in the OpenAPI schema.
+     * The value of "multipleOf" MUST be a number, strictly greater than 0.
+     */
     public Number multipleOf;
+    /**
+     * The value of the 'exclusiveMinimum' attribute in the OpenAPI schema.
+     * The value of "exclusiveMinimum" MUST be number, representing an exclusive lower limit for a numeric instance.
+     */
     public boolean exclusiveMinimum;
+    /**
+     * The value of the 'exclusiveMaximum' attribute in the OpenAPI schema.
+     * The value of "exclusiveMaximum" MUST be number, representing an exclusive upper limit for a numeric instance.
+     */
     public boolean exclusiveMaximum;
     public boolean hasMore;
     public boolean required;
@@ -59,7 +100,13 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
-    public boolean isContainer; // true if this property is an array of items or a map container.
+    /**
+     * True if this property is an array of items or a map container.
+     * See:
+     * - ModelUtils.isArraySchema()
+     * - ModelUtils.isMapSchema()
+     */
+    public boolean isContainer;
     public boolean isString;
     public boolean isNumeric;
     public boolean isInteger;
@@ -199,22 +246,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getMin() {
-        return min;
-    }
-
-    public void setMin(String min) {
-        this.min = min;
-    }
-
-    public String getMax() {
-        return max;
-    }
-
-    public void setMax(String max) {
-        this.max = max;
     }
 
     public String getDefaultValue() {
@@ -544,8 +575,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');
         sb.append(", name='").append(name).append('\'');
-        sb.append(", min='").append(min).append('\'');
-        sb.append(", max='").append(max).append('\'');
         sb.append(", defaultValue='").append(defaultValue).append('\'');
         sb.append(", defaultValueWithParam='").append(defaultValueWithParam).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
@@ -629,7 +658,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 exclusiveMaximum == that.exclusiveMaximum &&
                 hasMore == that.hasMore &&
                 required == that.required &&
-                deprecated == this.deprecated &&
+                deprecated == that.deprecated &&
                 secondaryParam == that.secondaryParam &&
                 hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
@@ -674,8 +703,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(min, that.min) &&
-                Objects.equals(max, that.max) &&
                 Objects.equals(defaultValue, that.defaultValue) &&
                 Objects.equals(defaultValueWithParam, that.defaultValueWithParam) &&
                 Objects.equals(baseType, that.baseType) &&
@@ -710,7 +737,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public int hashCode() {
 
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
-                dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
+                dataType, datatypeWithEnum, dataFormat, name, defaultValue,
                 defaultValueWithParam, baseType, containerType, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
