@@ -95,6 +95,7 @@ function Invoke-PSApiClient {
                                   -Headers $HeaderParameters `
                                   -Body $RequestBody `
                                   -ErrorAction Stop `
+                                  -UseBasicParsing `
                                   -SkipCertificateCheck
 
     } else {
@@ -102,7 +103,8 @@ function Invoke-PSApiClient {
                                   -Method $Method `
                                   -Headers $HeaderParameters `
                                   -Body $RequestBody `
-                                  -ErrorAction Stop
+                                  -ErrorAction Stop `
+                                  -UseBasicParsing
     }
 
     return @{
