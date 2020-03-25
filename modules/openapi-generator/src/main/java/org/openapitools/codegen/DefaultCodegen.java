@@ -83,6 +83,7 @@ public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     public static FeatureSet DefaultFeatureSet;
+    public static final String LIBRARY_ONEOF_IMPL = "JavaSpring";
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
@@ -710,7 +711,7 @@ public class DefaultCodegen implements CodegenConfig {
     //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (useOneOfInterfaces) {
+        if (useOneOfInterfaces && openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
             if (schemas == null) {
@@ -733,16 +734,34 @@ public class DefaultCodegen implements CodegenConfig {
                             schemas.put(opId, requestSchema);
                         }
                         // process all response bodies
-                        for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
-                            ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
-                            Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
-                            if (responseSchema != null) {
-                                schemas.put(opId + ar.getKey(), responseSchema);
+                        if (op.getValue().getResponses() != null) {
+                            for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses()
+                                .entrySet()) {
+                                ApiResponse a = ModelUtils
+                                    .getReferencedApiResponse(openAPI, ar.getValue());
+                                Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                                if (responseSchema != null) {
+                                    schemas.put(opId + ar.getKey(), responseSchema);
+                                }
                             }
                         }
                     }
                 }
             }
+
+            // also add all properties of all schemas to be checked for oneOf
+            Map<String, Schema> propertySchemas = new HashMap<String, Schema>();
+            for (Map.Entry<String, Schema> e : schemas.entrySet()) {
+                Schema s = e.getValue();
+                Map<String, Schema> props = s.getProperties();
+                if (props == null) {
+                    props = new HashMap<String, Schema>();
+                }
+                for (Map.Entry<String, Schema> p : props.entrySet()) {
+                    propertySchemas.put(e.getKey() + "/" + p.getKey(), p.getValue());
+                }
+            }
+            schemas.putAll(propertySchemas);
 
             // go through all gathered schemas and add them as interfaces to be created
             for (Map.Entry<String, Schema> e : schemas.entrySet()) {
@@ -750,7 +769,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Schema s = e.getValue();
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
-                    if (e.getKey().contains("/")) {
+                    if (e.getKey().contains("/") || (useOneOfInterfaces && LIBRARY_ONEOF_IMPL.equals(templateDir))) {
                         // if this is property schema, we also need to generate the oneOf interface model
                         addOneOfNameExtension((ComposedSchema) s, nOneOf);
                         addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
@@ -5432,6 +5451,9 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
                             codegenModelName = "UNKNOWN_BASE_TYPE";
                             codegenModelDescription = "UNKNOWN_DESCRIPTION";
+                            if (useOneOfInterfaces && templateDir.equals(LIBRARY_ONEOF_IMPL)){
+                                codegenModelName = codegenProperty.getComplexType();
+                            }
                         }
 
                         if (StringUtils.isEmpty(bodyParameterName)) {
@@ -5446,7 +5468,8 @@ public class DefaultCodegen implements CodegenConfig {
                         codegenParameter.description = codegenModelDescription;
                         imports.add(codegenParameter.baseType);
 
-                        if (codegenProperty.complexType != null) {
+                        if (codegenProperty.complexType != null && (useOneOfInterfaces && !templateDir.equals(
+                            LIBRARY_ONEOF_IMPL))) {
                             imports.add(codegenProperty.complexType);
                         }
                     }
@@ -5733,15 +5756,19 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Add a given ComposedSchema as an interface model to be generated
+     * Add a given ComposedSchema as an interface model to be generated, assuming it has `oneOf` defined
      * @param cs ComposedSchema object to create as interface model
      * @param type name to use for the generated interface model
      */
     public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
+        if (cs.getOneOf() == null) {
+            return;
+        }
         CodegenModel cm = new CodegenModel();
 
         cm.discriminator = createDiscriminator("", (Schema) cs);
-        for (Schema o : cs.getOneOf()) {
+
+        for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {
             if (o.get$ref() == null) {
                 if (cm.discriminator != null && o.get$ref() == null) {
                     // OpenAPI spec states that inline objects should not be considered when discriminator is used
