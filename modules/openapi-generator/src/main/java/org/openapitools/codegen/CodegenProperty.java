@@ -258,20 +258,20 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.name = name;
     }
 
-    public String getMin() {  
-        return min; 
-    } 
+    public String getMin() {
+        return min;
+    }
 
-    public void setMin(String min) {  
-        this.min = min; 
-    } 
+    public void setMin(String min) {
+        this.min = min;
+    }
 
-    public String getMax() {  
-        return max; 
-    } 
+    public String getMax() {
+        return max;
+    }
 
-    public void setMax(String max) {  
-        this.max = max; 
+    public void setMax(String max) {
+        this.max = max;
     }
 
     public String getDefaultValue() {
@@ -601,7 +601,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');
         sb.append(", name='").append(name).append('\'');
-        sb.append(", min='").append(min).append('\'');  
+        sb.append(", min='").append(min).append('\'');
         sb.append(", max='").append(max).append('\'');
         sb.append(", defaultValue='").append(defaultValue).append('\'');
         sb.append(", defaultValueWithParam='").append(defaultValueWithParam).append('\'');
@@ -731,7 +731,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(min, that.min) &&  
+                Objects.equals(min, that.min) &&
                 Objects.equals(max, that.max) &&
                 Objects.equals(defaultValue, that.defaultValue) &&
                 Objects.equals(defaultValueWithParam, that.defaultValueWithParam) &&
