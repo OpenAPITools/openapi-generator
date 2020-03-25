@@ -174,7 +174,7 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 {{^required}}
 // Get{{name}} returns the {{name}} field value if set, zero value otherwise{{#isNullable}} (both if not set or set to explicit null){{/isNullable}}.
 func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
-	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{^isContainer}}|| o.{{name}}.Get() == nil{{/isContainer}}{{/isNullable}} {
+	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{^isContainer}}{{^isAnyType}}|| o.{{name}}.Get() == nil{{/isAnyType}}{{/isContainer}}{{/isNullable}} {
 		var ret {{vendorExtensions.x-go-base-type}}
 		return ret
 	}

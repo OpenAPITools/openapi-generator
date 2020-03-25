@@ -415,7 +415,7 @@ func (o *User) SetArbitraryTypeValue(v interface{}) {
 
 // GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *User) GetArbitraryNullableTypeValue() interface{} {
-	if o == nil || o.ArbitraryNullableTypeValue.Get() == nil {
+	if o == nil  {
 		var ret interface{}
 		return ret
 	}
