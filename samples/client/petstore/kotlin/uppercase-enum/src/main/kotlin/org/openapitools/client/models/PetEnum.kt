@@ -19,7 +19,6 @@ import com.squareup.moshi.Json
 * Values: MY_FIRST_VALUE,MY_SECOND_VALUE
 */
 
-
 enum class PetEnum(val value: kotlin.String){
 
 

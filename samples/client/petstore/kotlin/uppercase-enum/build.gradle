@@ -33,5 +33,6 @@ dependencies {
     compile "com.squareup.moshi:moshi-kotlin:1.9.2"
     compile "com.squareup.moshi:moshi-adapters:1.9.2"
     compile "com.squareup.okhttp3:okhttp:4.2.2"
+    compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }
