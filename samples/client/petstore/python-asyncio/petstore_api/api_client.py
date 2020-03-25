@@ -192,7 +192,6 @@ class ApiClient(object):
         if _preload_content:
             if six.PY3:
                 if response_type not in ["file", "bytes"]:
-                    print("Parsing response data...")
                     match = None
                     if content_type is not None:
                         match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
