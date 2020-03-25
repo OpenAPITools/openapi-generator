@@ -341,26 +341,26 @@ func (o *User) SetArbitraryObject(v map[string]interface{}) {
 
 // GetArbitraryNullableObject returns the ArbitraryNullableObject field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *User) GetArbitraryNullableObject() map[string]interface{} {
-	if o == nil || o.ArbitraryNullableObject.Get() == nil {
+	if o == nil  {
 		var ret map[string]interface{}
 		return ret
 	}
-	return *o.ArbitraryNullableObject.Get()
+	return o.ArbitraryNullableObject
 }
 
 // GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *User) GetArbitraryNullableObjectOk() (*map[string]interface{}, bool) {
-	if o == nil  {
+	if o == nil || o.ArbitraryNullableObject == nil {
 		return nil, false
 	}
-	return o.ArbitraryNullableObject.Get(), o.ArbitraryNullableObject.IsSet()
+	return &o.ArbitraryNullableObject, true
 }
 
 // HasArbitraryNullableObject returns a boolean if a field has been set.
 func (o *User) HasArbitraryNullableObject() bool {
-	if o != nil && o.ArbitraryNullableObject.IsSet() {
+	if o != nil && o.ArbitraryNullableObject != nil {
 		return true
 	}
 
@@ -369,16 +369,7 @@ func (o *User) HasArbitraryNullableObject() bool {
 
 // SetArbitraryNullableObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryNullableObject field.
 func (o *User) SetArbitraryNullableObject(v map[string]interface{}) {
-	o.ArbitraryNullableObject.Set(&v)
-}
-// SetArbitraryNullableObjectNil sets the value for ArbitraryNullableObject to be an explicit nil
-func (o *User) SetArbitraryNullableObjectNil() {
-	o.ArbitraryNullableObject.Set(nil)
-}
-
-// UnsetArbitraryNullableObject ensures that no value is present for ArbitraryNullableObject, not even an explicit nil
-func (o *User) UnsetArbitraryNullableObject() {
-	o.ArbitraryNullableObject.Unset()
+	o.ArbitraryNullableObject = v
 }
 
 // GetArbitraryTypeValue returns the ArbitraryTypeValue field value if set, zero value otherwise.
@@ -419,22 +410,22 @@ func (o *User) GetArbitraryNullableTypeValue() interface{} {
 		var ret interface{}
 		return ret
 	}
-	return *o.ArbitraryNullableTypeValue.Get()
+	return o.ArbitraryNullableTypeValue
 }
 
 // GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool) {
-	if o == nil  {
+	if o == nil || o.ArbitraryNullableTypeValue == nil {
 		return nil, false
 	}
-	return o.ArbitraryNullableTypeValue.Get(), o.ArbitraryNullableTypeValue.IsSet()
+	return &o.ArbitraryNullableTypeValue, true
 }
 
 // HasArbitraryNullableTypeValue returns a boolean if a field has been set.
 func (o *User) HasArbitraryNullableTypeValue() bool {
-	if o != nil && o.ArbitraryNullableTypeValue.IsSet() {
+	if o != nil && o.ArbitraryNullableTypeValue != nil {
 		return true
 	}
 
@@ -443,16 +434,7 @@ func (o *User) HasArbitraryNullableTypeValue() bool {
 
 // SetArbitraryNullableTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryNullableTypeValue field.
 func (o *User) SetArbitraryNullableTypeValue(v interface{}) {
-	o.ArbitraryNullableTypeValue.Set(&v)
-}
-// SetArbitraryNullableTypeValueNil sets the value for ArbitraryNullableTypeValue to be an explicit nil
-func (o *User) SetArbitraryNullableTypeValueNil() {
-	o.ArbitraryNullableTypeValue.Set(nil)
-}
-
-// UnsetArbitraryNullableTypeValue ensures that no value is present for ArbitraryNullableTypeValue, not even an explicit nil
-func (o *User) UnsetArbitraryNullableTypeValue() {
-	o.ArbitraryNullableTypeValue.Unset()
+	o.ArbitraryNullableTypeValue = v
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
@@ -484,14 +466,14 @@ func (o User) MarshalJSON() ([]byte, error) {
 	if o.ArbitraryObject != nil {
 		toSerialize["arbitraryObject"] = o.ArbitraryObject
 	}
-	if o.ArbitraryNullableObject.IsSet() {
-		toSerialize["arbitraryNullableObject"] = o.ArbitraryNullableObject.Get()
+	if o.ArbitraryNullableObject != nil {
+		toSerialize["arbitraryNullableObject"] = o.ArbitraryNullableObject
 	}
 	if o.ArbitraryTypeValue != nil {
 		toSerialize["arbitraryTypeValue"] = o.ArbitraryTypeValue
 	}
-	if o.ArbitraryNullableTypeValue.IsSet() {
-		toSerialize["arbitraryNullableTypeValue"] = o.ArbitraryNullableTypeValue.Get()
+	if o.ArbitraryNullableTypeValue != nil {
+		toSerialize["arbitraryNullableTypeValue"] = o.ArbitraryNullableTypeValue
 	}
 	return json.Marshal(toSerialize)
 }
