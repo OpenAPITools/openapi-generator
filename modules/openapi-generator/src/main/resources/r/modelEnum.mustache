@@ -2,21 +2,8 @@
 {{#allowableValues}}
 .parse_{{name}} <- function(vals) {
     res <- gsub("^\\[|\\]$", "",
-        "{{values}}"
+        "{{{values}}}"
     )
-    htmlEncoded <- any(grepl("[&;]", res))
-    if (htmlEncoded && !requireNamespace("xml2", quietly = TRUE))
-        stop("Install 'xml2' package for converting html encoded characters")
-    if (htmlEncoded) {
-        html2txt <- function(str) {
-            xml2::xml_text(
-                xml2::read_html(
-                    paste0("<x>", str, "</x>")
-                )
-            )
-        }
-        res <- html2txt(res)
-    }
     unlist(strsplit(res, ", "))
 }
 
@@ -24,8 +11,7 @@
 {{classname}} <- R6::R6Class(
     "{{classname}}",
     public = list(
-        `{{name}}` = NULL,
-        initialize = function({{#requiredVars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/requiredVars}}{{#optionalVars}}{{#-first}}{{#requiredVars.0}}, {{/requiredVars.0}}{{/-first}}`{{baseName}}`={{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}NULL{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}}, ...) {
+        initialize = function(...) {
             local.optional.var <- list(...)
             val <- unlist(local.optional.var)
             enumvec <- .parse_{{name}}()
@@ -35,25 +21,28 @@
             if (!val %in% enumvec)
                 stop("Use one of the valid values: ",
                     paste0(enumvec, collapse = ", "))
-            self$`{{name}}` <- val
+            private$value <- val
         },
         toJSON = function() {
-            jsonlite::toJSON(self$`{{name}}`, auto_unbox = TRUE)
+            jsonlite::toJSON(private$value, auto_unbox = TRUE)
         },
-        fromJSON = function() {
-            self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json,
+        fromJSON = function({{classname}}Json) {
+            private$value <- jsonlite::fromJSON({{classname}}Json,
                 simplifyVector = FALSE)
             self
         },
         toJSONString = function() {
-            as.character(jsonlite::toJSON(self$`{{name}}`,
+            as.character(jsonlite::toJSON(private$value,
                 auto_unbox = TRUE))
         },
-        fromJSONString = function() {
-            self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json,
+        fromJSONString = function({{classname}}Json) {
+            private$value <- jsonlite::fromJSON({{classname}}Json,
                 simplifyVector = FALSE)
             self
         }
+    ),
+    private = list(
+        value = NULL
     )
 )
 {{/allowableValues}}
