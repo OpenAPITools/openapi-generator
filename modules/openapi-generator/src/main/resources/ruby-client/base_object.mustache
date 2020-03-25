@@ -2,7 +2,9 @@
     # @param [Hash] attributes Model attributes in the form of hash
     # @return [Object] Returns the model itself
     def self.build_from_hash(attributes)
-      new.build_from_hash(attributes)
+      new(attributes).build_from_hash(attributes)
+    rescue ArgumentError
+      nil
     end
 
     # Builds the object from hash
@@ -93,7 +95,7 @@
           is_nullable = self.class.openapi_nullable.include?(attr)
           next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
         end
-        
+
         hash[param] = _to_hash(value)
       end
       hash
