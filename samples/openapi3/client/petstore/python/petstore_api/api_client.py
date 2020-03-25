@@ -183,10 +183,21 @@ class ApiClient(object):
             _preload_content=_preload_content,
             _request_timeout=_request_timeout)
 
+        content_type = response_data.getheader('content-type')
+
         self.last_response = response_data
 
         return_data = response_data
         if _preload_content:
+            if six.PY3:
+                if response_type not in ["file", "bytes"]:
+                    print("Parsing response data...")
+                    match = None
+                    if content_type is not None:
+                        match = re.search(r"charset=([[a-zA-Z\-\d]+)[\s\;]?", content_type)
+                    encoding = match.group(1) if match else "utf-8"
+                    response_data.data = response_data.data.decode(encoding)
+
             # deserialize response data
             if response_type:
                 return_data = self.deserialize(response_data, response_type)
