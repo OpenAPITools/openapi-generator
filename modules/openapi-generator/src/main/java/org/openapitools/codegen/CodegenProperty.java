@@ -22,6 +22,7 @@ import java.util.*;
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     /**
      * The value of the 'type' attribute in the OpenAPI schema.
+     * The per-language codegen logic may change to a language-specific type.
      */
     public String openApiType;
     public String baseName;
@@ -32,9 +33,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      * The value of the 'description' attribute in the OpenAPI schema.
      */
     public String description;
+    /**
+     * The language-specific data type for this property. For example, the OpenAPI type 'integer'
+     * may be represented as 'int', 'int32', 'Integer', etc, depending on the programming language.
+     */
     public String dataType;
     public String datatypeWithEnum;
     public String dataFormat;
+    /**
+     * The name of this property in the OpenAPI schema.
+     */
     public String name;
     public String defaultValue;
     public String defaultValueWithParam;
