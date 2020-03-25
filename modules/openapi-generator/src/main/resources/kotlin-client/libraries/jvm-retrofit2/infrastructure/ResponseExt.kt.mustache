@@ -1,0 +1,39 @@
+package {{packageName}}.infrastructure
+
+{{#moshi}}
+import com.squareup.moshi.JsonDataException
+import com.squareup.moshi.Moshi
+{{/moshi}}
+{{#gson}}
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
+{{/gson}}
+import retrofit2.Response
+
+{{#moshi}}
+inline fun <reified T> Response<*>.getErrorResponse(serializerBuilder: Moshi.Builder = Serializer.moshiBuilder): T? {
+    val serializer = serializerBuilder.build()
+    val parser = serializer.adapter(T::class.java)
+    val response = errorBody()?.string()
+    if(response != null)
+        try {
+            return parser.fromJson(response)
+        } catch(e: JsonDataException) {
+            e.printStackTrace()
+        }
+    return null
+}
+{{/moshi}}
+{{#gson}}
+inline fun <reified T> Response<*>.getErrorResponse(serializerBuilder: GsonBuilder = Serializer.gsonBuilder): T? {
+    val serializer = serializerBuilder.create()
+    val reader = errorBody()?.charStream()
+    if(reader != null)
+        try {
+            return serializer.fromJson(reader, T::class.java)
+        } catch(e: JsonParseException) {
+            e.printStackTrace()
+        }
+    return null
+}
+{{/gson}}
