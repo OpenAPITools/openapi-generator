@@ -35,7 +35,7 @@ import java.util.Date
 {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
 {{#moshi}}
     @JvmStatic
-    var moshiBuilder: Moshi.Builder = Moshi.Builder()
+    val moshiBuilder: Moshi.Builder = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
         .add(OffsetDateTimeAdapter())
         .add(LocalDateTimeAdapter())
@@ -53,7 +53,7 @@ import java.util.Date
 {{/moshi}}
 {{#gson}}
     @JvmStatic
-    var gsonBuilder: GsonBuilder = GsonBuilder()
+    val gsonBuilder: GsonBuilder = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateAdapter())
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
@@ -67,7 +67,7 @@ import java.util.Date
 {{/gson}}
 {{#jackson}}
     @JvmStatic
-    var jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
+    val jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
         .registerModule(Jdk8Module())
         .registerModule(JavaTimeModule())
         .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)

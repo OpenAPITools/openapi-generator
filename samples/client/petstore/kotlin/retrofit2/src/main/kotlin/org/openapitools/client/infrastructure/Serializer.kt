@@ -7,7 +7,7 @@ import java.util.Date
 
 object Serializer {
     @JvmStatic
-    var moshiBuilder: Moshi.Builder = Moshi.Builder()
+    val moshiBuilder: Moshi.Builder = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
         .add(OffsetDateTimeAdapter())
         .add(LocalDateTimeAdapter())
