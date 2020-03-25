@@ -488,7 +488,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     number = 3.4 # float | None
     double = 3.4 # float | None
     pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-    byte = None # bytes | None
+    byte = b'bytes_example' # bytes | None
     integer = 56 # int | None (optional)
 int32 = 56 # int | None (optional)
 int64 = 56 # int | None (optional)
