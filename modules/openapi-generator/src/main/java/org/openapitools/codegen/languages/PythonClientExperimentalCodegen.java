@@ -882,8 +882,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Return a string representation of the Python types for the specified schema.
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
-     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types. 
-     * 
+     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
+     *
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.
@@ -975,6 +975,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 example = p.paramName + "_example";
             }
             example = "'" + escapeText(example) + "'";
+        } else if ("Binary".equals(type) || "bytes".equals(type)) {
+            if (example == null) {
+                example = "bytes_example";
+            }
+            example = "b'" + escapeText(example) + "'";
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";
