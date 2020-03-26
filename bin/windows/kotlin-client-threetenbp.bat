@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g kotlin --artifact-id "kotlin-petstore-threetenbp" --additional-properties dateLibrary=threetenbp -o samples\client\petstore\kotlin-threetenbp
+set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g kotlin --artifact-id "kotlin-petstore-threetenbp" --additional-properties dateLibrary=threetenbp -o samples\client\petstore\kotlin\threetenbp
 
 java %JAVA_OPTS% -jar %executable% %ags%
