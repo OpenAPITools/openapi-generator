@@ -6,18 +6,24 @@ sidebar_label: javascript-apollo
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|apiPackage|package for generated api classes| |null|
+|emitJSDoc|generate JSDoc comments| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumNameSuffix|Suffix that will be appended to all enum names. A special 'v4-compat' value enables the backward-compatible behavior (as pre v4.2.3)| |v4-compat|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
-|npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|invokerPackage|root package for generated code| |null|
+|licenseName|name of the license the project uses (Default: using info.license.name)| |null|
+|modelPackage|package for generated models| |null|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
+|moduleName|module name for AMD, Node or globals (Default: generated from &lt;projectName&gt;)| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
-|npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
-|nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
+|projectDescription|description of the project (Default: using info.description or &quot;Client library of &lt;projectName&gt;&quot;)| |null|
+|projectName|name of the project (Default: generated from info.title or &quot;openapi-js-client&quot;)| |null|
+|projectVersion|version of the project (Default: using info.version or &quot;1.0.0&quot;)| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|sourceFolder|source folder for generated code| |src|
+|useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
 
 ## IMPORT MAPPING
 
@@ -39,12 +45,12 @@ sidebar_label: javascript-apollo
 <ul class="column-ul">
 <li>Array</li>
 <li>Blob</li>
+<li>Boolean</li>
 <li>Date</li>
 <li>File</li>
+<li>Number</li>
 <li>Object</li>
-<li>boolean</li>
-<li>number</li>
-<li>string</li>
+<li>String</li>
 </ul>
 
 ## RESERVED WORDS
@@ -78,11 +84,9 @@ sidebar_label: javascript-apollo
 <li>finally</li>
 <li>float</li>
 <li>for</li>
-<li>formparams</li>
 <li>function</li>
 <li>goto</li>
 <li>hasownproperty</li>
-<li>headerparams</li>
 <li>if</li>
 <li>implements</li>
 <li>import</li>
@@ -108,8 +112,6 @@ sidebar_label: javascript-apollo
 <li>protected</li>
 <li>prototype</li>
 <li>public</li>
-<li>queryparameters</li>
-<li>requestoptions</li>
 <li>return</li>
 <li>short</li>
 <li>static</li>
@@ -126,11 +128,8 @@ sidebar_label: javascript-apollo
 <li>try</li>
 <li>typeof</li>
 <li>undefined</li>
-<li>useformdata</li>
 <li>valueof</li>
 <li>var</li>
-<li>varlocaldeferred</li>
-<li>varlocalpath</li>
 <li>void</li>
 <li>volatile</li>
 <li>while</li>
@@ -144,7 +143,7 @@ sidebar_label: javascript-apollo
 ### Client Modification Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasePath|✓|ToolingExtension
+|BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
 
@@ -204,7 +203,7 @@ sidebar_label: javascript-apollo
 |MultiServer|✗|OAS3
 |ParameterizedServer|✗|OAS3
 |ParameterStyling|✗|OAS3
-|Callbacks|✗|OAS3
+|Callbacks|✓|OAS3
 |LinkObjects|✗|OAS3
 
 ### Parameter Feature
@@ -229,14 +228,14 @@ sidebar_label: javascript-apollo
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
-|OAuth2_Implicit|✗|OAS2,OAS3
-|OAuth2_Password|✗|OAS2,OAS3
-|OAuth2_ClientCredentials|✗|OAS2,OAS3
-|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|BearerToken|✓|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
+|OAuth2_Password|✓|OAS2,OAS3
+|OAuth2_ClientCredentials|✓|OAS2,OAS3
+|OAuth2_AuthorizationCode|✓|OAS2,OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |
