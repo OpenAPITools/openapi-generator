@@ -29,6 +29,9 @@ import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import feign.Feign;
 import feign.RequestInterceptor;
 import feign.form.FormEncoder;
+{{#useApacheHttpClient}}
+import feign.httpclient.ApacheHttpClient;
+{{/useApacheHttpClient}}
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
@@ -50,6 +53,9 @@ public class ApiClient {
     objectMapper = createObjectMapper();
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
     feignBuilder = Feign.builder()
+                {{#useApacheHttpClient}}
+                .client(new ApacheHttpClient())
+                {{/useApacheHttpClient}}
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new JacksonDecoder(objectMapper))
                 .logger(new Slf4jLogger());

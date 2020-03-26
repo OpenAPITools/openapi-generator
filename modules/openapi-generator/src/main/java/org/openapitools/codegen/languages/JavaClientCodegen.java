@@ -55,6 +55,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
     public static final String FEIGN_VERSION = "feignVersion";
+    public static final String FEIGN_HTTP_CLIENT = "feignHttpClient";
+    public static final String FEIGN_DEFAULT_HTTP_CLIENT = "default";
+    public static final String FEIGN_APACHE_HTTP_CLIENT = "apacheHttpClient";
+    public static final String[] FEIGN_SUPPORTED_HTTP_CLIENTS = new String[]{FEIGN_DEFAULT_HTTP_CLIENT, FEIGN_APACHE_HTTP_CLIENT};
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
@@ -94,6 +98,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_25;
     protected String feignVersion = FEIGN_10;
+    protected String feignHttpClient = FEIGN_DEFAULT_HTTP_CLIENT;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
@@ -139,6 +144,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
         cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x' (default), '9.x' (deprecated)"));
+        cliOptions.add(CliOption.newBoolean(FEIGN_HTTP_CLIENT, "Use an alternative httpClient module in the FeignClient: " + Arrays.toString(FEIGN_SUPPORTED_HTTP_CLIENTS)));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
 
@@ -229,7 +235,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(PLAY_VERSION, playVersion);
 
-        // OpenFeign
+        // OpenFeign version
         if (additionalProperties.containsKey(FEIGN_VERSION)) {
             this.setFeignVersion(additionalProperties.get(FEIGN_VERSION).toString());
 
@@ -246,6 +252,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.put("useFeign10", true);
         }
         additionalProperties.put(FEIGN_VERSION, feignVersion);
+
+        // OpenFeign httpClient
+        if (additionalProperties.containsKey(FEIGN_HTTP_CLIENT)) {
+            this.setFeignHttpClient(additionalProperties.get(FEIGN_HTTP_CLIENT).toString());
+            if (!Arrays.asList(FEIGN_SUPPORTED_HTTP_CLIENTS).contains(feignHttpClient)){
+                throw new RuntimeException("Invalid feignOption '" + feignHttpClient + "'. Valid options are: " + Arrays.toString(FEIGN_SUPPORTED_HTTP_CLIENTS));
+            }
+        }
+        additionalProperties.put("useApacheHttpClient", feignHttpClient.equals(FEIGN_APACHE_HTTP_CLIENT));
 
         if (additionalProperties.containsKey(PARCELABLE_MODEL)) {
             this.setParcelableModel(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
@@ -803,6 +818,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setFeignVersion(String feignVersion) {
         this.feignVersion = feignVersion;
+    }
+
+    public void setFeignHttpClient(String feignHttpClient) {
+        this.feignHttpClient = feignHttpClient;
     }
 
     public void setParcelableModel(boolean parcelableModel) {

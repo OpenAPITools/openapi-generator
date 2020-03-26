@@ -128,6 +128,9 @@ ext {
     {{/threetenbp}}
     feign_version = "{{#useFeign10}}10.7.4{{/useFeign10}}{{^useFeign10}}9.7.0{{/useFeign10}}"
     feign_form_version = "{{#useFeign10}}3.8.0{{/useFeign10}}{{^useFeign10}}2.1.0{{/useFeign10}}"
+    {{#useApacheHttpClient}}
+    feign_httpclient_version = "10.8"
+    {{/useApacheHttpClient}}
     junit_version = "4.13"
     oltu_version = "1.0.1"
 }
@@ -139,6 +142,9 @@ dependencies {
     compile "io.github.openfeign:feign-jackson:$feign_version"
     compile "io.github.openfeign:feign-slf4j:$feign_version"
     compile "io.github.openfeign.form:feign-form:$feign_form_version"
+    {{#useApacheHttpClient}}
+    compile "io.github.openfeign:feign-httpclient:$feign_httpclient_version"
+    {{/useApacheHttpClient}}
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
