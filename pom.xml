@@ -1448,17 +1448,18 @@
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
-                <module>samples/client/petstore/kotlin-multiplatform</module>
-                <module>samples/client/petstore/kotlin/</module>
-                <module>samples/client/petstore/kotlin-jackson/</module>
-                <module>samples/client/petstore/kotlin-gson/</module>
-                <module>samples/client/petstore/kotlin-nonpublic/</module>
-                <module>samples/client/petstore/kotlin-nullable/</module>
-                <module>samples/client/petstore/kotlin-okhttp3/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
-                <module>samples/client/petstore/kotlin-moshi-codegen/</module>
-                <module>samples/client/petstore/kotlin-json-request-string/</module>
+                <module>samples/client/petstore/kotlin/multiplatform</module>
+                <module>samples/client/petstore/kotlin/petstore</module>
+                <module>samples/client/petstore/kotlin/jackson</module>
+                <module>samples/client/petstore/kotlin/gson</module>
+                <module>samples/client/petstore/kotlin/nonpublic</module>
+                <module>samples/client/petstore/kotlin/nullable</module>
+                <module>samples/client/petstore/kotlin/okhttp3</module>
+                <module>samples/client/petstore/kotlin/threetenbp</module>
+                <module>samples/client/petstore/kotlin/string</module>
+                <module>samples/client/petstore/kotlin/retrofit2</module>
+                <module>samples/client/petstore/kotlin/moshi-codegen</module>
+                <module>samples/client/petstore/kotlin/json-request-string</module>
                 <!-- servers -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
