@@ -87,7 +87,6 @@ declare -a samples=(
 #"${root}/bin/openapi3/powershell-experimental-petstore.sh"
 "${root}/bin/scala-akka-petstore.sh"
 "${root}/bin/openapi3/scala-akka-petstore.sh"
-"${root}/bin/scala-sttp-petstore.sh"
 "${root}/bin/openapi3/scala-sttp-petstore.sh"
 )
 
