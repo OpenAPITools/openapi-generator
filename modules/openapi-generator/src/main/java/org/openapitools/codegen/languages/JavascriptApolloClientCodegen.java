@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +24,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -89,6 +90,10 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         super();
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         outputFolder = "generated-code/js";
         modelTemplateFiles.put("model.mustache", ".js");
@@ -199,7 +204,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
     @Override
     public String getHelp() {
-        return "Generates a JavaScript client library using Apollo RESTDatasource.";
+        return "Generates a JavaScript client library (beta) using Apollo RESTDatasource.";
     }
 
     @Override
