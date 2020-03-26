@@ -10,28 +10,28 @@ import okhttp3.MultipartBody
 import org.openapitools.client.models.User
 
 interface UserApi {
-    @POST("user")
+    @POST("/user")
     fun createUser(@Body body: User): Call<Unit>
 
-    @POST("user/createWithArray")
+    @POST("/user/createWithArray")
     fun createUsersWithArrayInput(@Body body: kotlin.Array<User>): Call<Unit>
 
-    @POST("user/createWithList")
+    @POST("/user/createWithList")
     fun createUsersWithListInput(@Body body: kotlin.Array<User>): Call<Unit>
 
-    @DELETE("user/{username}")
+    @DELETE("/user/{username}")
     fun deleteUser(@Path("username") username: kotlin.String): Call<Unit>
 
-    @GET("user/{username}")
+    @GET("/user/{username}")
     fun getUserByName(@Path("username") username: kotlin.String): Call<User>
 
-    @GET("user/login")
+    @GET("/user/login")
     fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Call<kotlin.String>
 
-    @GET("user/logout")
+    @GET("/user/logout")
     fun logoutUser(): Call<Unit>
 
-    @PUT("user/{username}")
+    @PUT("/user/{username}")
     fun updateUser(@Path("username") username: kotlin.String, @Body body: User): Call<Unit>
 
 }

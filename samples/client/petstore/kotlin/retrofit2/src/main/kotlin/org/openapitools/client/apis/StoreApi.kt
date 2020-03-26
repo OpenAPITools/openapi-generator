@@ -10,16 +10,16 @@ import okhttp3.MultipartBody
 import org.openapitools.client.models.Order
 
 interface StoreApi {
-    @DELETE("store/order/{orderId}")
+    @DELETE("/store/order/{orderId}")
     fun deleteOrder(@Path("orderId") orderId: kotlin.String): Call<Unit>
 
-    @GET("store/inventory")
+    @GET("/store/inventory")
     fun getInventory(): Call<kotlin.collections.Map<kotlin.String, kotlin.Int>>
 
-    @GET("store/order/{orderId}")
+    @GET("/store/order/{orderId}")
     fun getOrderById(@Path("orderId") orderId: kotlin.Long): Call<Order>
 
-    @POST("store/order")
+    @POST("/store/order")
     fun placeOrder(@Body body: Order): Call<Order>
 
 }
