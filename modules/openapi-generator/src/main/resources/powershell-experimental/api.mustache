@@ -1,6 +1,24 @@
 {{> partial_header}}
 {{#operations}}
 {{#operation}}
+<#
+.SYNOPSIS
+
+{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+
+.DESCRIPTION
+
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{#allParams}}
+.PARAMETER {{{paramName}}}
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{/allParams}}
+.OUTPUTS
+
+{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}None{{/returnType}}
+#>
 function {{{vendorExtensions.x-powershell-method-name}}} {
     [CmdletBinding()]
     Param (

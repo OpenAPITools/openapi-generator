@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -25,27 +24,36 @@ type AppleReq struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewAppleReq(cultivar string, ) *AppleReq {
-    this := AppleReq{}
-    this.Cultivar = cultivar
-    return &this
+	this := AppleReq{}
+	this.Cultivar = cultivar
+	return &this
 }
 
 // NewAppleReqWithDefaults instantiates a new AppleReq object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewAppleReqWithDefaults() *AppleReq {
-    this := AppleReq{}
-    return &this
+	this := AppleReq{}
+	return &this
 }
 
 // GetCultivar returns the Cultivar field value
 func (o *AppleReq) GetCultivar() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.Cultivar
+}
+
+// GetCultivarOk returns a tuple with the Cultivar field value
+// and a boolean to check if the value has been set.
+func (o *AppleReq) GetCultivarOk() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Cultivar, true
 }
 
 // SetCultivar sets field value
@@ -62,14 +70,13 @@ func (o *AppleReq) GetMealy() bool {
 	return *o.Mealy
 }
 
-// GetMealyOk returns a tuple with the Mealy field value if set, zero value otherwise
+// GetMealyOk returns a tuple with the Mealy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AppleReq) GetMealyOk() (bool, bool) {
+func (o *AppleReq) GetMealyOk() (*bool, bool) {
 	if o == nil || o.Mealy == nil {
-		var ret bool
-		return ret, false
+		return nil, false
 	}
-	return *o.Mealy, true
+	return o.Mealy, true
 }
 
 // HasMealy returns a boolean if a field has been set.
@@ -86,29 +93,53 @@ func (o *AppleReq) SetMealy(v bool) {
 	o.Mealy = &v
 }
 
+func (o AppleReq) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["cultivar"] = o.Cultivar
+	}
+	if o.Mealy != nil {
+		toSerialize["mealy"] = o.Mealy
+	}
+	return json.Marshal(toSerialize)
+}
+
 // AsFruitReq wraps this instance of AppleReq in FruitReq
 func (s *AppleReq) AsFruitReq() FruitReq {
-    return FruitReq{ FruitReqInterface: s }
+	return FruitReq{ FruitReqInterface: s }
 }
 type NullableAppleReq struct {
-	Value AppleReq
-	ExplicitNull bool
+	value *AppleReq
+	isSet bool
+}
+
+func (v NullableAppleReq) Get() *AppleReq {
+	return v.value
+}
+
+func (v *NullableAppleReq) Set(val *AppleReq) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableAppleReq) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableAppleReq) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableAppleReq(val *AppleReq) *NullableAppleReq {
+	return &NullableAppleReq{value: val, isSet: true}
 }
 
 func (v NullableAppleReq) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableAppleReq) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

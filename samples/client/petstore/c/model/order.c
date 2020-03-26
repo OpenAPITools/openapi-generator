@@ -46,6 +46,9 @@ order_t *order_create(
 
 
 void order_free(order_t *order) {
+    if(NULL == order){
+        return ;
+    }
     listEntry_t *listEntry;
     free(order->ship_date);
     free(order);

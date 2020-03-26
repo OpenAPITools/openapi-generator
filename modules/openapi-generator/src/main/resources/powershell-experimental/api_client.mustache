@@ -89,6 +89,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
                                   -Headers $HeaderParameters `
                                   -Body $RequestBody `
                                   -ErrorAction Stop `
+                                  -UseBasicParsing `
                                   -SkipCertificateCheck
 
     } else {
@@ -96,7 +97,8 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
                                   -Method $Method `
                                   -Headers $HeaderParameters `
                                   -Body $RequestBody `
-                                  -ErrorAction Stop
+                                  -ErrorAction Stop `
+                                  -UseBasicParsing
     }
 
     return @{
