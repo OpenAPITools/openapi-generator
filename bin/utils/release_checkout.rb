@@ -6,6 +6,21 @@ require 'rubygems'
 require 'open-uri'
 require 'net/http'
 
+def check_sbt_openapi_generator
+  print "Checking sbt-openapi-generator... "
+
+  url = "https://raw.githubusercontent.com/upstart-commerce/sbt-openapi-generator/master/build.sbt"
+  open(url) do |f|
+    content = f.read
+    if !content.nil? && content.include?($version)
+      puts "[OK]"
+    else
+      puts "[ERROR]"
+      puts "> #{url} not yet updated with #{$version}"
+    end
+  end
+end
+
 def check_npmjs
   print "Checking npmjs... "
 
@@ -204,6 +219,7 @@ $version = ARGV[0]
 
 puts "Running checkout on OpenAPI Generator release #{$version}"
 
+check_sbt_openapi_generator
 check_openapi_generator_online_docker
 check_openapi_generator_cli_docker
 check_npmjs
