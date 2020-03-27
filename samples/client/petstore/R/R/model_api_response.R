@@ -8,14 +8,16 @@
 
 #' @docType class
 #' @title ModelApiResponse
+#'
 #' @description ModelApiResponse Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 #' @field code  integer [optional]
 #'
 #' @field type  character [optional]
 #'
 #' @field message  character [optional]
-#'
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -26,7 +28,9 @@ ModelApiResponse <- R6::R6Class(
     `code` = NULL,
     `type` = NULL,
     `message` = NULL,
-    initialize = function(`code`=NULL, `type`=NULL, `message`=NULL, ...){
+    initialize = function(
+        `code`=NULL, `type`=NULL, `message`=NULL, ...
+    ) {
       local.optional.var <- list(...)
       if (!is.null(`code`)) {
         stopifnot(is.numeric(`code`), length(`code`) == 1)
@@ -59,7 +63,8 @@ ModelApiResponse <- R6::R6Class(
       ModelApiResponseObject
     },
     fromJSON = function(ModelApiResponseJson) {
-      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson)
+      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson,
+            simplifyVector = FALSE)
       if (!is.null(ModelApiResponseObject$`code`)) {
         self$`code` <- ModelApiResponseObject$`code`
       }
@@ -69,6 +74,7 @@ ModelApiResponse <- R6::R6Class(
       if (!is.null(ModelApiResponseObject$`message`)) {
         self$`message` <- ModelApiResponseObject$`message`
       }
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -98,7 +104,8 @@ ModelApiResponse <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(ModelApiResponseJson) {
-      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson)
+      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson,
+            simplifyVector = FALSE)
       self$`code` <- ModelApiResponseObject$`code`
       self$`type` <- ModelApiResponseObject$`type`
       self$`message` <- ModelApiResponseObject$`message`
@@ -106,3 +113,4 @@ ModelApiResponse <- R6::R6Class(
     }
   )
 )
+

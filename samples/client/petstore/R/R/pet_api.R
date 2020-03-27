@@ -335,7 +335,7 @@ PetApi <- R6::R6Class(
       apiResponse <- self$AddPetWithHttpInfo(body, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -385,7 +385,7 @@ PetApi <- R6::R6Class(
       apiResponse <- self$DeletePetWithHttpInfo(pet.id, api.key, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -435,7 +435,7 @@ PetApi <- R6::R6Class(
       apiResponse <- self$FindPetsByStatusWithHttpInfo(status, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -487,7 +487,7 @@ PetApi <- R6::R6Class(
       apiResponse <- self$FindPetsByTagsWithHttpInfo(tags, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -539,7 +539,7 @@ PetApi <- R6::R6Class(
       apiResponse <- self$GetPetByIdWithHttpInfo(pet.id, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -595,7 +595,7 @@ PetApi <- R6::R6Class(
       apiResponse <- self$UpdatePetWithHttpInfo(body, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -645,7 +645,7 @@ PetApi <- R6::R6Class(
       apiResponse <- self$UpdatePetWithFormWithHttpInfo(pet.id, name, status, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -698,7 +698,7 @@ PetApi <- R6::R6Class(
       apiResponse <- self$UploadFileWithHttpInfo(pet.id, additional.metadata, file, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {

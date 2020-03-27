@@ -295,7 +295,7 @@ UserApi <- R6::R6Class(
       apiResponse <- self$CreateUserWithHttpInfo(body, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -343,7 +343,7 @@ UserApi <- R6::R6Class(
       apiResponse <- self$CreateUsersWithArrayInputWithHttpInfo(body, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -392,7 +392,7 @@ UserApi <- R6::R6Class(
       apiResponse <- self$CreateUsersWithListInputWithHttpInfo(body, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -441,7 +441,7 @@ UserApi <- R6::R6Class(
       apiResponse <- self$DeleteUserWithHttpInfo(username, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -487,7 +487,7 @@ UserApi <- R6::R6Class(
       apiResponse <- self$GetUserByNameWithHttpInfo(username, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -539,7 +539,7 @@ UserApi <- R6::R6Class(
       apiResponse <- self$LoginUserWithHttpInfo(username, password, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -595,7 +595,7 @@ UserApi <- R6::R6Class(
       apiResponse <- self$LogoutUserWithHttpInfo(...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -633,7 +633,7 @@ UserApi <- R6::R6Class(
       apiResponse <- self$UpdateUserWithHttpInfo(username, body, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
+        httr::content(resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {

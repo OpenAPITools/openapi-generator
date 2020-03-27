@@ -8,8 +8,11 @@
 
 #' @docType class
 #' @title Pet
+#'
 #' @description Pet Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 #' @field id  integer [optional]
 #'
 #' @field category  \link{Category} [optional]
@@ -21,7 +24,6 @@
 #' @field tags  list( \link{Tag} ) [optional]
 #'
 #' @field status  character [optional]
-#'
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -35,7 +37,9 @@ Pet <- R6::R6Class(
     `photoUrls` = NULL,
     `tags` = NULL,
     `status` = NULL,
-    initialize = function(`name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...){
+    initialize = function(
+        `name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...
+    ) {
       local.optional.var <- list(...)
       if (!missing(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
@@ -94,7 +98,8 @@ Pet <- R6::R6Class(
       PetObject
     },
     fromJSON = function(PetJson) {
-      PetObject <- jsonlite::fromJSON(PetJson)
+      PetObject <- jsonlite::fromJSON(PetJson,
+            simplifyVector = FALSE)
       if (!is.null(PetObject$`id`)) {
         self$`id` <- PetObject$`id`
       }
@@ -115,6 +120,7 @@ Pet <- R6::R6Class(
       if (!is.null(PetObject$`status`)) {
         self$`status` <- PetObject$`status`
       }
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -165,7 +171,8 @@ Pet <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(PetJson) {
-      PetObject <- jsonlite::fromJSON(PetJson)
+      PetObject <- jsonlite::fromJSON(PetJson,
+            simplifyVector = FALSE)
       self$`id` <- PetObject$`id`
       self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE, digits = NA))
       self$`name` <- PetObject$`name`
@@ -176,3 +183,4 @@ Pet <- R6::R6Class(
     }
   )
 )
+

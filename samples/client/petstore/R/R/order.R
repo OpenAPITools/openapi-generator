@@ -8,8 +8,11 @@
 
 #' @docType class
 #' @title Order
+#'
 #' @description Order Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 #' @field id  integer [optional]
 #'
 #' @field petId  integer [optional]
@@ -21,7 +24,6 @@
 #' @field status  character [optional]
 #'
 #' @field complete  character [optional]
-#'
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -35,7 +37,9 @@ Order <- R6::R6Class(
     `shipDate` = NULL,
     `status` = NULL,
     `complete` = NULL,
-    initialize = function(`id`=NULL, `petId`=NULL, `quantity`=NULL, `shipDate`=NULL, `status`=NULL, `complete`=FALSE, ...){
+    initialize = function(
+        `id`=NULL, `petId`=NULL, `quantity`=NULL, `shipDate`=NULL, `status`=NULL, `complete`=FALSE, ...
+    ) {
       local.optional.var <- list(...)
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -91,7 +95,8 @@ Order <- R6::R6Class(
       OrderObject
     },
     fromJSON = function(OrderJson) {
-      OrderObject <- jsonlite::fromJSON(OrderJson)
+      OrderObject <- jsonlite::fromJSON(OrderJson,
+            simplifyVector = FALSE)
       if (!is.null(OrderObject$`id`)) {
         self$`id` <- OrderObject$`id`
       }
@@ -110,6 +115,7 @@ Order <- R6::R6Class(
       if (!is.null(OrderObject$`complete`)) {
         self$`complete` <- OrderObject$`complete`
       }
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -160,7 +166,8 @@ Order <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(OrderJson) {
-      OrderObject <- jsonlite::fromJSON(OrderJson)
+      OrderObject <- jsonlite::fromJSON(OrderJson,
+            simplifyVector = FALSE)
       self$`id` <- OrderObject$`id`
       self$`petId` <- OrderObject$`petId`
       self$`quantity` <- OrderObject$`quantity`
@@ -171,3 +178,4 @@ Order <- R6::R6Class(
     }
   )
 )
+
