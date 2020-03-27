@@ -249,7 +249,7 @@ pub struct {{{classname}}} {
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]{{/isNullable}}
     #[serde(skip_serializing_if="Option::is_none")]
-    pub {{{name}}}: Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
+    pub {{{name}}}: {{#isSelfReference}}Box<{{/isSelfReference}}Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>{{#isSelfReference}}>{{/isSelfReference}},
 {{/required}}
 
 {{/vars}}
@@ -258,7 +258,7 @@ pub struct {{{classname}}} {
 impl {{{classname}}} {
     pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
-{{#vars}}            {{{name}}}: {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
+{{#vars}}            {{{name}}}: {{#isSelfReference}}Box::new({{/isSelfReference}}{{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}}{{#isSelfReference}}){{/isSelfReference}},
 {{/vars}}
         }
     }
@@ -397,7 +397,7 @@ impl std::str::FromStr for {{{classname}}} {
             {{{name}}}: std::result::Result::Err("Nullable types not supported in {{{classname}}}".to_string())?,
             {{/isNullable}}
             {{^isNullable}}
-            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or("{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
+            {{{name}}}: {{#isSelfReference}}Box::new({{/isSelfReference}}intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or("{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}}{{#isSelfReference}}){{/isSelfReference}},
             {{/isNullable}}
             {{/vars}}
         })
