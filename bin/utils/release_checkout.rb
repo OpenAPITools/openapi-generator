@@ -180,6 +180,7 @@ def check_url url
   content = Net::HTTP.get(URI.parse(url))
   url = URI.parse(url)
   req = Net::HTTP.new(url.host, url.port)
+  req.use_ssl = true
   res = req.request_head(url.path)
   if res.code == "200"
     true
