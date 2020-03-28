@@ -19,5 +19,7 @@ private slots:
     void getUserByNameTest();
     void loginUserTest();
     void logoutUserTest();
+    /*
     void updateUserTest();
+    */
 };
