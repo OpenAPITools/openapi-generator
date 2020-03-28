@@ -13,5 +13,7 @@ private slots:
     void findPetsByStatusTest();
     void createAndGetPetTest();
     void updatePetTest();
+    /*
     void updatePetWithFormTest();
+    */
 };
