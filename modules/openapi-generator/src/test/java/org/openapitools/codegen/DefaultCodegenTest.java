@@ -605,6 +605,18 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfSingleRefWithOwnPropsNoDiscriminator() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
+        final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("MessageEventCoreWithTimeListEntries");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel model = codegen.fromModel("MessageEventCoreWithTimeListEntries", schema);
+        Assert.assertEquals(model.parent, "MessageEventCore");
+        Assert.assertEquals(model.allParents, Collections.singletonList("MessageEventCore"));
+    }
+
+    @Test
     public void testAllOfSingleRefNoOwnProps() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
         final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
