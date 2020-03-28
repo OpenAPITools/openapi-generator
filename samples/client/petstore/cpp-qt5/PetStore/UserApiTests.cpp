@@ -90,7 +90,6 @@ void UserApiTests::createUsersWithListInputTest() {
     loop.exec();
     QVERIFY2(usersCreated, "didn't finish within timeout");
 }
-*/
 
 void UserApiTests::deleteUserTest() {
     PFXUserApi api;
@@ -135,7 +134,7 @@ void UserApiTests::getUserByNameTest() {
     loop.exec();
     QVERIFY2(userFetched, "didn't finish within timeout");
 }
-
+*/
 void UserApiTests::loginUserTest() {
     PFXUserApi api;
     QEventLoop loop;
