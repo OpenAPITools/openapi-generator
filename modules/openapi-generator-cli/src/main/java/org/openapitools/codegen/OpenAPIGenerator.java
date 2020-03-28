@@ -18,7 +18,6 @@
 package org.openapitools.codegen;
 
 import io.airlift.airline.Cli;
-import io.airlift.airline.Help;
 import io.airlift.airline.ParseArgumentsUnexpectedException;
 import io.airlift.airline.ParseOptionMissingException;
 import io.airlift.airline.ParseOptionMissingValueException;
@@ -26,30 +25,31 @@ import org.openapitools.codegen.cmd.*;
 
 import java.util.Locale;
 
+import static org.openapitools.codegen.Constants.CLI_NAME;
+
 /**
  * User: lanwen Date: 24.03.15 Time: 17:56
  * <p>
  * Command line interface for OpenAPI Generator use `openapi-generator-cli.jar help` for more info
- *
- * @since 2.1.3-M1
  */
 public class OpenAPIGenerator {
 
     public static void main(String[] args) {
-        String version = Version.readVersionFromResources();
-        Cli.CliBuilder<Runnable> builder =
-                Cli.<Runnable>builder("openapi-generator-cli")
+        BuildInfo buildInfo = new BuildInfo();
+        Cli.CliBuilder<OpenApiGeneratorCommand> builder =
+                Cli.<OpenApiGeneratorCommand>builder(CLI_NAME)
                         .withDescription(
                                 String.format(
                                         Locale.ROOT,
-                                        "OpenAPI generator CLI (version %s).",
-                                        version))
-                        .withDefaultCommand(ListGenerators.class)
+                                        "OpenAPI Generator CLI %s (%s).",
+                                        buildInfo.getVersion(),
+                                        buildInfo.getSha()))
+                        .withDefaultCommand(HelpCommand.class)
                         .withCommands(
                                 ListGenerators.class,
                                 Generate.class,
                                 Meta.class,
-                                Help.class,
+                                HelpCommand.class,
                                 ConfigHelp.class,
                                 Validate.class,
                                 Version.class,
@@ -60,7 +60,7 @@ public class OpenAPIGenerator {
         try {
             builder.build().parse(args).run();
 
-            // If CLI is run without a command, consider this an error. This exists after initial parse/run
+            // If CLI runs without a command, consider this an error. This exists after initial parse/run
             // so we can present the configured "default command".
             // We can check against empty args because unrecognized arguments/commands result in an exception.
             // This is useful to exit with status 1, for example, so that misconfigured scripts fail fast.
@@ -71,10 +71,10 @@ public class OpenAPIGenerator {
                 System.exit(1);
             }
         } catch (ParseArgumentsUnexpectedException e) {
-            System.err.printf(Locale.ROOT,"[error] %s%n%nSee 'openapi-generator help' for usage.%n", e.getMessage());
+            System.err.printf(Locale.ROOT, "[error] %s%n%nSee '%s help' for usage.%n", e.getMessage(), CLI_NAME);
             System.exit(1);
         } catch (ParseOptionMissingException | ParseOptionMissingValueException e) {
-            System.err.printf(Locale.ROOT,"[error] %s%n", e.getMessage());
+            System.err.printf(Locale.ROOT, "[error] %s%n", e.getMessage());
             System.exit(1);
         }
     }
