@@ -61,6 +61,8 @@ void UserApiTests::createUsersWithArrayInputTest() {
     QVERIFY2(usersCreated, "didn't finish within timeout");
 }
 
+/* commented out due to error response from the server:
+ * https://travis-ci.org/github/OpenAPITools/openapi-generator/builds/667967012
 void UserApiTests::createUsersWithListInputTest() {
     PFXUserApi api;
     QEventLoop loop;
@@ -88,6 +90,7 @@ void UserApiTests::createUsersWithListInputTest() {
     loop.exec();
     QVERIFY2(usersCreated, "didn't finish within timeout");
 }
+*/
 
 void UserApiTests::deleteUserTest() {
     PFXUserApi api;
