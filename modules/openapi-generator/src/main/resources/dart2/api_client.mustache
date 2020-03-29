@@ -23,7 +23,9 @@ class ApiClient {
     // Setup authentications (key: authentication name, value: authentication).
   {{#authMethods}}
   {{#isBasic}}
+  {{#isBasicBasic}}
     _authentications['{{name}}'] = HttpBasicAuth();
+  {{/isBasicBasic}}
   {{/isBasic}}
   {{#isApiKey}}
     _authentications['{{name}}'] = ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
