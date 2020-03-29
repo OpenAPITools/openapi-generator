@@ -1,17 +1,20 @@
 #![allow(unused_qualifications)]
 
 use models;
+#[cfg(any(feature = "client", feature = "server"))]
 use header;
 
 
 // Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<InlineObject>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<InlineObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -107,12 +110,14 @@ impl std::str::FromStr for InlineObject {
 
 // Methods for converting between header::IntoHeaderValue<MultipartRelatedRequest> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<MultipartRelatedRequest>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<MultipartRelatedRequest>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelatedRequest> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<MultipartRelatedRequest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -217,12 +222,14 @@ impl std::str::FromStr for MultipartRelatedRequest {
 
 // Methods for converting between header::IntoHeaderValue<MultipartRequest> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<MultipartRequest>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<MultipartRequest>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequest> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<MultipartRequest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -341,12 +348,14 @@ impl std::str::FromStr for MultipartRequest {
 
 // Methods for converting between header::IntoHeaderValue<MultipartRequestObjectField> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<MultipartRequestObjectField>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<MultipartRequestObjectField>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequestObjectField> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<MultipartRequestObjectField as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
