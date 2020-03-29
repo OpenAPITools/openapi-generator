@@ -374,8 +374,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         }
 
         if (StringUtils.isNotBlank(powershellGalleryUrl)) {
+            // get the last segment of the URL
+            // e.g. https://www.powershellgallery.com/packages/PSTwitter => PSTwitter
             additionalProperties.put("powershellGalleryId", powershellGalleryUrl.replaceFirst(".*/([^/?]+).*", "$1"));
-            //additionalProperties.put("powershellGalleryId", "something");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
