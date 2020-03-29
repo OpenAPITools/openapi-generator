@@ -60,4 +60,29 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
 
         }
     }
+
+    Context 'Configuration' {
+        It 'Get-PSHostSettings tests' {
+
+            $HS = Get-PSHostSettings
+
+            $HS[0]["Url"] | Should Be "http://{server}.swagger.io:{port}/v2"
+            $HS[0]["Description"] | Should Be "petstore server"
+            $HS[0]["Variables"]["server"]["Description"] | Should Be "No description provided"
+            $HS[0]["Variables"]["server"]["DefaultValue"] | Should Be "petstore"
+            $HS[0]["Variables"]["server"]["EnumValues"] | Should Be @("petstore",
+                    "qa-petstore",
+                    "dev-petstore")
+
+        }
+
+        It "Get-PSUrlFromHostSettings tests" {
+            Get-PSUrlFromHostSettings -Index 0 | Should Be "http://petstore.swagger.io:80/v2"
+            Get-PSUrlFromHostSettings -Index 0 -Variables @{ "port" = "8080" } | Should Be "http://petstore.swagger.io:8080/v2" 
+            #Get-PSUrlFromHostSettings -Index 2 | Should -Throw -ExceptionType ([RuntimeException]) 
+            #Get-PSUrlFromHostSettings -Index 2 | Should -Throw # "Invalid index 2 when selecting the host. Must be less than 2"
+            #Get-PSUrlFromHostSettings -Index 0 -Variables @{ "port" = "1234" } | Should Throw "The variable 'port' in the host URL has invalid value 1234. Must be 80,8080"
+
+        }
+    }
 }

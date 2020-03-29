@@ -309,7 +309,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         typeMapping.put("long", "Int64");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "Decimal");
-        typeMapping.put("object", "System.Hashtable");
+        typeMapping.put("object", "System.Collections.Hashtable");
         typeMapping.put("file", "System.IO.FileInfo");
         typeMapping.put("ByteArray", "System.Byte[]");
         typeMapping.put("binary", "System.IO.FileInfo");
@@ -374,8 +374,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         }
 
         if (StringUtils.isNotBlank(powershellGalleryUrl)) {
+            // get the last segment of the URL
+            // e.g. https://www.powershellgallery.com/packages/PSTwitter => PSTwitter
             additionalProperties.put("powershellGalleryId", powershellGalleryUrl.replaceFirst(".*/([^/?]+).*", "$1"));
-            //additionalProperties.put("powershellGalleryId", "something");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
@@ -569,7 +570,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-            return "Hashtable";
+            return "System.Collections.Hashtable";
         } else if (!languageSpecificPrimitives.contains(getSchemaType(p))) {
             return super.getTypeDeclaration(p);
         }
