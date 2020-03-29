@@ -229,8 +229,7 @@ Get the host setting in the form of array of hashtables.
 
 System.Collections.Hashtable[]
 #>
-function Get-PSHostSetting {
-
+function Get-PSHostSettings {
     return @(
           @{
             "Url" = "http://{server}.swagger.io:{port}/v2";
@@ -239,7 +238,7 @@ function Get-PSHostSetting {
               "server" = @{
                   "Description" = "No description provided";
                   "DefaultValue" = "petstore";
-                  "EnumValues" => @(
+                  "EnumValues" = @(
                     "petstore",
                     "qa-petstore",
                     "dev-petstore"
@@ -248,7 +247,7 @@ function Get-PSHostSetting {
               "port" = @{
                   "Description" = "No description provided";
                   "DefaultValue" = "80";
-                  "EnumValues" => @(
+                  "EnumValues" = @(
                     "80",
                     "8080"
                   )
@@ -262,7 +261,7 @@ function Get-PSHostSetting {
               "version" = @{
                   "Description" = "No description provided";
                   "DefaultValue" = "v2";
-                  "EnumValues" => @(
+                  "EnumValues" = @(
                     "v1",
                     "v2"
                   )
@@ -273,3 +272,59 @@ function Get-PSHostSetting {
 
 }
 
+<#
+.SYNOPSIS
+
+Get the URL from the host settings.
+
+.PARAMETER Index
+Index of the host settings (array)
+
+.PARAMETER Variables 
+Names and values of the variables (hashtable)
+
+.DESCRIPTION
+
+Get the URL from the host settings.
+
+.OUTPUTS
+
+String
+#>
+function Get-PSUrlFromHostSettings {
+
+    [CmdletBinding()]
+    Param(
+        [Parameter(ValueFromPipeline = $true)]
+        [Int]$Index,
+        [Hashtable]$Variables = @{}
+    )
+
+    Process {
+        $Hosts = Get-PSHostSettings
+
+        # check array index out of bound
+        if ($Index -lt 0 -or $Index -gt $Hosts.Length) {
+            throw "Invalid index $index when selecting the host. Must be less than $($Hosts.Length)"
+        }
+
+        $Host = $Hosts[$Index];
+        $Url = $Host["Url"];
+
+        # go through variable and assign a value
+        foreach ($h in $Host["Variables"].GetEnumerator()) {
+            if ($Variables.containsKey($h.Name)) { # check to see if it's in the variables provided by the user
+                if ($h.Value["EnumValues"] -Contains $Variables[$h.Name]) {
+                   $Url = $Url.replace("{$($h.Name)}", $Variables[$h.Name])
+                } else {
+                   throw "The variable '$($h.Name)' in the host URL has invalid value $($Variables[$h.Name]). Must be $($h.Value["EnumValues"] -join ",")"
+                }
+            } else {
+                $Url = $Url.replace("{$($h.Name)}", $h.Value["DefaultValue"])
+            }
+        }
+
+        return $Url;
+
+    }
+}

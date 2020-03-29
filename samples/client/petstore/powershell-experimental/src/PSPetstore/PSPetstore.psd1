@@ -80,7 +80,7 @@ FunctionsToExport = 'Add-PSPet', 'Remove-Pet', 'Find-PSPetsByStatus', 'Find-PSPe
                'New-PSInlineObject', 'New-PSInlineObject1', 'New-PSOrder', 'New-PSPet', 
                'New-PSTag', 'New-PSUser', 'Get-PSConfiguration', 'Set-PSConfiguration', 
                'Set-PSConfigurationApiKey', 'Set-PSConfigurationApiKeyPrefix', 
-               'Get-PSHostSetting'
+               'Get-PSHostSettings', 'Get-PSUrlFromHostSettings'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
