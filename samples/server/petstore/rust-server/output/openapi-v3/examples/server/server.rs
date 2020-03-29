@@ -111,6 +111,7 @@ use openapi_v3::{
     MergePatchJsonGetResponse,
     MultigetGetResponse,
     MultipleAuthSchemeGetResponse,
+    OverrideServerGetResponse,
     ParamgetGetResponse,
     ReadonlyAuthSchemeGetResponse,
     RegisterCallbackPostResponse,
@@ -183,6 +184,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("multiple_auth_scheme_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn override_server_get(
+        &self,
+        context: &C) -> Box<Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("override_server_get() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 

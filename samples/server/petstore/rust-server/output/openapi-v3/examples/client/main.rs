@@ -3,6 +3,9 @@ extern crate openapi_v3;
 extern crate clap;
 extern crate env_logger;
 extern crate futures;
+
+// log may be unused if there are no examples
+#[allow(unused_imports)]
 #[macro_use]
 extern crate log;
 #[macro_use]
@@ -32,6 +35,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
+                      OverrideServerGetResponse,
                       ParamgetGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RegisterCallbackPostResponse,
@@ -47,8 +51,13 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       XmlPutResponse
                      };
 use clap::{App, Arg};
+
+// swagger::Has may be unused if there are no examples
+#[allow(unused_imports)]
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
+// rt may be unused if there are no examples
+#[allow(unused_mut)]
 fn main() {
     env_logger::init();
 
@@ -61,6 +70,7 @@ fn main() {
                 "MergePatchJsonGet",
                 "MultigetGet",
                 "MultipleAuthSchemeGet",
+                "OverrideServerGet",
                 "ParamgetGet",
                 "ReadonlyAuthSchemeGet",
                 "RegisterCallbackPost",
@@ -152,6 +162,11 @@ fn main() {
         },
         Some("MultipleAuthSchemeGet") => {
             let result = rt.block_on(client.multiple_auth_scheme_get(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
+        Some("OverrideServerGet") => {
+            let result = rt.block_on(client.override_server_get(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },

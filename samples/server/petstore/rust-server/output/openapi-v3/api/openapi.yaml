@@ -338,6 +338,13 @@ paths:
       responses:
         "200":
           description: Success
+  /override-server:
+    get:
+      responses:
+        "204":
+          description: Success.
+      servers:
+      - url: /override
 components:
   schemas:
     EnumWithStarObject:

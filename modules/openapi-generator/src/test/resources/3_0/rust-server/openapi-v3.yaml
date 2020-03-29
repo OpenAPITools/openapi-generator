@@ -330,6 +330,13 @@ paths:
       responses:
         '200':
           description: Success
+  /override-server:
+    get:
+      servers:
+        - "url": "/override"
+      responses:
+        "204":
+          description: Success.
 
 components:
   securitySchemes:

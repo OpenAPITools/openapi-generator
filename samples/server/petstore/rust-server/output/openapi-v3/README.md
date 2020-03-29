@@ -66,6 +66,7 @@ cargo run --example client MandatoryRequestHeaderGet
 cargo run --example client MergePatchJsonGet
 cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
+cargo run --example client OverrideServerGet
 cargo run --example client ParamgetGet
 cargo run --example client ReadonlyAuthSchemeGet
 cargo run --example client RegisterCallbackPost
@@ -118,6 +119,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /merge-patch-json | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
+[****](docs/default_api.md#) | **GET** /override-server | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **POST** /register-callback | 

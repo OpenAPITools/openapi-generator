@@ -368,7 +368,7 @@
                                         match content_type.as_ref().map(|x| x.as_str()) {
 {{#formParams}}
   {{^isBinary}}
-                                            Some("{{{contentType}}}") => {
+                                            Some("{{{contentType}}}") if param_{{{paramName}}}.is_none() => {
                                                 // Extract JSON part.
                                                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
                                                 let json_data: {{dataType}} = match serde_ignored::deserialize(deserializer, |path| {
@@ -386,13 +386,13 @@
                                             },
 {{/isBinary}}
 {{#isBinary}}
-                                            Some("{{{contentType}}}") => {
+                                            Some("{{{contentType}}}") if param_{{{paramName}}}.is_none() => {
                                                 param_{{{paramName}}}.get_or_insert(swagger::ByteArray(part.body));
                                             },
 {{/isBinary}}
 {{/formParams}}
                                             Some(content_type) => {
-                                                warn!("Ignoring unknown content type: {}", content_type);
+                                                warn!("Ignoring unexpected content type: {}", content_type);
                                                 unused_elements.push(content_type.to_string());
                                             },
                                             None => {
@@ -468,7 +468,7 @@
                                                     {
                                                         body,
 {{/-first}}
-                                                        {{{name}}}{{^-last}}, {{/-last}}
+                                                        {{{name}}}{{^-last}},{{/-last}}
 {{#-last}}
                                                     }
 {{/-last}}
@@ -479,7 +479,7 @@
 {{#-first}}
                                                     {
 {{/-first}}
-                                                        {{{name}}}{{^-last}}, {{/-last}}
+                                                        {{{name}}}{{^-last}},{{/-last}}
 {{#-last}}
                                                     }
 {{/-last}}
@@ -499,7 +499,7 @@
 {{#vendorExtensions}}
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}})
+                                                        HeaderValue::from_str("{{{mimeType}}}")
                                                             .expect("Unable to create Content-Type header for {{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}"));
 {{/vendorExtensions}}
 {{/dataType}}

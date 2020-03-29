@@ -26,7 +26,6 @@ use multipart::client::lazy::Multipart;
 use uuid;
 use serde_xml_rs;
 
-use mimetypes;
 use models;
 use header;
 
@@ -92,7 +91,7 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 
     let host = uri.host().ok_or_else(|| ClientInitError::MissingHost)?;
     let port = uri.port_part().map(|x| format!(":{}", x)).unwrap_or_default();
-    Ok(format!("{}://{}{}", scheme, host, port))
+    Ok(format!("{}://{}{}{}", scheme, host, port, uri.path().trim_end_matches('/')))
 }
 
 /// A client that implements the API by making HTTP calls out to a server.
@@ -326,7 +325,7 @@ impl<C, F> Api<C> for Client<F> where
 
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::TEST_SPECIAL_TAGS;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -494,7 +493,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::FAKE_OUTER_BOOLEAN_SERIALIZE;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -590,7 +589,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::FAKE_OUTER_COMPOSITE_SERIALIZE;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -686,7 +685,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::FAKE_OUTER_NUMBER_SERIALIZE;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -782,7 +781,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = &mimetypes::requests::FAKE_OUTER_STRING_SERIALIZE;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1020,7 +1019,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::TEST_BODY_WITH_QUERY_PARAMS;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1100,7 +1099,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::TEST_CLIENT_MODEL;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1220,7 +1219,7 @@ impl<C, F> Api<C> for Client<F> where
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        let header = &mimetypes::requests::TEST_ENDPOINT_PARAMETERS;
+        let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1346,7 +1345,7 @@ impl<C, F> Api<C> for Client<F> where
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        let header = &mimetypes::requests::TEST_ENUM_PARAMETERS;
+        let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1444,7 +1443,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = serde_json::to_string(&param_param).expect("impossible to fail to serialize");
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::TEST_INLINE_ADDITIONAL_PROPERTIES;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1528,7 +1527,7 @@ impl<C, F> Api<C> for Client<F> where
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        let header = &mimetypes::requests::TEST_JSON_FORM_DATA;
+        let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1616,7 +1615,7 @@ impl<C, F> Api<C> for Client<F> where
 
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::TEST_CLASSNAME;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1717,7 +1716,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = param_body.to_xml();
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::ADD_PET;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -2244,7 +2243,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = param_body.to_xml();
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::UPDATE_PET;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -2363,7 +2362,7 @@ impl<C, F> Api<C> for Client<F> where
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        let header = &mimetypes::requests::UPDATE_PET_WITH_FORM;
+        let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -2889,7 +2888,7 @@ impl<C, F> Api<C> for Client<F> where
 
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::PLACE_ORDER;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -2993,7 +2992,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::CREATE_USER;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -3073,7 +3072,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::CREATE_USERS_WITH_ARRAY_INPUT;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -3153,7 +3152,7 @@ impl<C, F> Api<C> for Client<F> where
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::CREATE_USERS_WITH_LIST_INPUT;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -3600,7 +3599,7 @@ impl<C, F> Api<C> for Client<F> where
 
                 *request.body_mut() = Body::from(body);
 
-        let header = &mimetypes::requests::UPDATE_USER;
+        let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))

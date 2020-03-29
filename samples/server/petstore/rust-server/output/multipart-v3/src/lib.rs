@@ -65,9 +65,6 @@ use hyper::header::HeaderValue;
 use futures::Stream;
 use std::io::Error;
 
-#[cfg(any(feature = "client", feature = "server"))]
-mod mimetypes;
-
 #[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};
 #[deprecated(note = "Import futures directly")]
@@ -84,6 +81,12 @@ pub enum MultipartRelatedRequestPostResponse {
 
 #[derive(Debug, PartialEq)]
 pub enum MultipartRequestPostResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq)]
+pub enum MultipleIdenticalMimeTypesPostResponse {
     /// OK
     OK
 }
@@ -105,6 +108,12 @@ pub trait Api<C> {
         object_field: Option<models::MultipartRequestObjectField>,
         context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>;
 
+    fn multiple_identical_mime_types_post(
+        &self,
+        binary1: Option<swagger::ByteArray>,
+        binary2: Option<swagger::ByteArray>,
+        context: &C) -> Box<dyn Future<Item=MultipleIdenticalMimeTypesPostResponse, Error=ApiError> + Send>;
+
 }
 
 /// API without a `Context`
@@ -123,6 +132,12 @@ pub trait ApiNoContext {
         optional_string_field: Option<String>,
         object_field: Option<models::MultipartRequestObjectField>,
         ) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>;
+
+    fn multiple_identical_mime_types_post(
+        &self,
+        binary1: Option<swagger::ByteArray>,
+        binary2: Option<swagger::ByteArray>,
+        ) -> Box<dyn Future<Item=MultipleIdenticalMimeTypesPostResponse, Error=ApiError> + Send>;
 
 }
 
@@ -158,6 +173,15 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>
     {
         self.api().multipart_request_post(string_field, binary_field, optional_string_field, object_field, &self.context())
+    }
+
+    fn multiple_identical_mime_types_post(
+        &self,
+        binary1: Option<swagger::ByteArray>,
+        binary2: Option<swagger::ByteArray>,
+        ) -> Box<dyn Future<Item=MultipleIdenticalMimeTypesPostResponse, Error=ApiError> + Send>
+    {
+        self.api().multiple_identical_mime_types_post(binary1, binary2, &self.context())
     }
 
 }

@@ -56,9 +56,6 @@ use hyper::header::HeaderValue;
 use futures::Stream;
 use std::io::Error;
 
-#[cfg(any(feature = "client", feature = "server"))]
-mod mimetypes;
-
 #[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};
 #[deprecated(note = "Import futures directly")]
@@ -93,6 +90,7 @@ pub enum MergePatchJsonGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum MultigetGetResponse {
     /// JSON rsp
     JSONRsp
@@ -130,6 +128,12 @@ pub enum MultipleAuthSchemeGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum OverrideServerGetResponse {
+    /// Success.
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum ParamgetGetResponse {
     /// JSON rsp
     JSONRsp
@@ -155,6 +159,7 @@ pub enum RequiredOctetStreamPutResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum ResponsesWithHeadersGetResponse {
     /// Success
     Success
@@ -173,6 +178,7 @@ pub enum ResponsesWithHeadersGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum Rfc7807GetResponse {
     /// OK
     OK
@@ -201,6 +207,7 @@ pub enum UuidGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlExtraPostResponse {
     /// OK
     OK
@@ -210,6 +217,7 @@ pub enum XmlExtraPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlOtherPostResponse {
     /// OK
     OK
@@ -219,6 +227,7 @@ pub enum XmlOtherPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlOtherPutResponse {
     /// OK
     OK
@@ -228,6 +237,7 @@ pub enum XmlOtherPutResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlPostResponse {
     /// OK
     OK
@@ -237,6 +247,7 @@ pub enum XmlPostResponse {
 }
 
 #[derive(Debug, PartialEq)]
+#[must_use]
 pub enum XmlPutResponse {
     /// OK
     OK
@@ -274,6 +285,10 @@ pub trait Api<C> {
     fn multiple_auth_scheme_get(
         &self,
         context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>;
+
+    fn override_server_get(
+        &self,
+        context: &C) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>;
 
     /// Get some stuff with parameters.
     fn paramget_get(
@@ -371,6 +386,10 @@ pub trait ApiNoContext {
     fn multiple_auth_scheme_get(
         &self,
         ) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>;
+
+    fn override_server_get(
+        &self,
+        ) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>;
 
     /// Get some stuff with parameters.
     fn paramget_get(
@@ -496,6 +515,13 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>
     {
         self.api().multiple_auth_scheme_get(&self.context())
+    }
+
+    fn override_server_get(
+        &self,
+        ) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>
+    {
+        self.api().override_server_get(&self.context())
     }
 
     /// Get some stuff with parameters.

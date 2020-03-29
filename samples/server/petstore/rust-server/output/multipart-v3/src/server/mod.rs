@@ -4,7 +4,6 @@ use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use url::form_urlencoded;
-use mimetypes;
 use serde_json;
 use std::io;
 #[allow(unused_imports)]
@@ -28,7 +27,8 @@ pub use crate::context;
 
 use {Api,
      MultipartRelatedRequestPostResponse,
-     MultipartRequestPostResponse
+     MultipartRequestPostResponse,
+     MultipleIdenticalMimeTypesPostResponse
 };
 
 mod paths {
@@ -37,12 +37,14 @@ mod paths {
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/multipart_related_request$",
-            r"^/multipart_request$"
+            r"^/multipart_request$",
+            r"^/multiple-identical-mime-types$"
         ])
         .expect("Unable to create global regex set");
     }
     pub static ID_MULTIPART_RELATED_REQUEST: usize = 0;
     pub static ID_MULTIPART_REQUEST: usize = 1;
+    pub static ID_MULTIPLE_IDENTICAL_MIME_TYPES: usize = 2;
 }
 
 pub struct MakeService<T, RC> {
@@ -82,6 +84,16 @@ where
     }
 }
 
+type ServiceFuture = Box<dyn Future<Item = Response<Body>, Error = Error> + Send>;
+
+fn method_not_allowed() -> ServiceFuture {
+    Box::new(future::ok(
+        Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
+            .body(Body::empty())
+            .expect("Unable to create Method Not Allowed response")
+    ))
+}
+
 pub struct Service<T, RC> {
     api_impl: T,
     marker: PhantomData<RC>,
@@ -107,7 +119,7 @@ where
     type ReqBody = ContextualPayload<Body, C>;
     type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
+    type Future = ServiceFuture;
 
     fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -173,7 +185,7 @@ where
                                     if let Node::Part(part) = node {
                                         let content_type = part.content_type().map(|x| format!("{}",x));
                                         match content_type.as_ref().map(|x| x.as_str()) {
-                                            Some("application/json") => {
+                                            Some("application/json") if param_object_field.is_none() => {
                                                 // Extract JSON part.
                                                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
                                                 let json_data: models::MultipartRequestObjectField = match serde_ignored::deserialize(deserializer, |path| {
@@ -189,14 +201,14 @@ where
                                                 // Push JSON part to return object.
                                                 param_object_field.get_or_insert(json_data);
                                             },
-                                            Some("application/zip") => {
+                                            Some("application/zip") if param_optional_binary_field.is_none() => {
                                                 param_optional_binary_field.get_or_insert(swagger::ByteArray(part.body));
                                             },
-                                            Some("image/png") => {
+                                            Some("image/png") if param_required_binary_field.is_none() => {
                                                 param_required_binary_field.get_or_insert(swagger::ByteArray(part.body));
                                             },
                                             Some(content_type) => {
-                                                warn!("Ignoring unknown content type: {}", content_type);
+                                                warn!("Ignoring unexpected content type: {}", content_type);
                                                 unused_elements.push(content_type.to_string());
                                             },
                                             None => {
@@ -423,6 +435,124 @@ where
                 )
             },
 
+            // MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
+            &hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => {
+                // Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Self::Future {
+                        match result {
+                            Ok(body) => {
+                                let mut unused_elements: Vec<String> = vec![];
+
+                                // Get multipart chunks.
+
+                                // Extract the top-level content type header.
+                                let content_type_mime = headers
+                                    .get(CONTENT_TYPE)
+                                    .ok_or("Missing content-type header".to_string())
+                                    .and_then(|v| v.to_str().map_err(|e| format!("Couldn't read content-type header value for MultipleIdenticalMimeTypesPost: {}", e)))
+                                    .and_then(|v| v.parse::<Mime2>().map_err(|_e| format!("Couldn't parse content-type header value for MultipleIdenticalMimeTypesPost")));
+
+                                // Insert top-level content type header into a Headers object.
+                                let mut multi_part_headers = Headers::new();
+                                match content_type_mime {
+                                    Ok(content_type_mime) => {
+                                        multi_part_headers.set(ContentType(content_type_mime));
+                                    },
+                                    Err(e) => {
+                                        return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(e))
+                                                .expect("Unable to create Bad Request response due to unable to read content-type header for MultipleIdenticalMimeTypesPost")));
+                                    }
+                                }
+
+                                // &*body expresses the body as a byteslice, &mut provides a
+                                // mutable reference to that byteslice.
+                                let nodes = match read_multipart_body(&mut&*body, &multi_part_headers, false) {
+                                    Ok(nodes) => nodes,
+                                    Err(e) => {
+                                        return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Could not read multipart body for MultipleIdenticalMimeTypesPost: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read multipart body for MultipleIdenticalMimeTypesPost")));
+                                    }
+                                };
+
+                                let mut param_binary1 = None;
+                                let mut param_binary2 = None;
+
+                                for node in nodes {
+                                    if let Node::Part(part) = node {
+                                        let content_type = part.content_type().map(|x| format!("{}",x));
+                                        match content_type.as_ref().map(|x| x.as_str()) {
+                                            Some("application/octet-stream") if param_binary1.is_none() => {
+                                                param_binary1.get_or_insert(swagger::ByteArray(part.body));
+                                            },
+                                            Some("application/octet-stream") if param_binary2.is_none() => {
+                                                param_binary2.get_or_insert(swagger::ByteArray(part.body));
+                                            },
+                                            Some(content_type) => {
+                                                warn!("Ignoring unexpected content type: {}", content_type);
+                                                unused_elements.push(content_type.to_string());
+                                            },
+                                            None => {
+                                                warn!("Missing content type");
+                                            },
+                                        }
+                                    } else {
+                                        unimplemented!("No support for handling unexpected parts");
+                                        // unused_elements.push();
+                                    }
+                                }
+
+                                // Check that the required multipart chunks are present.
+
+                                Box::new(
+                                    api_impl.multiple_identical_mime_types_post(
+                                            param_binary1,
+                                            param_binary2,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                MultipleIdenticalMimeTypesPostResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                            },
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter Default: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter Default"))),
+                        }
+                    })
+                ) as Self::Future
+            },
+
+            _ if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPART_REQUEST) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => method_not_allowed(),
             _ => Box::new(future::ok(
                 Response::builder().status(StatusCode::NOT_FOUND)
                     .body(Body::empty())
@@ -452,6 +582,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => Ok("MultipartRelatedRequestPost"),
             // MultipartRequestPost - POST /multipart_request
             &hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => Ok("MultipartRequestPost"),
+            // MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
+            &hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => Ok("MultipleIdenticalMimeTypesPost"),
             _ => Err(()),
         }
     }
