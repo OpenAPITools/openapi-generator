@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -57,11 +56,7 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
-import org.openapitools.codegen.templating.mustache.IndentedLambda;
-import org.openapitools.codegen.templating.mustache.LowercaseLambda;
-import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
-import org.openapitools.codegen.templating.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -81,6 +76,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+    public static final String X_ONE_OF_NAME = "x-oneOf-name";
 
     public static FeatureSet DefaultFeatureSet;
 
@@ -764,7 +760,8 @@ public class DefaultCodegen implements CodegenConfig {
                 Schema s = e.getValue();
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
-                    if (e.getKey().contains("/")) {
+                    if (e.getKey().contains("/") ||
+                            !(s.getExtensions() != null && s.getExtensions().containsKey(X_ONE_OF_NAME))) {
                         // if this is property schema, we also need to generate the oneOf interface model
                         addOneOfNameExtension((ComposedSchema) s, nOneOf);
                         addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
@@ -1846,8 +1843,8 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
         Map<String, Object> exts = composedSchema.getExtensions();
-        if (exts != null && exts.containsKey("x-oneOf-name")) {
-            return (String) exts.get("x-oneOf-name");
+        if (exts != null && exts.containsKey(X_ONE_OF_NAME)) {
+            return (String) exts.get(X_ONE_OF_NAME);
         }
         return "oneOf<" + String.join(",", names) + ">";
     }
@@ -5429,7 +5426,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
 
-                if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+                if (codegenProperty != null && codegenProperty.getComplexType() != null) {
                     List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
                     imports.addAll(parts);
                     String codegenModelName = codegenProperty.getComplexType();
@@ -5752,7 +5749,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void addOneOfNameExtension(ComposedSchema s, String name) {
         if (s.getOneOf() != null && s.getOneOf().size() > 0) {
-            s.addExtension("x-oneOf-name", name);
+            s.addExtension(X_ONE_OF_NAME, name);
         }
     }
 
