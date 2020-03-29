@@ -8,8 +8,6 @@ use hyper::{Body, Uri, Response};
 use hyper_openssl::HttpsConnector;
 use serde_json;
 use std::borrow::Cow;
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
 use std::io::{Read, Error, ErrorKind};
 use std::error;
 use std::fmt;
@@ -1413,7 +1411,7 @@ impl<C, F> Api<C> for Client<F> where
 
     fn test_inline_additional_properties(
         &self,
-        param_param: HashMap<String, String>,
+        param_param: std::collections::HashMap<String, String>,
         context: &C) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>
     {
         let mut uri = format!(
@@ -2719,7 +2717,7 @@ impl<C, F> Api<C> for Client<F> where
                         str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-                                                 serde_json::from_str::<HashMap<String, i32>>(body)
+                                                 serde_json::from_str::<std::collections::HashMap<String, i32>>(body)
                                                      .map_err(|e| e.into())
                                              )
                                  )

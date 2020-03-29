@@ -8,8 +8,6 @@ use hyper::{Body, Uri, Response};
 use hyper_openssl::HttpsConnector;
 use serde_json;
 use std::borrow::Cow;
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
 use std::io::{Read, Error, ErrorKind};
 use std::error;
 use std::fmt;

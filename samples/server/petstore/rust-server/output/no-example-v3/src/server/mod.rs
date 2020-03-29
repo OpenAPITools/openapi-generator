@@ -1,5 +1,3 @@
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap, BTreeSet};
 use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
 use hyper;

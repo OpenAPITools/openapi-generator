@@ -207,7 +207,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("File", bytesType);
         typeMapping.put("file", bytesType);
         typeMapping.put("array", "Vec");
-        typeMapping.put("map", "HashMap");
+        typeMapping.put("map", "std::collections::HashMap");
         typeMapping.put("object", "serde_json::Value");
 
         importMapping = new HashMap<String, String>();
@@ -1503,7 +1503,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         type = toModelName(cm.additionalPropertiesType);
                     }
 
-                    cm.dataType = "HashMap<String, " + type + ">";
+                    cm.dataType = "std::collections::HashMap<String, " + type + ">";
                 }
             } else if (cm.dataType != null) {
                 // We need to hack about with single-parameter models to

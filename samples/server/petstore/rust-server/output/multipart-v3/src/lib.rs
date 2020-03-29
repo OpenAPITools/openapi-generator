@@ -65,9 +65,6 @@ use hyper::header::HeaderValue;
 use futures::Stream;
 use std::io::Error;
 
-#[allow(unused_imports)]
-use std::collections::HashMap;
-
 #[deprecated(note = "Import swagger-rs directly")]
 pub use swagger::{ApiError, ContextWrapper};
 #[deprecated(note = "Import futures directly")]

@@ -1,37 +1,28 @@
-#![allow(unused_imports, unused_qualifications)]
+#![allow(unused_qualifications)]
 
-use serde_xml_rs;
-use serde::ser::Serializer;
-
-use std::collections::{HashMap, BTreeMap};
 use models;
-use swagger;
-use hyper::header::HeaderValue;
-use std::string::ParseError;
-use uuid;
-use std::str::FromStr;
-use header::IntoHeaderValue;
+use header;
 
 
-// Methods for converting between IntoHeaderValue<AnotherXmlArray> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<AnotherXmlArray> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<AnotherXmlArray>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<AnotherXmlArray>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<AnotherXmlArray>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<AnotherXmlArray>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<AnotherXmlArray> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(AnotherXmlArray::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlArray> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<AnotherXmlArray as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_snake_another_xml_inner<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
+fn wrap_in_snake_another_xml_inner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
-    S: Serializer,
+    S: serde::ser::Serializer,
 {
     serde_xml_rs::wrap_primitives(item, serializer, "snake_another_xml_inner")
 }
@@ -40,59 +31,59 @@ where
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct AnotherXmlArray(#[serde(serialize_with = "wrap_in_snake_another_xml_inner")]Vec<String>);
 
-impl ::std::convert::From<Vec<String>> for AnotherXmlArray {
+impl std::convert::From<Vec<String>> for AnotherXmlArray {
     fn from(x: Vec<String>) -> Self {
         AnotherXmlArray(x)
     }
 }
 
-impl ::std::convert::From<AnotherXmlArray> for Vec<String> {
+impl std::convert::From<AnotherXmlArray> for Vec<String> {
     fn from(x: AnotherXmlArray) -> Self {
         x.0
     }
 }
 
-impl ::std::iter::FromIterator<String> for AnotherXmlArray {
+impl std::iter::FromIterator<String> for AnotherXmlArray {
     fn from_iter<U: IntoIterator<Item=String>>(u: U) -> Self {
         AnotherXmlArray(Vec::<String>::from_iter(u))
     }
 }
 
-impl ::std::iter::IntoIterator for AnotherXmlArray {
+impl std::iter::IntoIterator for AnotherXmlArray {
     type Item = String;
-    type IntoIter = ::std::vec::IntoIter<String>;
+    type IntoIter = std::vec::IntoIter<String>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a AnotherXmlArray {
+impl<'a> std::iter::IntoIterator for &'a AnotherXmlArray {
     type Item = &'a String;
-    type IntoIter = ::std::slice::Iter<'a, String>;
+    type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a mut AnotherXmlArray {
+impl<'a> std::iter::IntoIterator for &'a mut AnotherXmlArray {
     type Item = &'a mut String;
-    type IntoIter = ::std::slice::IterMut<'a, String>;
+    type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
     }
 }
 
-impl ::std::ops::Deref for AnotherXmlArray {
+impl std::ops::Deref for AnotherXmlArray {
     type Target = Vec<String>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for AnotherXmlArray {
+impl std::ops::DerefMut for AnotherXmlArray {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
@@ -101,7 +92,7 @@ impl ::std::ops::DerefMut for AnotherXmlArray {
 /// Converts the AnotherXmlArray value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AnotherXmlArray {
+impl std::string::ToString for AnotherXmlArray {
     fn to_string(&self) -> String {
         self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
     }
@@ -110,16 +101,16 @@ impl ::std::string::ToString for AnotherXmlArray {
 /// Converts Query Parameters representation (style=form, explode=false) to a AnotherXmlArray value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for AnotherXmlArray {
-    type Err = <String as ::std::str::FromStr>::Err;
+impl std::str::FromStr for AnotherXmlArray {
+    type Err = <String as std::str::FromStr>::Err;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
         for item in s.split(',')
         {
             items.push(item.parse()?);
         }
-        Ok(AnotherXmlArray(items))
+        std::result::Result::Ok(AnotherXmlArray(items))
     }
 }
 
@@ -138,33 +129,33 @@ impl AnotherXmlArray {
 #[serde(rename = "snake_another_xml_inner")]
 pub struct AnotherXmlInner(String);
 
-impl ::std::convert::From<String> for AnotherXmlInner {
+impl std::convert::From<String> for AnotherXmlInner {
     fn from(x: String) -> Self {
         AnotherXmlInner(x)
     }
 }
 
 impl std::str::FromStr for AnotherXmlInner {
-    type Err = ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok(AnotherXmlInner(x.to_string()))
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(AnotherXmlInner(x.to_string()))
     }
 }
 
-impl ::std::convert::From<AnotherXmlInner> for String {
+impl std::convert::From<AnotherXmlInner> for String {
     fn from(x: AnotherXmlInner) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for AnotherXmlInner {
+impl std::ops::Deref for AnotherXmlInner {
     type Target = String;
     fn deref(&self) -> &String {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for AnotherXmlInner {
+impl std::ops::DerefMut for AnotherXmlInner {
     fn deref_mut(&mut self) -> &mut String {
         &mut self.0
     }
@@ -181,17 +172,17 @@ impl AnotherXmlInner {
 }
 
 /// An XML object
-// Methods for converting between IntoHeaderValue<AnotherXmlObject> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<AnotherXmlObject> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<AnotherXmlObject>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<AnotherXmlObject>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<AnotherXmlObject>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<AnotherXmlObject>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<AnotherXmlObject> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(AnotherXmlObject::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlObject> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<AnotherXmlObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -217,7 +208,7 @@ impl AnotherXmlObject {
 /// Converts the AnotherXmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AnotherXmlObject {
+impl std::string::ToString for AnotherXmlObject {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -233,10 +224,10 @@ impl ::std::string::ToString for AnotherXmlObject {
 /// Converts Query Parameters representation (style=form, explode=false) to a AnotherXmlObject value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for AnotherXmlObject {
+impl std::str::FromStr for AnotherXmlObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -252,13 +243,13 @@ impl ::std::str::FromStr for AnotherXmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing AnotherXmlObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing AnotherXmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing AnotherXmlObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing AnotherXmlObject".to_string())
                 }
             }
 
@@ -267,7 +258,7 @@ impl ::std::str::FromStr for AnotherXmlObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(AnotherXmlObject {
+        std::result::Result::Ok(AnotherXmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
         })
     }
@@ -285,7 +276,7 @@ impl AnotherXmlObject {
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
-        let mut namespaces = BTreeMap::new();
+        let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
         namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
         serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
@@ -293,17 +284,17 @@ impl AnotherXmlObject {
 }
 
 /// An XML object
-// Methods for converting between IntoHeaderValue<DuplicateXmlObject> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<DuplicateXmlObject> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<DuplicateXmlObject>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<DuplicateXmlObject>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<DuplicateXmlObject>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<DuplicateXmlObject>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<DuplicateXmlObject> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(DuplicateXmlObject::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<DuplicateXmlObject> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<DuplicateXmlObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -334,7 +325,7 @@ impl DuplicateXmlObject {
 /// Converts the DuplicateXmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for DuplicateXmlObject {
+impl std::string::ToString for DuplicateXmlObject {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -352,10 +343,10 @@ impl ::std::string::ToString for DuplicateXmlObject {
 /// Converts Query Parameters representation (style=form, explode=false) to a DuplicateXmlObject value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for DuplicateXmlObject {
+impl std::str::FromStr for DuplicateXmlObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -372,14 +363,14 @@ impl ::std::str::FromStr for DuplicateXmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing DuplicateXmlObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing DuplicateXmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "inner_array" => intermediate_rep.inner_array.push(models::XmlArray::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing DuplicateXmlObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing DuplicateXmlObject".to_string())
                 }
             }
 
@@ -388,7 +379,7 @@ impl ::std::str::FromStr for DuplicateXmlObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(DuplicateXmlObject {
+        std::result::Result::Ok(DuplicateXmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
             inner_array: intermediate_rep.inner_array.into_iter().next().ok_or("inner_array missing in DuplicateXmlObject".to_string())?,
         })
@@ -407,7 +398,7 @@ impl DuplicateXmlObject {
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
-        let mut namespaces = BTreeMap::new();
+        let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
         namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
         serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
@@ -431,8 +422,8 @@ pub enum EnumWithStarObject {
     STAR,
 }
 
-impl ::std::fmt::Display for EnumWithStarObject {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+impl std::fmt::Display for EnumWithStarObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match *self { 
             EnumWithStarObject::FOO => write!(f, "{}", "FOO"),
             EnumWithStarObject::BAR => write!(f, "{}", "BAR"),
@@ -441,15 +432,15 @@ impl ::std::fmt::Display for EnumWithStarObject {
     }
 }
 
-impl ::std::str::FromStr for EnumWithStarObject {
+impl std::str::FromStr for EnumWithStarObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "FOO" => Ok(EnumWithStarObject::FOO),
-            "BAR" => Ok(EnumWithStarObject::BAR),
-            "*" => Ok(EnumWithStarObject::STAR),
-            _ => Err(format!("Value not valid: {}", s)),
+            "FOO" => std::result::Result::Ok(EnumWithStarObject::FOO),
+            "BAR" => std::result::Result::Ok(EnumWithStarObject::BAR),
+            "*" => std::result::Result::Ok(EnumWithStarObject::STAR),
+            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
 }
@@ -463,17 +454,109 @@ impl EnumWithStarObject {
     }
 }
 
-// Methods for converting between IntoHeaderValue<InlineResponse201> and HeaderValue
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct Err(String);
 
-impl From<IntoHeaderValue<InlineResponse201>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<InlineResponse201>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::From<String> for Err {
+    fn from(x: String) -> Self {
+        Err(x)
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<InlineResponse201> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(InlineResponse201::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::str::FromStr for Err {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(Err(x.to_string()))
+    }
+}
+
+impl std::convert::From<Err> for String {
+    fn from(x: Err) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for Err {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for Err {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl Err {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct Error(String);
+
+impl std::convert::From<String> for Error {
+    fn from(x: String) -> Self {
+        Error(x)
+    }
+}
+
+impl std::str::FromStr for Error {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(Error(x.to_string()))
+    }
+}
+
+impl std::convert::From<Error> for String {
+    fn from(x: Error) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for Error {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for Error {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl Error {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<InlineResponse201> and hyper::header::HeaderValue
+
+impl From<header::IntoHeaderValue<InlineResponse201>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<InlineResponse201>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineResponse201> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<InlineResponse201 as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -498,7 +581,7 @@ impl InlineResponse201 {
 /// Converts the InlineResponse201 value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for InlineResponse201 {
+impl std::string::ToString for InlineResponse201 {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -514,10 +597,10 @@ impl ::std::string::ToString for InlineResponse201 {
 /// Converts Query Parameters representation (style=form, explode=false) to a InlineResponse201 value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for InlineResponse201 {
+impl std::str::FromStr for InlineResponse201 {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -533,13 +616,13 @@ impl ::std::str::FromStr for InlineResponse201 {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing InlineResponse201".to_string())
+                None => return std::result::Result::Err("Missing value while parsing InlineResponse201".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "foo" => intermediate_rep.foo.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing InlineResponse201".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing InlineResponse201".to_string())
                 }
             }
 
@@ -548,7 +631,7 @@ impl ::std::str::FromStr for InlineResponse201 {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(InlineResponse201 {
+        std::result::Result::Ok(InlineResponse201 {
             foo: intermediate_rep.foo.into_iter().next(),
         })
     }
@@ -568,27 +651,27 @@ impl InlineResponse201 {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct MyId(i32);
 
-impl ::std::convert::From<i32> for MyId {
+impl std::convert::From<i32> for MyId {
     fn from(x: i32) -> Self {
         MyId(x)
     }
 }
 
 
-impl ::std::convert::From<MyId> for i32 {
+impl std::convert::From<MyId> for i32 {
     fn from(x: MyId) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for MyId {
+impl std::ops::Deref for MyId {
     type Target = i32;
     fn deref(&self) -> &i32 {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for MyId {
+impl std::ops::DerefMut for MyId {
     fn deref_mut(&mut self) -> &mut i32 {
         &mut self.0
     }
@@ -604,17 +687,17 @@ impl MyId {
     }
 }
 
-// Methods for converting between IntoHeaderValue<MyIdList> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MyIdList> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MyIdList>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MyIdList>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MyIdList>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MyIdList>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MyIdList> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MyIdList::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MyIdList> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MyIdList as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -622,59 +705,59 @@ impl From<HeaderValue> for IntoHeaderValue<MyIdList> {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct MyIdList(Vec<i32>);
 
-impl ::std::convert::From<Vec<i32>> for MyIdList {
+impl std::convert::From<Vec<i32>> for MyIdList {
     fn from(x: Vec<i32>) -> Self {
         MyIdList(x)
     }
 }
 
-impl ::std::convert::From<MyIdList> for Vec<i32> {
+impl std::convert::From<MyIdList> for Vec<i32> {
     fn from(x: MyIdList) -> Self {
         x.0
     }
 }
 
-impl ::std::iter::FromIterator<i32> for MyIdList {
+impl std::iter::FromIterator<i32> for MyIdList {
     fn from_iter<U: IntoIterator<Item=i32>>(u: U) -> Self {
         MyIdList(Vec::<i32>::from_iter(u))
     }
 }
 
-impl ::std::iter::IntoIterator for MyIdList {
+impl std::iter::IntoIterator for MyIdList {
     type Item = i32;
-    type IntoIter = ::std::vec::IntoIter<i32>;
+    type IntoIter = std::vec::IntoIter<i32>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a MyIdList {
+impl<'a> std::iter::IntoIterator for &'a MyIdList {
     type Item = &'a i32;
-    type IntoIter = ::std::slice::Iter<'a, i32>;
+    type IntoIter = std::slice::Iter<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a mut MyIdList {
+impl<'a> std::iter::IntoIterator for &'a mut MyIdList {
     type Item = &'a mut i32;
-    type IntoIter = ::std::slice::IterMut<'a, i32>;
+    type IntoIter = std::slice::IterMut<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
     }
 }
 
-impl ::std::ops::Deref for MyIdList {
+impl std::ops::Deref for MyIdList {
     type Target = Vec<i32>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for MyIdList {
+impl std::ops::DerefMut for MyIdList {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
@@ -683,7 +766,7 @@ impl ::std::ops::DerefMut for MyIdList {
 /// Converts the MyIdList value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MyIdList {
+impl std::string::ToString for MyIdList {
     fn to_string(&self) -> String {
         self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
     }
@@ -692,16 +775,16 @@ impl ::std::string::ToString for MyIdList {
 /// Converts Query Parameters representation (style=form, explode=false) to a MyIdList value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MyIdList {
-    type Err = <i32 as ::std::str::FromStr>::Err;
+impl std::str::FromStr for MyIdList {
+    type Err = <i32 as std::str::FromStr>::Err;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
         for item in s.split(',')
         {
             items.push(item.parse()?);
         }
-        Ok(MyIdList(items))
+        std::result::Result::Ok(MyIdList(items))
     }
 }
 
@@ -715,17 +798,17 @@ impl MyIdList {
     }
 }
 
-// Methods for converting between IntoHeaderValue<NullableTest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<NullableTest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<NullableTest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<NullableTest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<NullableTest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<NullableTest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<NullableTest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(NullableTest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<NullableTest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<NullableTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -777,7 +860,7 @@ impl NullableTest {
 /// Converts the NullableTest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for NullableTest {
+impl std::string::ToString for NullableTest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -815,10 +898,10 @@ impl ::std::string::ToString for NullableTest {
 /// Converts Query Parameters representation (style=form, explode=false) to a NullableTest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for NullableTest {
+impl std::str::FromStr for NullableTest {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -838,17 +921,17 @@ impl ::std::str::FromStr for NullableTest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing NullableTest".to_string())
+                None => return std::result::Result::Err("Missing value while parsing NullableTest".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "nullable" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
-                    "nullableWithNullDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
-                    "nullableWithPresentDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
-                    "nullableWithNoDefault" => return Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
-                    "nullableArray" => return Err("Parsing a container in this style is not supported in NullableTest".to_string()),
-                    _ => return Err("Unexpected key while parsing NullableTest".to_string())
+                    "nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithNullDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithPresentDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableWithNoDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
+                    "nullableArray" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing NullableTest".to_string())
                 }
             }
 
@@ -857,12 +940,12 @@ impl ::std::str::FromStr for NullableTest {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(NullableTest {
-            nullable: Err("Nullable types not supported in NullableTest".to_string())?,
-            nullable_with_null_default: Err("Nullable types not supported in NullableTest".to_string())?,
-            nullable_with_present_default: Err("Nullable types not supported in NullableTest".to_string())?,
-            nullable_with_no_default: Err("Nullable types not supported in NullableTest".to_string())?,
-            nullable_array: Err("Nullable types not supported in NullableTest".to_string())?,
+        std::result::Result::Ok(NullableTest {
+            nullable: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_null_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_present_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_with_no_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            nullable_array: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
         })
     }
 }
@@ -877,17 +960,17 @@ impl NullableTest {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ObjectHeader> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ObjectHeader> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ObjectHeader>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ObjectHeader>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ObjectHeader>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ObjectHeader>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ObjectHeader> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ObjectHeader::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectHeader> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ObjectHeader as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -916,7 +999,7 @@ impl ObjectHeader {
 /// Converts the ObjectHeader value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ObjectHeader {
+impl std::string::ToString for ObjectHeader {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -936,10 +1019,10 @@ impl ::std::string::ToString for ObjectHeader {
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectHeader value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ObjectHeader {
+impl std::str::FromStr for ObjectHeader {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -956,14 +1039,14 @@ impl ::std::str::FromStr for ObjectHeader {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectHeader".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectHeader".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "requiredObjectHeader" => intermediate_rep.required_object_header.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
                     "optionalObjectHeader" => intermediate_rep.optional_object_header.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing ObjectHeader".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectHeader".to_string())
                 }
             }
 
@@ -972,7 +1055,7 @@ impl ::std::str::FromStr for ObjectHeader {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectHeader {
+        std::result::Result::Ok(ObjectHeader {
             required_object_header: intermediate_rep.required_object_header.into_iter().next().ok_or("requiredObjectHeader missing in ObjectHeader".to_string())?,
             optional_object_header: intermediate_rep.optional_object_header.into_iter().next(),
         })
@@ -989,17 +1072,17 @@ impl ObjectHeader {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ObjectParam> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ObjectParam> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ObjectParam>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ObjectParam>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ObjectParam>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ObjectParam>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ObjectParam> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ObjectParam::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectParam> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ObjectParam as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1028,7 +1111,7 @@ impl ObjectParam {
 /// Converts the ObjectParam value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ObjectParam {
+impl std::string::ToString for ObjectParam {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1048,10 +1131,10 @@ impl ::std::string::ToString for ObjectParam {
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectParam value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ObjectParam {
+impl std::str::FromStr for ObjectParam {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -1068,14 +1151,14 @@ impl ::std::str::FromStr for ObjectParam {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectParam".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectParam".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "requiredParam" => intermediate_rep.required_param.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
                     "optionalParam" => intermediate_rep.optional_param.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing ObjectParam".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectParam".to_string())
                 }
             }
 
@@ -1084,7 +1167,7 @@ impl ::std::str::FromStr for ObjectParam {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectParam {
+        std::result::Result::Ok(ObjectParam {
             required_param: intermediate_rep.required_param.into_iter().next().ok_or("requiredParam missing in ObjectParam".to_string())?,
             optional_param: intermediate_rep.optional_param.into_iter().next(),
         })
@@ -1101,17 +1184,17 @@ impl ObjectParam {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ObjectUntypedProps> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ObjectUntypedProps> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ObjectUntypedProps>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ObjectUntypedProps>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ObjectUntypedProps>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ObjectUntypedProps>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ObjectUntypedProps> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ObjectUntypedProps::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectUntypedProps> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ObjectUntypedProps as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1149,7 +1232,7 @@ impl ObjectUntypedProps {
 /// Converts the ObjectUntypedProps value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ObjectUntypedProps {
+impl std::string::ToString for ObjectUntypedProps {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping required_untyped in query parameter serialization
@@ -1167,10 +1250,10 @@ impl ::std::string::ToString for ObjectUntypedProps {
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectUntypedProps value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ObjectUntypedProps {
+impl std::str::FromStr for ObjectUntypedProps {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -1189,7 +1272,7 @@ impl ::std::str::FromStr for ObjectUntypedProps {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectUntypedProps".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectUntypedProps".to_string())
             };
 
             if let Some(key) = key_result {
@@ -1198,7 +1281,7 @@ impl ::std::str::FromStr for ObjectUntypedProps {
                     "required_untyped_nullable" => intermediate_rep.required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
                     "not_required_untyped" => intermediate_rep.not_required_untyped.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
                     "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing ObjectUntypedProps".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
             }
 
@@ -1207,7 +1290,7 @@ impl ::std::str::FromStr for ObjectUntypedProps {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectUntypedProps {
+        std::result::Result::Ok(ObjectUntypedProps {
             required_untyped: intermediate_rep.required_untyped.into_iter().next().ok_or("required_untyped missing in ObjectUntypedProps".to_string())?,
             required_untyped_nullable: intermediate_rep.required_untyped_nullable.into_iter().next().ok_or("required_untyped_nullable missing in ObjectUntypedProps".to_string())?,
             not_required_untyped: intermediate_rep.not_required_untyped.into_iter().next(),
@@ -1226,17 +1309,17 @@ impl ObjectUntypedProps {
     }
 }
 
-// Methods for converting between IntoHeaderValue<ObjectWithArrayOfObjects> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<ObjectWithArrayOfObjects> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<ObjectWithArrayOfObjects>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<ObjectWithArrayOfObjects>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<ObjectWithArrayOfObjects>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<ObjectWithArrayOfObjects>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<ObjectWithArrayOfObjects> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(ObjectWithArrayOfObjects::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectWithArrayOfObjects> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<ObjectWithArrayOfObjects as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1261,7 +1344,7 @@ impl ObjectWithArrayOfObjects {
 /// Converts the ObjectWithArrayOfObjects value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ObjectWithArrayOfObjects {
+impl std::string::ToString for ObjectWithArrayOfObjects {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1277,10 +1360,10 @@ impl ::std::string::ToString for ObjectWithArrayOfObjects {
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectWithArrayOfObjects value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for ObjectWithArrayOfObjects {
+impl std::str::FromStr for ObjectWithArrayOfObjects {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -1296,13 +1379,13 @@ impl ::std::str::FromStr for ObjectWithArrayOfObjects {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing ObjectWithArrayOfObjects".to_string())
+                None => return std::result::Result::Err("Missing value while parsing ObjectWithArrayOfObjects".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "objectArray" => return Err("Parsing a container in this style is not supported in ObjectWithArrayOfObjects".to_string()),
-                    _ => return Err("Unexpected key while parsing ObjectWithArrayOfObjects".to_string())
+                    "objectArray" => return std::result::Result::Err("Parsing a container in this style is not supported in ObjectWithArrayOfObjects".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing ObjectWithArrayOfObjects".to_string())
                 }
             }
 
@@ -1311,7 +1394,7 @@ impl ::std::str::FromStr for ObjectWithArrayOfObjects {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(ObjectWithArrayOfObjects {
+        std::result::Result::Ok(ObjectWithArrayOfObjects {
             object_array: intermediate_rep.object_array.into_iter().next(),
         })
     }
@@ -1329,29 +1412,75 @@ impl ObjectWithArrayOfObjects {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct Ok(String);
+
+impl std::convert::From<String> for Ok {
+    fn from(x: String) -> Self {
+        Ok(x)
+    }
+}
+
+impl std::str::FromStr for Ok {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(Ok(x.to_string()))
+    }
+}
+
+impl std::convert::From<Ok> for String {
+    fn from(x: Ok) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for Ok {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for Ok {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl Ok {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct OptionalObjectHeader(i32);
 
-impl ::std::convert::From<i32> for OptionalObjectHeader {
+impl std::convert::From<i32> for OptionalObjectHeader {
     fn from(x: i32) -> Self {
         OptionalObjectHeader(x)
     }
 }
 
 
-impl ::std::convert::From<OptionalObjectHeader> for i32 {
+impl std::convert::From<OptionalObjectHeader> for i32 {
     fn from(x: OptionalObjectHeader) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for OptionalObjectHeader {
+impl std::ops::Deref for OptionalObjectHeader {
     type Target = i32;
     fn deref(&self) -> &i32 {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for OptionalObjectHeader {
+impl std::ops::DerefMut for OptionalObjectHeader {
     fn deref_mut(&mut self) -> &mut i32 {
         &mut self.0
     }
@@ -1371,27 +1500,27 @@ impl OptionalObjectHeader {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct RequiredObjectHeader(bool);
 
-impl ::std::convert::From<bool> for RequiredObjectHeader {
+impl std::convert::From<bool> for RequiredObjectHeader {
     fn from(x: bool) -> Self {
         RequiredObjectHeader(x)
     }
 }
 
 
-impl ::std::convert::From<RequiredObjectHeader> for bool {
+impl std::convert::From<RequiredObjectHeader> for bool {
     fn from(x: RequiredObjectHeader) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for RequiredObjectHeader {
+impl std::ops::Deref for RequiredObjectHeader {
     type Target = bool;
     fn deref(&self) -> &bool {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for RequiredObjectHeader {
+impl std::ops::DerefMut for RequiredObjectHeader {
     fn deref_mut(&mut self) -> &mut bool {
         &mut self.0
     }
@@ -1399,6 +1528,52 @@ impl ::std::ops::DerefMut for RequiredObjectHeader {
 
 
 impl RequiredObjectHeader {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct Result(String);
+
+impl std::convert::From<String> for Result {
+    fn from(x: String) -> Self {
+        Result(x)
+    }
+}
+
+impl std::str::FromStr for Result {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(Result(x.to_string()))
+    }
+}
+
+impl std::convert::From<Result> for String {
+    fn from(x: Result) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for Result {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for Result {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl Result {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -1421,8 +1596,8 @@ pub enum StringEnum {
     BAR,
 }
 
-impl ::std::fmt::Display for StringEnum {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+impl std::fmt::Display for StringEnum {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match *self { 
             StringEnum::FOO => write!(f, "{}", "FOO"),
             StringEnum::BAR => write!(f, "{}", "BAR"),
@@ -1430,14 +1605,14 @@ impl ::std::fmt::Display for StringEnum {
     }
 }
 
-impl ::std::str::FromStr for StringEnum {
+impl std::str::FromStr for StringEnum {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "FOO" => Ok(StringEnum::FOO),
-            "BAR" => Ok(StringEnum::BAR),
-            _ => Err(format!("Value not valid: {}", s)),
+            "FOO" => std::result::Result::Ok(StringEnum::FOO),
+            "BAR" => std::result::Result::Ok(StringEnum::BAR),
+            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
 }
@@ -1455,33 +1630,33 @@ impl StringEnum {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct StringObject(String);
 
-impl ::std::convert::From<String> for StringObject {
+impl std::convert::From<String> for StringObject {
     fn from(x: String) -> Self {
         StringObject(x)
     }
 }
 
 impl std::str::FromStr for StringObject {
-    type Err = ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok(StringObject(x.to_string()))
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(StringObject(x.to_string()))
     }
 }
 
-impl ::std::convert::From<StringObject> for String {
+impl std::convert::From<StringObject> for String {
     fn from(x: StringObject) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for StringObject {
+impl std::ops::Deref for StringObject {
     type Target = String;
     fn deref(&self) -> &String {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for StringObject {
+impl std::ops::DerefMut for StringObject {
     fn deref_mut(&mut self) -> &mut String {
         &mut self.0
     }
@@ -1502,27 +1677,27 @@ impl StringObject {
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct UuidObject(uuid::Uuid);
 
-impl ::std::convert::From<uuid::Uuid> for UuidObject {
+impl std::convert::From<uuid::Uuid> for UuidObject {
     fn from(x: uuid::Uuid) -> Self {
         UuidObject(x)
     }
 }
 
 
-impl ::std::convert::From<UuidObject> for uuid::Uuid {
+impl std::convert::From<UuidObject> for uuid::Uuid {
     fn from(x: UuidObject) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for UuidObject {
+impl std::ops::Deref for UuidObject {
     type Target = uuid::Uuid;
     fn deref(&self) -> &uuid::Uuid {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for UuidObject {
+impl std::ops::DerefMut for UuidObject {
     fn deref_mut(&mut self) -> &mut uuid::Uuid {
         &mut self.0
     }
@@ -1538,25 +1713,25 @@ impl UuidObject {
     }
 }
 
-// Methods for converting between IntoHeaderValue<XmlArray> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<XmlArray> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<XmlArray>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<XmlArray>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<XmlArray>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<XmlArray>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<XmlArray> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(XmlArray::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlArray> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<XmlArray as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_camelXmlInner<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
+fn wrap_in_camelXmlInner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
-    S: Serializer,
+    S: serde::ser::Serializer,
 {
     serde_xml_rs::wrap_primitives(item, serializer, "camelXmlInner")
 }
@@ -1565,59 +1740,59 @@ where
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct XmlArray(#[serde(serialize_with = "wrap_in_camelXmlInner")]Vec<String>);
 
-impl ::std::convert::From<Vec<String>> for XmlArray {
+impl std::convert::From<Vec<String>> for XmlArray {
     fn from(x: Vec<String>) -> Self {
         XmlArray(x)
     }
 }
 
-impl ::std::convert::From<XmlArray> for Vec<String> {
+impl std::convert::From<XmlArray> for Vec<String> {
     fn from(x: XmlArray) -> Self {
         x.0
     }
 }
 
-impl ::std::iter::FromIterator<String> for XmlArray {
+impl std::iter::FromIterator<String> for XmlArray {
     fn from_iter<U: IntoIterator<Item=String>>(u: U) -> Self {
         XmlArray(Vec::<String>::from_iter(u))
     }
 }
 
-impl ::std::iter::IntoIterator for XmlArray {
+impl std::iter::IntoIterator for XmlArray {
     type Item = String;
-    type IntoIter = ::std::vec::IntoIter<String>;
+    type IntoIter = std::vec::IntoIter<String>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a XmlArray {
+impl<'a> std::iter::IntoIterator for &'a XmlArray {
     type Item = &'a String;
-    type IntoIter = ::std::slice::Iter<'a, String>;
+    type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a mut XmlArray {
+impl<'a> std::iter::IntoIterator for &'a mut XmlArray {
     type Item = &'a mut String;
-    type IntoIter = ::std::slice::IterMut<'a, String>;
+    type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
     }
 }
 
-impl ::std::ops::Deref for XmlArray {
+impl std::ops::Deref for XmlArray {
     type Target = Vec<String>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for XmlArray {
+impl std::ops::DerefMut for XmlArray {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
@@ -1626,7 +1801,7 @@ impl ::std::ops::DerefMut for XmlArray {
 /// Converts the XmlArray value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for XmlArray {
+impl std::string::ToString for XmlArray {
     fn to_string(&self) -> String {
         self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
     }
@@ -1635,16 +1810,16 @@ impl ::std::string::ToString for XmlArray {
 /// Converts Query Parameters representation (style=form, explode=false) to a XmlArray value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for XmlArray {
-    type Err = <String as ::std::str::FromStr>::Err;
+impl std::str::FromStr for XmlArray {
+    type Err = <String as std::str::FromStr>::Err;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         let mut items = vec![];
         for item in s.split(',')
         {
             items.push(item.parse()?);
         }
-        Ok(XmlArray(items))
+        std::result::Result::Ok(XmlArray(items))
     }
 }
 
@@ -1663,33 +1838,33 @@ impl XmlArray {
 #[serde(rename = "camelXmlInner")]
 pub struct XmlInner(String);
 
-impl ::std::convert::From<String> for XmlInner {
+impl std::convert::From<String> for XmlInner {
     fn from(x: String) -> Self {
         XmlInner(x)
     }
 }
 
 impl std::str::FromStr for XmlInner {
-    type Err = ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok(XmlInner(x.to_string()))
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(XmlInner(x.to_string()))
     }
 }
 
-impl ::std::convert::From<XmlInner> for String {
+impl std::convert::From<XmlInner> for String {
     fn from(x: XmlInner) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for XmlInner {
+impl std::ops::Deref for XmlInner {
     type Target = String;
     fn deref(&self) -> &String {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for XmlInner {
+impl std::ops::DerefMut for XmlInner {
     fn deref_mut(&mut self) -> &mut String {
         &mut self.0
     }
@@ -1706,17 +1881,17 @@ impl XmlInner {
 }
 
 /// An XML object
-// Methods for converting between IntoHeaderValue<XmlObject> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<XmlObject> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<XmlObject>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<XmlObject>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<XmlObject>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<XmlObject>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<XmlObject> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(XmlObject::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlObject> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<XmlObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1747,7 +1922,7 @@ impl XmlObject {
 /// Converts the XmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for XmlObject {
+impl std::string::ToString for XmlObject {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -1769,10 +1944,10 @@ impl ::std::string::ToString for XmlObject {
 /// Converts Query Parameters representation (style=form, explode=false) to a XmlObject value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for XmlObject {
+impl std::str::FromStr for XmlObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -1789,14 +1964,14 @@ impl ::std::str::FromStr for XmlObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing XmlObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing XmlObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "innerString" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "other_inner_rename" => intermediate_rep.other_inner_rename.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return Err("Unexpected key while parsing XmlObject".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing XmlObject".to_string())
                 }
             }
 
@@ -1805,7 +1980,7 @@ impl ::std::str::FromStr for XmlObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(XmlObject {
+        std::result::Result::Ok(XmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
             other_inner_rename: intermediate_rep.other_inner_rename.into_iter().next(),
         })
@@ -1824,7 +1999,7 @@ impl XmlObject {
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
-        let mut namespaces = BTreeMap::new();
+        let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
         namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
         serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")

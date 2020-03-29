@@ -505,6 +505,14 @@ components:
       - FOO
       - BAR
       type: string
+    Ok:
+      type: string
+    Error:
+      type: string
+    Err:
+      type: string
+    Result:
+      type: string
     inline_response_201:
       properties:
         foo:

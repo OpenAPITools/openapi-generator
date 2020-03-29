@@ -497,3 +497,11 @@ components:
       enum:
         - FOO
         - BAR
+    Ok:
+      type: string
+    Error:
+      type: string
+    Err:
+      type: string
+    Result:
+      type: string

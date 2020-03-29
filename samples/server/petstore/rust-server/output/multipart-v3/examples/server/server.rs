@@ -13,7 +13,6 @@ use futures::{future, Future, Stream};
 use hyper::server::conn::Http;
 use hyper::service::MakeService as _;
 use openssl::ssl::SslAcceptorBuilder;
-use std::collections::HashMap;
 use std::marker::PhantomData;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};

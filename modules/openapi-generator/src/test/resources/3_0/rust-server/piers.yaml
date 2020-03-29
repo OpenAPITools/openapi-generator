@@ -1,0 +1,74 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Generator rust-server test
+  version: 0.1.0
+servers:
+- url: /
+paths:
+  /a_get:
+    get:
+      description: Returns some stuff
+      operationId: a_get
+      responses:
+        200:
+          content:
+            text/plain:
+              example: ok
+              schema:
+                $ref: '#/components/schemas/ok'
+          description: OK
+        404:
+          content:
+            text/plain:
+              example: Not found
+              schema:
+                $ref: '#/components/schemas/error'
+          description: Not found
+  /a_post/{arg}:
+    post:
+      description: Posts some stuff
+      operationId: a_post
+      parameters:
+      - description: A path arg
+        example: 1
+        explode: false
+        in: path
+        name: arg
+        required: true
+        schema:
+          $ref: '#/components/schemas/arg'
+        style: simple
+      responses:
+        200:
+          content:
+            text/plain:
+              example: ok
+              schema:
+                $ref: '#/components/schemas/ok'
+          description: OK
+        404:
+          content:
+            text/plain:
+              example: Not found
+              schema:
+                $ref: '#/components/schemas/error'
+          description: Not found
+components:
+  schemas:
+    ok:
+      description: OK
+      example: ok
+      type: string
+    error:
+      description: Some error text
+      example: Not found
+      type: string
+    arg:
+      description: An arg
+      example: 1
+      enum:
+      - 0
+      - 1
+      - 2
+      format: int32
+      type: integer

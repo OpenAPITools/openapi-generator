@@ -1,27 +1,20 @@
-#![allow(unused_imports, unused_qualifications)]
+#![allow(unused_qualifications)]
 
-use serde::ser::Serializer;
-
-use std::collections::HashMap;
 use models;
-use swagger;
-use hyper::header::HeaderValue;
-use std::string::ParseError;
-use std::str::FromStr;
-use header::IntoHeaderValue;
+use header;
 
 
-// Methods for converting between IntoHeaderValue<InlineObject> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<InlineObject>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<InlineObject>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<InlineObject>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<InlineObject> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(InlineObject::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<InlineObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -51,7 +44,7 @@ impl InlineObject {
 /// Converts the InlineObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for InlineObject {
+impl std::string::ToString for InlineObject {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping binary1 in query parameter serialization
@@ -67,10 +60,10 @@ impl ::std::string::ToString for InlineObject {
 /// Converts Query Parameters representation (style=form, explode=false) to a InlineObject value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for InlineObject {
+impl std::str::FromStr for InlineObject {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -87,14 +80,14 @@ impl ::std::str::FromStr for InlineObject {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing InlineObject".to_string())
+                None => return std::result::Result::Err("Missing value while parsing InlineObject".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
-                    "binary1" => return Err("Parsing binary data in this style is not supported in InlineObject".to_string()),
-                    "binary2" => return Err("Parsing binary data in this style is not supported in InlineObject".to_string()),
-                    _ => return Err("Unexpected key while parsing InlineObject".to_string())
+                    "binary1" => return std::result::Result::Err("Parsing binary data in this style is not supported in InlineObject".to_string()),
+                    "binary2" => return std::result::Result::Err("Parsing binary data in this style is not supported in InlineObject".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing InlineObject".to_string())
                 }
             }
 
@@ -103,7 +96,7 @@ impl ::std::str::FromStr for InlineObject {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(InlineObject {
+        std::result::Result::Ok(InlineObject {
             binary1: intermediate_rep.binary1.into_iter().next(),
             binary2: intermediate_rep.binary2.into_iter().next(),
         })
@@ -112,17 +105,17 @@ impl ::std::str::FromStr for InlineObject {
 
 
 
-// Methods for converting between IntoHeaderValue<MultipartRelatedRequest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MultipartRelatedRequest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MultipartRelatedRequest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MultipartRelatedRequest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MultipartRelatedRequest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MultipartRelatedRequest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MultipartRelatedRequest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MultipartRelatedRequest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelatedRequest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MultipartRelatedRequest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -156,7 +149,7 @@ impl MultipartRelatedRequest {
 /// Converts the MultipartRelatedRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MultipartRelatedRequest {
+impl std::string::ToString for MultipartRelatedRequest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
         // Skipping object_field in query parameter serialization
@@ -174,10 +167,10 @@ impl ::std::string::ToString for MultipartRelatedRequest {
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipartRelatedRequest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MultipartRelatedRequest {
+impl std::str::FromStr for MultipartRelatedRequest {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -195,15 +188,15 @@ impl ::std::str::FromStr for MultipartRelatedRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing MultipartRelatedRequest".to_string())
+                None => return std::result::Result::Err("Missing value while parsing MultipartRelatedRequest".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| format!("{}", x))?),
-                    "optional_binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
-                    "required_binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
-                    _ => return Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
+                    "optional_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
+                    "required_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
                 }
             }
 
@@ -212,7 +205,7 @@ impl ::std::str::FromStr for MultipartRelatedRequest {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(MultipartRelatedRequest {
+        std::result::Result::Ok(MultipartRelatedRequest {
             object_field: intermediate_rep.object_field.into_iter().next(),
             optional_binary_field: intermediate_rep.optional_binary_field.into_iter().next(),
             required_binary_field: intermediate_rep.required_binary_field.into_iter().next().ok_or("required_binary_field missing in MultipartRelatedRequest".to_string())?,
@@ -222,17 +215,17 @@ impl ::std::str::FromStr for MultipartRelatedRequest {
 
 
 
-// Methods for converting between IntoHeaderValue<MultipartRequest> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MultipartRequest> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MultipartRequest>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MultipartRequest>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MultipartRequest>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MultipartRequest>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MultipartRequest> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MultipartRequest::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequest> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MultipartRequest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -270,7 +263,7 @@ impl MultipartRequest {
 /// Converts the MultipartRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MultipartRequest {
+impl std::string::ToString for MultipartRequest {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -295,10 +288,10 @@ impl ::std::string::ToString for MultipartRequest {
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipartRequest value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MultipartRequest {
+impl std::str::FromStr for MultipartRequest {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -317,7 +310,7 @@ impl ::std::str::FromStr for MultipartRequest {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing MultipartRequest".to_string())
+                None => return std::result::Result::Err("Missing value while parsing MultipartRequest".to_string())
             };
 
             if let Some(key) = key_result {
@@ -325,8 +318,8 @@ impl ::std::str::FromStr for MultipartRequest {
                     "string_field" => intermediate_rep.string_field.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "optional_string_field" => intermediate_rep.optional_string_field.push(String::from_str(val).map_err(|x| format!("{}", x))?),
                     "object_field" => intermediate_rep.object_field.push(models::MultipartRequestObjectField::from_str(val).map_err(|x| format!("{}", x))?),
-                    "binary_field" => return Err("Parsing binary data in this style is not supported in MultipartRequest".to_string()),
-                    _ => return Err("Unexpected key while parsing MultipartRequest".to_string())
+                    "binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRequest".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequest".to_string())
                 }
             }
 
@@ -335,7 +328,7 @@ impl ::std::str::FromStr for MultipartRequest {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(MultipartRequest {
+        std::result::Result::Ok(MultipartRequest {
             string_field: intermediate_rep.string_field.into_iter().next().ok_or("string_field missing in MultipartRequest".to_string())?,
             optional_string_field: intermediate_rep.optional_string_field.into_iter().next(),
             object_field: intermediate_rep.object_field.into_iter().next(),
@@ -346,17 +339,17 @@ impl ::std::str::FromStr for MultipartRequest {
 
 
 
-// Methods for converting between IntoHeaderValue<MultipartRequestObjectField> and HeaderValue
+// Methods for converting between header::IntoHeaderValue<MultipartRequestObjectField> and hyper::header::HeaderValue
 
-impl From<IntoHeaderValue<MultipartRequestObjectField>> for HeaderValue {
-    fn from(hdr_value: IntoHeaderValue<MultipartRequestObjectField>) -> Self {
-        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl From<header::IntoHeaderValue<MultipartRequestObjectField>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<MultipartRequestObjectField>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
-impl From<HeaderValue> for IntoHeaderValue<MultipartRequestObjectField> {
-    fn from(hdr_value: HeaderValue) -> Self {
-        IntoHeaderValue(MultipartRequestObjectField::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequestObjectField> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<MultipartRequestObjectField as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -385,7 +378,7 @@ impl MultipartRequestObjectField {
 /// Converts the MultipartRequestObjectField value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for MultipartRequestObjectField {
+impl std::string::ToString for MultipartRequestObjectField {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -405,10 +398,10 @@ impl ::std::string::ToString for MultipartRequestObjectField {
 /// Converts Query Parameters representation (style=form, explode=false) to a MultipartRequestObjectField value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MultipartRequestObjectField {
+impl std::str::FromStr for MultipartRequestObjectField {
     type Err = String;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
@@ -425,14 +418,14 @@ impl ::std::str::FromStr for MultipartRequestObjectField {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return Err("Missing value while parsing MultipartRequestObjectField".to_string())
+                None => return std::result::Result::Err("Missing value while parsing MultipartRequestObjectField".to_string())
             };
 
             if let Some(key) = key_result {
                 match key {
                     "field_a" => intermediate_rep.field_a.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    "field_b" => return Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
-                    _ => return Err("Unexpected key while parsing MultipartRequestObjectField".to_string())
+                    "field_b" => return std::result::Result::Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequestObjectField".to_string())
                 }
             }
 
@@ -441,7 +434,7 @@ impl ::std::str::FromStr for MultipartRequestObjectField {
         }
 
         // Use the intermediate representation to return the struct
-        Ok(MultipartRequestObjectField {
+        std::result::Result::Ok(MultipartRequestObjectField {
             field_a: intermediate_rep.field_a.into_iter().next().ok_or("field_a missing in MultipartRequestObjectField".to_string())?,
             field_b: intermediate_rep.field_b.into_iter().next(),
         })
