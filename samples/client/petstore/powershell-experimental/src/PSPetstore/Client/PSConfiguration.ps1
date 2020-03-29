@@ -39,6 +39,10 @@ function Get-PSConfiguration {
         $Configuration["Cookie"] = $null
     }
 
+    if (!$Configuration["DefaultHeaders"]) {
+        $Configuration["DefaultHeaders"] = @{}
+    }
+
     if (!$Configuration["ApiKey"]) {
         $Configuration["ApiKey"] = @{}
     }
@@ -88,6 +92,9 @@ Access token for authentication/authorization
 .PARAMETER SkipCertificateCheck
 Skip certificate verification
 
+.PARAMETER DefaultHeaders 
+Default HTTP headers to be included in the HTTP request
+
 .OUTPUTS
 
 System.Collections.Hashtable
@@ -109,6 +116,7 @@ function Set-PSConfiguration {
         [string]$AccessToken,
         [switch]$PassThru,
         [bool]$SkipCertificateCheck,
+        [hashtable]$DefaultHeaders,
         [switch]$Force
     )
 
@@ -144,6 +152,10 @@ function Set-PSConfiguration {
 
         If ($SkipCertificateCheck) {
             $Script:Configuration['SkipCertificateCheck'] = $SkipCertificateCheck
+        }
+
+        If ($DefaultHeaders) {
+            $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
         }
     }
 }
@@ -215,6 +227,41 @@ function Set-PSConfigurationApiKeyPrefix {
         $Script:Configuration["ApiKeyPrefix"][$Id] = $ApiKeyPrefix
     }
 }
+
+<#
+.SYNOPSIS
+
+Set the default header.
+
+.DESCRIPTION
+
+Set the default header.
+
+.PARAMETER Key
+Key of the HTTP header
+
+.PARAMETER Value
+Value of the HTTP header
+
+.OUTPUTS
+
+None
+#>
+function Set-PSConfigurationDefaultHeader {
+    [CmdletBinding()]
+    Param(
+        [string]$Key,
+        [AllowEmptyString()]
+        [string]$Value
+    )
+    Process {
+        if (!$Script:Configuration["DefaultHeaders"]) {
+            $Script:Configuration["DefaultHeaders"] = @{}
+        }
+        $Script:Configuration["DefaultHeaders"][$Key] = $Value
+    }
+}
+
 
 <#
 .SYNOPSIS
