@@ -23,7 +23,7 @@ function Get-PSConfiguration {
     $Configuration = $Script:Configuration
 
     if ([string]::IsNullOrEmpty($Configuration["BaseUrl"])) {
-        $Configuration["BaseUrl"] = "http://petstore.swagger.io/v2";
+        $Configuration["BaseUrl"] = "http://petstore.swagger.io:80/v2";
     }
 
     if (!$Configuration.containsKey("Username")) {
@@ -215,3 +215,61 @@ function Set-PSConfigurationApiKeyPrefix {
         $Script:Configuration["ApiKeyPrefix"][$Id] = $ApiKeyPrefix
     }
 }
+
+<#
+.SYNOPSIS
+
+Get the host setting.
+
+.DESCRIPTION
+
+Get the host setting in the form of array of hashtables.
+
+.OUTPUTS
+
+System.Collections.Hashtable[]
+#>
+function Get-PSHostSetting {
+
+    return @(
+          @{
+            "Url" = "http://{server}.swagger.io:{port}/v2";
+            "Description" = "petstore server";
+            "Variables" = @{
+              "server" = @{
+                  "Description" = "No description provided";
+                  "DefaultValue" = "petstore";
+                  "EnumValues" => @(
+                    "petstore",
+                    "qa-petstore",
+                    "dev-petstore"
+                  )
+                };
+              "port" = @{
+                  "Description" = "No description provided";
+                  "DefaultValue" = "80";
+                  "EnumValues" => @(
+                    "80",
+                    "8080"
+                  )
+                }
+              }
+          },
+          @{
+            "Url" = "https://localhost:8080/{version}";
+            "Description" = "The local server";
+            "Variables" = @{
+              "version" = @{
+                  "Description" = "No description provided";
+                  "DefaultValue" = "v2";
+                  "EnumValues" => @(
+                    "v1",
+                    "v2"
+                  )
+                }
+              }
+          }
+    )
+
+}
+

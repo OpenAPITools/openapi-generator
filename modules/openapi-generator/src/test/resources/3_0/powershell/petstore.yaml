@@ -1,6 +1,27 @@
 openapi: 3.0.0
 servers:
-  - url: 'http://petstore.swagger.io/v2'
+  - url: 'http://{server}.swagger.io:{port}/v2'
+    description: petstore server
+    variables:
+      server:
+        enum:
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
+      port:
+        enum:
+          - 80
+          - 8080
+        default: 80
+  - url: https://localhost:8080/{version}
+    description: The local server
+    variables:
+      version:
+        enum:
+          - 'v1'
+          - 'v2'
+        default: 'v2'
 info:
   description: >-
     This is a sample server Petstore server. For this sample, you can use the api key

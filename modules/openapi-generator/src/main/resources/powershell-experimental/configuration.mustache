@@ -209,3 +209,51 @@ function Set-{{{apiNamePrefix}}}ConfigurationApiKeyPrefix {
         $Script:Configuration["ApiKeyPrefix"][$Id] = $ApiKeyPrefix
     }
 }
+
+<#
+.SYNOPSIS
+
+Get the host setting.
+
+.DESCRIPTION
+
+Get the host setting in the form of array of hashtables.
+
+.OUTPUTS
+
+System.Collections.Hashtable[]
+#>
+function Get-{{apiNamePrefix}}HostSetting {
+
+    return @(
+        {{#servers}}
+          @{
+            "Url" = "{{{url}}}";
+            "Description" = "{{{description}}}{{^description}}No description provided{{/description}}";
+            {{#variables}}
+            {{#-first}}
+            "Variables" = @{
+            {{/-first}}
+              "{{{name}}}" = @{
+                  "Description" = "{{{description}}}{{^description}}No description provided{{/description}}";
+                  "DefaultValue" = "{{{defaultValue}}}";
+                  {{#enumValues}}
+                  {{#-first}}
+                  "EnumValues" => @(
+                  {{/-first}}
+                    "{{{.}}}"{{^-last}},{{/-last}}
+                  {{#-last}}
+                  )
+                  {{/-last}}
+                  {{/enumValues}}
+                }{{^-last}};{{/-last}}
+              {{#-last}}
+              }
+              {{/-last}}
+            {{/variables}}
+          }{{^-last}},{{/-last}}
+        {{/servers}}
+    )
+
+}
+
