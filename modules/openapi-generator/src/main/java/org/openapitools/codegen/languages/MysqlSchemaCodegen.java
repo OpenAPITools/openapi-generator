@@ -81,6 +81,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         // clear import mapping (from default generator) as mysql does not use import directives
         importMapping.clear();
 
+        modelTemplateFiles.put("sql_query.mustache", ".sql");
         //modelTestTemplateFiles.put("model_test.mustache", ".php");
         // no doc files
         // modelDocTemplateFiles.clear();
