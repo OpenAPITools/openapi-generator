@@ -7,6 +7,9 @@
 ./bin/kotlin-client-okhttp3.sh
 ./bin/kotlin-client-petstore-multiplatform.sh
 ./bin/kotlin-client-petstore.sh
+./bin/kotlin-client-petstore-retrofit2-coroutines.sh
+./bin/kotlin-client-petstore-retrofit2-rx.sh
+./bin/kotlin-client-petstore-retrofit2-rx2.sh
 ./bin/kotlin-client-string.sh
 ./bin/kotlin-client-threetenbp.sh
 ./bin/kotlin-client-nullable.sh

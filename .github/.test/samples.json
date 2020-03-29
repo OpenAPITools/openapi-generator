@@ -687,6 +687,24 @@
       ]
     },
     {
+      "input": "kotlin-client-petstore-retrofit2-coroutines.sh",
+      "matches": [
+        "Client: Kotlin"
+      ]
+    },
+    {
+      "input": "kotlin-client-petstore-retrofit2-rx.sh",
+      "matches": [
+        "Client: Kotlin"
+      ]
+    },
+    {
+      "input": "kotlin-client-petstore-retrofit2-rx2.sh",
+      "matches": [
+        "Client: Kotlin"
+      ]
+    },
+    {
       "input": "kotlin-client-string.sh",
       "matches": [
         "Client: Kotlin"

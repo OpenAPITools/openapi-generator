@@ -26,6 +26,8 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,12 +39,19 @@ import java.util.stream.Stream;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
+
     protected static final String JVM = "jvm";
     protected static final String JVM_OKHTTP = "jvm-okhttp";
     protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
     protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
     protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
+
+    public static final String USE_RX_JAVA = "useRxJava";
+    public static final String USE_RX_JAVA2 = "useRxJava2";
+    public static final String DO_NOT_USE_RX = "doNotUseRx";
+    public static final String USE_COROUTINES = "useCoroutines";
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
@@ -53,6 +62,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
     protected String collectionType = CollectionType.ARRAY.value;
+    protected boolean useRxJava = false;
+    protected boolean useRxJava2 = false;
+    // backwards compatibility for openapi configs that specify neither rx1 nor rx2
+    // (mustache does not allow for boolean operators so we need this extra field)
+    protected boolean doNotUseRxAndCoroutines = false;
+    protected boolean useCoroutines = true;
 
     public enum DateLibrary {
         STRING("string"),
@@ -177,6 +192,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         requestDateConverter.setEnum(requestDateConverterOptions);
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);
+
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
     }
 
     public CodegenType getTag() {
@@ -190,6 +209,39 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public String getHelp() {
         return "Generates a Kotlin client.";
     }
+
+    public void setUseRxJava(boolean useRxJava) {
+        this.useRxJava = useRxJava;
+        this.useRxJava2 = false;
+        this.doNotUseRxAndCoroutines = false;
+        this.useCoroutines = false;
+    }
+
+    public void setUseRxJava2(boolean useRxJava2) {
+        this.useRxJava2 = useRxJava2;
+        this.useRxJava = false;
+        this.doNotUseRxAndCoroutines = false;
+        this.useCoroutines = false;
+    }
+
+    public void setDoNotUseRxAndCoroutines(boolean doNotUseRxAndCoroutines) {
+        if (doNotUseRxAndCoroutines) {
+            this.useRxJava = false;
+            this.useRxJava2 = false;
+            this.useCoroutines = false;
+        }
+        this.doNotUseRxAndCoroutines = doNotUseRxAndCoroutines;
+    }
+
+    public void setUseCoroutines(boolean useCoroutines) {
+        if (useCoroutines) {
+            this.useRxJava = false;
+            this.useRxJava2 = false;
+            this.doNotUseRxAndCoroutines = false;
+        }
+        this.useCoroutines = useCoroutines;
+    }
+
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
@@ -209,6 +261,20 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (MULTIPLATFORM.equals(getLibrary())) {
             sourceFolder = "src/commonMain/kotlin";
+        }
+
+        // RxJava
+        if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
+            LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
+        } else if (additionalProperties.containsKey(USE_RX_JAVA)) {
+            this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+        }
+        if (additionalProperties.containsKey(USE_RX_JAVA2)) {
+            this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+        }
+
+        if (!useRxJava && !useRxJava2 && !useCoroutines) {
+            additionalProperties.put(DO_NOT_USE_RX, true);
         }
 
         // infrastructure destination folder
