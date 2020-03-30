@@ -34,22 +34,22 @@ GetLengthCm returns the LengthCm field if non-nil, zero value otherwise.
 
 ### GetLengthCmOk
 
-`func (o *Banana) GetLengthCmOk() (float32, bool)`
+`func (o *Banana) GetLengthCmOk() (*float32, bool)`
 
 GetLengthCmOk returns a tuple with the LengthCm field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetLengthCm
+
+`func (o *Banana) SetLengthCm(v float32)`
+
+SetLengthCm sets LengthCm field to given value.
 
 ### HasLengthCm
 
 `func (o *Banana) HasLengthCm() bool`
 
 HasLengthCm returns a boolean if a field has been set.
-
-### SetLengthCm
-
-`func (o *Banana) SetLengthCm(v float32)`
-
-SetLengthCm gets a reference to the given float32 and assigns it to the LengthCm field.
 
 ### GetColor
 
@@ -59,22 +59,22 @@ GetColor returns the Color field if non-nil, zero value otherwise.
 
 ### GetColorOk
 
-`func (o *Banana) GetColorOk() (string, bool)`
+`func (o *Banana) GetColorOk() (*string, bool)`
 
 GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetColor
+
+`func (o *Banana) SetColor(v string)`
+
+SetColor sets Color field to given value.
 
 ### HasColor
 
 `func (o *Banana) HasColor() bool`
 
 HasColor returns a boolean if a field has been set.
-
-### SetColor
-
-`func (o *Banana) SetColor(v string)`
-
-SetColor gets a reference to the given string and assigns it to the Color field.
 
 
 ### AsFruit

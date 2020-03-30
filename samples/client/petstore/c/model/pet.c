@@ -46,6 +46,9 @@ pet_t *pet_create(
 
 
 void pet_free(pet_t *pet) {
+    if(NULL == pet){
+        return ;
+    }
     listEntry_t *listEntry;
     category_free(pet->category);
     free(pet->name);
