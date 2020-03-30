@@ -9,8 +9,6 @@ import org.openapitools.server.AkkaHttpHelper._
 import org.openapitools.server.model.User
 
 
-
-
 class UserApi(
     userService: UserApiService,
     userMarshaller: UserApiMarshaller
@@ -21,123 +19,53 @@ class UserApi(
 
   lazy val route: Route =
     path("user") { 
-      post {
-        
-          
-            
-                      
-           entity(as[User]){ body =>
+      post {  
+            entity(as[User]){ body =>
               userService.createUser(body = body)
             }
-        
-            
-         
-       
       }
     } ~
     path("user" / "createWithArray") { 
-      post {
-        
-          
-            
-                      
-           entity(as[Seq[User]]){ body =>
+      post {  
+            entity(as[Seq[User]]){ body =>
               userService.createUsersWithArrayInput(body = body)
             }
-        
-            
-         
-       
       }
     } ~
     path("user" / "createWithList") { 
-      post {
-        
-          
-            
-                      
-           entity(as[Seq[User]]){ body =>
+      post {  
+            entity(as[Seq[User]]){ body =>
               userService.createUsersWithListInput(body = body)
             }
-        
-            
-         
-       
       }
     } ~
     path("user" / Segment) { (username) => 
-      delete {
-        
-          
-            
-                      
-           
-              userService.deleteUser(username = username)
-           
-        
-            
-         
-       
+      delete {  
+            userService.deleteUser(username = username)
       }
     } ~
     path("user" / Segment) { (username) => 
-      get {
-        
-          
-            
-                      
-           
-              userService.getUserByName(username = username)
-           
-        
-            
-         
-       
+      get {  
+            userService.getUserByName(username = username)
       }
     } ~
     path("user" / "login") { 
-      get {
-        parameters("username".as[String], "password".as[String]) { (username, password) =>
-          
-            
-                      
-           
-              userService.loginUser(username = username, password = password)
-           
-        
-            
-         
+      get { 
+        parameters("username".as[String], "password".as[String]) { (username, password) => 
+            userService.loginUser(username = username, password = password)
         }
       }
     } ~
     path("user" / "logout") { 
-      get {
-        
-          
-            
-                      
-           
-              userService.logoutUser()
-           
-        
-            
-         
-       
+      get {  
+            userService.logoutUser()
       }
     } ~
     path("user" / Segment) { (username) => 
-      put {
-        
-          
-            
-                      
-           entity(as[User]){ body =>
+      put {  
+            entity(as[User]){ body =>
               userService.updateUser(username = username, body = body)
             }
-        
-            
-         
-       
       }
     }
 }

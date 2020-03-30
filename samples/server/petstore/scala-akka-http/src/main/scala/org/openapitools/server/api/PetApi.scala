@@ -18,8 +18,6 @@ import akka.http.scaladsl.server.MalformedRequestContentRejection
 import akka.http.scaladsl.server.directives.FileInfo
 
 
-
-
 class PetApi(
     petService: PetApiService,
     petMarshaller: PetApiMarshaller
@@ -30,131 +28,65 @@ class PetApi(
 
   lazy val route: Route =
     path("pet") { 
-      post {
-        
-          
-            
-                      
-           entity(as[Pet]){ body =>
+      post {  
+            entity(as[Pet]){ body =>
               petService.addPet(body = body)
             }
-        
-            
-         
-       
       }
     } ~
     path("pet" / LongNumber) { (petId) => 
-      delete {
-        
+      delete {  
           optionalHeaderValueByName("api_key") { apiKey => 
-            
-                      
-           
-              petService.deletePet(petId = petId, apiKey = apiKey)
-           
-        
-            
+            petService.deletePet(petId = petId, apiKey = apiKey)
           }
-       
       }
     } ~
     path("pet" / "findByStatus") { 
-      get {
-        parameters("status".as[String]) { (status) =>
-          
-            
-                      
-           
-              petService.findPetsByStatus(status = status)
-           
-        
-            
-         
+      get { 
+        parameters("status".as[String]) { (status) => 
+            petService.findPetsByStatus(status = status)
         }
       }
     } ~
     path("pet" / "findByTags") { 
-      get {
-        parameters("tags".as[String]) { (tags) =>
-          
-            
-                      
-           
-              petService.findPetsByTags(tags = tags)
-           
-        
-            
-         
+      get { 
+        parameters("tags".as[String]) { (tags) => 
+            petService.findPetsByTags(tags = tags)
         }
       }
     } ~
     path("pet" / LongNumber) { (petId) => 
-      get {
-        
-          
-            
-                      
-           
-              petService.getPetById(petId = petId)
-           
-        
-            
-         
-       
+      get {  
+            petService.getPetById(petId = petId)
       }
     } ~
     path("pet") { 
-      put {
-        
-          
-            
-                      
-           entity(as[Pet]){ body =>
+      put {  
+            entity(as[Pet]){ body =>
               petService.updatePet(body = body)
             }
-        
-            
-         
-       
       }
     } ~
     path("pet" / LongNumber) { (petId) => 
-      post {
-        
-          
-            
-                      formFields("name".as[String].?, "status".as[String].?) { (name, status) =>
-           
-              petService.updatePetWithForm(petId = petId, name = name, status = status)
-           
-         }
-            
-         
-       
+      post {  
+          formFields("name".as[String].?, "status".as[String].?) { (name, status) =>
+            petService.updatePetWithForm(petId = petId, name = name, status = status)
+          }
       }
     } ~
     path("pet" / LongNumber / "uploadImage") { (petId) => 
-      post {
-        
-          
-            
-                      formAndFiles(FileField("file")) { partsAndFiles =>
+      post {  
+        formAndFiles(FileField("file")) { partsAndFiles => 
           val _____ : Try[Route] = for {
             file <- optToTry(partsAndFiles.files.get("file"), s"File file missing")
           } yield { 
             implicit val vp: StringValueProvider = partsAndFiles.form
             stringFields("additionalMetadata".as[String].?) { (additionalMetadata) =>
               petService.uploadFile(petId = petId, additionalMetadata = additionalMetadata, file = file)
-             }
-           }
+            }
+          }
           _____.fold[Route](t => reject(MalformedRequestContentRejection("Missing file.", t)), identity)
         }
-
-
-            
-         
-       
       }
     }
 }

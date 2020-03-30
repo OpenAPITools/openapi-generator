@@ -9,8 +9,6 @@ import org.openapitools.server.AkkaHttpHelper._
 import org.openapitools.server.model.Order
 
 
-
-
 class StoreApi(
     storeService: StoreApiService,
     storeMarshaller: StoreApiMarshaller
@@ -21,63 +19,25 @@ class StoreApi(
 
   lazy val route: Route =
     path("store" / "order" / Segment) { (orderId) => 
-      delete {
-        
-          
-            
-                      
-           
-              storeService.deleteOrder(orderId = orderId)
-           
-        
-            
-         
-       
+      delete {  
+            storeService.deleteOrder(orderId = orderId)
       }
     } ~
     path("store" / "inventory") { 
-      get {
-        
-          
-            
-                      
-           
-              storeService.getInventory()
-           
-        
-            
-         
-       
+      get {  
+            storeService.getInventory()
       }
     } ~
     path("store" / "order" / LongNumber) { (orderId) => 
-      get {
-        
-          
-            
-                      
-           
-              storeService.getOrderById(orderId = orderId)
-           
-        
-            
-         
-       
+      get {  
+            storeService.getOrderById(orderId = orderId)
       }
     } ~
     path("store" / "order") { 
-      post {
-        
-          
-            
-                      
-           entity(as[Order]){ body =>
+      post {  
+            entity(as[Order]){ body =>
               storeService.placeOrder(body = body)
             }
-        
-            
-         
-       
       }
     }
 }
