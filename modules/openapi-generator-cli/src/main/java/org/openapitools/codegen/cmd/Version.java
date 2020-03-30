@@ -27,11 +27,16 @@ public class Version extends OpenApiGeneratorCommand {
     @Option(name = {"--sha"}, description = "Git commit SHA version")
     private Boolean sha;
 
+    @Option(name = {"--full"}, description = "Full version details")
+    private Boolean full;
+
     @Override
     public void execute() {
         String version;
 
-        if (Boolean.TRUE.equals(sha)) {
+        if (Boolean.TRUE.equals(full)) {
+            version = buildInfo.versionDisplayText();
+        } else if (Boolean.TRUE.equals(sha)) {
             version = buildInfo.getSha();
         } else {
             version = buildInfo.getVersion();

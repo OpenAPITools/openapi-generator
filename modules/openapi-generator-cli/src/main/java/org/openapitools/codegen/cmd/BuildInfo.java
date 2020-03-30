@@ -8,6 +8,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.Properties;
 
+import static org.openapitools.codegen.Constants.*;
+
 /**
  * Presents build-time information
  */
@@ -39,8 +41,8 @@ public class BuildInfo {
      *
      * @return A semver string
      */
-    public String getVersion(){
-        String version = (String)properties.getOrDefault("version", UNKNOWN);
+    public String getVersion() {
+        String version = (String) properties.getOrDefault("version", UNKNOWN);
         if (VERSION_PLACEHOLDER.equals(version)) {
             return UNSET;
         } else {
@@ -53,8 +55,8 @@ public class BuildInfo {
      *
      * @return A short git SHA
      */
-    public String getSha(){
-        return (String)properties.getOrDefault("git.commit.id.abbrev", UNKNOWN);
+    public String getSha() {
+        return (String) properties.getOrDefault("git.commit.id.abbrev", UNKNOWN);
     }
 
     /**
@@ -64,10 +66,25 @@ public class BuildInfo {
      */
     public OffsetDateTime getBuildTime() {
         try {
-            String time = (String)properties.getOrDefault("git.build.time", "");
+            String time = (String) properties.getOrDefault("git.build.time", "");
             return OffsetDateTime.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ROOT));
         } catch (DateTimeParseException e) {
             return OffsetDateTime.MIN;
         }
+    }
+
+    /**
+     * Gets the full version display text, as one would expect from a '--version' CLI option
+     *
+     * @return Human-readable version display information
+     */
+    public String versionDisplayText() {
+        StringBuilder sb = new StringBuilder(CLI_NAME);
+        sb.append(" ").append(this.getVersion()).append(System.lineSeparator());
+        sb.append("  commit : ").append(this.getSha()).append(System.lineSeparator());
+        sb.append("  built  : ").append(this.getBuildTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)).append(System.lineSeparator());
+        sb.append("  source : ").append(GIT_REPO).append(System.lineSeparator());
+        sb.append("  docs   : ").append(SITE).append(System.lineSeparator());
+        return sb.toString();
     }
 }
