@@ -84,5 +84,15 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             #Get-PSUrlFromHostSettings -Index 0 -Variables @{ "port" = "1234" } | Should Throw "The variable 'port' in the host URL has invalid value 1234. Must be 80,8080"
 
         }
+
+        It "Default header tests" {
+
+            Set-PSConfigurationDefaultHeader -Key "TestKey" -Value "TestValue"
+
+            $Configuration = Get-PSConfiguration
+            $Configuration["DefaultHeaders"].Count | Should Be 1
+            $Configuration["DefaultHeaders"]["TestKey"] | Should Be "TestValue"
+
+        }
     }
 }
