@@ -63,7 +63,7 @@ object {{classname}}Patterns {
 trait {{classname}}Service {
 
 {{#operation}}
-{{#responses}}  def {{operationId}}{{#vendorExtensions.isDefault}}Default{{/vendorExtensions.isDefault}}{{^vendorExtensions.isDefault}}{{code}}{{/vendorExtensions.isDefault}}{{#baseType}}({{#vendorExtensions.isDefault}}statusCode: Int, {{/vendorExtensions.isDefault}}response{{baseType}}{{containerType}}: {{dataType}}){{^isPrimitiveType}}(implicit toEntityMarshaller{{baseType}}{{containerType}}: ToEntityMarshaller[{{dataType}}]){{/isPrimitiveType}}{{/baseType}}: Route =
+{{#responses}}  def {{operationId}}{{#vendorExtensions.isDefault}}Default{{/vendorExtensions.isDefault}}{{^vendorExtensions.isDefault}}{{code}}{{/vendorExtensions.isDefault}}{{#baseType}}({{#vendorExtensions.isDefault}}statusCode: Int, {{/vendorExtensions.isDefault}}response{{baseType}}{{containerType}}: {{dataType}}){{^isPrimitiveType}}(implicit toEntityMarshaller{{baseType}}{{containerType}}: ToEntityMarshaller[{{dataType}}]){{/isPrimitiveType}}{{/baseType}}{{^baseType}}{{#vendorExtensions.isDefault}}(statusCode: Int){{/vendorExtensions.isDefault}}{{/baseType}}: Route =
     complete(({{#vendorExtensions.isDefault}}statusCode{{/vendorExtensions.isDefault}}{{^vendorExtensions.isDefault}}{{code}}{{/vendorExtensions.isDefault}}, {{#baseType}}response{{baseType}}{{containerType}}{{/baseType}}{{^baseType}}"{{message}}"{{/baseType}}))
 {{/responses}}
   /**
