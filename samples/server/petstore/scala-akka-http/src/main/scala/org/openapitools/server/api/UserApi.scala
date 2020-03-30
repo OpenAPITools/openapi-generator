@@ -73,21 +73,21 @@ class UserApi(
 
 trait UserApiService {
 
-  def createUserDefault: Route =
+  def createUserDefault(statusCode: Int): Route =
     complete((statusCode, "successful operation"))
   /**
    * Code: 0, Message: successful operation
    */
   def createUser(body: User): Route
 
-  def createUsersWithArrayInputDefault: Route =
+  def createUsersWithArrayInputDefault(statusCode: Int): Route =
     complete((statusCode, "successful operation"))
   /**
    * Code: 0, Message: successful operation
    */
   def createUsersWithArrayInput(body: Seq[User]): Route
 
-  def createUsersWithListInputDefault: Route =
+  def createUsersWithListInputDefault(statusCode: Int): Route =
     complete((statusCode, "successful operation"))
   /**
    * Code: 0, Message: successful operation
@@ -128,7 +128,7 @@ trait UserApiService {
    */
   def loginUser(username: String, password: String): Route
 
-  def logoutUserDefault: Route =
+  def logoutUserDefault(statusCode: Int): Route =
     complete((statusCode, "successful operation"))
   /**
    * Code: 0, Message: successful operation
