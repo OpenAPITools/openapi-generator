@@ -83,7 +83,6 @@ public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     public static FeatureSet DefaultFeatureSet;
-    public static final String LIBRARY_ONEOF_IMPL = "JavaSpring";
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
@@ -769,14 +768,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Schema s = e.getValue();
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
-                    if (e.getKey().contains("/") || (useOneOfInterfaces && LIBRARY_ONEOF_IMPL.equals(templateDir))) {
-                        // if this is property schema, we also need to generate the oneOf interface model
-                        addOneOfNameExtension((ComposedSchema) s, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
-                    } else {
-                        // else this is a component schema, so we will just use that as the oneOf interface model
-                        addOneOfNameExtension((ComposedSchema) s, n);
-                    }
+                    addOneOfForComposedSchema(e, n, (ComposedSchema) s, nOneOf);
                 } else if (ModelUtils.isArraySchema(s)) {
                     Schema items = ((ArraySchema) s).getItems();
                     if (ModelUtils.isComposedSchema(items)) {
@@ -791,6 +783,18 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
+        }
+    }
+
+    protected void addOneOfForComposedSchema(Entry<String, Schema> stringSchemaEntry, String modelName, ComposedSchema composedSchema,
+        String nOneOf) {
+        if (stringSchemaEntry.getKey().contains("/")) {
+            // if this is property schema, we also need to generate the oneOf interface model
+            addOneOfNameExtension(composedSchema, nOneOf);
+            addOneOfInterfaceModel(composedSchema, nOneOf);
+        } else {
+            // else this is a component schema, so we will just use that as the oneOf interface model
+            addOneOfNameExtension(composedSchema, modelName);
         }
     }
 
@@ -5449,11 +5453,8 @@ public class DefaultCodegen implements CodegenConfig {
                                     "'application/x-www-form-urlencoded' or 'multipart/?'");
                             LOGGER.warn("schema: " + schema);
                             LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
-                            codegenModelName = "UNKNOWN_BASE_TYPE";
                             codegenModelDescription = "UNKNOWN_DESCRIPTION";
-                            if (useOneOfInterfaces && templateDir.equals(LIBRARY_ONEOF_IMPL)){
-                                codegenModelName = codegenProperty.getComplexType();
-                            }
+                            codegenModelName = getCodegenModelName(codegenProperty);
                         }
 
                         if (StringUtils.isEmpty(bodyParameterName)) {
@@ -5468,9 +5469,8 @@ public class DefaultCodegen implements CodegenConfig {
                         codegenParameter.description = codegenModelDescription;
                         imports.add(codegenParameter.baseType);
 
-                        if (codegenProperty.complexType != null && (useOneOfInterfaces && !templateDir.equals(
-                            LIBRARY_ONEOF_IMPL))) {
-                            imports.add(codegenProperty.complexType);
+                        if (codegenProperty.complexType != null) {
+                            addAdditionalImports(imports, codegenProperty.complexType);
                         }
                     }
                 }
@@ -5517,6 +5517,14 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter, body);
 
         return codegenParameter;
+    }
+
+    protected void addAdditionalImports(Set<String> imports, String complexType) {
+        imports.add(complexType);
+    }
+
+    protected String getCodegenModelName(CodegenProperty codegenProperty) {
+        return "UNKNOWN_BASE_TYPE";
     }
 
     protected void addOption(String key, String description, String defaultValue) {
