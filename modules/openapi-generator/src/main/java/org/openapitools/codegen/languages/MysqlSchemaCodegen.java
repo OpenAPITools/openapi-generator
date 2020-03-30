@@ -20,10 +20,12 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.File;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -83,6 +85,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         // clear import mapping (from default generator) as mysql does not use import directives
         importMapping.clear();
 
+        setModelPackage("Model");
         modelTemplateFiles.put("sql_query.mustache", ".sql");
         //modelTestTemplateFiles.put("model_test.mustache", ".php");
         // no doc files
@@ -239,6 +242,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
             this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
         }
+
+        // make model src path available in mustache template
+        additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage));
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("mysql_schema.mustache", "", "mysql_schema.sql"));
@@ -1212,4 +1218,22 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         return this.identifierNamingConvention;
     }
 
+    /**
+     * Slightly modified version of AbstractPhpCodegen.toSrcPath method.
+     *
+     * @param packageName package name
+     *
+     * @return path
+     */
+    public String toSrcPath(String packageName) {
+        // Trim prefix file separators from package path
+        String packagePath = StringUtils.removeStart(
+            // Replace period, backslash, forward slash with file separator in package name
+            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+            File.separator
+        );
+
+        // Trim trailing file separators from the overall path
+        return StringUtils.removeEnd(packagePath, File.separator);
+    }
 }
