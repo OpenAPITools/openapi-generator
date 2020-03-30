@@ -621,7 +621,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public void setProjectName(String projectName) {
-        this.projectName = underscore(projectName.toLowerCase(Locale.ROOT));
+        this.projectName = underscore(sanitizeName(projectName.toLowerCase(Locale.ROOT)));
     }
 
     @Override

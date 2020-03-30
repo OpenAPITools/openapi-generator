@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 	"os"
 )
@@ -28,17 +27,17 @@ type InlineObject5 struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewInlineObject5(requiredFile *os.File, ) *InlineObject5 {
-    this := InlineObject5{}
-    this.RequiredFile = requiredFile
-    return &this
+	this := InlineObject5{}
+	this.RequiredFile = requiredFile
+	return &this
 }
 
 // NewInlineObject5WithDefaults instantiates a new InlineObject5 object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObject5WithDefaults() *InlineObject5 {
-    this := InlineObject5{}
-    return &this
+	this := InlineObject5{}
+	return &this
 }
 
 // GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
@@ -50,14 +49,13 @@ func (o *InlineObject5) GetAdditionalMetadata() string {
 	return *o.AdditionalMetadata
 }
 
-// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, zero value otherwise
+// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject5) GetAdditionalMetadataOk() (string, bool) {
+func (o *InlineObject5) GetAdditionalMetadataOk() (*string, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.AdditionalMetadata, true
+	return o.AdditionalMetadata, true
 }
 
 // HasAdditionalMetadata returns a boolean if a field has been set.
@@ -76,7 +74,7 @@ func (o *InlineObject5) SetAdditionalMetadata(v string) {
 
 // GetRequiredFile returns the RequiredFile field value
 func (o *InlineObject5) GetRequiredFile() *os.File {
-	if o == nil {
+	if o == nil  {
 		var ret *os.File
 		return ret
 	}
@@ -84,30 +82,63 @@ func (o *InlineObject5) GetRequiredFile() *os.File {
 	return o.RequiredFile
 }
 
+// GetRequiredFileOk returns a tuple with the RequiredFile field value
+// and a boolean to check if the value has been set.
+func (o *InlineObject5) GetRequiredFileOk() (**os.File, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.RequiredFile, true
+}
+
 // SetRequiredFile sets field value
 func (o *InlineObject5) SetRequiredFile(v *os.File) {
 	o.RequiredFile = v
 }
 
+func (o InlineObject5) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.AdditionalMetadata != nil {
+		toSerialize["additionalMetadata"] = o.AdditionalMetadata
+	}
+	if true {
+		toSerialize["requiredFile"] = o.RequiredFile
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableInlineObject5 struct {
-	Value InlineObject5
-	ExplicitNull bool
+	value *InlineObject5
+	isSet bool
+}
+
+func (v NullableInlineObject5) Get() *InlineObject5 {
+	return v.value
+}
+
+func (v *NullableInlineObject5) Set(val *InlineObject5) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableInlineObject5) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableInlineObject5) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableInlineObject5(val *InlineObject5) *NullableInlineObject5 {
+	return &NullableInlineObject5{value: val, isSet: true}
 }
 
 func (v NullableInlineObject5) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject5) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

@@ -10,55 +10,67 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
 
 // FruitReq struct for FruitReq
 type FruitReq struct {
-    FruitReqInterface interface {  }
+	FruitReqInterface interface {  }
 }
 
-func (s *FruitReq) MarshalJSON() ([]byte, error) {
-    return json.Marshal(s.FruitReqInterface)
+func (s FruitReq) MarshalJSON() ([]byte, error) {
+	return json.Marshal(s.FruitReqInterface)
 }
 
 func (s *FruitReq) UnmarshalJSON(src []byte) error {
-    var err error
-    var unmarshaledAppleReq *AppleReq = &AppleReq{}
-    err = json.Unmarshal(src, unmarshaledAppleReq)
-    if err == nil {
-        s.FruitReqInterface = unmarshaledAppleReq
-        return nil
-    }
-    var unmarshaledBananaReq *BananaReq = &BananaReq{}
-    err = json.Unmarshal(src, unmarshaledBananaReq)
-    if err == nil {
-        s.FruitReqInterface = unmarshaledBananaReq
-        return nil
-    }
-    return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
+	var err error
+	var unmarshaledAppleReq *AppleReq = &AppleReq{}
+	err = json.Unmarshal(src, unmarshaledAppleReq)
+	if err == nil {
+		s.FruitReqInterface = unmarshaledAppleReq
+		return nil
+	}
+	var unmarshaledBananaReq *BananaReq = &BananaReq{}
+	err = json.Unmarshal(src, unmarshaledBananaReq)
+	if err == nil {
+		s.FruitReqInterface = unmarshaledBananaReq
+		return nil
+	}
+	return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
 }
 type NullableFruitReq struct {
-	Value FruitReq
-	ExplicitNull bool
+	value *FruitReq
+	isSet bool
+}
+
+func (v NullableFruitReq) Get() *FruitReq {
+	return v.value
+}
+
+func (v *NullableFruitReq) Set(val *FruitReq) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableFruitReq) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableFruitReq) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableFruitReq(val *FruitReq) *NullableFruitReq {
+	return &NullableFruitReq{value: val, isSet: true}
 }
 
 func (v NullableFruitReq) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableFruitReq) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

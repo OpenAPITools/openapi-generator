@@ -9,8 +9,9 @@
  * Do not edit the class manually.
  */
 
-#include "PFXHelpers.h"
 #include <QDebug>
+#include <QJsonParseError>
+#include "PFXHelpers.h"
 
 namespace test_namespace {
 
@@ -184,6 +185,17 @@ bool fromStringValue(const QString &inStr, double &value) {
     bool ok = false;
     value = QVariant(inStr).toDouble(&ok);
     return ok;
+}
+
+bool fromStringValue(const QString &inStr, PFXObject &value)
+{
+    QJsonParseError err;
+    QJsonDocument::fromJson(inStr.toUtf8(),&err);
+    if ( err.error == QJsonParseError::NoError ){
+        value.fromJson(inStr);
+        return true;
+    }
+    return false;
 }
 
 bool fromStringValue(const QString &inStr, PFXEnum &value) {

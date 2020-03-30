@@ -37,7 +37,7 @@ public class OpenApiSchemaTypeTest {
     @DataProvider(name = "oas31RecommendationExpectations")
     public Object[][] oas31RecommendationExpectations() {
         return new Object[][]{
-            {TestUtils.parseSpec("src/test/resources/3_1/null-types.yaml"), true}
+            {TestUtils.parseFlattenSpec("src/test/resources/3_1/null-types.yaml"), true}
         };
     }
 }
