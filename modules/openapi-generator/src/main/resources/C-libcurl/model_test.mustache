@@ -15,63 +15,32 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-
-
 #include "../model/{{classFilename}}.h"
 {{classname}}_t* instantiate_{{classname}}(int include_optional);
 
-{{#vars}}
-  {{#isModel}}
-    {{#isEnum}}// michele model enum : {{/isEnum}}
-{{^isEnum}}#include "test_{{{dataType}}}.c"{{/isEnum}}
-  {{/isModel}}
-{{/vars}}
-
+{{#vars}}{{#isModel}}{{#isEnum}}
+// it is enum. Work in Progress
+{{/isEnum}}{{^isEnum}}#include "test_{{{dataType}}}.c"
+{{/isEnum}}{{/isModel}}{{/vars}}
 
 {{classname}}_t* instantiate_{{classname}}(int include_optional) {
   {{classname}}_t* {{classname}} = NULL;
-if (include_optional) {
-  {{classname}} = {{classname}}_create(
-{{#vars}}
-{{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{#example}}{{{.}}}{{/example}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#example}}{{{.}}}{{/example}}{{/isEnum}}
-{{#isPrimitiveType}}//primitive{{/isPrimitiveType}}
-{{#isContainer}}
-  {{#isListContainer}}//list {{dataType}}_t *{{/isListContainer}}
-  {{#isMapContainer}}// map {{dataType}}{{/isMapContainer}}
-{{/isContainer}}
-  {{#isModel}}
-    {{#isEnum}}// enum {{datatypeWithEnum}}_e{{/isEnum}}
-	{{^isEnum}}// modello normale {{{dataType}}}_t *{{/isEnum}}
-  {{/isModel}}
-{{^example}}
-  {{#isModel}}
-    {{#isEnum}}// enum {{datatypeWithEnum}}_e{{/isEnum}}
-	{{^isEnum}}instantiate_{{{dataType}}}(0) // false, not to have infinite recursion {{/isEnum}}
-  {{/isModel}}
-  {{^isModel}}
-0
-  {{/isModel}}
-{{/example}}{{#hasMore}},{{/hasMore}} // {{name}}
+  if (include_optional) {
+    {{classname}} = {{classname}}_create(
+{{#vars}}      {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{#example}}{{{.}}}{{/example}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#example}}{{{.}}}{{/example}}{{/isEnum}}{{^example}}{{#isModel}}{{#isEnum}}// enum {{datatypeWithEnum}}_e Work in Progress
+{{/isEnum}}{{^isEnum}} // false, not to have infinite recursion
+      instantiate_{{{dataType}}}(0){{/isEnum}}{{/isModel}}{{^isModel}}0{{/isModel}}{{/example}}{{#hasMore}},{{/hasMore}}
 {{/vars}}
-  );
-} else {
-  {{classname}} = {{classname}}_create(
-{{#vars}}
-{{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{#example}}{{{.}}}{{/example}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#example}}{{{.}}}{{/example}}{{/isEnum}}
-{{^example}}
-  {{#isModel}}
-    {{#isEnum}}// enum {{datatypeWithEnum}}_e{{/isEnum}}
-	{{^isEnum}}NULL{{/isEnum}}
-  {{/isModel}}
-  {{^isModel}}
-0
-  {{/isModel}}
-{{/example}}{{#hasMore}},{{/hasMore}} // {{name}}
+    );
+  } else {
+    {{classname}} = {{classname}}_create(
+{{#vars}}      {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{#example}}{{{.}}}{{/example}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#example}}{{{.}}}{{/example}}{{/isEnum}}{{^example}}{{#isModel}}{{#isEnum}}// enum {{datatypeWithEnum}}_e Work in Progress
+{{/isEnum}}{{^isEnum}}NULL{{/isEnum}}{{/isModel}}{{^isModel}}0{{/isModel}}{{/example}}{{#hasMore}},{{/hasMore}}
 {{/vars}}
-  );
-}
+    );
+  }
 
-return {{classname}};
+  return {{classname}};
 }
 
 

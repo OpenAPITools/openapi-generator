@@ -13,8 +13,6 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-
-
 #include "../model/category.h"
 category_t* instantiate_category(int include_optional);
 
@@ -22,25 +20,19 @@ category_t* instantiate_category(int include_optional);
 
 category_t* instantiate_category(int include_optional) {
   category_t* category = NULL;
-if (include_optional) {
-  category = category_create(
-56
-//primitive
-, // id
-"0"
-//primitive
- // name
-  );
-} else {
-  category = category_create(
-56
-, // id
-"0"
- // name
-  );
-}
+  if (include_optional) {
+    category = category_create(
+      56,
+      "0"
+    );
+  } else {
+    category = category_create(
+      56,
+      "0"
+    );
+  }
 
-return category;
+  return category;
 }
 
 

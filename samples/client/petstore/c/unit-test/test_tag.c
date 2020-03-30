@@ -13,8 +13,6 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-
-
 #include "../model/tag.h"
 tag_t* instantiate_tag(int include_optional);
 
@@ -22,25 +20,19 @@ tag_t* instantiate_tag(int include_optional);
 
 tag_t* instantiate_tag(int include_optional) {
   tag_t* tag = NULL;
-if (include_optional) {
-  tag = tag_create(
-56
-//primitive
-, // id
-"0"
-//primitive
- // name
-  );
-} else {
-  tag = tag_create(
-56
-, // id
-"0"
- // name
-  );
-}
+  if (include_optional) {
+    tag = tag_create(
+      56,
+      "0"
+    );
+  } else {
+    tag = tag_create(
+      56,
+      "0"
+    );
+  }
 
-return tag;
+  return tag;
 }
 
 

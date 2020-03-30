@@ -13,8 +13,6 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-
-
 #include "../model/api_response.h"
 api_response_t* instantiate_api_response(int include_optional);
 
@@ -22,30 +20,21 @@ api_response_t* instantiate_api_response(int include_optional);
 
 api_response_t* instantiate_api_response(int include_optional) {
   api_response_t* api_response = NULL;
-if (include_optional) {
-  api_response = api_response_create(
-56
-//primitive
-, // code
-"0"
-//primitive
-, // type
-"0"
-//primitive
- // message
-  );
-} else {
-  api_response = api_response_create(
-56
-, // code
-"0"
-, // type
-"0"
- // message
-  );
-}
+  if (include_optional) {
+    api_response = api_response_create(
+      56,
+      "0",
+      "0"
+    );
+  } else {
+    api_response = api_response_create(
+      56,
+      "0",
+      "0"
+    );
+  }
 
-return api_response;
+  return api_response;
 }
 
 

@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -531,7 +530,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toModelTestFilename(String name) {
         return ("test_" + toModelFilename(name));
-//        return ("test_" + toModelFilename(name)).replaceAll("_", "-");
     }
 
     @Override

@@ -13,8 +13,6 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-
-
 #include "../model/order.h"
 order_t* instantiate_order(int include_optional);
 
@@ -22,45 +20,27 @@ order_t* instantiate_order(int include_optional);
 
 order_t* instantiate_order(int include_optional) {
   order_t* order = NULL;
-if (include_optional) {
-  order = order_create(
-56
-//primitive
-, // id
-56
-//primitive
-, // pet_id
-56
-//primitive
-, // quantity
-"2013-10-20T19:20:30+01:00"
-//primitive
-, // ship_date
-openapi_petstore_order_STATUS_placed
-//primitive
-, // status
-1
-//primitive
- // complete
-  );
-} else {
-  order = order_create(
-56
-, // id
-56
-, // pet_id
-56
-, // quantity
-"2013-10-20T19:20:30+01:00"
-, // ship_date
-openapi_petstore_order_STATUS_placed
-, // status
-1
- // complete
-  );
-}
+  if (include_optional) {
+    order = order_create(
+      56,
+      56,
+      56,
+      "2013-10-20T19:20:30+01:00",
+      openapi_petstore_order_STATUS_placed,
+      1
+    );
+  } else {
+    order = order_create(
+      56,
+      56,
+      56,
+      "2013-10-20T19:20:30+01:00",
+      openapi_petstore_order_STATUS_placed,
+      1
+    );
+  }
 
-return order;
+  return order;
 }
 
 

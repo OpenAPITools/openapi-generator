@@ -13,8 +13,6 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-
-
 #include "../model/user.h"
 user_t* instantiate_user(int include_optional);
 
@@ -22,55 +20,31 @@ user_t* instantiate_user(int include_optional);
 
 user_t* instantiate_user(int include_optional) {
   user_t* user = NULL;
-if (include_optional) {
-  user = user_create(
-56
-//primitive
-, // id
-"0"
-//primitive
-, // username
-"0"
-//primitive
-, // first_name
-"0"
-//primitive
-, // last_name
-"0"
-//primitive
-, // email
-"0"
-//primitive
-, // password
-"0"
-//primitive
-, // phone
-56
-//primitive
- // user_status
-  );
-} else {
-  user = user_create(
-56
-, // id
-"0"
-, // username
-"0"
-, // first_name
-"0"
-, // last_name
-"0"
-, // email
-"0"
-, // password
-"0"
-, // phone
-56
- // user_status
-  );
-}
+  if (include_optional) {
+    user = user_create(
+      56,
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      56
+    );
+  } else {
+    user = user_create(
+      56,
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      56
+    );
+  }
 
-return user;
+  return user;
 }
 
 

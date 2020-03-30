@@ -13,66 +13,36 @@
 #include <stdbool.h>
 #include "../external/cJSON.h"
 
-
-
 #include "../model/pet.h"
 pet_t* instantiate_pet(int include_optional);
 
-    
 #include "test_category.c"
 
 
 pet_t* instantiate_pet(int include_optional) {
   pet_t* pet = NULL;
-if (include_optional) {
-  pet = pet_create(
-56
-//primitive
-, // id
+  if (include_optional) {
+    pet = pet_create(
+      56,
+       // false, not to have infinite recursion
+      instantiate_category(0),
+      "doggie",
+      list_create(),
+      list_create(),
+      openapi_petstore_pet_STATUS_available
+    );
+  } else {
+    pet = pet_create(
+      56,
+      NULL,
+      "doggie",
+      list_create(),
+      list_create(),
+      openapi_petstore_pet_STATUS_available
+    );
+  }
 
-
-    
-	// modello normale category_t *
-    
-	instantiate_category(0) // false, not to have infinite recursion 
-, // category
-"doggie"
-//primitive
-, // name
-list_create()
-//primitive
-  //list list_t *
-  
-, // photo_urls
-list_create()
-
-  //list list_t *
-  
-, // tags
-openapi_petstore_pet_STATUS_available
-//primitive
- // status
-  );
-} else {
-  pet = pet_create(
-56
-, // id
-
-    
-	NULL
-, // category
-"doggie"
-, // name
-list_create()
-, // photo_urls
-list_create()
-, // tags
-openapi_petstore_pet_STATUS_available
- // status
-  );
-}
-
-return pet;
+  return pet;
 }
 
 
