@@ -1572,7 +1572,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             param.vendorExtensions.put("formatString", "{:?}");
             if (param.example != null) {
-                example = "serde_json::from_str::<" + param.dataType + ">(\"" + param.example + "\").expect(\"Failed to parse JSON example\")";
+                example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
             }
         }
 
