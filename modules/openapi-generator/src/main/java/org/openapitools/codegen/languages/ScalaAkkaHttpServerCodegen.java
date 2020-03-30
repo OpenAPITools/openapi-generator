@@ -167,7 +167,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
             param.vendorExtensions.put("hasDefaultValue", param.defaultValue != null);
             // Escaping default string values
             if (param.defaultValue != null && param.dataType.equals("String")) {
-                param.defaultValue = String.format("\"%s\"", param.defaultValue);
+                param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
             }
         }
         return param;
