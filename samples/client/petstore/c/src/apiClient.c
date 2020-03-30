@@ -13,7 +13,7 @@ apiClient_t *apiClient_create() {
     curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     apiClient->basePath = strdup("http://petstore.swagger.io/v2");
-    apiClient->caPath = NULL;
+    apiClient->sslConfig = NULL;
     apiClient->dataReceived = NULL;
     apiClient->response_code = 0;
     apiClient->apiKeys = NULL;
@@ -23,7 +23,7 @@ apiClient_t *apiClient_create() {
 }
 
 apiClient_t *apiClient_create_with_base_path(const char *basePath
-, const char *caPath
+, sslConfig_t *sslConfig
 , list_t *apiKeys
 ) {
     curl_global_init(CURL_GLOBAL_ALL);
@@ -34,10 +34,10 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
         apiClient->basePath = strdup("http://petstore.swagger.io/v2");
     }
 
-    if(caPath){
-        apiClient->caPath = strdup(caPath);
+    if(sslConfig){
+        apiClient->sslConfig = sslConfig;
     }else{
-        apiClient->caPath = NULL;
+        apiClient->sslConfig = NULL;
     }
 
     apiClient->dataReceived = NULL;
@@ -62,9 +62,6 @@ void apiClient_free(apiClient_t *apiClient) {
     if(apiClient->basePath) {
         free(apiClient->basePath);
     }
-    if(apiClient->caPath) {
-        free(apiClient->caPath);
-    }
     if(apiClient->apiKeys) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, apiClient->apiKeys) {
@@ -84,6 +81,33 @@ void apiClient_free(apiClient_t *apiClient) {
     }
     free(apiClient);
     curl_global_cleanup();
+}
+
+sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify) {
+    sslConfig_t *sslConfig = calloc(1, sizeof(sslConfig_t));
+    if ( clientCertFile ) {
+        sslConfig->clientCertFile = strdup(clientCertFile);
+    }
+    if ( clientKeyFile ) {
+        sslConfig->clientKeyFile = strdup(clientKeyFile);
+    }
+    if ( CACertFile ) {
+        sslConfig->CACertFile = strdup(CACertFile);
+    }
+    sslConfig->insecureSkipTlsVerify = insecureSkipTlsVerify;
+}
+
+void sslConfig_free(sslConfig_t *sslConfig) {
+    if ( sslConfig->clientCertFile ) {
+        free(sslConfig->clientCertFile);
+    }
+    if ( sslConfig->clientKeyFile ) {
+        free(sslConfig->clientKeyFile);
+    }
+    if ( sslConfig->CACertFile ){
+        free(sslConfig->CACertFile);
+    }
+    free(sslConfig);
 }
 
 void replaceSpaceWithPlus(char *stringToProcess) {
@@ -342,13 +366,27 @@ void apiClient_invoke(apiClient_t    *apiClient,
             }
         }
 
-        if( strstr(apiClient->basePath, "https") != NULL ){
-            if (apiClient->caPath) {
-                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, true);
-                curl_easy_setopt(handle, CURLOPT_CAINFO, apiClient->caPath);
+        if ( strstr(apiClient->basePath, "https") != NULL ) {
+            if ( apiClient->sslConfig ) {
+                if( apiClient->sslConfig->clientCertFile ) {
+                    curl_easy_setopt(handle, CURLOPT_SSLCERT, apiClient->sslConfig->clientCertFile);
+                }
+                if( apiClient->sslConfig->clientKeyFile ) {
+                    curl_easy_setopt(handle, CURLOPT_SSLKEY, apiClient->sslConfig->clientKeyFile);
+                }
+                if( apiClient->sslConfig->CACertFile ) {
+                    curl_easy_setopt(handle, CURLOPT_CAINFO, apiClient->sslConfig->CACertFile);
+                }
+                if ( 1 == apiClient->sslConfig->insecureSkipTlsVerify ) {
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0L);
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0L);
+                } else {
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 1L);
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 2L);
+                }
             } else {
-                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, false);
-                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, false);
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0L);
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0L);
             }
         }
 
