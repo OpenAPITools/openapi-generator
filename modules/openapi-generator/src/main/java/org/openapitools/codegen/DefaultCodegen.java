@@ -3276,6 +3276,38 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Extracts the relevant baseType out of a schema
+     *
+     * @param CodegenResponse The response to update
+     * @param Schema The schema to process
+     */
+    public void updateBaseTypeFromSchema(CodegenResponse r, CodegenProperty cp, Schema schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema as = (ArraySchema) schema;
+            CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
+            CodegenProperty innerCp = innerProperty;
+            while (innerCp != null) {
+                r.baseType = innerCp.baseType;
+                innerCp = innerCp.items;
+            }
+        } else if (
+            ModelUtils.isMapSchema(schema)
+            && schema.getAdditionalProperties() != null
+            && schema.getAdditionalProperties() instanceof Schema
+        ) {
+            Schema apSchema = (Schema)schema.getAdditionalProperties();
+            updateBaseTypeFromSchema(r, cp, apSchema);
+        } else {
+            if (cp.complexType != null) {
+                r.baseType = cp.complexType;
+                r.isModel = true;
+            } else {
+                r.baseType = cp.baseType;
+            }
+        }
+    }
+
+    /**
      * Convert OAS Response object to Codegen Response object
      *
      * @param responseCode HTTP response code
@@ -3330,23 +3362,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (r.schema != null) {
             Map<String, Schema> allSchemas = null;
             CodegenProperty cp = fromProperty("response", responseSchema);
-
-            if (ModelUtils.isArraySchema(responseSchema)) {
-                ArraySchema as = (ArraySchema) responseSchema;
-                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
-                CodegenProperty innerCp = innerProperty;
-                while (innerCp != null) {
-                    r.baseType = innerCp.baseType;
-                    innerCp = innerCp.items;
-                }
-            } else {
-                if (cp.complexType != null) {
-                    r.baseType = cp.complexType;
-                    r.isModel = true;
-                } else {
-                    r.baseType = cp.baseType;
-                }
-            }
+            updateBaseTypeFromSchema(r, cp, responseSchema);
 
             r.dataType = cp.dataType;
             if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isEmail)) {
