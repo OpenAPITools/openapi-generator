@@ -540,13 +540,10 @@ fail:
     {
     goto end; //Binary
     }
-    char* decoded = base64decode({{{name}}}->valuestring, strlen({{{name}}}->valuestring));
-    decoded_str_{{{name}}}->data = malloc(strlen(decoded) - 1);
+    decoded_str_{{{name}}}->data = base64decode({{{name}}}->valuestring, strlen({{{name}}}->valuestring), &decoded_str_{{{name}}}->len);
     if (!decoded_str_{{{name}}}->data) {
         goto end;
     }
-    memcpy(decoded_str_{{{name}}}->data,decoded,(strlen(decoded)-1));
-    decoded_str_{{{name}}}->len = strlen(decoded) - 1;
     {{/isBinary}}
     {{#isDate}}
     {{^required}}if ({{{name}}}) { {{/required}}

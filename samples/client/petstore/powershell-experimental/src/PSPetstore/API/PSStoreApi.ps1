@@ -75,7 +75,7 @@ No description available.
 
 .OUTPUTS
 
-Hashtable
+System.Collections.Hashtable
 #>
 function Get-PSInventory {
     [CmdletBinding()]
@@ -114,7 +114,7 @@ function Get-PSInventory {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Hashtable"
+                                -ReturnType "System.Collections.Hashtable"
 
         return $LocalVarResult["Response"]
     }

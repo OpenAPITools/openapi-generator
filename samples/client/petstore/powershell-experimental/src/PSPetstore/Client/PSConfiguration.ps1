@@ -23,7 +23,7 @@ function Get-PSConfiguration {
     $Configuration = $Script:Configuration
 
     if ([string]::IsNullOrEmpty($Configuration["BaseUrl"])) {
-        $Configuration["BaseUrl"] = "http://petstore.swagger.io/v2";
+        $Configuration["BaseUrl"] = "http://petstore.swagger.io:80/v2";
     }
 
     if (!$Configuration.containsKey("Username")) {
@@ -37,6 +37,10 @@ function Get-PSConfiguration {
     }
     if (!$Configuration.containsKey("Cookie")) {
         $Configuration["Cookie"] = $null
+    }
+
+    if (!$Configuration["DefaultHeaders"]) {
+        $Configuration["DefaultHeaders"] = @{}
     }
 
     if (!$Configuration["ApiKey"]) {
@@ -88,6 +92,9 @@ Access token for authentication/authorization
 .PARAMETER SkipCertificateCheck
 Skip certificate verification
 
+.PARAMETER DefaultHeaders 
+Default HTTP headers to be included in the HTTP request
+
 .OUTPUTS
 
 System.Collections.Hashtable
@@ -109,6 +116,7 @@ function Set-PSConfiguration {
         [string]$AccessToken,
         [switch]$PassThru,
         [bool]$SkipCertificateCheck,
+        [hashtable]$DefaultHeaders,
         [switch]$Force
     )
 
@@ -144,6 +152,10 @@ function Set-PSConfiguration {
 
         If ($SkipCertificateCheck) {
             $Script:Configuration['SkipCertificateCheck'] = $SkipCertificateCheck
+        }
+
+        If ($DefaultHeaders) {
+            $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
         }
     }
 }
@@ -213,5 +225,153 @@ function Set-PSConfigurationApiKeyPrefix {
             $Script:Configuration["ApiKeyPrefix"] = @{}
         }
         $Script:Configuration["ApiKeyPrefix"][$Id] = $ApiKeyPrefix
+    }
+}
+
+<#
+.SYNOPSIS
+
+Set the default header.
+
+.DESCRIPTION
+
+Set the default header.
+
+.PARAMETER Key
+Key of the HTTP header
+
+.PARAMETER Value
+Value of the HTTP header
+
+.OUTPUTS
+
+None
+#>
+function Set-PSConfigurationDefaultHeader {
+    [CmdletBinding()]
+    Param(
+        [string]$Key,
+        [AllowEmptyString()]
+        [string]$Value
+    )
+    Process {
+        if (!$Script:Configuration["DefaultHeaders"]) {
+            $Script:Configuration["DefaultHeaders"] = @{}
+        }
+        $Script:Configuration["DefaultHeaders"][$Key] = $Value
+    }
+}
+
+
+<#
+.SYNOPSIS
+
+Get the host setting.
+
+.DESCRIPTION
+
+Get the host setting in the form of array of hashtables.
+
+.OUTPUTS
+
+System.Collections.Hashtable[]
+#>
+function Get-PSHostSettings {
+    return @(
+          @{
+            "Url" = "http://{server}.swagger.io:{port}/v2";
+            "Description" = "petstore server";
+            "Variables" = @{
+              "server" = @{
+                  "Description" = "No description provided";
+                  "DefaultValue" = "petstore";
+                  "EnumValues" = @(
+                    "petstore",
+                    "qa-petstore",
+                    "dev-petstore"
+                  )
+                };
+              "port" = @{
+                  "Description" = "No description provided";
+                  "DefaultValue" = "80";
+                  "EnumValues" = @(
+                    "80",
+                    "8080"
+                  )
+                }
+              }
+          },
+          @{
+            "Url" = "https://localhost:8080/{version}";
+            "Description" = "The local server";
+            "Variables" = @{
+              "version" = @{
+                  "Description" = "No description provided";
+                  "DefaultValue" = "v2";
+                  "EnumValues" = @(
+                    "v1",
+                    "v2"
+                  )
+                }
+              }
+          }
+    )
+
+}
+
+<#
+.SYNOPSIS
+
+Get the URL from the host settings.
+
+.PARAMETER Index
+Index of the host settings (array)
+
+.PARAMETER Variables 
+Names and values of the variables (hashtable)
+
+.DESCRIPTION
+
+Get the URL from the host settings.
+
+.OUTPUTS
+
+String
+#>
+function Get-PSUrlFromHostSettings {
+
+    [CmdletBinding()]
+    Param(
+        [Parameter(ValueFromPipeline = $true)]
+        [Int]$Index,
+        [Hashtable]$Variables = @{}
+    )
+
+    Process {
+        $Hosts = Get-PSHostSettings
+
+        # check array index out of bound
+        if ($Index -lt 0 -or $Index -gt $Hosts.Length) {
+            throw "Invalid index $index when selecting the host. Must be less than $($Hosts.Length)"
+        }
+
+        $Host = $Hosts[$Index];
+        $Url = $Host["Url"];
+
+        # go through variable and assign a value
+        foreach ($h in $Host["Variables"].GetEnumerator()) {
+            if ($Variables.containsKey($h.Name)) { # check to see if it's in the variables provided by the user
+                if ($h.Value["EnumValues"] -Contains $Variables[$h.Name]) {
+                   $Url = $Url.replace("{$($h.Name)}", $Variables[$h.Name])
+                } else {
+                   throw "The variable '$($h.Name)' in the host URL has invalid value $($Variables[$h.Name]). Must be $($h.Value["EnumValues"] -join ",")"
+                }
+            } else {
+                $Url = $Url.replace("{$($h.Name)}", $h.Value["DefaultValue"])
+            }
+        }
+
+        return $Url;
+
     }
 }
