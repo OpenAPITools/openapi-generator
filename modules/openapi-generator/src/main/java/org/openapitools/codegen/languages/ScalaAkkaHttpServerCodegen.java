@@ -62,7 +62,9 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-akka-http-server";
 
+        groupId = "org.openapitools";
         artifactId = "openapi-scala-akka-http-server";
+        artifactVersion = "1.0.0";
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
         invokerPackage = "org.openapitools.server";
@@ -76,10 +78,10 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
-        cliOptions.add(CliOption.newString(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC).defaultValue("org.openapitools.server"));
-        cliOptions.add(CliOption.newString(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC).defaultValue("org.openapitools"));
-        cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID).defaultValue("openapi-server"));
-        cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue("1.0.0"));
+        cliOptions.add(CliOption.newString(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC).defaultValue(invokerPackage));
+        cliOptions.add(CliOption.newString(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC).defaultValue(groupId));
+        cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID).defaultValue(artifactId));
+        cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue(artifactVersion));
 
         importMapping.remove("Seq");
         importMapping.remove("List");
@@ -122,12 +124,18 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
         if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
             groupId = (String) additionalProperties.get(CodegenConstants.GROUP_ID);
+        } else {
+            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         }
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
             artifactId = (String) additionalProperties.get(CodegenConstants.ARTIFACT_ID);
+        } else {
+            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         }
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             artifactVersion = (String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION);
+        } else {
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
 
         supportingFiles.add(new SupportingFile("controller.mustache",
