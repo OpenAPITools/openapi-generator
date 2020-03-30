@@ -13,12 +13,12 @@ SELECT {{#vars}}{{#vendorExtensions}}{{#x-mysqlSchema}}{{#columnDefinition}}`{{c
 --
 -- INSERT template for table {{#vendorExtensions}}{{#x-mysqlSchema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}
 --
-INSERT INTO {{#vendorExtensions}}{{#x-mysqlSchema}}{{#tableDefinition}}{{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}`{{/tableDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}({{#vars}}{{#vendorExtensions}}{{#x-mysqlSchema}}{{#columnDefinition}}`{{colName}}`{{#hasMore}}, {{/hasMore}}{{/columnDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}{{/vars}}) VALUES ({{#vars}}{{#vendorExtensions}}{{#x-mysqlSchema}}{{#columnDefinition}}:{{colName}}{{#hasMore}}, {{/hasMore}}{{/columnDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}{{/vars}});
+INSERT INTO {{#vendorExtensions}}{{#x-mysqlSchema}}{{#tableDefinition}}{{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}`{{/tableDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}({{#vars}}{{#vendorExtensions}}{{#x-mysqlSchema}}{{#columnDefinition}}`{{colName}}`{{#hasMore}}, {{/hasMore}}{{/columnDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}{{/vars}}) VALUES ({{#vars}}{{#vendorExtensions}}{{#x-mysqlSchema}}{{#columnDefinition}}{{#namedParametersEnabled}}:{{colName}}{{/namedParametersEnabled}}{{^namedParametersEnabled}}?{{/namedParametersEnabled}}{{#hasMore}}, {{/hasMore}}{{/columnDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}{{/vars}});
 
 --
 -- UPDATE template for table {{#vendorExtensions}}{{#x-mysqlSchema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}
 --
-UPDATE {{#vendorExtensions}}{{#x-mysqlSchema}}{{#tableDefinition}}{{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}`{{/tableDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}} SET {{#vars}}{{#vendorExtensions}}{{#x-mysqlSchema}}{{#columnDefinition}}`{{colName}}` = :{{colName}}{{#hasMore}}, {{/hasMore}}{{/columnDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}{{/vars}} WHERE 1;
+UPDATE {{#vendorExtensions}}{{#x-mysqlSchema}}{{#tableDefinition}}{{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}`{{/tableDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}} SET {{#vars}}{{#vendorExtensions}}{{#x-mysqlSchema}}{{#columnDefinition}}`{{colName}}` = {{#namedParametersEnabled}}:{{colName}}{{/namedParametersEnabled}}{{^namedParametersEnabled}}?{{/namedParametersEnabled}}{{#hasMore}}, {{/hasMore}}{{/columnDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}{{/vars}} WHERE 1;
 
 --
 -- DELETE template for table {{#vendorExtensions}}{{#x-mysqlSchema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}}

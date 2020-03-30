@@ -35,6 +35,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
     public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
+    public static final String NAMED_PARAMETERS_ENABLED = "namedParametersEnabled";
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
     public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
@@ -58,6 +59,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
     protected Boolean jsonDataTypeEnabled = true;
+    protected Boolean namedParametersEnabled = false;
     protected String identifierNamingConvention = "original";
 
     public MysqlSchemaCodegen() {
@@ -180,6 +182,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         cliOptions.clear();
         addOption(DEFAULT_DATABASE_NAME, "Default database name for all MySQL queries", defaultDatabaseName);
         addSwitch(JSON_DATA_TYPE_ENABLED, "Use special JSON MySQL data type for complex model properties. Requires MySQL version 5.7.8. Generates TEXT data type when disabled", jsonDataTypeEnabled);
+        addSwitch(NAMED_PARAMETERS_ENABLED, "Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.", namedParametersEnabled);
 
         // we used to snake_case table/column names, let's add this option
         CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
@@ -226,6 +229,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         } else {
             additionalProperties.put(JSON_DATA_TYPE_ENABLED, getJsonDataTypeEnabled());
         }
+
+        if (additionalProperties.containsKey(NAMED_PARAMETERS_ENABLED)) {
+            this.setNamedParametersEnabled(Boolean.valueOf(additionalProperties.get(NAMED_PARAMETERS_ENABLED).toString()));
+        }
+
+        additionalProperties.put(NAMED_PARAMETERS_ENABLED, getNamedParametersEnabled());
 
         if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
             this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
@@ -1157,6 +1166,24 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public Boolean getJsonDataTypeEnabled() {
         return this.jsonDataTypeEnabled;
+    }
+
+    /**
+     * Enables named parameters in prepared SQLs
+     *
+     * @param enabled true to enable, otherwise false
+     */
+    public void setNamedParametersEnabled(Boolean enabled) {
+        this.namedParametersEnabled = enabled;
+    }
+
+    /**
+     * Whether named parameters enabled or disabled in prepared SQLs
+     *
+     * @return true if enabled otherwise false
+     */
+    public Boolean getNamedParametersEnabled() {
+        return this.namedParametersEnabled;
     }
 
     /**
