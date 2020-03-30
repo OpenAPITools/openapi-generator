@@ -24,8 +24,6 @@ import akka.http.scaladsl.server.directives.FileInfo
 {{/hasMultipart}}
 
 
-
-
 {{#operations}}
 class {{classname}}(
     {{classVarName}}Service: {{classname}}Service{{#hasMarshalling}},
@@ -41,14 +39,14 @@ class {{classname}}(
   lazy val route: Route =
   {{#operation}}
     path({{#vendorExtensions.paths}}{{#isText}}"{{/isText}}{{value}}{{#isText}}"{{/isText}}{{#hasMore}} / {{/hasMore}}{{/vendorExtensions.paths}}) { {{^pathParams.isEmpty}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) => {{/pathParams.isEmpty}}
-      {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} {
-        {{^queryParams.isEmpty}}parameters({{#queryParams}}"{{baseName}}".as[{{dataType}}]{{^required}}.?{{#vendorExtensions.hasDefaultValue}}({{defaultValue}}){{/vendorExtensions.hasDefaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) { ({{#queryParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) =>{{/queryParams.isEmpty}}
-          {{#headerParams}}{{#required}}headerValueByName{{/required}}{{^required}}optionalHeaderValueByName{{/required}}("{{baseName}}") { {{paramName}} => {{/headerParams}}
-            {{^cookieParams.isEmpty}}{{#cookieParams}}{{#required}}cookie({{/required}}{{^required}}optionalCookie({{/required}}"{{baseName}}"){ {{paramName}} => {{/cookieParams}}{{/cookieParams.isEmpty}}
-              {{#isMultipart}}{{> multipart}}{{/isMultipart}}{{^isMultipart}}{{> noMultipart}}{{/isMultipart}}
-            {{^cookieParams.isEmpty}} }{{/cookieParams.isEmpty}}
-         {{#headerParams}} }{{/headerParams}}
-       {{^queryParams.isEmpty}} }{{/queryParams.isEmpty}}
+      {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} { {{^queryParams.isEmpty}}
+        parameters({{#queryParams}}"{{baseName}}".as[{{dataType}}]{{^required}}.?{{#vendorExtensions.hasDefaultValue}}({{defaultValue}}){{/vendorExtensions.hasDefaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) { ({{#queryParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) =>{{/queryParams.isEmpty}} {{^headerParams.isEmpty}}
+          {{#headerParams}}{{#required}}headerValueByName{{/required}}{{^required}}optionalHeaderValueByName{{/required}}("{{baseName}}") { {{paramName}} => {{/headerParams}}{{/headerParams.isEmpty}}{{^cookieParams.isEmpty}}
+            {{#cookieParams}}{{#required}}cookie({{/required}}{{^required}}optionalCookie({{/required}}"{{baseName}}"){ {{paramName}} => {{/cookieParams}}{{/cookieParams.isEmpty}}{{#isMultipart}}
+{{> multipart}}{{/isMultipart}}{{^isMultipart}}{{> noMultipart}}{{/isMultipart}}{{^cookieParams.isEmpty}}
+            }{{/cookieParams.isEmpty}}{{^headerParams.isEmpty}}
+          }{{/headerParams.isEmpty}}{{^queryParams.isEmpty}}
+        }{{/queryParams.isEmpty}}
       }
     }{{^-last}} ~{{/-last}}
   {{/operation}}
