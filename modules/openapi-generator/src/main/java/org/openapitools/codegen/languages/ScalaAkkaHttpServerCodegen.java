@@ -110,6 +110,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         instantiationTypes.put("map", "Map");
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
     }
 
     @Override
