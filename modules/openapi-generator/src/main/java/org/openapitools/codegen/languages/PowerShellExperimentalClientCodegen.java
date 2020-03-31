@@ -20,9 +20,9 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -49,6 +49,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     protected HashSet nullablePrimitives;
     protected HashSet powershellVerbs;
     protected String powershellGalleryUrl;
+    protected Map<String, String> commonVerbs; // verbs not in the official ps verb list but can be mapped to one of the verbs
+
 
     /**
      * Constructs an instance of `PowerShellExperimentalClientCodegen`.
@@ -79,8 +81,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.BETA)
-            .build();
+                .stability(Stability.BETA)
+                .build();
 
         outputFolder = "generated-code" + File.separator + "powershell-expiermental";
         modelTemplateFiles.put("model.mustache", ".ps1");
@@ -120,6 +122,11 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 "System.IO.FileInfo",
                 "Version"
         ));
+
+        commonVerbs = new HashMap<String, String>();
+        commonVerbs.put("Create", "New");
+        commonVerbs.put("Delete", "Remove");
+        commonVerbs.put("Update", "Set");
 
         powershellVerbs = new HashSet<String>(Arrays.asList(
                 "Add",
@@ -222,6 +229,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 "Unprotect",
                 "Use"
         ));
+
 
         nullablePrimitives = new HashSet<String>(Arrays.asList(
                 "System.Nullable[Byte]",
@@ -639,7 +647,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 op.vendorExtensions.put("x-powershell-method-name", methodName);
                 op.vendorExtensions.put("x-powershell-method-name-lowercase", methodName);
             } else {
-                op.vendorExtensions.put("x-powershell-method-name-lowercase", ((String)op.vendorExtensions.get("x-powershell-method-name")).toLowerCase(Locale.ROOT));
+                op.vendorExtensions.put("x-powershell-method-name-lowercase", ((String) op.vendorExtensions.get("x-powershell-method-name")).toLowerCase(Locale.ROOT));
             }
         }
 
@@ -850,6 +858,14 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             if (methodName.startsWith(verb)) {
                 methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
                 LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
+                return methodName;
+            }
+        }
+
+        for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
+            if (methodName.startsWith(entry.getKey())) {
+                methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
+                LOGGER.info("Naming the method using the common verb (e.g. Create, Delete, Update): {} => {}", operationId, methodName);
                 return methodName;
             }
         }
