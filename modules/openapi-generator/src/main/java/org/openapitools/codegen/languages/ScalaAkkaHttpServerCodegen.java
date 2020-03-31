@@ -7,6 +7,8 @@ import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
@@ -17,6 +19,11 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     protected String artifactId;
     protected String artifactVersion;
     protected String invokerPackage;
+
+    protected String akkaHttpVersion;
+
+    public static final String AKKA_HTTP_VERSION = "akkaHttpVersion";
+    public static final String AKKA_HTTP_VERSION_DESC = "The version of akka-http";
 
     static Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
@@ -68,6 +75,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
         invokerPackage = "org.openapitools.server";
+        akkaHttpVersion = "10.1.9";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -82,6 +90,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         cliOptions.add(CliOption.newString(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC).defaultValue(groupId));
         cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID).defaultValue(artifactId));
         cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue(artifactVersion));
+        cliOptions.add(CliOption.newString(AKKA_HTTP_VERSION, AKKA_HTTP_VERSION_DESC).defaultValue(akkaHttpVersion));
 
         importMapping.remove("Seq");
         importMapping.remove("List");
@@ -110,7 +119,6 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         instantiationTypes.put("map", "Map");
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
     }
 
     @Override
@@ -128,17 +136,28 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         } else {
             additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         }
+
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
             artifactId = (String) additionalProperties.get(CodegenConstants.ARTIFACT_ID);
         } else {
             additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         }
+
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             artifactVersion = (String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION);
         } else {
             additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
 
+        if (additionalProperties.containsKey(AKKA_HTTP_VERSION)) {
+            akkaHttpVersion = (String) additionalProperties.get(AKKA_HTTP_VERSION);
+        } else {
+            additionalProperties.put(AKKA_HTTP_VERSION, akkaHttpVersion);
+        }
+
+        parseAkkaHttpVersion();
+
+        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("controller.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Controller.scala"));
         supportingFiles.add(new SupportingFile("helper.mustache",
@@ -147,6 +166,38 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "StringDirectives.scala"));
         supportingFiles.add(new SupportingFile("multipartDirectives.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "MultipartDirectives.scala"));
+    }
+
+    private static final String IS_10_1_9_PLUS = "akkaHttp10_1_9_plus";
+    private boolean is10_1_9AndAbove = false;
+
+    private static final Pattern akkaVersionPattern = Pattern.compile("([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?");
+    private void parseAkkaHttpVersion() {
+        Matcher matcher = akkaVersionPattern.matcher(akkaHttpVersion);
+        if (matcher.matches()) {
+            String majorS = matcher.group(1);
+            String minorS = matcher.group(3);
+            String patchS = matcher.group(5);
+            int major = 0, minor = 0, patch = 0;
+            try {
+                major = Integer.parseInt(majorS);
+                minor = Integer.parseInt(minorS);
+                patch = Integer.parseInt(patchS);
+            } catch (NumberFormatException e) {
+                LOGGER.warn("Unable to parse " + AKKA_HTTP_VERSION + ": " + akkaHttpVersion);
+            }
+            if (major > 10) {
+                is10_1_9AndAbove = true;
+            } else if (major == 10) {
+                if (minor > 1) {
+                    is10_1_9AndAbove = true;
+                } else if (patch >= 9) {
+                    is10_1_9AndAbove = true;
+                }
+            }
+        }
+
+        additionalProperties.put(IS_10_1_9_PLUS, is10_1_9AndAbove);
     }
 
     @Override

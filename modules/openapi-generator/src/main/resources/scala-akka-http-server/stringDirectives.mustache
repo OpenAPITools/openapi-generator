@@ -61,8 +61,9 @@ object StringDirectives extends StringDirectives {
 
     protected def handleFieldResult[T](fieldName: String, result: Future[T]): Directive1[T] = onComplete(result).flatMap {
       case Success(x) => provide(x)
-      case Failure(Unmarshaller.NoContentException) => reject(MissingFormFieldRejection(fieldName))
-      case Failure(x: UnsupportedContentTypeException) => reject(UnsupportedRequestContentTypeRejection(x.supported))
+      case Failure(Unmarshaller.NoContentException) => reject(MissingFormFieldRejection(fieldName)){{#akkaHttp10_1_9_plus}}
+      case Failure(x: UnsupportedContentTypeException) => reject(UnsupportedRequestContentTypeRejection(x.supported, x.actualContentType)){{/akkaHttp10_1_9_plus}}{{^akkaHttp10_1_9_plus}}
+      case Failure(x: UnsupportedContentTypeException) => reject(UnsupportedRequestContentTypeRejection(x.supported)){{/akkaHttp10_1_9_plus}}
       case Failure(x) => reject(MalformedFormFieldRejection(fieldName, if (x.getMessage == null) "" else x.getMessage, Option(x.getCause)))
     }
 
