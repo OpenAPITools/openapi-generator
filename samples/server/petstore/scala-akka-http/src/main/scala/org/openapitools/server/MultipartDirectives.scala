@@ -22,39 +22,39 @@ trait MultipartDirectives {
   @ApiMayChange
   def formAndFiles(fileFields: FileField*): Directive1[PartsAndFiles] =
     entity(as[Multipart.FormData]).flatMap {
-      formData ⇒
-        extractRequestContext.flatMap { ctx ⇒
+      formData =>
+        extractRequestContext.flatMap { ctx =>
           implicit val mat: Materializer = ctx.materializer
           implicit val ec: ExecutionContextExecutor = ctx.executionContext
 
           val uploadingSink: Sink[FormData.BodyPart, Future[PartsAndFiles]] =
             Sink.foldAsync[PartsAndFiles, Multipart.FormData.BodyPart](PartsAndFiles.Empty) {
-              (acc, part) ⇒
+              (acc, part) =>
                 def discard(p: Multipart.FormData.BodyPart): Future[PartsAndFiles] = {
                   p.entity.discardBytes()
                   Future.successful(acc)
                 }
 
                 part.filename.map {
-                  fileName ⇒
+                  fileName =>
                     fileFields.find(_.fieldName == part.name)
                       .map {
-                        case FileField(_, destFn) ⇒
+                        case FileField(_, destFn) =>
                           val fileInfo = FileInfo(part.name, fileName, part.entity.contentType)
                           val dest = destFn(fileInfo)
 
-                          part.entity.dataBytes.runWith(FileIO.toPath(dest.toPath)).map { _ ⇒
+                          part.entity.dataBytes.runWith(FileIO.toPath(dest.toPath)).map { _ =>
                             acc.addFile(fileInfo, dest)
                           }
                       }.getOrElse(discard(part))
                 } getOrElse {
                   part.entity match {
-                    case HttpEntity.Strict(ct: ContentType.NonBinary, data) ⇒
+                    case HttpEntity.Strict(ct: ContentType.NonBinary, data) =>
                       val charsetName = ct.charset.nioCharset.name
                       val partContent = data.decodeString(charsetName)
 
                       Future.successful(acc.addForm(part.name, partContent))
-                    case _                                                  ⇒
+                    case _                                                  =>
                       discard(part)
                   }
                 }
@@ -73,7 +73,7 @@ object MultipartDirectives extends MultipartDirectives with FileUploadDirectives
   }
 }
 
-final case class FileField(fieldName: String, fileNameF: FileInfo ⇒ File = MultipartDirectives.tempFileFromFileInfo)
+final case class FileField(fieldName: String, fileNameF: FileInfo => File = MultipartDirectives.tempFileFromFileInfo)
 
 final case class PartsAndFiles(form: immutable.Map[String, String], files: Map[String, (FileInfo, File)]) {
     def addForm(fieldName: String, content: String): PartsAndFiles = this.copy(form.updated(fieldName, content))
