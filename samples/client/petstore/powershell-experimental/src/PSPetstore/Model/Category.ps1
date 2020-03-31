@@ -25,7 +25,7 @@ No description available.
 Category<PSCustomObject>
 #>
 
-function New-PSCategory {
+function Prepare-PSCategory {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]

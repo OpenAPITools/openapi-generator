@@ -37,7 +37,7 @@ pet status in the store
 Pet<PSCustomObject>
 #>
 
-function New-PSPet {
+function Prepare-PSPet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]

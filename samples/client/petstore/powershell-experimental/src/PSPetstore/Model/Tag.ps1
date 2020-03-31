@@ -25,7 +25,7 @@ No description available.
 Tag<PSCustomObject>
 #>
 
-function New-PSTag {
+function Prepare-PSTag {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]

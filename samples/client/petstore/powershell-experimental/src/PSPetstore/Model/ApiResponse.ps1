@@ -28,7 +28,7 @@ No description available.
 ApiResponse<PSCustomObject>
 #>
 
-function New-PSApiResponse {
+function Prepare-PSApiResponse {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]

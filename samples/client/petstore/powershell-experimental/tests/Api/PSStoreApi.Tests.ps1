@@ -6,8 +6,8 @@
 #
 
 Describe -tag 'PSPetstore' -name 'PSStoreApi' {
-    Context 'Invoke-PSDeleteOrder' {
-        It 'Test Invoke-PSDeleteOrder' {
+    Context 'Remove-PSOrder' {
+        It 'Test Remove-PSOrder' {
             #$TestResult = Invoke-PetApiGetPetById -OrderId "TEST_VALUE"
             #$TestResult | Should BeOfType TODO
             #$TestResult.property | Should Be 0
