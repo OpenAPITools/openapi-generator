@@ -70,6 +70,30 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{/isMapContainer}}
 
   {{/vars}}
+  {{#parentVars}}
+
+  @Override
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    {{setter}}({{name}});
+    return this;
+  }
+  {{#isListContainer}}
+
+  @Override
+  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    super.add{{nameInCamelCase}}Item({{name}}Item);
+    return this;
+  }
+  {{/isListContainer}}
+  {{#isMapContainer}}
+
+  @Override
+  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    super.put{{nameInCamelCase}}Item(key, {{name}}Item);
+    return this;
+  }
+  {{/isMapContainer}}
+  {{/parentVars}}
 
   @Override
   public boolean equals(java.lang.Object o) {
