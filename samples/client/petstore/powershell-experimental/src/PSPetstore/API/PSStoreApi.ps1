@@ -21,7 +21,7 @@ ID of the order that needs to be deleted
 
 None
 #>
-function Invoke-PSDeleteOrder {
+function Remove-PSOrder {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -30,7 +30,7 @@ function Invoke-PSDeleteOrder {
     )
 
     Process {
-        'Calling method: Invoke-PSDeleteOrder' | Write-Debug
+        'Calling method: Remove-PSOrder' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -75,7 +75,7 @@ No description available.
 
 .OUTPUTS
 
-Hashtable
+System.Collections.Hashtable
 #>
 function Get-PSInventory {
     [CmdletBinding()]
@@ -114,7 +114,7 @@ function Get-PSInventory {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Hashtable"
+                                -ReturnType "System.Collections.Hashtable"
 
         return $LocalVarResult["Response"]
     }

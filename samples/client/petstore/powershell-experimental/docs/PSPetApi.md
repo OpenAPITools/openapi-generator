@@ -1,6 +1,6 @@
 # PSPetstore.PSPetstore/Api.PSPetApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

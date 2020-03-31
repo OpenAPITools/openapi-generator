@@ -1945,6 +1945,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
             return "string";
         } else if (ModelUtils.isFreeFormObject(schema)) {
+            // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
+            // it must be a map of string to values.
             return "object";
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
@@ -1952,7 +1954,10 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.warn("Unknown type found in the schema: " + schema.getType());
             return schema.getType();
         }
-
+        // The 'type' attribute has not been set in the OAS schema, which means the value
+        // can be an arbitrary type, e.g. integer, string, object, array, number...
+        // TODO: we should return a different value to distinguish between free-form object
+        // and arbitrary type.
         return "object";
     }
 
@@ -2320,14 +2325,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (sortModelPropertiesByRequiredFlag) {
-            Collections.sort(m.vars, new Comparator<CodegenProperty>() {
+            Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
                 @Override
                 public int compare(CodegenProperty one, CodegenProperty another) {
                     if (one.required == another.required) return 0;
                     else if (one.required) return -1;
                     else return 1;
                 }
-            });
+            };
+            Collections.sort(m.vars, comparator);
+            Collections.sort(m.allVars, comparator);
         }
 
         return m;
@@ -2707,6 +2714,9 @@ public class DefaultCodegen implements CodegenConfig {
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
             property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
+            if (ModelUtils.isAnyTypeSchema(p)) {
+                property.isAnyType = true;
+            }
         }
 
         LOGGER.debug("debugging from property return: " + property);

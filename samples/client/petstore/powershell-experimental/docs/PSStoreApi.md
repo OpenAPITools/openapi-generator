@@ -1,18 +1,18 @@
 # PSPetstore.PSPetstore/Api.PSStoreApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Invoke-PSDeleteOrder**](PSStoreApi.md#Invoke-PSDeleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**Remove-PSOrder**](PSStoreApi.md#Remove-PSOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
 [**Get-PSInventory**](PSStoreApi.md#Get-PSInventory) | **GET** /store/inventory | Returns pet inventories by status
 [**Get-PSOrderById**](PSStoreApi.md#Get-PSOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
 [**Invoke-PSPlaceOrder**](PSStoreApi.md#Invoke-PSPlaceOrder) | **POST** /store/order | Place an order for a pet
 
 
-<a name="Invoke-PSDeleteOrder"></a>
-# **Invoke-PSDeleteOrder**
-> void Invoke-PSDeleteOrder<br>
+<a name="Remove-PSOrder"></a>
+# **Remove-PSOrder**
+> void Remove-PSOrder<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OrderId] <String><br>
 
 Delete purchase order by ID
@@ -27,7 +27,7 @@ $OrderId = "OrderId_example" # String | ID of the order that needs to be deleted
 
 # Delete purchase order by ID
 try {
-    Invoke-PSDeleteOrder -OrderId $OrderId
+    Remove-PSOrder -OrderId $OrderId
 } catch {
     Write-Host ($_.ErrorDetails | ConvertFrom-Json)
     Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
@@ -57,7 +57,7 @@ No authorization required
 
 <a name="Get-PSInventory"></a>
 # **Get-PSInventory**
-> Hashtable Get-PSInventory<br>
+> System.Collections.Hashtable Get-PSInventory<br>
 
 Returns pet inventories by status
 
@@ -76,7 +76,7 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 
 # Returns pet inventories by status
 try {
-    Hashtable $Result = Get-PSInventory
+    System.Collections.Hashtable $Result = Get-PSInventory
 } catch {
     Write-Host ($_.ErrorDetails | ConvertFrom-Json)
     Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
@@ -88,7 +88,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Hashtable**
+**System.Collections.Hashtable**
 
 ### Authorization
 

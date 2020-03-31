@@ -33,6 +33,7 @@ The following generators are available:
 * [haskell-http-client](generators/haskell-http-client.md)  
 * [java](generators/java.md)  
 * [javascript](generators/javascript.md)  
+* [javascript-apollo (beta)](generators/javascript-apollo.md)  
 * [javascript-closure-angular](generators/javascript-closure-angular.md)  
 * [javascript-flowtyped](generators/javascript-flowtyped.md)  
 * [jaxrs-cxf-client](generators/jaxrs-cxf-client.md)  

@@ -1,22 +1,22 @@
 # PSPetstore.PSPetstore/Api.PSUserApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Invoke-PSCreateUser**](PSUserApi.md#Invoke-PSCreateUser) | **POST** /user | Create user
-[**Invoke-PSCreateUsersWithArrayInput**](PSUserApi.md#Invoke-PSCreateUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**Invoke-PSCreateUsersWithListInput**](PSUserApi.md#Invoke-PSCreateUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**Invoke-PSDeleteUser**](PSUserApi.md#Invoke-PSDeleteUser) | **DELETE** /user/{username} | Delete user
+[**New-PSUser**](PSUserApi.md#New-PSUser) | **POST** /user | Create user
+[**New-PSUsersWithArrayInput**](PSUserApi.md#New-PSUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+[**New-PSUsersWithListInput**](PSUserApi.md#New-PSUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+[**Remove-PSUser**](PSUserApi.md#Remove-PSUser) | **DELETE** /user/{username} | Delete user
 [**Get-PSUserByName**](PSUserApi.md#Get-PSUserByName) | **GET** /user/{username} | Get user by user name
 [**Invoke-PSLoginUser**](PSUserApi.md#Invoke-PSLoginUser) | **GET** /user/login | Logs user into the system
 [**Invoke-PSLogoutUser**](PSUserApi.md#Invoke-PSLogoutUser) | **GET** /user/logout | Logs out current logged in user session
 [**Update-PSUser**](PSUserApi.md#Update-PSUser) | **PUT** /user/{username} | Updated user
 
 
-<a name="Invoke-PSCreateUser"></a>
-# **Invoke-PSCreateUser**
-> void Invoke-PSCreateUser<br>
+<a name="New-PSUser"></a>
+# **New-PSUser**
+> void New-PSUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject><br>
 
 Create user
@@ -37,7 +37,7 @@ $User = (New-User -Id 123  -Username "Username_example"  -FirstName "FirstName_e
 
 # Create user
 try {
-    Invoke-PSCreateUser -User $User
+    New-PSUser -User $User
 } catch {
     Write-Host ($_.ErrorDetails | ConvertFrom-Json)
     Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
@@ -65,9 +65,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Invoke-PSCreateUsersWithArrayInput"></a>
-# **Invoke-PSCreateUsersWithArrayInput**
-> void Invoke-PSCreateUsersWithArrayInput<br>
+<a name="New-PSUsersWithArrayInput"></a>
+# **New-PSUsersWithArrayInput**
+> void New-PSUsersWithArrayInput<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
 
 Creates list of users with given input array
@@ -86,7 +86,7 @@ $User = @((New-User -Id 123  -Username "Username_example"  -FirstName "FirstName
 
 # Creates list of users with given input array
 try {
-    Invoke-PSCreateUsersWithArrayInput -User $User
+    New-PSUsersWithArrayInput -User $User
 } catch {
     Write-Host ($_.ErrorDetails | ConvertFrom-Json)
     Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
@@ -114,9 +114,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Invoke-PSCreateUsersWithListInput"></a>
-# **Invoke-PSCreateUsersWithListInput**
-> void Invoke-PSCreateUsersWithListInput<br>
+<a name="New-PSUsersWithListInput"></a>
+# **New-PSUsersWithListInput**
+> void New-PSUsersWithListInput<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
 
 Creates list of users with given input array
@@ -135,7 +135,7 @@ $User = @() # User[] | List of user object
 
 # Creates list of users with given input array
 try {
-    Invoke-PSCreateUsersWithListInput -User $User
+    New-PSUsersWithListInput -User $User
 } catch {
     Write-Host ($_.ErrorDetails | ConvertFrom-Json)
     Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
@@ -163,9 +163,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Invoke-PSDeleteUser"></a>
-# **Invoke-PSDeleteUser**
-> void Invoke-PSDeleteUser<br>
+<a name="Remove-PSUser"></a>
+# **Remove-PSUser**
+> void Remove-PSUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
 
 Delete user
@@ -186,7 +186,7 @@ $Username = "Username_example" # String | The name that needs to be deleted (def
 
 # Delete user
 try {
-    Invoke-PSDeleteUser -Username $Username
+    Remove-PSUser -Username $Username
 } catch {
     Write-Host ($_.ErrorDetails | ConvertFrom-Json)
     Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)

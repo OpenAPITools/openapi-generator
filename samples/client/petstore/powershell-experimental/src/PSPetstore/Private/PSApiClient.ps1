@@ -65,6 +65,12 @@ function Invoke-PSApiClient {
         $HeaderParameters['Content-Type'] = $ContentType
     }
 
+    # add default headers if any
+    foreach ($header in $Configuration["DefaultHeaders"].GetEnumerator()) {
+        $HeaderParameters[$header.Name] = $header.Value
+    }
+
+
     # constrcut URL query string
     $HttpValues = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
     foreach ($Parameter in $QueryParameters.GetEnumerator()) {
