@@ -95,6 +95,9 @@ Skip certificate verification
 .PARAMETER DefaultHeaders 
 Default HTTP headers to be included in the HTTP request
 
+.PARAMETER PassThru
+Return an object of the Configuration
+
 .OUTPUTS
 
 System.Collections.Hashtable
@@ -114,10 +117,9 @@ function Set-PSConfiguration {
         [string]$Cookie,
         [AllowEmptyString()]
         [string]$AccessToken,
-        [switch]$PassThru,
-        [bool]$SkipCertificateCheck,
+        [switch]$SkipCertificateCheck,
         [hashtable]$DefaultHeaders,
-        [switch]$Force
+        [switch]$PassThru
     )
 
     Process {
@@ -150,12 +152,20 @@ function Set-PSConfiguration {
             $Script:Configuration['AccessToken'] = $AccessToken
         }
 
-        If ($SkipCertificateCheck) {
-            $Script:Configuration['SkipCertificateCheck'] = $SkipCertificateCheck
-        }
+        If ($SkipCertificateCheck.IsPresent) {
+            $Script:Configuration['SkipCertificateCheck'] = $true
+        } else {
+            $Script:Configuration['SkipCertificateCheck'] = $false
+        } 
+
+        $Script:Configuration['SkipCertificateCheck'] = $SkipCertificateCheck
 
         If ($DefaultHeaders) {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
+        }
+
+        If ($PassThru.IsPresent) {
+            $Script:Configuration
         }
     }
 }

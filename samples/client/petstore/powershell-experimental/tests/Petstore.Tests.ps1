@@ -94,5 +94,12 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Configuration["DefaultHeaders"]["TestKey"] | Should Be "TestValue"
 
         }
+
+        It "Configuration tests" {
+            $Conf = Get-PSConfiguration
+            $Conf["SkipCertificateCheck"] | Should Be $false
+            $Conf = Set-PSConfiguration -PassThru -SkipCertificateCheck
+            $Conf["SkipCertificateCheck"] | Should Be $true
+        }
     }
 }
