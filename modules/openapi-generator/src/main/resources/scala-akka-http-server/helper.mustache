@@ -16,9 +16,9 @@ object AkkaHttpHelper {
    * @group pathmatcher
    */
   val FloatNumber: PathMatcher1[Float] =
-    PathMatcher("""[+-]?\d*\.?\d*""".r) flatMap { string ⇒
+    PathMatcher("""[+-]?\d*\.?\d*""".r) flatMap { string =>
       try Some(java.lang.Float.parseFloat(string))
-      catch { case _: NumberFormatException ⇒ None }
+      catch { case _: NumberFormatException => None }
      }
 
   /**
