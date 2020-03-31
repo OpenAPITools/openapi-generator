@@ -1,5 +1,4 @@
 {{>licenseInfo}}
-
 #include <QDebug>
 #include <QFile>
 #include <QJsonDocument>
@@ -11,129 +10,117 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-void
-{{prefix}}HttpFileElement::setMimeType(const QString &mime){
+void {{prefix}}HttpFileElement::setMimeType(const QString &mime) {
     mime_type = mime;
 }
 
-void
-{{prefix}}HttpFileElement::setFileName(const QString &name){
+void {{prefix}}HttpFileElement::setFileName(const QString &name) {
     local_filename = name;
 }
 
-void
-{{prefix}}HttpFileElement::setVariableName(const QString &name){
+void {{prefix}}HttpFileElement::setVariableName(const QString &name) {
     variable_name = name;
 }
 
-void
-{{prefix}}HttpFileElement::setRequestFileName(const QString &name){
+void {{prefix}}HttpFileElement::setRequestFileName(const QString &name) {
     request_filename = name;
 }
 
-bool 
-{{prefix}}HttpFileElement::isSet() const {
+bool {{prefix}}HttpFileElement::isSet() const {
     return !local_filename.isEmpty() || !request_filename.isEmpty();
 }
 
-QString 
-{{prefix}}HttpFileElement::asJson() const{
+QString {{prefix}}HttpFileElement::asJson() const {
     QFile file(local_filename);
     QByteArray bArray;
     bool result = false;
-    if(file.exists()) {
+    if (file.exists()) {
         result = file.open(QIODevice::ReadOnly);
         bArray = file.readAll();
         file.close();
     }
-    if(!result) {
+    if (!result) {
         qDebug() << "Error opening file " << local_filename;
     }
     return QString(bArray);
 }
 
-QJsonValue 
-{{prefix}}HttpFileElement::asJsonValue() const{
+QJsonValue {{prefix}}HttpFileElement::asJsonValue() const {
     QFile file(local_filename);
     QByteArray bArray;
-    bool result = false;    
-    if(file.exists()) {
+    bool result = false;
+    if (file.exists()) {
         result = file.open(QIODevice::ReadOnly);
         bArray = file.readAll();
         file.close();
     }
-    if(!result) {
+    if (!result) {
         qDebug() << "Error opening file " << local_filename;
     }
     return QJsonDocument::fromBinaryData(bArray.data()).object();
 }
 
-bool 
-{{prefix}}HttpFileElement::fromStringValue(const QString &instr){
+bool {{prefix}}HttpFileElement::fromStringValue(const QString &instr) {
     QFile file(local_filename);
     bool result = false;
-    if(file.exists()) {
+    if (file.exists()) {
         file.remove();
     }
     result = file.open(QIODevice::WriteOnly);
     file.write(instr.toUtf8());
     file.close();
-    if(!result) {
+    if (!result) {
         qDebug() << "Error creating file " << local_filename;
     }
     return result;
 }
 
-bool 
-{{prefix}}HttpFileElement::fromJsonValue(const QJsonValue &jval) {
+bool {{prefix}}HttpFileElement::fromJsonValue(const QJsonValue &jval) {
     QFile file(local_filename);
     bool result = false;
-    if(file.exists()) {
+    if (file.exists()) {
         file.remove();
     }
     result = file.open(QIODevice::WriteOnly);
     file.write(QJsonDocument(jval.toObject()).toBinaryData());
     file.close();
-    if(!result) {
+    if (!result) {
         qDebug() << "Error creating file " << local_filename;
     }
     return result;
 }
 
-QByteArray
-{{prefix}}HttpFileElement::asByteArray() const {
+QByteArray {{prefix}}HttpFileElement::asByteArray() const {
     QFile file(local_filename);
     QByteArray bArray;
     bool result = false;
-    if(file.exists()) {
+    if (file.exists()) {
         result = file.open(QIODevice::ReadOnly);
         bArray = file.readAll();
         file.close();
     }
-    if(!result) {
+    if (!result) {
         qDebug() << "Error opening file " << local_filename;
-    }       
+    }
     return bArray;
 }
 
-bool
-{{prefix}}HttpFileElement::fromByteArray(const QByteArray& bytes){
+bool {{prefix}}HttpFileElement::fromByteArray(const QByteArray &bytes) {
     QFile file(local_filename);
     bool result = false;
-    if(file.exists()){
+    if (file.exists()) {
         file.remove();
     }
     result = file.open(QIODevice::WriteOnly);
     file.write(bytes);
     file.close();
-    if(!result) {
+    if (!result) {
         qDebug() << "Error creating file " << local_filename;
     }
     return result;
 }
 
-bool
-{{prefix}}HttpFileElement::saveToFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime, const QByteArray& bytes){
+bool {{prefix}}HttpFileElement::saveToFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime, const QByteArray &bytes) {
     setMimeType(mime);
     setFileName(localFName);
     setVariableName(varName);
@@ -141,8 +128,7 @@ bool
     return fromByteArray(bytes);
 }
 
-QByteArray
-{{prefix}}HttpFileElement::loadFromFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime){
+QByteArray {{prefix}}HttpFileElement::loadFromFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime) {
     setMimeType(mime);
     setFileName(localFName);
     setVariableName(varName);
@@ -151,5 +137,5 @@ QByteArray
 }
 
 {{#cppNamespaceDeclarations}}
-}
+} // namespace {{this}}
 {{/cppNamespaceDeclarations}}

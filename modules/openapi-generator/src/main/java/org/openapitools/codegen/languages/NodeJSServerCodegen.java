@@ -116,7 +116,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         setReservedWordsLowerCase(
                 Arrays.asList(
                         "break", "case", "class", "catch", "const", "continue", "debugger",
-                        "default", "delete", "do", "else", "export", "extends", "finally",
+                        "default", "delete", "do", "else", "enum", "export", "extends", "finally",
                         "for", "function", "if", "import", "in", "instanceof", "let", "new",
                         "return", "super", "switch", "this", "throw", "try", "typeof", "var",
                         "void", "while", "with", "yield")

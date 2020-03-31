@@ -31,7 +31,7 @@ public class PythonClientExperimentalTest {
 
     @Test(description = "convert a python model with dots")
     public void modelTest() {
-        final OpenAPI openAPI= TestUtils.parseSpec("src/test/resources/2_0/v1beta3.json");
+        final OpenAPI openAPI= TestUtils.parseFlattenSpec("src/test/resources/2_0/v1beta3.json");
         final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
         codegen.setOpenAPI(openAPI);
 

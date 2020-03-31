@@ -53,10 +53,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             additionalProperties.put("modelPackage", modelPackage);
         }
 
-        if (!additionalProperties.containsKey("java8")) {
-            additionalProperties.put("joda", "true");
-        }
-
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));

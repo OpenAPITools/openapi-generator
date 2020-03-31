@@ -66,7 +66,7 @@ public class JavascriptClientCodegenTest {
 
     @Test(description = "test defaultValueWithParam for model's properties")
     public void bodyParameterTest() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         final Schema pet = openAPI.getComponents().getSchemas().get("Pet");
         codegen.setOpenAPI(openAPI);
