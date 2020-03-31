@@ -24,6 +24,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
     public static final String AKKA_HTTP_VERSION = "akkaHttpVersion";
     public static final String AKKA_HTTP_VERSION_DESC = "The version of akka-http";
+    public static final String DEFAULT_AKKA_HTTP_VERSION = "10.1.9";
 
     static Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
@@ -75,7 +76,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
         invokerPackage = "org.openapitools.server";
-        akkaHttpVersion = "10.1.9";
+        akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -171,29 +172,43 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     private static final String IS_10_1_9_PLUS = "akkaHttp10_1_9_plus";
     private boolean is10_1_9AndAbove = false;
 
-    private static final Pattern akkaVersionPattern = Pattern.compile("([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?");
+    private static final Pattern akkaVersionPattern = Pattern.compile("([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?(.\\+)?");
     private void parseAkkaHttpVersion() {
         Matcher matcher = akkaVersionPattern.matcher(akkaHttpVersion);
         if (matcher.matches()) {
             String majorS = matcher.group(1);
             String minorS = matcher.group(3);
             String patchS = matcher.group(5);
-            int major = 0, minor = 0, patch = 0;
+            boolean andAbove = matcher.group(6) != null;
+            int major = -1, minor = -1, patch = -1;
             try {
-                major = Integer.parseInt(majorS);
-                minor = Integer.parseInt(minorS);
-                patch = Integer.parseInt(patchS);
-            } catch (NumberFormatException e) {
-                LOGGER.warn("Unable to parse " + AKKA_HTTP_VERSION + ": " + akkaHttpVersion);
-            }
-            if (major > 10) {
-                is10_1_9AndAbove = true;
-            } else if (major == 10) {
-                if (minor > 1) {
-                    is10_1_9AndAbove = true;
-                } else if (patch >= 9) {
-                    is10_1_9AndAbove = true;
+                if (majorS != null) {
+                    major = Integer.parseInt(majorS);
+                    if (minorS != null) {
+                        minor = Integer.parseInt(minorS);
+                        if (patchS != null) {
+                            patch = Integer.parseInt(patchS);
+                        }
+                    }
                 }
+
+
+                if (major > 10 || major == -1 && andAbove) {
+                    is10_1_9AndAbove = true;
+                } else if (major == 10) {
+                    if (minor > 1 || minor == -1 && andAbove) {
+                        is10_1_9AndAbove = true;
+                    } else if (minor == 1) {
+                        if (patch >= 9 || patch == -1 && andAbove) {
+                            is10_1_9AndAbove = true;
+                        }
+                    }
+                }
+
+            } catch (NumberFormatException e) {
+                LOGGER.warn("Unable to parse " + AKKA_HTTP_VERSION + ": " + akkaHttpVersion + ", fallback to " + DEFAULT_AKKA_HTTP_VERSION);
+                akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
+                is10_1_9AndAbove = true;
             }
         }
 
