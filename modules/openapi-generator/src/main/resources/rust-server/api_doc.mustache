@@ -5,13 +5,13 @@ All URIs are relative to *{{{basePath}}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}**{{{operationIdOriginal}}}**]({{classname}}_api.md#{{{operationIdOriginal}}}) | **{{{httpMethod}}}** {{{path}}} | {{#summary}}{{{summary}}}{{/summary}}
+{{#operations}}{{#operation}}**{{{operationId}}}**]({{classname}}_api.md#{{{operationId}}}) | **{{{httpMethod}}}** {{{path}}} | {{#summary}}{{{summary}}}{{/summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
-# **{{{operationIdOriginal}}}**
-> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationIdOriginal}}}({{#authMethods}}ctx, {{/authMethods}}{{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}optional{{/hasOptionalParams}})
+# **{{{operationId}}}**
+> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#authMethods}}ctx, {{/authMethods}}{{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}optional{{/hasOptionalParams}})
 {{{summary}}}{{#notes}}
 
 {{{notes}}}{{/notes}}

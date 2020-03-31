@@ -439,7 +439,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             operationId = "call_" + operationId;
         }
 
-        return camelize(operationId);
+        return camelize(operationId).replace(" ", "");
     }
 
     @Override
