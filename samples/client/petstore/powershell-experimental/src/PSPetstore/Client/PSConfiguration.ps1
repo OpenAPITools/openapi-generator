@@ -158,8 +158,6 @@ function Set-PSConfiguration {
             $Script:Configuration['SkipCertificateCheck'] = $false
         } 
 
-        $Script:Configuration['SkipCertificateCheck'] = $SkipCertificateCheck
-
         If ($DefaultHeaders) {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
         }
