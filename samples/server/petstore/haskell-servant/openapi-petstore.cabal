@@ -28,6 +28,7 @@ library
                      , servant-client-core
                      , servant-server
                      , servant
+                     , wai
                      , warp
                      , transformers
                      , mtl

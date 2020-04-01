@@ -14,11 +14,11 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface UserApiControllerImpInterface {
-    void createUser(User user) throws Exception;
+    void createUser(User body) throws Exception;
 
-    void createUsersWithArrayInput(List<User> user) throws Exception;
+    void createUsersWithArrayInput(List<User> body) throws Exception;
 
-    void createUsersWithListInput(List<User> user) throws Exception;
+    void createUsersWithListInput(List<User> body) throws Exception;
 
     void deleteUser(String username) throws Exception;
 
@@ -28,6 +28,6 @@ public interface UserApiControllerImpInterface {
 
     void logoutUser() throws Exception;
 
-    void updateUser(String username, User user) throws Exception;
+    void updateUser(String username, User body) throws Exception;
 
 }

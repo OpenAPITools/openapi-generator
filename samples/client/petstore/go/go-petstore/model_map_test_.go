@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// MapTest struct for MapTest
 type MapTest struct {
 	MapMapOfString map[string]map[string]string `json:"map_map_of_string,omitempty"`
 	MapOfEnumString map[string]string `json:"map_of_enum_string,omitempty"`

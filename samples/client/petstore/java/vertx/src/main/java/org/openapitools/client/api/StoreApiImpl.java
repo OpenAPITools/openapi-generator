@@ -61,6 +61,9 @@ public class StoreApiImpl implements StoreApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -69,7 +72,7 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * Returns pet inventories by status
@@ -88,6 +91,9 @@ public class StoreApiImpl implements StoreApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -96,7 +102,7 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] { "api_key" };
         TypeReference<Map<String, Integer>> localVarReturnType = new TypeReference<Map<String, Integer>>() {};
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * Find purchase order by ID
@@ -122,6 +128,9 @@ public class StoreApiImpl implements StoreApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -130,7 +139,7 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Order> localVarReturnType = new TypeReference<Order>() {};
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * Place an order for a pet
@@ -156,6 +165,9 @@ public class StoreApiImpl implements StoreApi {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -164,6 +176,6 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Order> localVarReturnType = new TypeReference<Order>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
 }

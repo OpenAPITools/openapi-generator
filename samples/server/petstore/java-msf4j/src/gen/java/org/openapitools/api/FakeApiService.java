@@ -80,6 +80,12 @@ public abstract class FakeApiService {
     public abstract Response testJsonFormData(String param
  ,String param2
  ) throws NotFoundException;
+    public abstract Response testQueryParameterCollectionFormat(List<String> pipe
+ ,List<String> ioutil
+ ,List<String> http
+ ,List<String> url
+ ,List<String> context
+ ) throws NotFoundException;
     public abstract Response uploadFileWithRequiredFile(Long petId
  ,InputStream requiredFileInputStream, FileInfo requiredFileDetail
  ,String additionalMetadata

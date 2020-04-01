@@ -5,7 +5,7 @@ function New-Pet {
         [System.Nullable[Int64]]
         ${id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
-        [System.Nullable[Org.OpenAPITools.Model.Category]]
+        [Org.OpenAPITools.Model.Category]
         ${category},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
@@ -14,7 +14,7 @@ function New-Pet {
         [String[]]
         ${photoUrls},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
-        [System.Nullable[Org.OpenAPITools.Model.Tag[]]]
+        [Org.OpenAPITools.Model.Tag[]]
         ${tags},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [String]

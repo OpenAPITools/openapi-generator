@@ -37,7 +37,7 @@ ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml 
 java $JAVA_OPTS -jar $executable $ags
 
 echo "Typescript Petstore API client (with interfaces generated)"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g typescript-angular -o samples/client/petstore/typescript-angular-v2/with-interfaces -D withInterfaces=true --additional-properties ngVersion=2 $@"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g typescript-angular -o samples/client/petstore/typescript-angular-v2/with-interfaces --additional-properties ngVersion=2,withInterfaces=true $@"
 java $JAVA_OPTS -jar $executable $ags
 
 echo "Typescript Petstore API client (v4 { Adding InjectionToken Over OpaqueToken })"

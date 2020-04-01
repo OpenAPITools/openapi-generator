@@ -1,0 +1,10 @@
+{
+  "artifactId": "openapiv3-jaxrs-jersey-petstore-server",
+  "generatorName": "jaxrs-jersey",
+  "inputSpec": "modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/server/petstore/jaxrs-jersey",
+  "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true
+  }
+}

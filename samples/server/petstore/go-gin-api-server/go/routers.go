@@ -11,7 +11,6 @@ package petstoreserver
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,13 +35,13 @@ func NewRouter() *gin.Engine {
 	router := gin.Default()
 	for _, route := range routes {
 		switch route.Method {
-		case "GET":
+		case http.MethodGet:
 			router.GET(route.Pattern, route.HandlerFunc)
-		case "POST":
+		case http.MethodPost:
 			router.POST(route.Pattern, route.HandlerFunc)
-		case "PUT":
+		case http.MethodPut:
 			router.PUT(route.Pattern, route.HandlerFunc)
-		case "DELETE":
+		case http.MethodDelete:
 			router.DELETE(route.Pattern, route.HandlerFunc)
 		}
 	}
@@ -58,147 +57,147 @@ func Index(c *gin.Context) {
 var routes = Routes{
 	{
 		"Index",
-		"GET",
+		http.MethodGet,
 		"/v2/",
 		Index,
 	},
 
 	{
 		"AddPet",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/pet",
 		AddPet,
 	},
 
 	{
 		"DeletePet",
-		strings.ToUpper("Delete"),
+		http.MethodDelete,
 		"/v2/pet/:petId",
 		DeletePet,
 	},
 
 	{
 		"FindPetsByStatus",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/pet/findByStatus",
 		FindPetsByStatus,
 	},
 
 	{
 		"FindPetsByTags",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/pet/findByTags",
 		FindPetsByTags,
 	},
 
 	{
 		"GetPetById",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/pet/:petId",
 		GetPetById,
 	},
 
 	{
 		"UpdatePet",
-		strings.ToUpper("Put"),
+		http.MethodPut,
 		"/v2/pet",
 		UpdatePet,
 	},
 
 	{
 		"UpdatePetWithForm",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/pet/:petId",
 		UpdatePetWithForm,
 	},
 
 	{
 		"UploadFile",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/pet/:petId/uploadImage",
 		UploadFile,
 	},
 
 	{
 		"DeleteOrder",
-		strings.ToUpper("Delete"),
+		http.MethodDelete,
 		"/v2/store/order/:orderId",
 		DeleteOrder,
 	},
 
 	{
 		"GetInventory",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/store/inventory",
 		GetInventory,
 	},
 
 	{
 		"GetOrderById",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/store/order/:orderId",
 		GetOrderById,
 	},
 
 	{
 		"PlaceOrder",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/store/order",
 		PlaceOrder,
 	},
 
 	{
 		"CreateUser",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/user",
 		CreateUser,
 	},
 
 	{
 		"CreateUsersWithArrayInput",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/user/createWithArray",
 		CreateUsersWithArrayInput,
 	},
 
 	{
 		"CreateUsersWithListInput",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/user/createWithList",
 		CreateUsersWithListInput,
 	},
 
 	{
 		"DeleteUser",
-		strings.ToUpper("Delete"),
+		http.MethodDelete,
 		"/v2/user/:username",
 		DeleteUser,
 	},
 
 	{
 		"GetUserByName",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/user/:username",
 		GetUserByName,
 	},
 
 	{
 		"LoginUser",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/user/login",
 		LoginUser,
 	},
 
 	{
 		"LogoutUser",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/user/logout",
 		LogoutUser,
 	},
 
 	{
 		"UpdateUser",
-		strings.ToUpper("Put"),
+		http.MethodPut,
 		"/v2/user/:username",
 		UpdateUser,
 	},

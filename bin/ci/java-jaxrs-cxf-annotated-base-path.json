@@ -1,0 +1,12 @@
+{
+  "artifactId": "cxf-annotated-basepath",
+  "generatorName": "jaxrs-cxf",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/server/petstore/jaxrs-cxf-annotated-base-path",
+  "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/cxf",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "useAnnotatedBasePath": true,
+    "serverPort": "8082"
+  }
+}

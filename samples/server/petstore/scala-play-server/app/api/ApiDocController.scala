@@ -6,6 +6,6 @@ import play.api.mvc._
 @Singleton
 class ApiDocController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
   def api: Action[AnyContent] = Action {
-    Redirect("/assets/lib/swagger-ui/index.html?/url=/assets/openapi.json")
+    Redirect("/assets/lib/swagger-ui/index.html?url=/assets/openapi.json")
   }
 }

@@ -46,7 +46,7 @@ public class ApiKeyAuth implements Interceptor {
             if (newQuery == null) {
                 newQuery = paramValue;
             } else {
-                newQuery += "&" + paramValue;  
+                newQuery += "&" + paramValue;
             }
 
             URI newUri;
@@ -61,6 +61,10 @@ public class ApiKeyAuth implements Interceptor {
         } else if ("header".equals(location)) {
             request = request.newBuilder()
                     .addHeader(paramName, apiKey)
+                    .build();
+        } else if ("cookie".equals(location)) {
+            request = request.newBuilder()
+                    .addHeader("Cookie", String.format("%s=%s", paramName, apiKey))
                     .build();
         }
         return chain.proceed(request);

@@ -7,6 +7,8 @@ import re  # noqa: F401
 
 import six
 
+from {{packageName}}.configuration import Configuration
+
 
 {{#models}}
 {{#model}}
@@ -25,6 +27,10 @@ class {{classname}}(object):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
+{{#allowableValues}}
+    allowable_values = [{{#enumVars}}{{name}}{{^-last}}, {{/-last}}{{/enumVars}}]  # noqa: E501
+
+{{/allowableValues}}
     """
     Attributes:
       openapi_types (dict): The key is attribute name
@@ -51,8 +57,11 @@ class {{classname}}(object):
     }
 {{/discriminator}}
 
-    def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
+    def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}, local_vars_configuration=None):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
+        if local_vars_configuration is None:
+            local_vars_configuration = Configuration()
+        self.local_vars_configuration = local_vars_configuration
 {{#vars}}{{#-first}}
 {{/-first}}
         self._{{name}} = None
@@ -101,7 +110,7 @@ class {{classname}}(object):
         """
 {{^isNullable}}
 {{#required}}
-        if {{name}} is None:
+        if self.local_vars_configuration.client_side_validation and {{name}} is None:  # noqa: E501
             raise ValueError("Invalid value for `{{name}}`, must not be `None`")  # noqa: E501
 {{/required}}
 {{/isNullable}}
@@ -109,7 +118,8 @@ class {{classname}}(object):
 {{#isContainer}}
         allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#items.isString}}"{{/items.isString}}{{{this}}}{{#items.isString}}"{{/items.isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
 {{#isListContainer}}
-        if not set({{{name}}}).issubset(set(allowed_values)):
+        if (self.local_vars_configuration.client_side_validation and
+                not set({{{name}}}).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
                 "Invalid values for `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}) - set(allowed_values))),  # noqa: E501
@@ -117,7 +127,8 @@ class {{classname}}(object):
             )
 {{/isListContainer}}
 {{#isMapContainer}}
-        if not set({{{name}}}.keys()).issubset(set(allowed_values)):
+        if (self.local_vars_configuration.client_side_validation and
+                not set({{{name}}}.keys()).issubset(set(allowed_values))):  # noqa: E501
             raise ValueError(
                 "Invalid keys in `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}.keys()) - set(allowed_values))),  # noqa: E501
@@ -127,7 +138,7 @@ class {{classname}}(object):
 {{/isContainer}}
 {{^isContainer}}
         allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#isString}}"{{/isString}}{{{this}}}{{#isString}}"{{/isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
-        if {{{name}}} not in allowed_values:
+        if self.local_vars_configuration.client_side_validation and {{{name}}} not in allowed_values:  # noqa: E501
             raise ValueError(
                 "Invalid value for `{{{name}}}` ({0}), must be one of {1}"  # noqa: E501
                 .format({{{name}}}, allowed_values)
@@ -137,31 +148,38 @@ class {{classname}}(object):
 {{^isEnum}}
 {{#hasValidation}}
 {{#maxLength}}
-        if {{name}} is not None and len({{name}}) > {{maxLength}}:
+        if (self.local_vars_configuration.client_side_validation and
+                {{name}} is not None and len({{name}}) > {{maxLength}}):
             raise ValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
 {{/maxLength}}
 {{#minLength}}
-        if {{name}} is not None and len({{name}}) < {{minLength}}:
+        if (self.local_vars_configuration.client_side_validation and
+                {{name}} is not None and len({{name}}) < {{minLength}}):
             raise ValueError("Invalid value for `{{name}}`, length must be greater than or equal to `{{minLength}}`")  # noqa: E501
 {{/minLength}}
 {{#maximum}}
-        if {{name}} is not None and {{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                {{name}} is not None and {{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}):  # noqa: E501
             raise ValueError("Invalid value for `{{name}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")  # noqa: E501
 {{/maximum}}
 {{#minimum}}
-        if {{name}} is not None and {{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                {{name}} is not None and {{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}):  # noqa: E501
             raise ValueError("Invalid value for `{{name}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
 {{/minimum}}
 {{#pattern}}
-        if {{name}} is not None and not re.search(r'{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
+        if (self.local_vars_configuration.client_side_validation and
+                {{name}} is not None and not re.search(r'{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}})):  # noqa: E501
             raise ValueError(r"Invalid value for `{{name}}`, must be a follow pattern or equal to `{{{pattern}}}`")  # noqa: E501
 {{/pattern}}
 {{#maxItems}}
-        if {{name}} is not None and len({{name}}) > {{maxItems}}:
+        if (self.local_vars_configuration.client_side_validation and
+                {{name}} is not None and len({{name}}) > {{maxItems}}):
             raise ValueError("Invalid value for `{{name}}`, number of items must be less than or equal to `{{maxItems}}`")  # noqa: E501
 {{/maxItems}}
 {{#minItems}}
-        if {{name}} is not None and len({{name}}) < {{minItems}}:
+        if (self.local_vars_configuration.client_side_validation and
+                {{name}} is not None and len({{name}}) < {{minItems}}):
             raise ValueError("Invalid value for `{{name}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
 {{/minItems}}
 {{/hasValidation}}
@@ -215,10 +233,13 @@ class {{classname}}(object):
         if not isinstance(other, {{classname}}):
             return False
 
-        return self.__dict__ == other.__dict__
+        return self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """Returns true if both objects are not equal"""
-        return not self == other
+        if not isinstance(other, {{classname}}):
+            return True
+
+        return self.to_dict() != other.to_dict()
 {{/model}}
 {{/models}}

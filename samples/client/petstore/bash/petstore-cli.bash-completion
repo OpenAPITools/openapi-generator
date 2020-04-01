@@ -68,17 +68,22 @@ _petstore-cli()
     # The list of available operation in the REST service
     # It's modelled as an associative array for efficient key lookup
     declare -A operations
-    operations["testSpecialTags"]=1
+    operations["call123TestSpecialTags"]=1
+    operations["fooGet"]=1
+    operations["fakeHealthGet"]=1
     operations["fakeOuterBooleanSerialize"]=1
     operations["fakeOuterCompositeSerialize"]=1
     operations["fakeOuterNumberSerialize"]=1
     operations["fakeOuterStringSerialize"]=1
+    operations["testBodyWithFileSchema"]=1
     operations["testBodyWithQueryParams"]=1
     operations["testClientModel"]=1
     operations["testEndpointParameters"]=1
     operations["testEnumParameters"]=1
+    operations["testGroupParameters"]=1
     operations["testInlineAdditionalProperties"]=1
     operations["testJsonFormData"]=1
+    operations["testQueryParameterCollectionFormat"]=1
     operations["testClassname"]=1
     operations["addPet"]=1
     operations["deletePet"]=1
@@ -88,6 +93,7 @@ _petstore-cli()
     operations["updatePet"]=1
     operations["updatePetWithForm"]=1
     operations["uploadFile"]=1
+    operations["uploadFileWithRequiredFile"]=1
     operations["deleteOrder"]=1
     operations["getInventory"]=1
     operations["getOrderById"]=1
@@ -104,17 +110,22 @@ _petstore-cli()
     # An associative array of operations to their parameters
     # Only include path, query and header parameters
     declare -A operation_parameters
-    operation_parameters["testSpecialTags"]=""
+    operation_parameters["call123TestSpecialTags"]=""
+    operation_parameters["fooGet"]=""
+    operation_parameters["fakeHealthGet"]=""
     operation_parameters["fakeOuterBooleanSerialize"]=""
     operation_parameters["fakeOuterCompositeSerialize"]=""
     operation_parameters["fakeOuterNumberSerialize"]=""
     operation_parameters["fakeOuterStringSerialize"]=""
+    operation_parameters["testBodyWithFileSchema"]=""
     operation_parameters["testBodyWithQueryParams"]="query= "
     operation_parameters["testClientModel"]=""
     operation_parameters["testEndpointParameters"]=""
     operation_parameters["testEnumParameters"]="enum_query_string_array= enum_query_string= enum_query_integer= enum_query_double= enum_header_string_array: enum_header_string: "
+    operation_parameters["testGroupParameters"]="required_string_group= required_int64_group= string_group= int64_group= required_boolean_group: boolean_group: "
     operation_parameters["testInlineAdditionalProperties"]=""
     operation_parameters["testJsonFormData"]=""
+    operation_parameters["testQueryParameterCollectionFormat"]="pipe= ioutil= http= url= context= "
     operation_parameters["testClassname"]=""
     operation_parameters["addPet"]=""
     operation_parameters["deletePet"]="petId= api_key: "
@@ -124,6 +135,7 @@ _petstore-cli()
     operation_parameters["updatePet"]=""
     operation_parameters["updatePetWithForm"]="petId= "
     operation_parameters["uploadFile"]="petId= "
+    operation_parameters["uploadFileWithRequiredFile"]="petId= "
     operation_parameters["deleteOrder"]="order_id= "
     operation_parameters["getInventory"]=""
     operation_parameters["getOrderById"]="order_id= "
@@ -139,6 +151,18 @@ _petstore-cli()
 
     # An associative array of possible values for enum parameters
     declare -A operation_parameters_enum_values
+    operation_parameters_enum_values["testGroupParameters::required_boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::required_boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::required_boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::required_boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::required_boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::required_boolean_group"]="true false"
+    operation_parameters_enum_values["testGroupParameters::boolean_group"]="true false"
 
     #
     # Check if this is OSX and use special __osx_init_completion function

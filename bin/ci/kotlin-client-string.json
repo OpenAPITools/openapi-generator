@@ -1,0 +1,13 @@
+{
+  "artifactId": "kotlin-petstore-string",
+  "generatorName": "kotlin",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/kotlin-string",
+  "templateDir": "modules/openapi-generator/src/main/resources/kotlin-client",
+  "additionalProperties": {
+    "dateLibrary": "string",
+    "serializableModel": "true",
+    "sortParamsByRequiredFlag": "false",
+    "sortModelPropertiesByRequiredFlag": "false"
+  }
+}

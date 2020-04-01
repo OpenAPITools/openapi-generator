@@ -228,6 +228,39 @@ arrayTestArrayArrayOfModelL f ArrayTest{..} = (\arrayTestArrayArrayOfModel -> Ar
 
 
 
+-- * BigCat
+
+-- | 'bigCatClassName' Lens
+bigCatClassNameL :: Lens_' BigCat (Text)
+bigCatClassNameL f BigCat{..} = (\bigCatClassName -> BigCat { bigCatClassName, ..} ) <$> f bigCatClassName
+{-# INLINE bigCatClassNameL #-}
+
+-- | 'bigCatColor' Lens
+bigCatColorL :: Lens_' BigCat (Maybe Text)
+bigCatColorL f BigCat{..} = (\bigCatColor -> BigCat { bigCatColor, ..} ) <$> f bigCatColor
+{-# INLINE bigCatColorL #-}
+
+-- | 'bigCatDeclawed' Lens
+bigCatDeclawedL :: Lens_' BigCat (Maybe Bool)
+bigCatDeclawedL f BigCat{..} = (\bigCatDeclawed -> BigCat { bigCatDeclawed, ..} ) <$> f bigCatDeclawed
+{-# INLINE bigCatDeclawedL #-}
+
+-- | 'bigCatKind' Lens
+bigCatKindL :: Lens_' BigCat (Maybe E'Kind)
+bigCatKindL f BigCat{..} = (\bigCatKind -> BigCat { bigCatKind, ..} ) <$> f bigCatKind
+{-# INLINE bigCatKindL #-}
+
+
+
+-- * BigCatAllOf
+
+-- | 'bigCatAllOfKind' Lens
+bigCatAllOfKindL :: Lens_' BigCatAllOf (Maybe E'Kind)
+bigCatAllOfKindL f BigCatAllOf{..} = (\bigCatAllOfKind -> BigCatAllOf { bigCatAllOfKind, ..} ) <$> f bigCatAllOfKind
+{-# INLINE bigCatAllOfKindL #-}
+
+
+
 -- * Capitalization
 
 -- | 'capitalizationSmallCamel' Lens
@@ -486,6 +519,11 @@ formatTestUuidL f FormatTest{..} = (\formatTestUuid -> FormatTest { formatTestUu
 formatTestPasswordL :: Lens_' FormatTest (Text)
 formatTestPasswordL f FormatTest{..} = (\formatTestPassword -> FormatTest { formatTestPassword, ..} ) <$> f formatTestPassword
 {-# INLINE formatTestPasswordL #-}
+
+-- | 'formatTestBigDecimal' Lens
+formatTestBigDecimalL :: Lens_' FormatTest (Maybe Double)
+formatTestBigDecimalL f FormatTest{..} = (\formatTestBigDecimal -> FormatTest { formatTestBigDecimal, ..} ) <$> f formatTestBigDecimal
+{-# INLINE formatTestBigDecimalL #-}
 
 
 
@@ -779,6 +817,11 @@ typeHolderExampleStringItemL f TypeHolderExample{..} = (\typeHolderExampleString
 typeHolderExampleNumberItemL :: Lens_' TypeHolderExample (Double)
 typeHolderExampleNumberItemL f TypeHolderExample{..} = (\typeHolderExampleNumberItem -> TypeHolderExample { typeHolderExampleNumberItem, ..} ) <$> f typeHolderExampleNumberItem
 {-# INLINE typeHolderExampleNumberItemL #-}
+
+-- | 'typeHolderExampleFloatItem' Lens
+typeHolderExampleFloatItemL :: Lens_' TypeHolderExample (Float)
+typeHolderExampleFloatItemL f TypeHolderExample{..} = (\typeHolderExampleFloatItem -> TypeHolderExample { typeHolderExampleFloatItem, ..} ) <$> f typeHolderExampleFloatItem
+{-# INLINE typeHolderExampleFloatItemL #-}
 
 -- | 'typeHolderExampleIntegerItem' Lens
 typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample (Int)

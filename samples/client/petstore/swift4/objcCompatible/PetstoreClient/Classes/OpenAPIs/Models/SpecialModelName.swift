@@ -7,20 +7,21 @@
 
 import Foundation
 
-
-
-public struct SpecialModelName: Codable {
+@objc public class SpecialModelName: NSObject, Codable {
 
     public var specialPropertyName: Int64?
+    public var specialPropertyNameNum: NSNumber? {
+        get {
+            return specialPropertyName as NSNumber?
+        }
+    }
 
     public init(specialPropertyName: Int64?) {
         self.specialPropertyName = specialPropertyName
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case specialPropertyName = "$special[property.name]"
     }
 
-
 }
-

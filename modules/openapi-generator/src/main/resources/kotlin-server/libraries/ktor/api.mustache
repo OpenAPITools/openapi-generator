@@ -10,10 +10,15 @@ import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.OAuthServerSettings
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
-import io.ktor.locations.*
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.delete
+import io.ktor.locations.get
 import io.ktor.response.respond
 import io.ktor.response.respondText
-import io.ktor.routing.*
+import io.ktor.routing.Route
+import io.ktor.routing.post
+import io.ktor.routing.put
+import io.ktor.routing.route
 
 import {{packageName}}.Paths
 import {{packageName}}.infrastructure.ApiPrincipal

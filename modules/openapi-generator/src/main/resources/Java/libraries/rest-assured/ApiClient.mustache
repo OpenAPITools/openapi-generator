@@ -13,7 +13,8 @@ import java.util.function.Supplier;
 
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
-import static {{invokerPackage}}.GsonObjectMapper.gson;
+import static {{invokerPackage}}.{{#gson}}GsonObjectMapper.gson{{/gson}}{{#jackson}}JacksonObjectMapper.jackson{{/jackson}};
+
 {{/fullJavaUtil}}
 
 public class ApiClient {
@@ -34,15 +35,15 @@ public class ApiClient {
      {{#apiInfo}}
      {{#apis}}
     public {{classname}} {{classVarName}}() {
-        return {{classname}}.{{classVarName}}(config.baseReqSpec.get());
+        return {{classname}}.{{classVarName}}(config.reqSpecSupplier);
     }
      {{/apis}}
      {{/apiInfo}}
 
     public static class Config {
-        private Supplier<RequestSpecBuilder> baseReqSpec = () -> new RequestSpecBuilder()
+        private Supplier<RequestSpecBuilder> reqSpecSupplier = () -> new RequestSpecBuilder()
                 {{#basePath}}.setBaseUri(BASE_URI){{/basePath}}
-                .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())));
+                .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper({{#gson}}gson(){{/gson}}{{#jackson}}jackson(){{/jackson}})));
 
         /**
          * Use common specification for all operations
@@ -50,7 +51,7 @@ public class ApiClient {
          * @return configuration
          */
         public Config reqSpecSupplier(Supplier<RequestSpecBuilder> supplier) {
-            this.baseReqSpec = supplier;
+            this.reqSpecSupplier = supplier;
             return this;
         }
 

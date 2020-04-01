@@ -87,7 +87,7 @@ apiInstance.createUsersWithArrayInput(body).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -130,7 +130,7 @@ apiInstance.createUsersWithListInput(body).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](User.md)| List of user object | 
 
 ### Return type
 

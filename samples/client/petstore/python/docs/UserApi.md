@@ -30,15 +30,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.UserApi()
-body = petstore_api.User() # User | Created user object
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.UserApi(api_client)
+    body = petstore_api.User() # User | Created user object
 
-try:
-    # Create user
-    api_instance.create_user(body)
-except ApiException as e:
-    print("Exception when calling UserApi->create_user: %s\n" % e)
+    try:
+        # Create user
+        api_instance.create_user(body)
+    except ApiException as e:
+        print("Exception when calling UserApi->create_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -60,6 +62,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | successful operation |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
@@ -76,22 +83,24 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.UserApi()
-body = None # list[User] | List of user object
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.UserApi(api_client)
+    body = [petstore_api.User()] # list[User] | List of user object
 
-try:
-    # Creates list of users with given input array
-    api_instance.create_users_with_array_input(body)
-except ApiException as e:
-    print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
+    try:
+        # Creates list of users with given input array
+        api_instance.create_users_with_array_input(body)
+    except ApiException as e:
+        print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](list.md)| List of user object | 
+ **body** | [**list[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -105,6 +114,11 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -122,22 +136,24 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.UserApi()
-body = None # list[User] | List of user object
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.UserApi(api_client)
+    body = [petstore_api.User()] # list[User] | List of user object
 
-try:
-    # Creates list of users with given input array
-    api_instance.create_users_with_list_input(body)
-except ApiException as e:
-    print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
+    try:
+        # Creates list of users with given input array
+        api_instance.create_users_with_list_input(body)
+    except ApiException as e:
+        print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](list.md)| List of user object | 
+ **body** | [**list[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -151,6 +167,11 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -170,15 +191,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.UserApi()
-username = 'username_example' # str | The name that needs to be deleted
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.UserApi(api_client)
+    username = 'username_example' # str | The name that needs to be deleted
 
-try:
-    # Delete user
-    api_instance.delete_user(username)
-except ApiException as e:
-    print("Exception when calling UserApi->delete_user: %s\n" % e)
+    try:
+        # Delete user
+        api_instance.delete_user(username)
+    except ApiException as e:
+        print("Exception when calling UserApi->delete_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -200,6 +223,12 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Invalid username supplied |  -  |
+**404** | User not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_user_by_name**
@@ -216,16 +245,18 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.UserApi()
-username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.UserApi(api_client)
+    username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
 
-try:
-    # Get user by user name
-    api_response = api_instance.get_user_by_name(username)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling UserApi->get_user_by_name: %s\n" % e)
+    try:
+        # Get user by user name
+        api_response = api_instance.get_user_by_name(username)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling UserApi->get_user_by_name: %s\n" % e)
 ```
 
 ### Parameters
@@ -247,6 +278,13 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid username supplied |  -  |
+**404** | User not found |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **login_user**
@@ -263,17 +301,19 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.UserApi()
-username = 'username_example' # str | The user name for login
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.UserApi(api_client)
+    username = 'username_example' # str | The user name for login
 password = 'password_example' # str | The password for login in clear text
 
-try:
-    # Logs user into the system
-    api_response = api_instance.login_user(username, password)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling UserApi->login_user: %s\n" % e)
+    try:
+        # Logs user into the system
+        api_response = api_instance.login_user(username, password)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling UserApi->login_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -296,6 +336,12 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
+**400** | Invalid username/password supplied |  -  |
+
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **logout_user**
@@ -312,14 +358,16 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.UserApi()
-
-try:
-    # Logs out current logged in user session
-    api_instance.logout_user()
-except ApiException as e:
-    print("Exception when calling UserApi->logout_user: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.UserApi(api_client)
+    
+    try:
+        # Logs out current logged in user session
+        api_instance.logout_user()
+    except ApiException as e:
+        print("Exception when calling UserApi->logout_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -337,6 +385,11 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -356,16 +409,18 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.UserApi()
-username = 'username_example' # str | name that need to be deleted
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.UserApi(api_client)
+    username = 'username_example' # str | name that need to be deleted
 body = petstore_api.User() # User | Updated user object
 
-try:
-    # Updated user
-    api_instance.update_user(username, body)
-except ApiException as e:
-    print("Exception when calling UserApi->update_user: %s\n" % e)
+    try:
+        # Updated user
+        api_instance.update_user(username, body)
+    except ApiException as e:
+        print("Exception when calling UserApi->update_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -387,6 +442,12 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Invalid user supplied |  -  |
+**404** | User not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

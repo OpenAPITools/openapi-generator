@@ -54,6 +54,9 @@ public class FormatTest   {
   @JsonProperty("password")
   private String password;
 
+  @JsonProperty("BigDecimal")
+  private BigDecimal bigDecimal;
+
   public FormatTest integer(Integer integer) {
     this.integer = integer;
     return this;
@@ -298,6 +301,24 @@ public class FormatTest   {
     this.password = password;
   }
 
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+   /**
+   * Get bigDecimal
+   * @return bigDecimal
+  **/
+  @ApiModelProperty(value = "")
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -320,12 +341,13 @@ public class FormatTest   {
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
   }
 
   @Override
@@ -346,6 +368,7 @@ public class FormatTest   {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

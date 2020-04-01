@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Canonical
 class Tag {
+    
     Long id
-
+    
     String name
-
 }

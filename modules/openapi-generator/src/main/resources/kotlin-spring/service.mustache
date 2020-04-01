@@ -2,12 +2,14 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-
+{{#reactive}}
+import kotlinx.coroutines.flow.Flow;
+{{/reactive}}
 {{#operations}}
 interface {{classname}}Service {
 {{#operation}}
 
-    fun {{operationId}}({{#allParams}}{{paramName}}: {{>optionalDataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{>returnTypes}}
+	{{#reactive}}{{^isListContainer}}suspend {{/isListContainer}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isListContainer}}{{>optionalDataType}}{{/isListContainer}}{{#isListContainer}}Flow<{{{baseType}}}>{{/isListContainer}}{{/reactive}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{>returnTypes}}
 {{/operation}}
 }
 {{/operations}}

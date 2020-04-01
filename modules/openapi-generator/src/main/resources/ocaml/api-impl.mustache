@@ -1,0 +1,67 @@
+{{>partial_header}}
+{{#operations}}
+{{#operation}}
+{{#description}}
+ * Schema {{{classname}}} : {{{description}}}
+{{/description}}
+{{/operation}}
+{{/operations}}
+ *)
+
+{{#operations}}
+{{#operation}}
+let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}{{#hasMore}} {{/hasMore}}{{#-last}}{{^required}} (){{/required}}{{/-last}}{{/allParams}} =
+    let open Lwt in
+    let uri = Request.build_uri "{{{path}}}" in
+    let headers = Request.default_headers in
+{{#hasAuthMethods}}
+    {{#authMethods}}
+        {{#isApiKey}}
+            {{#isKeyInHeader}}
+    let headers = Cohttp.Header.add headers "{{{keyParamName}}}" Request.api_key in
+            {{/isKeyInHeader}}
+        {{/isApiKey}}
+    {{/authMethods}}
+{{/hasAuthMethods}}
+{{#headerParams}}
+    let headers = Request.{{> to_optional_prefix}}add_header{{#isContainer}}_multi{{/isContainer}} headers "{{baseName}}" {{> to_string}} {{{paramName}}} in
+{{/headerParams}}
+{{#pathParams}}
+    let uri = Request.{{> to_optional_prefix}}replace_path_param uri "{{{baseName}}}" {{> to_string}} {{{paramName}}} in
+{{/pathParams}}
+{{#queryParams}}
+    let uri = Request.{{> to_optional_prefix}}add_query_param{{#isListContainer}}_list{{/isListContainer}} uri "{{{baseName}}}" {{> to_string}} {{{paramName}}} in
+{{/queryParams}}
+{{#hasAuthMethods}}
+    {{#authMethods}}
+        {{#isApiKey}}
+            {{#isKeyInQuery}}
+    let uri = Uri.add_query_param' uri ("{{{keyParamName}}}", Request.api_key) in
+            {{/isKeyInQuery}}
+        {{/isApiKey}}
+    {{/authMethods}}
+{{/hasAuthMethods}}
+{{#bodyParams}}
+    let body = Request.{{#isFreeFormObject}}write_json_body{{/isFreeFormObject}}{{#isByteArray}}write_string_body{{/isByteArray}}{{^isFreeFormObject}}{{^isByteArray}}write_as_json_body{{/isByteArray}}{{/isFreeFormObject}} {{> to_json}} {{{paramName}}} in
+{{/bodyParams}}
+{{^hasBodyParam}}
+    {{#hasFormParams}}
+    let body = Request.init_form_encoded_body () in
+    {{/hasFormParams}}
+    {{#formParams}}
+    let body = Request.{{> to_optional_prefix}}add_form_encoded_body_param{{#isContainer}}_list{{/isContainer}} body "{{{paramName}}}" {{> to_string}} {{{paramName}}} in
+    {{/formParams}}
+    {{#hasFormParams}}
+    let body = Request.finalize_form_encoded_body body in
+    {{/hasFormParams}}
+{{/hasBodyParam}}
+    Cohttp_lwt_unix.Client.call `{{{httpMethod}}} uri ~headers {{#hasBodyParam}}~body {{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}~body {{/hasFormParams}}{{/hasBodyParam}}>>= fun (resp, body) ->
+{{^returnType}}
+    Request.handle_unit_response resp
+{{/returnType}}
+{{#returnType}}
+    Request.read_json_body{{#returnContainer}}{{#isListContainer}}_as_list{{/isListContainer}}{{#isMapContainer}}_as_map{{/isMapContainer}}{{#returnBaseType}}{{^vendorExtensions.x-return-free-form-object}}_of{{/vendorExtensions.x-return-free-form-object}}{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}{{^vendorExtensions.x-return-free-form-object}}_as{{/vendorExtensions.x-return-free-form-object}}{{/returnBaseType}}{{/returnContainer}} {{#returnType}}{{^vendorExtensions.x-return-free-form-object}}({{> of_json}}){{/vendorExtensions.x-return-free-form-object}}{{/returnType}} resp body
+{{/returnType}}
+
+{{/operation}}
+{{/operations}}

@@ -1,14 +1,48 @@
 package org.openapitools.codegen.kotlin.spring;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
-import org.openapitools.codegen.CodegenConstants;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.apache.commons.io.FileUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.kotlin.KotlinTestUtils;
+import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.Collections;
+
 public class KotlinSpringServerCodegenTest {
+
+    @Test(description = "test embedded enum array")
+    public void embeddedEnumArrayTest() throws Exception {
+        String baseModelPackage = "zz";
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue______kotlinArrayEnumEmbedded.yaml");
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, baseModelPackage + ".yyyy.model.xxxx");
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+        File resultSourcePath = new File(output, "src/main/kotlin");
+        File outputModel = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        FileUtils.copyDirectory(new File(resultSourcePath, baseModelPackage), new File(outputModel, baseModelPackage));
+        //no exception
+        ClassLoader cl = KotlinTestUtils.buildModule(Collections.singletonList(outputModel.getAbsolutePath()), Thread.currentThread().getContextClassLoader());
+    }
 
     @Test
     public void testInitialConfigValues() throws Exception {
@@ -34,6 +68,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8080");
     }
 
+
     @Test
     public void testSettersForConfigValues() throws Exception {
         final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
@@ -47,6 +82,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setServiceInterface(true);
         codegen.setServiceImplementation(true);
         codegen.setUseBeanValidation(false);
+        codegen.setReactive(false);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
@@ -69,6 +105,8 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
+        Assert.assertFalse(codegen.isReactive());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
     }
 
     @Test
@@ -84,6 +122,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_INTERFACE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
         codegen.processOpts();
 
         final OpenAPI openAPI = new OpenAPI();
@@ -112,15 +151,36 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
+        Assert.assertFalse(codegen.isReactive());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
     }
 
     @Test
-    public void testSettingInvokerPackageToBasePackage() throws Exception {
+    public void testSettingInvokerPackageToBasePackage() {
         final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.bbbb.invoker");
         codegen.processOpts();
 
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.bbbb.invoker");
         Assert.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.invoker");
+    }
+
+    @Test
+    public void testDelegatePattern() {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.DELEGATE_PATTERN), true);
+        Assert.assertEquals(codegen.additionalProperties().get("isDelegate"), "true");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), false);
+        Assert.assertTrue(codegen.getSwaggerAnnotations());
+
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiController.mustache"), "Controller.kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiDelegate.mustache"), "Delegate.kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
+
+        Assert.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.templateFile.equals("apiUtil.mustache")));
     }
 }

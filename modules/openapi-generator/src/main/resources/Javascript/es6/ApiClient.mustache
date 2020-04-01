@@ -31,9 +31,9 @@ class ApiClient {
         this.authentications = {
 <#authMethods>
 <#isBasic>
-<^isBasicBearer>
+<#isBasicBasic>
             '<name>': {type: 'basic'}<^-last>,</-last>
-</isBasicBearer>
+</isBasicBasic>
 <#isBasicBearer>
             '<name>': {type: 'bearer'}<^-last>,</-last><#bearerFormat> // <&.></bearerFormat>
 </isBasicBearer>
@@ -372,7 +372,7 @@ class ApiClient {
     * @param {Array.<String>} accepts An array of acceptable response MIME types.
     * @param {(String|Array|ObjectFunction)} returnType The required type to return; can be a string for simple types or the
     * constructor for a complex type.
-    * @param {String} apiBasePath base path defined in the operation/path level to override the default one 
+    * @param {String} apiBasePath base path defined in the operation/path level to override the default one
     {{^usePromises}}
     * @param {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient~callApiCallback} callback The callback function.
     {{/usePromises}}
@@ -421,8 +421,6 @@ class ApiClient {
             if(contentType != 'multipart/form-data') {
                 request.type(contentType);
             }
-        } else if (!request.header['Content-Type']) {
-            request.type('application/json');
         }
 
         if (contentType === 'application/x-www-form-urlencoded') {
@@ -440,6 +438,9 @@ class ApiClient {
                 }
             }
         } else if (bodyParam !== null && bodyParam !== undefined) {
+            if (!request.header['Content-Type']) {
+                request.type('application/json');
+            }
             request.send(bodyParam);
         }
 
@@ -469,10 +470,12 @@ class ApiClient {
             request.end((error, response) => {
                 if (error) {
                     var err = {};
-                    err.status = response.status;
-                    err.statusText = response.statusText;
-                    err.body = response.body;
-                    err.response = response;
+                    if (response) {
+                        err.status = response.status;
+                        err.statusText = response.statusText;
+                        err.body = response.body;
+                        err.response = response;
+                    }
                     err.error = error;
 
                     reject(err);
@@ -645,7 +648,8 @@ class ApiClient {
         // go through variable and assign a value
         for (var variable_name in server['variables']) {
             if (variable_name in variables) {
-                if (server['variables'][variable_name]['enum_values'].includes(variables[variable_name])) {
+                let variable = server['variables'][variable_name];
+                if ( !('enum_values' in variable) || variable['enum_values'].includes(variables[variable_name]) ) {
                     url = url.replace("{" + variable_name + "}", variables[variable_name]);
                 } else {
                     throw new Error("The variable `" + variable_name + "` in the host URL has invalid value " + variables[variable_name] + ". Must be " + server['variables'][variable_name]['enum_values'] + ".");

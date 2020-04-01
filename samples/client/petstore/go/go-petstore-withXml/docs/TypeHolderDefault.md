@@ -1,6 +1,7 @@
 # TypeHolderDefault
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **StringItem** | **string** |  | [default to what]

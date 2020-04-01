@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiKeyAuthEnvironmentVariable;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+
+    protected static int emptyMethodNameCounter = 0;
 
     public static final String CURL_OPTIONS = "curlOptions";
     public static final String PROCESS_MARKDOWN = "processMarkdown";
@@ -98,6 +101,51 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public BashClientCodegen() {
         super();
+
+        // TODO: Bash maintainer review
+        modifyFeatureSet(features -> features
+                .documentationFeatures(EnumSet.of(
+                        DocumentationFeature.Readme
+                ))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey
+                ))
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeWireFormatFeatures(
+                        WireFormatFeature.JSON,
+                        WireFormatFeature.XML,
+                        WireFormatFeature.Custom
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union
+                )
+        );
+
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        "case",
+                        "do",
+                        "done",
+                        "elif",
+                        "else",
+                        "esac",
+                        "fi",
+                        "for",
+                        "function",
+                        "if",
+                        "in",
+                        "select",
+                        "then",
+                        "until",
+                        "while"
+                )
+        );
 
         /**
          * Set the output folder here
@@ -199,6 +247,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "binary");
         typeMapping.put("binary", "binary");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         /**
          * Additional Properties.  These values can be passed to the templates and
@@ -410,9 +459,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OpenAPI Parameter object to Codegen Parameter object
+     *
      * @param imports set of imports for library/package/module
      * @param param   OpenAPI parameter object
-     *
      * @return Codegen Parameter object
      */
     @Override
@@ -748,5 +797,29 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         return camelize(name);
     }
 
+    @Override
+    public String toOperationId(String operationId) {
+        // rename to empty_method_name_1 (e.g.) if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            operationId = camelize("empty_method_name_" + emptyMethodNameCounter++, true);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            return operationId;
+        }
+
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            String newOperationId = underscore("call" + camelize(operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        return camelize(sanitizeName(operationId), true);
+    }
 
 }

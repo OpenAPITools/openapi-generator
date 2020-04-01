@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
@@ -455,9 +456,16 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
         }
 
-        cm.vendorExtensions.put("hasPropertyMappings", !propertyMappings.isEmpty());
-        cm.vendorExtensions.put("hasDefaultValues", hasDefaultValues);
-        cm.vendorExtensions.put("propertyMappings", propertyMappings);
+        // TODO: 5.0: Remove this block and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+        cm.vendorExtensions.put("hasPropertyMappings", !propertyMappings.isEmpty()); // TODO: 5.0 Remove
+        cm.vendorExtensions.put("hasDefaultValues", hasDefaultValues);  // TODO: 5.0 Remove
+        cm.vendorExtensions.put("propertyMappings", propertyMappings);  // TODO: 5.0 Remove
+
+
+        cm.vendorExtensions.put("x-has-property-mappings", !propertyMappings.isEmpty());
+        cm.vendorExtensions.put("x-has-default-values", hasDefaultValues);
+        cm.vendorExtensions.put("x-property-mappings", propertyMappings);
 
         if (!propertyMappings.isEmpty()) {
             cm.interfaces.add("OAS.MappedProperties");
@@ -650,19 +658,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
-    }
-
-    public boolean convertPropertyToBoolean(String propertyKey) {
-        boolean booleanValue = false;
-        if (additionalProperties.containsKey(propertyKey)) {
-            booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
-        }
-
-        return booleanValue;
-    }
-
-    public void writePropertyBack(String propertyKey, boolean value) {
-        additionalProperties.put(propertyKey, value);
     }
 
     @Override

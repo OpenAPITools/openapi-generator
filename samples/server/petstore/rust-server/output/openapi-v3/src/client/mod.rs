@@ -6,8 +6,7 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
-
-
+extern crate uuid;
 
 use hyper;
 use hyper::header::{Headers, ContentType};
@@ -26,9 +25,9 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+use swagger::headers::SafeHeaders;
 
 use mimetypes;
-
 use serde_json;
 use serde_xml_rs;
 
@@ -40,7 +39,12 @@ use swagger;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
 use {Api,
+     MultigetGetResponse,
+     MultipleAuthSchemeGetResponse,
+     ReadonlyAuthSchemeGetResponse,
      RequiredOctetStreamPutResponse,
+     ResponsesWithHeadersGetResponse,
+     UuidGetResponse,
      XmlExtraPostResponse,
      XmlOtherPostResponse,
      XmlOtherPutResponse,
@@ -79,7 +83,7 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<F> where
   F: Future<Item=hyper::Response, Error=hyper::Error> + 'static {
-    client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+    client_service: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
     base_path: String,
 }
 
@@ -190,7 +194,7 @@ impl Client<hyper::client::FutureResponse> {
         handle: Handle,
         base_path: &str,
         protocol: Option<&'static str>,
-        connector_fn: Box<Fn(&Handle) -> C + Send + Sync>,
+        connector_fn: Box<dyn Fn(&Handle) -> C + Send + Sync>,
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         C: hyper::client::Connect + hyper::client::Service,
@@ -217,7 +221,7 @@ impl Client<hyper::client::FutureResponse> {
     /// should be mentioned here.
     #[deprecated(note="Use try_new_with_client_service instead")]
     pub fn try_new_with_hyper_client(
-        hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
+        hyper_client: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
         handle: Handle,
         base_path: &str
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
@@ -235,7 +239,7 @@ impl<F> Client<F> where
     /// Constructor for creating a `Client` by passing in a pre-made `hyper` client Service.
     ///
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
-    pub fn try_new_with_client_service(client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+    pub fn try_new_with_client_service(client_service: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
                                        handle: Handle,
                                        base_path: &str)
                                     -> Result<Client<F>, ClientInitError>
@@ -249,9 +253,336 @@ impl<F> Client<F> where
 
 impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
-    C: Has<XSpanIdString> {
+    C: Has<XSpanIdString> + Has<Option<AuthData>>{
 
-    fn required_octet_stream_put(&self, param_body: swagger::ByteArray, context: &C) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
+    fn multiget_get(&self, context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/multiget",
+            self.base_path
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::JSONRsp(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                201 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<models::InlineResponse201>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::XMLRsp(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                202 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            Ok(swagger::ByteArray(body.to_vec()))
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::OctetRsp(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                203 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                Ok(body.to_string())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::StringRsp(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                204 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::DuplicateResponseLongText(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                205 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::DuplicateResponseLongText_2(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                206 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::DuplicateResponseLongText_3(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn multiple_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/multiple_auth_scheme",
+            self.base_path
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+
+                        future::ok(
+                            MultipleAuthSchemeGetResponse::CheckThatLimitingToMultipleRequiredAuthSchemesWorks
+                        )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn readonly_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/readonly_auth_scheme",
+            self.base_path
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+
+                        future::ok(
+                            ReadonlyAuthSchemeGetResponse::CheckThatLimitingToASingleRequiredAuthSchemeWorks
+                        )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn required_octet_stream_put(&self, param_body: swagger::ByteArray, context: &C) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/required_octet_stream",
             self.base_path
@@ -273,17 +604,12 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
-        // Body parameter
         let body = param_body.0;
-
         request.set_body(body);
 
-
         request.headers_mut().set(ContentType(mimetypes::requests::REQUIRED_OCTET_STREAM_PUT.clone()));
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -295,7 +621,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             RequiredOctetStreamPutResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -314,14 +640,184 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn xml_extra_post(&self, param_duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>> {
+    fn responses_with_headers_get(&self, context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/responses_with_headers",
+            self.base_path
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    header! { (ResponseSuccessInfo, "Success-Info") => [String] }
+                    let response_success_info = match response.headers().safe_get::<ResponseSuccessInfo>() {
+                        Some(response_success_info) => response_success_info.0.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header Success-Info for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
+                    };
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<String>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            ResponsesWithHeadersGetResponse::Success{ body: body, success_info: response_success_info }
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                412 => {
+                    header! { (ResponseFurtherInfo, "Further-Info") => [String] }
+                    let response_further_info = match response.headers().safe_get::<ResponseFurtherInfo>() {
+                        Some(response_further_info) => response_further_info.0.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header Further-Info for response 412 was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
+                    };
+                    header! { (ResponseFailureInfo, "Failure-Info") => [String] }
+                    let response_failure_info = match response.headers().safe_get::<ResponseFailureInfo>() {
+                        Some(response_failure_info) => response_failure_info.0.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header Failure-Info for response 412 was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
+                    };
+                    let body = response.body();
+                    Box::new(
+
+                        future::ok(
+                            ResponsesWithHeadersGetResponse::PreconditionFailed
+                            {
+                              further_info: response_further_info,
+                              failure_info: response_failure_info,
+                            }
+                        )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn uuid_get(&self, context: &C) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/uuid",
+            self.base_path
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<uuid::Uuid>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            UuidGetResponse::DuplicateResponseLongText(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn xml_extra_post(&self, param_duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml_extra",
             self.base_path
@@ -347,14 +843,13 @@ impl<F, C> Api<C> for Client<F> where
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_EXTRA_POST.clone()));
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -366,7 +861,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlExtraPostResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 400 => {
                     let body = response.body();
@@ -375,7 +870,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlExtraPostResponse::BadRequest
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -394,14 +889,14 @@ if let Some(body) = body {
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn xml_other_post(&self, param_another_xml_object: Option<models::AnotherXmlObject>, context: &C) -> Box<Future<Item=XmlOtherPostResponse, Error=ApiError>> {
+    fn xml_other_post(&self, param_another_xml_object: Option<models::AnotherXmlObject>, context: &C) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml_other",
             self.base_path
@@ -427,14 +922,13 @@ if let Some(body) = body {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_OTHER_POST.clone()));
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -442,11 +936,23 @@ if let Some(body) = body {
                 201 => {
                     let body = response.body();
                     Box::new(
-
-                        future::ok(
-                            XmlOtherPostResponse::OK
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                        .map(move |body| {
+                            XmlOtherPostResponse::OK(body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 400 => {
                     let body = response.body();
@@ -455,7 +961,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlOtherPostResponse::BadRequest
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -474,14 +980,14 @@ if let Some(body) = body {
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn xml_other_put(&self, param_string: Option<models::AnotherXmlArray>, context: &C) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>> {
+    fn xml_other_put(&self, param_string: Option<models::AnotherXmlArray>, context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml_other",
             self.base_path
@@ -507,14 +1013,13 @@ if let Some(body) = body {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_OTHER_PUT.clone()));
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -526,7 +1031,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlOtherPutResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 400 => {
                     let body = response.body();
@@ -535,7 +1040,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlOtherPutResponse::BadRequest
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -554,14 +1059,14 @@ if let Some(body) = body {
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn xml_post(&self, param_string: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, param_string: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml",
             self.base_path
@@ -587,14 +1092,13 @@ if let Some(body) = body {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_POST.clone()));
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -606,7 +1110,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlPostResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 400 => {
                     let body = response.body();
@@ -615,7 +1119,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlPostResponse::BadRequest
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -634,14 +1138,14 @@ if let Some(body) = body {
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn xml_put(&self, param_xml_object: Option<models::XmlObject>, context: &C) -> Box<Future<Item=XmlPutResponse, Error=ApiError>> {
+    fn xml_put(&self, param_xml_object: Option<models::XmlObject>, context: &C) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml",
             self.base_path
@@ -667,14 +1171,13 @@ if let Some(body) = body {
             body.to_xml()
         });
 
-if let Some(body) = body {
-            request.set_body(body);
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::XML_PUT.clone()));
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -686,7 +1189,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlPutResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 400 => {
                     let body = response.body();
@@ -695,7 +1198,7 @@ if let Some(body) = body {
                         future::ok(
                             XmlPutResponse::BadRequest
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -714,7 +1217,7 @@ if let Some(body) = body {
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
@@ -745,7 +1248,7 @@ impl From<openssl::error::ErrorStack> for ClientInitError {
 
 impl fmt::Display for ClientInitError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        (self as &fmt::Debug).fmt(f)
+        (self as &dyn fmt::Debug).fmt(f)
     }
 }
 

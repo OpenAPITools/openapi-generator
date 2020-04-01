@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-public struct ArrayOfNumberOnly: Codable {
+@objc public class ArrayOfNumberOnly: NSObject, Codable {
 
     public var arrayNumber: [Double]?
 
@@ -17,10 +15,8 @@ public struct ArrayOfNumberOnly: Codable {
         self.arrayNumber = arrayNumber
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case arrayNumber = "ArrayNumber"
     }
 
-
 }
-

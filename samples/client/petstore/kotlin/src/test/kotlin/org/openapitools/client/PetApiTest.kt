@@ -2,8 +2,11 @@ package org.openapitools.client
 
 import io.kotlintest.shouldBe
 import io.kotlintest.matchers.numerics.shouldBeGreaterThan
+import io.kotlintest.matchers.string.shouldContain
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.PetApi
+import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
@@ -11,8 +14,11 @@ import org.openapitools.client.models.Tag
 class PetApiTest : ShouldSpec() {
     init {
 
+        val petId:Long = 10006
+        val api = PetApi()
+
         should("add a pet") {
-            val petId:Long = 10006
+
             val pet = Pet(
                     id = petId,
                     name = "kotlin client test",
@@ -20,15 +26,11 @@ class PetApiTest : ShouldSpec() {
                     category = Category(petId, "test kotlin category"),
                     tags = arrayOf(Tag(petId, "test kotlin tag"))
             )
-
-            val api = PetApi()
             api.addPet(pet)
 
         }
 
         should("get pet by id") {
-            val petId: Long = 10006
-            val api = PetApi()
             val result = api.getPetById(petId)
 
             result.id shouldBe (petId)
@@ -42,7 +44,6 @@ class PetApiTest : ShouldSpec() {
         }
 
         should("find pet by status") {
-            val api = PetApi()
             val result = api.findPetsByStatus(arrayOf("available"))
 
             result.size.shouldBeGreaterThan(0)
@@ -58,15 +59,12 @@ class PetApiTest : ShouldSpec() {
         }
 
         should("update a pet") {
-            val petId:Long = 10007
             val pet = Pet(
                     id = petId,
                     name = "kotlin client updatePet",
                     status = Pet.Status.pending,
                     photoUrls = arrayOf("http://test_kotlin_unit_test.com")
             )
-
-            val api = PetApi()
             api.updatePet(pet)
 
             // verify updated Pet
@@ -77,14 +75,10 @@ class PetApiTest : ShouldSpec() {
 
         }
 
-        //TODO the test fail cause client doesn't support other JSON contentType/Accept
-        /*
         should("update a pet with form") {
-            val petId:Long = 10007
             val name = "kotlin client updatePet with Form"
             val status = "pending"
 
-            val api = PetApi()
             api.updatePetWithForm(petId, name, status)
 
             // verify updated Pet
@@ -94,7 +88,16 @@ class PetApiTest : ShouldSpec() {
             result.status shouldBe (Pet.Status.pending)
 
         }
-        */
+
+        should("delete a pet") {
+            api.deletePet(petId, "apiKey")
+
+            // verify updated Pet
+            val exception = shouldThrow<ClientException> {
+                api.getPetById(petId)
+            }
+            exception.message?.shouldContain("Pet not found")
+        }
 
     }
 

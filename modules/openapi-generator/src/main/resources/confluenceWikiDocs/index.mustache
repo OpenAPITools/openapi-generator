@@ -1,94 +1,81 @@
-h1. {{{appName}}} {{{appDescription}}}
+h1. {{{appName}}}
+
+{{{appDescription}}}
 
 {{#version}}*Version:* {{{version}}}{{/version}}
 
 ----
 
+{expand:Table of Contents - Click to expand}
 {toc:printable=true|style=square|minLevel=2|maxLevel=3|type=list|outline=false|include=.*}
+{expand}
 
 h2. Endpoints
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-    h3. {{nickname}}
-    {status:colour=Yellow|title={{httpMethod}}|subtle=false}
-    {code}
-    {{httpMethod}} {{path}}
-    {code}
-    *Summary:* {{summary}}
-    *Description:* {{notes}}
 
+h3. {{nickname}}
+{panel:title={{nickname}}|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    {{#summary}}*Summary:* {{summary}}{{/summary}}
+    *Description:* {{notes}}{{^notes}}*No Description*{{/notes}}
 
-    h4. Parameters
+	|| HttpMethod | {status:colour=Yellow|title={{httpMethod}}|subtle=false} |
+    || Protocol | {noformat:nopanel=true}{{scheme}}{noformat} |
+    || Path | {noformat:nopanel=true}{{path}}{noformat} |
+    || Base Path | {noformat:nopanel=true}{{basePath}}{noformat} |
+    {{#hasProduces}}|| Produces | {noformat:nopanel=true}{{#produces}}{{mediaType}}{{/produces}}{noformat} |{{/hasProduces}}
+----
+h4. Parameters
     {{#hasPathParams}}
-        h5. Path Parameters
-        ||Name||Description||Required||Default||Pattern||
-        {{#pathParams}}{{>param}}
-        {{/pathParams}}
+h5. Path Parameters
+        ||Name||Description||Required||Default||Pattern||{{#pathParams}}
+        {{>param}}{{/pathParams}}
     {{/hasPathParams}}
 
     {{#hasBodyParam}}
-        h5. Body Parameter
+h5. Body Parameter
         ||Name||Description||Required||Default||Pattern||
-        {{#bodyParams}}{{>param}}
-        {{/bodyParams}}
+        {{#bodyParams}}{{>param}}{{/bodyParams}}
     {{/hasBodyParam}}
 
     {{#hasHeaderParams}}
-        h5. Header Parameters
+h5. Header Parameters
         ||Name||Description||Required||Default||Pattern||
-        {{#headerParams}}{{>param}}
-        {{/headerParams}}
+        {{#headerParams}}{{>param}}{{/headerParams}}
     {{/hasHeaderParams}}
 
     {{#hasQueryParams}}
-        h5. Query Parameters
+h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
-        {{#queryParams}}{{>param}}
-        {{/queryParams}}
+        {{#queryParams}}{{>param}}{{/queryParams}}
     {{/hasQueryParams}}
-
-
-
-
-    h4. Responses
+----
+h4. Responses
     {{#responses}}
-        *Status Code:* {{code}}
-        *Message:*     {{message}}
-        {code:title=Response Type}
-{{{dataType}}}
-        {code}
-        See [#models]
 
-        {{#hasExamples}}
-            {{#examples}}
-                {code:title=Example {{{contentType}}} |collapse=true }
-                {{{example}}}
-{code}
-            {{/examples}}
-        {{/hasExamples}}
+    	|| Status Code | {status:colour=Green|title={{code}}|subtle=false} |
+    	|| Message | {{message}} |
+    	|| Response Type | {{{dataType}}} |
+    	|| Response Model | [{{dataType}} Model|#{{dataType}}ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{{{jsonSchema}}}{code}{{#examples}}{code:title=Example {{{contentType}}} |collapse=true }{{{example}}}{code}{{/examples}} |
+    	{{#hasExamples}}{{#examples}}|| Example {{-index}} | {code:title=Example {{{contentType}}} |collapse=true }{{{example}}}{code} |{{/examples}}{{/hasExamples}}
 
-
-        {code:title=Response Schema |collapse=true}
-{{{jsonSchema}}}
-        {code}
-        {{#examples}}
-            {code:title=Example {{{contentType}}} |collapse=true }
-{{{example}}}
-            {code}
-        {{/examples}}
     {{/responses}}
-    ----
+{panel}
+
 {{/operation}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
 
+{anchor:models}
 h2. Models
 
 {{#models}}
     {{#model}}
+        {anchor:{{classname}}ModelAnchor}
         h3. {{classname}}
         ||Field Name||Required||Type||Description||
-        {{#vars}} |{{name}} |{{#isNotRequired}}(x){{/isNotRequired}} |{{dataType}} |{{description}} |
+        {{#vars}} |{{name}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} |{{description}} |
         {{/vars}}
     {{/model}}
 {{/models}}

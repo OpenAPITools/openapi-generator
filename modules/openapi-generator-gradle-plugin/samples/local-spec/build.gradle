@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
+        maven { url "https://repo1.maven.org/maven2" }
         maven {
             url "https://plugins.gradle.org/m2/"
         }
@@ -28,6 +28,7 @@ openApiMeta {
 
 openApiValidate {
     inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+    recommend = true
 }
 
 // Builds a Kotlin client by default.
@@ -65,6 +66,20 @@ task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTas
     ]
 }
 
+task buildDotnetSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+    generatorName = "csharp-netcore"
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    additionalProperties = [
+            packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}",
+            useCompareNetObjects: "true"
+    ]
+    outputDir = "$buildDir/csharp-netcore".toString()
+    systemProperties = [
+            models: "",
+            apis  : "",
+    ]
+}
+
 task generateGoWithInvalidSpec(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
     validateSpec = true
     generatorName = "go"
@@ -77,3 +92,13 @@ task generateGoWithInvalidSpec(type: org.openapitools.generator.gradle.plugin.ta
             dateLibrary: "threetenp"
     ]
 }
+
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+
+task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])

@@ -23,9 +23,7 @@ Example usage:
 
 ```bash
 # Start container at port 8888 and save the container id
-CID=$(docker run -d -p 8888:8080 \
-        -e GENERATOR_HOST=http://localhost:8888 \
-        openapitools/openapi-generator-online)
+CID=$(docker run -d -p 8888:8080 openapitools/openapi-generator-online)
 
 # allow for startup
 sleep 10

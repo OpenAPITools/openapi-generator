@@ -19,6 +19,7 @@ module OpenAPIPetstore.API
   , OpenAPIPetstoreBackend(..)
   , createOpenAPIPetstoreClient
   , runOpenAPIPetstoreServer
+  , runOpenAPIPetstoreMiddlewareServer
   , runOpenAPIPetstoreClient
   , runOpenAPIPetstoreClientWithManager
   , callOpenAPIPetstore
@@ -51,15 +52,17 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
+import           Network.Wai                        (Middleware)
 import qualified Network.Wai.Handler.Warp           as Warp
-import           Servant                            (ServantErr, serve)
+import           Servant                            (ServerError, serve)
 import           Servant.API
 import           Servant.API.Verbs                  (StdMethod (..), Verb)
-import           Servant.Client                     (ClientEnv, Scheme (Http), ServantError, client,
+import           Servant.Client                     (ClientEnv, Scheme (Http), ClientError, client,
                                                      mkClientEnv, parseBaseUrl)
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
-import           Servant.Server                     (Handler (..))
+import           Servant.Server                     (Handler (..), Application)
+import           Servant.Server.StaticFiles         (serveDirectoryFileServer)
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
 
@@ -137,7 +140,7 @@ type OpenAPIPetstoreAPI
     =    "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] () -- 'addPet' route
     :<|> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] () -- 'deletePet' route
     :<|> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
-    :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> QueryParam "maxCount" Int :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
+    :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
     :<|> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
     :<|> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] () -- 'updatePet' route
     :<|> "pet" :> Capture "petId" Integer :> ReqBody '[FormUrlEncoded] FormUpdatePetWithForm :> Verb 'POST 200 '[JSON] () -- 'updatePetWithForm' route
@@ -154,6 +157,7 @@ type OpenAPIPetstoreAPI
     :<|> "user" :> "login" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'GET 200 '[JSON] Text -- 'loginUser' route
     :<|> "user" :> "logout" :> Verb 'GET 200 '[JSON] () -- 'logoutUser' route
     :<|> "user" :> Capture "username" Text :> ReqBody '[JSON] User :> Verb 'PUT 200 '[JSON] () -- 'updateUser' route
+    :<|> Raw 
 
 
 -- | Server or client configuration, specifying the host and port to query or serve on.
@@ -163,7 +167,7 @@ data Config = Config
 
 
 -- | Custom exception type for our errors.
-newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ServantError
+newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ClientError
   deriving (Show, Exception)
 -- | Configuration, specifying the full url of the service.
 
@@ -171,12 +175,12 @@ newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ServantError
 -- | Backend for OpenAPIPetstore.
 -- The backend can be used both for the client and the server. The client generated from the OpenAPIPetstore OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @createOpenAPIPetstoreClient@). Alternatively, provided
--- a backend, the API can be served using @runOpenAPIPetstoreServer@.
+-- a backend, the API can be served using @runOpenAPIPetstoreMiddlewareServer@.
 data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
   { addPet :: Pet -> m (){- ^  -}
   , deletePet :: Integer -> Maybe Text -> m (){- ^  -}
   , findPetsByStatus :: Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
-  , findPetsByTags :: Maybe [Text] -> Maybe Int -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
+  , findPetsByTags :: Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
   , getPetById :: Integer -> m Pet{- ^ Returns a single pet -}
   , updatePet :: Pet -> m (){- ^  -}
   , updatePetWithForm :: Integer -> FormUpdatePetWithForm -> m (){- ^  -}
@@ -196,7 +200,7 @@ data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
   }
 
 newtype OpenAPIPetstoreClient a = OpenAPIPetstoreClient
-  { runClient :: ClientEnv -> ExceptT ServantError IO a
+  { runClient :: ClientEnv -> ExceptT ClientError IO a
   } deriving Functor
 
 instance Applicative OpenAPIPetstoreClient where
@@ -235,16 +239,17 @@ createOpenAPIPetstoreClient = OpenAPIPetstoreBackend{..}
      (coerce -> getUserByName) :<|>
      (coerce -> loginUser) :<|>
      (coerce -> logoutUser) :<|>
-     (coerce -> updateUser)) = client (Proxy :: Proxy OpenAPIPetstoreAPI)
+     (coerce -> updateUser) :<|>
+     _) = client (Proxy :: Proxy OpenAPIPetstoreAPI)
 
 -- | Run requests in the OpenAPIPetstoreClient monad.
-runOpenAPIPetstoreClient :: Config -> OpenAPIPetstoreClient a -> ExceptT ServantError IO a
+runOpenAPIPetstoreClient :: Config -> OpenAPIPetstoreClient a -> ExceptT ClientError IO a
 runOpenAPIPetstoreClient clientConfig cl = do
   manager <- liftIO $ newManager tlsManagerSettings
   runOpenAPIPetstoreClientWithManager manager clientConfig cl
 
 -- | Run requests in the OpenAPIPetstoreClient monad using a custom manager.
-runOpenAPIPetstoreClientWithManager :: Manager -> Config -> OpenAPIPetstoreClient a -> ExceptT ServantError IO a
+runOpenAPIPetstoreClientWithManager :: Manager -> Config -> OpenAPIPetstoreClient a -> ExceptT ClientError IO a
 runOpenAPIPetstoreClientWithManager manager Config{..} cl = do
   url <- parseBaseUrl configUrl
   runClient cl $ mkClientEnv manager url
@@ -260,16 +265,26 @@ callOpenAPIPetstore env f = do
     Left err       -> throwM (OpenAPIPetstoreClientError err)
     Right response -> pure response
 
+
+requestMiddlewareId :: Application -> Application
+requestMiddlewareId a = a
+
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> OpenAPIPetstoreBackend (ExceptT ServantErr IO) -> m ()
-runOpenAPIPetstoreServer Config{..} backend = do
+  => Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
+runOpenAPIPetstoreServer config backend = runOpenAPIPetstoreMiddlewareServer config requestMiddlewareId backend
+
+-- | Run the OpenAPIPetstore server at the provided host and port.
+runOpenAPIPetstoreMiddlewareServer
+  :: (MonadIO m, MonadThrow m)
+  => Config -> Middleware -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
+runOpenAPIPetstoreMiddlewareServer Config{..} middleware backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
   where
     serverFromBackend OpenAPIPetstoreBackend{..} =
       (coerce addPet :<|>
@@ -291,4 +306,5 @@ runOpenAPIPetstoreServer Config{..} backend = do
        coerce getUserByName :<|>
        coerce loginUser :<|>
        coerce logoutUser :<|>
-       coerce updateUser)
+       coerce updateUser :<|>
+       serveDirectoryFileServer "static")

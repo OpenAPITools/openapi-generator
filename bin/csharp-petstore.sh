@@ -32,6 +32,6 @@ ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore-with-
 java $JAVA_OPTS -jar $executable $ags
 
 # restore csproj file
-echo "restore csproject file: CI/samples/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj"
+echo "restore csproject file: CI/samples.ci/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj"
 cp ./CI/samples.ci/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj ./samples/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/
 

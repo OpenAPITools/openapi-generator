@@ -13,7 +13,7 @@
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
 #include <pistache/optional.h>
-{{^hasModelImport}}#include "json.hpp"{{/hasModelImport}}
+{{^hasModelImport}}#include <nlohmann/json.hpp>{{/hasModelImport}}
 
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -50,15 +50,15 @@ private:
     /// <remarks>
     /// {{notes}}
     /// </remarks>
-    {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{#allParams}}
     /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
     {{/allParams}}
     virtual void {{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) = 0;
-    {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
-    {{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
+    {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     virtual void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response) = 0;
-    {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{/operation}}
 
 };

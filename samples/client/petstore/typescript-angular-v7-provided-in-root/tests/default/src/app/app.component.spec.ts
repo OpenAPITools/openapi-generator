@@ -14,7 +14,7 @@ describe('AppComponent', () => {
 
   const apiConfigurationParams: ConfigurationParameters = {
     // add configuration params here
-    apiKeys: { api_key: "foobar" },
+    apiKeys: { api_key: 'foobar' },
   };
 
   const apiConfig = new Configuration(apiConfigurationParams);
@@ -47,17 +47,17 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'Typescript Angular v6 (provided in root)'`, async(() => {
+  it(`should have as title 'Typescript Angular v7 (provided in root)'`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Typescript Angular v6 (provided in root)');
+    expect(app.title).toEqual('Typescript Angular v7 (provided in root)');
   }));
 
   it('should render title in a h1 tag', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Typescript Angular v6 (provided in root)!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Typescript Angular v7 (provided in root)!');
   }));
 
   describe(`constructor()`, () => {

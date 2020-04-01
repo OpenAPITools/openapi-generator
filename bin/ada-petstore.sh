@@ -30,7 +30,7 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 model="modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
 ags="generate --template-dir modules/openapi-generator/src/main/resources/Ada -g ada $@"
 ags="$ags -i $model -t modules/openapi-generator/src/main/resources/Ada -o samples/client/petstore/ada"
-ags="$ags -DprojectName=Petstore --model-package Samples.Petstore"
+ags="$ags --additional-properties projectName=Petstore --model-package Samples.Petstore"
 
 java $JAVA_OPTS -jar $executable $ags
 rm -rf  samples/client/petstore/ada/src/server

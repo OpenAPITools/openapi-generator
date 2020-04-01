@@ -6,18 +6,22 @@ from {{{packageName}}}.rest import ApiException
 from pprint import pprint
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 {{> python_doc_auth_partial}}
-# create an instance of the API class
-api_instance = {{{packageName}}}.{{{classname}}}({{{packageName}}}.ApiClient(configuration))
-{{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-{{/allParams}}
+# Defining host is optional and default to {{{basePath}}}
+configuration.host = "{{{basePath}}}"
+# Enter a context with an instance of the API client
+with {{{packageName}}}.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = {{{packageName}}}.{{{classname}}}(api_client)
+    {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+    {{/allParams}}
 
-try:
-{{#summary}}    # {{{.}}}
-{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
-    pprint(api_response){{/returnType}}
-except ApiException as e:
-    print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
-{{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+    try:
+    {{#summary}}    # {{{.}}}
+    {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
+        pprint(api_response){{/returnType}}
+    except ApiException as e:
+        print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+    {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
 ```
 
 ## Documentation for API Endpoints
@@ -49,9 +53,9 @@ Class | Method | HTTP request | Description
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
 - **Type**: HTTP basic authentication
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 - **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}

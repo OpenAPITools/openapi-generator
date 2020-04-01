@@ -10,7 +10,12 @@ part '{{classFilename}}.jser.dart';
 
 class {{classname}} {
   {{#vars}}{{#description}} /* {{{description}}} */{{/description}}
-  @Alias('{{{baseName}}}')
+  @Alias('{{{baseName}}}', isNullable:{{#isNullable}} true{{/isNullable}}{{^isNullable}} false{{/isNullable}},{{#allowableValues}}
+          {{^enumVars.empty}}{{^isString}}{{! isString because inline enums are not handled for now }}
+             processor:  const {{{datatype}}}FieldProcessor(),
+          {{/isString}}{{/enumVars.empty}}
+      {{/allowableValues}}
+  )
   final {{{datatype}}} {{name}};
   {{#allowableValues}}{{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{{/allowableValues}}{{/vars}}
 

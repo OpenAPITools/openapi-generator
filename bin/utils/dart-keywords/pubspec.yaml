@@ -1,0 +1,10 @@
+name: dart_keywords
+description: Use the Dart SDK to generate Dart keywords.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.6.0 <3.0.0"
+
+dependencies:
+  analyzer:

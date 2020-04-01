@@ -7,11 +7,14 @@
 
 import Foundation
 
-
-
-public struct Category: Codable {
+@objc public class Category: NSObject, Codable {
 
     public var _id: Int64?
+    public var _idNum: NSNumber? {
+        get {
+            return _id as NSNumber?
+        }
+    }
     public var name: String = "default-name"
 
     public init(_id: Int64?, name: String) {
@@ -19,11 +22,9 @@ public struct Category: Codable {
         self.name = name
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case _id = "id"
         case name
     }
 
-
 }
-

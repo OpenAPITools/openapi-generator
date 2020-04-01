@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,31 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     public CLibcurlClientCodegen() {
         super();
+
+        // TODO: c maintainer review
+        // Assumes that C community considers api/model header files as documentation.
+        // Generator supports Basic, OAuth, and API key explicitly. Bearer is excluded although clients are able to set headers directly.
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(
+                        DocumentationFeature.Readme
+                )
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey
+                ))
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeWireFormatFeatures(
+                        WireFormatFeature.JSON,
+                        WireFormatFeature.XML
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union
+                )
+        );
 
         modelPackage = "models";
         apiPackage = "api";
@@ -152,6 +178,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("binary", "binary_t*");
         typeMapping.put("ByteArray", "char");
         typeMapping.put("UUID", "char");
+        typeMapping.put("URI", "char");
         typeMapping.put("array", "list");
         typeMapping.put("map", "list_t*");
         typeMapping.put("date-time", "char");
@@ -336,7 +363,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
-        if (name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
         name = name.replaceAll("-","_");
@@ -594,7 +621,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public void setProjectName(String projectName) {
-        this.projectName = underscore(projectName.toLowerCase(Locale.ROOT));
+        this.projectName = underscore(sanitizeName(projectName.toLowerCase(Locale.ROOT)));
     }
 
     @Override

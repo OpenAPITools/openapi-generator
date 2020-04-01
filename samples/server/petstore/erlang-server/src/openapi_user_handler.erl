@@ -304,7 +304,7 @@ handle_request_json(
                 LogicHandler,
                 OperationID,
                 Req1,
-                Populated
+                maps:merge(State#state.context, Populated)
             ),
             _ = openapi_api:validate_response(
                 OperationID,

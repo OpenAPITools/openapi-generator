@@ -30,6 +30,6 @@ rm -rf samples/server/petstore/jaxrs-cxf
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/JavaJaxRS/cxf -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g jaxrs-cxf -o samples/server/petstore/jaxrs-cxf -DhideGenerationTimestamp=true --additional-properties serverPort=8082 $@"
+ags="generate -t modules/openapi-generator/src/main/resources/JavaJaxRS/cxf -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g jaxrs-cxf -o samples/server/petstore/jaxrs-cxf --additional-properties hideGenerationTimestamp=true --additional-properties serverPort=8082 $@"
 
 java $JAVA_OPTS -jar $executable $ags

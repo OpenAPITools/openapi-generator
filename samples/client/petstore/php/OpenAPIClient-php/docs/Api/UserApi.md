@@ -88,7 +88,7 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = array(new \OpenAPI\Client\Model\array()); // \OpenAPI\Client\Model\User[] | List of user object
+$body = array(new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User[] | List of user object
 
 try {
     $apiInstance->createUsersWithArrayInput($body);
@@ -103,7 +103,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\User[]**](../Model/array.md)| List of user object |
+ **body** | [**\OpenAPI\Client\Model\User[]**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -141,7 +141,7 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = array(new \OpenAPI\Client\Model\array()); // \OpenAPI\Client\Model\User[] | List of user object
+$body = array(new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User[] | List of user object
 
 try {
     $apiInstance->createUsersWithListInput($body);
@@ -156,7 +156,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\User[]**](../Model/array.md)| List of user object |
+ **body** | [**\OpenAPI\Client\Model\User[]**](../Model/User.md)| List of user object |
 
 ### Return type
 

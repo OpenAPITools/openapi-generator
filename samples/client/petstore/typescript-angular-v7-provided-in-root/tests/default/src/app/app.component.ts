@@ -12,7 +12,7 @@ import {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Typescript Angular v6 (provided in root)';
+  title = 'Typescript Angular v7 (provided in root)';
   pet: Pet;
   store: { key: string, number: number }[];
 

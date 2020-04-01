@@ -1,0 +1,42 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/clubForCreation"
+components:
+  schemas:
+    clubForCreation:
+      allOf:
+        - $ref: '#/components/schemas/clubForUpdate'
+      required:
+        - name
+
+    clubForUpdate:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        shortName:
+          type: string
+          maxLength: 255

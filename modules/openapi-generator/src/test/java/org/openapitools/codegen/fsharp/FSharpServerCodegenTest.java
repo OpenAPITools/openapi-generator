@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,30 +14,19 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.csharp;
-
-import org.openapitools.codegen.CodegenConstants;
+package org.openapitools.codegen.fsharp;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.languages.AbstractFSharpCodegen;
 import org.openapitools.codegen.languages.FsharpGiraffeServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.google.common.collect.Sets;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Arrays;
+import java.lang.Exception;
 
 @SuppressWarnings("static-method")
 public class FSharpServerCodegenTest {
@@ -46,37 +35,43 @@ public class FSharpServerCodegenTest {
   public void testModelsAreSortedAccordingToDependencyOrder() throws Exception {
         final AbstractFSharpCodegen codegen = new P_AbstractFSharpCodegen();
 
-        // parent
+        final CodegenModel wheel = new CodegenModel();
+        wheel.setImports(new HashSet<String>(Arrays.asList()));
+        wheel.setClassname("wheel");
+
+        final CodegenModel bike = new CodegenModel();
+        bike.setImports(new HashSet<String>(Arrays.asList("wheel")));
+        bike.setClassname("bike");
+
         final CodegenModel parent = new CodegenModel();
-        CodegenProperty childProp = new CodegenProperty();
-        childProp.complexType = "child";
-        childProp.name = "child";
-        parent.setVars(Collections.singletonList(childProp));
+        parent.setImports(new HashSet<String>(Arrays.asList("bike", "car")));
+        parent.setClassname("parent");
+
+        final CodegenModel car = new CodegenModel();
+        car.setImports(new HashSet<String>(Arrays.asList("wheel")));
+        car.setClassname("car");
 
         final CodegenModel child = new CodegenModel();
-        CodegenProperty carProp = new CodegenProperty();
-        carProp.complexType = "car";
-        carProp.name = "car";
-        child.setVars(Collections.singletonList(carProp));
-
-        // child
-        final CodegenModel car = new CodegenModel();
-        CodegenProperty modelProp = new CodegenProperty();
-        modelProp.name = "model";
-        car.setVars(Collections.singletonList(modelProp));
+        child.setImports(new HashSet<String>(Arrays.asList("car", "bike", "parent")));
+        child.setClassname("child");
 
         Map<String, Object> models = new HashMap<String,Object>();
         models.put("parent", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", parent))));
         models.put("child", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", child))));
         models.put("car", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", car))));
+        models.put("bike", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", bike))));
+        models.put("wheel", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", wheel))));
 
         Map<String,Object> sorted = codegen.postProcessDependencyOrders(models);
         
         Object[] keys = sorted.keySet().toArray();
-
-        Assert.assertEquals(keys[0], "car");
-        Assert.assertEquals(keys[1], "child");
-        Assert.assertEquals(keys[2], "parent");
+        
+        Assert.assertTrue(keys[0] == "wheel");
+        Assert.assertTrue(keys[1] == "bike" || keys[1] == "car");
+        Assert.assertTrue(keys[2] == "bike" || keys[2] == "car");
+        Assert.assertEquals(keys[3], "parent");
+        Assert.assertEquals(keys[4], "child");
+        
     }
 
     @Test(description = "modify model imports to explicit set namespace and package name")

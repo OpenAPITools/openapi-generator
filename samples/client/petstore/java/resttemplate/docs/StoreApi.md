@@ -23,17 +23,29 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 
 ```java
 // Import classes:
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.api.StoreApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.StoreApi;
 
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-StoreApi apiInstance = new StoreApi();
-String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
-try {
-    apiInstance.deleteOrder(orderId);
-} catch (ApiException e) {
-    System.err.println("Exception when calling StoreApi#deleteOrder");
-    e.printStackTrace();
+        StoreApi apiInstance = new StoreApi(defaultClient);
+        String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
+        try {
+            apiInstance.deleteOrder(orderId);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling StoreApi#deleteOrder");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
 }
 ```
 
@@ -57,6 +69,12 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid ID supplied |  -  |
+| **404** | Order not found |  -  |
+
 
 ## getInventory
 
@@ -70,27 +88,36 @@ Returns a map of status codes to quantities
 
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.StoreApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.StoreApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
 
-// Configure API key authorization: api_key
-ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
-api_key.setApiKey("YOUR API KEY");
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//api_key.setApiKeyPrefix("Token");
-
-StoreApi apiInstance = new StoreApi();
-try {
-    Map<String, Integer> result = apiInstance.getInventory();
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling StoreApi#getInventory");
-    e.printStackTrace();
+        StoreApi apiInstance = new StoreApi(defaultClient);
+        try {
+            Map<String, Integer> result = apiInstance.getInventory();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling StoreApi#getInventory");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
 }
 ```
 
@@ -111,6 +138,11 @@ This endpoint does not need any parameter.
 - **Content-Type**: Not defined
 - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 
 ## getOrderById
 
@@ -124,18 +156,30 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 
 ```java
 // Import classes:
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.api.StoreApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.StoreApi;
 
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-StoreApi apiInstance = new StoreApi();
-Long orderId = 56L; // Long | ID of pet that needs to be fetched
-try {
-    Order result = apiInstance.getOrderById(orderId);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling StoreApi#getOrderById");
-    e.printStackTrace();
+        StoreApi apiInstance = new StoreApi(defaultClient);
+        Long orderId = 56L; // Long | ID of pet that needs to be fetched
+        try {
+            Order result = apiInstance.getOrderById(orderId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling StoreApi#getOrderById");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
 }
 ```
 
@@ -159,6 +203,13 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid ID supplied |  -  |
+| **404** | Order not found |  -  |
+
 
 ## placeOrder
 
@@ -170,18 +221,30 @@ Place an order for a pet
 
 ```java
 // Import classes:
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.api.StoreApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.StoreApi;
 
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-StoreApi apiInstance = new StoreApi();
-Order body = new Order(); // Order | order placed for purchasing the pet
-try {
-    Order result = apiInstance.placeOrder(body);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling StoreApi#placeOrder");
-    e.printStackTrace();
+        StoreApi apiInstance = new StoreApi(defaultClient);
+        Order body = new Order(); // Order | order placed for purchasing the pet
+        try {
+            Order result = apiInstance.placeOrder(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling StoreApi#placeOrder");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
 }
 ```
 
@@ -204,4 +267,10 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid Order |  -  |
 

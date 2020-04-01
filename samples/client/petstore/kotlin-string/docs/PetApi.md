@@ -51,7 +51,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -60,7 +62,7 @@ null (empty response body)
 
 <a name="deletePet"></a>
 # **deletePet**
-> deletePet(petId, apiKey)
+> deletePet(apiKey, petId)
 
 Deletes a pet
 
@@ -71,10 +73,10 @@ Deletes a pet
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
 val apiKey : kotlin.String = apiKey_example // kotlin.String | 
+val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
 try {
-    apiInstance.deletePet(petId, apiKey)
+    apiInstance.deletePet(apiKey, petId)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#deletePet")
     e.printStackTrace()
@@ -88,8 +90,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| Pet id to delete |
  **apiKey** | **kotlin.String**|  | [optional]
+ **petId** | **kotlin.Long**| Pet id to delete |
 
 ### Return type
 
@@ -97,7 +99,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -144,7 +148,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -191,7 +197,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -238,7 +246,10 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
@@ -282,7 +293,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -330,7 +343,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -379,7 +394,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 

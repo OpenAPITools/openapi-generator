@@ -26,7 +26,7 @@ then
 fi
 
 # auto format elm code using elm-format
-export ELM_POST_PROCESS_FILE="/usr/local/bin/elm-format --elm-version=0.18 --yes"
+export ELM_POST_PROCESS_FILE="/usr/bin/env elm-format --elm-version=0.18 --yes"
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"

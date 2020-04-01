@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -193,6 +193,8 @@ public class XmlExampleGenerator {
             return "********";
         } else if (ModelUtils.isUUIDSchema(schema)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+        } else if (ModelUtils.isURISchema(schema)) {
+            return "https://openapi-generator.tech";
             // do these last in case the specific types above are derived from these classes
         } else if (ModelUtils.isStringSchema(schema)) {
             return "aeiou";

@@ -11,7 +11,7 @@ package petstore
 import (
 	"os"
 )
-
+// InlineObject5 struct for InlineObject5
 type InlineObject5 struct {
 	// Additional data to pass to server
 	AdditionalMetadata string `json:"additionalMetadata,omitempty"`

@@ -1,6 +1,7 @@
 # SpecialModelName
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SpecialPropertyName** | **int64** |  | [optional] 

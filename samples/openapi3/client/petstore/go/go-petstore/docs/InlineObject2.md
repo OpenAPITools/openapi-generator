@@ -1,6 +1,7 @@
 # InlineObject2
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EnumFormStringArray** | **[]string** | Form parameter enum test (string array) | [optional] 

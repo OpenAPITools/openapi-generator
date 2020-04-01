@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -67,7 +67,13 @@ public class CodegenConstants {
     public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
 
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
-    public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs";
+    public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs";
+
+    public static final String WITH_AWSV4_SIGNATURE_COMMENT = "withAWSV4Signature";
+    public static final String WITH_AWSV4_SIGNATURE_COMMENT_DESC = "whether to include AWS v4 signature support";
+
+    public static final String IS_GO_SUBMODULE = "isGoSubmodule";
+    public static final String IS_GO_SUBMODULE_DESC = "whether the generated Go module is a submodule";
 
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
@@ -108,6 +114,9 @@ public class CodegenConstants {
     public static final String LICENSE_NAME = "licenseName";
     public static final String LICENSE_NAME_DESC = "The name of the license";
 
+    public static final String LICENSE_ID = "licenseId";
+    public static final String LICENSE_ID_DESC = "The identifier of the license";
+
     public static final String LICENSE_URL = "licenseUrl";
     public static final String LICENSE_URL_DESC = "The URL of the license";
 
@@ -128,6 +137,9 @@ public class CodegenConstants {
 
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG = "sortParamsByRequiredFlag";
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG_DESC = "Sort method arguments to place required parameters before optional parameters.";
+
+    public static final String SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG = "sortModelPropertiesByRequiredFlag";
+    public static final String SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC = "Sort model properties to place required parameters before optional parameters.";
 
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS = "prependFormOrBodyParameters";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_DESC = "Add form or body parameters to the beginning of the parameter list.";
@@ -165,6 +177,9 @@ public class CodegenConstants {
     public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
     public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs.";
 
+    public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
+    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
+
     public static final String NETCORE_PROJECT_FILE = "netCoreProjectFile";
     public static final String NETCORE_PROJECT_FILE_DESC = "Use the new format (.NET Core) for .NET project files (.csproj).";
 
@@ -199,11 +214,30 @@ public class CodegenConstants {
     public static final String ENUM_PROPERTY_NAMING = "enumPropertyNaming";
     public static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'";
 
+    // Allow different language generators to offer an option of serialization library. Each language specific
+    // Codegen constants should define a description and provide proper input validation for the value of serializationLibrary
+    public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
+
+    public static final String API_NAME_PREFIX = "apiNamePrefix";
+    public static final String API_NAME_PREFIX_DESC = "Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet => Pet.";
+
+    public static final String API_NAME_SUFFIX = "apiNameSuffix";
+    public static final String API_NAME_SUFFIX_DESC = "Suffix that will be appended to all API names ('tags'). Default: Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators suppport this feature at the moment.";
+
     public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
-    public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names. Default is the empty string.";
+    public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names.";
 
     public static final String MODEL_NAME_SUFFIX = "modelNameSuffix";
-    public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names. Default is the empty string.";
+    public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names.";
+
+    public static final String ENUM_NAME_SUFFIX = "enumNameSuffix";
+    public static final String ENUM_NAME_SUFFIX_DESC = "Suffix that will be appended to all enum names.";
+
+    public static final String ENUM_VALUE_SUFFIX = "enumValueSuffix";
+    public static final String ENUM_VALUE_SUFFIX_DESC = "Suffix that will be appended to all enum values. Note: For clients this may impact serialization and deserialization of enum values.";
+
+    public static final String GIT_HOST = "gitHost";
+    public static final String GIT_HOST_DESC = "Git host, e.g. gitlab.com.";
 
     public static final String GIT_USER_ID = "gitUserId";
     public static final String GIT_USER_ID_DESC = "Git user ID, e.g. openapitools.";
@@ -232,6 +266,8 @@ public class CodegenConstants {
     public static final String PARCELIZE_MODELS = "parcelizeModels";
     public static final String PARCELIZE_MODELS_DESC = "toggle \"@Parcelize\" for generated models";
 
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS_DESC = "Make API response's headers case-insensitive";
 
     // Not user-configurable. System provided for use in templates.
 
@@ -293,7 +329,10 @@ public class CodegenConstants {
     public static final String OPEN_API_SPEC_NAME = "openAPISpecName";
 
     public static final String GENERATE_ALIAS_AS_MODEL = "generateAliasAsModel";
-    public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate alias to map, array as models";
+    public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate model implementation for aliases to map and array schemas. " +
+        "An 'alias' is an array, map, or list which is defined inline in a OpenAPI document and becomes a model in the generated code. " +
+        "A 'map' schema is an object that can have undeclared properties, i.e. the 'additionalproperties' attribute is set on that object. " +
+        "An 'array' schema is a list of sub schemas in a OAS document";
 
     public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
     public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
@@ -301,4 +340,15 @@ public class CodegenConstants {
     public static final String SNAPSHOT_VERSION = "snapshotVersion";
     public static final String SNAPSHOT_VERSION_DESC = "Uses a SNAPSHOT version.";
 
+    public static final String EXCEPTION_ON_FAILURE = "returnExceptionOnFailure";
+    public static final String EXCEPTION_ON_FAILURE_DESC = "Throw an exception on non success response codes";
+
+    public static final String ENUM_CLASS_PREFIX = "enumClassPrefix";
+    public static final String ENUM_CLASS_PREFIX_DESC = "Prefix enum with class name";
+
+    public static final String PACKAGE_TAGS = "packageTags";
+    public static final String PACKAGE_TAGS_DESC = "Tags to identify the package";
+
+    public static final String REMOVE_ENUM_VALUE_PREFIX = "removeEnumValuePrefix";
+    public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 }

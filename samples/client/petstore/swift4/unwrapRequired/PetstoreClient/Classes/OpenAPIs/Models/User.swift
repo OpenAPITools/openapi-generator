@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct User: Codable {
 
     public var id: Int64?
@@ -32,6 +30,4 @@ public struct User: Codable {
         self.userStatus = userStatus
     }
 
-
 }
-

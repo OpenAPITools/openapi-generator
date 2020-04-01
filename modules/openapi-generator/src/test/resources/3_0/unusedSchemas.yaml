@@ -301,6 +301,68 @@ paths:
           headers:
             x-app-info:
               $ref: "#/components/headers/sharedHeader24"
+  /some/p25:
+    post:
+      operationId: op25
+      parameters:
+       - name: q
+         in: query
+         content:
+           application/json:
+             schema:
+              $ref: "#/components/schemas/SomeObj25"
+      responses:
+        '200':
+          description: OK
+  /some/p26:
+    post:
+      operationId: op26
+      responses:
+        '200':
+          description: OK
+          headers:
+            x-something:
+              description: basic app info
+              style: simple
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/SomeObj26"
+  /some/p27/{q}:
+    parameters:
+     - name: q
+       in: path
+       schema:
+         $ref: "#/components/schemas/Param27"
+    post:
+      operationId: op27
+      responses:
+        '200':
+          description: OK
+  /some/p28/{q}:
+    parameters:
+     - name: q
+       in: path
+       content:
+         application/json:
+           schema:
+             $ref: "#/components/schemas/Param28"
+    post:
+      operationId: op27
+      responses:
+        '200':
+          description: OK
+  /some/p30:
+    post:
+      operationId: op27
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Parent30"
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     UnusedObj1:
@@ -564,6 +626,82 @@ components:
     SomeHeader24:
       type: integer
       format: int64
+    SomeObj25:
+      type: object
+      properties:
+        p1:
+          type: string
+        p2:
+          type: string
+    SomeObj26:
+      type: object
+      properties:
+        q1:
+          type: string
+        q2:
+          type: string
+    Param27:
+      type: string
+      enum:
+        - alpha
+        - beta
+    Param28:
+      type: object
+      properties:
+        r1:
+          type: string
+        r2:
+          type: string
+    Parent29:
+      type: object
+      required:
+      - childType
+      properties:
+        childType:
+          type: string
+      discriminator:
+        propertyName: childType
+    AChild29:
+      allOf:
+      - $ref: '#/components/schemas/Parent29'
+      - type: object
+        properties:
+          name:
+            type: string
+    BChild29:
+      allOf:
+      - $ref: '#/components/schemas/Parent29'
+      - type: object
+        properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
+    Parent30:
+      type: object
+      required:
+      - childType
+      properties:
+        childType:
+          type: string
+      discriminator:
+        propertyName: childType
+    AChild30:
+      allOf:
+      - $ref: '#/components/schemas/Parent30'
+      - type: object
+        properties:
+          name:
+            type: string
+    BChild30:
+      allOf:
+      - $ref: '#/components/schemas/Parent30'
+      - type: object
+        properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
     SomeObjShared:
       type: object
       properties:

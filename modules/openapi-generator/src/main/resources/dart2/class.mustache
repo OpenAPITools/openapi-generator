@@ -16,46 +16,70 @@ class {{classname}} {
   {{classname}}.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
   {{#vars}}
-    if (json['{{baseName}}'] == null) {
-      {{name}} = null;
-    } else {
   {{#isDateTime}}
-      {{name}} = DateTime.parse(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      DateTime.parse(json['{{baseName}}']);
   {{/isDateTime}}
   {{#isDate}}
-      {{name}} = DateTime.parse(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      DateTime.parse(json['{{baseName}}']);
   {{/isDate}}
   {{^isDateTime}}
   {{^isDate}}
     {{#complexType}}
       {{#isListContainer}}
-      {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      {{complexType}}.listFromJson(json['{{baseName}}']);
       {{/isListContainer}}
       {{^isListContainer}}
       {{#isMapContainer}}
-      {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
+      {{#items.isListContainer}}
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      {{items.complexType}}.mapListFromJson(json['{{baseName}}']);
+      {{/items.isListContainer}}
+      {{^items.isListContainer}}
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      {{complexType}}.mapFromJson(json['{{baseName}}']);
+      {{/items.isListContainer}}
       {{/isMapContainer}}
       {{^isMapContainer}}
-      {{name}} = new {{complexType}}.fromJson(json['{{baseName}}']);
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      {{complexType}}.fromJson(json['{{baseName}}']);
       {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
     {{^complexType}}
       {{#isListContainer}}
-      {{name}} = (json['{{baseName}}'] as List).cast<{{items.datatype}}>();
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      (json['{{baseName}}'] as List).cast<{{items.datatype}}>();
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMapContainer}}
-          {{name}} = (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
         {{/isMapContainer}}
         {{^isMapContainer}}
-          {{name}} = json['{{baseName}}'];
+          {{#isDouble}}
+    {{name}} = (json['{{baseName}}'] == null) ?
+      null :
+      json['{{baseName}}'].toDouble();
+          {{/isDouble}}
+          {{^isDouble}}
+    {{name}} = json['{{baseName}}'];
+          {{/isDouble}}
         {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
   {{/isDate}}
   {{/isDateTime}}
-    }
   {{/vars}}
   }
 
@@ -81,14 +105,25 @@ class {{classname}} {
   }
 
   static List<{{classname}}> listFromJson(List<dynamic> json) {
-    return json == null ? new List<{{classname}}>() : json.map((value) => new {{classname}}.fromJson(value)).toList();
+    return json == null ? List<{{classname}}>() : json.map((value) => {{classname}}.fromJson(value)).toList();
   }
 
   static Map<String, {{classname}}> mapFromJson(Map<String, dynamic> json) {
-    var map = new Map<String, {{classname}}>();
+    var map = Map<String, {{classname}}>();
     if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = new {{classname}}.fromJson(value));
+      json.forEach((String key, dynamic value) => map[key] = {{classname}}.fromJson(value));
     }
     return map;
+  }
+
+  // maps a json object with a list of {{classname}}-objects as value to a dart map
+  static Map<String, List<{{classname}}>> mapListFromJson(Map<String, dynamic> json) {
+    var map = Map<String, List<{{classname}}>>();
+     if (json != null && json.isNotEmpty) {
+       json.forEach((String key, dynamic value) {
+         map[key] = {{classname}}.listFromJson(value);
+       });
+     }
+     return map;
   }
 }

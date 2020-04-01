@@ -44,7 +44,7 @@
           return b;
         }
       }
-      {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/useNullForUnknownEnumValue}}
+      {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/isNullable}}
     }
 {{#gson}}
 
@@ -56,8 +56,8 @@
 
       @Override
       public {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} read(final JsonReader jsonReader) throws IOException {
-        {{{dataType}}} value = jsonReader.{{#isInteger}}nextInt(){{/isInteger}}{{^isInteger}}next{{{dataType}}}(){{/isInteger}};
-        return {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.fromValue(value);
+        {{^isNumber}}{{{dataType}}}{{/isNumber}}{{#isNumber}}String{{/isNumber}} value = {{#isFloat}}(float){{/isFloat}} jsonReader.{{#isNumber}}nextString(){{/isNumber}}{{#isInteger}}nextInt(){{/isInteger}}{{^isNumber}}{{^isInteger}}{{#isFloat}}nextDouble{{/isFloat}}{{^isFloat}}next{{{dataType}}}{{/isFloat}}(){{/isInteger}}{{/isNumber}};
+        return {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.fromValue({{#isNumber}}new BigDecimal({{/isNumber}}value{{#isNumber}}){{/isNumber}});
       }
     }
 {{/gson}}

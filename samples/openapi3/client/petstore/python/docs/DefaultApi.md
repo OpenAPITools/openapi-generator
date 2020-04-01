@@ -21,14 +21,16 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
-api_instance = petstore_api.DefaultApi()
-
-try:
-    api_response = api_instance.foo_get()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling DefaultApi->foo_get: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.DefaultApi(api_client)
+    
+    try:
+        api_response = api_instance.foo_get()
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->foo_get: %s\n" % e)
 ```
 
 ### Parameters
@@ -46,6 +48,11 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | response |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

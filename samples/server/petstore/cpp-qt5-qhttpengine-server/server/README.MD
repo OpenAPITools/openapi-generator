@@ -49,6 +49,17 @@ To run the server
 ./build/src/cpp-qt5-qhttpengine-server &
 ```
 
+To override the default port via the command line, provide the parameters `port` and `address` like below
+
+```shell
+cpp-qt5-qhttpengine-server --port 9080 --address 127.17.0.1
+```
+or
+
+```shell
+cpp-qt5-qhttpengine-server -p 9080 -a 127.17.0.1
+```
+
 #### Invoke an API
 
 ```shell

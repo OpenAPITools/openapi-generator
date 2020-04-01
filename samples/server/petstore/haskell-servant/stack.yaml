@@ -1,5 +1,9 @@
-resolver: lts-12.18
-extra-deps: []
+resolver: lts-13.20
+extra-deps:
+- servant-0.16
+- servant-server-0.16
+- servant-client-0.16
+- servant-client-core-0.16
 packages:
 - '.'
 nix:

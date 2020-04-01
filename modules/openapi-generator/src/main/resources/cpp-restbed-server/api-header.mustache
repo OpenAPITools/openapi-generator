@@ -10,6 +10,8 @@
 
 {{{defaultInclude}}}
 #include <memory>
+#include <utility>
+
 #include <corvusoft/restbed/session.hpp>
 #include <corvusoft/restbed/resource.hpp>
 #include <corvusoft/restbed/service.hpp>
@@ -40,15 +42,44 @@ public:
 /// <remarks>
 /// {{notes}}
 /// </remarks>
-class {{declspec}} {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource: public restbed::Resource
+class {{declspec}} {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource: public restbed::Resource
 {
 public:
-	{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource();
-    virtual ~{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource();
+	{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource();
+    virtual ~{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource();
     void {{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session);
-    {{#vendorExtensions.x-codegen-otherMethods}}
+    {{#vendorExtensions.x-codegen-other-methods}}
     void {{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session);
-    {{/vendorExtensions.x-codegen-otherMethods}}
+    {{/vendorExtensions.x-codegen-other-methods}}
+
+	void set_handler_{{httpMethod}}(
+		std::function<std::pair<int, std::string>(
+			{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		)> handler
+	);
+
+	{{#vendorExtensions.x-codegen-other-methods}}
+	void set_handler_{{httpMethod}}(
+		std::function<std::pair<int, std::string>(
+			{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+		)> handler
+	);
+	{{/vendorExtensions.x-codegen-other-methods}}
+
+private:
+	std::function<std::pair<int, std::string>(
+		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+	)> handler_{{httpMethod}}_;
+
+	{{#vendorExtensions.x-codegen-other-methods}}
+	std::function<std::pair<int, std::string>(
+		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+	)> handler_{{httpMethod}}_;
+	{{/vendorExtensions.x-codegen-other-methods}}
+
+	{{#allParams}}
+	{{{dataType}}} {{paramName}}{};
+	{{/allParams}}
 };
 
 {{/operation}}

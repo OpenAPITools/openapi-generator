@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**testBodyWithFileSchema**](FakeAPI.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeAPI.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeAPI.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeAPI.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEndpointParameters**](FakeAPI.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 [**testEnumParameters**](FakeAPI.md#testenumparameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -32,7 +32,7 @@ Test serialization of outer boolean types
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = false // Bool | Input boolean as post body (optional)
+let body = true // Bool | Input boolean as post body (optional)
 
 FakeAPI.fakeOuterBooleanSerialize(body: body) { (response, error) in
     guard error == nil else {
@@ -367,9 +367,9 @@ No authorization required
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 ### Example 
 ```swift
@@ -391,7 +391,7 @@ let dateTime = Date() // Date | None (optional)
 let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
 
-// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback) { (response, error) in
     guard error == nil else {
         print(error)
@@ -453,13 +453,13 @@ To test enum parameters
 import PetstoreClient
 
 let enumHeaderStringArray = ["enumHeaderStringArray_example"] // [String] | Header parameter enum test (string array) (optional)
-let enumHeaderString = "enumHeaderString_example" // String | Header parameter enum test (string) (optional) (default to .-efg)
+let enumHeaderString = "enumHeaderString_example" // String | Header parameter enum test (string) (optional) (default to .efg)
 let enumQueryStringArray = ["enumQueryStringArray_example"] // [String] | Query parameter enum test (string array) (optional)
-let enumQueryString = "enumQueryString_example" // String | Query parameter enum test (string) (optional) (default to .-efg)
+let enumQueryString = "enumQueryString_example" // String | Query parameter enum test (string) (optional) (default to .efg)
 let enumQueryInteger = 987 // Int | Query parameter enum test (double) (optional)
 let enumQueryDouble = 987 // Double | Query parameter enum test (double) (optional)
-let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum test (string array) (optional) (default to .$)
-let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .-efg)
+let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum test (string array) (optional) (default to .dollar)
+let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .efg)
 
 // To test enum parameters
 FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString) { (response, error) in
@@ -479,13 +479,13 @@ FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHea
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | [**[String]**](String.md) | Header parameter enum test (string array) | [optional] 
- **enumHeaderString** | **String** | Header parameter enum test (string) | [optional] [default to .-efg]
+ **enumHeaderString** | **String** | Header parameter enum test (string) | [optional] [default to .efg]
  **enumQueryStringArray** | [**[String]**](String.md) | Query parameter enum test (string array) | [optional] 
- **enumQueryString** | **String** | Query parameter enum test (string) | [optional] [default to .-efg]
+ **enumQueryString** | **String** | Query parameter enum test (string) | [optional] [default to .efg]
  **enumQueryInteger** | **Int** | Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Double** | Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | [**[String]**](String.md) | Form parameter enum test (string array) | [optional] [default to .$]
- **enumFormString** | **String** | Form parameter enum test (string) | [optional] [default to .-efg]
+ **enumFormStringArray** | [**[String]**](String.md) | Form parameter enum test (string array) | [optional] [default to .dollar]
+ **enumFormString** | **String** | Form parameter enum test (string) | [optional] [default to .efg]
 
 ### Return type
 
@@ -517,10 +517,10 @@ Fake endpoint to test group parameters (optional)
 import PetstoreClient
 
 let requiredStringGroup = 987 // Int | Required String in group parameters
-let requiredBooleanGroup = false // Bool | Required Boolean in group parameters
+let requiredBooleanGroup = true // Bool | Required Boolean in group parameters
 let requiredInt64Group = 987 // Int64 | Required Integer in group parameters
 let stringGroup = 987 // Int | String in group parameters (optional)
-let booleanGroup = false // Bool | Boolean in group parameters (optional)
+let booleanGroup = true // Bool | Boolean in group parameters (optional)
 let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
 // Fake endpoint to test group parameters (optional)

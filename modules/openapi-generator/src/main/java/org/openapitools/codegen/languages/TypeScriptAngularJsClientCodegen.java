@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,6 +33,11 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
         embeddedTemplateDir = templateDir = "typescript-angularjs";
         apiPackage = "api";
         modelPackage = "model";
+
+        removeOption(NPM_NAME);
+        removeOption(NPM_VERSION);
+        removeOption(SNAPSHOT);
+
     }
 
     @Override
@@ -48,6 +53,7 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
     @Override
     public void processOpts() {
         super.processOpts();
+
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));

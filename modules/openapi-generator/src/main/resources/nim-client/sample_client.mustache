@@ -1,0 +1,14 @@
+{{>header}}
+import httpclient
+import logging
+import options
+
+import {{{packageName}}}
+
+import config
+
+let logger = newConsoleLogger()
+addHandler(logger)
+
+let client = newHttpClient()
+client.headers["User-Agent"] = config.useragent

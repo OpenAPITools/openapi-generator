@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **string_item** | **string** |  | 
 **number_item** | **float** |  | 
+**float_item** | **float** |  | 
 **integer_item** | **int** |  | 
 **bool_item** | **bool** |  | 
 **array_item** | **int[]** |  | 

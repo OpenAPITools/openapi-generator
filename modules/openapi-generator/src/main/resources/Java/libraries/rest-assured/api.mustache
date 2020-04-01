@@ -2,7 +2,9 @@
 
 package {{package}};
 
+{{#gson}}
 import com.google.gson.reflect.TypeToken;
+{{/gson}}
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -15,6 +17,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+{{#jackson}}
+import io.restassured.common.mapper.TypeRef;
+{{/jackson}}
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.swagger.annotations.*;
@@ -24,23 +29,42 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 {{/fullJavaUtil}}
+{{#gson}}
 import {{invokerPackage}}.JSON;
-
+{{/gson}}
 import static io.restassured.http.Method.*;
 
 @Api(value = "{{{baseName}}}")
 public class {{classname}} {
 
-    private RequestSpecBuilder reqSpec;
+    private Supplier<RequestSpecBuilder> reqSpecSupplier;
+    private Consumer<RequestSpecBuilder> reqSpecCustomizer;
 
-    private {{classname}}(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
+    private {{classname}}(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        this.reqSpecSupplier = reqSpecSupplier;
     }
 
-    public static {{classname}} {{classVarName}}(RequestSpecBuilder reqSpec) {
-        return new {{classname}}(reqSpec);
+    public static {{classname}} {{classVarName}}(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        return new {{classname}}(reqSpecSupplier);
     }
 
+    private RequestSpecBuilder createReqSpec() {
+        RequestSpecBuilder reqSpec = reqSpecSupplier.get();
+        if(reqSpecCustomizer != null) {
+            reqSpecCustomizer.accept(reqSpec);
+        }
+        return reqSpec;
+    }
+
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+{{#operations}}
+{{#operation}}
+                {{operationId}}(){{^-last}},{{/-last}}
+{{/operation}}
+{{/operations}}
+        );
+    }
 {{#operations}}
 {{#operation}}
 
@@ -54,18 +78,18 @@ public class {{classname}} {
     @Deprecated
     {{/isDeprecated}}
     public {{operationIdCamelCase}}Oper {{operationId}}() {
-        return new {{operationIdCamelCase}}Oper(reqSpec);
+        return new {{operationIdCamelCase}}Oper(createReqSpec());
     }
 {{/operation}}
 {{/operations}}
 
     /**
-     * Customise request specification
-     * @param consumer consumer
+     * Customize request specification
+     * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
      * @return api
      */
-    public {{classname}} reqSpec(Consumer<RequestSpecBuilder> consumer) {
-        consumer.accept(reqSpec);
+    public {{classname}} reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+        this.reqSpecCustomizer = reqSpecCustomizer;
         return this;
     }
 
@@ -92,7 +116,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public static class {{operationIdCamelCase}}Oper {
+    public static class {{operationIdCamelCase}}Oper implements Oper {
 
         public static final Method REQ_METHOD = {{httpMethod}};
         public static final String REQ_URI = "{{path}}";
@@ -119,6 +143,7 @@ public class {{classname}} {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -130,8 +155,9 @@ public class {{classname}} {
          * @return {{returnType}}
          */
         public {{{returnType}}} executeAs(Function<Response, Response> handler) {
-            Type type = new TypeToken<{{{returnType}}}>(){}.getType();
-            return execute(handler).as(type);
+            {{#gson}}Type type = new TypeToken<{{{returnType}}}>(){}.getType();
+            {{/gson}}{{#jackson}}TypeRef<{{{returnType}}}> type = new TypeRef<{{{returnType}}}>(){};
+            {{/jackson}}return execute(handler).as(type);
         }
         {{/returnType}}
         {{#bodyParams}}
@@ -216,22 +242,22 @@ public class {{classname}} {
         {{/formParams}}
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public {{operationIdCamelCase}}Oper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public {{operationIdCamelCase}}Oper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public {{operationIdCamelCase}}Oper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public {{operationIdCamelCase}}Oper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }

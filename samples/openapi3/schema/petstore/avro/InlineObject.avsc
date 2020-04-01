@@ -1,0 +1,18 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "InlineObject",
+  "fields": [
+    {
+      "name": "name",
+      "type": ["null", "string"],
+      "doc": "Updated name of the pet"
+    },
+    {
+      "name": "status",
+      "type": ["null", "string"],
+      "doc": "Updated status of the pet"
+    }
+  ]
+}

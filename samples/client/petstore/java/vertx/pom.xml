@@ -17,7 +17,7 @@
     <licenses>
         <license>
             <name>Unlicense</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -144,7 +144,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.1.1</version>
+                <configuration>
+                    <doclint>none</doclint>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -201,6 +204,13 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
 
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        
         <!-- Vertx -->
         <dependency>
             <groupId>io.vertx</groupId>
@@ -229,6 +239,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
@@ -253,9 +268,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vertx-version>3.4.2</vertx-version>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <jackson-version>2.8.11</jackson-version>
-        <jackson-databind>2.8.11.3</jackson-databind>
-        <junit-version>4.12</junit-version>
+        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <jackson-version>2.10.3</jackson-version>
+        <jackson-databind>2.10.3</jackson-databind>
+        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        <junit-version>4.13</junit-version>
     </properties>
 </project>

@@ -19,6 +19,7 @@ module {{title}}.API
   , {{title}}Backend(..)
   , create{{title}}Client
   , run{{title}}Server
+  , run{{title}}MiddlewareServer
   , run{{title}}Client
   , run{{title}}ClientWithManager
   , call{{title}}
@@ -51,27 +52,29 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
+import           Network.Wai                        (Middleware)
 import qualified Network.Wai.Handler.Warp           as Warp
-import           Servant                            (ServantErr, serve)
+import           Servant                            (ServerError, serve)
 import           Servant.API
 import           Servant.API.Verbs                  (StdMethod (..), Verb)
-import           Servant.Client                     (ClientEnv, Scheme (Http), ServantError, client,
+import           Servant.Client                     (ClientEnv, Scheme (Http), ClientError, client,
                                                      mkClientEnv, parseBaseUrl)
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
-import           Servant.Server                     (Handler (..))
+import           Servant.Server                     (Handler (..), Application){{#serveStatic}}
+import           Servant.Server.StaticFiles         (serveDirectoryFileServer){{/serveStatic}}
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
 
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasFormParams}}
-data {{vendorExtensions.x-formName}} = {{vendorExtensions.x-formName}}
-  { {{#formParams}}{{vendorExtensions.x-formPrefix}}{{vendorExtensions.x-formParamName}} :: {{dataType}}{{#hasMore}}
+data {{vendorExtensions.x-form-name}} = {{vendorExtensions.x-form-name}}
+  { {{#formParams}}{{vendorExtensions.x-form-prefix}}{{vendorExtensions.x-form-param-name}} :: {{dataType}}{{#hasMore}}
   , {{/hasMore}}{{/formParams}}
   } deriving (Show, Eq, Generic, Data)
 
-instance FromForm {{vendorExtensions.x-formName}}
-instance ToForm {{vendorExtensions.x-formName}}
+instance FromForm {{vendorExtensions.x-form-name}}
+instance ToForm {{vendorExtensions.x-form-name}}
 {{/hasFormParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 -- | List of elements parsed from a query.
@@ -127,9 +130,10 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 {{#apiInfo}}
 -- | Servant type-level API, generated from the OpenAPI spec for {{title}}.
 type {{title}}API
-    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-routeType}} -- '{{operationId}}' route{{#hasMore}}
+    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-route-type}} -- '{{operationId}}' route{{#hasMore}}
     :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
-    :<|> {{/hasMore}}{{/apis}}
+    :<|> {{/hasMore}}{{/apis}}{{#serveStatic}}
+    :<|> Raw {{/serveStatic}}
 {{/apiInfo}}
 
 
@@ -140,7 +144,7 @@ data Config = Config
 
 
 -- | Custom exception type for our errors.
-newtype {{title}}ClientError = {{title}}ClientError ServantError
+newtype {{title}}ClientError = {{title}}ClientError ClientError
   deriving (Show, Exception)
 -- | Configuration, specifying the full url of the service.
 
@@ -149,15 +153,15 @@ newtype {{title}}ClientError = {{title}}ClientError ServantError
 -- | Backend for {{title}}.
 -- The backend can be used both for the client and the server. The client generated from the {{title}} OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
--- a backend, the API can be served using @run{{title}}Server@.
+-- a backend, the API can be served using @run{{title}}MiddlewareServer@.
 data {{title}}Backend m = {{title}}Backend
-  { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-clientType}}{- ^ {{& notes}} -}{{#hasMore}}
+  { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-client-type}}{- ^ {{& notes}} -}{{#hasMore}}
   , {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
   , {{/hasMore}}{{/apis}}
   }
 
 newtype {{title}}Client a = {{title}}Client
-  { runClient :: ClientEnv -> ExceptT ServantError IO a
+  { runClient :: ClientEnv -> ExceptT ClientError IO a
   } deriving Functor
 
 instance Applicative {{title}}Client where
@@ -181,16 +185,17 @@ create{{title}}Client = {{title}}Backend{..}
   where
     ({{#apis}}{{#operations}}{{#operation}}(coerce -> {{operationId}}){{#hasMore}} :<|>
      {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-     {{/hasMore}}{{/apis}}) = client (Proxy :: Proxy {{title}}API)
+     {{/hasMore}}{{/apis}}{{#serveStatic}} :<|>
+     _{{/serveStatic}}) = client (Proxy :: Proxy {{title}}API)
 
 -- | Run requests in the {{title}}Client monad.
-run{{title}}Client :: Config -> {{title}}Client a -> ExceptT ServantError IO a
+run{{title}}Client :: Config -> {{title}}Client a -> ExceptT ClientError IO a
 run{{title}}Client clientConfig cl = do
   manager <- liftIO $ newManager tlsManagerSettings
   run{{title}}ClientWithManager manager clientConfig cl
 
 -- | Run requests in the {{title}}Client monad using a custom manager.
-run{{title}}ClientWithManager :: Manager -> Config -> {{title}}Client a -> ExceptT ServantError IO a
+run{{title}}ClientWithManager :: Manager -> Config -> {{title}}Client a -> ExceptT ClientError IO a
 run{{title}}ClientWithManager manager Config{..} cl = do
   url <- parseBaseUrl configUrl
   runClient cl $ mkClientEnv manager url
@@ -207,20 +212,31 @@ call{{title}} env f = do
     Right response -> pure response
 {{/apiInfo}}
 
+
 {{#apiInfo}}
+requestMiddlewareId :: Application -> Application
+requestMiddlewareId a = a
+
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}Server
   :: (MonadIO m, MonadThrow m)
-  => Config -> {{title}}Backend (ExceptT ServantErr IO) -> m ()
-run{{title}}Server Config{..} backend = do
+  => Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
+run{{title}}Server config backend = run{{title}}MiddlewareServer config requestMiddlewareId backend
+
+-- | Run the {{title}} server at the provided host and port.
+run{{title}}MiddlewareServer
+  :: (MonadIO m, MonadThrow m)
+  => Config -> Middleware -> {{title}}Backend (ExceptT ServerError IO) -> m ()
+run{{title}}MiddlewareServer Config{..} middleware backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
   where
     serverFromBackend {{title}}Backend{..} =
       ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>
        {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-       {{/hasMore}}{{/apis}})
+       {{/hasMore}}{{/apis}}{{#serveStatic}} :<|>
+       serveDirectoryFileServer "static"{{/serveStatic}})
 {{/apiInfo}}

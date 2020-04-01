@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 
 public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
@@ -58,8 +58,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String LIBRARY_RX_SWIFT = "RxSwift";
-    protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT};
+    protected static final String LIBRARY_RESULT = "Result";
+    protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT, LIBRARY_RESULT};
     protected String projectName = "OpenAPIClient";
+    protected boolean nonPublicApi = false;
     protected boolean unwrapRequired;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
@@ -75,6 +77,28 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
      */
     public Swift4Codegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
@@ -101,7 +125,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "UUID",
                         "URL",
                         "AnyObject",
-                        "Any")
+                        "Any",
+                        "Decimal")
         );
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -115,14 +140,17 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "Any",
                         "Empty",
                         "AnyObject",
-                        "Any")
+                        "Any",
+                        "Decimal")
         );
 
         objcReservedWords = new HashSet<>(
                 Arrays.asList(
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary"
+                        "NSError", "NSDictionary",
+                        // Cannot override with a stored property 'className'
+                        "className"
                         )
                 );
 
@@ -197,6 +225,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "String");
+        typeMapping.put("BigDecimal", "Decimal");
 
         importMapping = new HashMap<>();
 
@@ -205,6 +235,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 "Optionally use libraries to manage response.  Currently "
                         + StringUtils.join(RESPONSE_LIBRARIES, ", ")
                         + " are available."));
+        cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
+                CodegenConstants.NON_PUBLIC_API_DESC 
+                        + "(default: false)"));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED,
                 "Treat 'required' properties in response as non-optional "
                         + "(which would crash the app if api returns null as opposed "
@@ -326,6 +359,14 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         }
         sourceFolder = projectName + File.separator + sourceFolder;
 
+        // Setup nonPublicApi option, which generates code with reduced access
+        // modifiers; allows embedding elsewhere without exposing non-public API calls
+        // to consumers
+        if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
+            setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
+        }
+        additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
+
         // Setup unwrapRequired option, which makes all the
         // properties with "required" non-optional
         if (additionalProperties.containsKey(UNWRAP_REQUIRED)) {
@@ -361,6 +402,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (ArrayUtils.contains(responseAs, LIBRARY_RX_SWIFT)) {
             additionalProperties.put("useRxSwift", true);
         }
+        if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
+            additionalProperties.put("useResult", true);
+        }
 
         // Setup swiftUseApiNamespace option, which makes all the API
         // classes inner-class of {{projectName}}API
@@ -384,6 +428,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
+        supportingFiles.add(new SupportingFile("Package.swift.mustache", 
+                "", 
+                "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
                 "APIHelper.swift"));
@@ -411,6 +458,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
                 sourceFolder,
                 "JSONEncodingHelper.swift"));
+        if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
+            supportingFiles.add(new SupportingFile("Result.mustache", 
+                    sourceFolder, 
+                    "Result.swift"));
+        }
         supportingFiles.add(new SupportingFile("git_push.sh.mustache",
                 "",
                 "git_push.sh"));
@@ -420,6 +472,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
+        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
+                "",
+                "project.yml"));
 
     }
 
@@ -546,7 +601,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Schema p) {
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             if (p.getDefault() != null) {
-                return "." + escapeText((String) p.getDefault());
+                if (ModelUtils.isStringSchema(p)) {
+                    return "." + toEnumVarName(escapeText((String) p.getDefault()), p.getType());
+                } else {
+                    return "." + toEnumVarName(escapeText(p.getDefault().toString()), p.getType());
+                }
             }
         }
         if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
@@ -703,6 +762,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public void setNonPublicApi(boolean nonPublicApi) {
+        this.nonPublicApi = nonPublicApi;
     }
 
     public void setUnwrapRequired(boolean unwrapRequired) {
@@ -950,7 +1013,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenParameter.paramName + "_example\"";
                 }
             } else if ("Bool".equals(codegenParameter.dataType)) { // boolean
-                if (Boolean.TRUE.equals(codegenParameter.example)) {
+                if (Boolean.parseBoolean(codegenParameter.example)) {
                     return "true";
                 } else {
                     return "false";
@@ -990,7 +1053,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.name + "_example\"";
                 }
             } else if ("Bool".equals(codegenProperty.dataType)) { // boolean
-                if (Boolean.TRUE.equals(codegenProperty.example)) {
+                if (Boolean.parseBoolean(codegenProperty.example)) {
                     return "true";
                 } else {
                     return "false";

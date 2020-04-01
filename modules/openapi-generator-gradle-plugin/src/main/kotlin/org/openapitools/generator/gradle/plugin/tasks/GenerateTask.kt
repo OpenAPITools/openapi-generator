@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,11 +24,12 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.listProperty
+import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
-import org.openapitools.codegen.config.GeneratorProperties
+import org.openapitools.codegen.config.GlobalSettings
 
 
 /**
@@ -40,6 +41,7 @@ import org.openapitools.codegen.config.GeneratorProperties
  *
  * @author Jim Schubert
  */
+@Suppress("UnstableApiUsage")
 open class GenerateTask : DefaultTask() {
 
     /**
@@ -89,7 +91,7 @@ open class GenerateTask : DefaultTask() {
      * Sets specified system properties.
      */
     @get:Internal
-    val systemProperties = project.objects.property<Map<String, String>>()
+    val systemProperties = project.objects.mapProperty<String, String>()
 
     /**
      * Path to json configuration file.
@@ -139,20 +141,27 @@ open class GenerateTask : DefaultTask() {
      * Sets instantiation type mappings.
      */
     @get:Internal
-    val instantiationTypes = project.objects.property<Map<String, String>>()
+    val instantiationTypes = project.objects.mapProperty<String, String>()
 
     /**
      * Sets mappings between OpenAPI spec types and generated code types.
      */
     @get:Internal
-    val typeMappings = project.objects.property<Map<String, String>>()
+    val typeMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value.
      * You can also have multiple occurrences of this option.
      */
     @get:Internal
-    val additionalProperties = project.objects.property<Map<String, String>>()
+    val additionalProperties = project.objects.mapProperty<String, String>()
+
+    /**
+     * Sets server variable for server URL template substitution, in the format of name=value,name=value.
+     * You can also have multiple occurrences of this option.
+     */
+    @get:Internal
+    val serverVariables = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
@@ -164,7 +173,7 @@ open class GenerateTask : DefaultTask() {
      * Specifies mappings between a given class and the import that should be used for that class.
      */
     @get:Internal
-    val importMappings = project.objects.property<Map<String, String>>()
+    val importMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.
@@ -197,6 +206,12 @@ open class GenerateTask : DefaultTask() {
     val library = project.objects.property<String?>()
 
     /**
+     * Git host, e.g. gitlab.com.
+     */
+    @get:Internal
+    val gitHost = project.objects.property<String?>()
+
+    /**
      * Git user ID, e.g. openapitools.
      */
     @get:Internal
@@ -224,7 +239,7 @@ open class GenerateTask : DefaultTask() {
      * Specifies how a reserved name should be escaped to.
      */
     @get:Internal
-    val reservedWordsMappings = project.objects.property<Map<String, String>>()
+    val reservedWordsMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
@@ -358,7 +373,13 @@ open class GenerateTask : DefaultTask() {
      * A dynamic map of options specific to a generator.
      */
     @get:Internal
-    val configOptions = project.objects.property<Map<String, String>>()
+    val configOptions = project.objects.mapProperty<String, String>()
+
+    /**
+     * Templating engine: "mustache" (default) or "handlebars" (beta)
+     */
+    @get:Internal
+    val engine = project.objects.property<String?>()
 
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
@@ -392,146 +413,150 @@ open class GenerateTask : DefaultTask() {
             }
 
             if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
-                GeneratorProperties.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
+                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.SUPPORTING_FILES)
+                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES)
             }
 
             if (modelFilesConstrainedTo.isPresent && modelFilesConstrainedTo.get().isNotEmpty()) {
-                GeneratorProperties.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
+                GlobalSettings.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.MODELS)
+                GlobalSettings.clearProperty(CodegenConstants.MODELS)
             }
 
             if (apiFilesConstrainedTo.isPresent && apiFilesConstrainedTo.get().isNotEmpty()) {
-                GeneratorProperties.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
+                GlobalSettings.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
             } else {
-                GeneratorProperties.clearProperty(CodegenConstants.APIS)
+                GlobalSettings.clearProperty(CodegenConstants.APIS)
             }
 
             if (generateApiDocumentation.isPresent) {
-                GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
+                GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
             }
 
             if (generateModelDocumentation.isPresent) {
-                GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
+                GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
             }
 
             if (generateModelTests.isPresent) {
-                GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
+                GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
             }
 
             if (generateApiTests.isPresent) {
-                GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
+                GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
             }
 
             if (withXml.isPresent) {
-                GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+                GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
             }
 
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
-                configurator.isVerbose = value
+                configurator.setVerbose(value)
             }
 
             validateSpec.ifNotEmpty { value ->
-                configurator.isValidateSpec = value
+                configurator.setValidateSpec(value)
             }
 
             skipOverwrite.ifNotEmpty { value ->
-                configurator.isSkipOverwrite = value ?: false
+                configurator.setSkipOverwrite(value ?: false)
             }
 
             inputSpec.ifNotEmpty { value ->
-                configurator.inputSpec = value
+                configurator.setInputSpec(value)
             }
 
             generatorName.ifNotEmpty { value ->
-                configurator.generatorName = value
+                configurator.setGeneratorName(value)
             }
 
             outputDir.ifNotEmpty { value ->
-                configurator.outputDir = value
+                configurator.setOutputDir(value)
             }
 
             auth.ifNotEmpty { value ->
-                configurator.auth = value
+                configurator.setAuth(value)
             }
 
             templateDir.ifNotEmpty { value ->
-                configurator.templateDir = value
+                configurator.setTemplateDir(value)
             }
 
             packageName.ifNotEmpty { value ->
-                configurator.packageName = value
+                configurator.setPackageName(value)
             }
 
             apiPackage.ifNotEmpty { value ->
-                configurator.apiPackage = value
+                configurator.setApiPackage(value)
             }
 
             modelPackage.ifNotEmpty { value ->
-                configurator.modelPackage = value
+                configurator.setModelPackage(value)
             }
 
             modelNamePrefix.ifNotEmpty { value ->
-                configurator.modelNamePrefix = value
+                configurator.setModelNamePrefix(value)
             }
 
             modelNameSuffix.ifNotEmpty { value ->
-                configurator.modelNameSuffix = value
+                configurator.setModelNameSuffix(value)
             }
 
             invokerPackage.ifNotEmpty { value ->
-                configurator.invokerPackage = value
+                configurator.setInvokerPackage(value)
             }
 
             groupId.ifNotEmpty { value ->
-                configurator.groupId = value
+                configurator.setGroupId(value)
             }
 
             id.ifNotEmpty { value ->
-                configurator.artifactId = value
+                configurator.setArtifactId(value)
             }
 
             version.ifNotEmpty { value ->
-                configurator.artifactVersion = value
+                configurator.setArtifactVersion(value)
             }
 
             library.ifNotEmpty { value ->
-                configurator.library = value
+                configurator.setLibrary(value)
+            }
+
+            gitHost.ifNotEmpty { value ->
+                configurator.setGitHost(value)
             }
 
             gitUserId.ifNotEmpty { value ->
-                configurator.gitUserId = value
+                configurator.setGitUserId(value)
             }
 
             gitRepoId.ifNotEmpty { value ->
-                configurator.gitRepoId = value
+                configurator.setGitRepoId(value)
             }
 
             releaseNote.ifNotEmpty { value ->
-                configurator.releaseNote = value
+                configurator.setReleaseNote(value)
             }
 
             httpUserAgent.ifNotEmpty { value ->
-                configurator.httpUserAgent = value
+                configurator.setHttpUserAgent(value)
             }
 
             ignoreFileOverride.ifNotEmpty { value ->
-                configurator.ignoreFileOverride = value
+                configurator.setIgnoreFileOverride(value)
             }
 
             removeOperationIdPrefix.ifNotEmpty { value ->
-                configurator.removeOperationIdPrefix = value!!
+                configurator.setRemoveOperationIdPrefix(value!!)
             }
 
             logToStderr.ifNotEmpty { value ->
-                configurator.logToStderr = value
+                configurator.setLogToStderr(value)
             }
 
             enablePostProcessFile.ifNotEmpty { value ->
-                configurator.enablePostProcessFile = value
+                configurator.setEnablePostProcessFile(value)
             }
 
             skipValidateSpec.ifNotEmpty { value ->
@@ -540,6 +565,12 @@ open class GenerateTask : DefaultTask() {
 
             generateAliasAsModel.ifNotEmpty { value ->
                 configurator.setGenerateAliasAsModel(value)
+            }
+
+            engine.ifNotEmpty { value ->
+                if ("handlebars".equals(value, ignoreCase = true)) {
+                    configurator.setTemplatingEngineName("handlebars")
+                }
             }
 
             if (systemProperties.isPresent) {
@@ -569,6 +600,12 @@ open class GenerateTask : DefaultTask() {
             if (additionalProperties.isPresent) {
                 additionalProperties.get().forEach { entry ->
                     configurator.addAdditionalProperty(entry.key, entry.value)
+                }
+            }
+
+            if (serverVariables.isPresent) {
+                serverVariables.get().forEach { entry ->
+                    configurator.addServerVariable(entry.key, entry.value)
                 }
             }
 
@@ -602,12 +639,12 @@ open class GenerateTask : DefaultTask() {
 
                 DefaultGenerator().opts(clientOptInput).generate()
 
-                out.println("Successfully generated code to ${configurator.outputDir}")
+                out.println("Successfully generated code to $outputDir")
             } catch (e: RuntimeException) {
                 throw GradleException("Code generation failed.", e)
             }
         } finally {
-            GeneratorProperties.reset()
+            GlobalSettings.reset()
         }
     }
 }

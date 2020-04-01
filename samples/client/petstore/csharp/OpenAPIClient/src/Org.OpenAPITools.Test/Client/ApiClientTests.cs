@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Test
 		}
 
 		// The test below only passes when running at -04:00 timezone
-		[Ignore()]
+		[Ignore("The test below only passes when running at -04:00 timezone")]
 		public void TestParameterToStringWithTimeZoneForDateTime()
 		{
 			ApiClient api = new ApiClient();

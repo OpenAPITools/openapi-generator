@@ -1,0 +1,90 @@
+{{#models}}{{#model}}# {{classname}}
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vendorExtensions.x-is-one-of-interface}}
+**{{classname}}Interface** | **interface { {{#discriminator}}{{propertyGetter}}() {{propertyType}}{{/discriminator}} }** | An interface that can hold any of the proper implementing types |
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
+{{#vars}}**{{name}}** | Pointer to {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/vars}}
+{{/vendorExtensions.x-is-one-of-interface}}
+
+{{^isEnum}}
+## Methods
+
+{{^vendorExtensions.x-is-one-of-interface}}
+### New{{classname}}
+
+`func New{{classname}}({{#vars}}{{#required}}{{nameInCamelCase}} {{dataType}}, {{/required}}{{/vars}}) *{{classname}}`
+
+New{{classname}} instantiates a new {{classname}} object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### New{{classname}}WithDefaults
+
+`func New{{classname}}WithDefaults() *{{classname}}`
+
+New{{classname}}WithDefaults instantiates a new {{classname}} object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+{{#vars}}
+### Get{{name}}
+
+`func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}}`
+
+Get{{name}} returns the {{name}} field if non-nil, zero value otherwise.
+
+### Get{{name}}Ok
+
+`func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-go-base-type}}, bool)`
+
+Get{{name}}Ok returns a tuple with the {{name}} field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### Set{{name}}
+
+`func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}})`
+
+Set{{name}} sets {{name}} field to given value.
+
+{{^required}}
+### Has{{name}}
+
+`func (o *{{classname}}) Has{{name}}() bool`
+
+Has{{name}} returns a boolean if a field has been set.
+{{/required}}
+
+{{#isNullable}}
+### Set{{name}}Nil
+
+`func (o *{{classname}}) Set{{name}}Nil(b bool)`
+
+ Set{{name}}Nil sets the value for {{name}} to be an explicit nil
+
+### Unset{{name}}
+`func (o *{{classname}}) Unset{{name}}()`
+
+Unset{{name}} ensures that no value is present for {{name}}, not even an explicit nil
+{{/isNullable}}
+{{/vars}}
+{{#vendorExtensions.x-implements}}
+
+### As{{{.}}}
+
+`func (s *{{classname}}) As{{{.}}}() {{{.}}}`
+
+Convenience method to wrap this instance of {{classname}} in {{{.}}}
+{{/vendorExtensions.x-implements}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{/isEnum}}
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+{{/model}}{{/models}}

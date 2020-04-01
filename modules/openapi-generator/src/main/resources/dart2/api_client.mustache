@@ -10,7 +10,7 @@ class QueryParam {
 class ApiClient {
 
   String basePath;
-  var client = {{#browserClient}}Browser{{/browserClient}}Client();
+  var client = Client();
 
   Map<String, String> _defaultHeaderMap = {};
   Map<String, Authentication> _authentications = {};
@@ -44,11 +44,7 @@ class ApiClient {
           {{#model}}
         case '{{classname}}':
             {{#isEnum}}
-          // Enclose the value in a list so that Dartson can use a transformer
-          // to decode it.
-          final listValue = [value];
-          final List<dynamic> listResult = dson.map(listValue, []);
-          return listResult[0];
+          return new {{classname}}TypeTransformer().decode(value);
             {{/isEnum}}
             {{^isEnum}}
           return {{classname}}.fromJson(value);
@@ -141,6 +137,8 @@ class ApiClient {
           return client.delete(url, headers: headerParams);
         case "PATCH":
           return client.patch(url, headers: headerParams, body: msgBody);
+        case "HEAD":
+          return client.head(url, headers: headerParams);
         default:
           return client.get(url, headers: headerParams);
       }

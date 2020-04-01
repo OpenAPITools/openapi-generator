@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate $@ -t modules/openapi-generator/src/main/resources/finch -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g scala-finch -o samples/server/petstore/finch"
+ags="generate $@ -t modules/openapi-generator/src/main/resources/scala-finch -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g scala-finch -o samples/server/petstore/scala-finch"
 
 java $JAVA_OPTS -jar $executable $ags

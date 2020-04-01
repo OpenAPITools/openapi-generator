@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// AdditionalPropertiesAnyType struct for AdditionalPropertiesAnyType
 type AdditionalPropertiesAnyType struct {
 	Name string `json:"name,omitempty"`
 }

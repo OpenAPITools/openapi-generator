@@ -1,0 +1,10 @@
+{
+  "generatorName": "python",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "library": "tornado",
+  "outputDir": "samples/client/petstore/python-tornado",
+  "templateDir": "modules/openapi-generator/src/main/resources/python",
+  "additionalProperties": {
+    "packageName": "petstore_api"
+  }
+}

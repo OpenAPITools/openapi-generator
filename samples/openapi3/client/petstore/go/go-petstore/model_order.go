@@ -11,7 +11,7 @@ package petstore
 import (
 	"time"
 )
-
+// Order struct for Order
 type Order struct {
 	Id int64 `json:"id,omitempty"`
 	PetId int64 `json:"petId,omitempty"`

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,18 +18,18 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +60,35 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
     public KotlinServerCodegen() {
         super();
 
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         artifactId = "kotlin-server";
         packageName = "org.openapitools.server";
+
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
+        updateOption(CodegenConstants.PACKAGE_NAME, this.packageName);
+
         outputFolder = "generated-code" + File.separator + "kotlin-server";
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
@@ -69,10 +96,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
 
-        supportedLibraries.put("ktor", "ktor framework");
+        supportedLibraries.put(Constants.KTOR, "ktor framework");
 
         // TODO: Configurable server engine. Defaults to netty in build.gradle.
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
         library.setDefault(DEFAULT_LIBRARY);
         library.setEnum(supportedLibraries);
 
@@ -142,14 +169,14 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
-                this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
         // set default library to "ktor"
         if (StringUtils.isEmpty(library)) {
-            this.setLibrary("ktor");
-            additionalProperties.put(CodegenConstants.LIBRARY, "ktor");
-            LOGGER.info("`library` option is empty. Default to 'ktor'.");
+            this.setLibrary(DEFAULT_LIBRARY);
+            additionalProperties.put(CodegenConstants.LIBRARY, DEFAULT_LIBRARY);
+            LOGGER.info("`library` option is empty. Default to " + DEFAULT_LIBRARY);
         }
 
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {
@@ -182,7 +209,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(Constants.COMPRESSION, getCompressionFeatureEnabled());
         }
 
-        Boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean)additionalProperties.get(CodegenConstants.GENERATE_APIS);
+        boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
         String resourcesFolder = "src/main/resources"; // not sure this can be user configurable.
 
@@ -206,31 +233,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", File.separator);
 
         supportingFiles.add(new SupportingFile("ApiKeyAuth.kt.mustache", infrastructureFolder, "ApiKeyAuth.kt"));
-
-        addMustacheLambdas(additionalProperties);
-    }
-
-    private void addMustacheLambdas(Map<String, Object> objs) {
-
-        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("lowercase", new LowercaseLambda().generator(this))
-                .put("uppercase", new UppercaseLambda())
-                .put("titlecase", new TitlecaseLambda())
-                .put("camelcase", new CamelCaseLambda().generator(this))
-                .put("indented", new IndentedLambda())
-                .put("indented_8", new IndentedLambda(8, " "))
-                .put("indented_12", new IndentedLambda(12, " "))
-                .put("indented_16", new IndentedLambda(16, " "))
-                .build();
-
-        if (objs.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
-                    "You'll likely need to use a custom template, " +
-                    "see https://github.com/swagger-api/swagger-codegen#modifying-the-client-library-format. "); // TODO: update the URL
-            objs.put("_lambda", lambdas);
-        } else {
-            objs.put("lambda", lambdas);
-        }
     }
 
     public static class Constants {

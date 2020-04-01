@@ -1,0 +1,25 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /pony:
+    get:
+      operationId: list
+      parameters:
+        - in: query
+          name: pageQuery
+          schema:
+            type: object
+            properties:
+              offset:
+                type: integer
+                format: int32
+              limit:
+                type: integer
+                format: int32

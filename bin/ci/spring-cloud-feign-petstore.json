@@ -1,0 +1,11 @@
+{
+  "!include": "bin/spring-cloud-feign-petstore.json",
+  "generatorName": "spring",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/spring-cloud",
+  "templateDir": "modules/openapi-generator/src/main/resources/JavaSpring/libraries/spring-cloud",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "responseWrapper": "HystrixCommand"
+  }
+}

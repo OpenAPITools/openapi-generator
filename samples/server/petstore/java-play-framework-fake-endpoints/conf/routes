@@ -6,9 +6,10 @@ GET     /api                        controllers.ApiDocController.api
 
 
 #Functions for AnotherFake API
-PATCH     /v2/another-fake/dummy                     controllers.AnotherFakeApiController.testSpecialTags()
+PATCH     /v2/another-fake/dummy                     controllers.AnotherFakeApiController.call123testSpecialTags()
 
 #Functions for Fake API
+POST     /v2/fake/create_xml_item                     controllers.FakeApiController.createXmlItem()
 POST     /v2/fake/outer/boolean                     controllers.FakeApiController.fakeOuterBooleanSerialize()
 POST     /v2/fake/outer/composite                     controllers.FakeApiController.fakeOuterCompositeSerialize()
 POST     /v2/fake/outer/number                     controllers.FakeApiController.fakeOuterNumberSerialize()
@@ -18,8 +19,10 @@ PUT     /v2/fake/body-with-query-params                     controllers.FakeApiC
 PATCH     /v2/fake                     controllers.FakeApiController.testClientModel()
 POST     /v2/fake                     controllers.FakeApiController.testEndpointParameters()
 GET     /v2/fake                     controllers.FakeApiController.testEnumParameters()
+DELETE     /v2/fake                     controllers.FakeApiController.testGroupParameters()
 POST     /v2/fake/inline-additionalProperties                     controllers.FakeApiController.testInlineAdditionalProperties()
 GET     /v2/fake/jsonFormData                     controllers.FakeApiController.testJsonFormData()
+PUT     /v2/fake/test-query-paramters                     controllers.FakeApiController.testQueryParameterCollectionFormat()
 
 #Functions for FakeClassnameTags123 API
 PATCH     /v2/fake_classname_test                     controllers.FakeClassnameTags123ApiController.testClassname()

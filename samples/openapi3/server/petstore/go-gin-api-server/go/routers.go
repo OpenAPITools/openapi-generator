@@ -11,7 +11,6 @@ package petstoreserver
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,13 +35,13 @@ func NewRouter() *gin.Engine {
 	router := gin.Default()
 	for _, route := range routes {
 		switch route.Method {
-		case "GET":
+		case http.MethodGet:
 			router.GET(route.Pattern, route.HandlerFunc)
-		case "POST":
+		case http.MethodPost:
 			router.POST(route.Pattern, route.HandlerFunc)
-		case "PUT":
+		case http.MethodPut:
 			router.PUT(route.Pattern, route.HandlerFunc)
-		case "DELETE":
+		case http.MethodDelete:
 			router.DELETE(route.Pattern, route.HandlerFunc)
 		}
 	}
@@ -58,266 +57,273 @@ func Index(c *gin.Context) {
 var routes = Routes{
 	{
 		"Index",
-		"GET",
+		http.MethodGet,
 		"/v2/",
 		Index,
 	},
 
 	{
 		"Call123TestSpecialTags",
-		strings.ToUpper("Patch"),
+		http.MethodPatch,
 		"/v2/another-fake/dummy",
 		Call123TestSpecialTags,
 	},
 
 	{
 		"FooGet",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/foo",
 		FooGet,
 	},
 
 	{
 		"FakeHealthGet",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/fake/health",
 		FakeHealthGet,
 	},
 
 	{
 		"FakeOuterBooleanSerialize",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/fake/outer/boolean",
 		FakeOuterBooleanSerialize,
 	},
 
 	{
 		"FakeOuterCompositeSerialize",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/fake/outer/composite",
 		FakeOuterCompositeSerialize,
 	},
 
 	{
 		"FakeOuterNumberSerialize",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/fake/outer/number",
 		FakeOuterNumberSerialize,
 	},
 
 	{
 		"FakeOuterStringSerialize",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/fake/outer/string",
 		FakeOuterStringSerialize,
 	},
 
 	{
 		"TestBodyWithFileSchema",
-		strings.ToUpper("Put"),
+		http.MethodPut,
 		"/v2/fake/body-with-file-schema",
 		TestBodyWithFileSchema,
 	},
 
 	{
 		"TestBodyWithQueryParams",
-		strings.ToUpper("Put"),
+		http.MethodPut,
 		"/v2/fake/body-with-query-params",
 		TestBodyWithQueryParams,
 	},
 
 	{
 		"TestClientModel",
-		strings.ToUpper("Patch"),
+		http.MethodPatch,
 		"/v2/fake",
 		TestClientModel,
 	},
 
 	{
 		"TestEndpointParameters",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/fake",
 		TestEndpointParameters,
 	},
 
 	{
 		"TestEnumParameters",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/fake",
 		TestEnumParameters,
 	},
 
 	{
 		"TestGroupParameters",
-		strings.ToUpper("Delete"),
+		http.MethodDelete,
 		"/v2/fake",
 		TestGroupParameters,
 	},
 
 	{
 		"TestInlineAdditionalProperties",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/fake/inline-additionalProperties",
 		TestInlineAdditionalProperties,
 	},
 
 	{
 		"TestJsonFormData",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/fake/jsonFormData",
 		TestJsonFormData,
 	},
 
 	{
+		"TestQueryParameterCollectionFormat",
+		http.MethodPut,
+		"/v2/fake/test-query-paramters",
+		TestQueryParameterCollectionFormat,
+	},
+
+	{
 		"TestClassname",
-		strings.ToUpper("Patch"),
+		http.MethodPatch,
 		"/v2/fake_classname_test",
 		TestClassname,
 	},
 
 	{
 		"AddPet",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/pet",
 		AddPet,
 	},
 
 	{
 		"DeletePet",
-		strings.ToUpper("Delete"),
+		http.MethodDelete,
 		"/v2/pet/:petId",
 		DeletePet,
 	},
 
 	{
 		"FindPetsByStatus",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/pet/findByStatus",
 		FindPetsByStatus,
 	},
 
 	{
 		"FindPetsByTags",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/pet/findByTags",
 		FindPetsByTags,
 	},
 
 	{
 		"GetPetById",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/pet/:petId",
 		GetPetById,
 	},
 
 	{
 		"UpdatePet",
-		strings.ToUpper("Put"),
+		http.MethodPut,
 		"/v2/pet",
 		UpdatePet,
 	},
 
 	{
 		"UpdatePetWithForm",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/pet/:petId",
 		UpdatePetWithForm,
 	},
 
 	{
 		"UploadFile",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/pet/:petId/uploadImage",
 		UploadFile,
 	},
 
 	{
 		"UploadFileWithRequiredFile",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/fake/:petId/uploadImageWithRequiredFile",
 		UploadFileWithRequiredFile,
 	},
 
 	{
 		"DeleteOrder",
-		strings.ToUpper("Delete"),
+		http.MethodDelete,
 		"/v2/store/order/:order_id",
 		DeleteOrder,
 	},
 
 	{
 		"GetInventory",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/store/inventory",
 		GetInventory,
 	},
 
 	{
 		"GetOrderById",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/store/order/:order_id",
 		GetOrderById,
 	},
 
 	{
 		"PlaceOrder",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/store/order",
 		PlaceOrder,
 	},
 
 	{
 		"CreateUser",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/user",
 		CreateUser,
 	},
 
 	{
 		"CreateUsersWithArrayInput",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/user/createWithArray",
 		CreateUsersWithArrayInput,
 	},
 
 	{
 		"CreateUsersWithListInput",
-		strings.ToUpper("Post"),
+		http.MethodPost,
 		"/v2/user/createWithList",
 		CreateUsersWithListInput,
 	},
 
 	{
 		"DeleteUser",
-		strings.ToUpper("Delete"),
+		http.MethodDelete,
 		"/v2/user/:username",
 		DeleteUser,
 	},
 
 	{
 		"GetUserByName",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/user/:username",
 		GetUserByName,
 	},
 
 	{
 		"LoginUser",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/user/login",
 		LoginUser,
 	},
 
 	{
 		"LogoutUser",
-		strings.ToUpper("Get"),
+		http.MethodGet,
 		"/v2/user/logout",
 		LogoutUser,
 	},
 
 	{
 		"UpdateUser",
-		strings.ToUpper("Put"),
+		http.MethodPut,
 		"/v2/user/:username",
 		UpdateUser,
 	},

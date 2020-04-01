@@ -1,0 +1,31 @@
+package {{packageName}}
+
+// TODO: properly handle custom imports
+import java.io._
+import java.util.UUID
+import java.time._
+import com.twitter.finagle.http.exp.Multipart.{FileUpload, InMemoryFileUpload, OnDiskFileUpload}
+
+import {{modelPackage}}._
+
+trait DataAccessor {
+    // TODO: apiInfo -> apis -> operations = TODO error
+    private object TODO extends CommonError("Not implemented") {
+        def message = "Not implemented"
+    }
+
+{{#apiInfo}}
+    {{#apis}}
+{{#operations}}
+    {{#operation}}
+        /**
+        * {{{description}}}
+        * @return A {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
+        */
+        def {{baseName}}_{{operationId}}({{{vendorExtensions.x-codegen-typed-params}}}): Either[CommonError,{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}] = Left(TODO)
+
+    {{/operation}}
+{{/operations}}
+            {{/apis}}
+{{/apiInfo}}
+}

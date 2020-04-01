@@ -33,7 +33,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**testBodyWithFileSchema**](docs/FakeAPI.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeAPI* | [**testBodyWithQueryParams**](docs/FakeAPI.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeAPI* | [**testClientModel**](docs/FakeAPI.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
-*FakeAPI* | [**testEndpointParameters**](docs/FakeAPI.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+*FakeAPI* | [**testEndpointParameters**](docs/FakeAPI.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 *FakeAPI* | [**testEnumParameters**](docs/FakeAPI.md#testenumparameters) | **GET** /fake | To test enum parameters
 *FakeAPI* | [**testGroupParameters**](docs/FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeAPI* | [**testInlineAdditionalProperties**](docs/FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -73,10 +73,12 @@ Class | Method | HTTP request | Description
  - [ArrayTest](docs/ArrayTest.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
+ - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
+ - [DogAllOf](docs/DogAllOf.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)

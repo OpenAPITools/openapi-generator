@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
@@ -64,7 +66,20 @@ public class InlineModelResolver {
 
         for (String pathname : paths.keySet()) {
             PathItem path = paths.get(pathname);
+            List<Operation> operations = new ArrayList<>(path.readOperations());
+
+            // Include callback operation as well
             for (Operation operation : path.readOperations()) {
+                Map<String, Callback> callbacks = operation.getCallbacks();
+                if (callbacks != null) {
+                    operations.addAll(callbacks.values().stream()
+                            .flatMap(callback -> callback.values().stream())
+                            .flatMap(pathItem -> pathItem.readOperations().stream())
+                            .collect(Collectors.toList()));
+                }
+            }
+
+            for (Operation operation : operations) {
                 flattenRequestBody(openAPI, pathname, operation);
                 flattenParameters(openAPI, pathname, operation);
                 flattenResponses(openAPI, pathname, operation);
@@ -142,6 +157,7 @@ public class InlineModelResolver {
                 ObjectSchema op = (ObjectSchema) inner;
                 if (op.getProperties() != null && op.getProperties().size() > 0) {
                     flattenProperties(op.getProperties(), pathname);
+                    // Generate a unique model name based on the title.
                     String modelName = resolveModelName(op.getTitle(), null);
                     Schema innerModel = modelFromProperty(op, modelName);
                     String existing = matchGenerated(innerModel);
@@ -312,6 +328,33 @@ public class InlineModelResolver {
         }
     }
 
+    /**
+     * Flattens properties of inline object schemas that belong to a composed schema into a
+     * single flat list of properties. This is useful to generate a single or multiple
+     * inheritance model.
+     * 
+     * In the example below, codegen may generate a 'Dog' class that extends from the
+     * generated 'Animal' class. 'Dog' has additional properties 'name', 'age' and 'breed' that
+     * are flattened as a single list of properties.
+     * 
+     * Dog:
+     *   allOf:
+     *     - $ref: '#/components/schemas/Animal'
+     *     - type: object
+     *       properties:
+     *         name:
+     *           type: string
+     *         age:
+     *           type: string
+     *     - type: object
+     *       properties:
+     *         breed:
+     *           type: string
+     * 
+     * @param openAPI the OpenAPI document
+     * @param key a unique name ofr the composed schema.
+     * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
+     */
     private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
         if (children == null || children.isEmpty()) {
             return;
@@ -322,6 +365,16 @@ public class InlineModelResolver {
             if (component instanceof ObjectSchema) {
                 ObjectSchema op = (ObjectSchema) component;
                 if (op.get$ref() == null && op.getProperties() != null && op.getProperties().size() > 0) {
+                    // If a `title` attribute is defined in the inline schema, codegen uses it to name the
+                    // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
+                    // We know that this is not the best way to name the model.
+                    //
+                    // Such naming strategy may result in issues. If the value of the 'title' attribute
+                    // happens to match a schema defined elsewhere in the specification, 'innerModelName'
+                    // will be the same as that other schema.
+                    //
+                    // To have complete control of the model naming, one can define the model separately
+                    // instead of inline.
                     String innerModelName = resolveModelName(op.getTitle(), key);
                     Schema innerModel = modelFromProperty(op, innerModelName);
                     String existing = matchGenerated(innerModel);
@@ -407,11 +460,26 @@ public class InlineModelResolver {
         }
     }
 
+    /**
+     * Generates a unique model name. Non-alphanumeric characters will be replaced
+     * with underscores
+     *
+     * e.g. io.schema.User_name => io_schema_User_name
+     * 
+     * @param title String title field in the schema if present
+     * @param key String model name
+     *
+     * @return if provided the sanitized {@code title}, else the sanitized {@code key}
+     */
     private String resolveModelName(String title, String key) {
         if (title == null) {
-            return uniqueName(key);
+            if (key == null) {
+                LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
+                return uniqueName("InlineObject");
+            }
+            return uniqueName(sanitizeName(key));
         } else {
-            return uniqueName(title);
+            return uniqueName(sanitizeName(title));
         }
     }
 
@@ -427,29 +495,31 @@ public class InlineModelResolver {
         generatedSignature.put(Json.pretty(model), name);
     }
 
-    private String uniqueName(String key) {
-        if (key == null) {
-            key = "InlineObject";
-            LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
+    /**
+     * Sanitizes the input so that it's valid name for a class or interface
+     *
+     * e.g. 12.schema.User name => _2_schema_User_name
+     */
+    private String sanitizeName(final String name) {
+        return name
+            .replaceAll("^[0-9]", "_") // e.g. 12object => _2object
+            .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
+    }
+
+    private String uniqueName(final String name) {
+        if (openapi.getComponents().getSchemas() == null) {
+            return name;
         }
+
+        String uniqueName = name;
         int count = 0;
-        boolean done = false;
-        key = key.replaceAll("/", "_"); // e.g. /me/videos => _me_videos
-        key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", ""); // FIXME: a parameter
-        // should not be assigned. Also declare the methods parameters as 'final'.
-        while (!done) {
-            String name = key;
-            if (count > 0) {
-                name = key + "_" + count;
+        while (true) {
+            if (!openapi.getComponents().getSchemas().containsKey(uniqueName)) {
+                return uniqueName;
             }
-            if (openapi.getComponents().getSchemas() == null) {
-                return name;
-            } else if (!openapi.getComponents().getSchemas().containsKey(name)) {
-                return name;
-            }
-            count += 1;
+            uniqueName = name + "_" + ++count;
         }
-        return key;
+        // TODO it would probably be a good idea to check against a list of used uniqueNames to make sure there are no collisions
     }
 
     private void flattenProperties(Map<String, Schema> properties, String path) {

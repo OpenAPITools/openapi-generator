@@ -1,0 +1,76 @@
+package {{packageName}}.infrastructure
+
+{{#moshi}}
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+{{^moshiCodeGen}}
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+{{/moshiCodeGen}}
+{{/moshi}}
+{{#gson}}
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+{{^threetenbp}}
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
+{{/threetenbp}}
+import java.util.UUID
+{{/gson}}
+{{#jackson}}
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+{{/jackson}}
+import java.util.Date
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
+{{#moshi}}
+    @JvmStatic
+    val moshiBuilder: Moshi.Builder = Moshi.Builder()
+        .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+        .add(OffsetDateTimeAdapter())
+        .add(LocalDateTimeAdapter())
+        .add(LocalDateAdapter())
+        .add(UUIDAdapter())
+        .add(ByteArrayAdapter())
+        {{^moshiCodeGen}}
+        .add(KotlinJsonAdapterFactory())
+        {{/moshiCodeGen}}
+
+    @JvmStatic
+    val moshi: Moshi by lazy {
+        moshiBuilder.build()
+    }
+{{/moshi}}
+{{#gson}}
+    @JvmStatic
+    val gsonBuilder: GsonBuilder = GsonBuilder()
+        .registerTypeAdapter(Date::class.java, DateAdapter())
+        .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
+        .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+        .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+    
+    @JvmStatic
+    val gson: Gson by lazy {
+        gsonBuilder.create()
+    }
+{{/gson}}
+{{#jackson}}
+    @JvmStatic
+    val jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
+        .registerModule(Jdk8Module())
+        .registerModule(JavaTimeModule())
+        .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
+        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+{{/jackson}}
+}

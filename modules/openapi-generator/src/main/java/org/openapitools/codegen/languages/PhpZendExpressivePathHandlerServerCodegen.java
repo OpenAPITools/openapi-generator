@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,10 +58,26 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
 
     public PhpZendExpressivePathHandlerServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+        );
+
         //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
         typeMapping.put("double", "float");
 
-        embeddedTemplateDir = templateDir = "ze-ph";
+        embeddedTemplateDir = templateDir = "php-ze-ph";
         invokerPackage = "App";
         srcBasePath = "src" + File.separator + "App";
         apiDirName = "Handler";
@@ -320,7 +337,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
             op.httpMethod = httpMethodDeclaration;
             //Producing content with media type "*/*" is not supported
             if (op.produces != null) {
-                for (Map<String, String> p: op.produces) {
+                for (Map<String, String> p : op.produces) {
                     if (p.replace("mediaType", "*/*", "n/a")) {
                         LOGGER.warn("Media type range '*/*' is not supported, using 'n/a' for code generation instead");
                     }

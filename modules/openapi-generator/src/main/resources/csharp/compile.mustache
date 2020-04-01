@@ -15,8 +15,8 @@ if not exist ".\nuget.exe" powershell -Command "(new-object System.Net.WebClient
 
 if not exist ".\bin" mkdir bin
 
-copy packages\Newtonsoft.Json.10.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
-copy packages\JsonSubTypes.1.2.0\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll bin\JsonSubTypes.dll
+copy packages\Newtonsoft.Json.12.0.1\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
+copy packages\JsonSubTypes.1.5.2\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll bin\JsonSubTypes.dll
 copy packages\RestSharp.105.1.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll bin\RestSharp.dll
 {{#generatePropertyChanged}}
 copy packages\Fody.1.29.4\Fody.dll bin\Fody.dll

@@ -18,7 +18,8 @@ Module system
 To build an compile the flow typed sources to javascript use:
 ```
 npm install
-npm run build
+# The dependency `babel-preset-react-app` requires that you specify `NODE_ENV` or `BABEL_ENV` environment variables
+env BABEL_ENV={YOUR_ENV} npm run build
 ```
 
 ### Publishing
