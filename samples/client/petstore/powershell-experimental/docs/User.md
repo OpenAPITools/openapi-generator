@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Prepare-PSPetstoreUser  -Id null `
+Initialize-PSPetstoreUser  -Id null `
  -Username null `
  -FirstName null `
  -LastName null `

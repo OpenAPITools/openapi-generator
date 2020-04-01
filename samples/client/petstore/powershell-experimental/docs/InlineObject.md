@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Prepare-PSPetstoreInlineObject  -Name null `
+Initialize-PSPetstoreInlineObject  -Name null `
  -Status null
 ```
 

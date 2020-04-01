@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Prepare-PSPetstoreApiResponse  -Code null `
+Initialize-PSPetstoreApiResponse  -Code null `
  -Type null `
  -Message null
 ```

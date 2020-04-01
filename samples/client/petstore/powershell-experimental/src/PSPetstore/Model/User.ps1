@@ -43,7 +43,7 @@ User Status
 User<PSCustomObject>
 #>
 
-function Prepare-PSUser {
+function Initialize-PSUser {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -73,7 +73,7 @@ function Prepare-PSUser {
     )
 
     Process {
-        'Creating object: PSPetstore => PSUser' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSUser' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

@@ -75,12 +75,12 @@ FunctionsToExport = 'Add-PSPet', 'Remove-Pet', 'Find-PSPetsByStatus', 'Find-PSPe
                'Get-PSOrderById', 'Invoke-PSPlaceOrder', 'New-PSUser', 
                'New-PSUsersWithArrayInput', 'New-PSUsersWithListInput', 
                'Remove-PSUser', 'Get-PSUserByName', 'Invoke-PSLoginUser', 
-               'Invoke-PSLogoutUser', 'Update-PSUser', 'Prepare-PSApiResponse', 
-               'Prepare-PSCategory', 'Prepare-PSInlineObject', 
-               'Prepare-PSInlineObject1', 'Prepare-PSOrder', 'Prepare-PSPet', 
-               'Prepare-PSTag', 'Prepare-PSUser', 'Get-PSConfiguration', 
-               'Set-PSConfiguration', 'Set-PSConfigurationApiKey', 
-               'Set-PSConfigurationApiKeyPrefix', 
+               'Invoke-PSLogoutUser', 'Update-PSUser', 'Initialize-PSApiResponse', 
+               'Initialize-PSCategory', 'Initialize-PSInlineObject', 
+               'Initialize-PSInlineObject1', 'Initialize-PSOrder', 
+               'Initialize-PSPet', 'Initialize-PSTag', 'Initialize-PSUser', 
+               'Get-PSConfiguration', 'Set-PSConfiguration', 
+               'Set-PSConfigurationApiKey', 'Set-PSConfigurationApiKeyPrefix', 
                'Set-PSConfigurationDefaultHeader', 'Get-PSHostSettings', 
                'Get-PSUrlFromHostSettings'
 

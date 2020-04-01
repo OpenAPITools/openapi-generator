@@ -47,10 +47,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     protected String apiTestPath = "tests/Api";
     protected String modelTestPath = "tests/Model";
     protected HashSet nullablePrimitives;
-    protected HashSet powershellVerbs;
     protected String powershellGalleryUrl;
+    protected HashSet powershellVerbs;
     protected Map<String, String> commonVerbs; // verbs not in the official ps verb list but can be mapped to one of the verbs
-
 
     /**
      * Constructs an instance of `PowerShellExperimentalClientCodegen`.
@@ -804,10 +803,10 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             processedModelMap.put(model, 1);
         }
 
-        example = "(Prepare-" + codegenModel.name;
+        example = "(Initialize-" + codegenModel.name;
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.vars) {
-            propertyExamples.add(" -" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
+            propertyExamples.add("-" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
         }
         example += StringUtils.join(propertyExamples, " ");
         example += ")";
@@ -826,7 +825,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         } else if (cp.isListContainer) { // array
             return getPSDataType(cp.items) + "[]";
         } else if (cp.isMapContainer) { // map
-            return "Hashtable";
+            return "System.Collections.Hashtable";
         } else { // model
             return "PSCustomObject";
         }
@@ -844,7 +843,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         } else if (cp.isListContainer) { // array
             return getPSDataType(cp.items) + "[]";
         } else if (cp.isMapContainer) { // map
-            return "Hashtable";
+            return "System.Collections.Hashtable";
         } else { // model
             return "PSCustomObject";
         }
