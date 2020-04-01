@@ -5777,18 +5777,20 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenModel cm = new CodegenModel();
 
         cm.discriminator = createDiscriminator("", (Schema) cs);
-        for (Schema o : cs.getOneOf()) {
-            if (o.get$ref() == null) {
-                if (cm.discriminator != null && o.get$ref() == null) {
-                    // OpenAPI spec states that inline objects should not be considered when discriminator is used
-                    // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject
-                    LOGGER.warn("Ignoring inline object in oneOf definition of {}, since discriminator is used", type);
-                } else {
-                    LOGGER.warn("Inline models are not supported in oneOf definition right now");
+        if (cs.getOneOf() != null){
+            for (Schema o : cs.getOneOf()) {
+                if (o.get$ref() == null) {
+                    if (cm.discriminator != null && o.get$ref() == null) {
+                        // OpenAPI spec states that inline objects should not be considered when discriminator is used
+                        // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject
+                        LOGGER.warn("Ignoring inline object in oneOf definition of {}, since discriminator is used", type);
+                    } else {
+                        LOGGER.warn("Inline models are not supported in oneOf definition right now");
+                    }
+                    continue;
                 }
-                continue;
+                cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
             }
-            cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
         }
         cm.name = type;
         cm.classname = type;
