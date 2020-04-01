@@ -52,6 +52,54 @@ public class ProcessUtils {
      * @param objs Map of operations
      * @return True if at least one operation has OAuth security schema defined
      */
+    public static boolean hasBasicAuthMethods(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
+                    for (CodegenSecurity cs : operation.authMethods) {
+                        if (Boolean.TRUE.equals(cs.isBasic)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if at least one operation has OAuth security schema defined
+     *
+     * @param objs Map of operations
+     * @return True if at least one operation has OAuth security schema defined
+     */
+    public static boolean hasTokenAuthMethods(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
+                    for (CodegenSecurity cs : operation.authMethods) {
+                        if (Boolean.TRUE.equals(cs.isApiKey)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if at least one operation has OAuth security schema defined
+     *
+     * @param objs Map of operations
+     * @return True if at least one operation has OAuth security schema defined
+     */
     public static boolean hasOAuthMethods(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -97,7 +145,7 @@ public class ProcessUtils {
     /**
      * Returns true if the specified OAS model has at least one operation with the HTTP basic
      * security scheme.
-     * 
+     *
      * @param authMethods List of auth methods.
      * @return True if at least one operation has HTTP basic security scheme defined
      */
@@ -114,7 +162,7 @@ public class ProcessUtils {
 
     /**
      * Returns true if the specified OAS model has at least one operation with API keys.
-     * 
+     *
      * @param authMethods List of auth methods.
      * @return True if at least one operation has API key security scheme defined
      */
@@ -133,7 +181,7 @@ public class ProcessUtils {
      * Returns true if the specified OAS model has at least one operation with the HTTP signature
      * security scheme.
      * The HTTP signature scheme is defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-     * 
+     *
      * @param authMethods List of auth methods.
      * @return True if at least one operation has HTTP signature security scheme defined
      */

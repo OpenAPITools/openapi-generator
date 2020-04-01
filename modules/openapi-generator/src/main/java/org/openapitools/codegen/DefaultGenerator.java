@@ -1435,6 +1435,26 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return result;
     }
 
+    private boolean hasBasicAuthMethods(List<CodegenSecurity> authMethods) {
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isBasic)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean hasTokenAuthMethods(List<CodegenSecurity> authMethods) {
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isApiKey)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private boolean hasOAuthMethods(List<CodegenSecurity> authMethods) {
         for (CodegenSecurity cs : authMethods) {
             if (Boolean.TRUE.equals(cs.isOAuth)) {
