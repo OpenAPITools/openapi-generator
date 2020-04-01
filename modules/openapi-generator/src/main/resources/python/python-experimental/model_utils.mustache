@@ -977,7 +977,9 @@ def get_oneof_instance(self, model_args, constant_args):
             model_args, oneof_class)
 
         # Extract a dict with the properties that are declared in the oneOf schema.
-        # Additional, undeclared properties are not added to the dict.
+        # Undeclared properties (e.g. properties that are allowed because of the
+        # additionalProperties attribute in the OAS document) are not added to
+        # the dict.
         kwargs = {}
         var_names = set(oneof_class.openapi_types().keys())
         for var_name in var_names:
