@@ -42,7 +42,7 @@ fun Route.StoreApi() {
     val empty = mutableMapOf<String, Any?>()
 
     delete<Paths.deleteOrder> {  _: Paths.deleteOrder ->
-        call.respond(HttpStatusCode.NotImplemented)
+        call.respond(HttpStatusCode.NotImplemented)
     }
 
 
@@ -53,7 +53,7 @@ fun Route.StoreApi() {
             call.respond(HttpStatusCode.Unauthorized)
         } else {
             call.respond(HttpStatusCode.NotImplemented)
-        }
+        }
     }
 
 
@@ -72,7 +72,7 @@ fun Route.StoreApi() {
             "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
-        }
+        }
     }
 
 
@@ -92,7 +92,7 @@ fun Route.StoreApi() {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
-            }
+            }
         }
     }
 
