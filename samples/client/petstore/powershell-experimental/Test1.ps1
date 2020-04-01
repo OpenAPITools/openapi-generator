@@ -3,7 +3,7 @@
 Remove-Module -FullyQualifiedName @{ModuleName = "PSPetstore"; ModuleVersion = "0.1.2"}
 #Remove-Module -FullyQualifiedName @{ModuleName = "PSPetstore"; ModuleVersion = "0.0"}
 
-Import-Module -Name '.\src\PSPetstore\PSPetstore.psd1'
+Import-Module -Name '.\src\PSPetstore\PSPetstore.psd1' -Verbose
 #Import-Module -Name '.\src\PSPetstore\PSPetstore.psd1' -Verbose
 #Import-Module -Name '.\src\PSOpenAPITools'
 #Import-Module -Name '.\src\Org.OpenAPITools'
@@ -11,7 +11,7 @@ Import-Module -Name '.\src\PSPetstore\PSPetstore.psd1'
 
 #$DebugPreference = 'Continue'
 
-$body = (New-PSUser -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)
+$body = (Initialize-PSUser -Id 123  -Username "Username_example"  -FirstName "FirstName_example"  -LastName "LastName_example"  -Email "Email_example"  -Password "Password_example"  -Phone "Phone_example"  -UserStatus 123)
 
 $Id = 38369
 
@@ -29,13 +29,13 @@ $result | Write-Host
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls
 
-#$pet = New-Pet -Id 10129 -Name 'foo' -Category (
-#    New-Category -Id 2 -Name 'bar'
+#$pet = Initialize-Pet -Id 10129 -Name 'foo' -Category (
+#    Initialize-Category -Id 2 -Name 'bar'
 #) -PhotoUrls @(
 #    'http://example.com/foo',
 #    'http://example.com/bar'
 #) -Tags (
-#    New-Tag -Id 3 -Name 'baz'
+#    Initialize-Tag -Id 3 -Name 'baz'
 #) -Status Available
 #
 #Write-Host $pet

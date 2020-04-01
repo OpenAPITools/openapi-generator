@@ -25,7 +25,7 @@ Updated status of the pet
 InlineObject<PSCustomObject>
 #>
 
-function New-PSInlineObject {
+function Initialize-PSInlineObject {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -37,7 +37,7 @@ function New-PSInlineObject {
     )
 
     Process {
-        'Creating object: PSPetstore => PSInlineObject' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSInlineObject' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
