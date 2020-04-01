@@ -394,7 +394,7 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		return nil
 	}
 	if f, ok := v.(**os.File); ok {
-		*f, err = ioutil.TempFile("", "FileStorageFile")
+		*f, err = ioutil.TempFile("", "HttpClientFile")
 		if err != nil {
 			return
 		}
