@@ -720,7 +720,11 @@ def get_required_type_classes(required_types_mixed):
 def change_keys_js_to_python(input_dict, model_class):
     """
     Converts from javascript_key keys in the input_dict to python_keys in
-    the output dict using the mapping in model_class
+    the output dict using the mapping in model_class.
+    If the input_dict contains a key which does not declared in the model_class,
+    the key is added to the output dict as is. The assumption is the model_class
+    may have undeclared properties (additionalProperties attribute in the OAS
+    document).
     """
 
     output_dict = {}
@@ -1199,12 +1203,20 @@ def get_allof_instances(self, model_args, constant_args):
 
 def get_oneof_instance(self, model_args, constant_args):
     """
+    Find the oneOf schema that matches the input data (e.g. payload).
+    If exactly one schema matches the input data, an instance of that schema
+    is returned.
+    If zero or more than one schema match the input data, an exception is raised.
+    In OAS 3.x, the payload MUST, by validation, match exactly one of the
+    schemas described by oneOf.
     Args:
         self: the class we are handling
         model_args (dict): var_name to var_value
-            used to make instances
+            The input data, e.g. the payload that must match a oneOf schema
+            in the OpenAPI document.
         constant_args (dict): var_name to var_value
-            used to make instances
+            args that every model requires, including configuration, server
+            and path to item.
 
     Returns
         oneof_instance (instance/None)
@@ -1213,12 +1225,17 @@ def get_oneof_instance(self, model_args, constant_args):
         return None
 
     oneof_instances = []
+    # Iterate over each oneOf schema and determine if the input data
+    # matches the oneOf schemas.
     for oneof_class in self._composed_schemas()['oneOf']:
-        # transform js keys to python keys in fixed_model_args
+        # transform js keys from input data to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
             model_args, oneof_class)
 
-        # extract a dict of only required keys from fixed_model_args
+        # Extract a dict with the properties that are declared in the oneOf schema.
+        # Undeclared properties (e.g. properties that are allowed because of the
+        # additionalProperties attribute in the OAS document) are not added to
+        # the dict.
         kwargs = {}
         var_names = set(oneof_class.openapi_types().keys())
         for var_name in var_names:
@@ -1238,14 +1255,14 @@ def get_oneof_instance(self, model_args, constant_args):
             pass
     if len(oneof_instances) == 0:
         raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. Unable to "
-            "make any instances of the classes in oneOf definition." %
+            "Invalid inputs given to generate an instance of %s. None "
+            "of the oneOf schemas matched the input data." %
             self.__class__.__name__
         )
     elif len(oneof_instances) > 1:
         raise ApiValueError(
             "Invalid inputs given to generate an instance of %s. Multiple "
-            "oneOf instances were generated when a max of one is allowed." %
+            "oneOf schemas matched the inputs, but a max of one is allowed." %
             self.__class__.__name__
         )
     return oneof_instances[0]
@@ -1345,7 +1362,7 @@ def validate_get_composed_info(constant_args, model_args, self):
     """
     For composed schemas/classes, validates the classes to make sure that
     they do not share any of the same parameters. If there is no collision
-    then composed model instances are created and returned tot the calling
+    then composed model instances are created and returned to the calling
     self model
 
     Args:
