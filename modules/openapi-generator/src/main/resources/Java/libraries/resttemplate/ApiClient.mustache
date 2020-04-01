@@ -66,11 +66,13 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 
 import {{invokerPackage}}.auth.Authentication;
-{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-import {{invokerPackage}}.auth.HttpBasicAuth;{{/isBasicBasic}}{{^isBasicBasic}}
-import {{invokerPackage}}.auth.HttpBearerAuth;{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
-import {{invokerPackage}}.auth.ApiKeyAuth;{{/isApiKey}}{{#isOAuth}}
-import {{invokerPackage}}.auth.OAuth;{{/isOAuth}}{{/authMethods}}
+import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
+import {{invokerPackage}}.auth.ApiKeyAuth;
+{{#hasOAuthMethods}}
+import {{invokerPackage}}.auth.OAuth;
+{{/hasOAuthMethods}}
+
 {{>generatedAnnotation}}
 @Component("{{invokerPackage}}.ApiClient")
 public class ApiClient {
@@ -157,7 +159,31 @@ public class ApiClient {
     public Map<String, Authentication> getAuthentications() {
         return authentications;
     }
-{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+
+    /**
+     * Get authentication for the given name.
+     *
+     * @param authName The authentication name
+     * @return The authentication, null if not found
+     */
+    public Authentication getAuthentication(String authName) {
+        return authentications.get(authName);
+    }
+
+    /**
+     * Helper method to set token for HTTP bearer authentication.
+     * @param bearerToken the token
+     */
+    public void setBearerToken(String bearerToken) {
+      for (Authentication auth : authentications.values()) {
+        if (auth instanceof HttpBearerAuth) {
+          ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+          return;
+        }
+      }
+      throw new RuntimeException("No Bearer authentication configured!");
+    }
+
     /**
      * Helper method to set username for the first HTTP basic authentication.
      * @param username the username
@@ -185,21 +211,7 @@ public class ApiClient {
         }
         throw new RuntimeException("No HTTP basic authentication configured!");
     }
-{{/isBasicBasic}}{{^isBasicBasic}}
-    /**
-     * Helper method to set token for HTTP bearer authentication.
-     * @param bearerToken the token
-     */
-    public void setBearerToken(String bearerToken) {
-        for (Authentication auth : authentications.values()) {
-            if (auth instanceof HttpBearerAuth) {
-                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-                return;
-            }
-        }
-        throw new RuntimeException("No Bearer authentication configured!");
-    }
-{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+
     /**
      * Helper method to set API key value for the first API key authentication.
      * @param apiKey the API key
@@ -227,7 +239,8 @@ public class ApiClient {
         }
         throw new RuntimeException("No API key authentication configured!");
     }
-{{/isApiKey}}{{#isOAuth}}
+
+    {{#hasOAuthMethods}}
     /**
      * Helper method to set access token for the first OAuth2 authentication.
      * @param accessToken the access token
@@ -241,17 +254,8 @@ public class ApiClient {
         }
         throw new RuntimeException("No OAuth2 authentication configured!");
     }
-{{/isOAuth}}{{/authMethods}}
-    /**
-     * Get authentication for the given name.
-     *
-     * @param authName The authentication name
-     * @return The authentication, null if not found
-     */
-    public Authentication getAuthentication(String authName) {
-        return authentications.get(authName);
-    }
 
+    {{/hasOAuthMethods}}
     /**
      * Set the User-Agent header's value (by adding to the default header map).
      * @param userAgent the user agent string
