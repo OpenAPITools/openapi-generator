@@ -705,7 +705,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         if (codegenParameter.isListContainer) { // array
             return "@(" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + ")";
         } else if (codegenParameter.isMapContainer) { // TODO: map, file type
-            return "\"TODO\"";
+            return "@{ \"Key\" = \"Value\" }";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType) ||
                 nullablePrimitives.contains(codegenParameter.dataType)) { // primitive type
             if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
