@@ -243,10 +243,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         for (Map.Entry<String, List<String>> entry : verbMappings.entrySet()) {
             // loop through each verb in the list
             for (String verb : entry.getValue()) {
-                LOGGER.debug("processing: {}", verb);
-
                 if (verbMappings.containsKey(verb)) {
                     // the verb to be mapped is also a common verb, do nothing
+                    LOGGER.debug("verbmapping: skipped {}", verb);
                 } else {
                     commonVerbs.put(verb, entry.getKey());
                     LOGGER.debug("verbmapping: adding {} => {}", verb, entry.getKey());
