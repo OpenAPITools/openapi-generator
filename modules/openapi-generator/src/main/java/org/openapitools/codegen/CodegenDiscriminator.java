@@ -63,13 +63,18 @@ public class CodegenDiscriminator {
         this.mappedModels = mappedModels;
     }
 
-    public static class MappedModel {
+    public static class MappedModel implements Comparable<MappedModel>{
         private String mappingName;
         private String modelName;
 
         public MappedModel(String mappingName, String modelName) {
             this.mappingName = mappingName;
             this.modelName = modelName;
+        }
+
+        @Override
+        public int compareTo(MappedModel other) {
+            return getMappingName().compareTo(other.getMappingName());
         }
 
         public String getMappingName() {

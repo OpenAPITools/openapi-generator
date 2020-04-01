@@ -8,6 +8,7 @@ sidebar_label: dart-dio
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |browserClient|Is the client browser based (for Dart 1.x only)| |null|
 |dateLibrary|Option. Date library to use|<dl><dt>**core**</dt><dd>Dart core library (DateTime)</dd><dt>**timemachine**</dt><dd>Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.</dd></dl>|core|
+|discriminatorExplicitMappingVerbose|Every model that has a discriminator explicitly defines the disciminator in itself, the mapping in that discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the spec's defined discriminator mapping schemas. When true, we validate that oneOf and anyOf schemas contain the required discriminator and we throw an error if it's missing. When true model templates should not loop over {{#children}} when defining the discriminator mapping| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |nullableFields|Is the null fields should be in the JSON payload| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
