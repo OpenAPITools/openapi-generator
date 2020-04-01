@@ -2638,8 +2638,10 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Object> vendorExtensions = cs.getExtensions();
             if (vendorExtensions != null && !vendorExtensions.isEmpty()) {
                 String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
-                descendentSchemas.add(mm);
+                if (xDiscriminatorValue != null) {
+                    mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
+                    descendentSchemas.add(mm);
+                }
             }
         }
         return descendentSchemas;
