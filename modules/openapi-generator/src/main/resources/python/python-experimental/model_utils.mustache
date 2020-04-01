@@ -976,7 +976,8 @@ def get_oneof_instance(self, model_args, constant_args):
         fixed_model_args = change_keys_js_to_python(
             model_args, oneof_class)
 
-        # extract a dict of only required keys from fixed_model_args
+        # Extract a dict with the properties that are declared in the oneOf schema.
+        # Additional, undeclared properties are not added to the dict.
         kwargs = {}
         var_names = set(oneof_class.openapi_types().keys())
         for var_name in var_names:
