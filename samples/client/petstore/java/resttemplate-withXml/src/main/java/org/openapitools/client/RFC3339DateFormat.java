@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class RFC3339DateFormat extends DateFormat {
@@ -27,6 +28,10 @@ public class RFC3339DateFormat extends DateFormat {
   private final StdDateFormat fmt = new StdDateFormat()
           .withTimeZone(TIMEZONE_Z)
           .withColonInTimeZone(true);
+
+  public RFC3339DateFormat() {
+    this.calendar = new GregorianCalendar();
+  }
 
   @Override
   public Date parse(String source, ParsePosition pos) {
