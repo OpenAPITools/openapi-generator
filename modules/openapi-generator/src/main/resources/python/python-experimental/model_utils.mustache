@@ -952,7 +952,8 @@ def get_oneof_instance(self, model_args, constant_args):
     Args:
         self: the class we are handling
         model_args (dict): var_name to var_value
-            the input data, e.g. the payload  used to make instances
+            The input data, e.g. the payload that must match a oneOf schema
+            in the OpenAPI document.
         constant_args (dict): var_name to var_value
             used to make instances
 
@@ -1095,7 +1096,7 @@ def validate_get_composed_info(constant_args, model_args, self):
     """
     For composed schemas/classes, validates the classes to make sure that
     they do not share any of the same parameters. If there is no collision
-    then composed model instances are created and returned tot the calling
+    then composed model instances are created and returned to the calling
     self model
 
     Args:
