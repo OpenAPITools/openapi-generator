@@ -55,11 +55,11 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 
 import org.openapitools.client.auth.Authentication;
-import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
-import org.openapitools.client.auth.ApiKeyAuth;
-import org.openapitools.client.auth.OAuth;
 
+import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.OAuth;
 
 @Component("org.openapitools.client.ApiClient")
 public class ApiClient {
@@ -148,55 +148,31 @@ public class ApiClient {
     }
 
     /**
-     * Get authentication for the given name.
-     *
-     * @param authName The authentication name
-     * @return The authentication, null if not found
+     * Helper method to set API key value for the first API key authentication.
+     * @param apiKey the API key
      */
-    public Authentication getAuthentication(String authName) {
-        return authentications.get(authName);
-    }
-
-    /**
-     * Helper method to set token for HTTP bearer authentication.
-     * @param bearerToken the token
-     */
-    public void setBearerToken(String bearerToken) {
-      for (Authentication auth : authentications.values()) {
-        if (auth instanceof HttpBearerAuth) {
-          ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-          return;
-        }
-      }
-      throw new RuntimeException("No Bearer authentication configured!");
-    }
-
-    /**
-     * Helper method to set username for the first HTTP basic authentication.
-     * @param username the username
-     */
-    public void setUsername(String username) {
+    public void setApiKey(String apiKey) {
         for (Authentication auth : authentications.values()) {
-            if (auth instanceof HttpBasicAuth) {
-                ((HttpBasicAuth) auth).setUsername(username);
+            if (auth instanceof ApiKeyAuth) {
+                ((ApiKeyAuth) auth).setApiKey(apiKey);
                 return;
             }
         }
-        throw new RuntimeException("No HTTP basic authentication configured!");
+        throw new RuntimeException("No API key authentication configured!");
     }
 
     /**
-     * Helper method to set password for the first HTTP basic authentication.
-     * @param password the password
+     * Helper method to set API key prefix for the first API key authentication.
+     * @param apiKeyPrefix the API key prefix
      */
-    public void setPassword(String password) {
+    public void setApiKeyPrefix(String apiKeyPrefix) {
         for (Authentication auth : authentications.values()) {
-            if (auth instanceof HttpBasicAuth) {
-                ((HttpBasicAuth) auth).setPassword(password);
+            if (auth instanceof ApiKeyAuth) {
+                ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
                 return;
             }
         }
-        throw new RuntimeException("No HTTP basic authentication configured!");
+        throw new RuntimeException("No API key authentication configured!");
     }
 
     /**
@@ -228,6 +204,34 @@ public class ApiClient {
     }
 
     /**
+     * Helper method to set username for the first HTTP basic authentication.
+     * @param username the username
+     */
+    public void setUsername(String username) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBasicAuth) {
+                ((HttpBasicAuth) auth).setUsername(username);
+                return;
+            }
+        }
+        throw new RuntimeException("No HTTP basic authentication configured!");
+    }
+
+    /**
+     * Helper method to set password for the first HTTP basic authentication.
+     * @param password the password
+     */
+    public void setPassword(String password) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBasicAuth) {
+                ((HttpBasicAuth) auth).setPassword(password);
+                return;
+            }
+        }
+        throw new RuntimeException("No HTTP basic authentication configured!");
+    }
+
+    /**
      * Helper method to set access token for the first OAuth2 authentication.
      * @param accessToken the access token
      */
@@ -239,6 +243,16 @@ public class ApiClient {
             }
         }
         throw new RuntimeException("No OAuth2 authentication configured!");
+    }
+
+    /**
+     * Get authentication for the given name.
+     *
+     * @param authName The authentication name
+     * @return The authentication, null if not found
+     */
+    public Authentication getAuthentication(String authName) {
+        return authentications.get(authName);
     }
 
     /**
