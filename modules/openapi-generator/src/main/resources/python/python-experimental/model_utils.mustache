@@ -464,7 +464,11 @@ def get_required_type_classes(required_types_mixed):
 def change_keys_js_to_python(input_dict, model_class):
     """
     Converts from javascript_key keys in the input_dict to python_keys in
-    the output dict using the mapping in model_class
+    the output dict using the mapping in model_class.
+    If the input_dict contains a key which does not declared in the model_class,
+    the key is added to the output dict as is. The assumption is the model_class
+    may have undeclared properties (additionalProperties attribute in the OAS
+    document).
     """
 
     output_dict = {}
