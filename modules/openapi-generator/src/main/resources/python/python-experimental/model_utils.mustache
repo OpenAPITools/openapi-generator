@@ -988,14 +988,14 @@ def get_oneof_instance(self, model_args, constant_args):
             pass
     if len(oneof_instances) == 0:
         raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. Unable to "
-            "make any instances of the classes in oneOf definition." %
+            "Invalid inputs given to generate an instance of %s. None "
+            "of the oneOf schemas matched the input data." %
             self.__class__.__name__
         )
     elif len(oneof_instances) > 1:
         raise ApiValueError(
             "Invalid inputs given to generate an instance of %s. Multiple "
-            "oneOf instances were generated when a max of one is allowed." %
+            "oneOf schemas matched the inputs, but a max of one is allowed." %
             self.__class__.__name__
         )
     return oneof_instances[0]
