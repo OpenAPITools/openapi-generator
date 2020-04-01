@@ -43,7 +43,7 @@ User Status
 User<PSCustomObject>
 #>
 
-function New-PSUser {
+function Prepare-PSUser {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]

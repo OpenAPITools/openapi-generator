@@ -157,7 +157,7 @@ Place an order for a pet
 ```powershell
 Import-Module -Name PSPetstore
 
-$Order = (New-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
+$Order = (Prepare-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet
 try {

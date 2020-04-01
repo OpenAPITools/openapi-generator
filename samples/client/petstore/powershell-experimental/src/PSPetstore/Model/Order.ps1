@@ -37,7 +37,7 @@ No description available.
 Order<PSCustomObject>
 #>
 
-function New-PSOrder {
+function Prepare-PSOrder {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]

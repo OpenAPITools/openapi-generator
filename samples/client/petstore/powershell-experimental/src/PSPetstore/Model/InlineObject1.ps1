@@ -25,7 +25,7 @@ file to upload
 InlineObject1<PSCustomObject>
 #>
 
-function New-PSInlineObject1 {
+function Prepare-PSInlineObject1 {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]

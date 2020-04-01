@@ -804,7 +804,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             processedModelMap.put(model, 1);
         }
 
-        example = "(New-" + codegenModel.name;
+        example = "(Prepare-" + codegenModel.name;
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.vars) {
             propertyExamples.add(" -" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));

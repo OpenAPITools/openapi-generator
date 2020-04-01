@@ -25,7 +25,7 @@ Updated status of the pet
 InlineObject<PSCustomObject>
 #>
 
-function New-PSInlineObject {
+function Prepare-PSInlineObject {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
