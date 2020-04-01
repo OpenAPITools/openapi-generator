@@ -943,10 +943,16 @@ def get_allof_instances(self, model_args, constant_args):
 
 def get_oneof_instance(self, model_args, constant_args):
     """
+    Find the oneOf schema that matches the input data (e.g. payload).
+    If exactly one schema matches the input data, an instance of that schema
+    is returned.
+    If zero or more than one schema match the input data, an exception is raised.
+    In OAS 3.x, the payload MUST, by validation, match exactly one of the
+    schemas described by oneOf.
     Args:
         self: the class we are handling
         model_args (dict): var_name to var_value
-            used to make instances
+            the input data, e.g. the payload  used to make instances
         constant_args (dict): var_name to var_value
             used to make instances
 
