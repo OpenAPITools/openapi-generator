@@ -2581,7 +2581,7 @@ public class DefaultCodegen implements CodegenConfig {
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
                 Map<String, Object> vendorExtensions = cs.getExtensions();
-                if (vendorExtensions != null && !vendorExtensions.isEmpty()) {
+                if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                     String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
                     mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
                     descendentSchemas.add(mm);
@@ -2636,7 +2636,7 @@ public class DefaultCodegen implements CodegenConfig {
             descendentSchemas.add(mm);
             Schema cs = schemas.get(currentSchemaName);
             Map<String, Object> vendorExtensions = cs.getExtensions();
-            if (vendorExtensions != null && !vendorExtensions.isEmpty()) {
+            if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                 String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
                 mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
                 descendentSchemas.add(mm);
