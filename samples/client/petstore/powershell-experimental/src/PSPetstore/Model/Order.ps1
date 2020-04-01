@@ -37,7 +37,7 @@ No description available.
 Order<PSCustomObject>
 #>
 
-function Prepare-PSOrder {
+function Initialize-PSOrder {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -61,7 +61,7 @@ function Prepare-PSOrder {
     )
 
     Process {
-        'Creating object: PSPetstore => PSOrder' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSOrder' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

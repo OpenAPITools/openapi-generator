@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Prepare-PSPetstoreTag  -Id null `
+Initialize-PSPetstoreTag  -Id null `
  -Name null
 ```
 

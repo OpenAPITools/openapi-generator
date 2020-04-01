@@ -37,7 +37,7 @@ pet status in the store
 Pet<PSCustomObject>
 #>
 
-function Prepare-PSPet {
+function Initialize-PSPet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -61,7 +61,7 @@ function Prepare-PSPet {
     )
 
     Process {
-        'Creating object: PSPetstore => PSPet' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSPet' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Prepare-PSPetstoreOrder  -Id null `
+Initialize-PSPetstoreOrder  -Id null `
  -PetId null `
  -Quantity null `
  -ShipDate null `

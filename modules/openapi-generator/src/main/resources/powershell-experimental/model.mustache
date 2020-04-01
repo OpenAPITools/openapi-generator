@@ -20,7 +20,7 @@
 {{{classname}}}<PSCustomObject>
 #>
 
-function Prepare-{{{apiNamePrefix}}}{{{classname}}} {
+function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     [CmdletBinding()]
     Param (
 {{#vars}}
@@ -33,7 +33,7 @@ function Prepare-{{{apiNamePrefix}}}{{{classname}}} {
     )
 
     Process {
-        'Creating object: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
+        'Creating PSCustomObject: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

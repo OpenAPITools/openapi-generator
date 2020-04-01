@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Prepare-PSPetstorePet  -Id null `
+Initialize-PSPetstorePet  -Id null `
  -Category null `
  -Name doggie `
  -PhotoUrls null `

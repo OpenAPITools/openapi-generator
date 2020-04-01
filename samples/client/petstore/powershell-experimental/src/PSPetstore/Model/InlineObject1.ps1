@@ -25,7 +25,7 @@ file to upload
 InlineObject1<PSCustomObject>
 #>
 
-function Prepare-PSInlineObject1 {
+function Initialize-PSInlineObject1 {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -37,7 +37,7 @@ function Prepare-PSInlineObject1 {
     )
 
     Process {
-        'Creating object: PSPetstore => PSInlineObject1' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSInlineObject1' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

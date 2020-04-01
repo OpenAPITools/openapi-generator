@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-Prepare-PSPetstoreCategory  -Id null `
+Initialize-PSPetstoreCategory  -Id null `
  -Name null
 ```
 
