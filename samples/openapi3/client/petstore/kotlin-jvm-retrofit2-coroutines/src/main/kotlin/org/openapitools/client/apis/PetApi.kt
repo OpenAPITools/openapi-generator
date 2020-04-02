@@ -1,10 +1,10 @@
 package org.openapitools.client.apis
 
 import org.openapitools.client.infrastructure.CollectionFormats.*
+import retrofit2.http.*
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okhttp3.MultipartBody
-import retrofit2.http.*
 
 import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
@@ -35,10 +35,10 @@ interface PetApi {
 
     @Multipart
     @POST("/pet/{petId}/uploadImage")
-    suspend fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part ): ApiResponse
+    suspend fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part): ApiResponse
 
     @Multipart
     @POST("/fake/{petId}/uploadImageWithRequiredFile")
-    suspend fun uploadFileWithRequiredFile(@Path("petId") petId: kotlin.Long, @Part requiredFile: MultipartBody.Part , @Part("additionalMetadata") additionalMetadata: kotlin.String): ApiResponse
+    suspend fun uploadFileWithRequiredFile(@Path("petId") petId: kotlin.Long, @Part requiredFile: MultipartBody.Part, @Part("additionalMetadata") additionalMetadata: kotlin.String): ApiResponse
 
 }
