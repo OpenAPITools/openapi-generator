@@ -129,17 +129,11 @@ public class ApiClient {
         setUserAgent("Java-SDK");
 
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<String, Authentication>();
-        {{#hasBasicAuthMethods}}
-        authentications.put("{{name}}", new HttpBasicAuth());
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));
-        {{/hasBasicAuthMethods}}
-        {{#hasTokenAuthMethods}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
-        {{/hasTokenAuthMethods}}
-        {{#hasOAuthMethods}}
-        authentications.put("{{name}}", new OAuth());
-        {{/hasOAuthMethods}}
+        authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#hasBasicAuthMethods}}{{#isBasic}}{{#isBasicBasic}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{/hasBasicAuthMethods}}{{#hasTokenAuthMethods}}{{#isApiKey}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{/hasTokenAuthMethods}}{{#hasOAuthMethods}}{{#isOAuth}}
+        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/hasOAuthMethods}}{{/authMethods}}
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
