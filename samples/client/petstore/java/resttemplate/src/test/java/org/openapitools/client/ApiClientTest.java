@@ -128,51 +128,6 @@ public class ApiClientTest {
         }
     }
 
-    @Ignore("There is no more basic auth in petstore security definitions")
-    @Test
-    public void testSetUsernameAndPassword() {
-        HttpBasicAuth auth = null;
-        for (Authentication _auth : apiClient.getAuthentications().values()) {
-            if (_auth instanceof HttpBasicAuth) {
-                auth = (HttpBasicAuth) _auth;
-                break;
-            }
-        }
-        auth.setUsername(null);
-        auth.setPassword(null);
-
-        apiClient.setUsername("my-username");
-        apiClient.setPassword("my-password");
-        assertEquals("my-username", auth.getUsername());
-        assertEquals("my-password", auth.getPassword());
-
-        // reset values
-        auth.setUsername(null);
-        auth.setPassword(null);
-    }
-
-    @Test
-    public void testSetApiKeyAndPrefix() {
-        ApiKeyAuth auth = null;
-        for (Authentication _auth : apiClient.getAuthentications().values()) {
-            if (_auth instanceof ApiKeyAuth) {
-                auth = (ApiKeyAuth) _auth;
-                break;
-            }
-        }
-        auth.setApiKey(null);
-        auth.setApiKeyPrefix(null);
-
-        apiClient.setApiKey("my-api-key");
-        apiClient.setApiKeyPrefix("Token");
-        assertEquals("my-api-key", auth.getApiKey());
-        assertEquals("Token", auth.getApiKeyPrefix());
-
-        // reset values
-        auth.setApiKey(null);
-        auth.setApiKeyPrefix(null);
-    }
-
     @Test
     public void testParameterToMultiValueMapWhenNameIsInvalid() throws Exception {
         MultiValueMap<String, String> pairs_a = apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.CSV, null, new Integer(1));
