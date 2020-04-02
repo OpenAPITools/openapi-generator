@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name="className", EmitDefaultValue=false)]
+        [DataMember(Name="className", EmitDefaultValue=true)]
         public string ClassName { get; set; }
 
         /// <summary>
