@@ -744,13 +744,34 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            // also add all properties of all schemas to be checked for oneOf
+            Map<String, Schema> propertySchemas = new HashMap<String, Schema>();
+            for (Map.Entry<String, Schema> e : schemas.entrySet()) {
+                Schema s = e.getValue();
+                Map<String, Schema> props = s.getProperties();
+                if (props == null) {
+                    props = new HashMap<String, Schema>();
+                }
+                for (Map.Entry<String, Schema> p : props.entrySet()) {
+                    propertySchemas.put(e.getKey() + "/" + p.getKey(), p.getValue());
+                }
+            }
+            schemas.putAll(propertySchemas);
+
             // go through all gathered schemas and add them as interfaces to be created
             for (Map.Entry<String, Schema> e : schemas.entrySet()) {
                 String n = toModelName(e.getKey());
                 Schema s = e.getValue();
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
-                    addOneOfNameExtension((ComposedSchema) s, n);
+                    if (e.getKey().contains("/")) {
+                        // if this is property schema, we also need to generate the oneOf interface model
+                        addOneOfNameExtension((ComposedSchema) s, nOneOf);
+                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
+                    } else {
+                        // else this is a component schema, so we will just use that as the oneOf interface model
+                        addOneOfNameExtension((ComposedSchema) s, n);
+                    }
                 } else if (ModelUtils.isArraySchema(s)) {
                     Schema items = ((ArraySchema) s).getItems();
                     if (ModelUtils.isComposedSchema(items)) {
@@ -1924,6 +1945,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
             return "string";
         } else if (ModelUtils.isFreeFormObject(schema)) {
+            // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
+            // it must be a map of string to values.
             return "object";
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
@@ -1931,7 +1954,10 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.warn("Unknown type found in the schema: " + schema.getType());
             return schema.getType();
         }
-
+        // The 'type' attribute has not been set in the OAS schema, which means the value
+        // can be an arbitrary type, e.g. integer, string, object, array, number...
+        // TODO: we should return a different value to distinguish between free-form object
+        // and arbitrary type.
         return "object";
     }
 
@@ -2299,14 +2325,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (sortModelPropertiesByRequiredFlag) {
-            Collections.sort(m.vars, new Comparator<CodegenProperty>() {
+            Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
                 @Override
                 public int compare(CodegenProperty one, CodegenProperty another) {
                     if (one.required == another.required) return 0;
                     else if (one.required) return -1;
                     else return 1;
                 }
-            });
+            };
+            Collections.sort(m.vars, comparator);
+            Collections.sort(m.allVars, comparator);
         }
 
         return m;
@@ -2686,6 +2714,9 @@ public class DefaultCodegen implements CodegenConfig {
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
             property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
+            if (ModelUtils.isAnyTypeSchema(p)) {
+                property.isAnyType = true;
+            }
         }
 
         LOGGER.debug("debugging from property return: " + property);
@@ -3282,6 +3313,13 @@ public class DefaultCodegen implements CodegenConfig {
             r.code = "0";
         } else {
             r.code = responseCode;
+            switch(r.code.charAt(0)) {
+                case '1': r.is1xx = true; break;
+                case '2': r.is2xx = true; break;
+                case '3': r.is3xx = true; break;
+                case '4': r.is4xx = true; break;
+                case '5': r.is5xx = true; break;
+            }
         }
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
@@ -5793,15 +5831,19 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Add a given ComposedSchema as an interface model to be generated
+     * Add a given ComposedSchema as an interface model to be generated, assuming it has `oneOf` defined
      * @param cs ComposedSchema object to create as interface model
      * @param type name to use for the generated interface model
      */
     public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
+        if (cs.getOneOf() == null) {
+            return;
+        }
         CodegenModel cm = new CodegenModel();
 
         cm.discriminator = createDiscriminator("", (Schema) cs);
-        for (Schema o : cs.getOneOf()) {
+
+        for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {
             if (o.get$ref() == null) {
                 if (cm.discriminator != null && o.get$ref() == null) {
                     // OpenAPI spec states that inline objects should not be considered when discriminator is used

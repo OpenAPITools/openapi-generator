@@ -637,10 +637,19 @@ where
                                             Ok(rsp) => match rsp {
                                                 XmlOtherPostResponse::OK
 
+                                                    (body)
+
 
                                                 => {
                                                     response.set_status(StatusCode::try_from(201).unwrap());
 
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::XML_OTHER_POST_OK.clone()));
+
+                                                    let mut namespaces = BTreeMap::new();
+                                                    // An empty string is used to indicate a global namespace in xmltree.
+                                                    namespaces.insert("".to_string(), models::AnotherXmlObject::NAMESPACE.to_string());
+                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    response.set_body(body);
                                                 },
                                                 XmlOtherPostResponse::BadRequest
 

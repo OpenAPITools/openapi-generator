@@ -50,6 +50,11 @@ pub mod responses {
         pub static ref UUID_GET_DUPLICATE_RESPONSE_LONG_TEXT: Mime = "application/json".parse().unwrap();
     }
 
+    lazy_static! {
+        /// Create Mime objects for the response content types for XmlOtherPost
+        pub static ref XML_OTHER_POST_OK: Mime = "text/xml".parse().unwrap();
+    }
+
 }
 
 pub mod requests {
@@ -67,7 +72,7 @@ pub mod requests {
 
     lazy_static! {
         /// Create Mime objects for the request content types for XmlOtherPost
-        pub static ref XML_OTHER_POST: Mime = "application/xml".parse().unwrap();
+        pub static ref XML_OTHER_POST: Mime = "text/xml".parse().unwrap();
     }
 
     lazy_static! {
