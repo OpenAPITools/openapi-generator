@@ -1,11 +1,11 @@
 package org.openapitools.client.apis
 
 import org.openapitools.client.infrastructure.CollectionFormats.*
+import retrofit2.http.*
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okhttp3.MultipartBody
 import rx.Observable
-import retrofit2.http.*
 
 import org.openapitools.client.models.Client
 import org.openapitools.client.models.FileSchemaTestClass
@@ -40,7 +40,7 @@ interface FakeApi {
 
     @FormUrlEncoded
     @POST("/fake")
-    fun testEndpointParameters(@Field("number") number: java.math.BigDecimal, @Field("double") double: kotlin.Double, @Field("pattern_without_delimiter") patternWithoutDelimiter: kotlin.String, @Field("byte") byte: kotlin.ByteArray, @Field("integer") integer: kotlin.Int, @Field("int32") int32: kotlin.Int, @Field("int64") int64: kotlin.Long, @Field("float") float: kotlin.Float, @Field("string") string: kotlin.String, @Field("binary") binary: MultipartBody.Part , @Field("date") date: java.time.LocalDate, @Field("dateTime") dateTime: java.time.OffsetDateTime, @Field("password") password: kotlin.String, @Field("callback") paramCallback: kotlin.String): Single<Unit>
+    fun testEndpointParameters(@Field("number") number: java.math.BigDecimal, @Field("double") double: kotlin.Double, @Field("pattern_without_delimiter") patternWithoutDelimiter: kotlin.String, @Field("byte") byte: kotlin.ByteArray, @Field("integer") integer: kotlin.Int, @Field("int32") int32: kotlin.Int, @Field("int64") int64: kotlin.Long, @Field("float") float: kotlin.Float, @Field("string") string: kotlin.String, @Field("binary") binary: MultipartBody.Part, @Field("date") date: java.time.LocalDate, @Field("dateTime") dateTime: java.time.OffsetDateTime, @Field("password") password: kotlin.String, @Field("callback") paramCallback: kotlin.String): Single<Unit>
 
     @FormUrlEncoded
     @GET("/fake")
