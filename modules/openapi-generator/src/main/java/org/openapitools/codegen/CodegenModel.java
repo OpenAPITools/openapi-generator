@@ -250,7 +250,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * 
      * @return the list of allowed discriminator mapping values.
      */
-    public List<String> getValidDiscriminatorMappings() {
+    public List<String> getAllowedDiscriminatorMappingValues() {
         List<String> mappingValues = new ArrayList<String>();
         for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
             if (name.equals(mm.getModelName())) {
@@ -262,6 +262,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     /**
      * Returns the name of the discriminator property for this schema in the OpenAPI document.
+     * In the OpenAPI document, the discriminator may be specified in the local schema or
+     * it may be inherited, such as through a 'allOf' schema which references another schema
+     * that has a discriminator, recursively.
+     * 
      * @return the name of the discriminator property.
      */
     public String getDiscriminatorName() {
