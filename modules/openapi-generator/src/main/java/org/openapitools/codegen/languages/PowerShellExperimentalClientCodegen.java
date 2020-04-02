@@ -253,9 +253,6 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             }
         }
 
-        // additional common verbs mapping
-        commonVerbs.put("Delete", "Remove");
-
         powershellVerbs = new HashSet<String>(Arrays.asList(
                 "Add",
                 "Clear",
@@ -1014,7 +1011,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
             if (methodName.startsWith(entry.getKey())) {
                 methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
-                LOGGER.info("Naming the method using the common verb (e.g. Create, Delete, Update): {} => {}", operationId, methodName);
+                LOGGER.info("Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}", operationId, methodName);
                 return methodName;
             }
         }

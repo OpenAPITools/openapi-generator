@@ -29,8 +29,8 @@ $OrderId = "OrderId_example" # String | ID of the order that needs to be deleted
 try {
     Remove-PSOrder -OrderId $OrderId
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling Remove-PSOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
@@ -78,8 +78,8 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 try {
     System.Collections.Hashtable $Result = Get-PSInventory
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling Get-PSInventory: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
@@ -120,8 +120,8 @@ $OrderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
 try {
     Order $Result = Get-PSOrderById -OrderId $OrderId
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling Get-PSOrderById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
@@ -163,8 +163,8 @@ $Order = (Initialize-Order-Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -S
 try {
     Order $Result = Invoke-PSPlaceOrder -Order $Order
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling Invoke-PSPlaceOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
