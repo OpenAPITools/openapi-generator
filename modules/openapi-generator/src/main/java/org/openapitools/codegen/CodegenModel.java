@@ -201,6 +201,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     /**
      * Returns the discriminator for this schema object, or null if no discriminator has been specified.
      * 
+     * The returned value is null if no discriminator is defined for this local schema.
+     * The value is also null when the discriminators are inherited through references in the
+     * OpenAPI document. For example, a schema may have a 'allOf' attribute and the allOf
+     * referenced children define a discriminator, recursively.
+     * 
      * @return the discriminator.
      */
     public CodegenDiscriminator getDiscriminator() {

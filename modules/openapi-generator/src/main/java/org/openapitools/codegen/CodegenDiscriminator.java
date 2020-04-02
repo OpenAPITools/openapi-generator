@@ -11,6 +11,7 @@ public class CodegenDiscriminator {
     private String propertyName;
     private String propertyBaseName;
     private String propertyGetter;
+    // The implementation type for the language generator being executed.
     private String propertyType;
     private Map<String, String> mapping;
     private Set<MappedModel> mappedModels = new LinkedHashSet<>();
