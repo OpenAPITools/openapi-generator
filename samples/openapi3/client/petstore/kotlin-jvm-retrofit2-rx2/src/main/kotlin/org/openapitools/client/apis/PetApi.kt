@@ -1,12 +1,12 @@
 package org.openapitools.client.apis
 
 import org.openapitools.client.infrastructure.CollectionFormats.*
+import retrofit2.http.*
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okhttp3.MultipartBody
 import io.reactivex.Single
 import io.reactivex.Completable
-import retrofit2.http.*
 
 import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
@@ -37,10 +37,10 @@ interface PetApi {
 
     @Multipart
     @POST("/pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part ): Single<ApiResponse>
+    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part): Single<ApiResponse>
 
     @Multipart
     @POST("/fake/{petId}/uploadImageWithRequiredFile")
-    fun uploadFileWithRequiredFile(@Path("petId") petId: kotlin.Long, @Part requiredFile: MultipartBody.Part , @Part("additionalMetadata") additionalMetadata: kotlin.String): Single<ApiResponse>
+    fun uploadFileWithRequiredFile(@Path("petId") petId: kotlin.Long, @Part requiredFile: MultipartBody.Part, @Part("additionalMetadata") additionalMetadata: kotlin.String): Single<ApiResponse>
 
 }
