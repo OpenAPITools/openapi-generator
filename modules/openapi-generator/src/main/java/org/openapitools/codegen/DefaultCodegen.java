@@ -5769,28 +5769,30 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Add a given ComposedSchema as an interface model to be generated
+     * Add a given ComposedSchema as an interface model to be generated, assuming it has `oneOf` defined
      * @param cs ComposedSchema object to create as interface model
      * @param type name to use for the generated interface model
      */
     public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
+        if (cs.getOneOf() == null) {
+            return;
+        }
         CodegenModel cm = new CodegenModel();
 
         cm.discriminator = createDiscriminator("", (Schema) cs);
-        if (cs.getOneOf() != null){
-            for (Schema o : cs.getOneOf()) {
-                if (o.get$ref() == null) {
-                    if (cm.discriminator != null && o.get$ref() == null) {
-                        // OpenAPI spec states that inline objects should not be considered when discriminator is used
-                        // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject
-                        LOGGER.warn("Ignoring inline object in oneOf definition of {}, since discriminator is used", type);
-                    } else {
-                        LOGGER.warn("Inline models are not supported in oneOf definition right now");
-                    }
-                    continue;
+
+        for (Schema o : cs.getOneOf()) {
+            if (o.get$ref() == null) {
+                if (cm.discriminator != null && o.get$ref() == null) {
+                    // OpenAPI spec states that inline objects should not be considered when discriminator is used
+                    // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject
+                    LOGGER.warn("Ignoring inline object in oneOf definition of {}, since discriminator is used", type);
+                } else {
+                    LOGGER.warn("Inline models are not supported in oneOf definition right now");
                 }
-                cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
+                continue;
             }
+            cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
         }
         cm.name = type;
         cm.classname = type;
