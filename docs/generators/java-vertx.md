@@ -58,6 +58,7 @@ sidebar_label: java-vertx
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |LocalDate|org.joda.time.*|
 |LocalDateTime|org.joda.time.*|
@@ -75,6 +76,7 @@ sidebar_label: java-vertx
 | ---------- | --------------- |
 |array|ArrayList|
 |map|HashMap|
+|set|LinkedHashSet|
 
 
 ## LANGUAGE PRIMITIVES

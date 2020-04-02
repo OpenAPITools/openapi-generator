@@ -76,6 +76,7 @@ sidebar_label: jaxrs-cxf
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |LocalDate|org.joda.time.LocalDate|
 |LocalDateTime|org.joda.time.*|
@@ -93,6 +94,7 @@ sidebar_label: jaxrs-cxf
 | ---------- | --------------- |
 |array|ArrayList|
 |map|HashMap|
+|set|LinkedHashSet|
 
 
 ## LANGUAGE PRIMITIVES

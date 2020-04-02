@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import java.util.HashMap;
 import java.util.List;
@@ -161,10 +162,10 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid tag value
      * @param tags Tags to filter by
-     * @return List&lt;Pet&gt;
+     * @return Set&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Flux<Pet> findPetsByTags(List<String> tags) throws RestClientException {
+    public Flux<Pet> findPetsByTags(Set<String> tags) throws RestClientException {
         Object postBody = null;
         // verify the required parameter 'tags' is set
         if (tags == null) {
