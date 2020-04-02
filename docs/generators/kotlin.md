@@ -24,7 +24,7 @@ sidebar_label: kotlin
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |useRxJava|Whether to use the RxJava adapter with the retrofit2 library.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library.| |false|
-|useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |true|
+|useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
 
 ## IMPORT MAPPING
 
