@@ -11,13 +11,13 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Id = 38369
 
             # Add pet
-            $Pet = New-PSPet -Id $Id -Name 'PowerShell' -Category (
-                New-PSCategory -Id $Id -Name 'PSCategory'
+            $Pet = Initialize-PSPet -Id $Id -Name 'PowerShell' -Category (
+                Initialize-PSCategory -Id $Id -Name 'PSCategory'
             ) -PhotoUrls @(
                 'http://example.com/foo',
                 'http://example.com/bar'
             ) -Tags (
-                New-PSTag -Id $Id -Name 'PSTag'
+                Initialize-PSTag -Id $Id -Name 'PSTag'
             ) -Status Available
             $Result = Add-PSPet -Pet $Pet
             
@@ -36,13 +36,13 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."status" | Should Be "Pending"
 
             # Update (put)
-            $NewPet = New-PSPet -Id $Id -Name 'PowerShell2' -Category (
-                New-PSCategory -Id $Id -Name 'PSCategory2'
+            $NewPet = Initialize-PSPet -Id $Id -Name 'PowerShell2' -Category (
+                Initialize-PSCategory -Id $Id -Name 'PSCategory2'
             ) -PhotoUrls @(
                 'http://example.com/foo2',
                 'http://example.com/bar2'
             ) -Tags (
-                New-PSTag -Id $Id -Name 'PSTag2'
+                Initialize-PSTag -Id $Id -Name 'PSTag2'
             ) -Status Sold
 
             $Result = Update-PSPet -Pet $NewPet
@@ -58,6 +58,48 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             # Delete
             $Result = Remove-Pet -petId $Id
 
+        }
+    }
+
+    Context 'Configuration' {
+        It 'Get-PSHostSettings tests' {
+
+            $HS = Get-PSHostSettings
+
+            $HS[0]["Url"] | Should Be "http://{server}.swagger.io:{port}/v2"
+            $HS[0]["Description"] | Should Be "petstore server"
+            $HS[0]["Variables"]["server"]["Description"] | Should Be "No description provided"
+            $HS[0]["Variables"]["server"]["DefaultValue"] | Should Be "petstore"
+            $HS[0]["Variables"]["server"]["EnumValues"] | Should Be @("petstore",
+                    "qa-petstore",
+                    "dev-petstore")
+
+        }
+
+        It "Get-PSUrlFromHostSettings tests" {
+            Get-PSUrlFromHostSettings -Index 0 | Should Be "http://petstore.swagger.io:80/v2"
+            Get-PSUrlFromHostSettings -Index 0 -Variables @{ "port" = "8080" } | Should Be "http://petstore.swagger.io:8080/v2" 
+            #Get-PSUrlFromHostSettings -Index 2 | Should -Throw -ExceptionType ([RuntimeException]) 
+            #Get-PSUrlFromHostSettings -Index 2 | Should -Throw # "Invalid index 2 when selecting the host. Must be less than 2"
+            #Get-PSUrlFromHostSettings -Index 0 -Variables @{ "port" = "1234" } | Should Throw "The variable 'port' in the host URL has invalid value 1234. Must be 80,8080"
+
+        }
+
+        It "Default header tests" {
+
+            Set-PSConfigurationDefaultHeader -Key "TestKey" -Value "TestValue"
+
+            $Configuration = Get-PSConfiguration
+            $Configuration["DefaultHeaders"].Count | Should Be 1
+            $Configuration["DefaultHeaders"]["TestKey"] | Should Be "TestValue"
+
+        }
+
+        It "Configuration tests" {
+            $Conf = Get-PSConfiguration
+            $Conf["SkipCertificateCheck"] | Should Be $false
+            $Conf = Set-PSConfiguration -PassThru -SkipCertificateCheck
+            $Conf["SkipCertificateCheck"] | Should Be $true
         }
     }
 }

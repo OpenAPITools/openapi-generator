@@ -33,6 +33,10 @@ function Get-{{apiNamePrefix}}Configuration {
         $Configuration["Cookie"] = $null
     }
 
+    if (!$Configuration["DefaultHeaders"]) {
+        $Configuration["DefaultHeaders"] = @{}
+    }
+
     if (!$Configuration["ApiKey"]) {
         $Configuration["ApiKey"] = @{}
     }
@@ -82,6 +86,12 @@ Access token for authentication/authorization
 .PARAMETER SkipCertificateCheck
 Skip certificate verification
 
+.PARAMETER DefaultHeaders 
+Default HTTP headers to be included in the HTTP request
+
+.PARAMETER PassThru
+Return an object of the Configuration
+
 .OUTPUTS
 
 System.Collections.Hashtable
@@ -101,9 +111,9 @@ function Set-{{{apiNamePrefix}}}Configuration {
         [string]$Cookie,
         [AllowEmptyString()]
         [string]$AccessToken,
-        [switch]$PassThru,
-        [bool]$SkipCertificateCheck,
-        [switch]$Force
+        [switch]$SkipCertificateCheck,
+        [hashtable]$DefaultHeaders,
+        [switch]$PassThru
     )
 
     Process {
@@ -136,8 +146,18 @@ function Set-{{{apiNamePrefix}}}Configuration {
             $Script:Configuration['AccessToken'] = $AccessToken
         }
 
-        If ($SkipCertificateCheck) {
-            $Script:Configuration['SkipCertificateCheck'] = $SkipCertificateCheck
+        If ($SkipCertificateCheck.IsPresent) {
+            $Script:Configuration['SkipCertificateCheck'] = $true
+        } else {
+            $Script:Configuration['SkipCertificateCheck'] = $false
+        } 
+
+        If ($DefaultHeaders) {
+            $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
+        }
+
+        If ($PassThru.IsPresent) {
+            $Script:Configuration
         }
     }
 }
@@ -207,5 +227,143 @@ function Set-{{{apiNamePrefix}}}ConfigurationApiKeyPrefix {
             $Script:Configuration["ApiKeyPrefix"] = @{}
         }
         $Script:Configuration["ApiKeyPrefix"][$Id] = $ApiKeyPrefix
+    }
+}
+
+<#
+.SYNOPSIS
+
+Set the default header.
+
+.DESCRIPTION
+
+Set the default header.
+
+.PARAMETER Key
+Key of the HTTP header
+
+.PARAMETER Value
+Value of the HTTP header
+
+.OUTPUTS
+
+None
+#>
+function Set-{{{apiNamePrefix}}}ConfigurationDefaultHeader {
+    [CmdletBinding()]
+    Param(
+        [string]$Key,
+        [AllowEmptyString()]
+        [string]$Value
+    )
+    Process {
+        if (!$Script:Configuration["DefaultHeaders"]) {
+            $Script:Configuration["DefaultHeaders"] = @{}
+        }
+        $Script:Configuration["DefaultHeaders"][$Key] = $Value
+    }
+}
+
+
+<#
+.SYNOPSIS
+
+Get the host setting.
+
+.DESCRIPTION
+
+Get the host setting in the form of array of hashtables.
+
+.OUTPUTS
+
+System.Collections.Hashtable[]
+#>
+function Get-{{apiNamePrefix}}HostSettings {
+    return @(
+        {{#servers}}
+          @{
+            "Url" = "{{{url}}}";
+            "Description" = "{{{description}}}{{^description}}No description provided{{/description}}";
+            {{#variables}}
+            {{#-first}}
+            "Variables" = @{
+            {{/-first}}
+              "{{{name}}}" = @{
+                  "Description" = "{{{description}}}{{^description}}No description provided{{/description}}";
+                  "DefaultValue" = "{{{defaultValue}}}";
+                  {{#enumValues}}
+                  {{#-first}}
+                  "EnumValues" = @(
+                  {{/-first}}
+                    "{{{.}}}"{{^-last}},{{/-last}}
+                  {{#-last}}
+                  )
+                  {{/-last}}
+                  {{/enumValues}}
+                }{{^-last}};{{/-last}}
+              {{#-last}}
+              }
+              {{/-last}}
+            {{/variables}}
+          }{{^-last}},{{/-last}}
+        {{/servers}}
+    )
+
+}
+
+<#
+.SYNOPSIS
+
+Get the URL from the host settings.
+
+.PARAMETER Index
+Index of the host settings (array)
+
+.PARAMETER Variables 
+Names and values of the variables (hashtable)
+
+.DESCRIPTION
+
+Get the URL from the host settings.
+
+.OUTPUTS
+
+String
+#>
+function Get-{{apiNamePrefix}}UrlFromHostSettings {
+
+    [CmdletBinding()]
+    Param(
+        [Parameter(ValueFromPipeline = $true)]
+        [Int]$Index,
+        [Hashtable]$Variables = @{}
+    )
+
+    Process {
+        $Hosts = Get-{{apiNamePrefix}}HostSettings
+
+        # check array index out of bound
+        if ($Index -lt 0 -or $Index -gt $Hosts.Length) {
+            throw "Invalid index $index when selecting the host. Must be less than $($Hosts.Length)"
+        }
+
+        $Host = $Hosts[$Index];
+        $Url = $Host["Url"];
+
+        # go through variable and assign a value
+        foreach ($h in $Host["Variables"].GetEnumerator()) {
+            if ($Variables.containsKey($h.Name)) { # check to see if it's in the variables provided by the user
+                if ($h.Value["EnumValues"] -Contains $Variables[$h.Name]) {
+                   $Url = $Url.replace("{$($h.Name)}", $Variables[$h.Name])
+                } else {
+                   throw "The variable '$($h.Name)' in the host URL has invalid value $($Variables[$h.Name]). Must be $($h.Value["EnumValues"] -join ",")"
+                }
+            } else {
+                $Url = $Url.replace("{$($h.Name)}", $h.Value["DefaultValue"])
+            }
+        }
+
+        return $Url;
+
     }
 }
