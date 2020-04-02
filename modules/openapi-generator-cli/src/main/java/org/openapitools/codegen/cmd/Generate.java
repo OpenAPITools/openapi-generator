@@ -34,8 +34,9 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings({"java:S106"})
 @Command(name = "generate", description = "Generate code with the specified generator.")
-public class Generate implements Runnable {
+public class Generate extends OpenApiGeneratorCommand {
 
     CodegenConfigurator configurator;
     Generator generator;
@@ -244,7 +245,7 @@ public class Generate implements Runnable {
     private Boolean minimalUpdate;
 
     @Override
-    public void run() {
+    public void execute() {
         if (logToStderr != null) {
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
