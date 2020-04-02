@@ -103,7 +103,7 @@ public class {{classname}}Controller extends Controller {
         }
         {{/required}}
         List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
-        {{{dataType}}} {{paramName}} = {{{defaultValue}}};
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -144,7 +144,7 @@ public class {{classname}}Controller extends Controller {
         }
         {{/required}}
         List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
-        {{{dataType}}} {{paramName}} = {{{defaultValue}}};
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -177,7 +177,7 @@ public class {{classname}}Controller extends Controller {
         }
         {{/required}}
         List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
-        {{{dataType}}} {{paramName}} = {{{defaultValue}}};
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation

@@ -5205,7 +5205,6 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isListContainer = true;
                     codegenParameter.description = escapeText(s.getDescription());
                     codegenParameter.dataType = getTypeDeclaration(arraySchema);
-                    codegenParameter.defaultValue = toDefaultValue(s);
                     if (codegenParameter.baseType != null && codegenParameter.enumName != null) {
                         codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
                     } else {
