@@ -30,7 +30,7 @@ samplePath="samples/openapi3/client/petstore/kotlin-jvm-retrofit2-rx"
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -t modules/openapi-generator/src/main/resources/kotlin-client -g kotlin --artifact-id kotlin-petstore-rx-client --library jvm-retrofit2 --additional-properties serializationLibrary=gson,dateLibrary=java8,serializableModel=true,useRxJava=true -o $samplePath $@"
 
-echo "Cleaning previously generated files if any from samplePath"
+echo "Cleaning previously generated files if any from $samplePath"
 rm -rf $samplePath
 
 echo "Generating Kotling client..."
