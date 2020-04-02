@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **booleanProp** | **kotlin.Boolean** |  |  [optional]
 **stringProp** | **kotlin.String** |  |  [optional]
 **dateProp** | [**java.time.LocalDate**](java.time.LocalDate.md) |  |  [optional]
-**datetimeProp** | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) |  |  [optional]
+**datetimeProp** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional]
 **arrayNullableProp** | [**kotlin.Array&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional]
 **arrayAndItemsNullableProp** | [**kotlin.Array&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional]
 **arrayItemsNullable** | [**kotlin.Array&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional]

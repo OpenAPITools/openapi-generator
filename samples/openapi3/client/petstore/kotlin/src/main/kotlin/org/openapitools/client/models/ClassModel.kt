@@ -22,12 +22,10 @@ import java.io.Serializable
 data class ClassModel (
     @Json(name = "_class")
     val propertyClass: kotlin.String? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

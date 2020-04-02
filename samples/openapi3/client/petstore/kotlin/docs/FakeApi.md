@@ -414,7 +414,7 @@ val float : kotlin.Float = 3.4 // kotlin.Float | None
 val string : kotlin.String = string_example // kotlin.String | None
 val binary : java.io.File = BINARY_DATA_HERE // java.io.File | None
 val date : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | None
-val dateTime : java.time.LocalDateTime = 2013-10-20T19:20:30+01:00 // java.time.LocalDateTime | None
+val dateTime : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | None
 val password : kotlin.String = password_example // kotlin.String | None
 val paramCallback : kotlin.String = paramCallback_example // kotlin.String | None
 try {
@@ -443,7 +443,7 @@ Name | Type | Description  | Notes
  **string** | **kotlin.String**| None | [optional]
  **binary** | **java.io.File**| None | [optional]
  **date** | **java.time.LocalDate**| None | [optional]
- **dateTime** | **java.time.LocalDateTime**| None | [optional]
+ **dateTime** | **java.time.OffsetDateTime**| None | [optional]
  **password** | **kotlin.String**| None | [optional]
  **paramCallback** | **kotlin.String**| None | [optional]
 
