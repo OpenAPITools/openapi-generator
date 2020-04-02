@@ -11,6 +11,6 @@ import org.openapitools.client.models.Client
 
 interface AnotherFakeApi {
     @PATCH("/another-fake/dummy")
-    fun call123testSpecialTags(@Body client: Client): Single<Client>
+    fun call123testSpecialTags(@Body client: Client): Observable<Client>
 
 }

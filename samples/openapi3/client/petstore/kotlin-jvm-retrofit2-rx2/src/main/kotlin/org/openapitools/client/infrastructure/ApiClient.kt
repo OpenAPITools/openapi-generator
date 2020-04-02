@@ -3,6 +3,7 @@ package org.openapitools.client.infrastructure
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient(
@@ -26,6 +27,7 @@ class ApiClient(
         .baseUrl(baseUrl)
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(Serializer.gson))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
     }
 
     fun <S> createService(serviceClass: Class<S>): S {

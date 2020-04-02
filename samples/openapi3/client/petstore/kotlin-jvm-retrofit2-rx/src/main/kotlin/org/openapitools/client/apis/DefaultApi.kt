@@ -11,6 +11,6 @@ import org.openapitools.client.models.InlineResponseDefault
 
 interface DefaultApi {
     @GET("/foo")
-    fun fooGet(): Single<InlineResponseDefault>
+    fun fooGet(): Observable<InlineResponseDefault>
 
 }
