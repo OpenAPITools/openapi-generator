@@ -250,7 +250,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * 
      * @return the list of allowed discriminator mapping values.
      */
-    public List<String> getValidDiscriminatorMappings() {
+    public List<String> getAllowedDiscriminatorMappingValues() {
         List<String> mappingValues = new ArrayList<String>();
         for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
             if (name.equals(mm.getModelName())) {
