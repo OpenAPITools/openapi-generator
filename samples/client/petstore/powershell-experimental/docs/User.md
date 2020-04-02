@@ -14,9 +14,9 @@ Name | Type | Description | Notes
 
 ## Examples
 
-- Create a new object
+- Prepare the resource
 ```powershell
-New-PSPetstoreUser  -Id null `
+Initialize-PSPetstoreUser  -Id null `
  -Username null `
  -FirstName null `
  -LastName null `
@@ -26,11 +26,10 @@ New-PSPetstoreUser  -Id null `
  -UserStatus null
 ```
 
-- Convert the object to JSON
+- Convert the resource to JSON
 ```powershell
 $ | Convert-ToJSON
 ```
-
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

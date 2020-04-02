@@ -25,7 +25,7 @@ No description available.
 Category<PSCustomObject>
 #>
 
-function New-PSCategory {
+function Initialize-PSCategory {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -37,7 +37,7 @@ function New-PSCategory {
     )
 
     Process {
-        'Creating object: PSPetstore => PSCategory' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSCategory' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

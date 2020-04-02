@@ -25,6 +25,22 @@ The most commonly used openapi-generator-cli commands are:
 
 See 'openapi-generator-cli help <command>' for more information on a specific
 command.
+```
+
+## version
+
+The version command provides version information, returning either the semver version by default or the git sha when passed `--sha`.
+
+```bash
+NAME
+        openapi-generator-cli version - Show version information
+
+SYNOPSIS
+        openapi-generator-cli version [--sha]
+
+OPTIONS
+        --sha
+            Git commit SHA version
 
 ```
 

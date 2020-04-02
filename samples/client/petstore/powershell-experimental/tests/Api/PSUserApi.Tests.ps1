@@ -6,32 +6,32 @@
 #
 
 Describe -tag 'PSPetstore' -name 'PSUserApi' {
-    Context 'Invoke-PSCreateUser' {
-        It 'Test Invoke-PSCreateUser' {
+    Context 'New-PSUser' {
+        It 'Test New-PSUser' {
             #$TestResult = Invoke-PetApiGetPetById -User "TEST_VALUE"
             #$TestResult | Should BeOfType TODO
             #$TestResult.property | Should Be 0
         }
     }
 
-    Context 'Invoke-PSCreateUsersWithArrayInput' {
-        It 'Test Invoke-PSCreateUsersWithArrayInput' {
+    Context 'New-PSUsersWithArrayInput' {
+        It 'Test New-PSUsersWithArrayInput' {
             #$TestResult = Invoke-PetApiGetPetById -User "TEST_VALUE"
             #$TestResult | Should BeOfType TODO
             #$TestResult.property | Should Be 0
         }
     }
 
-    Context 'Invoke-PSCreateUsersWithListInput' {
-        It 'Test Invoke-PSCreateUsersWithListInput' {
+    Context 'New-PSUsersWithListInput' {
+        It 'Test New-PSUsersWithListInput' {
             #$TestResult = Invoke-PetApiGetPetById -User "TEST_VALUE"
             #$TestResult | Should BeOfType TODO
             #$TestResult.property | Should Be 0
         }
     }
 
-    Context 'Invoke-PSDeleteUser' {
-        It 'Test Invoke-PSDeleteUser' {
+    Context 'Remove-PSUser' {
+        It 'Test Remove-PSUser' {
             #$TestResult = Invoke-PetApiGetPetById -Username "TEST_VALUE"
             #$TestResult | Should BeOfType TODO
             #$TestResult.property | Should Be 0
