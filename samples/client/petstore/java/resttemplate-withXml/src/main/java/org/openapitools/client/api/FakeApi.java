@@ -12,9 +12,7 @@ import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,7 +23,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -594,7 +591,7 @@ public class FakeApi {
         headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
 
         if (enumFormStringArray != null)
-            formParams.put("enum_form_string_array", enumFormStringArray);
+            formParams.addAll("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
             formParams.add("enum_form_string", enumFormString);
 
