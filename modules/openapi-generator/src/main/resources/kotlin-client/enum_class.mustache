@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName
 {{#moshi}}
 import com.squareup.moshi.Json
 {{/moshi}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty
+{{/jackson}}
 {{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
@@ -26,6 +29,9 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     {{#gson}}
     @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/gson}}
+    {{#jackson}}
+    @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/jackson}}
     {{/multiplatform}}
     {{#isListContainer}}
     {{#isList}}

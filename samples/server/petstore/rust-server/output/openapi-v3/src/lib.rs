@@ -137,6 +137,7 @@ pub enum XmlExtraPostResponse {
 pub enum XmlOtherPostResponse {
     /// OK
     OK
+    (models::AnotherXmlObject)
     ,
     /// Bad Request
     BadRequest

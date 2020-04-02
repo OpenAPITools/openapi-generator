@@ -60,6 +60,7 @@ org.openapitools.codegen.languages.JavaResteasyServerCodegen
 org.openapitools.codegen.languages.JavaResteasyEapServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen
 org.openapitools.codegen.languages.JavascriptClientCodegen
+org.openapitools.codegen.languages.JavascriptApolloClientCodegen
 org.openapitools.codegen.languages.JavascriptFlowtypedClientCodegen
 org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
 org.openapitools.codegen.languages.JMeterClientCodegen
@@ -83,6 +84,7 @@ org.openapitools.codegen.languages.PhpSilexServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
+org.openapitools.codegen.languages.PowerShellExperimentalClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
 org.openapitools.codegen.languages.PythonClientExperimentalCodegen
@@ -126,3 +128,4 @@ org.openapitools.codegen.languages.AsciidocDocumentationCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 
 org.openapitools.codegen.languages.MarkdownDocumentationCodegen
+org.openapitools.codegen.languages.ScalaSttpClientCodegen

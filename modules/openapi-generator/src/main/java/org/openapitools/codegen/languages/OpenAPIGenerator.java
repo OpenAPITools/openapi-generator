@@ -39,7 +39,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
     public OpenAPIGenerator() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
                 .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
                 .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
@@ -47,7 +47,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
                 .globalFeatures(EnumSet.allOf(GlobalFeature.class))
                 .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
                 .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
-                .build();
+        );
 
         embeddedTemplateDir = templateDir = "openapi";
         outputFolder = "generated-code/openapi";

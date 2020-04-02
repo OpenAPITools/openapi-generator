@@ -34,7 +34,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
     public CppQt5AbstractCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -50,7 +50,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         // set modelNamePrefix as default for QHttpEngine Server
         if (StringUtils.isEmpty(modelNamePrefix)) {
@@ -316,9 +316,6 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         Map<String, CodegenModel> codegenModels = new HashMap<String, CodegenModel>();
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (Object moObj : allModels) {
             CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
             if (mo.isEnum) {
@@ -328,7 +325,6 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         for (CodegenOperation operation : operations) {
             if (operation.returnType != null) {
                 if (codegenModels.containsKey(operation.returnType)) {
-                    operation.vendorExtensions.put("returnsEnum", true); // TODO: 5.0 Remove
                     operation.vendorExtensions.put("x-returns-enum", true);
                 }
             }

@@ -69,6 +69,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String bytesType = "swagger::ByteArray";
 
     private static final String xmlMimeType = "application/xml";
+    private static final String textXmlMimeType = "text/xml";
     private static final String octetMimeType = "application/octet-stream";
     private static final String plainMimeType = "text/plain";
     private static final String jsonMimeType = "application/json";
@@ -76,7 +77,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public RustServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -101,7 +102,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
 
         // Show the generation timestamp by default
@@ -521,7 +522,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private boolean isMimetypeXml(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType);
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType) ||
+               mimetype.toLowerCase(Locale.ROOT).startsWith(textXmlMimeType);
     }
 
     private boolean isMimetypePlainText(String mimetype) {

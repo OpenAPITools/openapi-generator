@@ -61,6 +61,7 @@ sidebar_label: nodejs-server-deprecated
 <li>delete</li>
 <li>do</li>
 <li>else</li>
+<li>enum</li>
 <li>export</li>
 <li>extends</li>
 <li>finally</li>
