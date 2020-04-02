@@ -34,6 +34,11 @@ public class RFC3339DateFormat extends DateFormat {
   }
 
   @Override
+  public Date parse(String source) {
+    return parse(source, new ParsePosition(0));
+  }
+
+  @Override
   public Date parse(String source, ParsePosition pos) {
     return fmt.parse(source, pos);
   }
