@@ -214,6 +214,40 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     /**
      * Returns a list of allowed discriminator mapping values for this schema object.
      * 
+     * The list of all possible schema discriminator mapping values is obtained
+     * from explicit discriminator mapping values in the OpenAPI document, and from
+     * inherited discriminators through oneOf, allOf, anyOf.
+     * For example, a discriminator may be defined in a 'Pet' schema as shown below.
+     * The Dog and Cat schemas inherit the discriminator through the allOf reference.
+     * In the 'Pet' schema, the supported discriminator mapping values for the
+     * 'objectType' properties are 'Dog' and 'Cat'.
+     * The allowed discriminator mapping value for the Dog schema is 'Dog'.
+     * The allowed discriminator mapping value for the Cat schema is 'Dog'.
+     * 
+     * Pet:
+     *   type: object
+     *   discriminator:
+     *     propertyName: objectType
+     *   required:
+     *     - objectType
+     *   properties:
+     *     objectType:
+     *     type: string
+     * Dog:
+     *   allOf:
+     *   - $ref: '#/components/schemas/Pet'
+     *   - type: object
+     *     properties:
+     *       p1:
+     *         type: string
+     * Cat:
+     *   allOf:
+     *   - $ref: '#/components/schemas/Pet'
+     *   - type: object
+     *     properties:
+     *       p2:
+     *         type: string
+     * 
      * @return the list of allowed discriminator mapping values.
      */
     public List<String> getValidDiscriminatorMappings() {
