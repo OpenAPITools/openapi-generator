@@ -278,7 +278,11 @@ class ModelComposed(OpenApiModel):
         if model_instances:
             for model_instance in model_instances:
                 if name in model_instance._data_store:
-                    values.add(model_instance._data_store[name])
+                    v = model_instance._data_store[name]
+                    if isinstance(v, list):
+                        values.add(tuple(v))
+                    else:
+                        values.add(v)
         len_values = len(values)
         if len_values == 0:
             raise ApiKeyError(
