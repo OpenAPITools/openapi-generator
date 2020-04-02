@@ -22,6 +22,9 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
 
+/**
+ * CodegenModel represents a schema object in a OpenAPI document.
+ */
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel implements IJsonSchemaValidationProperties {
     // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
@@ -195,6 +198,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.description = description;
     }
 
+    /**
+     * Returns the discriminator for this schema object, or null if no discriminator has been specified.
+     * 
+     * @return the discriminator.
+     */
     public CodegenDiscriminator getDiscriminator() {
         return discriminator;
     }
@@ -203,6 +211,25 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.discriminator = discriminator;
     }
 
+    /**
+     * Returns a list of allowed discriminator mapping values for this schema object.
+     * 
+     * @return the list of allowed discriminator mapping values.
+     */
+    public List<String> getValidDiscriminatorMappings() {
+        List<String> mappingValues = new ArrayList<String>();
+        for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
+            if (name.equals(mm.getModelName())) {
+                mappingValues.add(mm.getMappingName());
+            }
+        }     
+        return mappingValues;   
+    }
+
+    /**
+     * Returns the name of the discriminator property for this schema in the OpenAPI document.
+     * @return the name of the discriminator property.
+     */
     public String getDiscriminatorName() {
         return discriminator == null ? null : discriminator.getPropertyName();
     }
