@@ -22,20 +22,28 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>{{packageName}}</RootNamespace>
     <AssemblyName>{{packageName}}</AssemblyName>
+    <Description>{{packageDescription}}</Description>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFramework>{{targetFramework}}</TargetFramework>
     <FileAlignment>512</FileAlignment>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>{{#licenseId}}
+    <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}
+    <RepositoryUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}</PackageProjectUrl>{{#releaseNote}}
+    <PackageReleaseNotes>{{releaseNote}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
+    <PackageTags>{{{packageTags}}}</PackageTags>{{/packageTags}}
   </PropertyGroup>
+
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-      <PackageReference Include="CompareNETObjects" Version="4.57.0" />
-      <PackageReference Include="JsonSubTypes" Version="1.5.2" />
-      <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-      <PackageReference Include="RestSharp" Version="106.6.7" />
-      <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+    {{#useCompareNetObjects}}
+    <PackageReference Include="CompareNETObjects" Version="4.57.0" />
+    {{/useCompareNetObjects}}
+    <PackageReference Include="JsonSubTypes" Version="1.5.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="RestSharp" Version="106.10.1" />
+    {{#validatable}}
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+    {{/validatable}}
   </ItemGroup>
 </Project>

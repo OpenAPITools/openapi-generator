@@ -1,0 +1,43 @@
+package {{packageName}}.infrastructure
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}enum class ResponseType {
+    Success, Informational, Redirection, ClientError, ServerError
+}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}interface Response
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}abstract class ApiInfrastructureResponse<T>(val responseType: ResponseType): Response {
+    abstract val statusCode: Int
+    abstract val headers: Map<String,List<String>>
+}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class Success<T>(
+    val data: T{{#nullableReturnType}}?{{/nullableReturnType}},
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>> = mapOf()
+): ApiInfrastructureResponse<T>(ResponseType.Success)
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class Informational<T>(
+    val statusText: String,
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>> = mapOf()
+) : ApiInfrastructureResponse<T>(ResponseType.Informational)
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class Redirection<T>(
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>> = mapOf()
+) : ApiInfrastructureResponse<T>(ResponseType.Redirection)
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class ClientError<T>(
+    val message: String? = null,
+    val body: Any? = null,
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>> = mapOf()
+) : ApiInfrastructureResponse<T>(ResponseType.ClientError)
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class ServerError<T>(
+    val message: String? = null,
+    val body: Any? = null,
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>>
+): ApiInfrastructureResponse<T>(ResponseType.ServerError)

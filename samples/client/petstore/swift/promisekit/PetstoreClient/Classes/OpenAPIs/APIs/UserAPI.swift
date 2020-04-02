@@ -8,8 +8,6 @@
 import Alamofire
 import PromiseKit
 
-
-
 public class UserAPI: APIBase {
     /**
      Create user
@@ -18,8 +16,8 @@ public class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func createUser(user user: User? = nil, completion: ((error: ErrorType?) -> Void)) {
-        createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            completion(error: error);
+        createUserWithRequestBuilder(user: user).execute { (_, error) -> Void in
+            completion(error: error)
         }
     }
 
@@ -51,10 +49,10 @@ public class UserAPI: APIBase {
     public class func createUserWithRequestBuilder(user user: User? = nil) -> RequestBuilder<Void> {
         let path = "/user"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = user?.encodeToJSON() as? [String:AnyObject]
- 
+        let parameters = user?.encodeToJSON() as? [String: AnyObject]
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -67,8 +65,8 @@ public class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func createUsersWithArrayInput(user user: [User]? = nil, completion: ((error: ErrorType?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            completion(error: error);
+        createUsersWithArrayInputWithRequestBuilder(user: user).execute { (_, error) -> Void in
+            completion(error: error)
         }
     }
 
@@ -99,10 +97,10 @@ public class UserAPI: APIBase {
     public class func createUsersWithArrayInputWithRequestBuilder(user user: [User]? = nil) -> RequestBuilder<Void> {
         let path = "/user/createWithArray"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = user?.encodeToJSON() as? [String:AnyObject]
- 
+        let parameters = user?.encodeToJSON() as? [String: AnyObject]
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -115,8 +113,8 @@ public class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func createUsersWithListInput(user user: [User]? = nil, completion: ((error: ErrorType?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            completion(error: error);
+        createUsersWithListInputWithRequestBuilder(user: user).execute { (_, error) -> Void in
+            completion(error: error)
         }
     }
 
@@ -147,10 +145,10 @@ public class UserAPI: APIBase {
     public class func createUsersWithListInputWithRequestBuilder(user user: [User]? = nil) -> RequestBuilder<Void> {
         let path = "/user/createWithList"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = user?.encodeToJSON() as? [String:AnyObject]
- 
+        let parameters = user?.encodeToJSON() as? [String: AnyObject]
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -163,8 +161,8 @@ public class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func deleteUser(username username: String, completion: ((error: ErrorType?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(error: error);
+        deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
+            completion(error: error)
         }
     }
 
@@ -198,12 +196,12 @@ public class UserAPI: APIBase {
         path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
 
-        let nillableParameters: [String:AnyObject?] = [:]
- 
+        let nillableParameters: [String: AnyObject?] = [:]
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -217,7 +215,7 @@ public class UserAPI: APIBase {
      */
     public class func getUserByName(username username: String, completion: ((data: User?, error: ErrorType?) -> Void)) {
         getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(data: response?.body, error: error)
         }
     }
 
@@ -288,12 +286,12 @@ public class UserAPI: APIBase {
         path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
 
-        let nillableParameters: [String:AnyObject?] = [:]
- 
+        let nillableParameters: [String: AnyObject?] = [:]
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -308,7 +306,7 @@ public class UserAPI: APIBase {
      */
     public class func loginUser(username username: String? = nil, password: String? = nil, completion: ((data: String?, error: ErrorType?) -> Void)) {
         loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(data: response?.body, error: error)
         }
     }
 
@@ -342,15 +340,15 @@ public class UserAPI: APIBase {
         let path = "/user/login"
         let URLString = PetstoreClientAPI.basePath + path
 
-        let nillableParameters: [String:AnyObject?] = [
+        let nillableParameters: [String: AnyObject?] = [
             "username": username,
             "password": password
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
@@ -362,8 +360,8 @@ public class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func logoutUser(completion: ((error: ErrorType?) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
-            completion(error: error);
+        logoutUserWithRequestBuilder().execute { (_, error) -> Void in
+            completion(error: error)
         }
     }
 
@@ -374,7 +372,7 @@ public class UserAPI: APIBase {
      */
     public class func logoutUser() -> Promise<Void> {
         let deferred = Promise<Void>.pendingPromise()
-        logoutUser() { error in
+        logoutUser { error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -393,12 +391,12 @@ public class UserAPI: APIBase {
         let path = "/user/logout"
         let URLString = PetstoreClientAPI.basePath + path
 
-        let nillableParameters: [String:AnyObject?] = [:]
- 
+        let nillableParameters: [String: AnyObject?] = [:]
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -412,8 +410,8 @@ public class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func updateUser(username username: String, user: User? = nil, completion: ((error: ErrorType?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, user: user).execute { (response, error) -> Void in
-            completion(error: error);
+        updateUserWithRequestBuilder(username: username, user: user).execute { (_, error) -> Void in
+            completion(error: error)
         }
     }
 
@@ -448,10 +446,10 @@ public class UserAPI: APIBase {
         var path = "/user/{username}"
         path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = user?.encodeToJSON() as? [String:AnyObject]
- 
+        let parameters = user?.encodeToJSON() as? [String: AnyObject]
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: URLString, parameters: convertedParameters, isBody: true)

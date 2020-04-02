@@ -8,7 +8,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -163,11 +163,13 @@ if [[ -z "${to}" ]]; then
             ;;
         snapshot)
             if [[ true = ${from_parts[3]} ]]; then
-                err "Can't move from SNAPSHOT to SNAPSHOT (from=${from})."
+                # Going from -SNAPSHOT to its release
+                to="${from_parts[0]}.${from_parts[1]}.${from_parts[2]}"
             else
+                # Going from some version to its next version and -SNAPSHOT
                 to="${from_parts[0]}.${from_parts[1]}.$(( ${from_parts[2]} + 1 ))-SNAPSHOT"
-                version "$to" to_parts
             fi
+            version "$to" to_parts
             ;;
     esac
    fi

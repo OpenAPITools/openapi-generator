@@ -10,9 +10,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     {{#isNullable}}
         @nullable
     {{/isNullable}}
-
-    {{#description}}/* {{{description}}} */{{/description}}
-    @BuiltValueField(wireName: '{{baseName}}')
+    @BuiltValueField(wireName: r'{{baseName}}')
     {{{dataType}}} get {{name}};
     {{#allowableValues}}
         {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}

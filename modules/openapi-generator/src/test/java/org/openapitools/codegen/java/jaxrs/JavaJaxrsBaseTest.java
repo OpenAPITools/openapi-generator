@@ -45,6 +45,7 @@ public abstract class JavaJaxrsBaseTest {
         String jsonSubType = "@JsonSubTypes({\n" +
                 "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\"),\n" +
                 "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\"),\n" +
+                "  @JsonSubTypes.Type(value = BigDog.class, name = \"BigDog\"),\n" +
                 "})";
         assertFileContains(generator, outputPath + "/src/gen/java/org/openapitools/model/Animal.java", jsonTypeInfo, jsonSubType);
     }

@@ -21,4 +21,8 @@ UPPER | &quot;UPPER&quot;
 LOWER | &quot;lower&quot;
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

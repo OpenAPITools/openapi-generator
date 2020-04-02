@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public class Tag: JSONEncodable {
     public var id: Int64?
     public var name: String?
@@ -16,10 +15,10 @@ public class Tag: JSONEncodable {
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?]()
+        var nillableDictionary = [String: AnyObject?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
-        let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }

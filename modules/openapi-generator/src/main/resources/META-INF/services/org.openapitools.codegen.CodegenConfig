@@ -60,9 +60,11 @@ org.openapitools.codegen.languages.JavaResteasyServerCodegen
 org.openapitools.codegen.languages.JavaResteasyEapServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen
 org.openapitools.codegen.languages.JavascriptClientCodegen
+org.openapitools.codegen.languages.JavascriptApolloClientCodegen
 org.openapitools.codegen.languages.JavascriptFlowtypedClientCodegen
 org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
 org.openapitools.codegen.languages.JMeterClientCodegen
+org.openapitools.codegen.languages.K6ClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
 org.openapitools.codegen.languages.NimClientCodegen
@@ -82,6 +84,7 @@ org.openapitools.codegen.languages.PhpSilexServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
+org.openapitools.codegen.languages.PowerShellExperimentalClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
 org.openapitools.codegen.languages.PythonClientExperimentalCodegen
@@ -109,6 +112,7 @@ org.openapitools.codegen.languages.StaticHtml2Generator
 org.openapitools.codegen.languages.SwiftClientCodegen
 org.openapitools.codegen.languages.Swift3Codegen
 org.openapitools.codegen.languages.Swift4Codegen
+org.openapitools.codegen.languages.Swift5ClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen
@@ -122,3 +126,6 @@ org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
 org.openapitools.codegen.languages.AsciidocDocumentationCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
+
+org.openapitools.codegen.languages.MarkdownDocumentationCodegen
+org.openapitools.codegen.languages.ScalaSttpClientCodegen

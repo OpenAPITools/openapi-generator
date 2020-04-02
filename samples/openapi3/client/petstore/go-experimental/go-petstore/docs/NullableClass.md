@@ -9,28 +9,51 @@ Name | Type | Description | Notes
 **BooleanProp** | Pointer to **NullableBool** |  | [optional] 
 **StringProp** | Pointer to **NullableString** |  | [optional] 
 **DateProp** | Pointer to **NullableString** |  | [optional] 
-**DatetimeProp** | Pointer to [**NullableTime.Time**](time.Time.md) |  | [optional] 
-**ArrayNullableProp** | Pointer to [**Nullable[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ArrayAndItemsNullableProp** | Pointer to [**Nullable[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ArrayItemsNullable** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ObjectNullableProp** | Pointer to [**NullableMap[string]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ObjectAndItemsNullableProp** | Pointer to [**NullableMap[string]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ObjectItemsNullable** | Pointer to [**map[string]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
+**DatetimeProp** | Pointer to [**NullableTime**](time.Time.md) |  | [optional] 
+**ArrayNullableProp** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ArrayAndItemsNullableProp** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ArrayItemsNullable** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ObjectNullableProp** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
+**ObjectAndItemsNullableProp** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
+**ObjectItemsNullable** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
 
 ## Methods
 
+### NewNullableClass
+
+`func NewNullableClass() *NullableClass`
+
+NewNullableClass instantiates a new NullableClass object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewNullableClassWithDefaults
+
+`func NewNullableClassWithDefaults() *NullableClass`
+
+NewNullableClassWithDefaults instantiates a new NullableClass object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
 ### GetIntegerProp
 
-`func (o *NullableClass) GetIntegerProp() NullableInt32`
+`func (o *NullableClass) GetIntegerProp() int32`
 
 GetIntegerProp returns the IntegerProp field if non-nil, zero value otherwise.
 
 ### GetIntegerPropOk
 
-`func (o *NullableClass) GetIntegerPropOk() (NullableInt32, bool)`
+`func (o *NullableClass) GetIntegerPropOk() (*int32, bool)`
 
 GetIntegerPropOk returns a tuple with the IntegerProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetIntegerProp
+
+`func (o *NullableClass) SetIntegerProp(v int32)`
+
+SetIntegerProp sets IntegerProp field to given value.
 
 ### HasIntegerProp
 
@@ -38,31 +61,34 @@ and a boolean to check if the value has been set.
 
 HasIntegerProp returns a boolean if a field has been set.
 
-### SetIntegerProp
+### SetIntegerPropNil
 
-`func (o *NullableClass) SetIntegerProp(v NullableInt32)`
+`func (o *NullableClass) SetIntegerPropNil(b bool)`
 
-SetIntegerProp gets a reference to the given NullableInt32 and assigns it to the IntegerProp field.
+ SetIntegerPropNil sets the value for IntegerProp to be an explicit nil
 
-### SetIntegerPropExplicitNull
+### UnsetIntegerProp
+`func (o *NullableClass) UnsetIntegerProp()`
 
-`func (o *NullableClass) SetIntegerPropExplicitNull(b bool)`
-
-SetIntegerPropExplicitNull (un)sets IntegerProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The IntegerProp value is set to nil even if false is passed
+UnsetIntegerProp ensures that no value is present for IntegerProp, not even an explicit nil
 ### GetNumberProp
 
-`func (o *NullableClass) GetNumberProp() NullableFloat32`
+`func (o *NullableClass) GetNumberProp() float32`
 
 GetNumberProp returns the NumberProp field if non-nil, zero value otherwise.
 
 ### GetNumberPropOk
 
-`func (o *NullableClass) GetNumberPropOk() (NullableFloat32, bool)`
+`func (o *NullableClass) GetNumberPropOk() (*float32, bool)`
 
 GetNumberPropOk returns a tuple with the NumberProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetNumberProp
+
+`func (o *NullableClass) SetNumberProp(v float32)`
+
+SetNumberProp sets NumberProp field to given value.
 
 ### HasNumberProp
 
@@ -70,31 +96,34 @@ and a boolean to check if the value has been set.
 
 HasNumberProp returns a boolean if a field has been set.
 
-### SetNumberProp
+### SetNumberPropNil
 
-`func (o *NullableClass) SetNumberProp(v NullableFloat32)`
+`func (o *NullableClass) SetNumberPropNil(b bool)`
 
-SetNumberProp gets a reference to the given NullableFloat32 and assigns it to the NumberProp field.
+ SetNumberPropNil sets the value for NumberProp to be an explicit nil
 
-### SetNumberPropExplicitNull
+### UnsetNumberProp
+`func (o *NullableClass) UnsetNumberProp()`
 
-`func (o *NullableClass) SetNumberPropExplicitNull(b bool)`
-
-SetNumberPropExplicitNull (un)sets NumberProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The NumberProp value is set to nil even if false is passed
+UnsetNumberProp ensures that no value is present for NumberProp, not even an explicit nil
 ### GetBooleanProp
 
-`func (o *NullableClass) GetBooleanProp() NullableBool`
+`func (o *NullableClass) GetBooleanProp() bool`
 
 GetBooleanProp returns the BooleanProp field if non-nil, zero value otherwise.
 
 ### GetBooleanPropOk
 
-`func (o *NullableClass) GetBooleanPropOk() (NullableBool, bool)`
+`func (o *NullableClass) GetBooleanPropOk() (*bool, bool)`
 
 GetBooleanPropOk returns a tuple with the BooleanProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetBooleanProp
+
+`func (o *NullableClass) SetBooleanProp(v bool)`
+
+SetBooleanProp sets BooleanProp field to given value.
 
 ### HasBooleanProp
 
@@ -102,31 +131,34 @@ and a boolean to check if the value has been set.
 
 HasBooleanProp returns a boolean if a field has been set.
 
-### SetBooleanProp
+### SetBooleanPropNil
 
-`func (o *NullableClass) SetBooleanProp(v NullableBool)`
+`func (o *NullableClass) SetBooleanPropNil(b bool)`
 
-SetBooleanProp gets a reference to the given NullableBool and assigns it to the BooleanProp field.
+ SetBooleanPropNil sets the value for BooleanProp to be an explicit nil
 
-### SetBooleanPropExplicitNull
+### UnsetBooleanProp
+`func (o *NullableClass) UnsetBooleanProp()`
 
-`func (o *NullableClass) SetBooleanPropExplicitNull(b bool)`
-
-SetBooleanPropExplicitNull (un)sets BooleanProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The BooleanProp value is set to nil even if false is passed
+UnsetBooleanProp ensures that no value is present for BooleanProp, not even an explicit nil
 ### GetStringProp
 
-`func (o *NullableClass) GetStringProp() NullableString`
+`func (o *NullableClass) GetStringProp() string`
 
 GetStringProp returns the StringProp field if non-nil, zero value otherwise.
 
 ### GetStringPropOk
 
-`func (o *NullableClass) GetStringPropOk() (NullableString, bool)`
+`func (o *NullableClass) GetStringPropOk() (*string, bool)`
 
 GetStringPropOk returns a tuple with the StringProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetStringProp
+
+`func (o *NullableClass) SetStringProp(v string)`
+
+SetStringProp sets StringProp field to given value.
 
 ### HasStringProp
 
@@ -134,31 +166,34 @@ and a boolean to check if the value has been set.
 
 HasStringProp returns a boolean if a field has been set.
 
-### SetStringProp
+### SetStringPropNil
 
-`func (o *NullableClass) SetStringProp(v NullableString)`
+`func (o *NullableClass) SetStringPropNil(b bool)`
 
-SetStringProp gets a reference to the given NullableString and assigns it to the StringProp field.
+ SetStringPropNil sets the value for StringProp to be an explicit nil
 
-### SetStringPropExplicitNull
+### UnsetStringProp
+`func (o *NullableClass) UnsetStringProp()`
 
-`func (o *NullableClass) SetStringPropExplicitNull(b bool)`
-
-SetStringPropExplicitNull (un)sets StringProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The StringProp value is set to nil even if false is passed
+UnsetStringProp ensures that no value is present for StringProp, not even an explicit nil
 ### GetDateProp
 
-`func (o *NullableClass) GetDateProp() NullableString`
+`func (o *NullableClass) GetDateProp() string`
 
 GetDateProp returns the DateProp field if non-nil, zero value otherwise.
 
 ### GetDatePropOk
 
-`func (o *NullableClass) GetDatePropOk() (NullableString, bool)`
+`func (o *NullableClass) GetDatePropOk() (*string, bool)`
 
 GetDatePropOk returns a tuple with the DateProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetDateProp
+
+`func (o *NullableClass) SetDateProp(v string)`
+
+SetDateProp sets DateProp field to given value.
 
 ### HasDateProp
 
@@ -166,31 +201,34 @@ and a boolean to check if the value has been set.
 
 HasDateProp returns a boolean if a field has been set.
 
-### SetDateProp
+### SetDatePropNil
 
-`func (o *NullableClass) SetDateProp(v NullableString)`
+`func (o *NullableClass) SetDatePropNil(b bool)`
 
-SetDateProp gets a reference to the given NullableString and assigns it to the DateProp field.
+ SetDatePropNil sets the value for DateProp to be an explicit nil
 
-### SetDatePropExplicitNull
+### UnsetDateProp
+`func (o *NullableClass) UnsetDateProp()`
 
-`func (o *NullableClass) SetDatePropExplicitNull(b bool)`
-
-SetDatePropExplicitNull (un)sets DateProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The DateProp value is set to nil even if false is passed
+UnsetDateProp ensures that no value is present for DateProp, not even an explicit nil
 ### GetDatetimeProp
 
-`func (o *NullableClass) GetDatetimeProp() NullableTime.Time`
+`func (o *NullableClass) GetDatetimeProp() time.Time`
 
 GetDatetimeProp returns the DatetimeProp field if non-nil, zero value otherwise.
 
 ### GetDatetimePropOk
 
-`func (o *NullableClass) GetDatetimePropOk() (NullableTime.Time, bool)`
+`func (o *NullableClass) GetDatetimePropOk() (*time.Time, bool)`
 
 GetDatetimePropOk returns a tuple with the DatetimeProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetDatetimeProp
+
+`func (o *NullableClass) SetDatetimeProp(v time.Time)`
+
+SetDatetimeProp sets DatetimeProp field to given value.
 
 ### HasDatetimeProp
 
@@ -198,31 +236,34 @@ and a boolean to check if the value has been set.
 
 HasDatetimeProp returns a boolean if a field has been set.
 
-### SetDatetimeProp
+### SetDatetimePropNil
 
-`func (o *NullableClass) SetDatetimeProp(v NullableTime.Time)`
+`func (o *NullableClass) SetDatetimePropNil(b bool)`
 
-SetDatetimeProp gets a reference to the given NullableTime.Time and assigns it to the DatetimeProp field.
+ SetDatetimePropNil sets the value for DatetimeProp to be an explicit nil
 
-### SetDatetimePropExplicitNull
+### UnsetDatetimeProp
+`func (o *NullableClass) UnsetDatetimeProp()`
 
-`func (o *NullableClass) SetDatetimePropExplicitNull(b bool)`
-
-SetDatetimePropExplicitNull (un)sets DatetimeProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The DatetimeProp value is set to nil even if false is passed
+UnsetDatetimeProp ensures that no value is present for DatetimeProp, not even an explicit nil
 ### GetArrayNullableProp
 
-`func (o *NullableClass) GetArrayNullableProp() Nullable[]map[string]interface{}`
+`func (o *NullableClass) GetArrayNullableProp() []map[string]interface{}`
 
 GetArrayNullableProp returns the ArrayNullableProp field if non-nil, zero value otherwise.
 
 ### GetArrayNullablePropOk
 
-`func (o *NullableClass) GetArrayNullablePropOk() (Nullable[]map[string]interface{}, bool)`
+`func (o *NullableClass) GetArrayNullablePropOk() (*[]map[string]interface{}, bool)`
 
 GetArrayNullablePropOk returns a tuple with the ArrayNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetArrayNullableProp
+
+`func (o *NullableClass) SetArrayNullableProp(v []map[string]interface{})`
+
+SetArrayNullableProp sets ArrayNullableProp field to given value.
 
 ### HasArrayNullableProp
 
@@ -230,31 +271,34 @@ and a boolean to check if the value has been set.
 
 HasArrayNullableProp returns a boolean if a field has been set.
 
-### SetArrayNullableProp
+### SetArrayNullablePropNil
 
-`func (o *NullableClass) SetArrayNullableProp(v Nullable[]map[string]interface{})`
+`func (o *NullableClass) SetArrayNullablePropNil(b bool)`
 
-SetArrayNullableProp gets a reference to the given Nullable[]map[string]interface{} and assigns it to the ArrayNullableProp field.
+ SetArrayNullablePropNil sets the value for ArrayNullableProp to be an explicit nil
 
-### SetArrayNullablePropExplicitNull
+### UnsetArrayNullableProp
+`func (o *NullableClass) UnsetArrayNullableProp()`
 
-`func (o *NullableClass) SetArrayNullablePropExplicitNull(b bool)`
-
-SetArrayNullablePropExplicitNull (un)sets ArrayNullableProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The ArrayNullableProp value is set to nil even if false is passed
+UnsetArrayNullableProp ensures that no value is present for ArrayNullableProp, not even an explicit nil
 ### GetArrayAndItemsNullableProp
 
-`func (o *NullableClass) GetArrayAndItemsNullableProp() Nullable[]map[string]interface{}`
+`func (o *NullableClass) GetArrayAndItemsNullableProp() []map[string]interface{}`
 
 GetArrayAndItemsNullableProp returns the ArrayAndItemsNullableProp field if non-nil, zero value otherwise.
 
 ### GetArrayAndItemsNullablePropOk
 
-`func (o *NullableClass) GetArrayAndItemsNullablePropOk() (Nullable[]map[string]interface{}, bool)`
+`func (o *NullableClass) GetArrayAndItemsNullablePropOk() (*[]map[string]interface{}, bool)`
 
 GetArrayAndItemsNullablePropOk returns a tuple with the ArrayAndItemsNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetArrayAndItemsNullableProp
+
+`func (o *NullableClass) SetArrayAndItemsNullableProp(v []map[string]interface{})`
+
+SetArrayAndItemsNullableProp sets ArrayAndItemsNullableProp field to given value.
 
 ### HasArrayAndItemsNullableProp
 
@@ -262,19 +306,16 @@ and a boolean to check if the value has been set.
 
 HasArrayAndItemsNullableProp returns a boolean if a field has been set.
 
-### SetArrayAndItemsNullableProp
+### SetArrayAndItemsNullablePropNil
 
-`func (o *NullableClass) SetArrayAndItemsNullableProp(v Nullable[]map[string]interface{})`
+`func (o *NullableClass) SetArrayAndItemsNullablePropNil(b bool)`
 
-SetArrayAndItemsNullableProp gets a reference to the given Nullable[]map[string]interface{} and assigns it to the ArrayAndItemsNullableProp field.
+ SetArrayAndItemsNullablePropNil sets the value for ArrayAndItemsNullableProp to be an explicit nil
 
-### SetArrayAndItemsNullablePropExplicitNull
+### UnsetArrayAndItemsNullableProp
+`func (o *NullableClass) UnsetArrayAndItemsNullableProp()`
 
-`func (o *NullableClass) SetArrayAndItemsNullablePropExplicitNull(b bool)`
-
-SetArrayAndItemsNullablePropExplicitNull (un)sets ArrayAndItemsNullableProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The ArrayAndItemsNullableProp value is set to nil even if false is passed
+UnsetArrayAndItemsNullableProp ensures that no value is present for ArrayAndItemsNullableProp, not even an explicit nil
 ### GetArrayItemsNullable
 
 `func (o *NullableClass) GetArrayItemsNullable() []map[string]interface{}`
@@ -283,10 +324,16 @@ GetArrayItemsNullable returns the ArrayItemsNullable field if non-nil, zero valu
 
 ### GetArrayItemsNullableOk
 
-`func (o *NullableClass) GetArrayItemsNullableOk() ([]map[string]interface{}, bool)`
+`func (o *NullableClass) GetArrayItemsNullableOk() (*[]map[string]interface{}, bool)`
 
 GetArrayItemsNullableOk returns a tuple with the ArrayItemsNullable field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetArrayItemsNullable
+
+`func (o *NullableClass) SetArrayItemsNullable(v []map[string]interface{})`
+
+SetArrayItemsNullable sets ArrayItemsNullable field to given value.
 
 ### HasArrayItemsNullable
 
@@ -294,24 +341,24 @@ and a boolean to check if the value has been set.
 
 HasArrayItemsNullable returns a boolean if a field has been set.
 
-### SetArrayItemsNullable
-
-`func (o *NullableClass) SetArrayItemsNullable(v []map[string]interface{})`
-
-SetArrayItemsNullable gets a reference to the given []map[string]interface{} and assigns it to the ArrayItemsNullable field.
-
 ### GetObjectNullableProp
 
-`func (o *NullableClass) GetObjectNullableProp() NullableMap[string]map[string]interface{}`
+`func (o *NullableClass) GetObjectNullableProp() map[string]map[string]interface{}`
 
 GetObjectNullableProp returns the ObjectNullableProp field if non-nil, zero value otherwise.
 
 ### GetObjectNullablePropOk
 
-`func (o *NullableClass) GetObjectNullablePropOk() (NullableMap[string]map[string]interface{}, bool)`
+`func (o *NullableClass) GetObjectNullablePropOk() (*map[string]map[string]interface{}, bool)`
 
 GetObjectNullablePropOk returns a tuple with the ObjectNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetObjectNullableProp
+
+`func (o *NullableClass) SetObjectNullableProp(v map[string]map[string]interface{})`
+
+SetObjectNullableProp sets ObjectNullableProp field to given value.
 
 ### HasObjectNullableProp
 
@@ -319,31 +366,34 @@ and a boolean to check if the value has been set.
 
 HasObjectNullableProp returns a boolean if a field has been set.
 
-### SetObjectNullableProp
+### SetObjectNullablePropNil
 
-`func (o *NullableClass) SetObjectNullableProp(v NullableMap[string]map[string]interface{})`
+`func (o *NullableClass) SetObjectNullablePropNil(b bool)`
 
-SetObjectNullableProp gets a reference to the given NullableMap[string]map[string]interface{} and assigns it to the ObjectNullableProp field.
+ SetObjectNullablePropNil sets the value for ObjectNullableProp to be an explicit nil
 
-### SetObjectNullablePropExplicitNull
+### UnsetObjectNullableProp
+`func (o *NullableClass) UnsetObjectNullableProp()`
 
-`func (o *NullableClass) SetObjectNullablePropExplicitNull(b bool)`
-
-SetObjectNullablePropExplicitNull (un)sets ObjectNullableProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The ObjectNullableProp value is set to nil even if false is passed
+UnsetObjectNullableProp ensures that no value is present for ObjectNullableProp, not even an explicit nil
 ### GetObjectAndItemsNullableProp
 
-`func (o *NullableClass) GetObjectAndItemsNullableProp() NullableMap[string]map[string]interface{}`
+`func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]map[string]interface{}`
 
 GetObjectAndItemsNullableProp returns the ObjectAndItemsNullableProp field if non-nil, zero value otherwise.
 
 ### GetObjectAndItemsNullablePropOk
 
-`func (o *NullableClass) GetObjectAndItemsNullablePropOk() (NullableMap[string]map[string]interface{}, bool)`
+`func (o *NullableClass) GetObjectAndItemsNullablePropOk() (*map[string]map[string]interface{}, bool)`
 
 GetObjectAndItemsNullablePropOk returns a tuple with the ObjectAndItemsNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetObjectAndItemsNullableProp
+
+`func (o *NullableClass) SetObjectAndItemsNullableProp(v map[string]map[string]interface{})`
+
+SetObjectAndItemsNullableProp sets ObjectAndItemsNullableProp field to given value.
 
 ### HasObjectAndItemsNullableProp
 
@@ -351,19 +401,16 @@ and a boolean to check if the value has been set.
 
 HasObjectAndItemsNullableProp returns a boolean if a field has been set.
 
-### SetObjectAndItemsNullableProp
+### SetObjectAndItemsNullablePropNil
 
-`func (o *NullableClass) SetObjectAndItemsNullableProp(v NullableMap[string]map[string]interface{})`
+`func (o *NullableClass) SetObjectAndItemsNullablePropNil(b bool)`
 
-SetObjectAndItemsNullableProp gets a reference to the given NullableMap[string]map[string]interface{} and assigns it to the ObjectAndItemsNullableProp field.
+ SetObjectAndItemsNullablePropNil sets the value for ObjectAndItemsNullableProp to be an explicit nil
 
-### SetObjectAndItemsNullablePropExplicitNull
+### UnsetObjectAndItemsNullableProp
+`func (o *NullableClass) UnsetObjectAndItemsNullableProp()`
 
-`func (o *NullableClass) SetObjectAndItemsNullablePropExplicitNull(b bool)`
-
-SetObjectAndItemsNullablePropExplicitNull (un)sets ObjectAndItemsNullableProp to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The ObjectAndItemsNullableProp value is set to nil even if false is passed
+UnsetObjectAndItemsNullableProp ensures that no value is present for ObjectAndItemsNullableProp, not even an explicit nil
 ### GetObjectItemsNullable
 
 `func (o *NullableClass) GetObjectItemsNullable() map[string]map[string]interface{}`
@@ -372,22 +419,22 @@ GetObjectItemsNullable returns the ObjectItemsNullable field if non-nil, zero va
 
 ### GetObjectItemsNullableOk
 
-`func (o *NullableClass) GetObjectItemsNullableOk() (map[string]map[string]interface{}, bool)`
+`func (o *NullableClass) GetObjectItemsNullableOk() (*map[string]map[string]interface{}, bool)`
 
 GetObjectItemsNullableOk returns a tuple with the ObjectItemsNullable field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetObjectItemsNullable
+
+`func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface{})`
+
+SetObjectItemsNullable sets ObjectItemsNullable field to given value.
 
 ### HasObjectItemsNullable
 
 `func (o *NullableClass) HasObjectItemsNullable() bool`
 
 HasObjectItemsNullable returns a boolean if a field has been set.
-
-### SetObjectItemsNullable
-
-`func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface{})`
-
-SetObjectItemsNullable gets a reference to the given map[string]map[string]interface{} and assigns it to the ObjectItemsNullable field.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

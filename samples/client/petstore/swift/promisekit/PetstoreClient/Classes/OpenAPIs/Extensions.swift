@@ -51,7 +51,7 @@ extension Array: JSONEncodable {
 
 extension Dictionary: JSONEncodable {
     func encodeToJSON() -> AnyObject {
-        var dictionary = [NSObject:AnyObject]()
+        var dictionary = [NSObject: AnyObject]()
         for (key, value) in self {
             dictionary[key as! NSObject] = encodeIfPossible(value)
         }
@@ -115,7 +115,7 @@ public final class ISOFullDate: CustomStringConvertible {
             [
                 .Year,
                 .Month,
-                .Day,
+                .Day
             ],
             fromDate: date
         )
@@ -178,7 +178,7 @@ extension ISOFullDate: JSONEncodable {
 }
 
 extension RequestBuilder {
-    public func execute() -> Promise<Response<T>>  {
+    public func execute() -> Promise<Response<T>> {
         let deferred = Promise<Response<T>>.pendingPromise()
         self.execute { (response: Response<T>?, error: ErrorType?) in
             if let response = response {

@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+****](default_api.md#) | **GET** /multiget | Get some stuff.
 ****](default_api.md#) | **GET** /multiple_auth_scheme | 
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
 ****](default_api.md#) | **PUT** /required_octet_stream | 
@@ -15,6 +16,28 @@ Method | HTTP request | Description
 ****](default_api.md#) | **POST** /xml | Post an array
 ****](default_api.md#) | **PUT** /xml | 
 
+
+# ****
+> models::AnotherXmlObject ()
+Get some stuff.
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**models::AnotherXmlObject**](anotherXmlObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/octet-stream, application/xml, text/plain, 
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # ****
 > (ctx, )
@@ -162,7 +185,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # ****
-> (optional)
+> models::AnotherXmlObject (optional)
 
 
 ### Required Parameters
@@ -180,7 +203,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**models::AnotherXmlObject**](anotherXmlObject.md)
 
 ### Authorization
 
@@ -188,8 +211,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml
- - **Accept**: Not defined
+ - **Content-Type**: text/xml
+ - **Accept**: text/xml, 
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -12,7 +12,8 @@ size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 apiClient_t *apiClient_create() {
     curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
-    apiClient->basePath = "http://petstore.swagger.io/v2";
+    apiClient->basePath = strdup("http://petstore.swagger.io/v2");
+    apiClient->sslConfig = NULL;
     apiClient->dataReceived = NULL;
     apiClient->response_code = 0;
     apiClient->apiKeys = NULL;
@@ -21,8 +22,58 @@ apiClient_t *apiClient_create() {
     return apiClient;
 }
 
+apiClient_t *apiClient_create_with_base_path(const char *basePath
+, sslConfig_t *sslConfig
+, list_t *apiKeys
+) {
+    curl_global_init(CURL_GLOBAL_ALL);
+    apiClient_t *apiClient = malloc(sizeof(apiClient_t));
+    if(basePath){
+        apiClient->basePath = strdup(basePath);
+    }else{
+        apiClient->basePath = strdup("http://petstore.swagger.io/v2");
+    }
+
+    if(sslConfig){
+        apiClient->sslConfig = sslConfig;
+    }else{
+        apiClient->sslConfig = NULL;
+    }
+
+    apiClient->dataReceived = NULL;
+    apiClient->response_code = 0;
+    if(apiKeys!= NULL) {
+        apiClient->apiKeys = list_create();
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, apiKeys) {
+            keyValuePair_t *pair = listEntry->data;
+            keyValuePair_t *pairDup = keyValuePair_create(strdup(pair->key), strdup(pair->value));
+            list_addElement(apiClient->apiKeys, pairDup);
+        }
+    }else{
+        apiClient->apiKeys = NULL;
+    }
+    apiClient->accessToken = NULL;
+
+    return apiClient;
+}
+
 void apiClient_free(apiClient_t *apiClient) {
-    if(apiClient->accessToken) {
+    if(apiClient->basePath) {
+        free(apiClient->basePath);
+    }
+    if(apiClient->apiKeys) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, apiClient->apiKeys) {
+            keyValuePair_t *pair = listEntry->data;
+            if(pair->key){
+                free(pair->key);
+            }
+            if(pair->value){
+                free(pair->value);
+            }
+            keyValuePair_free(pair);
+        }
         list_free(apiClient->apiKeys);
     }
     if(apiClient->accessToken) {
@@ -30,6 +81,33 @@ void apiClient_free(apiClient_t *apiClient) {
     }
     free(apiClient);
     curl_global_cleanup();
+}
+
+sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify) {
+    sslConfig_t *sslConfig = calloc(1, sizeof(sslConfig_t));
+    if ( clientCertFile ) {
+        sslConfig->clientCertFile = strdup(clientCertFile);
+    }
+    if ( clientKeyFile ) {
+        sslConfig->clientKeyFile = strdup(clientKeyFile);
+    }
+    if ( CACertFile ) {
+        sslConfig->CACertFile = strdup(CACertFile);
+    }
+    sslConfig->insecureSkipTlsVerify = insecureSkipTlsVerify;
+}
+
+void sslConfig_free(sslConfig_t *sslConfig) {
+    if ( sslConfig->clientCertFile ) {
+        free(sslConfig->clientCertFile);
+    }
+    if ( sslConfig->clientKeyFile ) {
+        free(sslConfig->clientKeyFile);
+    }
+    if ( sslConfig->CACertFile ){
+        free(sslConfig->CACertFile);
+    }
+    free(sslConfig);
 }
 
 void replaceSpaceWithPlus(char *stringToProcess) {
@@ -287,6 +365,31 @@ void apiClient_invoke(apiClient_t    *apiClient,
                 free(headerValueToWrite);
             }
         }
+
+        if ( strstr(apiClient->basePath, "https") != NULL ) {
+            if ( apiClient->sslConfig ) {
+                if( apiClient->sslConfig->clientCertFile ) {
+                    curl_easy_setopt(handle, CURLOPT_SSLCERT, apiClient->sslConfig->clientCertFile);
+                }
+                if( apiClient->sslConfig->clientKeyFile ) {
+                    curl_easy_setopt(handle, CURLOPT_SSLKEY, apiClient->sslConfig->clientKeyFile);
+                }
+                if( apiClient->sslConfig->CACertFile ) {
+                    curl_easy_setopt(handle, CURLOPT_CAINFO, apiClient->sslConfig->CACertFile);
+                }
+                if ( 1 == apiClient->sslConfig->insecureSkipTlsVerify ) {
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0L);
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0L);
+                } else {
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 1L);
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 2L);
+                }
+            } else {
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0L);
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0L);
+            }
+        }
+
         // this would only be generated for apiKey authentication
         if (apiClient->apiKeys != NULL)
         {

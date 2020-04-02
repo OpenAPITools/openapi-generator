@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,17 +17,17 @@
 
 package org.openapitools.codegen.go;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.openapitools.codegen.options.GoClientOptionsProvider;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 public class GoClientOptionsTest extends AbstractOptionsTest {
 
-    @Tested
-    private GoClientCodegen clientCodegen;
+    private GoClientCodegen clientCodegen = mock(GoClientCodegen.class, mockSettings);
 
     public GoClientOptionsTest() {
         super(new GoClientOptionsProvider());
@@ -40,24 +40,15 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setPackageVersion(GoClientOptionsProvider.PACKAGE_VERSION_VALUE);
-            times = 1;
-            clientCodegen.setPackageName(GoClientOptionsProvider.PACKAGE_NAME_VALUE);
-            times = 1;
-            clientCodegen.setWithGoCodegenComment(GoClientOptionsProvider.WITH_GO_CODEGEN_COMMENT_VALUE);
-            times = 1;
-            clientCodegen.setWithXml(GoClientOptionsProvider.WITH_XML_VALUE);
-            times = 1;
-            clientCodegen.setWithXml(GoClientOptionsProvider.ENUM_CLASS_PREFIX_VALUE);
-            times = 1;
-            clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(GoClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-            times = 1;
-            clientCodegen.setIsGoSubmodule(Boolean.valueOf(GoClientOptionsProvider.IS_GO_SUBMODULE_VALUE));
-            times = 1;
-            clientCodegen.setStructPrefix(Boolean.valueOf(GoClientOptionsProvider.STRUCT_PREFIX_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setPackageVersion(GoClientOptionsProvider.PACKAGE_VERSION_VALUE);
+        verify(clientCodegen).setPackageName(GoClientOptionsProvider.PACKAGE_NAME_VALUE);
+        verify(clientCodegen).setWithGoCodegenComment(GoClientOptionsProvider.WITH_GO_CODEGEN_COMMENT_VALUE);
+        verify(clientCodegen).setWithXml(GoClientOptionsProvider.WITH_XML_VALUE);
+        verify(clientCodegen).setWithXml(GoClientOptionsProvider.ENUM_CLASS_PREFIX_VALUE);
+        verify(clientCodegen).setPrependFormOrBodyParameters(GoClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE);
+        verify(clientCodegen).setIsGoSubmodule(GoClientOptionsProvider.IS_GO_SUBMODULE_VALUE);
+        verify(clientCodegen).setStructPrefix(GoClientOptionsProvider.STRUCT_PREFIX_VALUE);
+        verify(clientCodegen).setWithAWSV4Signature(GoClientOptionsProvider.WITH_AWSV4_SIGNATURE);
     }
 }

@@ -47,18 +47,18 @@ export class Configuration {
 
     get apiKey(): ((name: string) => string) | undefined {
         const apiKey = this.configuration.apiKey;
-        if (apiKey) {
-            return typeof apiKey === 'function' ? apiKey : () => apiKey;
+        if (!apiKey) {
+            return undefined;
         }
-        return undefined;
+        return typeof apiKey === 'string' ? () => apiKey : apiKey;
     }
 
     get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
         const accessToken = this.configuration.accessToken;
-        if (accessToken) {
-            return typeof accessToken === 'function' ? accessToken : () => accessToken;
+        if (!accessToken) {
+            return undefined;
         }
-        return undefined;
+        return typeof accessToken === 'string' ? () => accessToken : accessToken;
     }
 }
 
@@ -72,17 +72,17 @@ export class BaseAPI {
         this.middleware = configuration.middleware;
     }
 
-    withMiddleware = <T extends BaseAPI>(middlewares: Middleware[]) => {
-        const next = this.clone<T>();
+    withMiddleware = (middlewares: Middleware[]) => {
+        const next = this.clone();
         next.middleware = next.middleware.concat(middlewares);
         return next;
     };
 
-    withPreMiddleware = <T extends BaseAPI>(preMiddlewares: Array<Middleware['pre']>) =>
-        this.withMiddleware<T>(preMiddlewares.map((pre) => ({ pre })));
+    withPreMiddleware = (preMiddlewares: Array<Middleware['pre']>) =>
+        this.withMiddleware(preMiddlewares.map((pre) => ({ pre })));
 
-    withPostMiddleware = <T extends BaseAPI>(postMiddlewares: Array<Middleware['post']>) =>
-        this.withMiddleware<T>(postMiddlewares.map((post) => ({ post })));
+    withPostMiddleware = (postMiddlewares: Array<Middleware['post']>) =>
+        this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
     protected request = <T>(requestOpts: RequestOpts): Observable<T> =>
         this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
@@ -132,11 +132,14 @@ export class BaseAPI {
      * Create a shallow clone of `this` by constructing a new instance
      * and then shallow cloning data members.
      */
-    private clone = <T extends BaseAPI>(): T => 
+    private clone = (): BaseAPI =>
         Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 }
 
-// export for not being a breaking change
+/**
+ * @deprecated
+ * export for not being a breaking change
+ */
 export class RequiredError extends Error {
     name: 'RequiredError' = 'RequiredError';
 }
@@ -153,7 +156,6 @@ export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS'
 export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = Partial<{ [key: string]: string | number | null | boolean | Array<string | number | null | boolean> }>; // partial is needed for strict mode
 export type HttpBody = Json | FormData;
-export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export interface RequestOpts {
     path: string;
@@ -178,9 +180,18 @@ const queryString = (params: HttpQuery): string => Object.keys(params)
 // alias fallback for not being a breaking change
 export const querystring = queryString;
 
+/**
+ * @deprecated
+ */
 export const throwIfRequired = (params: {[key: string]: any}, key: string, nickname: string) => {
-    if (!params || params[key] === null || params[key] === undefined) {
+    if (!params || params[key] == null) {
         throw new RequiredError(`Required parameter ${key} was null or undefined when calling ${nickname}.`);
+    }
+};
+
+export const throwIfNullOrUndefined = (value: any, nickname?: string) => {
+    if (value == null) {
+        throw new Error(`Parameter "${value}" was null or undefined when calling "${nickname}".`);
     }
 };
 
