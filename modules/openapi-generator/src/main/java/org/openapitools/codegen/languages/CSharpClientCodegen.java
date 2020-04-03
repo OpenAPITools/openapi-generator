@@ -339,6 +339,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setSupportsAsync(Boolean.FALSE);
         } else {
             additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
+            additionalProperties.put("isNet45", true);
             setTargetFrameworkNuget("net45");
             setSupportsAsync(Boolean.TRUE);
         }
