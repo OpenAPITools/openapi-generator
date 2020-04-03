@@ -98,8 +98,19 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
              $Results = Find-PSPetsByTags 'bazbaz'
              $Results.GetType().FullName| Should Be "System.Object[]"
              $Results.Count | Should Be 2
-             $Results[0]."id" | Should Be 20129
-             $Results[1]."id" | Should Be 10129
+
+             if ($Results[0]."id" -gt 10129) {
+                 $Results[0]."id" | Should Be 20129
+             } else {
+                 $Results[0]."id" | Should Be 10129
+             }
+
+             if ($Results[1]."id" -gt 10129) {
+                 $Results[1]."id" | Should Be 20129
+             } else {
+                 $Results[1]."id" | Should Be 10129
+             }
+
         }
     }
 
