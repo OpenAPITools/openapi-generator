@@ -24,7 +24,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
     public static final String AKKA_HTTP_VERSION = "akkaHttpVersion";
     public static final String AKKA_HTTP_VERSION_DESC = "The version of akka-http";
-    public static final String DEFAULT_AKKA_HTTP_VERSION = "10.1.9";
+    public static final String DEFAULT_AKKA_HTTP_VERSION = "10.1.10";
 
     static Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
@@ -169,8 +169,8 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "MultipartDirectives.scala"));
     }
 
-    private static final String IS_10_1_9_PLUS = "akkaHttp10_1_9_plus";
-    private boolean is10_1_9AndAbove = false;
+    private static final String IS_10_1_10_PLUS = "akkaHttp10_1_10_plus";
+    private boolean is10_1_10AndAbove = false;
 
     private static final Pattern akkaVersionPattern = Pattern.compile("([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?(.\\+)?");
     private void parseAkkaHttpVersion() {
@@ -194,13 +194,13 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
 
                 if (major > 10 || major == -1 && andAbove) {
-                    is10_1_9AndAbove = true;
+                    is10_1_10AndAbove = true;
                 } else if (major == 10) {
                     if (minor > 1 || minor == -1 && andAbove) {
-                        is10_1_9AndAbove = true;
+                        is10_1_10AndAbove = true;
                     } else if (minor == 1) {
-                        if (patch >= 9 || patch == -1 && andAbove) {
-                            is10_1_9AndAbove = true;
+                        if (patch >= 10 || patch == -1 && andAbove) {
+                            is10_1_10AndAbove = true;
                         }
                     }
                 }
@@ -208,11 +208,11 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
             } catch (NumberFormatException e) {
                 LOGGER.warn("Unable to parse " + AKKA_HTTP_VERSION + ": " + akkaHttpVersion + ", fallback to " + DEFAULT_AKKA_HTTP_VERSION);
                 akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
-                is10_1_9AndAbove = true;
+                is10_1_10AndAbove = true;
             }
         }
 
-        additionalProperties.put(IS_10_1_9_PLUS, is10_1_9AndAbove);
+        additionalProperties.put(IS_10_1_10_PLUS, is10_1_10AndAbove);
     }
 
     @Override
