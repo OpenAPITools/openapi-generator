@@ -147,6 +147,10 @@ class ModelSimple(OpenApiModel):
         """Returns the string representation of the model"""
         return str(self.value)
 
+    def __hash__(self):
+        """Returns the hash value of this object."""
+        return hash(self._data_store['value'])
+
     def __eq__(self, other):
         """Returns true if both objects are equal"""
         if not isinstance(other, self.__class__):
@@ -203,6 +207,10 @@ class ModelNormal(OpenApiModel):
     def to_str(self):
         """Returns the string representation of the model"""
         return pprint.pformat(self.to_dict())
+
+    def __hash__(self):
+        """Returns the hash value of this object."""
+        return hash(frozenset(self._data_store.items()))
 
     def __eq__(self, other):
         """Returns true if both objects are equal"""
@@ -306,6 +314,10 @@ class ModelComposed(OpenApiModel):
     def to_str(self):
         """Returns the string representation of the model"""
         return pprint.pformat(self.to_dict())
+
+    def __hash__(self):
+        """Returns the hash value of this object."""
+        return hash(frozenset(self._data_store.items()))
 
     def __eq__(self, other):
         """Returns true if both objects are equal"""
