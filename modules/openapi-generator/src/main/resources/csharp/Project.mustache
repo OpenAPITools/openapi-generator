@@ -81,10 +81,24 @@
       <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\JsonSubTypes.1.6.0\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.106.10.1\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.106.10.1\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.106.10.1\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll</HintPath>
-      <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.106.10.1\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll</HintPath>
+        {{#isNet45}}
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
+        {{/isNet45}}
+        {{#isNet40}}
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.105.1.0\lib\net4\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.105.1.0\lib\net4\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.105.1.0\lib\net4\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.105.1.0\lib\net4\RestSharp.dll</HintPath>
+        {{/isNet40}}
+        {{^isNet45}}{{^isNet40}}
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.105.1.0\lib\{{targetFrameworkNuget}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.105.1.0\lib\{{targetFrameworkNuget}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.105.1.0\lib\{{targetFrameworkNuget}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.105.1.0\lib\{{targetFrameworkNuget}}\RestSharp.dll</HintPath>
+        {{/isNet40}}{{/isNet45}}
     </Reference>
     {{#generatePropertyChanged}}
     <Reference Include="PropertyChanged">

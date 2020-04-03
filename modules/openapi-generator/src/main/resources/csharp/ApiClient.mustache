@@ -153,12 +153,12 @@ namespace {{packageName}}.Client
                 {{/netStandard}}
                 {{^netStandard}}
                 {{^supportsUWP}}
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
+                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName{{#isNet45}}, param.Value.ContentLength{{/isNet45}}, param.Value.ContentType);
                 {{/supportsUWP}}
                 {{#supportsUWP}}
                 byte[] paramWriter = null;
                 param.Value.Writer = delegate (Stream stream) { paramWriter = ToByteArray(stream); };
-                request.AddFile(param.Value.Name, paramWriter, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
+                request.AddFile(param.Value.Name, paramWriter, param.Value.FileName, param.Value.ContentType);
                 {{/supportsUWP}}
                 {{/netStandard}}
             }
@@ -215,7 +215,7 @@ namespace {{packageName}}.Client
             {{/supportsUWP}}
             {{#supportsUWP}}
             // Using async method to perform sync call (uwp-only)
-            var response = RestClient.ExecuteAsync(request).Result;
+            var response = RestClient.ExecuteTaskAsync(request).Result;
             {{/supportsUWP}}
             {{/netStandard}}
             InterceptResponse(request, response);
