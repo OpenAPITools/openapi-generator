@@ -940,8 +940,19 @@ def get_allof_instances(self, model_args, constant_args):
 
         # and use it to make the instance
         kwargs.update(constant_args)
-        allof_instance = allof_class(**kwargs)
-        composed_instances.append(allof_instance)
+        try:
+            allof_instance = allof_class(**kwargs)
+            composed_instances.append(allof_instance)
+        except Exception as ex:
+            raise ApiValueError(
+                "Invalid inputs given to generate an instance of %s. The "
+                "input data was invalid for the allOf schema % in the composed "
+                "schema %s. Error=%s" %
+                allof_class.__class__.__name__,
+                allof_class.__class__.__name__,
+                self.__class__.__name__,
+                str(ex)
+            )
     return composed_instances
 
 
@@ -1052,8 +1063,8 @@ def get_anyof_instances(self, model_args, constant_args):
             pass
     if len(anyof_instances) == 0:
         raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. Unable to "
-            "make any instances of the classes in anyOf definition." %
+            "Invalid inputs given to generate an instance of %s. None of the "
+            "anyOf schemas matched the inputs." %
             self.__class__.__name__
         )
     return anyof_instances
