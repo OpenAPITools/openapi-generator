@@ -133,9 +133,11 @@ public class DefaultCodegen implements CodegenConfig {
                 )
                 .build();
 
+        int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "500"));
+        int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "10"));
         sanitizedNameCache = Caffeine.newBuilder()
-                .maximumSize(500)
-                .expireAfterAccess(10, TimeUnit.SECONDS)
+                .maximumSize(cacheSize)
+                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
     }
