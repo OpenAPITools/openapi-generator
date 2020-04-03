@@ -267,6 +267,16 @@ function Find-PSPetsByTags {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Pet[]"
 
+        Write-Host ("debugging find pets by tags: {0}" -f $LocalVarResult["Response"].count)
+
+        if (!$LocalVarResult["Response"][0]) {
+            Write-Host (" first element is null ")
+        }
+        
+        Write-Host ("debugging find pets by tags: {0}" -f $LocalVarResult["StatusCode"])
+        Write-Host ("debugging find pets by tags: {0}" -f $LocalVarResult["Headers"])
+        Write-Host ("debugging find pets by tags: {0}" -f ($LocalVarResult | ConvertTo-JSON))
+
         return $LocalVarResult["Response"]
     }
 }

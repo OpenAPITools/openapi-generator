@@ -26,6 +26,8 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."id" | Should Be 38369
             $Result."name" | Should Be "PowerShell"
             $Result."status" | Should Be "Available"
+            $Result."category"."id" | Should Be $Id
+            $Result."category"."name" | Should Be 'PSCategory'
 
             # Update (form)
             $Result = Update-PSPetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
@@ -57,6 +59,73 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
 
             # Delete
             $Result = Remove-Pet -petId $Id
+
+        }
+
+        It 'Find pets test' {
+
+            # add 1st pet
+            $pet = Initialize-PSPet -Id 10129 -Name 'foo' -Category (
+                   Initialize-PSCategory -Id 2 -Name 'bar'
+               ) -PhotoUrls @(
+                   'http://example.com/foo',
+                   'http://example.com/bar'
+               ) -Tags (
+                   Initialize-PSTag -Id 10129 -Name 'bazbaz'
+               ) -Status Available
+               
+             $Result = Add-PSPet -Pet $pet
+             
+             # add 2nd pet
+             $pet2 = Initialize-PSPet -Id 20129 -Name '2foo' -Category (
+                     Initialize-PSCategory -Id 2 -Name '2bar'
+                 ) -PhotoUrls @(
+                     'http://example.com/2foo',
+                     'http://example.com/2bar'
+                 ) -Tags (
+                     Initialize-PSTag -Id 10129 -Name 'bazbaz'
+                 ) -Status Available
+                 
+             $Result = Add-PSPet -Pet $pet2
+             
+             $Results = Find-PSPetsByTags 'bazbaz'
+             $Results.GetType().Name | Should Be "Object[]"
+
+             $count = 0
+             ForEach ($Result in $Results) {
+                 #Write-Host ("result = {0}" -f $Result)
+                 #$Result | Should Not Be $null
+                 #$Result["status"] | Should Be "available"
+
+                 if (!$result) {
+                     Write-Host ("null result found {0}" -f $count)
+                 } else {
+                     Write-Host ("result found {0}" -f $count)
+                 }
+                 $count ++
+             }
+
+             #$count | Should Be 2
+             $Results.Count | Should Be 2
+
+             $Results[0]["id"] | Should Be 10129
+             $Results[1]["id"] | Should Be 20129
+
+             $tests = @(0, 1)
+             $count = 0
+             ForEach ($test in $tests) {
+                 #Write-Host ("result = {0}" -f $Result)
+                 #$Result | Should Not Be $null
+                 #$Result["status"] | Should Be "available"
+
+                 if (!$test) {
+                     Write-Host ("null test found {0}" -f $count)
+                 } else {
+                     Write-Host ("test found {0}" -f $count)
+                 }
+                 $count ++
+             }
+
 
         }
     }
