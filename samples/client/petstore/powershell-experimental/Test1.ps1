@@ -18,13 +18,13 @@ $Id = 38369
 #$result = Update-PSPetWithForm 
 try {
     Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzZZZZZZZZZZZZZ"
-    $result = Get-PSPetById -petId $Id #-testHeader "testing only" -testQuery "testing something here"
+    $result = Get-PSPetById -petId $Id -Verbose #-testHeader "testing only" -testQuery "testing something here"
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling '': {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 
-$result | Write-Host
+#$result | Write-Host
 
 #$result | Select-Object -Property "photoUrls" | ConvertTo-Json | Write-Host
 #Write-Host "result =" + $result.photoUrls
