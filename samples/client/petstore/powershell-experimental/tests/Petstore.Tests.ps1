@@ -29,6 +29,8 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."category"."id" | Should Be $Id
             $Result."category"."name" | Should Be 'PSCategory'
 
+            $Result.GetType().fullname | Should Be "System.Management.Automation.PSCustomObject"
+
             # Update (form)
             $Result = Update-PSPetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
 
@@ -48,10 +50,14 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             ) -Status Sold
 
             $Result = Update-PSPet -Pet $NewPet
-            $Result = Get-PSPetById -petId $Id
-            $Result."id" | Should Be 38369
-            $Result."name" | Should Be "PowerShell2"
-            $Result."status" | Should Be "Sold"
+            $Result = Get-PSPetById -petId $Id -WithHttpInfo
+            $Result.GetType().fullname | Should Be "System.Collections.Hashtable"
+            #$Result["Response"].GetType().fullanme | Should Be "System.Management.Automation.PSCustomObject"
+            $Result["Response"]."id" | Should Be 38369
+            $Result["Response"]."name" | Should Be "PowerShell2"
+            $Result["Response"]."status" | Should Be "Sold"
+            $Result["StatusCode"] | Should Be 200
+            $Result["Headers"]["Content-Type"] | Should Be "application/json"
 
             # upload file
             $file = Get-Item "./plus.gif"

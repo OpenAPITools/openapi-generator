@@ -56,8 +56,8 @@ ${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | 
 try {
     {{#returnType}}{{returnType}} $Result = {{/returnType}}{{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling {{{vendorExtensions.x-powershell-method-name}}}: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
