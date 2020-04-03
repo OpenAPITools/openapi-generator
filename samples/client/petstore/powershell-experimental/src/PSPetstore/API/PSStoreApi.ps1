@@ -21,7 +21,7 @@ ID of the order that needs to be deleted
 
 None
 #>
-function Invoke-PSDeleteOrder {
+function Remove-PSOrder {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -30,7 +30,7 @@ function Invoke-PSDeleteOrder {
     )
 
     Process {
-        'Calling method: Invoke-PSDeleteOrder' | Write-Debug
+        'Calling method: Remove-PSOrder' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -103,6 +103,7 @@ function Get-PSInventory {
 
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
+            Write-Verbose ("Using API key 'api_key' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `

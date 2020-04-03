@@ -3303,6 +3303,13 @@ public class DefaultCodegen implements CodegenConfig {
             r.code = "0";
         } else {
             r.code = responseCode;
+            switch(r.code.charAt(0)) {
+                case '1': r.is1xx = true; break;
+                case '2': r.is2xx = true; break;
+                case '3': r.is3xx = true; break;
+                case '4': r.is4xx = true; break;
+                case '5': r.is5xx = true; break;
+            }
         }
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {

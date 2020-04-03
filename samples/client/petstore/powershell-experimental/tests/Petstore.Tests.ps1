@@ -11,13 +11,13 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Id = 38369
 
             # Add pet
-            $Pet = New-PSPet -Id $Id -Name 'PowerShell' -Category (
-                New-PSCategory -Id $Id -Name 'PSCategory'
+            $Pet = Initialize-PSPet -Id $Id -Name 'PowerShell' -Category (
+                Initialize-PSCategory -Id $Id -Name 'PSCategory'
             ) -PhotoUrls @(
                 'http://example.com/foo',
                 'http://example.com/bar'
             ) -Tags (
-                New-PSTag -Id $Id -Name 'PSTag'
+                Initialize-PSTag -Id $Id -Name 'PSTag'
             ) -Status Available
             $Result = Add-PSPet -Pet $Pet
             
@@ -36,13 +36,13 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."status" | Should Be "Pending"
 
             # Update (put)
-            $NewPet = New-PSPet -Id $Id -Name 'PowerShell2' -Category (
-                New-PSCategory -Id $Id -Name 'PSCategory2'
+            $NewPet = Initialize-PSPet -Id $Id -Name 'PowerShell2' -Category (
+                Initialize-PSCategory -Id $Id -Name 'PSCategory2'
             ) -PhotoUrls @(
                 'http://example.com/foo2',
                 'http://example.com/bar2'
             ) -Tags (
-                New-PSTag -Id $Id -Name 'PSTag2'
+                Initialize-PSTag -Id $Id -Name 'PSTag2'
             ) -Status Sold
 
             $Result = Update-PSPet -Pet $NewPet
@@ -93,6 +93,13 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Configuration["DefaultHeaders"].Count | Should Be 1
             $Configuration["DefaultHeaders"]["TestKey"] | Should Be "TestValue"
 
+        }
+
+        It "Configuration tests" {
+            $Conf = Get-PSConfiguration
+            $Conf["SkipCertificateCheck"] | Should Be $false
+            $Conf = Set-PSConfiguration -PassThru -SkipCertificateCheck
+            $Conf["SkipCertificateCheck"] | Should Be $true
         }
     }
 }

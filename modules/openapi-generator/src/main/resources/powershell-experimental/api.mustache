@@ -151,16 +151,19 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{#isKeyInHeader}}
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
             $LocalVarHeaderParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
+            Write-Verbose ("Using API key '{{{name}}}' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInHeader}}
         {{#isKeyInQuery}}
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
             $LocalVarQueryParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
+            Write-Verbose ("Using API key `{{{name}}}` in the URL query for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInQuery}}
         {{#isKeyInCookie}}
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['{{{name}}}'] = $Configuration["Cookie"]
+            Write-Verbose ("Using API key `{{{name}}}` in the cookie for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInCookie}}
         {{/isApiKey}}
@@ -169,11 +172,13 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
             $LocalVarBytes = [System.Text.Encoding]::UTF8.GetBytes($Configuration["Username"] + ":" + $Configuration["Password"])
             $LocalVarBase64Text =[Convert]::ToBase64String($LocalVarBytes)
             $LocalVarHeaderParameters['Authorization'] = "Basic " + $LocalVarBase64Text
+            Write-Verbose ("Using HTTP basic authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isBasicBasic}}
         {{#isBasicBearer}}
         if ($Configuration["AccessToken"]) {
             $LocalVarHeaderParameters['Authorization'] = "Bearer " + $Configuration["AccessToken"]
+            Write-Verbose ("Using Bearer authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isBasicBearer}}
 
