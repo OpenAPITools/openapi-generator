@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.File;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -37,13 +38,13 @@ import javax.validation.Valid;
 
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
-  private java.io.File file;
+  private File file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  private List<java.io.File> files = null;
+  private List<File> files = null;
 
 
-  public FileSchemaTestClass file(java.io.File file) {
+  public FileSchemaTestClass file(File file) {
     
     this.file = file;
     return this;
@@ -59,23 +60,23 @@ public class FileSchemaTestClass {
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public java.io.File getFile() {
+  public File getFile() {
     return file;
   }
 
 
-  public void setFile(java.io.File file) {
+  public void setFile(File file) {
     this.file = file;
   }
 
 
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<File> files) {
     
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
       this.files = new ArrayList<>();
     }
@@ -93,12 +94,12 @@ public class FileSchemaTestClass {
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<java.io.File> getFiles() {
+  public List<File> getFiles() {
     return files;
   }
 
 
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<File> files) {
     this.files = files;
   }
 

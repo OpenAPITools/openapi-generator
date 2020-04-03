@@ -9,7 +9,7 @@ import javax.ws.rs.core.GenericType;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import java.io.File;
+import org.openapitools.client.model.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;

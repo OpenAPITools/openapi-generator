@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.File;
 
 /**
  * FileSchemaTestClass
@@ -33,14 +34,14 @@ import java.util.List;
 public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
-  private java.io.File file;
+  private File file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<java.io.File> files = null;
+  private List<File> files = null;
 
 
-  public FileSchemaTestClass file(java.io.File file) {
+  public FileSchemaTestClass file(File file) {
     
     this.file = file;
     return this;
@@ -53,25 +54,25 @@ public class FileSchemaTestClass {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public java.io.File getFile() {
+  public File getFile() {
     return file;
   }
 
 
-  public void setFile(java.io.File file) {
+  public void setFile(File file) {
     this.file = file;
   }
 
 
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<File> files) {
     
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<java.io.File>();
+      this.files = new ArrayList<File>();
     }
     this.files.add(filesItem);
     return this;
@@ -84,12 +85,12 @@ public class FileSchemaTestClass {
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
 
-  public List<java.io.File> getFiles() {
+  public List<File> getFiles() {
     return files;
   }
 
 
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<File> files) {
     this.files = files;
   }
 
