@@ -574,6 +574,7 @@ open class GenerateTask : DefaultTask() {
             }
 
             if (systemProperties.isPresent) {
+                // TODO: rename to globalProperties in 5.0
                 systemProperties.get().forEach { entry ->
                     configurator.addSystemProperty(entry.key, entry.value)
                 }

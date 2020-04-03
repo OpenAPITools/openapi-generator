@@ -408,6 +408,7 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "true", property = "openapi.generator.maven.plugin.addCompileSourceRoot")
     private boolean addCompileSourceRoot = true;
 
+    // TODO: Rename to global properties in version 5.0
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<>();
 

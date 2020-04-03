@@ -11,13 +11,13 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Id = 38369
 
             # Add pet
-            $Pet = New-PSPet -Id $Id -Name 'PowerShell' -Category (
-                New-PSCategory -Id $Id -Name 'PSCategory'
+            $Pet = Initialize-PSPet -Id $Id -Name 'PowerShell' -Category (
+                Initialize-PSCategory -Id $Id -Name 'PSCategory'
             ) -PhotoUrls @(
                 'http://example.com/foo',
                 'http://example.com/bar'
             ) -Tags (
-                New-PSTag -Id $Id -Name 'PSTag'
+                Initialize-PSTag -Id $Id -Name 'PSTag'
             ) -Status Available
             $Result = Add-PSPet -Pet $Pet
             
@@ -26,6 +26,10 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."id" | Should Be 38369
             $Result."name" | Should Be "PowerShell"
             $Result."status" | Should Be "Available"
+            $Result."category"."id" | Should Be $Id
+            $Result."category"."name" | Should Be 'PSCategory'
+
+            $Result.GetType().fullname | Should Be "System.Management.Automation.PSCustomObject"
 
             # Update (form)
             $Result = Update-PSPetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
@@ -36,20 +40,24 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."status" | Should Be "Pending"
 
             # Update (put)
-            $NewPet = New-PSPet -Id $Id -Name 'PowerShell2' -Category (
-                New-PSCategory -Id $Id -Name 'PSCategory2'
+            $NewPet = Initialize-PSPet -Id $Id -Name 'PowerShell2' -Category (
+                Initialize-PSCategory -Id $Id -Name 'PSCategory2'
             ) -PhotoUrls @(
                 'http://example.com/foo2',
                 'http://example.com/bar2'
             ) -Tags (
-                New-PSTag -Id $Id -Name 'PSTag2'
+                Initialize-PSTag -Id $Id -Name 'PSTag2'
             ) -Status Sold
 
             $Result = Update-PSPet -Pet $NewPet
-            $Result = Get-PSPetById -petId $Id
-            $Result."id" | Should Be 38369
-            $Result."name" | Should Be "PowerShell2"
-            $Result."status" | Should Be "Sold"
+            $Result = Get-PSPetById -petId $Id -WithHttpInfo
+            $Result.GetType().fullname | Should Be "System.Collections.Hashtable"
+            #$Result["Response"].GetType().fullanme | Should Be "System.Management.Automation.PSCustomObject"
+            $Result["Response"]."id" | Should Be 38369
+            $Result["Response"]."name" | Should Be "PowerShell2"
+            $Result["Response"]."status" | Should Be "Sold"
+            $Result["StatusCode"] | Should Be 200
+            $Result["Headers"]["Content-Type"] | Should Be "application/json"
 
             # upload file
             $file = Get-Item "./plus.gif"
@@ -57,6 +65,51 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
 
             # Delete
             $Result = Remove-Pet -petId $Id
+
+        }
+
+        It 'Find pets test' {
+
+            # add 1st pet
+            $pet = Initialize-PSPet -Id 10129 -Name 'foo' -Category (
+                   Initialize-PSCategory -Id 20129 -Name 'bar'
+               ) -PhotoUrls @(
+                   'http://example.com/foo',
+                   'http://example.com/bar'
+               ) -Tags (
+                   Initialize-PSTag -Id 10129 -Name 'bazbaz'
+               ) -Status Available
+               
+             $Result = Add-PSPet -Pet $pet
+             
+             # add 2nd pet
+             $pet2 = Initialize-PSPet -Id 20129 -Name '2foo' -Category (
+                     Initialize-PSCategory -Id 20129 -Name '2bar'
+                 ) -PhotoUrls @(
+                     'http://example.com/2foo',
+                     'http://example.com/2bar'
+                 ) -Tags (
+                     Initialize-PSTag -Id 10129 -Name 'bazbaz'
+                 ) -Status Available
+                 
+             $Result = Add-PSPet $pet2
+            
+             # test find pets by tags 
+             $Results = Find-PSPetsByTags 'bazbaz'
+             $Results.GetType().FullName| Should Be "System.Object[]"
+             $Results.Count | Should Be 2
+
+             if ($Results[0]."id" -gt 10129) {
+                 $Results[0]."id" | Should Be 20129
+             } else {
+                 $Results[0]."id" | Should Be 10129
+             }
+
+             if ($Results[1]."id" -gt 10129) {
+                 $Results[1]."id" | Should Be 20129
+             } else {
+                 $Results[1]."id" | Should Be 10129
+             }
 
         }
     }
