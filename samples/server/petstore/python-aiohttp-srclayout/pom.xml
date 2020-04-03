@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>PythonAiohttpServer</artifactId>
+    <artifactId>PythonAiohttpSrcLayoutServer</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Python Aiohttp Server</name>
+    <name>Python Aiohttp Server (/src layout)</name>
     <build>
         <plugins>
             <plugin>
