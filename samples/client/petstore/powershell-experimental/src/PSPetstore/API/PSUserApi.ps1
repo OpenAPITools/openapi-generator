@@ -56,6 +56,7 @@ function New-PSUser {
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+            Write-Verbose ("Using API key `auth_cookie` in the cookie for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
@@ -124,6 +125,7 @@ function New-PSUsersWithArrayInput {
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+            Write-Verbose ("Using API key `auth_cookie` in the cookie for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
@@ -192,6 +194,7 @@ function New-PSUsersWithListInput {
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+            Write-Verbose ("Using API key `auth_cookie` in the cookie for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
@@ -255,6 +258,7 @@ function Remove-PSUser {
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+            Write-Verbose ("Using API key `auth_cookie` in the cookie for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'DELETE' `
@@ -444,6 +448,7 @@ function Invoke-PSLogoutUser {
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+            Write-Verbose ("Using API key `auth_cookie` in the cookie for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
@@ -522,6 +527,7 @@ function Update-PSUser {
 
         if ($Configuration["Cookie"]) {
             $LocalVarCookieParameters['auth_cookie'] = $Configuration["Cookie"]
+            Write-Verbose ("Using API key `auth_cookie` in the cookie for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'PUT' `
