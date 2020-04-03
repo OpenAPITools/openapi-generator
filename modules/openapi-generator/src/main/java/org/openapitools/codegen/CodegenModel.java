@@ -52,6 +52,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public CodegenDiscriminator discriminator;
     public String defaultValue;
     public String arrayModelType;
+    public Set<String> circularReferences = new TreeSet<String>(); // all schemas in a cycle referencing this
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
@@ -137,6 +138,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setArrayModelType(String arrayModelType) {
         this.arrayModelType = arrayModelType;
+    }
+
+    public Set<String> getCircularReferences() {
+        return circularReferences;
+    }
+
+    public void setCircularReferences(Set<String> circularReferences) {
+        this.circularReferences = circularReferences;
     }
 
     public List<CodegenModel> getChildren() {
@@ -566,6 +575,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(discriminator, that.discriminator) &&
                 Objects.equals(defaultValue, that.defaultValue) &&
                 Objects.equals(arrayModelType, that.arrayModelType) &&
+                Objects.equals(circularReferences, that.circularReferences) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(allVars, that.allVars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
@@ -599,7 +609,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
-                getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                getArrayModelType(), getCircularReferences(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
@@ -637,6 +647,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", discriminator=").append(discriminator);
         sb.append(", defaultValue='").append(defaultValue).append('\'');
         sb.append(", arrayModelType='").append(arrayModelType).append('\'');
+        sb.append(", circularReferences='").append(circularReferences).append('\'');
         sb.append(", isAlias=").append(isAlias);
         sb.append(", isString=").append(isString);
         sb.append(", isInteger=").append(isInteger);

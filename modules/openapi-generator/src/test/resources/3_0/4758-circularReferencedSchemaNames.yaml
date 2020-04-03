@@ -1,0 +1,78 @@
+openapi: 3.0.0
+info:
+  description: Test
+  version: 1.0.0
+  title: OpenAPI
+paths:
+  /foo:
+    post:
+      description: ''
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foo'
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        self:
+          $ref: '#/components/schemas/Self'
+        cross:
+          $ref: '#/components/schemas/CrossOne'
+        circular:
+          $ref: '#/components/schemas/CircularOne'
+        circularArray:
+          $ref: '#/components/schemas/CircularArrayOne'
+
+    Self:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/Self'
+
+    CrossOne:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CrossTwo'
+    CrossTwo:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CrossOne'
+
+    CircularOne:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularTwo'
+    CircularTwo:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularThree'
+    CircularThree:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularOne'
+
+    CircularArrayOne:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularArrayTwo'
+    CircularArrayTwo:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularArrayThree'
+    CircularArrayThree:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularArrayOne'
