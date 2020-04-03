@@ -26,6 +26,8 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."id" | Should Be 38369
             $Result."name" | Should Be "PowerShell"
             $Result."status" | Should Be "Available"
+            $Result."category"."id" | Should Be $Id
+            $Result."category"."name" | Should Be 'PSCategory'
 
             $Result.GetType().fullname | Should Be "System.Management.Automation.PSCustomObject"
 
@@ -63,6 +65,51 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
 
             # Delete
             $Result = Remove-Pet -petId $Id
+
+        }
+
+        It 'Find pets test' {
+
+            # add 1st pet
+            $pet = Initialize-PSPet -Id 10129 -Name 'foo' -Category (
+                   Initialize-PSCategory -Id 20129 -Name 'bar'
+               ) -PhotoUrls @(
+                   'http://example.com/foo',
+                   'http://example.com/bar'
+               ) -Tags (
+                   Initialize-PSTag -Id 10129 -Name 'bazbaz'
+               ) -Status Available
+               
+             $Result = Add-PSPet -Pet $pet
+             
+             # add 2nd pet
+             $pet2 = Initialize-PSPet -Id 20129 -Name '2foo' -Category (
+                     Initialize-PSCategory -Id 20129 -Name '2bar'
+                 ) -PhotoUrls @(
+                     'http://example.com/2foo',
+                     'http://example.com/2bar'
+                 ) -Tags (
+                     Initialize-PSTag -Id 10129 -Name 'bazbaz'
+                 ) -Status Available
+                 
+             $Result = Add-PSPet $pet2
+            
+             # test find pets by tags 
+             $Results = Find-PSPetsByTags 'bazbaz'
+             $Results.GetType().FullName| Should Be "System.Object[]"
+             $Results.Count | Should Be 2
+
+             if ($Results[0]."id" -gt 10129) {
+                 $Results[0]."id" | Should Be 20129
+             } else {
+                 $Results[0]."id" | Should Be 10129
+             }
+
+             if ($Results[1]."id" -gt 10129) {
+                 $Results[1]."id" | Should Be 20129
+             } else {
+                 $Results[1]."id" | Should Be 10129
+             }
 
         }
     }
