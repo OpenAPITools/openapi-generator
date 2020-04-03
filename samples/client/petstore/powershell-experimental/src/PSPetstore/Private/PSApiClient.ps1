@@ -114,7 +114,7 @@ function Invoke-PSApiClient {
     }
 
     return @{
-        Response = (DeserializeResponse -Response $Response -ReturnType $ReturnType)
+        Response = DeserializeResponse -Response $Response -ReturnType $ReturnType
         StatusCode = $Response.StatusCode
         Headers = $Response.Headers
     }
@@ -186,8 +186,6 @@ function DeserializeResponse {
     If ([string]::IsNullOrEmpty($ReturnType)) { # void response
         return $Response
     } Elseif ($ReturnType -match '\[\]$') { # array
-        Write-Host ("deserialzing array: {0}" -f $Response)
-        Write-Host ("array count: {0}" -f (ConvertFrom-Json $Response).Count)
         return ConvertFrom-Json $Response
     } Elseif (@("String", "Boolean", "System.DateTime") -contains $ReturnType) { # string, boolean ,datetime
         return $Response
