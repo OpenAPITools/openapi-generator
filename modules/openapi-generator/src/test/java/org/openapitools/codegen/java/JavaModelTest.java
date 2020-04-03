@@ -1285,4 +1285,70 @@ public class JavaModelTest {
         File orderFile = new File(output, "src/main/java/org/openapitools/client/api/DefaultApi.java");
         Assert.assertTrue(orderFile.exists());
     }
+
+    @Test(description = "convert a schema named File")
+    public void fileSchemaTest() {
+        final Schema model = new Schema()
+                .description("Details about the file, including its ID and name")
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema()
+                        .example("Year-end review"))
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("File", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("File", model);
+
+        Assert.assertEquals(cm.name, "File");
+        Assert.assertEquals(cm.classname, "File");
+        Assert.assertEquals(cm.description, "Details about the file, including its ID and name");
+        Assert.assertEquals(cm.vars.size(), 3);
+
+        final List<CodegenProperty> vars = cm.vars;
+
+        final CodegenProperty property1 = vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.nameInCamelCase, "Id");
+        Assert.assertEquals(property1.nameInSnakeCase, "ID");
+        Assert.assertEquals(property1.getter, "getId");
+        Assert.assertEquals(property1.setter, "setId");
+        Assert.assertEquals(property1.dataType, "Long");
+        Assert.assertEquals(property1.name, "id");
+        Assert.assertEquals(property1.defaultValue, null);
+        Assert.assertEquals(property1.baseType, "Long");
+        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(property1.required);
+        Assert.assertFalse(property1.isContainer);
+
+        final CodegenProperty property2 = vars.get(1);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.nameInCamelCase, "Name");
+        Assert.assertEquals(property2.nameInSnakeCase, "NAME");
+        Assert.assertEquals(property2.getter, "getName");
+        Assert.assertEquals(property2.setter, "setName");
+        Assert.assertEquals(property2.dataType, "String");
+        Assert.assertEquals(property2.name, "name");
+        Assert.assertEquals(property2.defaultValue, null);
+        Assert.assertEquals(property2.baseType, "String");
+        Assert.assertEquals(property2.example, "Year-end review");
+        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(property2.required);
+        Assert.assertFalse(property2.isContainer);
+
+        final CodegenProperty property3 = vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.nameInCamelCase, "CreatedAt");
+        Assert.assertEquals(property3.nameInSnakeCase, "CREATED_AT");
+        Assert.assertEquals(property3.getter, "getCreatedAt");
+        Assert.assertEquals(property3.setter, "setCreatedAt");
+        Assert.assertEquals(property3.dataType, "Date");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertEquals(property3.defaultValue, null);
+        Assert.assertEquals(property3.baseType, "Date");
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
+        Assert.assertFalse(property3.isContainer);
+    }
 }
