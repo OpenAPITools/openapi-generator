@@ -1,0 +1,135 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#operations}}
+import (
+	{{#imports}}
+	"{{import}}"
+	{{/imports}}
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+{{#operation}}
+{{#responses}}
+// {{nickname}}Response{{code}} controller response type
+type {{nickname}}Response{{code}} struct {
+	{{#isModel}}
+	{{{dataType}}}
+	{{/isModel}}
+	{{^isModel}}
+	{{#dataType}}
+	Payload {{{dataType}}}
+	{{/dataType}}
+	{{/isModel}}
+}
+
+{{/responses}}
+// {{nickname}}Headers : request headers
+type {{nickname}}Headers struct {
+	{{#headerParams}}
+	{{#description}}
+	// {{unescapedDescription}}
+	{{/description}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{{dataType}}} {{>struct_tags}}
+	{{/headerParams}}
+}
+
+// {{nickname}}QueryParams : query/GET request parameters
+type {{nickname}}QueryParams struct {
+	{{#queryParams}}
+	{{#description}}
+	// {{unescapedDescription}}
+	{{/description}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{{dataType}}} {{>struct_tags}}
+	{{/queryParams}}
+}
+
+// {{nickname}}PathParams : in path request parameters
+type {{nickname}}PathParams struct {
+	{{#pathParams}}
+	{{#description}}
+	// {{unescapedDescription}}
+	{{/description}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{{dataType}}} {{>struct_tags}}
+	{{/pathParams}}
+}
+
+// {{nickname}}FormParams : form/POST request parameters
+type {{nickname}}FormParams struct {
+	{{#formParams}}
+	{{#description}}
+	// {{unescapedDescription}}
+	{{/description}}
+	{{#camelize}}{{paramName}}{{/camelize}} {{{dataType}}} {{>struct_tags}}
+	{{/formParams}}
+}
+
+// {{nickname}}Request payload object
+type {{nickname}}Request struct {
+	Headers *{{nickname}}Headers
+	QueryParams *{{nickname}}QueryParams
+	PathParams *{{nickname}}PathParams
+	FormParams *{{nickname}}FormParams
+}
+
+// Bind : gin bind
+func (o *{{nickname}}Request) Bind (c *gin.Context) error {
+    var err error
+
+	{{#hasHeaderParams}}
+    o.Headers = &{{nickname}}Headers{}
+	err = c.ShouldBindHeader(o.Headers)
+	if err != nil {
+		return err
+	}
+
+	{{/hasHeaderParams}}
+	{{#hasQueryParams}}
+    o.QueryParams = &{{nickname}}QueryParams{}
+	err = c.ShouldBindQuery(o.QueryParams)
+	if err != nil {
+		return err
+	}
+
+	{{/hasQueryParams}}
+	{{#hasPathParams}}
+    o.PathParams = &{{nickname}}PathParams{}
+	err = c.ShouldBindUri(o.PathParams)
+	if err != nil {
+		return err
+	}
+
+	{{/hasPathParams}}
+	{{#hasFormParams}}
+    o.FormParams = &{{nickname}}FormParams{}
+	err = c.ShouldBind(o.FormParams)
+	if err != nil {
+		return err
+	}
+
+	{{/hasFormParams}}
+	return err
+}
+
+// New{{nickname}}Handler constructor
+func New{{nickname}}Handler(cmd Command) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		resp := cmd(c)
+
+		switch resp.(type) {
+		{{#responses}}
+		case {{nickname}}Response{{code}}:
+			r := resp.({{nickname}}Response{{code}})
+			render(c, {{code}}, {{#isModel}}r{{/isModel}}{{^isModel}}{{#dataType}}r.Payload{{/dataType}}{{/isModel}})
+		{{/responses}}
+		default:
+			err := "{{nickname}}() command response type mismatch. [%T] != ENUM[{{#responses}}{{nickname}}Response{{code}}, {{/responses}}]"
+			c.String(http.StatusNotImplemented, err, resp)
+		}
+	}
+}
+
+{{/operation}}
+{{/operations}}

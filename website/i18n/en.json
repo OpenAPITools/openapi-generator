@@ -191,6 +191,9 @@
         "title": "Config Options for go-gin-server",
         "sidebar_label": "go-gin-server"
       },
+      "generators/go-gin-driver-server": {
+        "title": "generators/go-gin-driver-server"
+      },
       "generators/go-server": {
         "title": "Config Options for go-server",
         "sidebar_label": "go-server"

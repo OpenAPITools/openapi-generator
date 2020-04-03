@@ -1,0 +1,185 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#apiInfo}}
+import (
+	"net/http"
+
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"encoding/base64"
+	"regexp"
+)
+
+// ContentType - response content type key
+const ContentType string = "drv-content-type"
+
+var (
+	jsonCheck = regexp.MustCompile(`(?i:(?:application|text)/(?:vnd\.[^;]+\+)?json)`)
+	xmlCheck  = regexp.MustCompile(`(?i:(?:application|text)/xml)`)
+)
+
+// Logger interface
+type Logger interface {
+	Debug(...interface{})
+	Info(...interface{})
+	Warn(...interface{})
+	Error(...interface{})
+	Fatal(...interface{})
+	Panic(...interface{})
+}
+
+// Command passed to handler type
+type Command func(*gin.Context) interface{}
+
+// Configuration of the server
+type Configuration struct {
+	Port       int
+	TLS        bool
+	ServeReDoc bool
+	CertFile   string
+	KeyFile    string
+}
+
+// Server object
+type Server struct {
+	log   Logger
+	cnf   *Configuration
+	hndsc HandlerCommands
+    gmdw  []gin.HandlerFunc
+}
+
+
+// Run server
+func (o *Server) Run() {
+	addr := fmt.Sprintf(":%d", o.cnf.Port)
+	router := NewRouter(&o.hndsc, o.gmdw)
+
+	if o.cnf.ServeReDoc {
+		router = withReDoc(router)
+	}
+
+	o.log.Info(fmt.Sprintf("Server started [%s]", addr))
+
+	if o.cnf.TLS {
+		o.log.Fatal(router.RunTLS(addr, o.cnf.CertFile, o.cnf.KeyFile))
+	} else {
+		o.log.Fatal(router.Run(addr))
+	}
+}
+
+// NewServer constructor
+func NewServer(handlersCmd HandlerCommands, middlewareFuncs []gin.HandlerFunc, config *Configuration, logger Logger) *Server {
+	return &Server{
+		log:   logger,
+		cnf:   config,
+		hndsc: handlersCmd,
+		gmdw:  middlewareFuncs,
+	}
+}
+
+// HandlerCommands mapping
+type HandlerCommands struct {
+	{{#apis}}
+	{{#operations}}
+	{{#operation}}
+	{{operationId}} Command
+	{{/operation}}
+	{{/operations}}
+	{{/apis}}
+}
+
+// Route is the information for every URI.
+type Route struct {
+	// Name is the name of this Route.
+	Name        string
+	// Method is the string for the HTTP method. ex) GET, POST etc..
+	Method      string
+	// Pattern is the pattern of the URI.
+	Pattern     string
+	// HandlerFunc is the handler function of this route.
+	HandlerFunc gin.HandlerFunc
+}
+
+// Routes is the list of the generated Route.
+type Routes []Route
+
+// NewRouter returns a new router.
+func NewRouter(h *HandlerCommands, middleware []gin.HandlerFunc) *gin.Engine {
+	routes := Routes{
+		{
+			"Index",
+			http.MethodGet,
+			"{{{basePathWithoutHost}}}/",
+			func (c *gin.Context) { c.String(http.StatusOK, "OK") },
+		},
+		{{#apis}}
+		{{#operations}}
+		{{#operation}}
+		{
+			"{{operationId}}",
+			http.Method{{httpMethod}},
+			"{{{basePathWithoutHost}}}{{{path}}}",
+			New{{operationId}}Handler(h.{{operationId}}),
+		},
+		{{/operation}}
+		{{/operations}}
+		{{/apis}}
+	}
+
+    // add recovery middleware
+    middleware = append(middleware, gin.Recovery())
+	router := gin.New()
+	router.Use(middleware...)
+
+	for _, route := range routes {
+		switch route.Method {
+		case http.MethodGet:
+			router.GET(route.Pattern, route.HandlerFunc)
+		case http.MethodPost:
+			router.POST(route.Pattern, route.HandlerFunc)
+		case http.MethodPut:
+			router.PUT(route.Pattern, route.HandlerFunc)
+		case http.MethodDelete:
+			router.DELETE(route.Pattern, route.HandlerFunc)
+		}
+	}
+
+	return router
+}
+
+// render response based on content type
+func render(c *gin.Context, code int, response interface{}) {
+	contentType := c.GetString(ContentType)
+	switch {
+	case jsonCheck.MatchString(contentType):
+		c.JSON(code, response)
+	case xmlCheck.MatchString(contentType):
+		c.XML(code, response)
+	default:
+		c.String(http.StatusNotImplemented, "content type not implemented", response)
+	}
+}
+
+func withReDoc(router *gin.Engine) *gin.Engine {
+	router.GET("{{{basePathWithoutHost}}}/doc/api_spec.yaml", func(c *gin.Context) {
+		p, err := base64.StdEncoding.DecodeString(ReDocAPISpec)
+		if err != nil {
+			panic(err)
+		}
+
+		c.Data(http.StatusOK, "text/x-yaml",p)
+	})
+
+	router.GET("{{{basePathWithoutHost}}}/doc", func(c *gin.Context) {
+		p, err := base64.StdEncoding.DecodeString(ReDocHTML)
+		if err != nil {
+			panic(err)
+		}
+
+		c.Data(http.StatusOK, "text/html; charset=utf-8", p)
+	})
+
+	return router
+}
+{{/apiInfo}}
