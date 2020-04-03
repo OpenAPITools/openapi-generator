@@ -5,7 +5,7 @@ sidebar_label: scala-akka-http
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|akkaHttpVersion|The version of akka-http| |10.1.9|
+|akkaHttpVersion|The version of akka-http| |10.1.10|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
 |artifactId|artifactId| |openapi-scala-akka-http-server|
