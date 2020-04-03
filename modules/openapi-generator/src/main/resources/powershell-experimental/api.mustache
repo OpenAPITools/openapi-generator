@@ -15,6 +15,10 @@
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
 {{/allParams}}
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}None{{/returnType}}
@@ -26,9 +30,11 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         [Parameter(Position = {{vendorExtensions.x-index}}{{#-first}}, ValueFromPipeline = $true{{/-first}}, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [{{{vendorExtensions.x-powershell-data-type}}}]
         {{=<% %>=}}
-        ${<%paramName%>}<%^-last%>,<%/-last%>
+        ${<%paramName%>},
         <%={{ }}=%>
     {{/allParams}}
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -42,7 +48,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-{{{apiNamePrefix}}}Configuration
         {{#hasProduces}}
@@ -194,7 +200,11 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "{{#returnType}}{{{.}}}{{/returnType}}"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
