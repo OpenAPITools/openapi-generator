@@ -27,7 +27,7 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Result."name" | Should Be "PowerShell"
             $Result."status" | Should Be "Available"
 
-            $Result.GetType() | Should Be "PSCustomObject"
+            $Result.GetType().fullname | Should Be "System.Management.Automation.PSCustomObject"
 
             # Update (form)
             $Result = Update-PSPetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
@@ -49,7 +49,7 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
 
             $Result = Update-PSPet -Pet $NewPet
             $Result = Get-PSPetById -petId $Id -WithHttpInfo
-            $Result.GetType() | Should Be "hashtable"
+            $Result.GetType().fullname | Should Be "System.Collections.Hashtable"
             $Result["Response"].GetType() | Should Be "PSCustomObject"
             $Result["Response"]."id" | Should Be 38369
             $Result["Response"]."name" | Should Be "PowerShell2"
