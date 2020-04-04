@@ -18,13 +18,13 @@ import java.util.regex.Pattern;
 public class StringUtils {
 
     /**
-     * Modify the cache size of the sanitizedNameCache, camelizedWordsCache and underscoreWords.
+     * Set the cache size (entry count) of the sanitizedNameCache, camelizedWordsCache and underscoreWords.
      */
     public static final String NAME_CACHE_SIZE_PROPERTY = "org.openapitools.codegen.utils.namecache.cachesize";
     /**
-     * Modify the cache expiry of the sanitizedNameCache, camelizedWordsCache and underscoreWords.
+     * Set the cache expiry (in seconds) of the sanitizedNameCache, camelizedWordsCache and underscoreWords.
      */
-    public static final String NAME_CACHE_EXPIRY_PROPERTY = "org.openapitools.codegen.utils.namecache.expireafter";
+    public static final String NAME_CACHE_EXPIRY_PROPERTY = "org.openapitools.codegen.utils.namecache.expireafter.seconds";
 
     // A cache of camelized words. The camelize() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
