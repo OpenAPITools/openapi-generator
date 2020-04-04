@@ -1,13 +1,6 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
-import io.swagger.annotations.Authorization
-import io.swagger.annotations.AuthorizationScope
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -38,134 +31,85 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@Api(value = "User", description = "The User API")
 @RequestMapping("\${api.base-path:/v2}")
-class UserApiController(@Autowired(required = true) val service: UserApiService) {
+class UserApiController() {
 
-    @ApiOperation(
-        value = "Create user",
-        nickname = "createUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = [Authorization(value = "auth_cookie")])
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+
     @RequestMapping(
         value = ["/user"],
         consumes = ["application/json"],
         method = [RequestMethod.POST])
-    fun createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody user: User
+    fun createUser( @Valid @RequestBody user: User
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUser(user), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
-    @ApiOperation(
-        value = "Creates list of users with given input array",
-        nickname = "createUsersWithArrayInput",
-        notes = "",
-        authorizations = [Authorization(value = "auth_cookie")])
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+
     @RequestMapping(
         value = ["/user/createWithArray"],
         consumes = ["application/json"],
         method = [RequestMethod.POST])
-    fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody user: kotlin.collections.List<User>
+    fun createUsersWithArrayInput( @Valid @RequestBody user: kotlin.collections.List<User>
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithArrayInput(user), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
-    @ApiOperation(
-        value = "Creates list of users with given input array",
-        nickname = "createUsersWithListInput",
-        notes = "",
-        authorizations = [Authorization(value = "auth_cookie")])
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+
     @RequestMapping(
         value = ["/user/createWithList"],
         consumes = ["application/json"],
         method = [RequestMethod.POST])
-    fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody user: kotlin.collections.List<User>
+    fun createUsersWithListInput( @Valid @RequestBody user: kotlin.collections.List<User>
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithListInput(user), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
-    @ApiOperation(
-        value = "Delete user",
-        nickname = "deleteUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = [Authorization(value = "auth_cookie")])
-    @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
+
     @RequestMapping(
         value = ["/user/{username}"],
         method = [RequestMethod.DELETE])
-    fun deleteUser(@ApiParam(value = "The name that needs to be deleted", required=true) @PathVariable("username") username: kotlin.String
+    fun deleteUser( @PathVariable("username") username: kotlin.String
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deleteUser(username), HttpStatus.valueOf(400))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
-    @ApiOperation(
-        value = "Get user by user name",
-        nickname = "getUserByName",
-        notes = "",
-        response = User::class)
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
+
     @RequestMapping(
         value = ["/user/{username}"],
         produces = ["application/xml", "application/json"], 
         method = [RequestMethod.GET])
-    fun getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required=true) @PathVariable("username") username: kotlin.String
+    fun getUserByName( @PathVariable("username") username: kotlin.String
 ): ResponseEntity<User> {
-        return ResponseEntity(service.getUserByName(username), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
-    @ApiOperation(
-        value = "Logs user into the system",
-        nickname = "loginUser",
-        notes = "",
-        response = kotlin.String::class)
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
+
     @RequestMapping(
         value = ["/user/login"],
         produces = ["application/xml", "application/json"], 
         method = [RequestMethod.GET])
-    fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String
-,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+    fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @RequestParam(value = "username", required = true) username: kotlin.String
+,@NotNull  @RequestParam(value = "password", required = true) password: kotlin.String
 ): ResponseEntity<kotlin.String> {
-        return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
-    @ApiOperation(
-        value = "Logs out current logged in user session",
-        nickname = "logoutUser",
-        notes = "",
-        authorizations = [Authorization(value = "auth_cookie")])
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+
     @RequestMapping(
         value = ["/user/logout"],
         method = [RequestMethod.GET])
     fun logoutUser(): ResponseEntity<Unit> {
-        return ResponseEntity(service.logoutUser(), HttpStatus.valueOf(200))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
-    @ApiOperation(
-        value = "Updated user",
-        nickname = "updateUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = [Authorization(value = "auth_cookie")])
-    @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid user supplied"),ApiResponse(code = 404, message = "User not found")])
+
     @RequestMapping(
         value = ["/user/{username}"],
         consumes = ["application/json"],
         method = [RequestMethod.PUT])
-    fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: kotlin.String
-,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody user: User
+    fun updateUser( @PathVariable("username") username: kotlin.String
+, @Valid @RequestBody user: User
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.updateUser(username, user), HttpStatus.valueOf(400))
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

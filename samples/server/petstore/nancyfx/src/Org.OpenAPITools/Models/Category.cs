@@ -5,7 +5,7 @@ using System.Text;
 using Sharpility.Extensions;
 using NodaTime;
 
-namespace Org.OpenAPITools.v2.Models
+namespace Org.OpenAPITools._v2.Models
 {
     /// <summary>
     /// A category for a pet

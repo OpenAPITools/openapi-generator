@@ -24,4 +24,4 @@ part 'model/tag.dart';
 part 'model/user.dart';
 
 
-ApiClient defaultApiClient = new ApiClient();
+ApiClient defaultApiClient = ApiClient();

@@ -9,7 +9,6 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
-import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -18,10 +17,8 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class InlineObject(
 
-    @ApiModelProperty(example = "null", value = "Updated name of the pet")
     @JsonProperty("name") val name: kotlin.String? = null,
 
-    @ApiModelProperty(example = "null", value = "Updated status of the pet")
     @JsonProperty("status") val status: kotlin.String? = null
 ) {
 

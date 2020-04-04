@@ -28,26 +28,26 @@ public:
 /*! \brief Create user. *Synchronous*
  *
  * This can only be done by the logged in user.
- * \param user Created user object *Required*
+ * \param body Created user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool createUserSync(char * accessToken,
-	User user, 
+	User body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
 /*! \brief Create user. *Asynchronous*
  *
  * This can only be done by the logged in user.
- * \param user Created user object *Required*
+ * \param body Created user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool createUserAsync(char * accessToken,
-	User user, 
+	User body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
@@ -55,26 +55,26 @@ bool createUserAsync(char * accessToken,
 /*! \brief Creates list of users with given input array. *Synchronous*
  *
  * 
- * \param user List of user object *Required*
+ * \param body List of user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool createUsersWithArrayInputSync(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
 /*! \brief Creates list of users with given input array. *Asynchronous*
  *
  * 
- * \param user List of user object *Required*
+ * \param body List of user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool createUsersWithArrayInputAsync(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
@@ -82,26 +82,26 @@ bool createUsersWithArrayInputAsync(char * accessToken,
 /*! \brief Creates list of users with given input array. *Synchronous*
  *
  * 
- * \param user List of user object *Required*
+ * \param body List of user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool createUsersWithListInputSync(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
 /*! \brief Creates list of users with given input array. *Asynchronous*
  *
  * 
- * \param user List of user object *Required*
+ * \param body List of user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool createUsersWithListInputAsync(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
@@ -218,13 +218,13 @@ bool logoutUserAsync(char * accessToken,
  *
  * This can only be done by the logged in user.
  * \param username name that need to be deleted *Required*
- * \param user Updated user object *Required*
+ * \param body Updated user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool updateUserSync(char * accessToken,
-	std::string username, User user, 
+	std::string username, User body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 
@@ -232,13 +232,13 @@ bool updateUserSync(char * accessToken,
  *
  * This can only be done by the logged in user.
  * \param username name that need to be deleted *Required*
- * \param user Updated user object *Required*
+ * \param body Updated user object *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool updateUserAsync(char * accessToken,
-	std::string username, User user, 
+	std::string username, User body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
 

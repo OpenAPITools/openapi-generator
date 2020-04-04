@@ -82,7 +82,7 @@ static bool createUserProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 }
 
 static bool createUserHelper(char * accessToken,
-	User user, 
+	User body, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
 {
@@ -104,10 +104,10 @@ static bool createUserHelper(char * accessToken,
 	JsonArray* json_array;
 
 	if (isprimitive("User")) {
-		node = converttoJson(&user, "User", "");
+		node = converttoJson(&body, "User", "");
 	}
 	
-	char *jsonStr =  user.toJson();
+	char *jsonStr =  body.toJson();
 	node = json_from_string(jsonStr, NULL);
 	g_free(static_cast<gpointer>(jsonStr));
 	
@@ -166,22 +166,22 @@ static bool createUserHelper(char * accessToken,
 
 
 bool UserManager::createUserAsync(char * accessToken,
-	User user, 
+	User body, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return createUserHelper(accessToken,
-	user, 
+	body, 
 	handler, userData, true);
 }
 
 bool UserManager::createUserSync(char * accessToken,
-	User user, 
+	User body, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return createUserHelper(accessToken,
-	user, 
+	body, 
 	handler, userData, false);
 }
 
@@ -219,7 +219,7 @@ static bool createUsersWithArrayInputProcessor(MemoryStruct_s p_chunk, long code
 }
 
 static bool createUsersWithArrayInputHelper(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
 {
@@ -240,14 +240,14 @@ static bool createUsersWithArrayInputHelper(char * accessToken,
 	JsonNode* node;
 	JsonArray* json_array;
 	//TODO: Map Container
-	if (isprimitive("std::list")) {
-		node = converttoJson(&user, "std::list", "array");
+	if (isprimitive("User")) {
+		node = converttoJson(&body, "User", "array");
 	} else {
 		node = json_node_alloc();
 		json_array = json_array_new();
 		for (std::list
-			<std::list>::iterator bodyIter = user.begin(); bodyIter != user.end(); ++bodyIter) {
-			std::list itemAt = (*bodyIter);
+			<User>::iterator bodyIter = body.begin(); bodyIter != body.end(); ++bodyIter) {
+			User itemAt = (*bodyIter);
 			char *jsonStr =  itemAt.toJson();
 			JsonNode *node_temp = json_from_string(jsonStr, NULL);
 			g_free(static_cast<gpointer>(jsonStr));
@@ -315,22 +315,22 @@ static bool createUsersWithArrayInputHelper(char * accessToken,
 
 
 bool UserManager::createUsersWithArrayInputAsync(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return createUsersWithArrayInputHelper(accessToken,
-	user, 
+	body, 
 	handler, userData, true);
 }
 
 bool UserManager::createUsersWithArrayInputSync(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return createUsersWithArrayInputHelper(accessToken,
-	user, 
+	body, 
 	handler, userData, false);
 }
 
@@ -368,7 +368,7 @@ static bool createUsersWithListInputProcessor(MemoryStruct_s p_chunk, long code,
 }
 
 static bool createUsersWithListInputHelper(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
 {
@@ -389,14 +389,14 @@ static bool createUsersWithListInputHelper(char * accessToken,
 	JsonNode* node;
 	JsonArray* json_array;
 	//TODO: Map Container
-	if (isprimitive("std::list")) {
-		node = converttoJson(&user, "std::list", "array");
+	if (isprimitive("User")) {
+		node = converttoJson(&body, "User", "array");
 	} else {
 		node = json_node_alloc();
 		json_array = json_array_new();
 		for (std::list
-			<std::list>::iterator bodyIter = user.begin(); bodyIter != user.end(); ++bodyIter) {
-			std::list itemAt = (*bodyIter);
+			<User>::iterator bodyIter = body.begin(); bodyIter != body.end(); ++bodyIter) {
+			User itemAt = (*bodyIter);
 			char *jsonStr =  itemAt.toJson();
 			JsonNode *node_temp = json_from_string(jsonStr, NULL);
 			g_free(static_cast<gpointer>(jsonStr));
@@ -464,22 +464,22 @@ static bool createUsersWithListInputHelper(char * accessToken,
 
 
 bool UserManager::createUsersWithListInputAsync(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return createUsersWithListInputHelper(accessToken,
-	user, 
+	body, 
 	handler, userData, true);
 }
 
 bool UserManager::createUsersWithListInputSync(char * accessToken,
-	std::list<std::list> user, 
+	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return createUsersWithListInputHelper(accessToken,
-	user, 
+	body, 
 	handler, userData, false);
 }
 
@@ -1072,7 +1072,7 @@ static bool updateUserProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 }
 
 static bool updateUserHelper(char * accessToken,
-	std::string username, User user, 
+	std::string username, User body, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
 {
@@ -1094,10 +1094,10 @@ static bool updateUserHelper(char * accessToken,
 	JsonArray* json_array;
 
 	if (isprimitive("User")) {
-		node = converttoJson(&user, "User", "");
+		node = converttoJson(&body, "User", "");
 	}
 	
-	char *jsonStr =  user.toJson();
+	char *jsonStr =  body.toJson();
 	node = json_from_string(jsonStr, NULL);
 	g_free(static_cast<gpointer>(jsonStr));
 	
@@ -1162,22 +1162,22 @@ static bool updateUserHelper(char * accessToken,
 
 
 bool UserManager::updateUserAsync(char * accessToken,
-	std::string username, User user, 
+	std::string username, User body, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return updateUserHelper(accessToken,
-	username, user, 
+	username, body, 
 	handler, userData, true);
 }
 
 bool UserManager::updateUserSync(char * accessToken,
-	std::string username, User user, 
+	std::string username, User body, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return updateUserHelper(accessToken,
-	username, user, 
+	username, body, 
 	handler, userData, false);
 }
 

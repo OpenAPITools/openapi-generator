@@ -1,4 +1,4 @@
-# Petstore::Tag
+# OpenapiClient::Tag
 
 ## Properties
 
@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'OpenapiClient'
 
-instance = Petstore::Tag.new(id: null,
+instance = OpenapiClient::Tag.new(id: null,
                                  name: null)
 ```
 

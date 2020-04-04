@@ -13,8 +13,8 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">././Api</directory>
-            <directory suffix=".php">././Model</directory>
+            <directory suffix=".php">./.\/Api</directory>
+            <directory suffix=".php">./.\/Model</directory>
         </whitelist>
     </filter>
     <php>

@@ -1,4 +1,4 @@
-# gPRC for petstore
+# gPRC for 
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -24,7 +24,7 @@ protoc --go_out=/var/tmp/go/ models/*
 ### Ruby
 ```
 # assuming `grpc_tools_ruby_protoc` has been installed via `gem install grpc-tools`
-RUBY_OUTPUT_DIR="/var/tmp/ruby/petstore"
+RUBY_OUTPUT_DIR="/var/tmp/ruby/"
 mkdir $RUBY_OUTPUT_DIR
 grpc_tools_ruby_protoc --ruby_out=$RUBY_OUTPUT_DIR --grpc_out=$RUBY_OUTPUT_DIR/lib services/*
 grpc_tools_ruby_protoc --ruby_out=$RUBY_OUTPUT_DIR --grpc_out=$RUBY_OUTPUT_DIR/lib models/*

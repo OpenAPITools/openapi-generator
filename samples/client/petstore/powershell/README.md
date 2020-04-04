@@ -23,8 +23,8 @@ Run the following command to generate the DLL
 
 Then import module from the .\src\Org.OpenAPITools folder:
 ```powershell
-using Org.OpenAPITools.Org.OpenAPITools/API;
+using Org.OpenAPITools.Org.OpenAPITools\API;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Org.OpenAPITools/Model;
+using Org.OpenAPITools.Org.OpenAPITools\Model;
 ```
 

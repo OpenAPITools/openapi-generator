@@ -25,8 +25,6 @@
     <Compile Include="model/Tag.fs" />
     <Compile Include="model/Category.fs" />
     <Compile Include="model/Order.fs" />
-    <Compile Include="model/InlineObject1.fs" />
-    <Compile Include="model/InlineObject.fs" />
     <Compile Include="model/Pet.fs" />
     <Compile Include="model/ApiResponse.fs" />
     <Compile Include="api/PetApiHandlerParams.fs" />
