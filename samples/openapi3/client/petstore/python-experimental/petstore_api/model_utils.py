@@ -1212,8 +1212,19 @@ def get_allof_instances(self, model_args, constant_args):
 
         # and use it to make the instance
         kwargs.update(constant_args)
-        allof_instance = allof_class(**kwargs)
-        composed_instances.append(allof_instance)
+        try:
+            allof_instance = allof_class(**kwargs)
+            composed_instances.append(allof_instance)
+        except Exception as ex:
+            raise ApiValueError(
+                "Invalid inputs given to generate an instance of %s. The "
+                "input data was invalid for the allOf schema % in the composed "
+                "schema %s. Error=%s" %
+                allof_class.__class__.__name__,
+                allof_class.__class__.__name__,
+                self.__class__.__name__,
+                str(ex)
+            )
     return composed_instances
 
 
@@ -1324,8 +1335,8 @@ def get_anyof_instances(self, model_args, constant_args):
             pass
     if len(anyof_instances) == 0:
         raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. Unable to "
-            "make any instances of the classes in anyOf definition." %
+            "Invalid inputs given to generate an instance of %s. None of the "
+            "anyOf schemas matched the inputs." %
             self.__class__.__name__
         )
     return anyof_instances
@@ -1376,10 +1387,18 @@ def get_unused_args(self, composed_instances, model_args):
 
 def validate_get_composed_info(constant_args, model_args, self):
     """
-    For composed schemas/classes, validates the classes to make sure that
-    they do not share any of the same parameters. If there is no collision
-    then composed model instances are created and returned to the calling
-    self model
+    For composed schemas, generate schema instances for
+    all schemas in the oneOf/anyOf/allOf definition. If additional
+    properties are allowed, also assign those properties on
+    all matched schemas that contain additionalProperties.
+    Openapi schemas are python classes.
+
+    Exceptions are raised if:
+    - no oneOf schema matches the model_args input data
+    - > 1 oneOf schema matches the model_args input data
+    - > 1 oneOf schema matches the model_args input data
+    - no anyOf schema matches the model_args input data
+    - any of the allOf schemas do not match the model_args input data
 
     Args:
         constant_args (dict): these are the args that every model requires
