@@ -4,6 +4,7 @@ envlist = {{#supportPython2}}py27, {{/supportPython2}}py3
 [testenv]
 deps=-r{toxinidir}/requirements.txt
      -r{toxinidir}/test-requirements.txt
+	 {toxinidir}
 
 commands=
    {{^useNose}}pytest --cov={{{pythonSrcRoot}}}{{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}
