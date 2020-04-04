@@ -12,6 +12,7 @@ def client(loop, aiohttp_client):
         "swagger_ui": True
         }
     specification_dir = os.path.join(os.path.dirname(__file__), '..',
+                                     "src/",
                                      'openapi_server',
                                      'openapi')
     app = connexion.AioHttpApp(__name__, specification_dir=specification_dir,
