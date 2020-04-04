@@ -14,5 +14,9 @@ swagger-ui-bundle >= 0.0.2
 python_dateutil >= 2.6.0
 {{#supportPython2}}
 typing >= 3.5.2.2
+# For specs with timestamps, pyyaml 5.3 broke connexion's spec parsing in python 2.
+# Connexion uses copy.deepcopy() on the spec, thus hitting this bug:
+# https://github.com/yaml/pyyaml/issues/387
+pyyaml < 5.3; python_version<="2.7"
 {{/supportPython2}}
 setuptools >= 21.0.0
