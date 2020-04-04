@@ -1201,13 +1201,14 @@ def get_allof_instances(self, model_args, constant_args):
             composed_instances.append(allof_instance)
         except Exception as ex:
             raise ApiValueError(
-                "Invalid inputs given to generate an instance of %s. The "
-                "input data was invalid for the allOf schema % in the composed "
-                "schema %s. Error=%s" %
-                allof_class.__class__.__name__,
-                allof_class.__class__.__name__,
-                self.__class__.__name__,
-                str(ex)
+                "Invalid inputs given to generate an instance of '%s'. The "
+                "input data was invalid for the allOf schema '%s' in the composed "
+                "schema '%s'. Error=%s" % (
+                    allof_class.__class__.__name__,
+                    allof_class.__class__.__name__,
+                    self.__class__.__name__,
+                    str(ex)
+                )
             )
     return composed_instances
 
