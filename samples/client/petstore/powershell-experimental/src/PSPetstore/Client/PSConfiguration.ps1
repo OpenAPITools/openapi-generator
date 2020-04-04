@@ -125,6 +125,12 @@ function Set-PSConfiguration {
     Process {
 
         If ($BaseUrl) {
+            # validate URL
+            $URL = $BaseUrl -as [System.URI]
+            if (!($URL.AbsoluteURI -ne $null -and $URL.Scheme -match '[http|https]')) {
+                throw "Invalid URL '$($BaseUrl)' cannot be used in the base URL."
+            }
+    
             $Script:Configuration["BaseUrl"] = $BaseUrl
         }
 
@@ -284,7 +290,7 @@ Get the host setting in the form of array of hashtables.
 
 System.Collections.Hashtable[]
 #>
-function Get-PSHostSettings {
+function Get-PSHostSetting {
     return @(
           @{
             "Url" = "http://{server}.swagger.io:{port}/v2";
@@ -346,7 +352,7 @@ Get the URL from the host settings.
 
 String
 #>
-function Get-PSUrlFromHostSettings {
+function Get-PSUrlFromHostSetting {
 
     [CmdletBinding()]
     Param(
@@ -356,7 +362,7 @@ function Get-PSUrlFromHostSettings {
     )
 
     Process {
-        $Hosts = Get-PSHostSettings
+        $Hosts = Get-PSHostSetting
 
         # check array index out of bound
         if ($Index -lt 0 -or $Index -gt $Hosts.Length) {
