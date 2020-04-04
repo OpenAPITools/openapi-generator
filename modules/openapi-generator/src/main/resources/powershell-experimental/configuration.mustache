@@ -285,7 +285,7 @@ Get the host setting in the form of array of hashtables.
 System.Collections.Hashtable[]
 #>
 function Get-{{apiNamePrefix}}HostSetting {
-    return @(
+    return ,@(
         {{#servers}}
           @{
             "Url" = "{{{url}}}";
