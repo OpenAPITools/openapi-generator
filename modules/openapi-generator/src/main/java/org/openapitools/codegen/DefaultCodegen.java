@@ -1840,7 +1840,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the name of the oneOf schema
+     * Return the name of the oneOf schema.
+     *
+     * If the 'x-one-of-name' extension is specified in the OAS document, return that value.
+     * Otherwise, a name is constructed by creating a comma-separated list of all the names
+     * of the oneOf schemas.
      *
      * @param names          List of names
      * @param composedSchema composed schema
