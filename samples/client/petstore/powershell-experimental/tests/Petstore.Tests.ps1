@@ -115,9 +115,9 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
     }
 
     Context 'Configuration' {
-        It 'Get-PSHostSettings tests' {
+        It 'Get-PSHostSetting tests' {
 
-            $HS = Get-PSHostSettings
+            $HS = Get-PSHostSetting
 
             $HS[0]["Url"] | Should Be "http://{server}.swagger.io:{port}/v2"
             $HS[0]["Description"] | Should Be "petstore server"
@@ -129,12 +129,12 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
 
         }
 
-        It "Get-PSUrlFromHostSettings tests" {
-            Get-PSUrlFromHostSettings -Index 0 | Should Be "http://petstore.swagger.io:80/v2"
-            Get-PSUrlFromHostSettings -Index 0 -Variables @{ "port" = "8080" } | Should Be "http://petstore.swagger.io:8080/v2" 
-            #Get-PSUrlFromHostSettings -Index 2 | Should -Throw -ExceptionType ([RuntimeException]) 
-            #Get-PSUrlFromHostSettings -Index 2 | Should -Throw # "Invalid index 2 when selecting the host. Must be less than 2"
-            #Get-PSUrlFromHostSettings -Index 0 -Variables @{ "port" = "1234" } | Should Throw "The variable 'port' in the host URL has invalid value 1234. Must be 80,8080"
+        It "Get-PSUrlFromHostSetting tests" {
+            Get-PSUrlFromHostSetting -Index 0 | Should Be "http://petstore.swagger.io:80/v2"
+            Get-PSUrlFromHostSetting -Index 0 -Variables @{ "port" = "8080" } | Should Be "http://petstore.swagger.io:8080/v2" 
+            #Get-PSUrlFromHostSetting -Index 2 | Should -Throw -ExceptionType ([RuntimeException]) 
+            #Get-PSUrlFromHostSetting -Index 2 | Should -Throw # "Invalid index 2 when selecting the host. Must be less than 2"
+            #Get-PSUrlFromHostSetting -Index 0 -Variables @{ "port" = "1234" } | Should Throw "The variable 'port' in the host URL has invalid value 1234. Must be 80,8080"
 
         }
 
@@ -153,6 +153,12 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Conf["SkipCertificateCheck"] | Should Be $false
             $Conf = Set-PSConfiguration -PassThru -SkipCertificateCheck
             $Conf["SkipCertificateCheck"] | Should Be $true
+            $Conf = Set-PSConfiguration -PassThru # reset SkipCertificateCheck
+        }
+
+        It "Base URL tests" {
+            $Conf = Set-PSConfiguration -BaseURL "http://localhost"
+            $Conf = Set-PSConfiguration -BaseURL "https://localhost:8080/api"
         }
     }
 }
