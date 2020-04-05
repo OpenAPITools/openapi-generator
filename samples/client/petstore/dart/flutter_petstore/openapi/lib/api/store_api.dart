@@ -7,15 +7,15 @@ class StoreApi {
 
   StoreApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
-  /// Delete purchase order by ID with HTTP info returned
+  /// Delete purchase order by ID
   ///
   /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-  Future deleteOrderWithHttpInfo(String orderId) async {
-    Object postBody;
+  Future deleteOrder(String orderId) async {
+    Object postBody = null;
 
     // verify required params are set
     if(orderId == null) {
-     throw ApiException(400, "Missing required param: orderId");
+     throw new ApiException(400, "Missing required param: orderId");
     }
 
     // create path and map variables
@@ -28,12 +28,12 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -48,27 +48,19 @@ class StoreApi {
                                              formParams,
                                              contentType,
                                              authNames);
-    return response;
-  }
 
-  /// Delete purchase order by ID
-  ///
-  /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-  Future deleteOrder(String orderId) async {
-    Response response = await deleteOrderWithHttpInfo(orderId);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
     } else {
       return;
     }
   }
-
-  /// Returns pet inventories by status with HTTP info returned
+  /// Returns pet inventories by status
   ///
   /// Returns a map of status codes to quantities
-  Future<Response> getInventoryWithHttpInfo() async {
-    Object postBody;
+  Future<Map<String, int>> getInventory() async {
+    Object postBody = null;
 
     // verify required params are set
 
@@ -82,12 +74,12 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -102,33 +94,25 @@ class StoreApi {
                                              formParams,
                                              contentType,
                                              authNames);
-    return response;
-  }
 
-  /// Returns pet inventories by status
-  ///
-  /// Returns a map of status codes to quantities
-  Future<Map<String, int>> getInventory() async {
-    Response response = await getInventoryWithHttpInfo();
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
+      return new Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
           ;
     } else {
       return null;
     }
   }
-
-  /// Find purchase order by ID with HTTP info returned
+  /// Find purchase order by ID
   ///
   /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-  Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
-    Object postBody;
+  Future<Order> getOrderById(int orderId) async {
+    Object postBody = null;
 
     // verify required params are set
     if(orderId == null) {
-     throw ApiException(400, "Missing required param: orderId");
+     throw new ApiException(400, "Missing required param: orderId");
     }
 
     // create path and map variables
@@ -141,12 +125,12 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -161,32 +145,24 @@ class StoreApi {
                                              formParams,
                                              contentType,
                                              authNames);
-    return response;
-  }
 
-  /// Find purchase order by ID
-  ///
-  /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-  Future<Order> getOrderById(int orderId) async {
-    Response response = await getOrderByIdWithHttpInfo(orderId);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     } else {
       return null;
     }
   }
-
-  /// Place an order for a pet with HTTP info returned
+  /// Place an order for a pet
   ///
   /// 
-  Future<Response> placeOrderWithHttpInfo(Order body) async {
+  Future<Order> placeOrder(Order body) async {
     Object postBody = body;
 
     // verify required params are set
     if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -199,12 +175,12 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      MultipartRequest mp = new MultipartRequest(null, null);
       if(hasFields)
         postBody = mp;
     }
@@ -219,21 +195,13 @@ class StoreApi {
                                              formParams,
                                              contentType,
                                              authNames);
-    return response;
-  }
 
-  /// Place an order for a pet
-  ///
-  /// 
-  Future<Order> placeOrder(Order body) async {
-    Response response = await placeOrderWithHttpInfo(body);
     if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     } else {
       return null;
     }
   }
-
 }

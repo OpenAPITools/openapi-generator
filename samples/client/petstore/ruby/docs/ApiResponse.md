@@ -1,4 +1,4 @@
-# OpenapiClient::ApiResponse
+# Petstore::ApiResponse
 
 ## Properties
 
@@ -11,9 +11,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require 'OpenapiClient'
+require 'Petstore'
 
-instance = OpenapiClient::ApiResponse.new(code: null,
+instance = Petstore::ApiResponse.new(code: null,
                                  type: null,
                                  message: null)
 ```

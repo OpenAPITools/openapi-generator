@@ -9,6 +9,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * A tag for a pet
@@ -17,8 +18,10 @@ import javax.validation.constraints.Size
  */
 data class Tag(
 
+    @ApiModelProperty(example = "null", value = "")
     @JsonProperty("id") val id: kotlin.Long? = null,
 
+    @ApiModelProperty(example = "null", value = "")
     @JsonProperty("name") val name: kotlin.String? = null
 ) {
 

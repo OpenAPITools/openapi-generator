@@ -9,6 +9,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * A category for a pet
@@ -17,8 +18,10 @@ import javax.validation.constraints.Size
  */
 data class Category(
 
+    @ApiModelProperty(example = "null", value = "")
     @JsonProperty("id") val id: kotlin.Long? = null,
 @get:Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+    @ApiModelProperty(example = "null", value = "")
     @JsonProperty("name") val name: kotlin.String? = null
 ) {
 

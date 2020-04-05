@@ -30,15 +30,15 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class User (
-    val id: kotlin.Long? = null,
-    val username: kotlin.String? = null,
-    val firstName: kotlin.String? = null,
-    val lastName: kotlin.String? = null,
-    val email: kotlin.String? = null,
-    val password: kotlin.String? = null,
-    val phone: kotlin.String? = null,
+    var id: kotlin.Long? = null,
+    var username: kotlin.String? = null,
+    var firstName: kotlin.String? = null,
+    var lastName: kotlin.String? = null,
+    var email: kotlin.String? = null,
+    var password: kotlin.String? = null,
+    var phone: kotlin.String? = null,
     /* User Status */
-    val userStatus: kotlin.Int? = null
+    var userStatus: kotlin.Int? = null
 ) {
 
 }

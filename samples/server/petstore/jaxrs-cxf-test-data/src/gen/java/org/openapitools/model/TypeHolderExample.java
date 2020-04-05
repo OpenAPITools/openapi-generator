@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class TypeHolderExample  {
   
   @ApiModelProperty(example = "what", required = true, value = "")
@@ -26,9 +25,6 @@ public class TypeHolderExample  {
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @Valid
   private BigDecimal numberItem;
-
-  @ApiModelProperty(example = "1.234", required = true, value = "")
-  private Float floatItem;
 
   @ApiModelProperty(example = "-2", required = true, value = "")
   private Integer integerItem;
@@ -85,31 +81,6 @@ public class TypeHolderExample  {
    */
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
-    return this;
-  }
-
- /**
-  * Get floatItem
-  * @return floatItem
-  */
-  @JsonProperty("float_item")
-  @NotNull
-  public Float getFloatItem() {
-    return floatItem;
-  }
-
-  /**
-   * Sets the <code>floatItem</code> property.
-   */
-  public void setFloatItem(Float floatItem) {
-    this.floatItem = floatItem;
-  }
-
-  /**
-   * Sets the <code>floatItem</code> property.
-   */
-  public TypeHolderExample floatItem(Float floatItem) {
-    this.floatItem = floatItem;
     return this;
   }
 
@@ -204,7 +175,6 @@ public class TypeHolderExample  {
     
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
-    sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");

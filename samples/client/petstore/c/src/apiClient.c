@@ -522,7 +522,7 @@ char *strReplace(char *orig, char *rep, char *with) {
     return result;
 }
 
-char *base64encode (const void *b64_encode_this, int encode_this_many_bytes){
+char *sbi_base64encode (const void *b64_encode_this, int encode_this_many_bytes){
 #ifdef OPENSSL
     BIO *b64_bio, *mem_bio;      //Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
     BUF_MEM *mem_bio_mem_ptr;    //Pointer to a "memory BIO" structure holding our base64 data.
@@ -541,7 +541,7 @@ char *base64encode (const void *b64_encode_this, int encode_this_many_bytes){
 #endif
 }
 
-char *base64decode (const void *b64_decode_this, int decode_this_many_bytes, int *decoded_bytes){
+char *sbi_base64decode (const void *b64_decode_this, int decode_this_many_bytes){
 #ifdef OPENSSL
     BIO *b64_bio, *mem_bio;      //Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
     char *base64_decoded = calloc( (decode_this_many_bytes*3)/4+1, sizeof(char) ); //+1 = null.
@@ -555,7 +555,6 @@ char *base64decode (const void *b64_decode_this, int decode_this_many_bytes, int
         decoded_byte_index++; //Increment the index until read of BIO decoded data is complete.
     } //Once we're done reading decoded data, BIO_read returns -1 even though there's no error.
     BIO_free_all(b64_bio);  //Destroys all BIOs in chain, starting with b64 (i.e. the 1st one).
-    *decoded_bytes = decoded_byte_index;
     return base64_decoded;        //Returns base-64 decoded data with trailing null terminator.
 #endif
 }

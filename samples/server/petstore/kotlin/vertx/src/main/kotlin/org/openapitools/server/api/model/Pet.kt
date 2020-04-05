@@ -20,23 +20,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 /**
  * A pet for sale in the pet store
- * @param name 
- * @param photoUrls 
  * @param id 
  * @param category 
+ * @param name 
+ * @param photoUrls 
  * @param tags 
  * @param status pet status in the store
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Pet (
-    @SerializedName("name") private val _name: kotlin.String?,
-    @SerializedName("photoUrls") private val _photoUrls: kotlin.Array<kotlin.String>?,
-    val id: kotlin.Long? = null,
-    val category: Category? = null,
-    val tags: kotlin.Array<Tag>? = null,
+    @SerializedName("name") private var _name: kotlin.String?,
+    @SerializedName("photoUrls") private var _photoUrls: kotlin.Array<kotlin.String>?,
+    var id: kotlin.Long? = null,
+    var category: Category? = null,
+    var tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
-    val status: Pet.Status? = null
+    var status: Pet.Status? = null
 ) {
 
     /**
@@ -53,9 +53,9 @@ data class Pet (
     
     }
 
-        val name get() = _name ?: throw IllegalArgumentException("name is required")
-                    
-        val photoUrls get() = _photoUrls ?: throw IllegalArgumentException("photoUrls is required")
-                    
+        var name get() = _name ?: throw IllegalArgumentException("name is required")
+                    set(value){ _name = value }
+        var photoUrls get() = _photoUrls ?: throw IllegalArgumentException("photoUrls is required")
+                    set(value){ _photoUrls = value }
 }
 

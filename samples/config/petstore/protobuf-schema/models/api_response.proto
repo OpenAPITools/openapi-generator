@@ -10,7 +10,7 @@
 
 syntax = "proto3";
 
-package ;
+package petstore;
 
 
 message ApiResponse {

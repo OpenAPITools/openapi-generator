@@ -21,8 +21,8 @@ import Json.Encode as Encode
 {-| A tag for a pet
 -}
 type alias Tag =
-    { id : Maybe (Int)
-    , name : Maybe (String)
+    { id : Maybe Int
+    , name : Maybe String
     }
 
 
@@ -33,29 +33,23 @@ decoder =
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
 
-
 encode : Tag -> Encode.Value
 encode =
     Encode.object << encodePairs
 
 
 encodeWithTag : ( String, String ) -> Tag -> Encode.Value
-encodeWithTag (tagField, tag) model =
+encodeWithTag ( tagField, tag ) model =
     Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
 
 
-encodePairs : Tag -> List (String, Encode.Value)
+encodePairs : Tag -> List ( String, Encode.Value )
 encodePairs model =
     [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
     , ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
     ]
 
 
-
 toString : Tag -> String
 toString =
     Encode.encode 0 << encode
-
-
-
-

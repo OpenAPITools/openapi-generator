@@ -1,18 +1,18 @@
-# OpenapiClient::Category
+# Petstore::Category
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **Integer** |  | [optional] 
-**name** | **String** |  | [optional] 
+**name** | **String** |  | [default to &#39;default-name&#39;]
 
 ## Code Sample
 
 ```ruby
-require 'OpenapiClient'
+require 'Petstore'
 
-instance = OpenapiClient::Category.new(id: null,
+instance = Petstore::Category.new(id: null,
                                  name: null)
 ```
 

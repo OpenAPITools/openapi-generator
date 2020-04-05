@@ -18,7 +18,6 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class Pet  {
   
   @ApiModelProperty(value = "")
@@ -26,7 +25,7 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private Category category;
+  private Category category = null;
 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   private String name;

@@ -18,18 +18,18 @@
             <directory>./test/Model</directory>
         </testsuite>
         <testsuite name="Mock">
-            <directory>./test\/Mock</directory>
+            <directory>./test/Mock</directory>
         </testsuite>
         <testsuite name="Utils">
-            <directory>./test\/Utils</directory>
+            <directory>./test/Utils</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./lib\/Api</directory>
-            <directory suffix=".php">./lib\/Model</directory>
-            <directory suffix=".php">./lib\/Mock</directory>
-            <directory suffix=".php">./lib\/Utils</directory>
+            <directory suffix=".php">./lib/Api</directory>
+            <directory suffix=".php">./lib/Model</directory>
+            <directory suffix=".php">./lib/Mock</directory>
+            <directory suffix=".php">./lib/Utils</directory>
         </whitelist>
     </filter>
     <php>

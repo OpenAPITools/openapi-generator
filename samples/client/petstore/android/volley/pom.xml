@@ -3,19 +3,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openapitools</groupId>
-  <artifactId>openapi-android-client</artifactId>
+  <artifactId>petstore-android-volley</artifactId>
   <version>1.0.0</version>
   <dependencies>
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
       <version>${swagger-annotations-version}</version>
-    </dependency>
-    <!-- @Nullable annotation -->
-    <dependency>
-        <groupId>com.google.code.findbugs</groupId>
-        <artifactId>jsr305</artifactId>
-        <version>3.0.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>

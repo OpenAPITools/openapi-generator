@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Model for testing model name starting with number
  */
 @ApiModel(description="Model for testing model name starting with number")
-
 public class Model200Response  {
   
   @ApiModelProperty(value = "")

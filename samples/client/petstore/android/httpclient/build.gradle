@@ -3,7 +3,7 @@ project.version = '1.0.0'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
+        mavenCentral()
         jcenter()
     }
     dependencies {
@@ -25,6 +25,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
+    useLibrary  'org.apache.http.legacy'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
@@ -44,35 +45,29 @@ android {
             }
         }
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
 }
 
 
 ext {
     swagger_annotations_version = "1.5.0"
     gson_version = "2.3.1"
-    httpmime_version = "4.5.2"
+    httpclient_version = "4.5.2"
     httpcore_version = "4.4.4"
-    httpclient_version = "4.3.3"
-    volley_version = "1.0.0"
     junit_version = "4.13"
-    robolectric_version = "3.0"
-    concurrent_unit_version = "0.4.2"
 }
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.google.code.gson:gson:$gson_version"
     compile "org.apache.httpcomponents:httpcore:$httpcore_version"
-    compile "org.apache.httpcomponents:httpmime:$httpmime_version"
-    compile "org.apache.httpcomponents:httpclient-android:$httpclient_version"
-    compile "com.android.volley:volley:${volley_version}"
+    compile "org.apache.httpcomponents:httpclient:$httpclient_version"
+    compile ("org.apache.httpcomponents:httpcore:$httpcore_version") {
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+    }
+    compile ("org.apache.httpcomponents:httpmime:$httpclient_version") {
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+    }
     testCompile "junit:junit:$junit_version"
-    testCompile "org.robolectric:robolectric:${robolectric_version}"
-    testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
 }
 
 afterEvaluate {
