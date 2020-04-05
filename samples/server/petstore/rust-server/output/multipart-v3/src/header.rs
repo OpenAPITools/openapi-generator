@@ -7,7 +7,7 @@ use std::ops::Deref;
 /// implement the From/Into trait on HeaderValue because we don't own
 /// either of the types.
 #[derive(Debug, Clone)]
-pub struct IntoHeaderValue<T>(pub T);
+pub(crate) struct IntoHeaderValue<T>(pub T);
 
 // Generic implementations
 

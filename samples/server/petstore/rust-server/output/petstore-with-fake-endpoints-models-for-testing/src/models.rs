@@ -1,17 +1,20 @@
 #![allow(unused_qualifications)]
 
 use models;
+#[cfg(any(feature = "client", feature = "server"))]
 use header;
 
 
 // Methods for converting between header::IntoHeaderValue<AdditionalPropertiesClass> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<AdditionalPropertiesClass>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<AdditionalPropertiesClass>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AdditionalPropertiesClass> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<AdditionalPropertiesClass as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -114,12 +117,14 @@ impl AdditionalPropertiesClass {
 
 // Methods for converting between header::IntoHeaderValue<Animal> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Animal>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Animal>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Animal> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Animal as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -226,12 +231,14 @@ impl Animal {
 
 // Methods for converting between header::IntoHeaderValue<AnimalFarm> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<AnimalFarm>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<AnimalFarm>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AnimalFarm> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<AnimalFarm as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -337,12 +344,14 @@ impl AnimalFarm {
 
 // Methods for converting between header::IntoHeaderValue<ApiResponse> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<ApiResponse>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<ApiResponse>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ApiResponse> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<ApiResponse as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -466,12 +475,14 @@ impl ApiResponse {
 
 // Methods for converting between header::IntoHeaderValue<ArrayOfArrayOfNumberOnly> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayOfArrayOfNumberOnly> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<ArrayOfArrayOfNumberOnly as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -563,12 +574,14 @@ impl ArrayOfArrayOfNumberOnly {
 
 // Methods for converting between header::IntoHeaderValue<ArrayOfNumberOnly> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<ArrayOfNumberOnly>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<ArrayOfNumberOnly>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayOfNumberOnly> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<ArrayOfNumberOnly as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -664,12 +677,14 @@ impl ArrayOfNumberOnly {
 
 // Methods for converting between header::IntoHeaderValue<ArrayTest> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<ArrayTest>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<ArrayTest>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayTest> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<ArrayTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -800,12 +815,14 @@ impl ArrayTest {
 
 // Methods for converting between header::IntoHeaderValue<Capitalization> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Capitalization>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Capitalization>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Capitalization> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Capitalization as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -972,12 +989,14 @@ impl Capitalization {
 
 // Methods for converting between header::IntoHeaderValue<Cat> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Cat>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Cat>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Cat> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Cat as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -1098,12 +1117,14 @@ impl Cat {
 
 // Methods for converting between header::IntoHeaderValue<CatAllOf> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<CatAllOf>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<CatAllOf>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<CatAllOf> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<CatAllOf as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -1199,12 +1220,14 @@ impl CatAllOf {
 
 // Methods for converting between header::IntoHeaderValue<Category> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Category>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Category>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Category> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Category as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -1316,12 +1339,14 @@ impl Category {
 /// Model for testing model with \"_class\" property
 // Methods for converting between header::IntoHeaderValue<ClassModel> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<ClassModel>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<ClassModel>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ClassModel> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<ClassModel as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -1417,12 +1442,14 @@ impl ClassModel {
 
 // Methods for converting between header::IntoHeaderValue<Client> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Client>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Client>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Client> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Client as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -1518,12 +1545,14 @@ impl Client {
 
 // Methods for converting between header::IntoHeaderValue<Dog> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Dog>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Dog>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Dog> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Dog as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -1644,12 +1673,14 @@ impl Dog {
 
 // Methods for converting between header::IntoHeaderValue<DogAllOf> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<DogAllOf>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<DogAllOf>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<DogAllOf> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<DogAllOf as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -1745,12 +1776,14 @@ impl DogAllOf {
 
 // Methods for converting between header::IntoHeaderValue<EnumArrays> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<EnumArrays>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<EnumArrays>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<EnumArrays> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<EnumArrays as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -1921,12 +1954,14 @@ impl EnumClass {
 
 // Methods for converting between header::IntoHeaderValue<EnumTest> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<EnumTest>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<EnumTest>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<EnumTest> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<EnumTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -2075,12 +2110,14 @@ impl EnumTest {
 
 // Methods for converting between header::IntoHeaderValue<FormatTest> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<FormatTest>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<FormatTest>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<FormatTest> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<FormatTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -2318,12 +2355,14 @@ impl FormatTest {
 
 // Methods for converting between header::IntoHeaderValue<HasOnlyReadOnly> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<HasOnlyReadOnly>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<HasOnlyReadOnly>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<HasOnlyReadOnly> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<HasOnlyReadOnly as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -2433,12 +2472,14 @@ impl HasOnlyReadOnly {
 
 // Methods for converting between header::IntoHeaderValue<List> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<List>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<List>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<List> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<List as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -2534,12 +2575,14 @@ impl List {
 
 // Methods for converting between header::IntoHeaderValue<MapTest> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<MapTest>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<MapTest>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MapTest> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<MapTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -2655,12 +2698,14 @@ impl MapTest {
 
 // Methods for converting between header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<MixedPropertiesAndAdditionalPropertiesClass as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -2774,12 +2819,14 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 /// Model for testing model name starting with number
 // Methods for converting between header::IntoHeaderValue<Model200Response> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Model200Response>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Model200Response>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Model200Response> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Model200Response as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -2891,12 +2938,14 @@ impl Model200Response {
 /// Model for testing reserved words
 // Methods for converting between header::IntoHeaderValue<ModelReturn> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<ModelReturn>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<ModelReturn>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ModelReturn> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<ModelReturn as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -2994,12 +3043,14 @@ impl ModelReturn {
 /// Model for testing model name same as property name
 // Methods for converting between header::IntoHeaderValue<Name> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Name>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Name>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Name> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Name as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -3135,12 +3186,14 @@ impl Name {
 
 // Methods for converting between header::IntoHeaderValue<NumberOnly> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<NumberOnly>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<NumberOnly>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<NumberOnly> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<NumberOnly as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -3236,12 +3289,14 @@ impl NumberOnly {
 
 // Methods for converting between header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<ObjectContainingObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -3393,12 +3448,14 @@ impl ObjectWithOnlyAdditionalProperties {
 
 // Methods for converting between header::IntoHeaderValue<Order> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Order>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Order>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Order> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Order as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -3603,12 +3660,14 @@ impl OuterBoolean {
 
 // Methods for converting between header::IntoHeaderValue<OuterComposite> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<OuterComposite>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<OuterComposite>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<OuterComposite> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<OuterComposite as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -3866,12 +3925,14 @@ impl OuterString {
 
 // Methods for converting between header::IntoHeaderValue<Pet> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Pet>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Pet>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Pet> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Pet as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -4026,12 +4087,14 @@ impl Pet {
 
 // Methods for converting between header::IntoHeaderValue<ReadOnlyFirst> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<ReadOnlyFirst>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<ReadOnlyFirst>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ReadOnlyFirst> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<ReadOnlyFirst as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -4141,12 +4204,14 @@ impl ReadOnlyFirst {
 
 // Methods for converting between header::IntoHeaderValue<SpecialModelName> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<SpecialModelName>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<SpecialModelName>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<SpecialModelName> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<SpecialModelName as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -4243,12 +4308,14 @@ impl SpecialModelName {
 
 // Methods for converting between header::IntoHeaderValue<Tag> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<Tag>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<Tag>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Tag> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<Tag as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
@@ -4359,12 +4426,14 @@ impl Tag {
 
 // Methods for converting between header::IntoHeaderValue<User> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<User>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<User>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<User> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<User as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())

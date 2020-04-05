@@ -1,17 +1,20 @@
 #![allow(unused_qualifications)]
 
 use models;
+#[cfg(any(feature = "client", feature = "server"))]
 use header;
 
 
 // Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
     fn from(hdr_value: header::IntoHeaderValue<InlineObject>) -> Self {
         hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
 impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
     fn from(hdr_value: hyper::header::HeaderValue) -> Self {
         header::IntoHeaderValue(<InlineObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())

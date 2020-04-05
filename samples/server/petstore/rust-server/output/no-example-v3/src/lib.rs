@@ -28,6 +28,7 @@ extern crate serde;
 extern crate futures;
 extern crate chrono;
 extern crate swagger;
+extern crate serde_json;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;
@@ -36,8 +37,6 @@ extern crate hyper;
 extern crate hyper_openssl;
 #[cfg(feature = "server")]
 extern crate percent_encoding;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate serde_json;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate serde_ignored;
 #[cfg(any(feature = "client", feature = "server"))]
@@ -52,7 +51,6 @@ extern crate tokio;
 #[cfg(any(feature = "client", feature = "server"))]
 
 
-use hyper::header::HeaderValue;
 use futures::Stream;
 use std::io::Error;
 
@@ -129,4 +127,6 @@ pub use self::server::Service;
 pub mod context;
 
 pub mod models;
-pub mod header;
+
+#[cfg(any(feature = "client", feature = "server"))]
+pub(crate) mod header;

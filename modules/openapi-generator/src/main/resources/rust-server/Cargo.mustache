@@ -16,16 +16,16 @@ client = [
 {{#apiUsesMultipartFormData}}
     "multipart", "multipart/client", "swagger/multipart",
 {{/apiUsesMultipartFormData}}
- {{#apiUsesMultipartRelated}}
+{{#apiUsesMultipartRelated}}
     "hyper_0_10", "mime_multipart",
 {{/apiUsesMultipartRelated}}
 {{#usesUrlEncodedForm}}
     "serde_urlencoded",
 {{/usesUrlEncodedForm}}
 {{#hasCallbacks}}
-    "regex", "percent-encoding", "lazy_static",
+    "serde_ignored", "regex", "percent-encoding", "lazy_static",
 {{/hasCallbacks}}
-    "serde_json", "serde_ignored", "hyper", "hyper-openssl", "native-tls", "openssl", "tokio", "url"
+    "hyper", "hyper-openssl", "native-tls", "openssl", "url"
 ]
 server = [
 {{#apiUsesMultipart}}
@@ -41,7 +41,7 @@ server = [
     "native-tls", "hyper-openssl", "openssl",
 {{/hasCallbacks}}
 {{! Anything added to the list below, should probably be added to the callbacks list above }}
-    "serde_json", "serde_ignored", "hyper", "tokio", "regex", "percent-encoding", "url", "lazy_static"
+   "serde_ignored", "hyper", "regex", "percent-encoding", "url", "lazy_static"
 ]
 conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-enum-derive"]
 
@@ -62,6 +62,7 @@ mime = "0.3"
 
 serde = "1.0"
 serde_derive = "1.0"
+serde_json = "1.0"
 
 # Crates included if required by the API definition
 {{#usesXml}}
@@ -85,7 +86,6 @@ hyper = {version = "0.12", optional = true}
 mime_multipart = {version = "0.5", optional = true}
 hyper_0_10 = {package = "hyper", version = "0.10", default-features = false, optional=true}
 {{/apiUsesMultipartRelated}}
-serde_json = {version = "1.0", optional = true}
 serde_ignored = {version = "0.0.4", optional = true}
 tokio = {version = "0.1.17", optional = true}
 url = {version = "1.5", optional = true}
