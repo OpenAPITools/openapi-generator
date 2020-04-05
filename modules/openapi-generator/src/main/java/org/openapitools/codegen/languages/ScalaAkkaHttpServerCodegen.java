@@ -1,18 +1,35 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String groupId;
@@ -33,11 +50,11 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     }
 
     public String getName() {
-        return "scala-akka-http";
+        return "scala-akka-http-server";
     }
 
     public String getHelp() {
-        return "Generates a scala-akka-http server.";
+        return "Generates a scala-akka-http server (beta).";
     }
 
     public ScalaAkkaHttpServerCodegen() {
@@ -64,6 +81,9 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         ParameterFeature.Cookie
                 )
         );
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         outputFolder = "generated-code" + File.separator + "scala-akka-http";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -173,6 +193,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     private boolean is10_1_10AndAbove = false;
 
     private static final Pattern akkaVersionPattern = Pattern.compile("([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?(.\\+)?");
+
     private void parseAkkaHttpVersion() {
         Matcher matcher = akkaVersionPattern.matcher(akkaHttpVersion);
         if (matcher.matches()) {
@@ -226,7 +247,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter param = super.fromParameter(parameter, imports);
         // Removing unhandled types
-        if(!primitiveParamTypes.contains(param.dataType)) {
+        if (!primitiveParamTypes.contains(param.dataType)) {
             param.dataType = "String";
         }
         if (!param.required) {
@@ -240,7 +261,6 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     }
 
 
-
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> baseObjs = super.postProcessOperationsWithModels(objs, allModels);
@@ -249,7 +269,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         return baseObjs;
     }
 
-    private static Set<String> primitiveParamTypes = new HashSet<String>(){{
+    private static Set<String> primitiveParamTypes = new HashSet<String>() {{
         addAll(Arrays.asList(
                 "Int",
                 "Long",
@@ -260,12 +280,12 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         ));
     }};
 
-    private static Map<String, String> pathTypeToMatcher = new HashMap<String, String>(){{
+    private static Map<String, String> pathTypeToMatcher = new HashMap<String, String>() {{
         put("Int", "IntNumber");
         put("Long", "LongNumber");
-        put("Float","FloatNumber");
-        put("Double","DoubleNumber");
-        put("Boolean","Boolean");
+        put("Float", "FloatNumber");
+        put("Double", "DoubleNumber");
+        put("Boolean", "Boolean");
         put("String", "Segment");
     }};
 
@@ -274,14 +294,14 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         allPaths.removeIf(""::equals);
 
         LinkedList<TextOrMatcher> pathMatchers = new LinkedList<>();
-        for(String path: allPaths){
+        for (String path : allPaths) {
             TextOrMatcher textOrMatcher = new TextOrMatcher("", true, true);
-            if(path.startsWith("{") && path.endsWith("}")) {
-                String parameterName = path.substring(1, path.length()-1);
-                for(CodegenParameter pathParam: codegenOperation.pathParams){
-                    if(pathParam.baseName.equals(parameterName)) {
+            if (path.startsWith("{") && path.endsWith("}")) {
+                String parameterName = path.substring(1, path.length() - 1);
+                for (CodegenParameter pathParam : codegenOperation.pathParams) {
+                    if (pathParam.baseName.equals(parameterName)) {
                         String matcher = pathTypeToMatcher.get(pathParam.dataType);
-                        if(matcher == null) {
+                        if (matcher == null) {
                             LOGGER.warn("The path parameter " + pathParam.baseName +
                                     " with the datatype " + pathParam.dataType +
                                     " could not be translated to a corresponding path matcher of akka http" +
@@ -316,8 +336,8 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {
                 List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-                for (CodegenOperation operation: ops) {
-                    for (CodegenParameter parameter: operation.pathParams) {
+                for (CodegenOperation operation : ops) {
+                    for (CodegenParameter parameter : operation.pathParams) {
                         if (parameter.pattern != null && !parameter.pattern.isEmpty()) {
                             String name = pathMatcherPatternName(parameter);
                             if (!patternMap.containsKey(name)) {

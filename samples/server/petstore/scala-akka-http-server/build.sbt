@@ -1,5 +1,5 @@
 version := "1.0.0"
-name := "scala-akka-http-petstore-server"
+name := "openapi-scala-akka-http-server"
 organization := "org.openapitools"
 scalaVersion := "2.12.8"
 
