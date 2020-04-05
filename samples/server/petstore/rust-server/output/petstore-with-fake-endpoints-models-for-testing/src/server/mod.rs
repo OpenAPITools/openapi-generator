@@ -1037,7 +1037,7 @@ where
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_enum_query_string_array = query_params.iter().filter(|e| e.0 == "enum_query_string_array").map(|e| e.1.to_owned())
-                    .filter_map(|param_enum_query_string_array| param_enum_query_string_array.parse::<String>().ok())
+                    .filter_map(|param_enum_query_string_array| param_enum_query_string_array.parse().ok())
                     .collect::<Vec<_>>();
                 let param_enum_query_string_array = if !param_enum_query_string_array.is_empty() {
                     Some(param_enum_query_string_array)
@@ -1561,7 +1561,7 @@ where
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_status = query_params.iter().filter(|e| e.0 == "status").map(|e| e.1.to_owned())
-                    .filter_map(|param_status| param_status.parse::<String>().ok())
+                    .filter_map(|param_status| param_status.parse().ok())
                     .collect::<Vec<_>>();
 
                 Box::new({
@@ -1645,7 +1645,7 @@ where
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_tags = query_params.iter().filter(|e| e.0 == "tags").map(|e| e.1.to_owned())
-                    .filter_map(|param_tags| param_tags.parse::<String>().ok())
+                    .filter_map(|param_tags| param_tags.parse().ok())
                     .collect::<Vec<_>>();
 
                 Box::new({

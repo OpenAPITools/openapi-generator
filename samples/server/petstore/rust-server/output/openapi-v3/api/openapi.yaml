@@ -345,6 +345,21 @@ paths:
           description: Success.
       servers:
       - url: /override
+  /complex-query-param:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: list-of-strings
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/StringObject'
+          type: array
+        style: form
+      responses:
+        "200":
+          description: Success
 components:
   schemas:
     EnumWithStarObject:

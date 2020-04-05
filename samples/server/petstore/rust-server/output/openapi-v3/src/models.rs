@@ -138,6 +138,12 @@ impl std::convert::From<String> for AnotherXmlInner {
     }
 }
 
+impl std::string::ToString for AnotherXmlInner {
+    fn to_string(&self) -> String {
+       self.0.to_string()
+    }
+}
+
 impl std::str::FromStr for AnotherXmlInner {
     type Err = std::string::ParseError;
     fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
@@ -471,6 +477,12 @@ impl std::convert::From<String> for Err {
     }
 }
 
+impl std::string::ToString for Err {
+    fn to_string(&self) -> String {
+       self.0.to_string()
+    }
+}
+
 impl std::str::FromStr for Err {
     type Err = std::string::ParseError;
     fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
@@ -514,6 +526,12 @@ pub struct Error(String);
 impl std::convert::From<String> for Error {
     fn from(x: String) -> Self {
         Error(x)
+    }
+}
+
+impl std::string::ToString for Error {
+    fn to_string(&self) -> String {
+       self.0.to_string()
     }
 }
 
@@ -1441,6 +1459,12 @@ impl std::convert::From<String> for Ok {
     }
 }
 
+impl std::string::ToString for Ok {
+    fn to_string(&self) -> String {
+       self.0.to_string()
+    }
+}
+
 impl std::str::FromStr for Ok {
     type Err = std::string::ParseError;
     fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
@@ -1567,6 +1591,12 @@ impl std::convert::From<String> for Result {
     }
 }
 
+impl std::string::ToString for Result {
+    fn to_string(&self) -> String {
+       self.0.to_string()
+    }
+}
+
 impl std::str::FromStr for Result {
     type Err = std::string::ParseError;
     fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
@@ -1654,6 +1684,12 @@ pub struct StringObject(String);
 impl std::convert::From<String> for StringObject {
     fn from(x: String) -> Self {
         StringObject(x)
+    }
+}
+
+impl std::string::ToString for StringObject {
+    fn to_string(&self) -> String {
+       self.0.to_string()
     }
 }
 
@@ -1864,6 +1900,12 @@ pub struct XmlInner(String);
 impl std::convert::From<String> for XmlInner {
     fn from(x: String) -> Self {
         XmlInner(x)
+    }
+}
+
+impl std::string::ToString for XmlInner {
+    fn to_string(&self) -> String {
+       self.0.to_string()
     }
 }
 

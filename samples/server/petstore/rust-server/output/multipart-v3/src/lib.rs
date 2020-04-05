@@ -46,8 +46,6 @@ extern crate mime_multipart;
 extern crate percent_encoding;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate serde_ignored;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate tokio;
 
 #[cfg(any(feature = "client", feature = "server"))]
 
