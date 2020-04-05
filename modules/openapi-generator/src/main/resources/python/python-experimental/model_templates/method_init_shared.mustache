@@ -1,4 +1,5 @@
-    def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}, {{name}}={{{defaultValue}}}{{/defaultValue}}{{/requiredVars}}, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+    @convert_js_args_to_python_args
+    def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}, {{name}}={{{defaultValue}}}{{/defaultValue}}{{/requiredVars}}, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
 
 {{#requiredVars}}
@@ -31,6 +32,21 @@
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
+            _visited_composed_classes (tuple): This stores a tuple of
+                                classes that we have traveled through so that
+                                if we see that class again we will not use its
+                                discriminator again.
+                                When traveling through a discriminator, the
+                                composed schema that is
+                                is traveled through is added to this set.
+                                For example if Animal has a discriminator
+                                petType and we pass in "Dog", and the class Dog
+                                allOf includes Animal, we move through Animal
+                                once using the discriminator, and pick Dog.
+                                Then in Dog, we will make an instance of the
+                                Animal class but this time we won't travel
+                                through its discriminator because we passed in
+                                _visited_composed_classes = (Animal,)
 {{#optionalVars}}
             {{name}} ({{{dataType}}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501
 {{/optionalVars}}
@@ -41,3 +57,4 @@
         self._from_server = _from_server
         self._path_to_item = _path_to_item
         self._configuration = _configuration
+        self._visited_composed_classes = _visited_composed_classes

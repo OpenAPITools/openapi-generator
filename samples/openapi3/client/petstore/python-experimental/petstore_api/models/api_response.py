@@ -21,6 +21,9 @@ from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
     ModelNormal,
     ModelSimple,
+    cached_property,
+    change_keys_js_to_python,
+    convert_js_args_to_python_args,
     date,
     datetime,
     file_type,
@@ -63,7 +66,7 @@ class ApiResponse(ModelNormal):
 
     additional_properties_type = None
 
-    @staticmethod
+    @cached_property
     def openapi_types():
         """
         This must be a class method so a model may have properties that are
@@ -79,7 +82,7 @@ class ApiResponse(ModelNormal):
             'message': (str,),  # noqa: E501
         }
 
-    @staticmethod
+    @cached_property
     def discriminator():
         return None
 
@@ -89,9 +92,7 @@ class ApiResponse(ModelNormal):
         'message': 'message',  # noqa: E501
     }
 
-    @staticmethod
-    def _composed_schemas():
-        return None
+    _composed_schemas = {}
 
     required_properties = set([
         '_data_store',
@@ -99,9 +100,11 @@ class ApiResponse(ModelNormal):
         '_from_server',
         '_path_to_item',
         '_configuration',
+        '_visited_composed_classes',
     ])
 
-    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+    @convert_js_args_to_python_args
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """api_response.ApiResponse - a model defined in OpenAPI
 
         Keyword Args:
@@ -118,6 +121,21 @@ class ApiResponse(ModelNormal):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
+            _visited_composed_classes (tuple): This stores a tuple of
+                                classes that we have traveled through so that
+                                if we see that class again we will not use its
+                                discriminator again.
+                                When traveling through a discriminator, the
+                                composed schema that is
+                                is traveled through is added to this set.
+                                For example if Animal has a discriminator
+                                petType and we pass in "Dog", and the class Dog
+                                allOf includes Animal, we move through Animal
+                                once using the discriminator, and pick Dog.
+                                Then in Dog, we will make an instance of the
+                                Animal class but this time we won't travel
+                                through its discriminator because we passed in
+                                _visited_composed_classes = (Animal,)
             code (int): [optional]  # noqa: E501
             type (str): [optional]  # noqa: E501
             message (str): [optional]  # noqa: E501
@@ -128,6 +146,7 @@ class ApiResponse(ModelNormal):
         self._from_server = _from_server
         self._path_to_item = _path_to_item
         self._configuration = _configuration
+        self._visited_composed_classes = _visited_composed_classes
 
         for var_name, var_value in six.iteritems(kwargs):
             if var_name not in self.attribute_map and \
