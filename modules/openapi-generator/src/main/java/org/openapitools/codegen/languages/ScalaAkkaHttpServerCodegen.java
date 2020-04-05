@@ -324,7 +324,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         }
         pathMatchers.getLast().hasMore = false;
 
-        codegenOperation.vendorExtensions.put("paths", pathMatchers);
+        codegenOperation.vendorExtensions.put("x-paths", pathMatchers);
     }
 
     public static String PATH_MATCHER_PATTERNS_KEY = "pathMatcherPatterns";
