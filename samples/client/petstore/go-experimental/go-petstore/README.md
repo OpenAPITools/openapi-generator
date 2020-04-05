@@ -1,4 +1,4 @@
-# Go API client for petstore
+# Go API client for openapi
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -22,7 +22,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./petstore"
+import sw "./openapi"
 ```
 
 ## Configuration of Server URL

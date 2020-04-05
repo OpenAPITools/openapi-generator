@@ -1,7 +1,7 @@
 {-
    OpenAPI Petstore
 
-   This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+   This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
    OpenAPI Version: 3.0.1
    OpenAPI Petstore API version: 1.0.0
@@ -59,7 +59,7 @@ import qualified Prelude as P
 
 -- *** deleteOrder
 
--- | @DELETE \/store\/order\/{order_id}@
+-- | @DELETE \/store\/order\/{orderId}@
 -- 
 -- Delete purchase order by ID
 -- 
@@ -98,7 +98,7 @@ instance Produces GetInventory MimeJSON
 
 -- *** getOrderById
 
--- | @GET \/store\/order\/{order_id}@
+-- | @GET \/store\/order\/{orderId}@
 -- 
 -- Find purchase order by ID
 -- 

@@ -10,7 +10,7 @@
 
 syntax = "proto3";
 
-package petstore;
+package ;
 
 import public "models/category.proto";
 import public "models/tag.proto";

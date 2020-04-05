@@ -60,14 +60,14 @@ module App =
       HttpGet >=> route "/v2/store/inventory" >=> challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure >=>  StoreApiHandler.GetInventory;
       HttpGet >=> routeBind<GetOrderByIdPathParams> "/v2/store/order/{orderId}"  (fun x ->  StoreApiHandler.GetOrderById x);
       HttpPost >=> route "/v2/store/order" >=>  StoreApiHandler.PlaceOrder;
-      HttpPost >=> route "/v2/user" >=> challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure >=>  UserApiHandler.CreateUser;
-      HttpPost >=> route "/v2/user/createWithArray" >=> challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure >=>  UserApiHandler.CreateUsersWithArrayInput;
-      HttpPost >=> route "/v2/user/createWithList" >=> challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure >=>  UserApiHandler.CreateUsersWithListInput;
-      HttpDelete >=> routeBind<DeleteUserPathParams> "/v2/user/{username}"  (fun x -> challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure >=>  UserApiHandler.DeleteUser x);
+      HttpPost >=> route "/v2/user" >=>  UserApiHandler.CreateUser;
+      HttpPost >=> route "/v2/user/createWithArray" >=>  UserApiHandler.CreateUsersWithArrayInput;
+      HttpPost >=> route "/v2/user/createWithList" >=>  UserApiHandler.CreateUsersWithListInput;
+      HttpDelete >=> routeBind<DeleteUserPathParams> "/v2/user/{username}"  (fun x ->  UserApiHandler.DeleteUser x);
       HttpGet >=> routeBind<GetUserByNamePathParams> "/v2/user/{username}"  (fun x ->  UserApiHandler.GetUserByName x);
       HttpGet >=> route "/v2/user/login" >=>  UserApiHandler.LoginUser;
-      HttpGet >=> route "/v2/user/logout" >=> challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure >=>  UserApiHandler.LogoutUser;
-      HttpPut >=> routeBind<UpdateUserPathParams> "/v2/user/{username}"  (fun x -> challenge ApiKeyDefaults.AuthenticationScheme >=> requiresAuthentication authFailure >=>  UserApiHandler.UpdateUser x);
+      HttpGet >=> route "/v2/user/logout" >=>  UserApiHandler.LogoutUser;
+      HttpPut >=> routeBind<UpdateUserPathParams> "/v2/user/{username}"  (fun x ->  UserApiHandler.UpdateUser x);
       RequestErrors.notFound (text "Not Found") 
     ])
   // ---------------------------------

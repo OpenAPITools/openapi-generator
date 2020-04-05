@@ -1,4 +1,4 @@
-# Petstore::User
+# OpenapiClient::User
 
 ## Properties
 
@@ -16,9 +16,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'OpenapiClient'
 
-instance = Petstore::User.new(id: null,
+instance = OpenapiClient::User.new(id: null,
                                  username: null,
                                  first_name: null,
                                  last_name: null,

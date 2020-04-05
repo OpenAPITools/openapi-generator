@@ -1,7 +1,7 @@
 {-
    OpenAPI Petstore
 
-   This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+   This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
    OpenAPI Version: 3.0.1
    OpenAPI Petstore API version: 1.0.0
@@ -13,17 +13,11 @@ Module : OpenAPIPetstore.API
 -}
 
 module OpenAPIPetstore.API
-  ( module OpenAPIPetstore.API.AnotherFake
-  , module OpenAPIPetstore.API.Fake
-  , module OpenAPIPetstore.API.FakeClassnameTags123
-  , module OpenAPIPetstore.API.Pet
+  ( module OpenAPIPetstore.API.Pet
   , module OpenAPIPetstore.API.Store
   , module OpenAPIPetstore.API.User
   ) where
 
-import OpenAPIPetstore.API.AnotherFake
-import OpenAPIPetstore.API.Fake
-import OpenAPIPetstore.API.FakeClassnameTags123
 import OpenAPIPetstore.API.Pet
 import OpenAPIPetstore.API.Store
 import OpenAPIPetstore.API.User

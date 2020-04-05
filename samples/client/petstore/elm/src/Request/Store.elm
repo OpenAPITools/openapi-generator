@@ -19,6 +19,8 @@ import Json.Decode as Decode
 import Url.Builder as Url
 
 
+
+
 basePath : String
 basePath =
     "http://petstore.swagger.io/v2"
@@ -28,17 +30,20 @@ basePath =
 -}
 deleteOrder :
     { onSend : Result Http.Error () -> msg
+
+
+
     , orderId : String
+
     }
     -> Cmd msg
 deleteOrder params =
     Http.request
         { method = "DELETE"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "store", "order", identity params.orderId ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["store", "order", identity params.orderId]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -50,16 +55,20 @@ deleteOrder params =
 -}
 getInventory :
     { onSend : Result Http.Error (Dict.Dict String Int) -> msg
+
+
+
+
+
     }
     -> Cmd msg
 getInventory params =
     Http.request
         { method = "GET"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "store", "inventory" ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["store", "inventory"]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend (Decode.dict Decode.int)
         , timeout = Just 30000
@@ -71,17 +80,20 @@ getInventory params =
 -}
 getOrderById :
     { onSend : Result Http.Error Order_ -> msg
+
+
+
     , orderId : Int
+
     }
     -> Cmd msg
 getOrderById params =
     Http.request
         { method = "GET"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "store", "order", String.fromInt params.orderId ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["store", "order", String.fromInt params.orderId]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend Order_.decoder
         , timeout = Just 30000
@@ -91,17 +103,20 @@ getOrderById params =
 
 placeOrder :
     { onSend : Result Http.Error Order_ -> msg
+
+
     , body : Order_
+
+
     }
     -> Cmd msg
 placeOrder params =
     Http.request
         { method = "POST"
         , headers = List.filterMap identity []
-        , url =
-            Url.crossOrigin basePath
-                [ "store", "order" ]
-                (List.filterMap identity [])
+        , url = Url.crossOrigin basePath
+            ["store", "order"]
+            (List.filterMap identity [])
         , body = Http.jsonBody <| Order_.encode params.body
         , expect = Http.expectJson params.onSend Order_.decoder
         , timeout = Just 30000
