@@ -3299,7 +3299,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if ("default".equals(responseCode)) {
+        if ("default".equals(responseCode) || "defaultResponse".equals(responseCode)) {
             r.code = "0";
         } else {
             r.code = responseCode;
