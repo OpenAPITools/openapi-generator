@@ -63,7 +63,9 @@ StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
     }
+    apiClient->dataReceivedLen = 0;
     
     
     
@@ -121,7 +123,9 @@ StoreAPI_getInventory(apiClient_t *apiClient)
 
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
     }
+    apiClient->dataReceivedLen = 0;
     
     
     
@@ -201,7 +205,9 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
     }
+    apiClient->dataReceivedLen = 0;
     
     
     
@@ -272,7 +278,9 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
     }
+    apiClient->dataReceivedLen = 0;
     
     
     

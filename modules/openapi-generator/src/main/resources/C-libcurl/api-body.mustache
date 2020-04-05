@@ -373,7 +373,9 @@ end:
     {{/returnTypeIsPrimitive}}
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
     }
+    apiClient->dataReceivedLen = 0;
     {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
     {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
     {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
@@ -463,7 +465,9 @@ end:
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
     }
+    apiClient->dataReceivedLen = 0;
     {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
     {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
     {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}

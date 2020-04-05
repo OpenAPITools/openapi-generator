@@ -21,6 +21,7 @@ typedef struct apiClient_t {
     char *basePath;
     sslConfig_t *sslConfig;
     void *dataReceived;
+    long dataReceivedLen;
     long response_code;
     list_t *apiKeys;
     char *accessToken;
