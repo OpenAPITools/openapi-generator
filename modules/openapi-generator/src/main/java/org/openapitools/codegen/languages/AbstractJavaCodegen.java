@@ -23,7 +23,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import java.time.LocalDate;
@@ -50,6 +49,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
 
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
+    public static final String IMMUTABLE_COLLECTIONS = "immutableCollections";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String JAVA8_MODE = "java8";
@@ -84,6 +84,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String sourceFolder = projectFolder + "/java";
     protected String testFolder = projectTestFolder + "/java";
     protected boolean fullJavaUtil;
+    protected boolean immutableCollections = false;
     protected String javaUtilPrefix = "";
     protected Boolean serializableModel = false;
     protected boolean serializeBigDecimalAsString = false;
@@ -189,6 +190,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC, this.getSerializableModel()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING_DESC, serializeBigDecimalAsString));
         cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util. This option only works for Java API client", fullJavaUtil));
+        cliOptions.add(CliOption.newBoolean(IMMUTABLE_COLLECTIONS, "whether to generate code with guava's immutable collections.", immutableCollections));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
 
@@ -392,6 +394,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(FULL_JAVA_UTIL, fullJavaUtil);
         additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
 
+        if (additionalProperties.containsKey(IMMUTABLE_COLLECTIONS)) {
+            this.setImmutableCollections(Boolean.valueOf(additionalProperties.get(IMMUTABLE_COLLECTIONS).toString()));
+        }
+        writePropertyBack(IMMUTABLE_COLLECTIONS, immutableCollections);
+
         if (additionalProperties.containsKey(WITH_XML)) {
             this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
         }
@@ -436,6 +443,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             importMapping.remove("UUID");
             instantiationTypes.put("array", "java.util.ArrayList");
             instantiationTypes.put("map", "java.util.HashMap");
+        }
+
+        if (immutableCollections) {
+            typeMapping.put("array", "ImmutableList");
+            typeMapping.put("map", "ImmutableMap");
+            importMapping.put("ImmutableList", "com.google.common.collect.ImmutableList");
+            importMapping.put("ImmutableMap", "com.google.common.collect.ImmutableMap");
         }
 
         this.sanitizeConfig();
@@ -761,7 +775,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             final String pattern;
-            if (fullJavaUtil) {
+            if (immutableCollections) {
+                pattern = "ImmutableList.<%s>of()";
+            } else if (fullJavaUtil) {
                 pattern = "new java.util.ArrayList<%s>()";
             } else {
                 pattern = "new ArrayList<%s>()";
@@ -774,6 +790,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
                 if (java8 != null && java8) {
+                    if (immutableCollections) {
+                        return "ImmutableList.of()";
+                    }
                     typeDeclaration = "";
                 }
             }
@@ -781,7 +800,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(schema)) {
             final String pattern;
-            if (fullJavaUtil) {
+            if (immutableCollections) {
+                pattern = "ImmutableMap.<%s>of()";
+            } else if (fullJavaUtil) {
                 pattern = "new java.util.HashMap<%s>()";
             } else {
                 pattern = "new HashMap<%s>()";
@@ -795,6 +816,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
                 if (java8 != null && java8) {
+                    if (immutableCollections) {
+                        return "ImmutableMap.of()";
+                    }
                     typeDeclaration = "";
                 }
             }
@@ -921,12 +945,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else {
                     innerExample = p.items.defaultValue;
                 }
-                example = "Arrays.asList(" + innerExample + ")";
+                if (immutableCollections) {
+                    example = "ImmutableList.of(" + innerExample + ")";
+                } else {
+                    example = "Arrays.asList(" + innerExample + ")";
+                }
             } else {
-                example = "Arrays.asList()";
+                if (immutableCollections) {
+                    example = "ImmutableList.of()";
+                } else {
+                    example = "Arrays.asList()";
+                }
             }
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            example = "new HashMap()";
+            if (immutableCollections) {
+                example = "ImmutableMap.of()";
+            } else {
+                example = "new HashMap()";
+            }
         }
 
         p.example = example;
@@ -1021,11 +1057,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if (!fullJavaUtil) {
+        if (!fullJavaUtil && !immutableCollections) {
             if ("array".equals(property.containerType)) {
                 model.imports.add("ArrayList");
             } else if ("map".equals(property.containerType)) {
                 model.imports.add("HashMap");
+            }
+        }
+
+        if (immutableCollections) {
+            if ("array".equals(property.containerType)) {
+                model.imports.add("ImmutableList");
+            } else if ("map".equals(property.containerType)) {
+                model.imports.add("ImmutableMap");
             }
         }
 
@@ -1429,6 +1473,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setFullJavaUtil(boolean fullJavaUtil) {
         this.fullJavaUtil = fullJavaUtil;
+    }
+
+    public void setImmutableCollections(boolean immutableCollections) {
+        this.immutableCollections = immutableCollections;
     }
 
     public void setWithXml(boolean withXml) {
