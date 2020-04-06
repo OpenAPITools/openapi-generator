@@ -40,7 +40,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{^isNullable}}
         {{#required}}
         if (!${{{name}}}) {
-            throw "invalid value for ${{{name}}}, ${{{name}}} cannot be null."
+            throw "invalid value for '{{{name}}}', '{{{name}}}' cannot be null."
         }
 
         {{/required}}
@@ -48,13 +48,13 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#hasValidation}}
         {{#maxLength}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -gt {{{maxLength}}}) {
-            throw "invalid value for ${{{name}}}, the character length must be smaller than or equal to {{{maxLength}}}."
+            throw "invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}."
         }
 
         {{/maxLength}}
         {{#minLength}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -lt {{{minLength}}}) {
-            throw "invalid value for ${{{name}}}, the character length must be great than or equal to {{{minLength}}}."
+            throw "invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}."
         }
 
         {{/minLength}}
@@ -66,25 +66,25 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/maximum}}
         {{#minimum}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
-          throw "invalid value for ${{{name}}}, must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
+          throw "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
         }
 
         {{/minimum}}
         {{#pattern}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} -notmatch "{{{pattern}}}") {
-            throw "invalid value for ${{{name}}}, must conform to the pattern {{{pattern}}}."
+            throw "invalid value for '{{{name}}}', must conform to the pattern {{{pattern}}}."
         }
 
         {{/pattern}}
         {{#maxItems}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -gt {{{maxItems}}}) {
-            throw "invalid value for ${{{name}}}, number of items must be less than or equal to {{{maxItems}}}."
+            throw "invalid value for '{{{name}}}', number of items must be less than or equal to {{{maxItems}}}."
         }
 
         {{/maxItems}}
         {{#minItems}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -lt {{{minItems}}}) {
-            throw "invalid value for ${{{name}}}, number of items must be greater than or equal to {{{minItems}}}."
+            throw "invalid value for '{{{name}}}', number of items must be greater than or equal to {{{minItems}}}."
         }
 
         {{/minItems}}

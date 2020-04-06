@@ -41,7 +41,7 @@ function Initialize-PSCategory {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         if (!$Name -and $Name -notmatch "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/") {
-            throw "invalid value for $Name, must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/."
+            throw "invalid value for 'Name', must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/."
         }
 
         $PSO = [PSCustomObject]@{

@@ -65,11 +65,11 @@ function Initialize-PSPet {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         if (!$Name) {
-            throw "invalid value for $Name, $Name cannot be null."
+            throw "invalid value for 'Name', 'Name' cannot be null."
         }
 
         if (!$PhotoUrls) {
-            throw "invalid value for $PhotoUrls, $PhotoUrls cannot be null."
+            throw "invalid value for 'PhotoUrls', 'PhotoUrls' cannot be null."
         }
 
         $PSO = [PSCustomObject]@{
