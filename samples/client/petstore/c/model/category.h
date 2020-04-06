@@ -12,6 +12,9 @@
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 
+typedef struct category_t category_t;
+
+
 
 
 typedef struct category_t {

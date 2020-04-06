@@ -12,6 +12,9 @@
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 
+typedef struct order_t order_t;
+
+
 // Enum STATUS for order
 
 typedef enum  { openapi_petstore_order_STATUS_NULL = 0, openapi_petstore_order_STATUS_placed, openapi_petstore_order_STATUS_approved, openapi_petstore_order_STATUS_delivered } openapi_petstore_order_STATUS_e;

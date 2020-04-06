@@ -12,6 +12,9 @@
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 
+typedef struct user_t user_t;
+
+
 
 
 typedef struct user_t {

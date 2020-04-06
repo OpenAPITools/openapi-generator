@@ -17,6 +17,10 @@ No description available.
 .PARAMETER User
 Created user object
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -26,7 +30,9 @@ function New-PSUser {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
-        ${User}
+        ${User},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -40,7 +46,7 @@ function New-PSUser {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
@@ -70,7 +76,11 @@ function New-PSUser {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -86,6 +96,10 @@ No description available.
 .PARAMETER User
 List of user object
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -95,7 +109,9 @@ function New-PSUsersWithArrayInput {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject[]]
-        ${User}
+        ${User},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -109,7 +125,7 @@ function New-PSUsersWithArrayInput {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
@@ -139,7 +155,11 @@ function New-PSUsersWithArrayInput {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -155,6 +175,10 @@ No description available.
 .PARAMETER User
 List of user object
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -164,7 +188,9 @@ function New-PSUsersWithListInput {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject[]]
-        ${User}
+        ${User},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -178,7 +204,7 @@ function New-PSUsersWithListInput {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
@@ -208,7 +234,11 @@ function New-PSUsersWithListInput {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -224,6 +254,10 @@ No description available.
 .PARAMETER Username
 The name that needs to be deleted
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -233,7 +267,9 @@ function Remove-PSUser {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
-        ${Username}
+        ${Username},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -247,7 +283,7 @@ function Remove-PSUser {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         $LocalVarUri = '/user/{username}'
@@ -272,7 +308,11 @@ function Remove-PSUser {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -288,6 +328,10 @@ No description available.
 .PARAMETER Username
 The name that needs to be fetched. Use user1 for testing.
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 User
@@ -297,7 +341,9 @@ function Get-PSUserByName {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
-        ${Username}
+        ${Username},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -311,7 +357,7 @@ function Get-PSUserByName {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -334,7 +380,11 @@ function Get-PSUserByName {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "User"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -353,6 +403,10 @@ The user name for login
 .PARAMETER Password
 The password for login in clear text
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 String
@@ -365,7 +419,9 @@ function Invoke-PSLoginUser {
         ${Username},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
-        ${Password}
+        ${Password},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -379,7 +435,7 @@ function Invoke-PSLoginUser {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -408,7 +464,11 @@ function Invoke-PSLoginUser {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "String"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -421,6 +481,10 @@ Logs out current logged in user session
 
 No description available.
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -428,6 +492,8 @@ None
 function Invoke-PSLogoutUser {
     [CmdletBinding()]
     Param (
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -441,7 +507,7 @@ function Invoke-PSLogoutUser {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         $LocalVarUri = '/user/logout'
@@ -462,7 +528,11 @@ function Invoke-PSLogoutUser {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -481,6 +551,10 @@ name that need to be deleted
 .PARAMETER User
 Updated user object
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -493,7 +567,9 @@ function Update-PSUser {
         ${Username},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
-        ${User}
+        ${User},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -507,7 +583,7 @@ function Update-PSUser {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
@@ -541,7 +617,11 @@ function Update-PSUser {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
