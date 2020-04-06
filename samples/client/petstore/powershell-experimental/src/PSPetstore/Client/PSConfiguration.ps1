@@ -291,7 +291,7 @@ Get the host setting in the form of array of hashtables.
 System.Collections.Hashtable[]
 #>
 function Get-PSHostSetting {
-    return @(
+    return ,@(
           @{
             "Url" = "http://{server}.swagger.io:{port}/v2";
             "Description" = "petstore server";
