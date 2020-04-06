@@ -187,6 +187,7 @@ function Find-PSPetsByStatus {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [ValidateSet("available", "pending", "sold")]
         [String[]]
         ${Status},
         [Switch]
