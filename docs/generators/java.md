@@ -49,6 +49,7 @@ sidebar_label: java
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |supportJava6|Whether to support Java6 with the Jersey1 library.| |false|
+|testSourceFolder|Source folder for generated test code| |src/test/java|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
