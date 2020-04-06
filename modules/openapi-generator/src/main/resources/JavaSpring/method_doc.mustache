@@ -1,0 +1,17 @@
+/**
+{{#description}}
+    * {{{description}}}
+{{/description}}
+{{^description}}
+    * {{^isLombokModel}}Get {{/isLombokModel}}{{name}}
+{{/description}}
+{{#minimum}}
+    * minimum: {{minimum}}
+{{/minimum}}
+{{#maximum}}
+    * maximum: {{maximum}}
+{{/maximum}}
+{{^isLombokModel}}
+    * @return {{name}}
+{{/isLombokModel}}
+    */

@@ -447,37 +447,37 @@ public class SpringCodegenTest {
 
     @Test
     public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
-      beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
     public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
-      beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
-      File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-      output.deleteOnExit();
-      String outputPath = output.getAbsolutePath().replace('\\', '/');
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-      OpenAPI openAPI = new OpenAPIParser()
-              .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
 
-      SpringCodegen codegen = new SpringCodegen();
-      codegen.setOutputDir(output.getAbsolutePath());
-      codegen.setUseBeanValidation(useBeanValidation);
-      codegen.setPerformBeanValidation(performBeanValidation);
-      codegen.setJava8(java8);
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(useBeanValidation);
+        codegen.setPerformBeanValidation(performBeanValidation);
+        codegen.setJava8(java8);
 
-      ClientOptInput input = new ClientOptInput();
-      input.openAPI(openAPI);
-      input.config(codegen);
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-      MockDefaultGenerator generator = new MockDefaultGenerator();
-      generator.opts(input).generate();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
 
-      checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", contains);
-      checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", contains);
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
     }
 
     @Test
