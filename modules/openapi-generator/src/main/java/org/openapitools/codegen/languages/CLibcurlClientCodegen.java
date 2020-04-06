@@ -87,7 +87,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         embeddedTemplateDir = templateDir = "C-libcurl";
 
         // TODO add auto-generated test files
-        //modelTestTemplateFiles.put("model_test.mustache", ".c");
+        modelTestTemplateFiles.put("model_test.mustache", ".c");
         //apiTestTemplateFiles.put("api_test.mustache", ".c");
 
         // default HIDE_GENERATION_TIMESTAMP to true
@@ -322,6 +322,104 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String toExampleValue(Schema schema) {
+        String example = super.toExampleValue(schema);
+
+        if (ModelUtils.isNullType(schema) && null != example) {
+            // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
+            // though this tooling supports it.
+            return "NULL";
+        }
+        // correct "&#39;"s into "'"s after toString()
+        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null) {
+            example = (String) schema.getDefault();
+        }
+        if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
+            if (ModelUtils.isStringSchema(schema)) {
+                example = "\"" + example + "\"";
+            }
+            return example;
+        }
+
+        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        // Enum case:
+            example = schema.getEnum().get(0).toString();
+/*            if (ModelUtils.isStringSchema(schema)) {
+                example = "'" + escapeText(example) + "'";
+            }*/
+            if (null == example)
+                LOGGER.warn("Empty enum. Cannot built an example!");
+
+            return example;
+        } else if (null != schema.get$ref()) {
+        // $ref case:
+            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            if (allDefinitions != null) {
+                Schema refSchema = allDefinitions.get(ref);
+                if (null == refSchema) {
+                    return "None";
+                } else {
+                    String refTitle = refSchema.getTitle();
+                    if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
+                        refSchema.setTitle(ref);
+                    }
+                    return toExampleValue(refSchema);
+                }
+            } else {
+                LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
+            }
+        }
+        if (ModelUtils.isDateSchema(schema)) {
+            example = "\"2013-10-20\"";
+            return example;
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
+            example = "\"2013-10-20T19:20:30+01:00\"";
+            return example;
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            example = "bytes(b'blah')";
+            return example;
+        } else if (ModelUtils.isByteArraySchema(schema)) {
+            example = "YQ==";
+        } else if (ModelUtils.isStringSchema(schema)) {
+            // a BigDecimal:
+            if ("Number".equalsIgnoreCase(schema.getFormat())) {return "1";}
+            if (StringUtils.isNotBlank(schema.getPattern())) return "'a'"; // I cheat here, since it would be too complicated to generate a string from a regexp
+            int len = 0;
+            if (null != schema.getMinLength()) len = schema.getMinLength().intValue();
+            if (len < 1) len = 1;
+            example = "";
+            for (int i=0;i<len;i++) example += i;
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            if (schema.getMinimum() != null)
+                example = schema.getMinimum().toString();
+            else
+                example = "56";
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (schema.getMinimum() != null)
+                example = schema.getMinimum().toString();
+            else
+                example = "1.337";
+        } else if (ModelUtils.isBooleanSchema(schema)) {
+            example = "1";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            example = "list_create()";
+        } else if (ModelUtils.isMapSchema(schema)) {
+            example = "list_create()";
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            return null; // models are managed at moustache level
+        } else {
+            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+        }
+
+        if (ModelUtils.isStringSchema(schema)) {
+            example = "\"" + escapeText(example) + "\"";
+        }
+
+        return example;
+    }
+
+    @Override
     public String getSchemaType(Schema schema) {
         String openAPIType = super.getSchemaType(schema);
         String type = null;
@@ -431,7 +529,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelTestFilename(String name) {
-        return ("test_" + toModelFilename(name)).replaceAll("_", "-");
+        return ("test_" + toModelFilename(name));
     }
 
     @Override

@@ -1,0 +1,1 @@
+{{#allParams}}{{paramName}}: {{#isFile}}(FileInfo, File){{/isFile}}{{^isFile}}{{^required}}{{^vendorExtensions.hasDefaultValue}}Option[{{/vendorExtensions.hasDefaultValue}}{{/required}}{{dataType}}{{^required}}{{^vendorExtensions.hasDefaultValue}}]{{/vendorExtensions.hasDefaultValue}}{{/required}}{{/isFile}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
