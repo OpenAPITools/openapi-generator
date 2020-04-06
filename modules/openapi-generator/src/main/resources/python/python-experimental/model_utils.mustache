@@ -598,6 +598,8 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
     if model_class.discriminator() is not None:
         used_model_class = model_class.get_discriminator_class(
             from_server, model_data)
+    if used_model_class is None:
+        raise ApiValueError("" % (model_class, model_data))
 
     if issubclass(used_model_class, ModelSimple):
         instance = used_model_class(value=model_data, **kw_args)
