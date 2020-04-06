@@ -13,10 +13,6 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 
-char *base64encode(const void *b64_encode_this, int encode_this_many_bytes);
-
-char *base64decode(const void *b64_decode_this, int decode_this_many_bytes, int *decoded_bytes);
-
 typedef struct user_t user_t;
 
 
