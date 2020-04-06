@@ -633,7 +633,7 @@ Fake endpoint to test group parameters (optional)
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
-// Configure Bearer (JWT) authorization: bearer_test
+// Configure Bearer authorization: bearer_test
 $config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
