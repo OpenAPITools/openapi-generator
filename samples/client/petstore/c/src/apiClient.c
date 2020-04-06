@@ -16,7 +16,7 @@ apiClient_t *apiClient_create() {
     apiClient->sslConfig = NULL;
     apiClient->dataReceived = NULL;
     apiClient->response_code = 0;
-    apiClient->apiKeys = NULL;
+    apiClient->apiKeys_api_key = NULL;
     apiClient->accessToken = NULL;
 
     return apiClient;
@@ -24,7 +24,7 @@ apiClient_t *apiClient_create() {
 
 apiClient_t *apiClient_create_with_base_path(const char *basePath
 , sslConfig_t *sslConfig
-, list_t *apiKeys
+, list_t *apiKeys_api_key
 ) {
     curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
@@ -42,16 +42,16 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
 
     apiClient->dataReceived = NULL;
     apiClient->response_code = 0;
-    if(apiKeys!= NULL) {
-        apiClient->apiKeys = list_create();
+    if(apiKeys_api_key!= NULL) {
+        apiClient->apiKeys_api_key = list_create();
         listEntry_t *listEntry = NULL;
-        list_ForEach(listEntry, apiKeys) {
+        list_ForEach(listEntry, apiKeys_api_key) {
             keyValuePair_t *pair = listEntry->data;
             keyValuePair_t *pairDup = keyValuePair_create(strdup(pair->key), strdup(pair->value));
-            list_addElement(apiClient->apiKeys, pairDup);
+            list_addElement(apiClient->apiKeys_api_key, pairDup);
         }
     }else{
-        apiClient->apiKeys = NULL;
+        apiClient->apiKeys_api_key = NULL;
     }
     apiClient->accessToken = NULL;
 
@@ -62,9 +62,9 @@ void apiClient_free(apiClient_t *apiClient) {
     if(apiClient->basePath) {
         free(apiClient->basePath);
     }
-    if(apiClient->apiKeys) {
+    if(apiClient->apiKeys_api_key) {
         listEntry_t *listEntry = NULL;
-        list_ForEach(listEntry, apiClient->apiKeys) {
+        list_ForEach(listEntry, apiClient->apiKeys_api_key) {
             keyValuePair_t *pair = listEntry->data;
             if(pair->key){
                 free(pair->key);
@@ -74,7 +74,7 @@ void apiClient_free(apiClient_t *apiClient) {
             }
             keyValuePair_free(pair);
         }
-        list_free(apiClient->apiKeys);
+        list_free(apiClient->apiKeys_api_key);
     }
     if(apiClient->accessToken) {
         free(apiClient->accessToken);
@@ -391,9 +391,9 @@ void apiClient_invoke(apiClient_t    *apiClient,
         }
 
         // this would only be generated for apiKey authentication
-        if (apiClient->apiKeys != NULL)
+        if (apiClient->apiKeys_api_key != NULL)
         {
-        list_ForEach(listEntry, apiClient->apiKeys) {
+        list_ForEach(listEntry, apiClient->apiKeys_api_key) {
         keyValuePair_t *apiKey = listEntry->data;
         if((apiKey->key != NULL) &&
            (apiKey->value != NULL) )
@@ -522,7 +522,7 @@ char *strReplace(char *orig, char *rep, char *with) {
     return result;
 }
 
-char *sbi_base64encode (const void *b64_encode_this, int encode_this_many_bytes){
+char *base64encode (const void *b64_encode_this, int encode_this_many_bytes){
 #ifdef OPENSSL
     BIO *b64_bio, *mem_bio;      //Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
     BUF_MEM *mem_bio_mem_ptr;    //Pointer to a "memory BIO" structure holding our base64 data.
@@ -538,10 +538,15 @@ char *sbi_base64encode (const void *b64_encode_this, int encode_this_many_bytes)
     BUF_MEM_grow(mem_bio_mem_ptr, (*mem_bio_mem_ptr).length + 1);   //Makes space for end null.
     (*mem_bio_mem_ptr).data[(*mem_bio_mem_ptr).length] = '\0';  //Adds null-terminator to tail.
     return (*mem_bio_mem_ptr).data; //Returns base-64 encoded data. (See: "buf_mem_st" struct).
-#endif
+#else // OPENSSL
+    char* ret = malloc(encode_this_many_bytes);
+    memcpy(ret, b64_encode_this, encode_this_many_bytes-1);
+    ret[encode_this_many_bytes] = 0;
+    return ret;
+#endif // OPENSSL
 }
 
-char *sbi_base64decode (const void *b64_decode_this, int decode_this_many_bytes){
+char *base64decode (const void *b64_decode_this, int decode_this_many_bytes, int *decoded_bytes){
 #ifdef OPENSSL
     BIO *b64_bio, *mem_bio;      //Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
     char *base64_decoded = calloc( (decode_this_many_bytes*3)/4+1, sizeof(char) ); //+1 = null.
@@ -555,6 +560,13 @@ char *sbi_base64decode (const void *b64_decode_this, int decode_this_many_bytes)
         decoded_byte_index++; //Increment the index until read of BIO decoded data is complete.
     } //Once we're done reading decoded data, BIO_read returns -1 even though there's no error.
     BIO_free_all(b64_bio);  //Destroys all BIOs in chain, starting with b64 (i.e. the 1st one).
+    *decoded_bytes = decoded_byte_index;
     return base64_decoded;        //Returns base-64 decoded data with trailing null terminator.
-#endif
+#else // OPENSSL
+    char* ret = malloc(decode_this_many_bytes);
+    memcpy(ret, b64_decode_this, decode_this_many_bytes-1);
+    ret[decode_this_many_bytes] = 0;
+    *decoded_bytes = decode_this_many_bytes;
+    return ret;
+#endif // OPENSSL
 }
