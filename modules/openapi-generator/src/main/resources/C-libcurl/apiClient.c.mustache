@@ -3,9 +3,6 @@
 #include <string.h>
 #include <stdio.h>
 #include "../include/apiClient.h"
-#ifdef OPENSSL
-#include "openssl/pem.h"
-#endif
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 

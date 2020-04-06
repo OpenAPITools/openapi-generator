@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/binary.h"
+#ifdef OPENSSL
+#include "openssl/pem.h"
+#endif
 
 binary_t* instantiate_binary_t(char* data, int len) {
 	binary_t* ret = malloc(sizeof(struct binary_t));
@@ -27,10 +30,8 @@ char *base64encode (const void *b64_encode_this, int encode_this_many_bytes){
     (*mem_bio_mem_ptr).data[(*mem_bio_mem_ptr).length] = '\0';  //Adds null-terminator to tail.
     return (*mem_bio_mem_ptr).data; //Returns base-64 encoded data. (See: "buf_mem_st" struct).
 #else // OPENSSL
-    char* ret = malloc(encode_this_many_bytes);
-    memcpy(ret, b64_encode_this, encode_this_many_bytes-1);
-    ret[encode_this_many_bytes] = 0;
-    return ret;
+#warning Data will not be encoded. If you want to use function "base64encode", please define "-DOPENSSL" when building the library.
+    return NULL;
 #endif // OPENSSL
 }
 
@@ -51,10 +52,7 @@ char *base64decode (const void *b64_decode_this, int decode_this_many_bytes, int
     *decoded_bytes = decoded_byte_index;
     return base64_decoded;        //Returns base-64 decoded data with trailing null terminator.
 #else // OPENSSL
-    char* ret = malloc(decode_this_many_bytes);
-    memcpy(ret, b64_decode_this, decode_this_many_bytes-1);
-    ret[decode_this_many_bytes] = 0;
-    *decoded_bytes = decode_this_many_bytes;
-    return ret;
+#warning Data will not be decoded. If you want to use function "base64decode", please define "-DOPENSSL" when building the library.
+    return NULL;
 #endif // OPENSSL
 }
