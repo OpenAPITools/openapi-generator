@@ -223,10 +223,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("apiClient.c.mustache", "src", "apiClient.c"));
         supportingFiles.add(new SupportingFile("apiKey.c.mustache", "src", "apiKey.c"));
         supportingFiles.add(new SupportingFile("list.c.mustache", "src", "list.c"));
+        supportingFiles.add(new SupportingFile("binary.c.mustache", "src", "binary.c"));
         // include folder
         supportingFiles.add(new SupportingFile("apiClient.h.mustache", "include", "apiClient.h"));
         supportingFiles.add(new SupportingFile("keyValuePair.h.mustache", "include", "keyValuePair.h"));
         supportingFiles.add(new SupportingFile("list.h.mustache", "include", "list.h"));
+        supportingFiles.add(new SupportingFile("binary.h.mustache", "include", "binary.h"));
         // external folder
         supportingFiles.add(new SupportingFile("cJSON.licence.mustache", "external", "cJSON.licence"));
         supportingFiles.add(new SupportingFile("cJSON.c.mustache", "external", "cJSON.c"));
@@ -377,14 +379,14 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             example = "\"2013-10-20T19:20:30+01:00\"";
             return example;
         } else if (ModelUtils.isBinarySchema(schema)) {
-            example = "bytes(b'blah')";
+            example = "instantiate_binary_t(\"blah\", 5)";
             return example;
         } else if (ModelUtils.isByteArraySchema(schema)) {
             example = "YQ==";
         } else if (ModelUtils.isStringSchema(schema)) {
             // a BigDecimal:
             if ("Number".equalsIgnoreCase(schema.getFormat())) {return "1";}
-            if (StringUtils.isNotBlank(schema.getPattern())) return "'a'"; // I cheat here, since it would be too complicated to generate a string from a regexp
+            if (StringUtils.isNotBlank(schema.getPattern())) return "\"a\""; // I cheat here, since it would be too complicated to generate a string from a regexp
             int len = 0;
             if (null != schema.getMinLength()) len = schema.getMinLength().intValue();
             if (len < 1) len = 1;
