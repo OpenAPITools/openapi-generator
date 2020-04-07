@@ -21,12 +21,14 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
 using RestSharp.Deserializers;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharpMethod = RestSharp.Method;
+using Polly;
 
 namespace Org.OpenAPITools.Client
 {
@@ -411,7 +413,26 @@ namespace Org.OpenAPITools.Client
 
             InterceptRequest(req);
 
-            var response = client.Execute<T>(req);
+            IRestResponse<T> response;
+            if (configuration.RetryStatusCodes != null)	
+            {
+                Random jitterer = new Random();
+                var policy = Policy
+                    .HandleResult<IRestResponse<T>>(resp => (configuration.RetryStatusCodes.Contains(resp.StatusCode)))
+                    .WaitAndRetry(configuration.MaxRetries, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                                                          + TimeSpan.FromMilliseconds(jitterer.Next(0, 1000))
+                     );
+                var policyResult = policy.ExecuteAndCapture(() => client.Execute<T>(req));
+                response = (policyResult.Outcome == OutcomeType.Successful) ? policyResult.Result : new RestResponse<T>
+                {
+                    Request = req,
+                    ErrorException = policyResult.FinalException
+                };
+            }
+            else
+            {
+                response = client.Execute<T>(req);
+            }
 
             InterceptResponse(req, response);
 
@@ -481,7 +502,26 @@ namespace Org.OpenAPITools.Client
 
             InterceptRequest(req);
 
-            var response = await client.ExecuteAsync<T>(req);
+            IRestResponse<T> response;
+            if (configuration.RetryStatusCodes != null)
+            {
+                Random jitterer = new Random();
+                var policy = Policy
+                    .HandleResult<IRestResponse<T>>(resp => (configuration.RetryStatusCodes.Contains(resp.StatusCode)))
+                    .WaitAndRetryAsync(configuration.MaxRetries, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                                                          + TimeSpan.FromMilliseconds(jitterer.Next(0, 1000))
+                     );
+                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync<T>(req));
+                response = (policyResult.Outcome == OutcomeType.Successful) ? policyResult.Result : new RestResponse<T>
+                {
+                    Request = req,
+                    ErrorException = policyResult.FinalException
+                };
+            }
+            else
+            {
+                 response = await client.ExecuteAsync<T>(req);
+            }
 
             InterceptResponse(req, response);
 

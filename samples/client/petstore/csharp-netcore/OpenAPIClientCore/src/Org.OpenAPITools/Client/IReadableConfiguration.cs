@@ -11,7 +11,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using Polly;
 
 namespace Org.OpenAPITools.Client
 {
@@ -105,5 +107,18 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <value>X509 Certificate collection.</value>
         X509CertificateCollection ClientCertificates { get; }
+
+        /// <summary>
+        /// Status codes to apply the retry policy
+        /// </summary>
+        /// <value>List of http status codes.</value>
+        IList<HttpStatusCode> RetryStatusCodes { get;}
+
+        /// <summary>
+        /// Maximum number of retry attempts to make on given retry status codes.
+        /// </summary>
+        /// <value>Maximum number of retries</value>
+        int MaxRetries { get;}
+
     }
 }
