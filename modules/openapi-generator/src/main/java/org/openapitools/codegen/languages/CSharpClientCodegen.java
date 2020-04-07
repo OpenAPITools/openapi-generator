@@ -37,6 +37,13 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private static final String NUNIT = "nunit";
+    private static final String RESTSHARP = "restsharp";
+    private static final String NEWTONSOFT_JSON = "newtonsoft-json";
+    private static final String JSON_SUBTYPES = "json-subtypes";
+    private static final String FODY = "fody";
+    private static final String PROPERTYCHANGED_FODY = "propertychanged-fody";
+    private static final String NET452 = "v4.5.2";
     private static final String NET45 = "v4.5";
     private static final String NET40 = "v4.0";
     private static final String NET35 = "v3.5";
@@ -158,7 +165,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         frameworks = new ImmutableMap.Builder<String, String>()
                 .put(NET35, ".NET Framework 3.5 compatible")
                 .put(NET40, ".NET Framework 4.0 compatible")
-                .put(NET45, ".NET Framework 4.5+ compatible")
+                .put(NET45, ".NET Framework 4.5 compatible")
+                .put(NET452, ".NET Framework 4.5.2+ compatible")
                 .put(NETSTANDARD, ".NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)")
                 .put(UWP, "Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)")
                 .build();
@@ -337,9 +345,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
             setTargetFrameworkNuget("net40");
             setSupportsAsync(Boolean.FALSE);
+        } else if (NET452.equals(this.targetFramework)) {
+            additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
+            additionalProperties.put("isNet452", true);
+            setTargetFrameworkNuget("net452");
+            setSupportsAsync(Boolean.TRUE);
         } else {
             additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
-            additionalProperties.put("isNet45", true);
             setTargetFrameworkNuget("net45");
             setSupportsAsync(Boolean.TRUE);
         }
@@ -707,6 +719,45 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         } else {
             this.targetFramework = dotnetFramework;
         }
+        switch (targetFramework) {
+            case NET35:
+                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "net35"));
+                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net35"));
+                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net35"));
+                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net35"));
+                break;
+            case NET40:
+                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "net4"));
+                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net40"));
+                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net40"));
+                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net40"));
+                break;
+            case NET45:
+                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "net45"));
+                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net45"));
+                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net45"));
+                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net45"));
+                break;
+            case NET452:
+                additionalProperties.put(RESTSHARP, new LibraryDependency("106.10.1", "net452"));
+                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net45"));
+                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net45"));
+                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net45"));
+                break;
+            case UWP:
+                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "uwp"));
+                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "uwp"));
+                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "uwp"));
+                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "uwp"));
+                break;
+            case NETSTANDARD:
+                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "netstandard1.3"));
+                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "netstandard1.3"));
+                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "netstandard1.3"));
+                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "netstandard1.3"));
+                break;
+        }
+
         LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
     }
 
@@ -855,6 +906,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setGeneratePropertyChanged(final Boolean generatePropertyChanged) {
         this.generatePropertyChanged = generatePropertyChanged;
+        if (this.generatePropertyChanged) {
+            additionalProperties.put(FODY, new LibraryDependency("1.29.4", targetFrameworkNuget));
+            additionalProperties.put(PROPERTYCHANGED_FODY, new LibraryDependency("1.51.3", targetFrameworkNuget));
+        }
     }
 
     public void setUseCompareNetObjects(final Boolean useCompareNetObjects) {
@@ -945,4 +1000,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
+}
+
+class LibraryDependency {
+    String version;
+    String targetFramework;
+
+    public LibraryDependency(String version, String targetFramework) {
+        this.version = version;
+        this.targetFramework = targetFramework;
+    }
 }

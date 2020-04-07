@@ -22,15 +22,10 @@
     <PackageReference Include="FubarCoder.RestSharp.Portable.Core" Version="4.0.7" />
     {{/netStandard}}
     {{^netStandard}}
-    {{#isNet45}}
-    <PackageReference Include="RestSharp" Version="106.10.1" />
-    {{/isNet45}}
-    {{^isNet45}}
-    <PackageReference Include="RestSharp" Version="105.1.0" />
-    {{/isNet45}}
+    <PackageReference Include="RestSharp" Version="{{restsharp.version}}" />
     {{/netStandard}}
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="JsonSubTypes" Version="1.6.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="{{newtonsoft-json.version}}" />
+    <PackageReference Include="JsonSubTypes" Version="{{json-subtypes.version}}" />
   </ItemGroup>
 
   {{^netStandard}}
