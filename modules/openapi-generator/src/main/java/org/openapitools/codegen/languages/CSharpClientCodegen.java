@@ -336,8 +336,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setSupportsUWP(Boolean.TRUE);
         } else if (NET40.equals(this.targetFramework)) {
             additionalProperties.put(MCS_NET_VERSION_KEY, "4");
-            additionalProperties.put("isNet40", true);
-
             if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ASYNC)) {
                 LOGGER.warn(".NET " + NET40 + " generator does not support async.");
                 additionalProperties.remove(CodegenConstants.SUPPORTS_ASYNC);
@@ -347,7 +345,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setSupportsAsync(Boolean.FALSE);
         } else if (NET452.equals(this.targetFramework)) {
             additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
-            additionalProperties.put("isNet452", true);
             setTargetFrameworkNuget("net452");
             setSupportsAsync(Boolean.TRUE);
         } else {
