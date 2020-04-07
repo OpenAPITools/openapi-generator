@@ -10,11 +10,11 @@
 
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
-{{#vars}}
+{{#allVars}}
 .PARAMETER {{{name}}}
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
-{{/vars}}
+{{/allVars}}
 .OUTPUTS
 
 {{{classname}}}<PSCustomObject>
@@ -23,13 +23,13 @@
 function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     [CmdletBinding()]
     Param (
-{{#vars}}
+{{#allVars}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%^-last%>,<%/-last%>
         <%={{ }}=%>
-{{/vars}}
+{{/allVars}}
     )
 
     Process {
@@ -38,9 +38,9 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
 
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
-            <<#vars>>
+            <<#allVars>>
             "<<baseName>>" = ${<<name>>}
-            <</vars>>
+            <</allVars>>
             <<={{ }}=>>
         }
 

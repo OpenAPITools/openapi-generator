@@ -120,6 +120,7 @@ The following generators are available:
 * [ruby-on-rails](generators/ruby-on-rails.md)  
 * [ruby-sinatra](generators/ruby-sinatra.md)  
 * [rust-server](generators/rust-server.md)  
+* [scala-akka-http-server (beta)](generators/scala-akka-http-server.md)  
 * [scala-finch](generators/scala-finch.md)  
 * [scala-lagom-server](generators/scala-lagom-server.md)  
 * [scala-play-server](generators/scala-play-server.md)  
