@@ -153,7 +153,7 @@ namespace {{packageName}}.Client
                 {{/netStandard}}
                 {{^netStandard}}
                 {{^supportsUWP}}
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName{{#isNet45}}, param.Value.ContentLength{{/isNet45}}, param.Value.ContentType);
+                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName{{#isRestSharp_106_10_1_above}}, param.Value.ContentLength{{/isRestSharp_106_10_1_above}}, param.Value.ContentType);
                 {{/supportsUWP}}
                 {{#supportsUWP}}
                 byte[] paramWriter = null;

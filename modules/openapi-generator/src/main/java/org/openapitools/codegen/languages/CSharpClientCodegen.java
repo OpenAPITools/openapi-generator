@@ -740,6 +740,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net45"));
                 additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net45"));
                 additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net45"));
+                additionalProperties.put("isRestSharp_106_10_1_above", true);
                 break;
             case UWP:
                 additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "uwp"));
