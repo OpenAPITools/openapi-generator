@@ -11,6 +11,7 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "../include/binary.h"
 
 typedef struct order_t order_t;
 
