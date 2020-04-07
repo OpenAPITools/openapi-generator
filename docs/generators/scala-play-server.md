@@ -11,6 +11,7 @@ sidebar_label: scala-play-server
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |generateCustomExceptions|If set, generates custom exception types.| |true|
 |modelPackage|package for generated models| |null|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |routesFileName|Name of the routes file to generate.| |routes|
 |skipStubs|If set, skips generation of stub classes.| |false|
@@ -30,13 +31,11 @@ sidebar_label: scala-play-server
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
-|List|java.util.*|
 |ListBuffer|scala.collection.mutable.ListBuffer|
 |ListSet|scala.collection.immutable.ListSet|
 |LocalDate|java.time.LocalDate|
 |LocalDateTime|org.joda.time.*|
 |LocalTime|org.joda.time.*|
-|Map|java.util.Map|
 |OffsetDateTime|java.time.OffsetDateTime|
 |Seq|scala.collection.immutable.Seq|
 |Set|scala.collection.immutable.Set|

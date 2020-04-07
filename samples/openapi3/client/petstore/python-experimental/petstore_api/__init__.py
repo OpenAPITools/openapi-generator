@@ -41,11 +41,16 @@ from petstore_api.exceptions import ApiException
 
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.address import Address
 from petstore_api.models.animal import Animal
 from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.apple import Apple
+from petstore_api.models.apple_req import AppleReq
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
+from petstore_api.models.banana import Banana
+from petstore_api.models.banana_req import BananaReq
 from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat import Cat
 from petstore_api.models.cat_all_of import CatAllOf
@@ -61,6 +66,9 @@ from petstore_api.models.file import File
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.foo import Foo
 from petstore_api.models.format_test import FormatTest
+from petstore_api.models.fruit import Fruit
+from petstore_api.models.fruit_req import FruitReq
+from petstore_api.models.gm_fruit import GmFruit
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.models.inline_object import InlineObject
@@ -71,6 +79,7 @@ from petstore_api.models.inline_object4 import InlineObject4
 from petstore_api.models.inline_object5 import InlineObject5
 from petstore_api.models.inline_response_default import InlineResponseDefault
 from petstore_api.models.list import List
+from petstore_api.models.mammal import Mammal
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.models.model200_response import Model200Response
@@ -90,3 +99,5 @@ from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.string_boolean_map import StringBooleanMap
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
+from petstore_api.models.whale import Whale
+from petstore_api.models.zebra import Zebra

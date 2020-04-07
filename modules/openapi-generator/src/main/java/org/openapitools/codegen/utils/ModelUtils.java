@@ -269,10 +269,10 @@ public class ModelUtils {
 
     /**
      * Invoke the specified visitor function for every schema that matches mimeType in the OpenAPI document.
-     * 
+     *
      * To avoid infinite recursion, referenced schemas are visited only once. When a referenced schema is visited,
      * it is added to visitedSchemas.
-     * 
+     *
      * @param openAPI the OpenAPI document that contains schema objects.
      * @param schema the root schema object to be visited.
      * @param mimeType the mime type. TODO: does not seem to be used in a meaningful way.
@@ -353,6 +353,27 @@ public class ModelUtils {
         return ref;
     }
 
+    /**
+     * Return true if the specified schema is an object with a fixed number of properties.
+     *
+     * A ObjectSchema differs from an MapSchema in the following way:
+     * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
+     * - A MapSchema is an object that can be extended with an arbitrary set of properties.
+     *   The payload may include dynamic properties.
+     *
+     * For example, an OpenAPI schema is considered an ObjectSchema in the following scenarios:
+     *
+     *   type: object
+     *   additionalProperties: false
+     *   properties:
+     *     name:
+     *       type: string
+     *     address:
+     *       type: string
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an Object schema.
+     */
     public static boolean isObjectSchema(Schema schema) {
         if (schema instanceof ObjectSchema) {
             return true;
@@ -370,6 +391,13 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Return true if the specified schema is composed, i.e. if it uses
+     * 'oneOf', 'anyOf' or 'allOf'.
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is a Composed schema.
+     */
     public static boolean isComposedSchema(Schema schema) {
         if (schema instanceof ComposedSchema) {
             return true;
@@ -377,6 +405,39 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Return true if the specified 'schema' is an object that can be extended with additional properties.
+     * Additional properties means a Schema should support all explicitly defined properties plus any
+     * undeclared properties.
+     *
+     * A MapSchema differs from an ObjectSchema in the following way:
+     * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
+     * - A MapSchema is an object that can be extended with an arbitrary set of properties.
+     *   The payload may include dynamic properties.
+     *
+     * Note that isMapSchema returns true for a composed schema (allOf, anyOf, oneOf) that also defines
+     * additionalproperties.
+     *
+     * For example, an OpenAPI schema is considered a MapSchema in the following scenarios:
+     *
+     *   type: object
+     *   additionalProperties: true
+     *
+     *   type: object
+     *   additionalProperties:
+     *     type: object
+     *     properties:
+     *       code:
+     *         type: integer
+     *
+     *   allOf:
+     *     - $ref: '#/components/schemas/Class1'
+     *     - $ref: '#/components/schemas/Class2'
+     *   additionalProperties: true
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is a Map schema.
+     */
     public static boolean isMapSchema(Schema schema) {
         if (schema instanceof MapSchema) {
             return true;
@@ -397,6 +458,12 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Return true if the specified schema is an array of items.
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an Array schema.
+     */
     public static boolean isArraySchema(Schema schema) {
         return (schema instanceof ArraySchema);
     }
@@ -569,7 +636,7 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a model with at least one properties
+     * Check to see if the schema is a model with at least one property.
      *
      * @param schema potentially containing a '$ref'
      * @return true if it's a model with at least one properties
@@ -591,8 +658,68 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a free form object
+     * Return true if the schema value can be any type, i.e. it can be
+     * the null value, integer, number, string, object or array.
+     * One use case is when the "type" attribute in the OAS schema is unspecified.
+     * 
+     * Examples:
      *
+     *     arbitraryTypeValue:
+     *       description: This is an arbitrary type schema.
+     *         It is not a free-form object.
+     *         The value can be any type except the 'null' value.
+     *     arbitraryTypeNullableValue:
+     *       description: This is an arbitrary type schema.
+     *         It is not a free-form object.
+     *         The value can be any type, including the 'null' value.
+     *       nullable: true
+     *
+     * @param schema the OAS schema.
+     * @return true if the schema value can be an arbitrary type. 
+     */
+    public static boolean isAnyTypeSchema(Schema schema) {
+        if (schema == null) {
+            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
+            return false;
+        }
+        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
+                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                schema.getAdditionalProperties() == null && schema.getNot() == null &&
+                schema.getEnum() == null) {
+            return true;
+            // If and when type arrays are supported in a future OAS specification,
+            // we could return true if the type array includes all possible JSON schema types.
+        }
+        return false;
+    }
+
+    /**
+     * Check to see if the schema is a free form object.
+     *
+     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
+     * 1) Does not define properties, and
+     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
+     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
+     *
+     * Examples:
+     * 
+     * components:
+     *   schemas:
+     *     arbitraryObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value cannot be 'null'.
+     *         It cannot be array, string, integer, number.
+     *     arbitraryNullableObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value can be 'null',
+     *         It cannot be array, string, integer, number.
+     *       nullable: true
+     *     arbitraryTypeValue:
+     *       description: This is NOT a free-form object.
+     *         The value can be any type except the 'null' value.
+     * 
      * @param schema potentially containing a '$ref'
      * @return true if it's a free-form object
      */
@@ -665,7 +792,7 @@ public class ModelUtils {
      * Return a Map of the schemas defined under /components/schemas in the OAS document.
      * The returned Map only includes the direct children of /components/schemas in the OAS document; the Map
      * does not include inlined schemas.
-     * 
+     *
      * @param openAPI the OpenAPI document.
      * @return a map of schemas in the OAS document.
      */
@@ -695,7 +822,7 @@ public class ModelUtils {
         });
         return allSchemas;
     }
-    
+
     /**
      * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
      *
@@ -834,10 +961,10 @@ public class ModelUtils {
 
     /**
      * Return the first Schema from a specified OAS 'content' section.
-     * 
+     *
      * For example, given the following OAS, this method returns the schema
      * for the 'application/json' content type because it is listed first in the OAS.
-     * 
+     *
      * responses:
      *   '200':
      *     content:
@@ -846,8 +973,8 @@ public class ModelUtils {
      *           $ref: '#/components/schemas/XYZ'
      *       application/xml:
      *          ...
-     *   
-     * @param content a 'content' section in the OAS specification. 
+     *
+     * @param content a 'content' section in the OAS specification.
      * @return the Schema.
      */
     private static Schema getSchemaFromContent(Content content) {
@@ -858,7 +985,7 @@ public class ModelUtils {
         if (content.size() > 1) {
             // Other content types are currently ignored by codegen. If you see this warning,
             // reorder the OAS spec to put the desired content type first.
-            LOGGER.warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
+            once(LOGGER).warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
                 entry.getKey());
         }
         return entry.getValue().getSchema();
@@ -1038,6 +1165,14 @@ public class ModelUtils {
         int nullSchemaChildrenCount = 0;
         boolean hasAmbiguousParents = false;
         List<String> refedWithoutDiscriminator = new ArrayList<>();
+        String schemaName = "";
+        for (String thisSchemaName : allSchemas.keySet()) {
+            Schema sc = allSchemas.get(thisSchemaName);
+            if (isComposedSchema(sc) && (ComposedSchema) sc == composedSchema) {
+                schemaName = thisSchemaName;
+                break;
+            }
+        }
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -1054,7 +1189,10 @@ public class ModelUtils {
                     } else {
                         // not a parent since discriminator.propertyName is not set
                         hasAmbiguousParents = true;
-                        refedWithoutDiscriminator.add(parentName);
+                        boolean isNotExtractedInlineSchema = !parentName.equals(schemaName+"_allOf");
+                        if (isNotExtractedInlineSchema) {
+                            refedWithoutDiscriminator.add(parentName);
+                        }
                     }
                 } else {
                     // not a ref, doing nothing, except counting the number of times the 'null' type
@@ -1163,19 +1301,19 @@ public class ModelUtils {
     /**
      * Return true if the 'nullable' attribute is set to true in the schema, i.e. if the value
      * of the property can be the null value.
-     * 
+     *
      * In addition, if the OAS document is 3.1 or above, isNullable returns true if the input
      * schema is a 'oneOf' composed document with at most two children, and one of the children
      * is the 'null' type.
-     * 
+     *
      * The caller is responsible for resolving schema references before invoking isNullable.
      * If the input schema is a $ref and the referenced schema has 'nullable: true', this method
      * returns false (because the nullable attribute is defined in the referenced schema).
-     * 
+     *
      * The 'nullable' attribute was introduced in OAS 3.0.
      * The 'nullable' attribute is deprecated in OAS 3.1. In a OAS 3.1 document, the preferred way
      * to specify nullable properties is to use the 'null' type.
-     * 
+     *
      * @param schema the OAS schema.
      * @return true if the schema is nullable.
      */
@@ -1201,7 +1339,7 @@ public class ModelUtils {
     /**
      * Return true if the specified composed schema is 'oneOf', contains one or two elements,
      * and at least one of the elements is the 'null' type.
-     * 
+     *
      * The 'null' type is supported in OAS 3.1 and above.
      * In the example below, the 'OptionalOrder' can have the null value because the 'null'
      * type is one of the elements under 'oneOf'.
@@ -1210,7 +1348,7 @@ public class ModelUtils {
      *   oneOf:
      *     - type: 'null'
      *     - $ref: '#/components/schemas/Order'
-     * 
+     *
      * @param schema the OAS composed schema.
      * @return true if the composed schema is nullable.
      */
@@ -1224,22 +1362,22 @@ public class ModelUtils {
             }
         }
         return false;
-    }    
+    }
 
     /**
      * isNullType returns true if the input schema is the 'null' type.
-     * 
+     *
      * The 'null' type is supported in OAS 3.1 and above. It is not supported
      * in OAS 2.0 and OAS 3.0.x.
-     * 
+     *
      * For example, the "null" type could be used to specify that a value must
      * either be null or a specified type:
-     * 
+     *
      * OptionalOrder:
      *   oneOf:
      *     - type: 'null'
      *     - $ref: '#/components/schemas/Order'
-     * 
+     *
      * @param schema the OpenAPI schema
      * @return true if the schema is the 'null' type
      */

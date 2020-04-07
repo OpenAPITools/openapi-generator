@@ -4,11 +4,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -38,7 +34,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
     public CppQt5AbstractCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -54,7 +50,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         // set modelNamePrefix as default for QHttpEngine Server
         if (StringUtils.isEmpty(modelNamePrefix)) {
@@ -130,6 +126,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         systemIncludes.add("QDateTime");
         systemIncludes.add("QByteArray");
     }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -154,7 +151,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toModelImport(String name) {
-        if( name.isEmpty() ) {
+        if (name.isEmpty()) {
             return null;
         }
 
@@ -162,7 +159,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             return "using " + namespaces.get(name) + ";";
         } else if (systemIncludes.contains(name)) {
             return "#include <" + name + ">";
-        } else if(importMapping.containsKey(name)){
+        } else if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
 
@@ -317,53 +314,49 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
 
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        Map<String, CodegenModel> codegenModels = new HashMap<String, CodegenModel> ();
+        Map<String, CodegenModel> codegenModels = new HashMap<String, CodegenModel>();
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
-        for(Object moObj : allModels) {
+        for (Object moObj : allModels) {
             CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
-            if(mo.isEnum) {
+            if (mo.isEnum) {
                 codegenModels.put(mo.classname, mo);
             }
         }
         for (CodegenOperation operation : operations) {
-            if(operation.returnType != null) {
-                if(codegenModels.containsKey(operation.returnType)){
-                    operation.vendorExtensions.put("returnsEnum", true); // TODO: 5.0 Remove
+            if (operation.returnType != null) {
+                if (codegenModels.containsKey(operation.returnType)) {
                     operation.vendorExtensions.put("x-returns-enum", true);
                 }
             }
             // Check all return parameter baseType if there is a necessity to include, include it if not
             // already done
             if (operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
-                if(!isIncluded(operation.returnBaseType, imports)) {
+                if (!isIncluded(operation.returnBaseType, imports)) {
                     imports.add(createMapping("import", operation.returnBaseType));
                 }
             }
             List<CodegenParameter> params = new ArrayList<CodegenParameter>();
-            if (operation.allParams != null)params.addAll(operation.allParams);
+            if (operation.allParams != null) params.addAll(operation.allParams);
 
             // Check all parameter baseType if there is a necessity to include, include it if not
             // already done
-            for(CodegenParameter param : params) {
-                if(param.isPrimitiveType && needToImport(param.baseType)) {
-                    if(!isIncluded(param.baseType, imports)) {
+            for (CodegenParameter param : params) {
+                if (param.isPrimitiveType && needToImport(param.baseType)) {
+                    if (!isIncluded(param.baseType, imports)) {
                         imports.add(createMapping("import", param.baseType));
                     }
                 }
             }
             if (operation.pathParams != null) {
                 // We use QString to pass path params, add it to include
-                if(!isIncluded("QString", imports)) {
+                if (!isIncluded("QString", imports)) {
                     imports.add(createMapping("import", "QString"));
                 }
             }
         }
-        if(isIncluded("QMap", imports)) {
+        if (isIncluded("QMap", imports)) {
             // Maps uses QString as key
-            if(!isIncluded("QString", imports)) {
+            if (!isIncluded("QString", imports)) {
                 imports.add(createMapping("import", "QString"));
             }
         }
@@ -390,14 +383,14 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         boolean included = false;
         String inclStr = toModelImport(type);
         for (Map<String, String> importItem : imports) {
-            if(importItem.containsValue(inclStr)) {
+            if (importItem.containsValue(inclStr)) {
                 included = true;
                 break;
             }
         }
         return included;
     }
-    
+
     public void setContentCompressionEnabled(boolean flag) {
         this.isContentCompressionEnabled = flag;
     }

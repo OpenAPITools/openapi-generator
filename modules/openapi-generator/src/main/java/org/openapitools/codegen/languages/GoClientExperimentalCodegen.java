@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -23,14 +24,12 @@ import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -87,7 +86,6 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));
-            supportingFiles.add(new SupportingFile("http_signature_test.mustache", "", "http_signature_test.go"));
         }
     }
 
@@ -97,8 +95,66 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         return camelize(toModel(name, false));
     }
 
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return name + '_';
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        String prefix = "";
+        if (enumClassPrefix) {
+            prefix = datatype.toUpperCase(Locale.ROOT) + "_";
+        }
+        return prefix + value;
+    }
+
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        // make sure the inline enums have plain defaults (e.g. string, int, float)
+        String enumDefault = null;
+        if (var.isEnum && var.defaultValue != null) {
+            enumDefault = var.defaultValue;
+        }
+        super.updateCodegenPropertyEnum(var);
+        if (var.isEnum && enumDefault != null) {
+            var.defaultValue = enumDefault;
+        }
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        p = ModelUtils.getReferencedSchema(this.openAPI, p);
+        if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "\"" + escapeText((String) p.getDefault()) + "\"";
+            }
+            return null;
+        }
+
+        return super.toDefaultValue(p);
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty prop = super.fromProperty(name, p);
+        String cc = camelize(prop.name, true);
+        if (isReservedWord(cc)) {
+            cc = escapeReservedWord(cc);
+        }
+        prop.nameInCamelCase = cc;
+        return prop;
+    }
+
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // The superclass determines the list of required golang imports. The actual list of imports
+        // depends on which types are used, some of which are changed in the code below (but then preserved
+        // and used through x-go-base-type in templates). So super.postProcessModels
+        // must be invoked at the beginning of this method.
+        objs = super.postProcessModels(objs);
 
         List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
         for (Map<String, Object> m : models) {
@@ -110,7 +166,9 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 }
 
                 for (CodegenProperty param : model.vars) {
-                    if (!param.isNullable || param.isMapContainer || param.isListContainer) {
+                    param.vendorExtensions.put("x-go-base-type", param.dataType);
+                    if (!param.isNullable || param.isMapContainer || param.isListContainer ||
+                            param.isFreeFormObject || param.isAnyType) {
                         continue;
                     }
                     if (param.isDateTime) {
@@ -126,11 +184,6 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 }
             }
         }
-
-        // The superclass determines the list of required golang imports. The actual list of imports
-        // depends on which types are used, which is done in the code above. So super.postProcessModels
-        // must be invoked at the end of this method.
-        objs = super.postProcessModels(objs);
         return objs;
     }
 

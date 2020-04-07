@@ -1250,6 +1250,23 @@ components:
           type: integer
           format: int32
           description: User Status
+        arbitraryObject:
+          type: object
+          description: test code generation for objects
+            Value must be a map of strings to values. It cannot be the 'null' value.
+        arbitraryNullableObject:
+          type: object
+          description: test code generation for nullable objects.
+            Value must be a map of strings to values or the 'null' value.
+          nullable: true
+        arbitraryTypeValue:
+          description: test code generation for any type
+            Value can be any type - string, number, boolean, array or object.
+        arbitraryNullableTypeValue:
+          description: test code generation for any type
+            Value can be any type - string, number, boolean, array, object or
+            the 'null' value.
+          nullable: true
       xml:
         name: User
     Tag:
@@ -1362,10 +1379,15 @@ components:
     Cat:
       allOf:
         - $ref: '#/components/schemas/Animal'
+        - $ref: '#/components/schemas/Address'
         - type: object
           properties:
             declawed:
               type: boolean
+    Address:
+      type: object
+      additionalProperties:
+         type: integer
     Animal:
       type: object
       discriminator:
@@ -1774,3 +1796,82 @@ components:
       additionalProperties:
         type: object
         nullable: true
+    fruit:
+      properties:
+        color:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/apple'
+        - $ref: '#/components/schemas/banana'
+    apple:
+      type: object
+      properties:
+        cultivar:
+          type: string
+    banana:
+      type: object
+      properties:
+        lengthCm:
+          type: number
+    mammal:
+      oneOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
+      discriminator:
+        propertyName: className
+        mapping:
+          whale: '#/components/schemas/whale'
+          zebra: '#/components/schemas/zebra'
+    whale:
+      type: object
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+      required:
+        - className
+    zebra:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - plains
+            - mountain
+            - grevys
+        className:
+          type: string
+      required:
+        - className
+    gmFruit:
+       properties:
+          color:
+             type: string
+       anyOf:
+          - $ref: '#/components/schemas/apple'
+          - $ref: '#/components/schemas/banana'
+    fruitReq:
+       oneOf:
+          - $ref: '#/components/schemas/appleReq'
+          - $ref: '#/components/schemas/bananaReq'
+    appleReq:
+      type: object
+      properties:
+        cultivar:
+          type: string
+        mealy:
+          type: boolean
+      required:
+        - cultivar
+    bananaReq:
+      type: object
+      properties:
+        lengthCm:
+          type: number
+        sweet:
+          type: boolean
+      required:
+        - lengthCm
