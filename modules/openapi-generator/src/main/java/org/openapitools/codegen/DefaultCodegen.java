@@ -2223,7 +2223,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            if (parent != null) {
+            if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
                 m.parentSchema = parentName;
                 m.parent = toModelName(parentName);
 
