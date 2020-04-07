@@ -7,7 +7,6 @@ import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.SIMPLE
 import kotlinx.serialization.builtins.*
-import kotlinx.serialization.UnstableDefault
 
 import {{packageName}}.infrastructure.*
 import {{packageName}}.infrastructure.authentication.*
@@ -16,7 +15,6 @@ import {{import}}
 {{/imports}}
 
 {{#operations}}
-@UnstableDefault
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(
     private val basePath: kotlin.String = "{{{basePath}}}",
     private val logger: Logger = Logger.SIMPLE,

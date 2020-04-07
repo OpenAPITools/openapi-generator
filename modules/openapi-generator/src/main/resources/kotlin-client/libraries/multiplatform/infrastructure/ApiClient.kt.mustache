@@ -17,7 +17,6 @@ import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
-import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
@@ -30,7 +29,6 @@ import {{packageName}}.auth.*
         httpClientEngine: HttpClientEngine?,
         serializer: KotlinxSerializer) {
 
-    @UseExperimental(UnstableDefault::class)
     constructor(
             baseUrl: String,
             httpClientEngine: HttpClientEngine?,

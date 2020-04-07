@@ -18,7 +18,6 @@ import io.ktor.http.Parameters
 import io.ktor.utils.io.core.use
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.SerializationStrategy
-import kotlinx.serialization.UnstableDefault
 import {{packageName}}.infrastructure.authentication.AuthProvider
 
 internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String, String>> {
@@ -44,7 +43,6 @@ internal fun <T>Json.stringify(serializer: SerializationStrategy<T>, value: T, s
     return nonStrippedJsonString.replace(nullPropertyRegex, "")
 }
 
-@UnstableDefault
 internal suspend inline fun <reified T, B> request(
     url: String,
     methodString: String,
