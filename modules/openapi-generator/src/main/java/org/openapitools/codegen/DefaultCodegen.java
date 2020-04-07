@@ -2320,6 +2320,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (CodegenProperty prop : m.vars) {
                 postProcessModelProperty(m, prop);
             }
+            m.hasVars = m.vars.size() > 0;
         }
         if (m.allVars != null) {
             for (CodegenProperty prop : m.allVars) {
