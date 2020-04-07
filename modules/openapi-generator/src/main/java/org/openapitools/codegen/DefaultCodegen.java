@@ -2559,12 +2559,12 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 CodegenProperty df = discriminatorFound(composedSchemaName, sc, discPropName, openAPI);
                 String modelName = ModelUtils.getSimpleRef(ref);
-                if (df == null || !"string".equals(df.dataType) || df.required != true) {
+                if (df == null || !df.isString || df.required != true) {
                     String msgSuffix = "";
                     if (df == null) {
                         msgSuffix += discPropName+" is missing from the schema, define it as required and type string";
                     } else {
-                        if (!"string".equals(df.dataType)) {
+                        if (!df.isString) {
                             msgSuffix += "invalid type for "+discPropName+", set it to string";
                         }
                         if (df.required != true) {
