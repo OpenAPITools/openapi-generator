@@ -17,6 +17,10 @@ No description available.
 .PARAMETER Pet
 Pet object that needs to be added to the store
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 Pet
@@ -26,7 +30,9 @@ function Add-PSPet {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
-        ${Pet}
+        ${Pet},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -40,7 +46,7 @@ function Add-PSPet {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -69,7 +75,11 @@ function Add-PSPet {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Pet"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -88,6 +98,10 @@ Pet id to delete
 .PARAMETER ApiKey
 No description available.
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -100,7 +114,9 @@ function Remove-Pet {
         ${PetId},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
-        ${ApiKey}
+        ${ApiKey},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -114,7 +130,7 @@ function Remove-Pet {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         $LocalVarUri = '/pet/{petId}'
@@ -139,7 +155,11 @@ function Remove-Pet {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -155,6 +175,10 @@ No description available.
 .PARAMETER Status
 Status values that need to be considered for filter
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 Pet[]
@@ -163,8 +187,11 @@ function Find-PSPetsByStatus {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [ValidateSet("available", "pending", "sold")]
         [String[]]
-        ${Status}
+        ${Status},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -178,7 +205,7 @@ function Find-PSPetsByStatus {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -203,7 +230,11 @@ function Find-PSPetsByStatus {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Pet[]"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -219,6 +250,10 @@ No description available.
 .PARAMETER Tags
 Tags to filter by
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 Pet[]
@@ -228,7 +263,9 @@ function Find-PSPetsByTags {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String[]]
-        ${Tags}
+        ${Tags},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -242,7 +279,7 @@ function Find-PSPetsByTags {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -267,7 +304,11 @@ function Find-PSPetsByTags {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Pet[]"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -283,6 +324,10 @@ No description available.
 .PARAMETER PetId
 ID of pet to return
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 Pet
@@ -292,7 +337,9 @@ function Get-PSPetById {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
-        ${PetId}
+        ${PetId},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -306,7 +353,7 @@ function Get-PSPetById {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -320,6 +367,7 @@ function Get-PSPetById {
 
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
+            Write-Verbose ("Using API key 'api_key' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
@@ -333,7 +381,11 @@ function Get-PSPetById {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Pet"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -349,6 +401,10 @@ No description available.
 .PARAMETER Pet
 Pet object that needs to be added to the store
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 Pet
@@ -358,7 +414,9 @@ function Update-PSPet {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
-        ${Pet}
+        ${Pet},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -372,7 +430,7 @@ function Update-PSPet {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -401,7 +459,11 @@ function Update-PSPet {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Pet"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -423,6 +485,10 @@ Updated name of the pet
 .PARAMETER Status
 Updated status of the pet
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -438,7 +504,9 @@ function Update-PSPetWithForm {
         ${Name},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
-        ${Status}
+        ${Status},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -452,7 +520,7 @@ function Update-PSPetWithForm {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Content-Type'
@@ -484,7 +552,11 @@ function Update-PSPetWithForm {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -506,6 +578,10 @@ Additional data to pass to server
 .PARAMETER File
 file to upload
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 ApiResponse
@@ -521,7 +597,9 @@ function Invoke-PSUploadFile {
         ${AdditionalMetadata},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [System.IO.FileInfo]
-        ${File}
+        ${File},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -535,7 +613,7 @@ function Invoke-PSUploadFile {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -570,7 +648,11 @@ function Invoke-PSUploadFile {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "ApiResponse"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
