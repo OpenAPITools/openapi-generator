@@ -349,7 +349,6 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Gets or sets the maximum number of retry attempts on the retry status codes.
-        /// Default value is 2.
         /// </summary>
         /// <value>Maximum number of retries</value>
         public int MaxRetries {get; set;}
