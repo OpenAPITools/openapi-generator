@@ -534,7 +534,7 @@ fail:
     }
     {{/isByteArray}}
     {{#isBinary}}
-    binary_t* decoded_str_{{{name}}};
+    binary_t* decoded_str_{{{name}}} = malloc(sizeof(struct binary_t));
     {{^required}}if ({{{name}}}) { {{/required}}
     if(!cJSON_IsString({{{name}}}))
     {
