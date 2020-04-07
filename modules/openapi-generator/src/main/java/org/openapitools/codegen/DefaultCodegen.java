@@ -2593,12 +2593,12 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 CodegenProperty df = discriminatorFound(composedSchemaName, sc, discPropName, openAPI);
                 String modelName = ModelUtils.getSimpleRef(ref);
-                if (df == null || !"string".equals(df.dataType) || df.required != true) {
+                if (df == null || !df.isString || df.required != true) {
                     String msgSuffix = "";
                     if (df == null) {
                         msgSuffix += discPropName+" is missing from the schema, define it as required and type string";
                     } else {
-                        if (!"string".equals(df.dataType)) {
+                        if (!df.isString) {
                             msgSuffix += "invalid type for "+discPropName+", set it to string";
                         }
                         if (df.required != true) {
@@ -2615,12 +2615,10 @@ public class DefaultCodegen implements CodegenConfig {
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
                 Map<String, Object> vendorExtensions = cs.getExtensions();
-                if (vendorExtensions != null && !vendorExtensions.isEmpty()) {
+                if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                     String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                    if (xDiscriminatorValue != null) {
-                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
-                        descendentSchemas.add(mm);
-                    }
+                    mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
+                    descendentSchemas.add(mm);
                 }
 
             }
@@ -2672,12 +2670,10 @@ public class DefaultCodegen implements CodegenConfig {
             descendentSchemas.add(mm);
             Schema cs = schemas.get(currentSchemaName);
             Map<String, Object> vendorExtensions = cs.getExtensions();
-            if (vendorExtensions != null && !vendorExtensions.isEmpty()) {
+            if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                 String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                if (xDiscriminatorValue != null) {
-                    mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
-                    descendentSchemas.add(mm);
-                }
+                mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
+                descendentSchemas.add(mm);
             }
         }
         return descendentSchemas;
