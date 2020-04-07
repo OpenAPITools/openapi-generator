@@ -17,6 +17,10 @@ No description available.
 .PARAMETER OrderId
 ID of the order that needs to be deleted
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 None
@@ -26,7 +30,9 @@ function Remove-PSOrder {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
-        ${OrderId}
+        ${OrderId},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -40,7 +46,7 @@ function Remove-PSOrder {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         $LocalVarUri = '/store/order/{orderId}'
@@ -60,7 +66,11 @@ function Remove-PSOrder {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType ""
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -73,6 +83,10 @@ Returns pet inventories by status
 
 No description available.
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 System.Collections.Hashtable
@@ -80,6 +94,8 @@ System.Collections.Hashtable
 function Get-PSInventory {
     [CmdletBinding()]
     Param (
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -93,7 +109,7 @@ function Get-PSInventory {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -103,6 +119,7 @@ function Get-PSInventory {
 
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
             $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
+            Write-Verbose ("Using API key 'api_key' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
@@ -116,7 +133,11 @@ function Get-PSInventory {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "System.Collections.Hashtable"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -132,6 +153,10 @@ No description available.
 .PARAMETER OrderId
 ID of pet that needs to be fetched
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 Order
@@ -141,7 +166,9 @@ function Get-PSOrderById {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
-        ${OrderId}
+        ${OrderId},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -155,7 +182,7 @@ function Get-PSOrderById {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -178,7 +205,11 @@ function Get-PSOrderById {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Order"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 
@@ -194,6 +225,10 @@ No description available.
 .PARAMETER Order
 order placed for purchasing the pet
 
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
 .OUTPUTS
 
 Order
@@ -203,7 +238,9 @@ function Invoke-PSPlaceOrder {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
-        ${Order}
+        ${Order},
+        [Switch]
+        $WithHttpInfo
     )
 
     Process {
@@ -217,7 +254,7 @@ function Invoke-PSPlaceOrder {
         $LocalVarFormParameters = @{}
         $LocalVarPathParameters = @{}
         $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter
+        $LocalVarBodyParameter = $null
 
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
@@ -245,7 +282,11 @@ function Invoke-PSPlaceOrder {
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Order"
 
-        return $LocalVarResult["Response"]
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
     }
 }
 

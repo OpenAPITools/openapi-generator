@@ -116,7 +116,7 @@ function Invoke-PSApiClient {
     return @{
         Response = DeserializeResponse -Response $Response -ReturnType $ReturnType
         StatusCode = $Response.StatusCode
-        Headers = $Response.ResponseHeaders
+        Headers = $Response.Headers
     }
 }
 
