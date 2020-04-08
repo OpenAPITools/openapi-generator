@@ -42,7 +42,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
-    private var logger: ((String) -> Unit)? = null
+    var logger: ((String) -> Unit)? = null
 
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
@@ -137,11 +137,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             ?.setClientSecret(secret)
             ?.setUsername(username)
             ?.setPassword(password)
-    }
-
-    fun setLogger(logger: (String) -> Unit): ApiClient {
-        this.logger = logger
-        return this
     }
 
     {{/hasOAuthMethods}}
@@ -265,6 +260,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
         apiAuthorizations[authName] = authorization
         clientBuilder.addInterceptor(authorization)
+        return this
+    }
+
+    fun setLogger(logger: (String) -> Unit): ApiClient {
+        this.logger = logger
         return this
     }
 
