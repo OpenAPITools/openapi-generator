@@ -9,6 +9,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -79,7 +80,19 @@ public class FakeApiServiceImpl implements FakeApi {
         
         
     }
-    
+   
+    public File fileResponseTest() {
+        // TODO: Implement...
+
+        return null;
+    }
+
+    public Resource resourceNamedResourceTest() {
+        // TODO: Implement...
+
+        return null;
+    }
+
     /**
      * To test \&quot;client\&quot; model
      *
