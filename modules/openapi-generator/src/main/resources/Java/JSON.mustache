@@ -69,7 +69,7 @@ public class JSON {
                 .registerTypeSelector({{classname}}.class, new TypeSelector() {
                     @Override
                     public Class getClassForElement(JsonElement readElement) {
-                        Map classByDiscriminatorValue = new HashMap();
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         {{#mappedModels}}
                         classByDiscriminatorValue.put("{{mappingName}}".toUpperCase(Locale.ROOT), {{modelName}}.class);
                         {{/mappedModels}}
