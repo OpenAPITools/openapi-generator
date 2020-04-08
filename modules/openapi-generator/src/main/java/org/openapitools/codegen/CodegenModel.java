@@ -201,19 +201,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     /**
      * Returns the discriminator for this schema object, or null if no discriminator has been specified.
      * 
-     * @return the discriminator.
-     */
-    public CodegenDiscriminator getDiscriminator() {
-        return discriminator;
-    }
-
-    public void setDiscriminator(CodegenDiscriminator discriminator) {
-        this.discriminator = discriminator;
-    }
-
-    /**
-     * Returns a list of allowed discriminator mapping values for this schema object.
-     * 
      * The list of all possible schema discriminator mapping values is obtained
      * from explicit discriminator mapping values in the OpenAPI document, and from
      * inherited discriminators through oneOf, allOf, anyOf.
@@ -248,16 +235,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      *       p2:
      *         type: string
      * 
-     * @return the list of allowed discriminator mapping values.
+     * @return the discriminator.
      */
-    public List<String> getAllowedDiscriminatorMappingValues() {
-        List<String> mappingValues = new ArrayList<String>();
-        for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
-            if (name.equals(mm.getModelName())) {
-                mappingValues.add(mm.getMappingName());
-            }
-        }     
-        return mappingValues;   
+    public CodegenDiscriminator getDiscriminator() {
+        return discriminator;
+    }
+
+    public void setDiscriminator(CodegenDiscriminator discriminator) {
+        this.discriminator = discriminator;
     }
 
     /**
