@@ -10,37 +10,37 @@
 
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
-{{#vars}}
+{{#allVars}}
 .PARAMETER {{{name}}}
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
-{{/vars}}
+{{/allVars}}
 .OUTPUTS
 
 {{{classname}}}<PSCustomObject>
 #>
 
-function New-{{{apiNamePrefix}}}{{{classname}}} {
+function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     [CmdletBinding()]
     Param (
-{{#vars}}
+{{#allVars}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%^-last%>,<%/-last%>
         <%={{ }}=%>
-{{/vars}}
+{{/allVars}}
     )
 
     Process {
-        'Creating object: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
+        'Creating PSCustomObject: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
-            <<#vars>>
+            <<#allVars>>
             "<<baseName>>" = ${<<name>>}
-            <</vars>>
+            <</allVars>>
             <<={{ }}=>>
         }
 

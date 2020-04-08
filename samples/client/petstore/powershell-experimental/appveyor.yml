@@ -15,4 +15,9 @@ install:
   - ps: Install-Module Pester -Force -Scope CurrentUser
 build: off
 test_script:
-  - ps: Invoke-Pester -EnableExit
+  - ps: |
+      $Result = Invoke-Pester -PassThru
+      if ($Result.FailedCount -gt 0) {
+          $host.SetShouldExit($Result.FailedCount)
+          exit $Result.FailedCount
+      }

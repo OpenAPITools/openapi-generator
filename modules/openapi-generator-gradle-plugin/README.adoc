@@ -68,7 +68,7 @@ task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.2.3"
+  id "org.openapi.generator" version "4.3.0"
 }
 ----
 
@@ -330,6 +330,10 @@ apply plugin: 'org.openapi.generator'
 |false
 |To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions. When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
 
+|engine
+|String
+|mustache
+|Templating engine: "mustache" (default) or "handlebars" (beta)
 |===
 
 [NOTE]

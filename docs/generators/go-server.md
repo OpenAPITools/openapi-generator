@@ -36,6 +36,8 @@ sidebar_label: go-server
 <li>int</li>
 <li>int32</li>
 <li>int64</li>
+<li>interface{}</li>
+<li>map[string]interface{}</li>
 <li>rune</li>
 <li>string</li>
 <li>uint</li>

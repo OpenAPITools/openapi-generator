@@ -28,7 +28,7 @@ No description available.
 ApiResponse<PSCustomObject>
 #>
 
-function New-PSApiResponse {
+function Initialize-PSApiResponse {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -43,7 +43,7 @@ function New-PSApiResponse {
     )
 
     Process {
-        'Creating object: PSPetstore => PSApiResponse' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSApiResponse' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{
