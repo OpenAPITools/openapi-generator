@@ -91,6 +91,7 @@ from petstore_api.models.parent import Parent
 from petstore_api.models.parent_all_of import ParentAllOf
 from petstore_api.models.parent_pet import ParentPet
 from petstore_api.models.pet import Pet
+from petstore_api.models.player import Player
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.string_boolean_map import StringBooleanMap

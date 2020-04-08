@@ -9,7 +9,7 @@ import Foundation
 
 /** Model for testing model with \&quot;_class\&quot; property */
 
-public struct ClassModel: Codable {
+@objc public class ClassModel: NSObject, Codable {
 
     public var _class: String?
 

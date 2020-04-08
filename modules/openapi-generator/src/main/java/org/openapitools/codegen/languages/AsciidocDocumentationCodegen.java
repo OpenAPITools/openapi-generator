@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,9 +24,11 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,9 +62,11 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         private long includeCount = 0;
         private long notFoundCount = 0;
+        private String attributePathReference;
         private String basePath;
 
-        public IncludeMarkupLambda(final String basePath) {
+        public IncludeMarkupLambda(final String attributePathReference, final String basePath) {
+            this.attributePathReference = attributePathReference;
             this.basePath = basePath;
         }
 
@@ -79,14 +83,18 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             final String relativeFileName = AsciidocDocumentationCodegen.sanitize(frag.execute());
             final Path filePathToInclude = Paths.get(basePath, relativeFileName).toAbsolutePath();
 
+            String includeStatement = "include::{" + attributePathReference + "}" + escapeCurlyBrackets(relativeFileName) + "[opts=optional]";
             if (Files.isRegularFile(filePathToInclude)) {
-                LOGGER.debug(
-                        "including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
-                out.write("\ninclude::" + relativeFileName + "[opts=optional]\n");
+                LOGGER.debug("including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
+                out.write("\n" + includeStatement + "\n");
             } else {
                 LOGGER.debug(++notFoundCount + ". file not found, skip include for: " + filePathToInclude.toString());
-                out.write("\n// markup not found, no include ::" + relativeFileName + "[opts=optional]\n");
+                out.write("\n// markup not found, no " + includeStatement + "\n");
             }
+        }
+
+        private String escapeCurlyBrackets(String relativeFileName) {
+            return relativeFileName.replaceAll("\\{","\\\\{").replaceAll("\\}","\\\\}");
         }
     }
 
@@ -184,6 +192,15 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     public AsciidocDocumentationCodegen() {
         super();
 
+        // TODO: Asciidoc maintainer review.
+        modifyFeatureSet(features -> features
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
+                .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
+                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
+        );
+
         LOGGER.trace("start asciidoc codegen");
 
         outputFolder = "generated-code" + File.separator + "asciidoc";
@@ -259,7 +276,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
                     + Paths.get(specDir).toAbsolutePath());
         }
 
-        this.includeSpecMarkupLambda = new IncludeMarkupLambda(specDir);
+        this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR,specDir);
         additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
 
         String snippetDir = this.additionalProperties.get(SNIPPET_DIR) + "";
@@ -268,7 +285,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
                     + Paths.get(snippetDir).toAbsolutePath());
         }
 
-        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(snippetDir);
+        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(SNIPPET_DIR,snippetDir);
         additionalProperties.put("snippetinclude", this.includeSnippetMarkupLambda);
 
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);

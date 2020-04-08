@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,9 +41,9 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
 
-    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson'";
+    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'";
 
-    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson}
+    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson}
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
@@ -335,6 +335,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+            if (cm.getDiscriminator() != null) {
+                cm.vendorExtensions.put("x-has-data-class-body", true);
+                break;
+            }
 
             for (CodegenProperty var : cm.vars) {
                 if (var.isEnum || isSerializableModel()) {
@@ -675,9 +679,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     private String getArrayTypeDeclaration(ArraySchema arr) {
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
-        String arrayType = typeMapping.get("array");
+        String arrayType;
         if (ModelUtils.isSet(arr)) {
             arrayType = typeMapping.get("set");
+        } else {
+            arrayType = typeMapping.get("array");
         }
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = arr.getItems();
@@ -934,7 +940,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + p.getDefault() + "'";
+                return "\"" + p.getDefault() + "\"";
             }
         }
 

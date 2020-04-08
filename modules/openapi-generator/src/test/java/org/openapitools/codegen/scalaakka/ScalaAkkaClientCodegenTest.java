@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -335,10 +335,11 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 1);
     }
 
-    @Test(description = "validate codegen output")
+    @Test(description = "validate codegen joda output")
     public void codeGenerationTest() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put("mainPackage", "hello.world");
+        properties.put("dateLibrary", "joda");
 
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -356,11 +357,66 @@ public class ScalaAkkaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 13);
+        Assert.assertEquals(generatedFiles.size(), 14);
 
         final String someObjFilename = new File(output, "src/main/scala/hello/world/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
         Assert.assertEquals(
                 generatedFiles.get(someObjFilename),
                 Resources.toString(Resources.getResource("codegen/scala/SomeObj.scala.txt"), StandardCharsets.UTF_8));
+    }
+
+    @Test(description = "validate codegen java8 output")
+    public void codeGenerationJava8Test() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("mainPackage", "hello.world");
+        properties.put("dateLibrary", "java8");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(codegen.getName())
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/scala_reserved_words.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 14);
+
+        final String someObjFilename = new File(output, "src/main/scala/hello/world/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
+        Assert.assertEquals(
+                generatedFiles.get(someObjFilename),
+                Resources.toString(Resources.getResource("codegen/scala/JavaTimeObj.scala.txt"), StandardCharsets.UTF_8));
+    }
+
+
+    @Test(description = "strip model name")
+    public void stripModelNameTest() throws Exception {
+        final Schema model = new Schema()
+                .description("a map model");
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel cms = codegen.fromModel("Stripped.ByDefault.ModelName", model);
+        Assert.assertEquals(cms.name, "Stripped.ByDefault.ModelName");
+        Assert.assertEquals(cms.classname, "ModelName");
+        Assert.assertEquals(cms.classFilename, "ModelName");
+
+        codegen.additionalProperties().put(CodegenConstants.STRIP_PACKAGE_NAME, "false");
+        codegen.processOpts();
+
+        final CodegenModel cm = codegen.fromModel("Non.Stripped.ModelName", model);
+
+        Assert.assertEquals(cm.name, "Non.Stripped.ModelName");
+        Assert.assertEquals(cm.classname, "NonStrippedModelName");
+        Assert.assertEquals(cm.classFilename, "NonStrippedModelName");
+
     }
 }

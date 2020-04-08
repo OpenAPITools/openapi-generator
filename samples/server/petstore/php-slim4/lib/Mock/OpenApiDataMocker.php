@@ -26,7 +26,9 @@
 namespace OpenAPIServer\Mock;
 
 use OpenAPIServer\Mock\OpenApiDataMockerInterface as IMocker;
+use OpenAPIServer\Utils\ModelUtilsTrait;
 use StdClass;
+use DateTime;
 use InvalidArgumentException;
 
 /**
@@ -38,6 +40,8 @@ use InvalidArgumentException;
  */
 final class OpenApiDataMocker implements IMocker
 {
+    use ModelUtilsTrait;
+
     /**
      * Mocks OpenApi Data.
      * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#data-types
@@ -66,7 +70,8 @@ final class OpenApiDataMocker implements IMocker
             case IMocker::DATA_TYPE_STRING:
                 $minLength = $options['minLength'] ?? 0;
                 $maxLength = $options['maxLength'] ?? null;
-                return $this->mockString($dataFormat, $minLength, $maxLength);
+                $enum = $options['enum'] ?? null;
+                return $this->mockString($dataFormat, $minLength, $maxLength, $enum);
             case IMocker::DATA_TYPE_BOOLEAN:
                 return $this->mockBoolean();
             case IMocker::DATA_TYPE_ARRAY:
@@ -115,6 +120,22 @@ final class OpenApiDataMocker implements IMocker
         $exclusiveMinimum = false,
         $exclusiveMaximum = false
     ) {
+        $dataFormat = is_string($dataFormat) ? strtolower($dataFormat) : $dataFormat;
+        switch ($dataFormat) {
+            case IMocker::DATA_FORMAT_INT32:
+                // -2147483647..2147483647
+                $minimum = is_numeric($minimum) ? max($minimum, -2147483647) : -2147483647;
+                $maximum = is_numeric($maximum) ? min($maximum, 2147483647) : 2147483647;
+                break;
+            case IMocker::DATA_FORMAT_INT64:
+                // -9223372036854775807..9223372036854775807
+                $minimum = is_numeric($minimum) ? max($minimum, -9223372036854775807) : -9223372036854775807;
+                $maximum = is_numeric($maximum) ? min($maximum, 9223372036854775807) : 9223372036854775807;
+                break;
+            default:
+                // do nothing, unsupported format
+        }
+
         return $this->getRandomNumber($minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum, 0);
     }
 
@@ -165,6 +186,26 @@ final class OpenApiDataMocker implements IMocker
         $enum = null,
         $pattern = null
     ) {
+        $str = '';
+        $getLoremIpsum = function ($length) {
+            return str_pad(
+                '',
+                $length,
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                \STR_PAD_RIGHT
+            );
+        };
+        $truncateOrPad = function ($text, $min = null, $max = null, $glue = '') {
+            if ($max !== null && mb_strlen($text) > $max) {
+                // truncate
+                $text = substr($text, 0, $max);
+            } elseif ($min !== null && mb_strlen($text) < $min) {
+                // pad
+                $text = str_pad('', $min, $text . $glue, \STR_PAD_RIGHT);
+            }
+            return $text;
+        };
+
         if ($enum !== null) {
             if (
                 is_array($enum) === false
@@ -203,7 +244,72 @@ final class OpenApiDataMocker implements IMocker
             throw new InvalidArgumentException('"maxLength" value cannot be less than "minLength"');
         }
 
-        return str_pad('', mt_rand($minLength, $maxLength), 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ', \STR_PAD_RIGHT);
+        switch ($dataFormat) {
+            case IMocker::DATA_FORMAT_BYTE:
+            case IMocker::DATA_FORMAT_BINARY:
+                // base64 encoded string
+                $inputLength = 1;
+                $str = base64_encode($getLoremIpsum($inputLength));
+                while (mb_strlen($str) < $minLength) {
+                    $inputLength++;
+                    $str = base64_encode($getLoremIpsum($inputLength));
+                }
+
+                // base64 encoding produces strings devided by 4, so resulted string can exceed maxLength parameter
+                // I think truncated(invalid) base64 string is better than oversized, cause this data is fake anyway
+                $str = $truncateOrPad($str, null, $maxLength, '. ');
+                break;
+            case IMocker::DATA_FORMAT_DATE:
+            case IMocker::DATA_FORMAT_DATE_TIME:
+                // min unix timestamp is 0 and max is 2147483647 for 32bit systems which equals 2038-01-19 03:14:07
+                $date = DateTime::createFromFormat('U', mt_rand(0, 2147483647));
+                $str = ($dataFormat === IMocker::DATA_FORMAT_DATE) ? $date->format('Y-m-d') : $date->format('Y-m-d\TH:i:sP');
+
+                // truncate or pad datestring to fit minLength and maxLength
+                $str = $truncateOrPad($str, $minLength, $maxLength, ' ');
+                break;
+            case IMocker::DATA_FORMAT_PASSWORD:
+                // use list of most popular passwords
+                $obviousPassList = [
+                    'qwerty',
+                    'qwerty12345',
+                    'hello',
+                    '12345',
+                    '0000',
+                    'qwerty12345!',
+                    'qwertyuiop[]',
+                ];
+                $str = $obviousPassList[mt_rand(0, count($obviousPassList) - 1)];
+
+                // truncate or pad password to fit minLength and maxLength
+                $str = $truncateOrPad($str, $minLength, $maxLength);
+                break;
+            case IMocker::DATA_FORMAT_UUID:
+                // use php built-in uniqid function
+                $str = uniqid();
+
+                // truncate or pad password to fit minLength and maxLength
+                $str = $truncateOrPad($str, $minLength, $maxLength);
+                break;
+            case IMocker::DATA_FORMAT_EMAIL:
+                // just for visionary purpose, not related to real persons
+                $fakeEmailList = [
+                    'johndoe',
+                    'lhoswald',
+                    'ojsimpson',
+                    'mlking',
+                    'jfkennedy',
+                ];
+                $str = $fakeEmailList[mt_rand(0, count($fakeEmailList) - 1)] . '@example.com';
+
+                // truncate or pad email to fit minLength and maxLength
+                $str = $truncateOrPad($str, $minLength, $maxLength);
+                break;
+            default:
+                $str = $getLoremIpsum(mt_rand($minLength, $maxLength));
+        }
+
+        return $str;
     }
 
     /**
@@ -268,11 +374,13 @@ final class OpenApiDataMocker implements IMocker
         $options = $this->extractSchemaProperties($items);
         $dataType = $options['type'];
         $dataFormat = $options['format'] ?? null;
+        $ref = $options['$ref'] ?? null;
 
-        // always genarate smallest possible array to avoid huge JSON responses
+        // always generate smallest possible array to avoid huge JSON responses
         $arrSize = ($maxSize < 1) ? $maxSize : max($minSize, 1);
         while (count($arr) < $arrSize) {
-            $arr[] = $this->mock($dataType, $dataFormat, $options);
+            $data = $this->mockFromRef($ref);
+            $arr[] = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
         }
         return $arr;
     }
@@ -351,11 +459,61 @@ final class OpenApiDataMocker implements IMocker
         foreach ($properties as $propName => $propValue) {
             $options = $this->extractSchemaProperties($propValue);
             $dataType = $options['type'];
-            $dataFormat = $options['dataFormat'] ?? null;
-            $obj->$propName = $this->mock($dataType, $dataFormat, $options);
+            $dataFormat = $options['format'] ?? null;
+            $ref = $options['$ref'] ?? null;
+            $data = $this->mockFromRef($ref);
+            $obj->$propName = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
         }
 
         return $obj;
+    }
+
+    /**
+     * Mocks OpenApi Data from schema.
+     *
+     * @param array|object $schema OpenAPI schema
+     *
+     * @throws \InvalidArgumentException when invalid arguments passed
+     *
+     * @return mixed
+     */
+    public function mockFromSchema($schema)
+    {
+        $props = $this->extractSchemaProperties($schema);
+        if (array_key_exists('$ref', $props) && !empty($props['$ref'])) {
+            return $this->mockFromRef($props['$ref']);
+        } elseif ($props['type'] === null) {
+            throw new InvalidArgumentException('"schema" must be object or assoc array with "type" property');
+        }
+        return $this->mock($props['type'], $props['format'], $props);
+    }
+
+    /**
+     * Mock data by referenced schema.
+     * TODO: this method will return model instance, not an StdClass
+     *
+     * @param string|null $ref Ref to model, eg. #/components/schemas/User
+     *
+     * @return mixed
+     */
+    public function mockFromRef($ref)
+    {
+        $data = null;
+        if (is_string($ref) && !empty($ref)) {
+            $refName = static::getSimpleRef($ref);
+            $modelName = static::toModelName($refName);
+            $modelClass = 'OpenAPIServer\Model\\' . $modelName;
+            if (!class_exists($modelClass) || !method_exists($modelClass, 'getOpenApiSchema')) {
+                throw new InvalidArgumentException(sprintf(
+                    'Model %s not found or method %s doesn\'t exist',
+                    $modelClass,
+                    $modelClass . '::getOpenApiSchema'
+                ));
+            }
+            $data = $this->mockFromSchema($modelClass::getOpenApiSchema(true));
+        }
+
+        return $data;
     }
 
     /**
@@ -394,6 +552,7 @@ final class OpenApiDataMocker implements IMocker
                 'additionalProperties',
                 'required',
                 'example',
+                '$ref',
             ] as $propName
         ) {
             if (is_array($val) && array_key_exists($propName, $val)) {
@@ -460,6 +619,6 @@ final class OpenApiDataMocker implements IMocker
         if ($maxDecimals > 0) {
             return round($min + mt_rand() / mt_getrandmax() * ($max - $min), $maxDecimals);
         }
-        return mt_rand($min, $max);
+        return mt_rand((int) $min, (int) $max);
     }
 }

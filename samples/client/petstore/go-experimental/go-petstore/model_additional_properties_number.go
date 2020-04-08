@@ -10,13 +10,29 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
 // AdditionalPropertiesNumber struct for AdditionalPropertiesNumber
 type AdditionalPropertiesNumber struct {
 	Name *string `json:"name,omitempty"`
+}
+
+// NewAdditionalPropertiesNumber instantiates a new AdditionalPropertiesNumber object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewAdditionalPropertiesNumber() *AdditionalPropertiesNumber {
+	this := AdditionalPropertiesNumber{}
+	return &this
+}
+
+// NewAdditionalPropertiesNumberWithDefaults instantiates a new AdditionalPropertiesNumber object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewAdditionalPropertiesNumberWithDefaults() *AdditionalPropertiesNumber {
+	this := AdditionalPropertiesNumber{}
+	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -28,14 +44,13 @@ func (o *AdditionalPropertiesNumber) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesNumber) GetNameOk() (string, bool) {
+func (o *AdditionalPropertiesNumber) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -52,25 +67,46 @@ func (o *AdditionalPropertiesNumber) SetName(v string) {
 	o.Name = &v
 }
 
+func (o AdditionalPropertiesNumber) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableAdditionalPropertiesNumber struct {
-	Value AdditionalPropertiesNumber
-	ExplicitNull bool
+	value *AdditionalPropertiesNumber
+	isSet bool
+}
+
+func (v NullableAdditionalPropertiesNumber) Get() *AdditionalPropertiesNumber {
+	return v.value
+}
+
+func (v *NullableAdditionalPropertiesNumber) Set(val *AdditionalPropertiesNumber) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableAdditionalPropertiesNumber) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableAdditionalPropertiesNumber) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableAdditionalPropertiesNumber(val *AdditionalPropertiesNumber) *NullableAdditionalPropertiesNumber {
+	return &NullableAdditionalPropertiesNumber{value: val, isSet: true}
 }
 
 func (v NullableAdditionalPropertiesNumber) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableAdditionalPropertiesNumber) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

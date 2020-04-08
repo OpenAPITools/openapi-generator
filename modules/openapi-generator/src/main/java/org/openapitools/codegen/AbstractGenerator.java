@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
@@ -28,12 +28,16 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public abstract class AbstractGenerator implements TemplatingGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGenerator.class);
-    
+    protected boolean dryRun = false;
+    protected Map<String, DryRunStatus> dryRunStatusMap = new HashMap<>();
+
     /**
      * Is the minimal-file-update option enabled?
      * 
@@ -50,19 +54,19 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
      * @throws IOException If file cannot be written.
      */
     public File writeToFile(String filename, String contents) throws IOException {
-        return writeToFile(filename, contents.getBytes(Charset.forName("UTF-8")));
+        return writeToFile(filename, contents.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
      * Write bytes to a file
      * 
      * @param filename The name of file to write
-     * @param contents The contents bytes.  Typically this is a UTF-8 formatted string.
+     * @param contents The contents bytes.  Typically, this is a UTF-8 formatted string.
      * @return File representing the written file.
      * @throws IOException If file cannot be written.
      */
     @SuppressWarnings("static-method")
-    public File writeToFile(String filename, byte contents[]) throws IOException {
+    public File writeToFile(String filename, byte[] contents) throws IOException {
         if (getEnableMinimalUpdate()) {
             String tempFilename = filename + ".tmp";
             // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
@@ -161,14 +165,14 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
         if (StringUtils.isNotEmpty(library)) {
             //look for the file in the library subfolder of the supplied template
             final String libTemplateFile = buildLibraryFilePath(config.templateDir(), library, templateFile);
-            if (new File(libTemplateFile).exists()) {
+            if (new File(libTemplateFile).exists() || this.getClass().getClassLoader().getResource(libTemplateFile) != null) {
                 return libTemplateFile;
             }
         }
 
         //check the supplied template main folder for the file
         final String template = config.templateDir() + File.separator + templateFile;
-        if (new File(template).exists()) {
+        if (new File(template).exists() || this.getClass().getClassLoader().getResource(template) != null) {
             return template;
         }
 

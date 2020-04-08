@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -99,7 +99,7 @@ public class CsharpModelEnumTest {
         codegen.setEnumNameSuffix("EnumName");
         codegen.setEnumValueSuffix("EnumValue");
 
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.setOpenAPI(openAPI);
 
         final Schema petSchema = openAPI.getComponents().getSchemas().get("Pet");
@@ -116,7 +116,7 @@ public class CsharpModelEnumTest {
     public void useDefaultEnumSuffixes() {
         final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
 
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.setOpenAPI(openAPI);
 
         final Schema petSchema = openAPI.getComponents().getSchemas().get("Pet");
@@ -135,7 +135,7 @@ public class CsharpModelEnumTest {
         codegen.setEnumNameSuffix("");
         codegen.setEnumValueSuffix("");
 
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.setOpenAPI(openAPI);
 
         final Schema petSchema = openAPI.getComponents().getSchemas().get("Pet");

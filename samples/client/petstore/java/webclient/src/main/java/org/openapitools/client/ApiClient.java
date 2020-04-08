@@ -552,22 +552,10 @@ public class ApiClient {
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
         if (queryParams != null) {
-            //encode the query parameters in case they contain unsafe characters
-            for (List<String> values : queryParams.values()) {
-                if (values != null) {
-                    for (int i = 0; i < values.size(); i++) {
-                        try {
-                            values.set(i, URLEncoder.encode(values.get(i), "utf8"));
-                        } catch (UnsupportedEncodingException e) {
-
-                        }
-                    }
-                }
-            }
             builder.queryParams(queryParams);
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.encode().toUriString(), pathParams);
+        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(false).toUriString(), pathParams);
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }

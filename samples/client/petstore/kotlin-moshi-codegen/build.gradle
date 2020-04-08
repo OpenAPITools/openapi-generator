@@ -10,7 +10,7 @@ buildscript {
     ext.kotlin_version = '1.3.61'
 
     repositories {
-        mavenCentral()
+        maven { url "https://repo1.maven.org/maven2" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -21,7 +21,7 @@ apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
 repositories {
-    mavenCentral()
+    maven { url "https://repo1.maven.org/maven2" }
 }
 
 test {
@@ -30,7 +30,6 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "com.squareup.moshi:moshi-adapters:1.9.2"
     compile "com.squareup.moshi:moshi:1.9.2"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,12 +20,18 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
+
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "finch-server";
@@ -35,6 +41,25 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
     public ScalaFinchServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         outputFolder = "generated-code/finch";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
@@ -320,6 +345,10 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         String authParams = "";
         String authInputParams = "";
         String typedAuthInputParams = "";
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         //Append apikey security to path params and create input parameters for functions
         if (op.authMethods != null) {
 
@@ -336,9 +365,13 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        op.vendorExtensions.put("x-codegen-authParams", authParams);
-        op.vendorExtensions.put("x-codegen-authInputParams", authInputParams);
-        op.vendorExtensions.put("x-codegen-typedAuthInputParams", typedAuthInputParams);
+        op.vendorExtensions.put("x-codegen-authParams", authParams); // TODO: 5.0 Remove
+        op.vendorExtensions.put("x-codegen-authInputParams", authInputParams); // TODO: 5.0 Remove
+        op.vendorExtensions.put("x-codegen-typedAuthInputParams", typedAuthInputParams); // TODO: 5.0 Remove
+
+        op.vendorExtensions.put("x-codegen-auth-params", authParams);
+        op.vendorExtensions.put("x-codegen-auth-input-params", authInputParams);
+        op.vendorExtensions.put("x-codegen-typed-auth-input-params", typedAuthInputParams);
     }
 
     private void generateScalaPath(CodegenOperation op) {
@@ -382,6 +415,9 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
     private void concatParameters(CodegenOperation op) {
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         String path = colConcat(colConcat(op.vendorExtensions.get("x-codegen-path").toString(), op.vendorExtensions.get("x-codegen-pathParams").toString()), op.vendorExtensions.get("x-codegen-authParams").toString());
         String parameters = csvConcat(op.vendorExtensions.get("x-codegen-inputParams").toString(), op.vendorExtensions.get("x-codegen-authInputParams").toString());
         String typedParameters = csvConcat(op.vendorExtensions.get("x-codegen-typedInputParams").toString(), op.vendorExtensions.get("x-codegen-typedAuthInputParams").toString());
@@ -389,12 +425,16 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         // The input parameters for functions
         op.vendorExtensions.put("x-codegen-paths", path);
         op.vendorExtensions.put("x-codegen-params", parameters);
-        op.vendorExtensions.put("x-codegen-typedParams", typedParameters);
+        op.vendorExtensions.put("x-codegen-typedParams", typedParameters); // TODO: 5.0 Remove
+        op.vendorExtensions.put("x-codegen-typed-params", typedParameters);
 
     }
 
 
     private void generateInputParameters(CodegenOperation op) {
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         String inputParams = "";
         String typedInputParams = "";
@@ -442,11 +482,14 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // All body, path, query and header parameters
-        op.vendorExtensions.put("x-codegen-pathParams", pathParams);
+        op.vendorExtensions.put("x-codegen-pathParams", pathParams); // TODO: 5.0 Remove
+        op.vendorExtensions.put("x-codegen-path-params", pathParams);
 
         // The input parameters for functions
-        op.vendorExtensions.put("x-codegen-inputParams", inputParams);
-        op.vendorExtensions.put("x-codegen-typedInputParams", typedInputParams);
+        op.vendorExtensions.put("x-codegen-inputParams", inputParams); // TODO: 5.0 Remove
+        op.vendorExtensions.put("x-codegen-input-params", inputParams);
+        op.vendorExtensions.put("x-codegen-typedInputParams", typedInputParams); // TODO: 5.0 Remove
+        op.vendorExtensions.put("x-codegen-typed-input-params", typedInputParams);
 
     }
 

@@ -7,12 +7,25 @@ NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 
 set -e
 
+function cleanup {
+  # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
+  docker logs petstore.swagger # container name specified in circle.yml
+}
+
+trap cleanup EXIT
+
 if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
-  #cp CI/pom.xml.circleci pom.xml
   java -version
-  mvn --quiet verify -Psamples.circleci
-  mvn --quiet javadoc:javadoc -Psamples.circleci
+  # Install golang version 1.14
+  go version
+  sudo mkdir /usr/local/go1.14
+  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
+  export PATH="/usr/local/go1.14/go/bin:$PATH"
+  go version
+
+  mvn --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
   # run ensure-up-to-date sample script on SNAPSHOT version only
@@ -46,14 +59,24 @@ elif [ "$NODE_INDEX" = "2" ]; then
   # install curl
   sudo apt-get -y build-dep libcurl4-gnutls-dev
   sudo apt-get -y install libcurl4-gnutls-dev
+
   # run integration tests
-  mvn --quiet verify -Psamples.misc
+  mvn --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."
   sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
   java -version
-  #cp CI/pom.xml.circleci.java7 pom.xml
-  mvn --quiet verify -Psamples.circleci.jdk7
+
+  # install dart2
+  sudo apt-get update
+  sudo apt-get install apt-transport-https
+  sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+  sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+  sudo apt-get update
+  sudo apt-get install dart
+  export PATH="$PATH:/usr/lib/dart/bin"
+
+  mvn --quiet verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 

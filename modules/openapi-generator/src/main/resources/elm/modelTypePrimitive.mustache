@@ -4,12 +4,12 @@ type alias {{classname}}
 
 decoder : Decoder {{classname}}
 decoder =
-    {{vendorExtensions.elmDecoder}}
+    {{vendorExtensions.x-elm-decoder}}
 
 
 encode : {{classname}} -> Encode.Value
 encode =
-    {{vendorExtensions.elmEncoder}}
+    {{vendorExtensions.x-elm-encoder}}
 
 
 toString : {{classname}} -> String

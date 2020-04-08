@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,12 +20,43 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
-    public String openApiType, baseName, complexType, getter, setter, description, dataType,
-            datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
-            baseType, containerType, title;
+    /**
+     * The value of the 'type' attribute in the OpenAPI schema.
+     * The per-language codegen logic may change to a language-specific type.
+     */
+    public String openApiType;
+    public String baseName;
+    public String complexType;
+    public String getter;
+    public String setter;
+    /**
+     * The value of the 'description' attribute in the OpenAPI schema.
+     */
+    public String description;
+    /**
+     * The language-specific data type for this property. For example, the OpenAPI type 'integer'
+     * may be represented as 'int', 'int32', 'Integer', etc, depending on the programming language.
+     */
+    public String dataType;
+    public String datatypeWithEnum;
+    public String dataFormat;
+    /**
+     * The name of this property in the OpenAPI schema.
+     */
+    public String name;
+    public String min; // TODO: is this really used?
+    public String max; // TODO: is this really used?
+    public String defaultValue;
+    public String defaultValueWithParam;
+    public String baseType;
+    public String containerType;
+    /**
+     * The value of the 'title' attribute in the OpenAPI schema.
+     */
+    public String title;
 
     /**
-     * The 'description' string without escape charcters needed by some programming languages/targets
+     * The 'description' string without escape characters needed by some programming languages/targets
      */
     public String unescapedDescription;
 
@@ -47,16 +78,44 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String example;
 
     public String jsonSchema;
+    /**
+     * The value of the 'minimum' attribute in the OpenAPI schema.
+     * The value of "minimum" MUST be a number, representing an inclusive lower limit for a numeric instance.
+     */
     public String minimum;
+    /**
+     * The value of the 'maximum' attribute in the OpenAPI schema.
+     * The value of "maximum" MUST be a number, representing an inclusive upper limit for a numeric instance.
+     */
     public String maximum;
+    /**
+     * The value of the 'multipleOf' attribute in the OpenAPI schema.
+     * The value of "multipleOf" MUST be a number, strictly greater than 0.
+     */
+    public Number multipleOf;
+    /**
+     * The value of the 'exclusiveMinimum' attribute in the OpenAPI schema.
+     * The value of "exclusiveMinimum" MUST be number, representing an exclusive lower limit for a numeric instance.
+     */
     public boolean exclusiveMinimum;
+    /**
+     * The value of the 'exclusiveMaximum' attribute in the OpenAPI schema.
+     * The value of "exclusiveMaximum" MUST be number, representing an exclusive upper limit for a numeric instance.
+     */
     public boolean exclusiveMaximum;
     public boolean hasMore;
     public boolean required;
+    public boolean deprecated;
     public boolean secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
+    /**
+     * True if this property is an array of items or a map container.
+     * See:
+     * - ModelUtils.isArraySchema()
+     * - ModelUtils.isMapSchema()
+     */
     public boolean isContainer;
     public boolean isString;
     public boolean isNumeric;
@@ -69,12 +128,20 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isBinary;
     public boolean isFile;
     public boolean isBoolean;
-    public boolean isDate;
-    public boolean isDateTime;
+    public boolean isDate; // full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
+    public boolean isDateTime; // the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
     public boolean isUuid;
     public boolean isUri;
     public boolean isEmail;
+    /**
+     * The type is a free-form object, i.e. it is a map of string to values with no declared properties
+     */
     public boolean isFreeFormObject;
+    /**
+     * The 'type' in the OAS schema is unspecified (i.e. not set). The value can be number, integer, string, object or array.
+     * If the nullable attribute is set to true, the 'null' value is valid.
+     */
+    public boolean isAnyType;
     public boolean isListContainer;
     public boolean isMapContainer;
     public boolean isEnum;
@@ -514,6 +581,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.maxProperties = maxProperties;
     }
 
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
@@ -546,6 +621,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
         sb.append(", hasMore=").append(hasMore);
         sb.append(", required=").append(required);
+        sb.append(", deprecated=").append(deprecated);
         sb.append(", secondaryParam=").append(secondaryParam);
         sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
@@ -592,6 +668,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", maxProperties=").append(maxProperties);
         sb.append(", minProperties=").append(minProperties);
         sb.append(", uniqueItems=").append(uniqueItems);
+        sb.append(", multipleOf=").append(multipleOf);
         sb.append(", isXmlAttribute=").append(isXmlAttribute);
         sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
         sb.append(", xmlName='").append(xmlName).append('\'');
@@ -610,6 +687,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 exclusiveMaximum == that.exclusiveMaximum &&
                 hasMore == that.hasMore &&
                 required == that.required &&
+                deprecated == that.deprecated &&
                 secondaryParam == that.secondaryParam &&
                 hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
@@ -682,22 +760,25 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(minItems, that.minItems) &&
                 Objects.equals(xmlPrefix, that.xmlPrefix) &&
                 Objects.equals(xmlName, that.xmlName) &&
-                Objects.equals(xmlNamespace, that.xmlNamespace);
+                Objects.equals(xmlNamespace, that.xmlNamespace) &&
+                Objects.equals(multipleOf, that.multipleOf);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(openApiType, baseName, complexType, getter, setter, description, dataType,
-                datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType,
-                containerType, title, unescapedDescription, maxLength, minLength, pattern, example, jsonSchema,
-                minimum, maximum, exclusiveMinimum, exclusiveMaximum, hasMore, required, secondaryParam,
-                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric, isInteger,
-                isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime,
-                isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isEnum, isReadOnly,
-                isWriteOnly, isNullable, isSelfReference, isCircularReference, _enum, allowableValues, items,
-                mostInnerItems, vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
-                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace,
-                isXmlWrapped);
+        return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
+                dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
+                defaultValueWithParam, baseType, containerType, title, unescapedDescription,
+                maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
+                exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
+                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
+                isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
+                isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
+                isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
+                isSelfReference, isCircularReference, _enum, allowableValues, items, mostInnerItems,
+                vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
+                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
+                xmlNamespace, isXmlWrapped);
     }
 }

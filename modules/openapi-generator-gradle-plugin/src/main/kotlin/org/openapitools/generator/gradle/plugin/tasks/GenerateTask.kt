@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -375,6 +375,12 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val configOptions = project.objects.mapProperty<String, String>()
 
+    /**
+     * Templating engine: "mustache" (default) or "handlebars" (beta)
+     */
+    @get:Internal
+    val engine = project.objects.property<String?>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -561,7 +567,14 @@ open class GenerateTask : DefaultTask() {
                 configurator.setGenerateAliasAsModel(value)
             }
 
+            engine.ifNotEmpty { value ->
+                if ("handlebars".equals(value, ignoreCase = true)) {
+                    configurator.setTemplatingEngineName("handlebars")
+                }
+            }
+
             if (systemProperties.isPresent) {
+                // TODO: rename to globalProperties in 5.0
                 systemProperties.get().forEach { entry ->
                     configurator.addSystemProperty(entry.key, entry.value)
                 }

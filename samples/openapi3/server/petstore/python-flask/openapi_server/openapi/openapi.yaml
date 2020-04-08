@@ -1,10 +1,10 @@
-openapi: 3.0.0
+openapi: 3.0.1
 info:
   description: This is a sample server Petstore server. For this sample, you can use
     the api key `special-key` to test the authorization filters.
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
 externalDocs:
@@ -26,7 +26,16 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        405:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -41,11 +50,20 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        400:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
-        405:
+        "405":
           description: Validation exception
       security:
       - petstore_auth:
@@ -76,7 +94,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -89,7 +107,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid status value
       security:
       - petstore_auth:
@@ -116,7 +134,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -129,7 +147,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid tag value
       security:
       - petstore_auth:
@@ -159,7 +177,7 @@ paths:
           type: integer
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -183,7 +201,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -192,13 +210,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
       security:
       - api_key: []
       summary: Find pet by ID
+      tags:
+      - pet
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
+    patch:
+      operationId: update_pet_status_with_enum
+      parameters:
+      - description: ID of pet to return
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: The required status
+        example: pending
+        explode: true
+        in: query
+        name: status
+        required: true
+        schema:
+          $ref: '#/components/schemas/statusEnum'
+        style: form
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Pet not found
+      summary: Set the status of a pet in the store using an enum
       tags:
       - pet
       x-openapi-router-controller: openapi_server.controllers.pet_controller
@@ -215,20 +272,9 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+        $ref: '#/components/requestBodies/PetForm'
       responses:
-        405:
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -252,21 +298,9 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
-        content:
-          multipart/form-data:
-            schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+        $ref: '#/components/requestBodies/UploadForm'
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -285,7 +319,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: get_inventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -311,7 +345,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -320,7 +354,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid Order
       summary: Place an order for a pet
       tags:
@@ -341,9 +375,9 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -366,7 +400,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -375,9 +409,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -453,7 +487,7 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -485,7 +519,7 @@ paths:
                 format: date-time
                 type: string
               style: simple
-        400:
+        "400":
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -517,9 +551,9 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       security:
       - auth_cookie: []
@@ -539,7 +573,7 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -548,9 +582,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       summary: Get user by user name
       tags:
@@ -576,9 +610,9 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           description: Invalid user supplied
-        404:
+        "404":
           description: User not found
       security:
       - auth_cookie: []
@@ -587,6 +621,17 @@ paths:
       - user
       x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
+  parameters:
+    statusEnum:
+      description: The required status
+      example: pending
+      explode: true
+      in: query
+      name: status
+      required: true
+      schema:
+        $ref: '#/components/schemas/statusEnum'
+      style: form
   requestBodies:
     UserArray:
       content:
@@ -595,7 +640,7 @@ components:
             items:
               $ref: '#/components/schemas/User'
             type: array
-      description: List of user object
+      description: List of user objects
       required: true
     Pet:
       content:
@@ -607,16 +652,22 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
+    PetForm:
       content:
         application/x-www-form-urlencoded:
+          example:
+            name: fluffy
+            status: available
           schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
+            $ref: '#/components/schemas/PetForm'
+    UploadForm:
       content:
         multipart/form-data:
+          example:
+            additionalMetadata: additional metadata example
+            file: c29tZSB0ZXN0IGRhdGEK
           schema:
-            $ref: '#/components/schemas/inline_object_1'
+            $ref: '#/components/schemas/UploadForm'
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -774,6 +825,34 @@ components:
       type: object
       xml:
         name: Pet
+    PetForm:
+      description: A form for updating a pet
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string
+      required:
+      - name
+      - status
+      title: A pet form
+      type: object
+    UploadForm:
+      description: A form for attaching files to a pet
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        file:
+          description: file to upload
+          format: binary
+          type: string
+      required:
+      - file
+      title: An upload form
+      type: object
     ApiResponse:
       description: Describes the result of uploading an image resource
       example:
@@ -790,25 +869,13 @@ components:
           type: string
       title: An uploaded response
       type: object
-    inline_object:
-      properties:
-        name:
-          description: Updated name of the pet
-          type: string
-        status:
-          description: Updated status of the pet
-          type: string
-      type: object
-    inline_object_1:
-      properties:
-        additionalMetadata:
-          description: Additional data to pass to server
-          type: string
-        file:
-          description: file to upload
-          format: binary
-          type: string
-      type: object
+    statusEnum:
+      description: pet status in the store
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
   securitySchemes:
     petstore_auth:
       flows:

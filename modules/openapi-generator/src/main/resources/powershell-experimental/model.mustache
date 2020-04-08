@@ -1,0 +1,51 @@
+{{> partial_header}}
+{{#models}}
+{{#model}}
+<#
+.SYNOPSIS
+
+{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+
+.DESCRIPTION
+
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{#allVars}}
+.PARAMETER {{{name}}}
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+{{/allVars}}
+.OUTPUTS
+
+{{{classname}}}<PSCustomObject>
+#>
+
+function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
+    [CmdletBinding()]
+    Param (
+{{#allVars}}
+        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
+        [{{vendorExtensions.x-powershell-data-type}}]
+        {{=<% %>=}}
+        ${<%name%>}<%^-last%>,<%/-last%>
+        <%={{ }}=%>
+{{/allVars}}
+    )
+
+    Process {
+        'Creating PSCustomObject: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $PSO = [PSCustomObject]@{
+            {{=<< >>=}}
+            <<#allVars>>
+            "<<baseName>>" = ${<<name>>}
+            <</allVars>>
+            <<={{ }}=>>
+        }
+
+        return $PSO
+    }
+}
+{{/model}}
+{{/models}}

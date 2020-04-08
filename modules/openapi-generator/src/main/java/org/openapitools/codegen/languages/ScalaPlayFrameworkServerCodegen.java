@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,21 +22,21 @@ import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -59,6 +59,25 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     public ScalaPlayFrameworkServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+
         outputFolder = "generated-code" + File.separator + "scala-play-server";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
@@ -84,6 +103,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         importMapping.remove("BigDecimal");
         importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
+        cliOptions.removeIf(opt -> DATE_LIBRARY.equals(opt.getOpt()));
         cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Name of the routes file to generate.").defaultValue(routesFileName));
         cliOptions.add(new CliOption(BASE_PACKAGE, "Base package in which supporting classes are generated.").defaultValue(basePackage));
 
@@ -238,6 +258,9 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         objs = super.postProcessAllModels(objs);
         Map<String, CodegenModel> modelsByClassName = new HashMap<>();
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for (Object _outer : objs.values()) {
             Map<String, Object> outer = (Map<String, Object>) _outer;
             List<Map<String, Object>> models = (List<Map<String, Object>>) outer.get("models");
@@ -248,7 +271,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 cm.classVarName = camelize(cm.classVarName, true);
                 modelsByClassName.put(cm.classname, cm);
                 boolean hasFiles = cm.vars.stream().anyMatch(var -> var.isFile);
-                cm.vendorExtensions.put("hasFiles", hasFiles);
+                cm.vendorExtensions.put("hasFiles", hasFiles); // TODO: 5.0 Remove
+                cm.vendorExtensions.put("x-has-files", hasFiles);
             }
         }
 
@@ -265,6 +289,9 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         objs = super.postProcessSupportingFileData(objs);
         generateJSONSpecFile(objs);
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         // Prettify routes file
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
@@ -275,8 +302,15 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         int maxPathLength = ops.stream()
                 .mapToInt(op -> op.httpMethod.length() + op.path.length())
                 .reduce(0, Integer::max);
-        ops.forEach(op -> op.vendorExtensions.put("paddedPath", rightPad(op.path, maxPathLength - op.httpMethod.length())));
-        ops.forEach(op -> op.vendorExtensions.put("hasPathParams", op.getHasPathParams()));
+        ops.forEach(op -> {
+            String paddedPath = rightPad(op.path, maxPathLength - op.httpMethod.length());
+            op.vendorExtensions.put("paddedPath", paddedPath); // TODO: 5.0 Remove
+            op.vendorExtensions.put("x-padded-path", paddedPath);
+        });
+        ops.forEach(op -> {
+            op.vendorExtensions.put("hasPathParams", op.getHasPathParams()); // TODO: 5.0 Remove
+            op.vendorExtensions.put("x-has-path-params", op.getHasPathParams());
+        });
 
         return objs;
     }

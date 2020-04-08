@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,8 +24,16 @@ import java.util.*;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel implements IJsonSchemaValidationProperties {
+    // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
+    // oneOf attributes in the OAS. First codegen inspects 'allOf', then 'anyOf', then 'oneOf'.
+    // If there are multiple object references in the attribute ('allOf', 'anyOf', 'oneOf'), and one of the
+    // object is a discriminator, that object is set as the parent. If no discriminator is specified,
+    // codegen returns the first one in the list, i.e. there is no obvious parent in the OpenAPI specification.
+    // When possible, the mustache templates should use 'allParents' to handle multiple parents.
     public String parent, parentSchema;
     public List<String> interfaces;
+    // The list of parent model name from the schemas. In order of preference, the parent is obtained
+    // from the 'allOf' attribute, then 'anyOf', and finally 'oneOf'.
     public List<String> allParents;
 
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
@@ -82,6 +90,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private String minimum;
     private String maximum;
     private String pattern;
+    private Number multipleOf;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -415,6 +424,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.maxProperties = maxProperties;
     }
 
+    @Override
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    @Override
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
+    }
+
     public List<CodegenProperty> getReadOnlyVars() {
         return readOnlyVars;
     }
@@ -570,7 +589,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(getMinLength(), that.getMinLength()) &&
                 Objects.equals(getMinimum(), that.getMinimum()) &&
                 Objects.equals(getMaximum(), that.getMaximum()) &&
-                Objects.equals(getPattern(), that.getPattern());
+                Objects.equals(getPattern(), that.getPattern()) &&
+                Objects.equals(getMultipleOf(), that.getMultipleOf());
+
     }
 
     @Override
@@ -586,7 +607,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasChildren, isMapModel, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
-                getMaximum(), getPattern());
+                getMaximum(), getPattern(), getMultipleOf());
     }
 
     @Override
@@ -663,6 +684,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", minimum='").append(minimum).append('\'');
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
+        sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append('}');
         return sb.toString();
     }
