@@ -21,7 +21,8 @@ object Serializers {
   case object LocalDateSerializer extends CustomSerializer[LocalDate]( _ => ( {
     case JString(s) => LocalDate.parse(s)
   }, {
-    JString(d.format(DateTimeFormatter.ISO_LOCAL_DATE))
+    case d: LocalDate =>
+      JString(d.format(DateTimeFormatter.ISO_LOCAL_DATE))
   }))
 
  def all: Seq[Serializer[_]] = Seq[Serializer[_]]() :+ DateTimeSerializer :+ LocalDateSerializer
