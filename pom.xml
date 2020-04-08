@@ -1250,11 +1250,6 @@
                 <module>samples/client/petstore/javascript-promise</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/javascript-flowtyped</module>
-                <module>samples/client/petstore/kotlin</module>
-                <module>samples/client/petstore/kotlin-jvm-retrofit2-coroutines</module>
-                <module>samples/client/petstore/kotlin-jvm-retrofit2-rx</module>
-                <module>samples/client/petstore/kotlin-jvm-retrofit2-rx2</module>
-                <module>samples/client/petstore/kotlin-multiplatform</module>
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python-experimental</module>
                 <module>samples/client/petstore/python-asyncio</module>
@@ -1465,7 +1460,6 @@
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
                 <module>samples/client/petstore/kotlin-nullable/</module>
                 <module>samples/client/petstore/kotlin-okhttp3/</module>
-                <module>samples/client/petstore/kotlin-retrofit2/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
                 <module>samples/client/petstore/kotlin-moshi-codegen/</module>
