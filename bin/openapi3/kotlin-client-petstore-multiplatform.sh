@@ -26,10 +26,10 @@ then
 fi
 
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -t modules/openapi-generator/src/main/resources/kotlin-client -g kotlin --artifact-id kotlin-client-petstore-multiplatform --library multiplatform -o samples/openapi3/client/petstore/kotlin-multiplatform $@"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -t modules/openapi-generator/src/main/resources/kotlin-client -g kotlin --artifact-id kotlin-client-petstore-multiplatform --library multiplatform -o samples/openapi3/client/petstore/kotlin/multiplatform $@"
 
-echo "Cleaning previously generated files if any from samples/openapi3/client/petstore/kotlin-multiplatform"
-rm -rf samples/openapi3/client/petstore/kotlin-multiplatform
+echo "Cleaning previously generated files if any from samples/openapi3/client/petstore/kotlin/multiplatform"
+rm -rf samples/openapi3/client/petstore/kotlin/multiplatform
 
 echo "Generating Kotling client..."
 java $JAVA_OPTS -jar $executable $ags

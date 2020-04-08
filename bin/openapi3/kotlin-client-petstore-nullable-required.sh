@@ -26,10 +26,10 @@ then
 fi
 
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-nullable-required.yaml -t modules/openapi-generator/src/main/resources/kotlin-client -g kotlin --artifact-id kotlin-petstore-nullable-required --additional-properties allowRequiredAsNullable=true -o samples/openapi3/client/petstore/kotlin-nullable-required $@"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-nullable-required.yaml -t modules/openapi-generator/src/main/resources/kotlin-client -g kotlin --artifact-id kotlin-petstore-nullable-required --additional-properties allowRequiredAsNullable=true -o samples/openapi3/client/petstore/kotlin/nullable-required $@"
 
-echo "Cleaning previously generated files if any from samples/openapi3/client/petstore/kotlin-nullable-required"
-rm -rf samples/openapi3/client/petstore/kotlin-nullable-required
+echo "Cleaning previously generated files if any from samples/openapi3/client/petstore/kotlin/nullable-required"
+rm -rf samples/openapi3/client/petstore/kotlin/nullable-required
 
 echo "Generating Kotling client..."
 java $JAVA_OPTS -jar $executable $ags
