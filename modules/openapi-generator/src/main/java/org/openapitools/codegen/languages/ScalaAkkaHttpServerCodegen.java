@@ -409,6 +409,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         entityMarshallerTypes.add(marshaller);
                         operationSpecificMarshallers.add(marshaller);
                     }
+                    response.vendorExtensions.put("x-empty-response", response.baseType == null && response.message == null);
                     response.vendorExtensions.put("x-is-default", response.code.equals("0"));
                 }
                 op.vendorExtensions.put("x-specific-marshallers", operationSpecificMarshallers);
