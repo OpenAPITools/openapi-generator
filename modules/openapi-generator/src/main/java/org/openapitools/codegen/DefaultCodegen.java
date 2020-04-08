@@ -2401,7 +2401,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
             Schema discSchema = (Schema) refSchema.getProperties().get(discPropName);
             CodegenProperty cp = new CodegenProperty();
-            cp.setDatatype(discSchema.getType());
+            if (ModelUtils.isStringSchema(discSchema)) {
+                cp.isString = true;
+            }
             cp.setRequired(false);
             if (refSchema.getRequired() != null && refSchema.getRequired().contains(discPropName)) {
                 cp.setRequired(true);
