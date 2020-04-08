@@ -23,6 +23,9 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $OrderId = "OrderId_example" # String | ID of the order that needs to be deleted (default to null)
 
 # Delete purchase order by ID
@@ -66,6 +69,9 @@ Returns a map of status codes to quantities
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: api_key
@@ -114,6 +120,9 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $OrderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
 
 # Find purchase order by ID
@@ -156,6 +165,9 @@ Place an order for a pet
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Order = (Initialize-Order-Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -Status "Status_example" -Complete $false) # Order | order placed for purchasing the pet
 

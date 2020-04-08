@@ -25,6 +25,9 @@ Add a new pet to the store
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
@@ -72,6 +75,9 @@ Deletes a pet
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -124,6 +130,9 @@ Multiple status values can be provided with comma separated strings
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
@@ -172,6 +181,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -222,6 +234,9 @@ Returns a single pet
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: api_key
 $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
@@ -271,6 +286,9 @@ Update an existing pet
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
@@ -319,6 +337,9 @@ Updates a pet in the store with form data
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
@@ -372,6 +393,9 @@ uploads an image
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth

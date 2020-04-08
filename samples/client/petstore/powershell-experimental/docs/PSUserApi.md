@@ -27,6 +27,9 @@ This can only be done by the logged in user.
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
@@ -76,6 +79,9 @@ Creates list of users with given input array
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
@@ -124,6 +130,9 @@ Creates list of users with given input array
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
@@ -176,6 +185,9 @@ This can only be done by the logged in user.
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
 $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
@@ -225,6 +237,9 @@ Get user by user name
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
 # Get user by user name
@@ -269,6 +284,9 @@ Logs user into the system
 ```powershell
 Import-Module -Name PSPetstore
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 $Username = "Username_example" # String | The user name for login (default to null)
 $Password = "Password_example" # String | The password for login in clear text (default to null)
 
@@ -312,6 +330,9 @@ Logs out current logged in user session
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
@@ -360,6 +381,9 @@ This can only be done by the logged in user.
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
+
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
 
 $Configuration = Get-PSPetstoreConfiguration
 # Configure API key authorization: auth_cookie
