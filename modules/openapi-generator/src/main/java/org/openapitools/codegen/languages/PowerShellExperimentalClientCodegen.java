@@ -1019,4 +1019,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         // not using powershell verb
         return "Invoke-" + apiNamePrefix + methodName;
     }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        return escapeText(pattern);
+    }
 }

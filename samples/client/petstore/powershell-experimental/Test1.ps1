@@ -29,11 +29,14 @@ try {
     #Write-Host $pet
     $Result = Add-PSPet -Pet $pet
     Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzZZZZZZZZZZZZZ"
-    $result = Get-PSPetById -petId $Id -Verbose #-testHeader "testing only" -testQuery "testing something here"
+    $Result2 = Get-PSPetById -petId ($Id + 10) -Verbose -WithHttpInfo #-testHeader "testing only" -testQuery "testing something here"
+    Write-Host $Result2.GetType()
 } catch {
-    Write-Host ("Exception occured when calling '': {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+    #Write-Host ("Exception occured when calling '': {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    #Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
+
+Write-Host "Before exit $($Result2.GetType())"
 
 #$result | Write-Host
 
@@ -41,21 +44,21 @@ try {
 #Write-Host "result =" + $result.photoUrls
 
 
-$pet2 = Initialize-PSPet -Id 20129 -Name '2foo' -Category (
-    Initialize-PSCategory -Id 20129 -Name '2bar'
-) -PhotoUrls @(
-    'http://example.com/2foo',
-    'http://example.com/2bar'
-) -Tags (
-    Initialize-PSTag -Id 3 -Name 'baz'
-) -Status Available
-
-#Write-Host $pet
-$Result = Add-PSPet -Pet $pet2
-
-$Result = Find-PSPetsByTags 'baz'
-Write-Host $Result.GetType().Name
-Write-Host $Result
+#$pet2 = Initialize-PSPet -Id 20129 -Name '2foo' -Category (
+#    Initialize-PSCategory -Id 20129 -Name '2bar'
+#) -PhotoUrls @(
+#    'http://example.com/2foo',
+#    'http://example.com/2bar'
+#) -Tags (
+#    Initialize-PSTag -Id 3 -Name 'baz'
+#) -Status Available
+#
+##Write-Host $pet
+#$Result = Add-PSPet -Pet $pet2
+#
+#$Result = Find-PSPetsByTags 'baz'
+#Write-Host $Result.GetType().Name
+#Write-Host $Result
 
 #$Result = Invoke-PetApiUpdatePetWithForm -petId $Id -Name "PowerShell Update" -Status "Pending"
 

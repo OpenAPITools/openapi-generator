@@ -25,6 +25,14 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     Param (
 {{#allVars}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true)]
+        {{#pattern}}
+        [ValidatePattern("{{{.}}}")]
+        {{/pattern}}
+        {{#isEnum}}
+        {{#allowableValues}}
+        [ValidateSet({{#values}}"{{{.}}}"{{^-last}}, {{/-last}}{{/values}})]
+        {{/allowableValues}}
+        {{/isEnum}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%^-last%>,<%/-last%>
@@ -70,12 +78,6 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         }
 
         {{/minimum}}
-        {{#pattern}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} -notmatch "{{{pattern}}}") {
-            throw "invalid value for '{{{name}}}', must conform to the pattern {{{pattern}}}."
-        }
-
-        {{/pattern}}
         {{#maxItems}}
         if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -gt {{{maxItems}}}) {
             throw "invalid value for '{{{name}}}', number of items must be less than or equal to {{{maxItems}}}."

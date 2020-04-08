@@ -32,6 +32,7 @@ function Initialize-PSCategory {
         [System.Nullable[Int64]]
         ${Id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
+        [ValidatePattern("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")]
         [String]
         ${Name}
     )
@@ -39,10 +40,6 @@ function Initialize-PSCategory {
     Process {
         'Creating PSCustomObject: PSPetstore => PSCategory' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
-
-        if (!$Name -and $Name -notmatch "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/") {
-            throw "invalid value for 'Name', must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/."
-        }
 
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
