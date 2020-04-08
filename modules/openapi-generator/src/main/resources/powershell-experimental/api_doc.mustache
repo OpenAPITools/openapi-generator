@@ -25,6 +25,9 @@ Method | HTTP request | Description
 ```powershell
 Import-Module -Name {{{packageName}}}
 
+# Displays the error message and stops executing. (Default: Continue)
+$ErrorActionPreference = "Stop"
+
 {{#hasAuthMethods}}
 $Configuration = Get-{{{packageName}}}Configuration
 {{#authMethods}}
