@@ -1093,6 +1093,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/resource-named-resource-test:
+    get:
+      tags:
+        - fake
+      operationId: resourceNamedResourceTest
+      responses:
+        200:
+          description: Resource data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1764,3 +1776,10 @@ components:
       additionalProperties:
         type: object
         nullable: true
+    Resource:
+      type: object
+      properties:
+        sourceURI:
+          type: string
+          description: Test resource
+      description: Must be named `Resource` for test.

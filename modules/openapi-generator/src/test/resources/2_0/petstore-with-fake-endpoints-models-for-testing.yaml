@@ -1123,6 +1123,30 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  /fake/fileResponseTest:
+    get:
+      tags:
+        - fake
+      operationId: fileResponseTest
+      produces:
+        - "application/octet-stream"
+      responses:
+        200:
+          description: "OutputFileData"
+          schema:
+            type: file
+  /fake/resource-named-resource-test:
+    get:
+      tags:
+        - fake
+      operationId: resourceNamedResourceTest
+      produces:
+        - 'application/json'
+      responses:
+        200:
+          description: "Resource data"
+          schema:
+            $ref: "#/definitions/Resource"
 securityDefinitions:
   petstore_auth:
     type: oauth2
@@ -2001,3 +2025,10 @@ definitions:
           xml:
             namespace: http://g.com/schema
             prefix: g
+  Resource:
+    type: object
+    description: 'Must be named `Resource` for test.'
+    properties:
+      sourceURI:
+        description: 'Test resource'
+        type: string
