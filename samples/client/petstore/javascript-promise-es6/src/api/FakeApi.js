@@ -16,6 +16,7 @@ import ApiClient from "../ApiClient";
 import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import OuterComposite from '../model/OuterComposite';
+import Resource from '../model/Resource';
 import User from '../model/User';
 import XmlItem from '../model/XmlItem';
 
@@ -256,6 +257,80 @@ export default class FakeApi {
      */
     fakeOuterStringSerialize(opts) {
       return this.fakeOuterStringSerializeWithHttpInfo(opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link File} and HTTP response
+     */
+    fileResponseTestWithHttpInfo() {
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/octet-stream'];
+      let returnType = File;
+      return this.apiClient.callApi(
+        '/fake/fileResponseTest', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link File}
+     */
+    fileResponseTest() {
+      return this.fileResponseTestWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Resource} and HTTP response
+     */
+    resourceNamedResourceTestWithHttpInfo() {
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = Resource;
+      return this.apiClient.callApi(
+        '/fake/resource-named-resource-test', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Resource}
+     */
+    resourceNamedResourceTest() {
+      return this.resourceNamedResourceTestWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });

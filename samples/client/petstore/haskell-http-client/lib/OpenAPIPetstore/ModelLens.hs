@@ -754,6 +754,15 @@ readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { re
 
 
 
+-- * Resource
+
+-- | 'resourceSourceUri' Lens
+resourceSourceUriL :: Lens_' Resource (Maybe Text)
+resourceSourceUriL f Resource{..} = (\resourceSourceUri -> Resource { resourceSourceUri, ..} ) <$> f resourceSourceUri
+{-# INLINE resourceSourceUriL #-}
+
+
+
 -- * SpecialModelName
 
 -- | 'specialModelNameSpecialPropertyName' Lens

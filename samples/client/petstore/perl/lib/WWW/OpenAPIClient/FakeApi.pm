@@ -350,6 +350,104 @@ sub fake_outer_string_serialize {
 }
 
 #
+# file_response_test
+#
+# 
+# 
+{
+    my $params = {
+    };
+    __PACKAGE__->method_documentation->{ 'file_response_test' } = { 
+        summary => '',
+        params => $params,
+        returns => 'string',
+        };
+}
+# @return string
+#
+sub file_response_test {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/fileResponseTest';
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/octet-stream');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('string', $response);
+    return $_response_object;
+}
+
+#
+# resource_named_resource_test
+#
+# 
+# 
+{
+    my $params = {
+    };
+    __PACKAGE__->method_documentation->{ 'resource_named_resource_test' } = { 
+        summary => '',
+        params => $params,
+        returns => 'Resource',
+        };
+}
+# @return Resource
+#
+sub resource_named_resource_test {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/resource-named-resource-test';
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('Resource', $response);
+    return $_response_object;
+}
+
+#
 # test_body_with_file_schema
 #
 # 

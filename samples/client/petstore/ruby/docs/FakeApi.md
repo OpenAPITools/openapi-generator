@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+[**file_response_test**](FakeApi.md#file_response_test) | **GET** /fake/fileResponseTest | 
+[**resource_named_resource_test**](FakeApi.md#resource_named_resource_test) | **GET** /fake/resource-named-resource-test | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -257,6 +259,86 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: */*
+
+
+## file_response_test
+
+> File file_response_test
+
+
+
+### Example
+
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+
+begin
+  result = api_instance.file_response_test
+  p result
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->file_response_test: #{e}"
+end
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**File**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/octet-stream
+
+
+## resource_named_resource_test
+
+> Resource resource_named_resource_test
+
+
+
+### Example
+
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+
+begin
+  result = api_instance.resource_named_resource_test
+  p result
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->resource_named_resource_test: #{e}"
+end
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Resource**](Resource.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 
 ## test_body_with_file_schema

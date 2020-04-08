@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
+import apimodels.Resource;
 import apimodels.User;
 import apimodels.XmlItem;
 
@@ -29,6 +30,10 @@ public interface FakeApiControllerImpInterface {
     BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws Exception;
 
     String fakeOuterStringSerialize(String body) throws Exception;
+
+    InputStream fileResponseTest() throws Exception;
+
+    Resource resourceNamedResourceTest() throws Exception;
 
     void testBodyWithFileSchema(FileSchemaTestClass body) throws Exception;
 

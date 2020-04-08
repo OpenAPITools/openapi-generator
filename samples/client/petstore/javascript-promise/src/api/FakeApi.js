@@ -16,18 +16,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Client', 'model/FileSchemaTestClass', 'model/OuterComposite', 'model/User', 'model/XmlItem'], factory);
+    define(['ApiClient', 'model/Client', 'model/FileSchemaTestClass', 'model/OuterComposite', 'model/Resource', 'model/User', 'model/XmlItem'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('../model/Client'), require('../model/FileSchemaTestClass'), require('../model/OuterComposite'), require('../model/User'), require('../model/XmlItem'));
+    module.exports = factory(require('../ApiClient'), require('../model/Client'), require('../model/FileSchemaTestClass'), require('../model/OuterComposite'), require('../model/Resource'), require('../model/User'), require('../model/XmlItem'));
   } else {
     // Browser globals (root is window)
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.FakeApi = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Client, root.OpenApiPetstore.FileSchemaTestClass, root.OpenApiPetstore.OuterComposite, root.OpenApiPetstore.User, root.OpenApiPetstore.XmlItem);
+    root.OpenApiPetstore.FakeApi = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Client, root.OpenApiPetstore.FileSchemaTestClass, root.OpenApiPetstore.OuterComposite, root.OpenApiPetstore.Resource, root.OpenApiPetstore.User, root.OpenApiPetstore.XmlItem);
   }
-}(this, function(ApiClient, Client, FileSchemaTestClass, OuterComposite, User, XmlItem) {
+}(this, function(ApiClient, Client, FileSchemaTestClass, OuterComposite, Resource, User, XmlItem) {
   'use strict';
 
   /**
@@ -275,6 +275,84 @@
      */
     this.fakeOuterStringSerialize = function(opts) {
       return this.fakeOuterStringSerializeWithHttpInfo(opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link File} and HTTP response
+     */
+    this.fileResponseTestWithHttpInfo = function() {
+      var postBody = null;
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = [];
+      var accepts = ['application/octet-stream'];
+      var returnType = File;
+      return this.apiClient.callApi(
+        '/fake/fileResponseTest', 'GET',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link File}
+     */
+    this.fileResponseTest = function() {
+      return this.fileResponseTestWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Resource} and HTTP response
+     */
+    this.resourceNamedResourceTestWithHttpInfo = function() {
+      var postBody = null;
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = Resource;
+      return this.apiClient.callApi(
+        '/fake/resource-named-resource-test', 'GET',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Resource}
+     */
+    this.resourceNamedResourceTest = function() {
+      return this.resourceNamedResourceTestWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });

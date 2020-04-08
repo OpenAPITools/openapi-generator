@@ -9,6 +9,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.Resource;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -452,6 +453,134 @@ public class FakeApi {
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+    }
+
+
+  /**
+    * <p><b>200</b> - OutputFileData
+    * @return File
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public File fileResponseTest() throws IOException {
+        HttpResponse response = fileResponseTestForHttpResponse();
+        TypeReference<File> typeRef = new TypeReference<File>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+  /**
+    * <p><b>200</b> - OutputFileData
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @return File
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public File fileResponseTest(Map<String, Object> params) throws IOException {
+        HttpResponse response = fileResponseTestForHttpResponse(params);
+        TypeReference<File> typeRef = new TypeReference<File>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+    public HttpResponse fileResponseTestForHttpResponse() throws IOException {
+        
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/fileResponseTest");
+
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+    }
+
+    public HttpResponse fileResponseTestForHttpResponse(Map<String, Object> params) throws IOException {
+        
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/fileResponseTest");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+    }
+
+
+  /**
+    * <p><b>200</b> - Resource data
+    * @return Resource
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public Resource resourceNamedResourceTest() throws IOException {
+        HttpResponse response = resourceNamedResourceTestForHttpResponse();
+        TypeReference<Resource> typeRef = new TypeReference<Resource>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+  /**
+    * <p><b>200</b> - Resource data
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @return Resource
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public Resource resourceNamedResourceTest(Map<String, Object> params) throws IOException {
+        HttpResponse response = resourceNamedResourceTestForHttpResponse(params);
+        TypeReference<Resource> typeRef = new TypeReference<Resource>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+    public HttpResponse resourceNamedResourceTestForHttpResponse() throws IOException {
+        
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/resource-named-resource-test");
+
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+    }
+
+    public HttpResponse resourceNamedResourceTestForHttpResponse(Map<String, Object> params) throws IOException {
+        
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/resource-named-resource-test");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
 

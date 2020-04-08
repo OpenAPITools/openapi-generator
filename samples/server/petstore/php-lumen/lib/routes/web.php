@@ -70,6 +70,12 @@ $router->put('/v2/fake/body-with-query-params', 'FakeApi@testBodyWithQueryParams
  */
 $router->post('/v2/fake/create_xml_item', 'FakeApi@createXmlItem');
 /**
+ * get fileResponseTest
+ * Summary: 
+ * Notes: 
+ */
+$router->get('/v2/fake/fileResponseTest', 'FakeApi@fileResponseTest');
+/**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties
  * Notes: 
@@ -105,6 +111,12 @@ $router->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
  * Notes: Test serialization of outer string types
  */
 $router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
+/**
+ * get resourceNamedResourceTest
+ * Summary: 
+ * Notes: 
+ */
+$router->get('/v2/fake/resource-named-resource-test', 'FakeApi@resourceNamedResourceTest');
 /**
  * put testQueryParameterCollectionFormat
  * Summary: 

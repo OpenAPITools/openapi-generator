@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**fileResponseTest**](FakeApi.md#fileResponseTest) | **GET** /fake/fileResponseTest | 
+[**resourceNamedResourceTest**](FakeApi.md#resourceNamedResourceTest) | **GET** /fake/resource-named-resource-test | 
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -225,6 +227,78 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
+<a name="fileResponseTest"></a>
+# **fileResponseTest**
+> File fileResponseTest()
+
+
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+
+api.fileResponseTest().execute(r -> r.prettyPeek());
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**File**](File.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/octet-stream
+
+<a name="resourceNamedResourceTest"></a>
+# **resourceNamedResourceTest**
+> Resource resourceNamedResourceTest()
+
+
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+
+api.resourceNamedResourceTest().execute(r -> r.prettyPeek());
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Resource**](Resource.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 <a name="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**

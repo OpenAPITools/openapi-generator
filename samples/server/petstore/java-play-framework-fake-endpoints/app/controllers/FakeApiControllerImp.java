@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
+import apimodels.Resource;
 import apimodels.User;
 import apimodels.XmlItem;
 
@@ -46,6 +47,18 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     public String fakeOuterStringSerialize(String body) throws Exception {
         //Do your magic!!!
         return new String();
+    }
+
+    @Override
+    public InputStream fileResponseTest() throws Exception {
+        //Do your magic!!!
+        return new FileInputStream("replace this");
+    }
+
+    @Override
+    public Resource resourceNamedResourceTest() throws Exception {
+        //Do your magic!!!
+        return new Resource();
     }
 
     @Override

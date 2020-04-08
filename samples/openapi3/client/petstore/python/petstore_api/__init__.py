@@ -80,6 +80,7 @@ from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.resource import Resource
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User

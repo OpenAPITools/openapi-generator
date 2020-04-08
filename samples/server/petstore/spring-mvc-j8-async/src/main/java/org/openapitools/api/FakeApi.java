@@ -154,6 +154,51 @@ public interface FakeApi {
 
 
     /**
+     * GET /fake/fileResponseTest
+     *
+     * @return OutputFileData (status code 200)
+     */
+    @ApiOperation(value = "", nickname = "fileResponseTest", notes = "", response = Resource.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OutputFileData", response = Resource.class) })
+    @RequestMapping(value = "/fake/fileResponseTest",
+        produces = { "application/octet-stream" }, 
+        method = RequestMethod.GET)
+    default CompletableFuture<ResponseEntity<Resource>> fileResponseTest() {
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
+
+    }
+
+
+    /**
+     * GET /fake/resource-named-resource-test
+     *
+     * @return Resource data (status code 200)
+     */
+    @ApiOperation(value = "", nickname = "resourceNamedResourceTest", notes = "", response = org.springframework.core.io.Resource.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Resource data", response = org.springframework.core.io.Resource.class) })
+    @RequestMapping(value = "/fake/resource-named-resource-test",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default CompletableFuture<ResponseEntity<org.springframework.core.io.Resource>> resourceNamedResourceTest() {
+        return CompletableFuture.supplyAsync(()-> {
+            getRequest().ifPresent(request -> {
+                for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                        String exampleString = "{ \"sourceURI\" : \"sourceURI\" }";
+                        ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                        break;
+                    }
+                }
+            });
+            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        }, Runnable::run);
+
+    }
+
+
+    /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *

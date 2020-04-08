@@ -14,6 +14,8 @@ POST     /v2/fake/outer/boolean                     controllers.FakeApiControlle
 POST     /v2/fake/outer/composite                     controllers.FakeApiController.fakeOuterCompositeSerialize()
 POST     /v2/fake/outer/number                     controllers.FakeApiController.fakeOuterNumberSerialize()
 POST     /v2/fake/outer/string                     controllers.FakeApiController.fakeOuterStringSerialize()
+GET     /v2/fake/fileResponseTest                     controllers.FakeApiController.fileResponseTest()
+GET     /v2/fake/resource-named-resource-test                     controllers.FakeApiController.resourceNamedResourceTest()
 PUT     /v2/fake/body-with-file-schema                     controllers.FakeApiController.testBodyWithFileSchema()
 PUT     /v2/fake/body-with-query-params                     controllers.FakeApiController.testBodyWithQueryParams()
 PATCH     /v2/fake                     controllers.FakeApiController.testClientModel()

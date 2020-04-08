@@ -8,6 +8,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -83,6 +84,22 @@ public interface FakeApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
     public String fakeOuterStringSerialize(@Valid String body);
+
+    @GET
+    @Path("/fake/fileResponseTest")
+    @Produces({ "application/octet-stream" })
+    @ApiOperation(value = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OutputFileData", response = File.class) })
+    public File fileResponseTest();
+
+    @GET
+    @Path("/fake/resource-named-resource-test")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Resource data", response = Resource.class) })
+    public Resource resourceNamedResourceTest();
 
     @PUT
     @Path("/fake/body-with-file-schema")

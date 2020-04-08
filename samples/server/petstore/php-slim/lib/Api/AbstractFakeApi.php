@@ -161,6 +161,44 @@ abstract class AbstractFakeApi
     }
 
     /**
+     * GET fileResponseTest
+     * Output-Formats: [application/octet-stream]
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
+     */
+    public function fileResponseTest(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $message = "How about implementing fileResponseTest as a GET method in OpenAPIServer\Api\FakeApi class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
+    }
+
+    /**
+     * GET resourceNamedResourceTest
+     * Output-Formats: [application/json]
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
+     */
+    public function resourceNamedResourceTest(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $message = "How about implementing resourceNamedResourceTest as a GET method in OpenAPIServer\Api\FakeApi class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
+    }
+
+    /**
      * PUT testBodyWithFileSchema
      * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *

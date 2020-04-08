@@ -494,6 +494,14 @@ genReadOnlyFirst n =
     <$> arbitraryReducedMaybe n -- readOnlyFirstBar :: Maybe Text
     <*> arbitraryReducedMaybe n -- readOnlyFirstBaz :: Maybe Text
   
+instance Arbitrary Resource where
+  arbitrary = sized genResource
+
+genResource :: Int -> Gen Resource
+genResource n =
+  Resource
+    <$> arbitraryReducedMaybe n -- resourceSourceUri :: Maybe Text
+  
 instance Arbitrary SpecialModelName where
   arbitrary = sized genSpecialModelName
 

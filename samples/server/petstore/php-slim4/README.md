@@ -137,6 +137,8 @@ Class | Method | HTTP request | Description
 *AbstractFakeApi* | **fakeOuterCompositeSerialize** | **POST** /fake/outer/composite | 
 *AbstractFakeApi* | **fakeOuterNumberSerialize** | **POST** /fake/outer/number | 
 *AbstractFakeApi* | **fakeOuterStringSerialize** | **POST** /fake/outer/string | 
+*AbstractFakeApi* | **fileResponseTest** | **GET** /fake/fileResponseTest | 
+*AbstractFakeApi* | **resourceNamedResourceTest** | **GET** /fake/resource-named-resource-test | 
 *AbstractFakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
 *AbstractFakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
 *AbstractFakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
@@ -214,6 +216,7 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\OuterEnum
 * OpenAPIServer\Model\Pet
 * OpenAPIServer\Model\ReadOnlyFirst
+* OpenAPIServer\Model\Resource
 * OpenAPIServer\Model\SpecialModelName
 * OpenAPIServer\Model\Tag
 * OpenAPIServer\Model\TypeHolderDefault

@@ -133,6 +133,38 @@ public interface FakeApi {
 
 
     /**
+     * GET /fake/fileResponseTest
+     *
+     * @return OutputFileData (status code 200)
+     */
+    @ApiOperation(value = "", nickname = "fileResponseTest", notes = "", response = Resource.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OutputFileData", response = Resource.class) })
+    @RequestMapping(value = "/fake/fileResponseTest",
+        produces = { "application/octet-stream" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<Resource> fileResponseTest() {
+        return getDelegate().fileResponseTest();
+    }
+
+
+    /**
+     * GET /fake/resource-named-resource-test
+     *
+     * @return Resource data (status code 200)
+     */
+    @ApiOperation(value = "", nickname = "resourceNamedResourceTest", notes = "", response = org.springframework.core.io.Resource.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Resource data", response = org.springframework.core.io.Resource.class) })
+    @RequestMapping(value = "/fake/resource-named-resource-test",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<org.springframework.core.io.Resource> resourceNamedResourceTest() {
+        return getDelegate().resourceNamedResourceTest();
+    }
+
+
+    /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *

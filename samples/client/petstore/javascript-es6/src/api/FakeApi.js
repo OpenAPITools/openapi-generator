@@ -16,6 +16,7 @@ import ApiClient from "../ApiClient";
 import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import OuterComposite from '../model/OuterComposite';
+import Resource from '../model/Resource';
 import User from '../model/User';
 import XmlItem from '../model/XmlItem';
 
@@ -230,6 +231,76 @@ export default class FakeApi {
       let returnType = 'String';
       return this.apiClient.callApi(
         '/fake/outer/string', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the fileResponseTest operation.
+     * @callback module:api/FakeApi~fileResponseTestCallback
+     * @param {String} error Error message, if any.
+     * @param {File} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * @param {module:api/FakeApi~fileResponseTestCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link File}
+     */
+    fileResponseTest(callback) {
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/octet-stream'];
+      let returnType = File;
+      return this.apiClient.callApi(
+        '/fake/fileResponseTest', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the resourceNamedResourceTest operation.
+     * @callback module:api/FakeApi~resourceNamedResourceTestCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Resource} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * @param {module:api/FakeApi~resourceNamedResourceTestCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Resource}
+     */
+    resourceNamedResourceTest(callback) {
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = Resource;
+      return this.apiClient.callApi(
+        '/fake/resource-named-resource-test', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

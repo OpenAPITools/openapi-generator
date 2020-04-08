@@ -76,6 +76,22 @@ public interface FakeApiDelegate {
     ResponseEntity<String> fakeOuterStringSerialize(String body);
 
     /**
+     * GET /fake/fileResponseTest
+     *
+     * @return OutputFileData (status code 200)
+     * @see FakeApi#fileResponseTest
+     */
+    ResponseEntity<Resource> fileResponseTest();
+
+    /**
+     * GET /fake/resource-named-resource-test
+     *
+     * @return Resource data (status code 200)
+     * @see FakeApi#resourceNamedResourceTest
+     */
+    ResponseEntity<org.springframework.core.io.Resource> resourceNamedResourceTest();
+
+    /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *

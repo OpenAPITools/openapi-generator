@@ -124,6 +124,8 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*OpenApiPetstore.FakeApi* | [**fileResponseTest**](docs/FakeApi.md#fileResponseTest) | **GET** /fake/fileResponseTest | 
+*OpenApiPetstore.FakeApi* | [**resourceNamedResourceTest**](docs/FakeApi.md#resourceNamedResourceTest) | **GET** /fake/resource-named-resource-test | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *OpenApiPetstore.FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -201,6 +203,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.OuterEnum](docs/OuterEnum.md)
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [OpenApiPetstore.Resource](docs/Resource.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.TypeHolderDefault](docs/TypeHolderDefault.md)

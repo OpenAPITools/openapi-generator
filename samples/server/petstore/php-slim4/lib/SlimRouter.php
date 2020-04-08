@@ -209,6 +209,61 @@ class SlimRouter
             ],
         ],
         [
+            'httpMethod' => 'GET',
+            'basePathWithoutHost' => '/v2',
+            'path' => '/fake/fileResponseTest',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'fileResponseTest',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'OutputFileData',
+                    'jsonSchema' => '{
+  "description" : "OutputFileData",
+  "content" : {
+    "application/octet-stream" : {
+      "schema" : {
+        "type" : "string",
+        "format" : "binary"
+      }
+    }
+  }
+}',
+                ],
+            ],
+            'authMethods' => [
+            ],
+        ],
+        [
+            'httpMethod' => 'GET',
+            'basePathWithoutHost' => '/v2',
+            'path' => '/fake/resource-named-resource-test',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'resourceNamedResourceTest',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'Resource data',
+                    'jsonSchema' => '{
+  "description" : "Resource data",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Resource"
+      }
+    }
+  }
+}',
+                ],
+            ],
+            'authMethods' => [
+            ],
+        ],
+        [
             'httpMethod' => 'PUT',
             'basePathWithoutHost' => '/v2',
             'path' => '/fake/body-with-file-schema',

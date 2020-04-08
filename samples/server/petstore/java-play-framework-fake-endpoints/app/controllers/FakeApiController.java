@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
+import apimodels.Resource;
 import apimodels.User;
 import apimodels.XmlItem;
 
@@ -130,6 +131,22 @@ public class FakeApiController extends Controller {
             body = null;
         }
         String obj = imp.fakeOuterStringSerialize(body);
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
+    }
+
+    @ApiAction
+    public Result fileResponseTest() throws Exception {
+        InputStream obj = imp.fileResponseTest();
+        return ok(obj);
+    }
+
+    @ApiAction
+    public Result resourceNamedResourceTest() throws Exception {
+        Resource obj = imp.resourceNamedResourceTest();
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }

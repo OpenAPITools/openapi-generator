@@ -155,6 +155,52 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, %OpenapiPetstore.Model.String.t{}} on success
+  {:error, info} on failure
+  """
+  @spec file_response_test(Tesla.Env.client, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
+  def file_response_test(connection, _opts \\ []) do
+    %{}
+    |> method(:get)
+    |> url("/fake/fileResponseTest")
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, false}
+    ])
+  end
+
+  @doc """
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, %OpenapiPetstore.Model.Resource{}} on success
+  {:error, info} on failure
+  """
+  @spec resource_named_resource_test(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.Resource.t} | {:error, Tesla.Env.t}
+  def resource_named_resource_test(connection, _opts \\ []) do
+    %{}
+    |> method(:get)
+    |> url("/fake/resource-named-resource-test")
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.Resource{}}
+    ])
+  end
+
+  @doc """
   For this test, the body for this request much reference a schema named `File`.
 
   ## Parameters

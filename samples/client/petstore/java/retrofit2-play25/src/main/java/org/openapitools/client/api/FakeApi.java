@@ -18,6 +18,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.Resource;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -87,6 +88,24 @@ public interface FakeApi {
   CompletionStage<Response<String>> fakeOuterStringSerialize(
     @retrofit2.http.Body String body
   );
+
+  /**
+   * 
+   * 
+   * @return Call&lt;File&gt;
+   */
+  @GET("fake/fileResponseTest")
+  CompletionStage<Response<File>> fileResponseTest();
+    
+
+  /**
+   * 
+   * 
+   * @return Call&lt;Resource&gt;
+   */
+  @GET("fake/resource-named-resource-test")
+  CompletionStage<Response<Resource>> resourceNamedResourceTest();
+    
 
   /**
    * 

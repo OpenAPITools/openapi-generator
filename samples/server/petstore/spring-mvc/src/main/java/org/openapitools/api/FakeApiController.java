@@ -115,6 +115,35 @@ public class FakeApiController implements FakeApi {
     }
 
     /**
+     * GET /fake/fileResponseTest
+     *
+     * @return OutputFileData (status code 200)
+     * @see FakeApi#fileResponseTest
+     */
+    public ResponseEntity<Resource> fileResponseTest() {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
+     * GET /fake/resource-named-resource-test
+     *
+     * @return Resource data (status code 200)
+     * @see FakeApi#resourceNamedResourceTest
+     */
+    public ResponseEntity<org.springframework.core.io.Resource> resourceNamedResourceTest() {
+        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                String exampleString = "{ \"sourceURI\" : \"sourceURI\" }";
+                ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                break;
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *

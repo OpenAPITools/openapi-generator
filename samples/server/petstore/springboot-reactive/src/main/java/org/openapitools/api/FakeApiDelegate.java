@@ -124,6 +124,39 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * GET /fake/fileResponseTest
+     *
+     * @return OutputFileData (status code 200)
+     * @see FakeApi#fileResponseTest
+     */
+    default Mono<ResponseEntity<Resource>> fileResponseTest(ServerWebExchange exchange) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result.then(Mono.empty());
+
+    }
+
+    /**
+     * GET /fake/resource-named-resource-test
+     *
+     * @return Resource data (status code 200)
+     * @see FakeApi#resourceNamedResourceTest
+     */
+    default Mono<ResponseEntity<org.springframework.core.io.Resource>> resourceNamedResourceTest(ServerWebExchange exchange) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                String exampleString = "{ \"sourceURI\" : \"sourceURI\" }";
+                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                break;
+            }
+        }
+        return result.then(Mono.empty());
+
+    }
+
+    /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *

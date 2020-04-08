@@ -55,6 +55,7 @@ import OuterComposite from './model/OuterComposite';
 import OuterEnum from './model/OuterEnum';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
+import Resource from './model/Resource';
 import SpecialModelName from './model/SpecialModelName';
 import Tag from './model/Tag';
 import TypeHolderDefault from './model/TypeHolderDefault';
@@ -358,6 +359,12 @@ export {
      * @property {module:model/ReadOnlyFirst}
      */
     ReadOnlyFirst,
+
+    /**
+     * The Resource model constructor.
+     * @property {module:model/Resource}
+     */
+    Resource,
 
     /**
      * The SpecialModelName model constructor.

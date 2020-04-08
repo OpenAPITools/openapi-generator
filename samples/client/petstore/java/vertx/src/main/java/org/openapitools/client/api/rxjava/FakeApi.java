@@ -7,6 +7,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.Resource;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -132,6 +133,44 @@ public class FakeApi {
     public Single<String> rxFakeOuterStringSerialize(String body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.fakeOuterStringSerialize(body, fut);
+        }));
+    }
+    /**
+     * 
+     * 
+     * @param resultHandler Asynchronous result handler
+     */
+    public void fileResponseTest(Handler<AsyncResult<AsyncFile>> resultHandler) {
+        delegate.fileResponseTest(resultHandler);
+    }
+
+    /**
+     * 
+     * 
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<AsyncFile> rxFileResponseTest() {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.fileResponseTest(fut);
+        }));
+    }
+    /**
+     * 
+     * 
+     * @param resultHandler Asynchronous result handler
+     */
+    public void resourceNamedResourceTest(Handler<AsyncResult<Resource>> resultHandler) {
+        delegate.resourceNamedResourceTest(resultHandler);
+    }
+
+    /**
+     * 
+     * 
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Resource> rxResourceNamedResourceTest() {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.resourceNamedResourceTest(fut);
         }));
     }
     /**

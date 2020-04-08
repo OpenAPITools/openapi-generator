@@ -7,6 +7,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.Resource;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -205,6 +206,66 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarAuthNames = new String[] {  };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+    }
+    /**
+     * 
+     * 
+     * @param resultHandler Asynchronous result handler
+     */
+    public void fileResponseTest(Handler<AsyncResult<AsyncFile>> resultHandler) {
+        Object localVarBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/fake/fileResponseTest";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = { "application/octet-stream" };
+        String[] localVarContentTypes = {  };
+        String[] localVarAuthNames = new String[] {  };
+        TypeReference<AsyncFile> localVarReturnType = new TypeReference<AsyncFile>() {};
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+    }
+    /**
+     * 
+     * 
+     * @param resultHandler Asynchronous result handler
+     */
+    public void resourceNamedResourceTest(Handler<AsyncResult<Resource>> resultHandler) {
+        Object localVarBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/fake/resource-named-resource-test";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = { "application/json" };
+        String[] localVarContentTypes = {  };
+        String[] localVarAuthNames = new String[] {  };
+        TypeReference<Resource> localVarReturnType = new TypeReference<Resource>() {};
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
      * 

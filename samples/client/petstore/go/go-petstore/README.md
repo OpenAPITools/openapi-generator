@@ -38,6 +38,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
+*FakeApi* | [**FileResponseTest**](docs/FakeApi.md#fileresponsetest) | **Get** /fake/fileResponseTest | 
+*FakeApi* | [**ResourceNamedResourceTest**](docs/FakeApi.md#resourcenamedresourcetest) | **Get** /fake/resource-named-resource-test | 
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
@@ -114,6 +116,7 @@ Class | Method | HTTP request | Description
  - [OuterEnum](docs/OuterEnum.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Resource](docs/Resource.md)
  - [Return](docs/Return.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)

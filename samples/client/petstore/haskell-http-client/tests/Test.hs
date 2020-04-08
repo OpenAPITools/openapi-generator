@@ -62,6 +62,7 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy OuterEnum)
       propMimeEq MimeJSON (Proxy :: Proxy Pet)
       propMimeEq MimeJSON (Proxy :: Proxy ReadOnlyFirst)
+      propMimeEq MimeJSON (Proxy :: Proxy Resource)
       propMimeEq MimeJSON (Proxy :: Proxy SpecialModelName)
       propMimeEq MimeJSON (Proxy :: Proxy Tag)
       propMimeEq MimeJSON (Proxy :: Proxy TypeHolderDefault)

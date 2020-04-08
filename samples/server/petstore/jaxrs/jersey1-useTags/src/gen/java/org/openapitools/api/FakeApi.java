@@ -14,6 +14,7 @@ import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -105,6 +106,30 @@ public class FakeApi  {
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body,securityContext);
+    }
+    @GET
+    @Path("/fileResponseTest")
+    
+    @Produces({ "application/octet-stream" })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = File.class, tags={ "fake",  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "OutputFileData", response = File.class) })
+    public Response fileResponseTest(
+        @Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fileResponseTest(securityContext);
+    }
+    @GET
+    @Path("/resource-named-resource-test")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = Resource.class, tags={ "fake",  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Resource data", response = Resource.class) })
+    public Response resourceNamedResourceTest(
+        @Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.resourceNamedResourceTest(securityContext);
     }
     @PUT
     @Path("/body-with-file-schema")

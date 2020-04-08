@@ -301,6 +301,25 @@ class FakeApi extends Controller
         return response('How about implementing createXmlItem as a post method ?');
     }
     /**
+     * Operation fileResponseTest
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fileResponseTest()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing fileResponseTest as a get method ?');
+    }
+    /**
      * Operation testInlineAdditionalProperties
      *
      * test inline additionalProperties.
@@ -436,6 +455,25 @@ class FakeApi extends Controller
 
 
         return response('How about implementing fakeOuterStringSerialize as a post method ?');
+    }
+    /**
+     * Operation resourceNamedResourceTest
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function resourceNamedResourceTest()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing resourceNamedResourceTest as a get method ?');
     }
     /**
      * Operation testQueryParameterCollectionFormat

@@ -16,6 +16,7 @@ import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 
 import java.util.Map;
@@ -122,6 +123,17 @@ public class FakeApi  {
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body, securityContext);
+    }
+    @GET
+    @Path("/resource-named-resource-test")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = Resource.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Resource data", response = Resource.class) })
+    public Response resourceNamedResourceTest(@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.resourceNamedResourceTest(securityContext);
     }
     @PUT
     @Path("/body-with-file-schema")

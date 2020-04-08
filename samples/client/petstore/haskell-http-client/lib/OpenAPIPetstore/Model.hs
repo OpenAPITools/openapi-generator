@@ -1646,6 +1646,35 @@ mkReadOnlyFirst =
   , readOnlyFirstBaz = Nothing
   }
 
+-- ** Resource
+-- | Resource
+-- Must be named `Resource` for test.
+data Resource = Resource
+  { resourceSourceUri :: !(Maybe Text) -- ^ "sourceURI" - Test resource
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Resource
+instance A.FromJSON Resource where
+  parseJSON = A.withObject "Resource" $ \o ->
+    Resource
+      <$> (o .:? "sourceURI")
+
+-- | ToJSON Resource
+instance A.ToJSON Resource where
+  toJSON Resource {..} =
+   _omitNulls
+      [ "sourceURI" .= resourceSourceUri
+      ]
+
+
+-- | Construct a value of type 'Resource' (by applying it's required fields, if any)
+mkResource
+  :: Resource
+mkResource =
+  Resource
+  { resourceSourceUri = Nothing
+  }
+
 -- ** SpecialModelName
 -- | SpecialModelName
 data SpecialModelName = SpecialModelName

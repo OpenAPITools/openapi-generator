@@ -109,6 +109,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**FileResponseTest**](docs/FakeApi.md#fileresponsetest) | **GET** /fake/fileResponseTest | 
+*FakeApi* | [**ResourceNamedResourceTest**](docs/FakeApi.md#resourcenamedresourcetest) | **GET** /fake/resource-named-resource-test | 
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -186,6 +188,7 @@ Class | Method | HTTP request | Description
  - [Model.OuterEnum](docs/OuterEnum.md)
  - [Model.Pet](docs/Pet.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Model.Resource](docs/Resource.md)
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)

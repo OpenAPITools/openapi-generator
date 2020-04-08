@@ -274,6 +274,7 @@ use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
+use WWW::OpenAPIClient::Object::Resource;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::TypeHolderDefault;
@@ -341,6 +342,7 @@ use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
+use WWW::OpenAPIClient::Object::Resource;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::TypeHolderDefault;
@@ -379,6 +381,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**file_response_test**](docs/FakeApi.md#file_response_test) | **GET** /fake/fileResponseTest | 
+*FakeApi* | [**resource_named_resource_test**](docs/FakeApi.md#resource_named_resource_test) | **GET** /fake/resource-named-resource-test | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -455,6 +459,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::OuterEnum](docs/OuterEnum.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [WWW::OpenAPIClient::Object::Resource](docs/Resource.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
  - [WWW::OpenAPIClient::Object::TypeHolderDefault](docs/TypeHolderDefault.md)

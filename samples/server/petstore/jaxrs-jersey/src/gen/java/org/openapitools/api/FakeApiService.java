@@ -14,6 +14,7 @@ import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public abstract class FakeApiService {
     public abstract Response fakeOuterCompositeSerialize(OuterComposite outerComposite,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterNumberSerialize(BigDecimal body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterStringSerialize(String body,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response resourceNamedResourceTest(SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithQueryParams( @NotNull String query,User user,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testClientModel(Client client,SecurityContext securityContext) throws NotFoundException;

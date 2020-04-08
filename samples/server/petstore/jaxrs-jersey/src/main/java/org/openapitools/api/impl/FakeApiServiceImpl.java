@@ -12,6 +12,7 @@ import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 
 import java.util.List;
@@ -48,6 +49,11 @@ public class FakeApiServiceImpl extends FakeApiService {
     }
     @Override
     public Response fakeOuterStringSerialize(String body, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response resourceNamedResourceTest(SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

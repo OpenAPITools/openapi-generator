@@ -14,6 +14,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -37,6 +38,8 @@ public abstract class FakeApiService {
  ) throws NotFoundException;
     public abstract Response fakeOuterStringSerialize(String body
  ) throws NotFoundException;
+    public abstract Response fileResponseTest() throws NotFoundException;
+    public abstract Response resourceNamedResourceTest() throws NotFoundException;
     public abstract Response testBodyWithFileSchema(FileSchemaTestClass body
  ) throws NotFoundException;
     public abstract Response testBodyWithQueryParams(String query

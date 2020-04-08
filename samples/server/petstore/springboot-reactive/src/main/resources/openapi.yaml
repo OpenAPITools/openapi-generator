@@ -1329,6 +1329,37 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: pet
+  /fake/fileResponseTest:
+    get:
+      operationId: fileResponseTest
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: OutputFileData
+      tags:
+      - fake
+      x-accepts: application/octet-stream
+      x-tags:
+      - tag: fake
+  /fake/resource-named-resource-test:
+    get:
+      operationId: resourceNamedResourceTest
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: Resource data
+      tags:
+      - fake
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
 components:
   schemas:
     Order:
@@ -2217,6 +2248,15 @@ components:
       xml:
         namespace: http://a.com/schema
         prefix: pre
+    Resource:
+      description: Must be named `Resource` for test.
+      example:
+        sourceURI: sourceURI
+      properties:
+        sourceURI:
+          description: Test resource
+          type: string
+      type: object
     Dog_allOf:
       properties:
         breed:

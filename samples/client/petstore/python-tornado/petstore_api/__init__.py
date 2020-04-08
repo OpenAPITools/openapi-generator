@@ -75,6 +75,7 @@ from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.resource import Resource
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.type_holder_default import TypeHolderDefault

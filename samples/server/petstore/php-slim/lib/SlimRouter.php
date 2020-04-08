@@ -115,6 +115,28 @@ class SlimRouter
             ],
         ],
         [
+            'httpMethod' => 'GET',
+            'basePathWithoutHost' => '/v2',
+            'path' => '/fake/fileResponseTest',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'fileResponseTest',
+            'authMethods' => [
+            ],
+        ],
+        [
+            'httpMethod' => 'GET',
+            'basePathWithoutHost' => '/v2',
+            'path' => '/fake/resource-named-resource-test',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'resourceNamedResourceTest',
+            'authMethods' => [
+            ],
+        ],
+        [
             'httpMethod' => 'PUT',
             'basePathWithoutHost' => '/v2',
             'path' => '/fake/body-with-file-schema',

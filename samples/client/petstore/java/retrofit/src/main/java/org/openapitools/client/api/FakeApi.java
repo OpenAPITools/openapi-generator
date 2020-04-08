@@ -13,6 +13,7 @@ import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.Resource;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -141,6 +142,48 @@ public interface FakeApi {
   @POST("/fake/outer/string")
   void fakeOuterStringSerialize(
     @retrofit.http.Body String body, Callback<String> cb
+  );
+  /**
+   * 
+   * Sync method
+   * 
+   * @return File
+   */
+  
+  @GET("/fake/fileResponseTest")
+  File fileResponseTest();
+    
+
+  /**
+   * 
+   * Async method
+   * @param cb callback method
+   */
+  
+  @GET("/fake/fileResponseTest")
+  void fileResponseTest(
+    Callback<File> cb
+  );
+  /**
+   * 
+   * Sync method
+   * 
+   * @return Resource
+   */
+  
+  @GET("/fake/resource-named-resource-test")
+  Resource resourceNamedResourceTest();
+    
+
+  /**
+   * 
+   * Async method
+   * @param cb callback method
+   */
+  
+  @GET("/fake/resource-named-resource-test")
+  void resourceNamedResourceTest(
+    Callback<Resource> cb
   );
   /**
    * 

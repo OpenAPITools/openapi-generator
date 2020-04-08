@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -66,6 +67,22 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
     String fakeOuterStringSerialize(@Valid String body);
+
+    @GET
+    @Path("/fileResponseTest")
+    @Produces({ "application/octet-stream" })
+    @ApiOperation(value = "", notes = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OutputFileData", response = File.class) })
+    File fileResponseTest();
+
+    @GET
+    @Path("/resource-named-resource-test")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "", notes = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Resource data", response = Resource.class) })
+    Resource resourceNamedResourceTest();
 
     @PUT
     @Path("/body-with-file-schema")

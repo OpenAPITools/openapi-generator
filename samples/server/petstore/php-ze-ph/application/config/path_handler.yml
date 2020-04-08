@@ -6,12 +6,14 @@ Articus\PathHandler\RouteInjection\Factory:
     - App\Handler\FakeBodyWithFileSchema
     - App\Handler\FakeBodyWithQueryParams
     - App\Handler\FakeCreateXmlItem
+    - App\Handler\FakeFileResponseTest
     - App\Handler\FakeInlineAdditionalProperties
     - App\Handler\FakeJsonFormData
     - App\Handler\FakeOuterBoolean
     - App\Handler\FakeOuterComposite
     - App\Handler\FakeOuterNumber
     - App\Handler\FakeOuterString
+    - App\Handler\FakeResourceNamedResourceTest
     - App\Handler\FakeTestQueryParamters
     - App\Handler\FakePetIdUploadImageWithRequiredFile
     - App\Handler\FakeClassnameTest
@@ -48,12 +50,14 @@ Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
   App\Handler\FakeBodyWithFileSchema: []
   App\Handler\FakeBodyWithQueryParams: []
   App\Handler\FakeCreateXmlItem: []
+  App\Handler\FakeFileResponseTest: []
   App\Handler\FakeInlineAdditionalProperties: []
   App\Handler\FakeJsonFormData: []
   App\Handler\FakeOuterBoolean: []
   App\Handler\FakeOuterComposite: []
   App\Handler\FakeOuterNumber: []
   App\Handler\FakeOuterString: []
+  App\Handler\FakeResourceNamedResourceTest: []
   App\Handler\FakeTestQueryParamters: []
   App\Handler\FakePetIdUploadImageWithRequiredFile: []
   App\Handler\FakeClassnameTest: []

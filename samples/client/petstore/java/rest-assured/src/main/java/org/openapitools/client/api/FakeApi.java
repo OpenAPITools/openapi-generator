@@ -21,6 +21,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.Resource;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -72,6 +73,8 @@ public class FakeApi {
                 fakeOuterCompositeSerialize(),
                 fakeOuterNumberSerialize(),
                 fakeOuterStringSerialize(),
+                fileResponseTest(),
+                resourceNamedResourceTest(),
                 testBodyWithFileSchema(),
                 testBodyWithQueryParams(),
                 testClientModel(),
@@ -132,6 +135,26 @@ public class FakeApi {
             @ApiResponse(code = 200, message = "Output string")  })
     public FakeOuterStringSerializeOper fakeOuterStringSerialize() {
         return new FakeOuterStringSerializeOper(createReqSpec());
+    }
+
+    @ApiOperation(value = "",
+            notes = "",
+            nickname = "fileResponseTest",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "OutputFileData")  })
+    public FileResponseTestOper fileResponseTest() {
+        return new FileResponseTestOper(createReqSpec());
+    }
+
+    @ApiOperation(value = "",
+            notes = "",
+            nickname = "resourceNamedResourceTest",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Resource data")  })
+    public ResourceNamedResourceTestOper resourceNamedResourceTest() {
+        return new ResourceNamedResourceTestOper(createReqSpec());
     }
 
     @ApiOperation(value = "",
@@ -581,6 +604,128 @@ public class FakeApi {
          * @return operation
          */
         public FakeOuterStringSerializeOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * 
+     * 
+     *
+     * return File
+     */
+    public static class FileResponseTestOper implements Oper {
+
+        public static final Method REQ_METHOD = GET;
+        public static final String REQ_URI = "/fake/fileResponseTest";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public FileResponseTestOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setAccept("application/octet-stream");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * GET /fake/fileResponseTest
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        @Override
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+        /**
+         * GET /fake/fileResponseTest
+         * @param handler handler
+         * @return File
+         */
+        public File executeAs(Function<Response, Response> handler) {
+            Type type = new TypeToken<File>(){}.getType();
+            return execute(handler).as(type);
+        }
+
+        /**
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
+         * @return operation
+         */
+        public FileResponseTestOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
+         * @return operation
+         */
+        public FileResponseTestOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * 
+     * 
+     *
+     * return Resource
+     */
+    public static class ResourceNamedResourceTestOper implements Oper {
+
+        public static final Method REQ_METHOD = GET;
+        public static final String REQ_URI = "/fake/resource-named-resource-test";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public ResourceNamedResourceTestOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * GET /fake/resource-named-resource-test
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        @Override
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+        /**
+         * GET /fake/resource-named-resource-test
+         * @param handler handler
+         * @return Resource
+         */
+        public Resource executeAs(Function<Response, Response> handler) {
+            Type type = new TypeToken<Resource>(){}.getType();
+            return execute(handler).as(type);
+        }
+
+        /**
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
+         * @return operation
+         */
+        public ResourceNamedResourceTestOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
+         * @return operation
+         */
+        public ResourceNamedResourceTestOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
             respSpecCustomizer.accept(respSpec);
             return this;
         }

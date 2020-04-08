@@ -199,6 +199,34 @@ instance MimeType mtype => Consumes FakeOuterStringSerialize mtype
 instance MimeType mtype => Produces FakeOuterStringSerialize mtype
 
 
+-- *** fileResponseTest
+
+-- | @GET \/fake\/fileResponseTest@
+-- 
+fileResponseTest 
+  :: OpenAPIPetstoreRequest FileResponseTest MimeNoContent FilePath MimeOctetStream
+fileResponseTest =
+  _mkRequest "GET" ["/fake/fileResponseTest"]
+
+data FileResponseTest  
+-- | @application/octet-stream@
+instance Produces FileResponseTest MimeOctetStream
+
+
+-- *** resourceNamedResourceTest
+
+-- | @GET \/fake\/resource-named-resource-test@
+-- 
+resourceNamedResourceTest 
+  :: OpenAPIPetstoreRequest ResourceNamedResourceTest MimeNoContent Resource MimeJSON
+resourceNamedResourceTest =
+  _mkRequest "GET" ["/fake/resource-named-resource-test"]
+
+data ResourceNamedResourceTest  
+-- | @application/json@
+instance Produces ResourceNamedResourceTest MimeJSON
+
+
 -- *** testBodyWithFileSchema
 
 -- | @PUT \/fake\/body-with-file-schema@

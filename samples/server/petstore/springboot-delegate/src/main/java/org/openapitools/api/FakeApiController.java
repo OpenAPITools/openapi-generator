@@ -101,6 +101,26 @@ public class FakeApiController implements FakeApi {
     }
 
     /**
+     * GET /fake/fileResponseTest
+     *
+     * @return OutputFileData (status code 200)
+     * @see FakeApi#fileResponseTest
+     */
+    public ResponseEntity<Resource> fileResponseTest() {
+        return delegate.fileResponseTest();
+    }
+
+    /**
+     * GET /fake/resource-named-resource-test
+     *
+     * @return Resource data (status code 200)
+     * @see FakeApi#resourceNamedResourceTest
+     */
+    public ResponseEntity<org.springframework.core.io.Resource> resourceNamedResourceTest() {
+        return delegate.resourceNamedResourceTest();
+    }
+
+    /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *

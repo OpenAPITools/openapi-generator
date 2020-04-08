@@ -246,6 +246,13 @@ CREATE TABLE IF NOT EXISTS `EnumArrays` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `EnumClass` generated from model 'EnumClass'
+--
+
+CREATE TABLE IF NOT EXISTS `EnumClass` (
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Enum_Test` generated from model 'EnumUnderscoreTest'
 --
 
@@ -378,6 +385,13 @@ CREATE TABLE IF NOT EXISTS `OuterComposite` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `OuterEnum` generated from model 'OuterEnum'
+--
+
+CREATE TABLE IF NOT EXISTS `OuterEnum` (
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Pet` generated from model 'Pet'
 --
 
@@ -398,6 +412,15 @@ CREATE TABLE IF NOT EXISTS `ReadOnlyFirst` (
   `bar` TEXT DEFAULT NULL,
   `baz` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `Resource` generated from model 'Resource'
+-- Must be named &#x60;Resource&#x60; for test.
+--
+
+CREATE TABLE IF NOT EXISTS `Resource` (
+  `sourceURI` TEXT DEFAULT NULL COMMENT 'Test resource'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Must be named &#x60;Resource&#x60; for test.';
 
 --
 -- Table structure for table `Return` generated from model 'Return'
