@@ -17,6 +17,10 @@ No description available.
 .PARAMETER Pet
 Pet object that needs to be added to the store
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -183,6 +187,10 @@ No description available.
 .PARAMETER Status
 Status values that need to be considered for filter
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -266,6 +274,10 @@ No description available.
 .PARAMETER Tags
 Tags to filter by
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -347,6 +359,10 @@ No description available.
 
 .PARAMETER PetId
 ID of pet to return
+
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
 
 .PARAMETER WithHttpInfo
 
@@ -432,6 +448,10 @@ No description available.
 
 .PARAMETER Pet
 Pet object that needs to be added to the store
+
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
 
 .PARAMETER WithHttpInfo
 

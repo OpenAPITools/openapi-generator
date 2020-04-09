@@ -15,6 +15,12 @@
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
 {{/allParams}}
+{{#vendorExtensions.x-powershell-select-accept}}
+.PARAMETER ReturnType
+
+Select the return type (optional): {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}
+
+{{/vendorExtensions.x-powershell-select-accept}}
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response

@@ -153,6 +153,10 @@ No description available.
 .PARAMETER OrderId
 ID of pet that needs to be fetched
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -232,6 +236,10 @@ No description available.
 
 .PARAMETER Order
 order placed for purchasing the pet
+
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
 
 .PARAMETER WithHttpInfo
 

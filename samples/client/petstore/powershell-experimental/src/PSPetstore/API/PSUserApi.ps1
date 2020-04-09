@@ -328,6 +328,10 @@ No description available.
 .PARAMETER Username
 The name that needs to be fetched. Use user1 for testing.
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -410,6 +414,10 @@ The user name for login
 
 .PARAMETER Password
 The password for login in clear text
+
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
 
 .PARAMETER WithHttpInfo
 
