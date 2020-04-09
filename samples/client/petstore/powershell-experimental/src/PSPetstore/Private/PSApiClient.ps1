@@ -195,7 +195,7 @@ function DeserializeResponse {
     } Else { # others (e.g. model, file)
         if ($ContentTypes) {
             $ContentType = $null
-            if ($ContentTypes.Count > 1) {
+            if ($ContentTypes.Count -gt 1) {
                 $ContentType = SelectContentTypeHeaders -ContentTypes $ContentTypes
             } else {
                 $ContentType = $ContentTypes[0]
