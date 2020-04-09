@@ -85,77 +85,97 @@ func (c *UserApiController) Routes() Routes {
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) { 
 	body := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
-	result, err := c.service.CreateUser(*body)
+	result, status, err := c.service.CreateUser(r.Context(), *body)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) { 
 	body := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
-	result, err := c.service.CreateUsersWithArrayInput(*body)
+	result, status, err := c.service.CreateUsersWithArrayInput(r.Context(), *body)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) { 
 	body := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
-	result, err := c.service.CreateUsersWithListInput(*body)
+	result, status, err := c.service.CreateUsersWithListInput(r.Context(), *body)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // DeleteUser - Delete user
 func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	username := params["username"]
-	result, err := c.service.DeleteUser(username)
+	result, status, err := c.service.DeleteUser(r.Context(), username)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // GetUserByName - Get user by user name
 func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	username := params["username"]
-	result, err := c.service.GetUserByName(username)
+	result, status, err := c.service.GetUserByName(r.Context(), username)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // LoginUser - Logs user into the system
@@ -163,24 +183,32 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	username := query.Get("username")
 	password := query.Get("password")
-	result, err := c.service.LoginUser(username, password)
+	result, status, err := c.service.LoginUser(r.Context(), username, password)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // LogoutUser - Logs out current logged in user session
 func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) { 
-	result, err := c.service.LogoutUser()
+	result, status, err := c.service.LogoutUser(r.Context())
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // UpdateUser - Updated user
@@ -189,15 +217,19 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	username := params["username"]
 	body := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
-	result, err := c.service.UpdateUser(username, *body)
+	result, status, err := c.service.UpdateUser(r.Context(), username, *body)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }

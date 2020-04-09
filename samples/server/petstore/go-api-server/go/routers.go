@@ -54,8 +54,12 @@ func NewRouter(routers ...Router) *mux.Router {
 	return router
 }
 
-// EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
-func EncodeJSONResponse(i interface{}, status *int, w http.ResponseWriter) error {
+// GenericResponseHandler allows a service to return a generic function to parseIntParameter
+// an HTTP response for the caller
+type GenericResponseHandler func(w http.ResponseWriter)
+
+// JSONResponseEncoder uses the json encoder to write an interface to the http response with an optional status code
+func JSONResponseEncoder(i interface{}, status *int, w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	if status != nil {
 		w.WriteHeader(*status)

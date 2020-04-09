@@ -2,6 +2,7 @@
 package {{packageName}}
 
 import (
+	"context"
 	"errors"{{#imports}}
 	"{{import}}"{{/imports}}
 )
@@ -18,8 +19,8 @@ func New{{classname}}Service() {{classname}}Servicer {
 }{{#operations}}{{#operation}}
 
 // {{nickname}} - {{summary}}
-func (s *{{classname}}Service) {{nickname}}({{#allParams}}{{paramName}} {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) (interface{}, error) {
+func (s *{{classname}}Service) {{nickname}}(ctx context.Context, {{#allParams}}{{paramName}} {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) (interface{}, int, error) {
 	// TODO - update {{nickname}} with the required logic for this service method.
 	// Add {{classFilename}}_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method '{{nickname}}' not implemented")
+	return nil, 0, errors.New("service method '{{nickname}}' not implemented")
 }{{/operation}}{{/operations}}

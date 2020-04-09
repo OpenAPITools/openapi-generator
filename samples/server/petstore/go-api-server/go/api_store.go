@@ -61,24 +61,32 @@ func (c *StoreApiController) Routes() Routes {
 func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	orderId := params["orderId"]
-	result, err := c.service.DeleteOrder(orderId)
+	result, status, err := c.service.DeleteOrder(r.Context(), orderId)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // GetInventory - Returns pet inventories by status
 func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) { 
-	result, err := c.service.GetInventory()
+	result, status, err := c.service.GetInventory(r.Context())
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // GetOrderById - Find purchase order by ID
@@ -86,32 +94,40 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	params := mux.Vars(r)
 	orderId, err := parseIntParameter(params["orderId"])
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
-	result, err := c.service.GetOrderById(orderId)
+	result, status, err := c.service.GetOrderById(r.Context(), orderId)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }
 
 // PlaceOrder - Place an order for a pet
 func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) { 
 	body := &Order{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
-	result, err := c.service.PlaceOrder(*body)
+	result, status, err := c.service.PlaceOrder(r.Context(), *body)
 	if err != nil {
-		w.WriteHeader(500)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil, w)
+	if genericResponseHandler, ok := result.(GenericResponseHandler); ok {
+		genericResponseHandler(w)
+	} else {
+		JSONResponseEncoder(result, &status, w)
+	}
 }

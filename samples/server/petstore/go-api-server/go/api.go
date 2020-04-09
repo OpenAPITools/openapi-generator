@@ -10,6 +10,7 @@
 package petstoreserver
 
 import (
+	"context"
 	"net/http"
 	"os"
 )
@@ -57,14 +58,14 @@ type UserApiRouter interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type PetApiServicer interface { 
-	AddPet(Pet) (interface{}, error)
-	DeletePet(int64, string) (interface{}, error)
-	FindPetsByStatus([]string) (interface{}, error)
-	FindPetsByTags([]string) (interface{}, error)
-	GetPetById(int64) (interface{}, error)
-	UpdatePet(Pet) (interface{}, error)
-	UpdatePetWithForm(int64, string, string) (interface{}, error)
-	UploadFile(int64, string, *os.File) (interface{}, error)
+	AddPet(context.Context, Pet) (interface{}, int, error)
+	DeletePet(context.Context, int64, string) (interface{}, int, error)
+	FindPetsByStatus(context.Context, []string) (interface{}, int, error)
+	FindPetsByTags(context.Context, []string) (interface{}, int, error)
+	GetPetById(context.Context, int64) (interface{}, int, error)
+	UpdatePet(context.Context, Pet) (interface{}, int, error)
+	UpdatePetWithForm(context.Context, int64, string, string) (interface{}, int, error)
+	UploadFile(context.Context, int64, string, *os.File) (interface{}, int, error)
 }
 
 
@@ -73,10 +74,10 @@ type PetApiServicer interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type StoreApiServicer interface { 
-	DeleteOrder(string) (interface{}, error)
-	GetInventory() (interface{}, error)
-	GetOrderById(int64) (interface{}, error)
-	PlaceOrder(Order) (interface{}, error)
+	DeleteOrder(context.Context, string) (interface{}, int, error)
+	GetInventory(context.Context) (interface{}, int, error)
+	GetOrderById(context.Context, int64) (interface{}, int, error)
+	PlaceOrder(context.Context, Order) (interface{}, int, error)
 }
 
 
@@ -85,12 +86,12 @@ type StoreApiServicer interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type UserApiServicer interface { 
-	CreateUser(User) (interface{}, error)
-	CreateUsersWithArrayInput([]User) (interface{}, error)
-	CreateUsersWithListInput([]User) (interface{}, error)
-	DeleteUser(string) (interface{}, error)
-	GetUserByName(string) (interface{}, error)
-	LoginUser(string, string) (interface{}, error)
-	LogoutUser() (interface{}, error)
-	UpdateUser(string, User) (interface{}, error)
+	CreateUser(context.Context, User) (interface{}, int, error)
+	CreateUsersWithArrayInput(context.Context, []User) (interface{}, int, error)
+	CreateUsersWithListInput(context.Context, []User) (interface{}, int, error)
+	DeleteUser(context.Context, string) (interface{}, int, error)
+	GetUserByName(context.Context, string) (interface{}, int, error)
+	LoginUser(context.Context, string, string) (interface{}, int, error)
+	LogoutUser(context.Context) (interface{}, int, error)
+	UpdateUser(context.Context, string, User) (interface{}, int, error)
 }

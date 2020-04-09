@@ -10,6 +10,7 @@
 package petstoreserver
 
 import (
+	"context"
 	"errors"
 )
 
@@ -25,29 +26,29 @@ func NewStoreApiService() StoreApiServicer {
 }
 
 // DeleteOrder - Delete purchase order by ID
-func (s *StoreApiService) DeleteOrder(orderId string) (interface{}, error) {
+func (s *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (interface{}, int, error) {
 	// TODO - update DeleteOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'DeleteOrder' not implemented")
+	return nil, 0, errors.New("service method 'DeleteOrder' not implemented")
 }
 
 // GetInventory - Returns pet inventories by status
-func (s *StoreApiService) GetInventory() (interface{}, error) {
+func (s *StoreApiService) GetInventory(ctx context.Context, ) (interface{}, int, error) {
 	// TODO - update GetInventory with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'GetInventory' not implemented")
+	return nil, 0, errors.New("service method 'GetInventory' not implemented")
 }
 
 // GetOrderById - Find purchase order by ID
-func (s *StoreApiService) GetOrderById(orderId int64) (interface{}, error) {
+func (s *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (interface{}, int, error) {
 	// TODO - update GetOrderById with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'GetOrderById' not implemented")
+	return nil, 0, errors.New("service method 'GetOrderById' not implemented")
 }
 
 // PlaceOrder - Place an order for a pet
-func (s *StoreApiService) PlaceOrder(body Order) (interface{}, error) {
+func (s *StoreApiService) PlaceOrder(ctx context.Context, body Order) (interface{}, int, error) {
 	// TODO - update PlaceOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'PlaceOrder' not implemented")
+	return nil, 0, errors.New("service method 'PlaceOrder' not implemented")
 }
