@@ -1051,5 +1051,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+
+    public String toRegularExpression(String pattern) {
+        return escapeText(pattern);
     }
 }
