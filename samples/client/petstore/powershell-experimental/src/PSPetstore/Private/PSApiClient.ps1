@@ -209,6 +209,5 @@ function DeserializeResponse {
         } else { # no content type in response header, returning raw response
             return $Response
         }
-
     }
 }
