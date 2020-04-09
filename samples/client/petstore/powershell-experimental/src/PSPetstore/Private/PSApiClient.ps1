@@ -114,7 +114,7 @@ function Invoke-PSApiClient {
     }
 
     return @{
-        Response = DeserializeResponse -Response $Response -ReturnType $ReturnType
+        Response = DeserializeResponse -Response $Response -ReturnType $ReturnType -ContentTypes $Response.Headers["Content-Type"]
         StatusCode = $Response.StatusCode
         Headers = $Response.Headers
     }
@@ -180,7 +180,10 @@ function DeserializeResponse {
         [string]$ReturnType,
         [Parameter(Mandatory)]
         [AllowEmptyString()]
-        [string]$Response
+        [string]$Response,
+        [Parameter(Mandatory)]
+        [AllowEmptyCollection()]
+        [string[]]$ContentTypes
     )
 
     If ([string]::IsNullOrEmpty($ReturnType)) { # void response
@@ -189,7 +192,22 @@ function DeserializeResponse {
         return ConvertFrom-Json $Response
     } Elseif (@("String", "Boolean", "System.DateTime") -contains $ReturnType) { # string, boolean ,datetime
         return $Response
-    } Else { # model
-        return ConvertFrom-Json $Response
+    } Else { # others (e.g. model, file)
+        if ($ContentTypes) {
+            $ContentType = $null
+            if ($ContentTypes.Count -gt 1) {
+                $ContentType = SelectContentTypeHeaders -ContentTypes $ContentTypes
+            } else {
+                $ContentType = $ContentTypes[0]
+            }
+
+            if (IsJsonMIME -MIME $ContentType) {  # JSON
+                return ConvertFrom-Json $Response
+            } else { # XML, file, etc
+                return $Response
+            }
+        } else { # no content type in response header, returning raw response
+            return $Response
+        }
     }
 }

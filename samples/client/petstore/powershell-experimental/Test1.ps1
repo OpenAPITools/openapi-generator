@@ -16,7 +16,7 @@ $body = (Initialize-PSUser -Id 123  -Username "Username_example"  -FirstName "Fi
 $Id = 38369
 
 #$result = Update-PSPetWithForm 
-try {
+#try {
     $pet = Initialize-PSPet -Id $Id -Name 'foo' -Category (
         Initialize-PSCategory -Id $Id -Name 'bar'
     ) -PhotoUrls @(
@@ -29,14 +29,18 @@ try {
     #Write-Host $pet
     $Result = Add-PSPet -Pet $pet
     Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzZZZZZZZZZZZZZ"
-    $Result2 = Get-PSPetById -petId ($Id + 10) -Verbose -WithHttpInfo #-testHeader "testing only" -testQuery "testing something here"
-    Write-Host $Result2.GetType()
-} catch {
-    #Write-Host ("Exception occured when calling '': {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    #Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
-}
+    $Result2 = Get-PSPetById -petId ($Id) -Verbose -WithHttpInfo #-testHeader "testing only" -testQuery "testing something here"
+    Write-Host $Result2["Headers"]["Content-Type"]
+    $Result3 = Get-PSPetById -petId ($Id) -Verbose -WithHttpInfo -ReturnType "application/xml" #-testHeader "testing only" -testQuery "testing something here"
+    Write-Host $Result3["Headers"]["Content-Type"]
+    Write-Host $Result3["Response"]
+#} catch {
+#    Write-Host ("Exception occured when calling '': {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+#    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+#}
 
-Write-Host "Before exit $($Result2.GetType())"
+#$Result = Add-PSPet -Pet $pet -ReturnType "application/xml"
+#Write-Host "Before exit $($Result2.GetType())"
 
 #$result | Write-Host
 
