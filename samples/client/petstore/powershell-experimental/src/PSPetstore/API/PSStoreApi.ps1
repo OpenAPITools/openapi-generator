@@ -167,6 +167,9 @@ function Get-PSOrderById {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${OrderId},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -187,6 +190,11 @@ function Get-PSOrderById {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/store/order/{orderId}'
         if (!$OrderId) {
@@ -239,6 +247,9 @@ function Invoke-PSPlaceOrder {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Order},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -259,6 +270,11 @@ function Invoke-PSPlaceOrder {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')

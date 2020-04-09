@@ -31,6 +31,9 @@ function Add-PSPet {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Pet},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -51,6 +54,11 @@ function Add-PSPet {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json', 'application/xml')
@@ -190,6 +198,9 @@ function Find-PSPetsByStatus {
         [ValidateSet("available", "pending", "sold")]
         [String[]]
         ${Status},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -210,6 +221,11 @@ function Find-PSPetsByStatus {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/pet/findByStatus'
 
@@ -264,6 +280,9 @@ function Find-PSPetsByTags {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String[]]
         ${Tags},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -284,6 +303,11 @@ function Find-PSPetsByTags {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/pet/findByTags'
 
@@ -338,6 +362,9 @@ function Get-PSPetById {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${PetId},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -358,6 +385,11 @@ function Get-PSPetById {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/pet/{petId}'
         if (!$PetId) {
@@ -415,6 +447,9 @@ function Update-PSPet {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Pet},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -435,6 +470,11 @@ function Update-PSPet {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json', 'application/xml')

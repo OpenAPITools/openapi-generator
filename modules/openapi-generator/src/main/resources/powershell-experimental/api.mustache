@@ -38,6 +38,11 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         ${<%paramName%>},
         <%={{ }}=%>
     {{/allParams}}
+        {{#vendorExtensions.x-powershell-select-accept}}
+        [String]
+        [ValidateSet({{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}})]
+        $ReturnType,
+        {{/vendorExtensions.x-powershell-select-accept}}
         [Switch]
         $WithHttpInfo
     )
@@ -61,6 +66,13 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}})
 
         {{/hasProduces}}
+        {{#vendorExtensions.x-powershell-select-accept}}
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
+
+        {{/vendorExtensions.x-powershell-select-accept}}
         {{#hasConsumes}}
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @({{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}})

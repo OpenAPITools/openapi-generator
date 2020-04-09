@@ -795,6 +795,10 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             } else {
                 methodNames.add(op.vendorExtensions.get("x-powershell-method-name"));
             }
+
+            if (op.produces != null && op.produces.size() > 1) {
+                op.vendorExtensions.put("x-powershell-select-accept", true);
+            }
         }
 
         processedModelMaps.clear();
