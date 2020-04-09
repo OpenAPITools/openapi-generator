@@ -178,9 +178,33 @@ after_success:
       fi;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
-  - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
+  - if [ $DOCKER_HUB_USERNAME ]; then
+      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+      docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
+      if [ ! -z "$TRAVIS_TAG" ]; then
+          docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG;
+      fi;
+      if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
+          docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME";
+      fi;
+    fi;
   ## docker: build cli image and push to Docker Hub
-  - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && cp docker-entrypoint.sh ./modules/openapi-generator-cli && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME && echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME"; fi; fi
+  - if [ $DOCKER_HUB_USERNAME ]; then
+      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+      cp docker-entrypoint.sh ./modules/openapi-generator-cli;
+      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+      docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+      if [ ! -z "$TRAVIS_TAG" ]; then
+          docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG;
+      fi;
+      if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
+          docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME;
+          echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
+      fi;
+    fi;
   ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       cd website;

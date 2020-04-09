@@ -178,6 +178,7 @@ public class CodegenConfigurator {
         return this;
     }
 
+    // TODO: rename this and other references to "global property" rather than "system property"
     public CodegenConfigurator addSystemProperty(String key, String value) {
         this.systemProperties.put(key, value);
         workflowSettingsBuilder.withSystemProperty(key, value);

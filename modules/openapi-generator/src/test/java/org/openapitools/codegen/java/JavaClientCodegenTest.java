@@ -267,7 +267,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 33);
+        Assert.assertEquals(generatedFiles.size(), 34);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -284,6 +284,7 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "pom.xml");
         TestUtils.ensureContainsFile(generatedFiles, output, "README.md");
         TestUtils.ensureContainsFile(generatedFiles, output, "settings.gradle");
+        TestUtils.ensureContainsFile(generatedFiles, output, "api/openapi.yaml");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiCallback.java");
@@ -337,7 +338,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 36);
+        Assert.assertEquals(generatedFiles.size(), 37);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -355,6 +356,7 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "pom.xml");
         TestUtils.ensureContainsFile(generatedFiles, output, "README.md");
         TestUtils.ensureContainsFile(generatedFiles, output, "settings.gradle");
+        TestUtils.ensureContainsFile(generatedFiles, output, "api/openapi.yaml");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/api/xxxx/PingApi.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiCallback.java");
@@ -406,7 +408,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 25);
+        Assert.assertEquals(generatedFiles.size(), 26);
         validateJavaSourceFiles(generatedFiles);
 
         String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");

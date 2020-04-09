@@ -125,6 +125,12 @@ function Set-PSConfiguration {
     Process {
 
         If ($BaseUrl) {
+            # validate URL
+            $URL = $BaseUrl -as [System.URI]
+            if (!($null -ne $URL.AbsoluteURI -and $URL.Scheme -match '[http|https]')) {
+                throw "Invalid URL '$($BaseUrl)' cannot be used in the base URL."
+            }
+    
             $Script:Configuration["BaseUrl"] = $BaseUrl
         }
 
@@ -284,8 +290,8 @@ Get the host setting in the form of array of hashtables.
 
 System.Collections.Hashtable[]
 #>
-function Get-PSHostSettings {
-    return @(
+function Get-PSHostSetting {
+    return ,@(
           @{
             "Url" = "http://{server}.swagger.io:{port}/v2";
             "Description" = "petstore server";
@@ -346,7 +352,7 @@ Get the URL from the host settings.
 
 String
 #>
-function Get-PSUrlFromHostSettings {
+function Get-PSUrlFromHostSetting {
 
     [CmdletBinding()]
     Param(
@@ -356,18 +362,18 @@ function Get-PSUrlFromHostSettings {
     )
 
     Process {
-        $Hosts = Get-PSHostSettings
+        $Hosts = Get-PSHostSetting
 
         # check array index out of bound
-        if ($Index -lt 0 -or $Index -gt $Hosts.Length) {
+        if ($Index -lt 0 -or $Index -ge $Hosts.Length) {
             throw "Invalid index $index when selecting the host. Must be less than $($Hosts.Length)"
         }
 
-        $Host = $Hosts[$Index];
-        $Url = $Host["Url"];
+        $MyHost = $Hosts[$Index];
+        $Url = $MyHost["Url"];
 
         # go through variable and assign a value
-        foreach ($h in $Host["Variables"].GetEnumerator()) {
+        foreach ($h in $MyHost["Variables"].GetEnumerator()) {
             if ($Variables.containsKey($h.Name)) { # check to see if it's in the variables provided by the user
                 if ($h.Value["EnumValues"] -Contains $Variables[$h.Name]) {
                    $Url = $Url.replace("{$($h.Name)}", $Variables[$h.Name])

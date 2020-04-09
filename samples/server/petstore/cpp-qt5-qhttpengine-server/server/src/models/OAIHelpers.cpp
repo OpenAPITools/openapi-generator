@@ -15,13 +15,49 @@
 
 namespace OpenAPI {
 
+class OAISerializerSettings {
+public:
+    static void setDateTimeFormat(const QString & dtFormat){
+        getInstance()->dateTimeFormat = dtFormat;
+    }
+    static QString getDateTimeFormat() {
+        return getInstance()->dateTimeFormat;
+    }
+    static OAISerializerSettings *getInstance(){
+        if(instance == nullptr){
+            instance = new OAISerializerSettings();
+        }
+        return instance;
+    }
+private:
+    explicit OAISerializerSettings(){
+        instance = this;
+        dateTimeFormat.clear();
+    }
+    static OAISerializerSettings *instance;
+    QString dateTimeFormat;
+};
+
+OAISerializerSettings * OAISerializerSettings::instance = nullptr;
+
+bool setDateTimeFormat(const QString& dateTimeFormat){
+    bool success = false;
+    auto dt = QDateTime::fromString(QDateTime::currentDateTime().toString(dateTimeFormat), dateTimeFormat);
+    if(dt.isValid()){
+        success = true;
+        OAISerializerSettings::setDateTimeFormat(dateTimeFormat);
+    }
+    return success;
+}
+
+
 QString toStringValue(const QString &value) {
     return value;
 }
 
 QString toStringValue(const QDateTime &value) {
     // ISO 8601
-    return value.toString("yyyy-MM-ddTHH:mm:ss[Z|[+|-]HH:mm]");
+    return OAISerializerSettings::getInstance()->getDateTimeFormat().isEmpty()? value.toString(Qt::ISODate):value.toString(OAISerializerSettings::getInstance()->getDateTimeFormat());
 }
 
 QString toStringValue(const QByteArray &value) {
@@ -70,7 +106,7 @@ QJsonValue toJsonValue(const QString &value) {
 }
 
 QJsonValue toJsonValue(const QDateTime &value) {
-    return QJsonValue(value.toString(Qt::ISODate));
+    return QJsonValue(value.toString(OAISerializerSettings::getInstance()->getDateTimeFormat().isEmpty()?value.toString(Qt::ISODate):value.toString(OAISerializerSettings::getInstance()->getDateTimeFormat())));
 }
 
 QJsonValue toJsonValue(const QByteArray &value) {
@@ -123,7 +159,7 @@ bool fromStringValue(const QString &inStr, QDateTime &value) {
     if (inStr.isEmpty()) {
         return false;
     } else {
-        auto dateTime = QDateTime::fromString(inStr, "yyyy-MM-ddTHH:mm:ss[Z|[+|-]HH:mm]");
+        auto dateTime = OAISerializerSettings::getInstance()->getDateTimeFormat().isEmpty()?QDateTime::fromString(inStr, Qt::ISODate) :QDateTime::fromString(inStr, OAISerializerSettings::getInstance()->getDateTimeFormat());
         if (dateTime.isValid()) {
             value.setDate(dateTime.date());
             value.setTime(dateTime.time());
@@ -228,7 +264,7 @@ bool fromJsonValue(QString &value, const QJsonValue &jval) {
 bool fromJsonValue(QDateTime &value, const QJsonValue &jval) {
     bool ok = true;
     if (!jval.isUndefined() && !jval.isNull() && jval.isString()) {
-        value = QDateTime::fromString(jval.toString(), Qt::ISODate);
+        value = OAISerializerSettings::getInstance()->getDateTimeFormat().isEmpty()?QDateTime::fromString(jval.toString(), Qt::ISODate): QDateTime::fromString(jval.toString(), OAISerializerSettings::getInstance()->getDateTimeFormat());
         ok = value.isValid();
     } else {
         ok = false;
