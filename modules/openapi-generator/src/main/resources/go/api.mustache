@@ -19,8 +19,9 @@ var (
 
 type {{classname}} interface {
 {{#operation}}
+
     /*
-    {{{classname}}}Service{{#summary}} {{{.}}}{{/summary}}
+    {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
     {{#notes}}
     {{notes}}
     {{/notes}}
