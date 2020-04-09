@@ -102,14 +102,9 @@ public class ApiClientTest {
     public void testGetAuthentications() {
         Map<String, Authentication> auths = apiClient.getAuthentications();
 
-        Authentication auth = auths.get("api_key");
-        assertNotNull(auth);
-        assertTrue(auth instanceof ApiKeyAuth);
-        ApiKeyAuth apiKeyAuth = (ApiKeyAuth) auth;
-        assertEquals("header", apiKeyAuth.getLocation());
-        assertEquals("api_key", apiKeyAuth.getParamName());
+        assertNull(auths.get("api_key"));
 
-        auth = auths.get("petstore_auth");
+        Authentication auth = auths.get("petstore_auth");
         assertTrue(auth instanceof OAuth);
         assertSame(auth, apiClient.getAuthentication("petstore_auth"));
 
