@@ -49,7 +49,8 @@ sidebar_label: bash
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>array</li>
+<ul class="column-ul">
+<li>array</li>
 <li>binary</li>
 <li>boolean</li>
 <li>float</li>
@@ -60,7 +61,8 @@ sidebar_label: bash
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>case</li>
+<ul class="column-ul">
+<li>case</li>
 <li>do</li>
 <li>done</li>
 <li>elif</li>

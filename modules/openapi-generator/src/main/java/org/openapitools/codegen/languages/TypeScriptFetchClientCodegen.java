@@ -48,9 +48,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public TypeScriptFetchClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -63,6 +61,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
+        typeMapping.put("date", "Date");
+        typeMapping.put("DateTime", "Date");
+
+        supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
@@ -99,8 +101,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void processOpts() {
         super.processOpts();
-        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
-        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
+        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming() == CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
+        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming().name());
 
         String sourceDir = "";
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -134,21 +136,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+        if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
-        } else if (ModelUtils.isDateSchema(p)) {
-            return "Date";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "Date";
         }
         return super.getTypeDeclaration(p);
     }

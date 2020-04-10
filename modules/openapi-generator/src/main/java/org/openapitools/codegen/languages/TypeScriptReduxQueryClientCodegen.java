@@ -58,6 +58,10 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
+        typeMapping.put("date", "Date");
+        typeMapping.put("DateTime", "Date");
+
+        supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
@@ -84,8 +88,8 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     @Override
     public void processOpts() {
         super.processOpts();
-        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
-        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
+        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming() == CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
+        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming().name());
         supportingFiles.add(new SupportingFile("index.mustache", "src", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "src", "runtime.ts"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
@@ -103,21 +107,10 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+        if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
-        } else if (ModelUtils.isDateSchema(p)) {
-            return "Date";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "Date";
         }
         return super.getTypeDeclaration(p);
     }

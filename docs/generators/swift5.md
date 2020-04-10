@@ -6,10 +6,11 @@ sidebar_label: swift5
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|apiNamePrefix|Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet =&gt; Pet.| |null|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lenientTypeCast|Accept and cast values for simple types (string-&gt;bool, string-&gt;int, int-&gt;string)| |false|
-|library|Library template (sub-template) to use|<dl><dt>**urlsession**</dt><dd>[DEFAULT] HTTP client: URLSession</dd><dt>**alamofire**</dt><dd>HTTP client: Alamofire</dd><dl>|urlsession|
+|library|Library template (sub-template) to use|<dl><dt>**urlsession**</dt><dd>[DEFAULT] HTTP client: URLSession</dd><dt>**alamofire**</dt><dd>HTTP client: Alamofire</dd></dl>|urlsession|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
 |podAuthors|Authors used for Podspec| |null|
@@ -43,7 +44,8 @@ sidebar_label: swift5
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Any</li>
+<ul class="column-ul">
+<li>Any</li>
 <li>AnyObject</li>
 <li>Bool</li>
 <li>Character</li>
@@ -63,7 +65,8 @@ sidebar_label: swift5
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>#available</li>
+<ul class="column-ul">
+<li>#available</li>
 <li>#colorLiteral</li>
 <li>#column</li>
 <li>#else</li>

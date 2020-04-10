@@ -225,7 +225,7 @@ public class TypeScriptFetchModelTest {
     @Test(description = "test enum array model")
     public void enumArrayMdoelTest() {
         // TODO: update yaml file.
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         codegen.processOpts();
         codegen.setOpenAPI(openAPI);
@@ -263,7 +263,7 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumMdoelValueTest() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         codegen.processOpts();
         codegen.setOpenAPI(openAPI);
@@ -294,4 +294,24 @@ public class TypeScriptFetchModelTest {
 
     }
 
+    @Test(description = "Add null safe additional property indexer when enabled")
+    public void testNullSafeAdditionalProps() {
+        final Schema model = new Schema()
+            .additionalProperties(new StringSchema());
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put("nullSafeAdditionalProps", true);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getTypeDeclaration(model), "{ [key: string]: string | undefined; }");
+    }
+
+    @Test(description = "Don't add null safe additional property indexer by default")
+    public void testWithoutNullSafeAdditionalProps() {
+        final Schema model = new Schema()
+            .additionalProperties(new StringSchema());
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getTypeDeclaration(model), "{ [key: string]: string; }");
+    }
 }

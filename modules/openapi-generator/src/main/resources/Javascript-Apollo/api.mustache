@@ -1,0 +1,88 @@
+{{>licenseInfo}}
+
+{{=< >=}}
+
+import ApiClient from "../ApiClient";
+<#imports>import <&import> from '../<#modelPackage><&modelPackage>/</modelPackage><import>';
+</imports>
+
+<#emitJSDoc>/**
+* <baseName> service.
+* @module <#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><classname>
+* @version <&projectVersion>
+*/</emitJSDoc>
+export default class <&classname> extends ApiClient {
+
+    <#emitJSDoc>/**
+    * Constructs a new <&classname>. <#description>
+    * <description></description>
+    * @alias module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><classname>
+    * @class
+    */</emitJSDoc>
+    constructor() {
+      super();
+      this.baseURL = <#servers.0>basePath</servers.0><^servers.0>null</servers.0>;
+    }
+
+<#operations><#operation><#emitJSDoc>
+    /**<#summary>
+     * <&summary></summary><#notes>
+     * <&notes></notes><#allParams><#required>
+     * @param {<&vendorExtensions.x-jsdoc-type>} <&paramName> <&description></required></allParams><#hasOptionalParams>
+     * @param {Object} opts Optional parameters<#allParams><^required>
+     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<&paramName> <&description><#defaultValue> (default to <&.>)</defaultValue></required></allParams></hasOptionalParams>
+     <=| |=>* @return {Promise|#returnType|<|&vendorExtensions.x-jsdoc-type|>|/returnType|}|=< >=|
+     */
+</emitJSDoc>    async <operationId>(<vendorExtensions.x-codegen-arg-list>) {
+      <#vendorExtensions.x-codegen-has-optional-params>
+      opts = opts || {};
+      </vendorExtensions.x-codegen-has-optional-params>
+      let postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
+<#allParams>
+<#required>
+      // verify the required parameter '<paramName>' is set
+      if (<paramName> === undefined || <paramName> === null) {
+        throw new Error("Missing the required parameter '<paramName>' when calling <operationId>");
+      }
+</required>
+</allParams>
+
+      let pathParams = {<#pathParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
+      };
+      let queryParams = {<#queryParams>
+        '<baseName>': <#collectionFormat>this.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></queryParams>
+      };
+      let headerParams = {<#headerParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></headerParams>
+      };
+      let formParams = {<#formParams>
+        '<baseName>': <#collectionFormat>this.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></formParams>
+      };
+
+      let authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
+      let contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
+      let accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
+      let returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
+      <#servers.0>
+      let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
+
+      </servers.0>
+
+      return this.callApi(
+        '<&path>', '<httpMethod>',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+</operation></operations>
+
+}
+<={{ }}=>

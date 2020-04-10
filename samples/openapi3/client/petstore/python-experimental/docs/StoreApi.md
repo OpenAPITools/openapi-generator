@@ -26,7 +26,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_id = 'order_id_example' # str | ID of the order that needs to be deleted
@@ -89,6 +89,7 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -142,7 +143,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_id = 56 # int | ID of pet that needs to be fetched
@@ -198,7 +199,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_order = petstore_api.Order() # order.Order | order placed for purchasing the pet

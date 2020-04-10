@@ -33,6 +33,8 @@ use Dyorg\TokenAuthentication;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Psr\Http\Message\ServerRequestInterface;
 use OpenAPIServer\Middleware\JsonBodyParserMiddleware;
+use OpenAPIServer\Mock\OpenApiDataMocker;
+use OpenAPIServer\Mock\OpenApiDataMockerMiddleware;
 use Exception;
 
 /**
@@ -58,6 +60,22 @@ class SlimRouter
             'classname' => 'AbstractAnotherFakeApi',
             'userClassname' => 'AnotherFakeApi',
             'operationId' => 'call123TestSpecialTags',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Client"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -69,6 +87,16 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'createXmlItem',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -80,6 +108,22 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'fakeOuterBooleanSerialize',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'Output boolean',
+                    'jsonSchema' => '{
+  "description" : "Output boolean",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/OuterBoolean"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -91,6 +135,22 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'fakeOuterCompositeSerialize',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'Output composite',
+                    'jsonSchema' => '{
+  "description" : "Output composite",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/OuterComposite"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -102,6 +162,22 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'fakeOuterNumberSerialize',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'Output number',
+                    'jsonSchema' => '{
+  "description" : "Output number",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/OuterNumber"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -113,6 +189,22 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'fakeOuterStringSerialize',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'Output string',
+                    'jsonSchema' => '{
+  "description" : "Output string",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/OuterString"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -124,6 +216,16 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testBodyWithFileSchema',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'Success',
+                    'jsonSchema' => '{
+  "description" : "Success",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -135,6 +237,16 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testBodyWithQueryParams',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'Success',
+                    'jsonSchema' => '{
+  "description" : "Success",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -146,6 +258,22 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testClientModel',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Client"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -157,6 +285,24 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testEndpointParameters',
+            'responses' => [
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid username supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid username supplied",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'User not found',
+                    'jsonSchema' => '{
+  "description" : "User not found",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
                 // http security schema named 'http_basic_test'
                 [
@@ -176,6 +322,24 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testEnumParameters',
+            'responses' => [
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid request',
+                    'jsonSchema' => '{
+  "description" : "Invalid request",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'Not found',
+                    'jsonSchema' => '{
+  "description" : "Not found",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -187,6 +351,16 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testGroupParameters',
+            'responses' => [
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Someting wrong',
+                    'jsonSchema' => '{
+  "description" : "Someting wrong",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -198,6 +372,16 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testInlineAdditionalProperties',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -209,6 +393,16 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testJsonFormData',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -220,6 +414,16 @@ class SlimRouter
             'classname' => 'AbstractFakeApi',
             'userClassname' => 'FakeApi',
             'operationId' => 'testQueryParameterCollectionFormat',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'Success',
+                    'jsonSchema' => '{
+  "description" : "Success",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -231,6 +435,22 @@ class SlimRouter
             'classname' => 'AbstractFakeClassnameTags123Api',
             'userClassname' => 'FakeClassnameTags123Api',
             'operationId' => 'testClassname',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Client"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
                 // apiKey security schema named 'api_key_query'
                 [
@@ -254,6 +474,24 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'addPet',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+                '405' => [
+                    'code' => 405,
+                    'message' => 'Invalid input',
+                    'jsonSchema' => '{
+  "description" : "Invalid input",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
@@ -277,6 +515,41 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'findPetsByStatus',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    }
+  }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid status value',
+                    'jsonSchema' => '{
+  "description" : "Invalid status value",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
@@ -300,6 +573,41 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'findPetsByTags',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    }
+  }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid tag value',
+                    'jsonSchema' => '{
+  "description" : "Invalid tag value",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
@@ -323,6 +631,40 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'updatePet',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid ID supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid ID supplied",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'Pet not found',
+                    'jsonSchema' => '{
+  "description" : "Pet not found",
+  "content" : { }
+}',
+                ],
+                '405' => [
+                    'code' => 405,
+                    'message' => 'Validation exception',
+                    'jsonSchema' => '{
+  "description" : "Validation exception",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
@@ -346,6 +688,24 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'deletePet',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid pet value',
+                    'jsonSchema' => '{
+  "description" : "Invalid pet value",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
@@ -369,6 +729,43 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'getPetById',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid ID supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid ID supplied",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'Pet not found',
+                    'jsonSchema' => '{
+  "description" : "Pet not found",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
@@ -392,6 +789,16 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'updatePetWithForm',
+            'responses' => [
+                '405' => [
+                    'code' => 405,
+                    'message' => 'Invalid input',
+                    'jsonSchema' => '{
+  "description" : "Invalid input",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
@@ -415,6 +822,22 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'uploadFile',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ApiResponse"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
@@ -438,6 +861,22 @@ class SlimRouter
             'classname' => 'AbstractPetApi',
             'userClassname' => 'PetApi',
             'operationId' => 'uploadFileWithRequiredFile',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ApiResponse"
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
                 // oauth2 security schema named 'petstore_auth'
                 [
@@ -461,6 +900,26 @@ class SlimRouter
             'classname' => 'AbstractStoreApi',
             'userClassname' => 'StoreApi',
             'operationId' => 'getInventory',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    }
+  }
+}',
+                ],
+            ],
             'authMethods' => [
                 // apiKey security schema named 'api_key'
                 [
@@ -484,6 +943,35 @@ class SlimRouter
             'classname' => 'AbstractStoreApi',
             'userClassname' => 'StoreApi',
             'operationId' => 'placeOrder',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
+  }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid Order',
+                    'jsonSchema' => '{
+  "description" : "Invalid Order",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -495,6 +983,24 @@ class SlimRouter
             'classname' => 'AbstractStoreApi',
             'userClassname' => 'StoreApi',
             'operationId' => 'deleteOrder',
+            'responses' => [
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid ID supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid ID supplied",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'Order not found',
+                    'jsonSchema' => '{
+  "description" : "Order not found",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -506,6 +1012,43 @@ class SlimRouter
             'classname' => 'AbstractStoreApi',
             'userClassname' => 'StoreApi',
             'operationId' => 'getOrderById',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
+  }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid ID supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid ID supplied",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'Order not found',
+                    'jsonSchema' => '{
+  "description" : "Order not found",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -517,6 +1060,16 @@ class SlimRouter
             'classname' => 'AbstractUserApi',
             'userClassname' => 'UserApi',
             'operationId' => 'createUser',
+            'responses' => [
+                'default' => [
+                    'code' => 0,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -528,6 +1081,16 @@ class SlimRouter
             'classname' => 'AbstractUserApi',
             'userClassname' => 'UserApi',
             'operationId' => 'createUsersWithArrayInput',
+            'responses' => [
+                'default' => [
+                    'code' => 0,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -539,6 +1102,16 @@ class SlimRouter
             'classname' => 'AbstractUserApi',
             'userClassname' => 'UserApi',
             'operationId' => 'createUsersWithListInput',
+            'responses' => [
+                'default' => [
+                    'code' => 0,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -550,6 +1123,51 @@ class SlimRouter
             'classname' => 'AbstractUserApi',
             'userClassname' => 'UserApi',
             'operationId' => 'loginUser',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "headers" : {
+    "X-Rate-Limit" : {
+      "description" : "calls per hour allowed by the user",
+      "schema" : {
+        "type" : "integer",
+        "format" : "int32"
+      }
+    },
+    "X-Expires-After" : {
+      "description" : "date in UTC when token expires",
+      "schema" : {
+        "type" : "string",
+        "format" : "date-time"
+      }
+    }
+  },
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "string"
+      }
+    }
+  }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid username/password supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid username/password supplied",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -561,6 +1179,16 @@ class SlimRouter
             'classname' => 'AbstractUserApi',
             'userClassname' => 'UserApi',
             'operationId' => 'logoutUser',
+            'responses' => [
+                'default' => [
+                    'code' => 0,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -572,6 +1200,24 @@ class SlimRouter
             'classname' => 'AbstractUserApi',
             'userClassname' => 'UserApi',
             'operationId' => 'deleteUser',
+            'responses' => [
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid username supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid username supplied",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'User not found',
+                    'jsonSchema' => '{
+  "description" : "User not found",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -583,6 +1229,43 @@ class SlimRouter
             'classname' => 'AbstractUserApi',
             'userClassname' => 'UserApi',
             'operationId' => 'getUserByName',
+            'responses' => [
+                'default' => [
+                    'code' => 200,
+                    'message' => 'successful operation',
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  }
+}',
+                ],
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid username supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid username supplied",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'User not found',
+                    'jsonSchema' => '{
+  "description" : "User not found",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -594,6 +1277,24 @@ class SlimRouter
             'classname' => 'AbstractUserApi',
             'userClassname' => 'UserApi',
             'operationId' => 'updateUser',
+            'responses' => [
+                '400' => [
+                    'code' => 400,
+                    'message' => 'Invalid user supplied',
+                    'jsonSchema' => '{
+  "description" : "Invalid user supplied",
+  "content" : { }
+}',
+                ],
+                '404' => [
+                    'code' => 404,
+                    'message' => 'User not found',
+                    'jsonSchema' => '{
+  "description" : "User not found",
+  "content" : { }
+}',
+                ],
+            ],
             'authMethods' => [
             ],
         ],
@@ -631,12 +1332,13 @@ class SlimRouter
             throw new Exception($message);
         };
 
-        $userOptions = null;
-        if ($settings instanceof ContainerInterface && $settings->has('tokenAuthenticationOptions')) {
-            $userOptions = $settings->get('tokenAuthenticationOptions');
-        } elseif (is_array($settings) && isset($settings['tokenAuthenticationOptions'])) {
-            $userOptions = $settings['tokenAuthenticationOptions'];
-        }
+        $userOptions = $this->getSetting($settings, 'tokenAuthenticationOptions', null);
+
+        // mocker options
+        $mockerOptions = $this->getSetting($settings, 'mockerOptions', null);
+        $dataMocker = $mockerOptions['dataMocker'] ?? new OpenApiDataMocker();
+        $getMockResponseCallback = $mockerOptions['getMockResponseCallback'] ?? null;
+        $mockAfterCallback = $mockerOptions['afterCallback'] ?? null;
 
         foreach ($this->operations as $operation) {
             $callback = function ($request, $response, $arguments) use ($operation) {
@@ -703,6 +1405,10 @@ class SlimRouter
                 }
             }
 
+            if (is_callable($getMockResponseCallback)) {
+                $middlewares[] = new OpenApiDataMockerMiddleware($dataMocker, $operation['responses'], $getMockResponseCallback, $mockAfterCallback);
+            }
+
             $this->addRoute(
                 [$operation['httpMethod']],
                 "{$operation['basePathWithoutHost']}{$operation['path']}",
@@ -727,6 +1433,26 @@ class SlimRouter
         }
 
         return array_merge($userOptions, $staticOptions);
+    }
+
+    /**
+     * Returns app setting by name.
+     *
+     * @param ContainerInterface|array $settings    Either a ContainerInterface or an associative array of app settings
+     * @param string                   $settingName Setting name
+     * @param mixed                    $default     Default setting value.
+     *
+     * @return mixed
+     */
+    private function getSetting($settings, $settingName, $default = null)
+    {
+        if ($settings instanceof ContainerInterface && $settings->has($settingName)) {
+            return $settings->get($settingName);
+        } elseif (is_array($settings) && array_key_exists($settingName, $settings)) {
+            return $settings[$settingName];
+        }
+
+        return $default;
     }
 
     /**

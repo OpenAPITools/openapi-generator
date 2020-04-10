@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.3.0-SNAPSHOT</version>
+    <version>4.3.1-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -225,6 +225,9 @@
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
+                    <systemPropertyVariables>
+                        <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
+                    </systemPropertyVariables>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -436,6 +439,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>${checkstyle.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>${git.commit.id.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -1222,7 +1230,14 @@
                 </property>
             </activation>
             <modules>
+                <!-- servers -->
                 <module>samples/server/petstore/python-aiohttp</module>
+                <module>samples/server/petstore/python-aiohttp-srclayout</module>
+                <module>samples/server/petstore/python-flask</module>
+                <module>samples/server/petstore/python-flask-python2</module>
+                <module>samples/server/petstore/php-slim</module>
+                <module>samples/server/petstore/php-slim4</module>
+                <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
                 <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
@@ -1232,9 +1247,8 @@
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/server/petstore/php-slim</module>
-                <module>samples/server/petstore/php-slim4</module>
                 <module>samples/client/petstore/javascript</module>
+                <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/openapi3/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise</module>
@@ -1263,9 +1277,6 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
-                <module>samples/server/petstore/rust-server</module>
-                <module>samples/server/petstore/python-flask</module>
-                <!--<module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1286,6 +1297,7 @@
                 <module>samples/openapi3/client/petstore/go</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
+                <module>samples/openapi3/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
@@ -1355,10 +1367,11 @@
                 <module>samples/server/petstore/java-msf4j</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scala-play-server</module>
+                <module>samples/server/petstore/scala-akka-http-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/java-vertx-web/rx</module>
                 <module>samples/server/petstore/scala-finch</module>
-                <module>samples/server/petstore/kotlin/vertx</module>
+                <!--<module>samples/server/petstore/kotlin/vertx</module>-->
                 <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
@@ -1378,8 +1391,10 @@
                 <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
+                <module>samples/client/petstore/dart2/petstore</module>
+                <module>samples/client/petstore/dart-jaguar/openapi</module>
+                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2</module>
@@ -1441,6 +1456,7 @@
                 <module>samples/client/petstore/erlang-proper</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
                 <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-jackson/</module>
                 <module>samples/client/petstore/kotlin-gson/</module>
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
                 <module>samples/client/petstore/kotlin-nullable/</module>
@@ -1585,13 +1601,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-core-version>2.1.1</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.17</swagger-parser-version>
-        <scala-version>2.11.1</scala-version>
+        <swagger-parser-version>2.0.19</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.13</junit-version>
-        <jackson-version>2.8.9</jackson-version>
+        <jackson-version>2.10.2</jackson-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>3.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>
@@ -1607,5 +1622,6 @@
         <pmd.plugin.version>3.12.0</pmd.plugin.version>
         <violations-maven.plugin.version>1.34</violations-maven.plugin.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
+        <git.commit.id.plugin.version>4.0.0</git.commit.id.plugin.version>
     </properties>
 </project>

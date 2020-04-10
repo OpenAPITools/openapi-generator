@@ -34,7 +34,8 @@ sidebar_label: php-slim-deprecated
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>DateTime</li>
+<ul class="column-ul">
+<li>DateTime</li>
 <li>bool</li>
 <li>boolean</li>
 <li>byte</li>
@@ -51,7 +52,8 @@ sidebar_label: php-slim-deprecated
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>__halt_compiler</li>
+<ul class="column-ul">
+<li>__halt_compiler</li>
 <li>_header_accept</li>
 <li>_tempbody</li>
 <li>abstract</li>

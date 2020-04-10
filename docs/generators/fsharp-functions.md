@@ -38,7 +38,8 @@ sidebar_label: fsharp-functions
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Collection</li>
+<ul class="column-ul">
+<li>Collection</li>
 <li>DataTimeOffset</li>
 <li>DateTime</li>
 <li>Dictionary</li>
@@ -74,7 +75,8 @@ sidebar_label: fsharp-functions
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>and</li>
 <li>as</li>
 <li>assert</li>

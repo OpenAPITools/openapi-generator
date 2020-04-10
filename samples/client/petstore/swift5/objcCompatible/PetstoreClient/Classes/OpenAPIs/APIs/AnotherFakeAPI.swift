@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class AnotherFakeAPI {
+@objc open class AnotherFakeAPI: NSObject {
     /**
      To test special tags
      
