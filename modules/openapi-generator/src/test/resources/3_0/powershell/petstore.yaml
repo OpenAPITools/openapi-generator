@@ -756,7 +756,7 @@ components:
         code:
           type: integer
           format: int32
-        type:
+        host:
           type: string
         message:
           type: string

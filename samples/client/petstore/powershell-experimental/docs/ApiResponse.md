@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Code** | **Int32** |  | [optional] [default to null]
-**Type** | **String** |  | [optional] [default to null]
+**Host** | **String** |  | [optional] [default to null]
 **Message** | **String** |  | [optional] [default to null]
 
 ## Examples
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 - Prepare the resource
 ```powershell
 Initialize-PSPetstoreApiResponse  -Code null `
- -Type null `
+ -Host null `
  -Message null
 ```
 
