@@ -55,7 +55,7 @@ public class JSON {
                 .registerTypeSelector(Animal.class, new TypeSelector() {
                     @Override
                     public Class getClassForElement(JsonElement readElement) {
-                        Map classByDiscriminatorValue = new HashMap();
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
                         classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
                         classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
