@@ -90,7 +90,11 @@ class ChildCat(ModelComposed):
 
     @staticmethod
     def discriminator():
-        return None
+        val = {
+        }
+        if not val:
+            return None
+        return {'pet_type': val}
 
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501
@@ -191,3 +195,16 @@ class ChildCat(ModelComposed):
           'oneOf': [
           ],
         }
+
+    @classmethod
+    def get_discriminator_class(cls, from_server, data):
+        """Returns the child class specified by the discriminator"""
+        discriminator = cls.discriminator()
+        discr_propertyname_py = list(discriminator.keys())[0]
+        discr_propertyname_js = cls.attribute_map[discr_propertyname_py]
+        if from_server:
+            class_name = data[discr_propertyname_js]
+        else:
+            class_name = data[discr_propertyname_py]
+        class_name_to_discr_class = discriminator[discr_propertyname_py]
+        return class_name_to_discr_class.get(class_name)
