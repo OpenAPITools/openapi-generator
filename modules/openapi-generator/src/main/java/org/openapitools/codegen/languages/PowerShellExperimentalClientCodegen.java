@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -537,6 +538,11 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("POWERSHELL_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable POWERSHELL_POST_PROCESS_FILE not defined so the PowerShell code may not be properly formatted. To define it, try 'export POWERSHELL_POST_PROCESS_FILE=\"Edit-DTWBeautifyScript\"'");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         if (additionalProperties.containsKey("powershellGalleryUrl")) {
             setPowershellGalleryUrl((String) additionalProperties.get("powershellGalleryUrl"));
         } else {
@@ -1034,6 +1040,34 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
         // not using powershell verb
         return "Invoke-" + apiNamePrefix + methodName;
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String powershellPostProcessFile = System.getenv("POWERSHELL_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(powershellPostProcessFile)) {
+            return; // skip if POWERSHELL_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with ps extension
+        if ("ps".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = powershellPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
+
     }
 
     @Override
