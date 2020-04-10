@@ -30,6 +30,8 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.openapitools.client.model.*;
 import okio.ByteString;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Type;
@@ -49,6 +51,7 @@ public class JSON {
     private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
     private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
     private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
+    private final Log log = LogFactory.getLog(JSON.class);
 
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
@@ -56,10 +59,10 @@ public class JSON {
                     @Override
                     public Class getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
-                        classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
-                        classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
-                        classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
+                        classByDiscriminatorValue.put("Dog", Dog.class);
+                        classByDiscriminatorValue.put("Cat", Cat.class);
+                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        classByDiscriminatorValue.put("Animal", Animal.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
@@ -77,8 +80,16 @@ public class JSON {
         return element.getAsString();
     }
 
+    /**
+     * Returns the Java class that implements the OpenAPI schema for the specified discriminator value.
+     *
+     * @param classByDiscriminatorValue The map of discriminator values to Java classes.
+     * @param discriminatorValue The value of the OpenAPI discriminator in the input data.
+     * @return The Java class that implements the OpenAPI schema
+     */
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(Locale.ROOT));
+        log.debug("getClassByDiscriminator: {}", discriminatorValue);
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue);
         if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }
