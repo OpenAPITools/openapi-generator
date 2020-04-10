@@ -3,7 +3,7 @@
 * @enum {{=<% %>=}}{<%datatype%>}<%={{ }}=%>
 * @readonly
 */{{/emitJSDoc}}
-export default class {{classname}} {
+class {{classname}} {
     {{#allowableValues}}{{#enumVars}}
         {{#emitJSDoc}}/**
          * value: {{{value}}}
@@ -22,3 +22,5 @@ export default class {{classname}} {
         return object;
     }
 }
+
+module.exports = {{classname}}

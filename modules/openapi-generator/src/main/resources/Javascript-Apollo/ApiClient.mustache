@@ -1,6 +1,6 @@
 {{>licenseInfo}}
 
-import RESTDataSource from 'apollo-datasource-rest';
+const { RESTDataSource } = require('apollo-datasource-rest');
 
 {{#emitJSDoc}}/**
 * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient
@@ -13,34 +13,8 @@ import RESTDataSource from 'apollo-datasource-rest';
 * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient
 * @class
 */{{/emitJSDoc}}
-export default class ApiClient extends RESTDataSource {
-    constructor() {
-        super()
-        
-        {{#emitJSDoc}}/**
-         * The authentication methods to be included for all API calls.
-         * @type {Array.<String>}
-         */{{/emitJSDoc}}{{=< >=}}
-        this.authentications = {
-<#authMethods>
-<#isBasic>
-<#isBasicBasic>
-            '<name>': {type: 'basic'}<^-last>,</-last>
-</isBasicBasic>
-<#isBasicBearer>
-            '<name>': {type: 'bearer'}<^-last>,</-last><#bearerFormat> // <&.></bearerFormat>
-</isBasicBearer>
-</isBasic>
-<#isApiKey>
-            '<name>': {type: 'apiKey', 'in': <#isKeyInHeader>'header'</isKeyInHeader><^isKeyInHeader>'query'</isKeyInHeader>, name: '<keyParamName>'}<^-last>,</-last>
-</isApiKey>
-<#isOAuth>
-            '<name>': {type: 'oauth2'}<^-last>,</-last>
-</isOAuth>
-</authMethods>
-        }
-    }
-
+class ApiClient extends RESTDataSource {
+    /** @private */
     paramToString(param) {
         if (param == undefined || param == null) {
             return '';
@@ -52,8 +26,9 @@ export default class ApiClient extends RESTDataSource {
         return param.toString();
     }
 
-    parametrizePath(path, pathParams) {
-        return url.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
+    /** @private */
+    parameterizePath(path, pathParams) {
+        return path.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
             var value;
             if (pathParams.hasOwnProperty(key)) {
                 value = this.paramToString(pathParams[key]);
@@ -65,6 +40,7 @@ export default class ApiClient extends RESTDataSource {
         });
     }
 
+    /** @private */
     isFileParam(param) {
         // fs.ReadStream in Node.js and Electron (but not in runtime like browserify)
         if (typeof require === 'function') {
@@ -95,6 +71,7 @@ export default class ApiClient extends RESTDataSource {
         return false;
     }
 
+    /** @private */
     normalizeParams(params) {
         var newParams = {};
         for (var key in params) {
@@ -111,6 +88,7 @@ export default class ApiClient extends RESTDataSource {
         return newParams;
     }
 
+    /** @private */
     buildCollectionParam(param, collectionFormat) {
         if (param == null) {
             return null;
@@ -132,84 +110,46 @@ export default class ApiClient extends RESTDataSource {
         }
     }
 
-    applyAuthOptions(fetchOptions, authNames) {
-        fetchOptions.headers = fetchOptions.headers || {};
-
-        authNames.forEach((authName) => {
-            var auth = this.authentications[authName];
-            switch (auth.type) {
-                case 'basic':
-                    if (auth.username || auth.password) {
-                        fetchOptions.headers['Authorization'] = 'Basic ' + base64.encode(auth.username + ":" + auth.password);
-                    }
-
-                    break;
-                case 'bearer':
-                case 'oauth2':
-                    if (auth.accessToken) {
-                        fetchOptions.headers['Authorization'] = 'Bearer ' + auth.accessToken;
-                    }
-
-                    break;
-                case 'apiKey':
-                    if (auth.apiKey) {
-                        var data = {};
-                        if (auth.apiKeyPrefix) {
-                            data[auth.name] = auth.apiKeyPrefix + ' ' + auth.apiKey;
-                        } else {
-                            data[auth.name] = auth.apiKey;
-                        }
-
-                        if (auth['in'] === 'header') {
-                            Object.assign(fetchOptions.headers, data);
-                        } else {
-                            Object.assign(fetchOptions.params, data);
-                        }
-                    }
-
-                    break;
-                default:
-                    throw new Error('Unknown authentication type: ' + auth.type);
-            }
-        });
-    }
-
-    async callApi(path, httpMethod, pathParams,
-        queryParams, headerParams, formParams, bodyParam, authNames,
-        returnType) {
-
-        var parameterizedPath = this.parametrizePath(path, pathParams);
-        var fetchOptions = {
-            headers: headerParams,
-            params: queryParams
-        };
-
-        this.applyAuthOptions(fetchOptions, authNames);
-
-        var body = null;
-        
-        if (bodyParam !== null && bodyParam !== undefined) {
-            body = bodyParam;
-        } else if (formParams !== null && formParams !== undefined) {
-            var _formParams = this.normalizeParams(formParams);
-            for (var key in _formParams) {
-                if (_formParams.hasOwnProperty(key)) {
-                    body[key] = _formParams[key];
-                }
-            }
-        }
+    /** @private */
+    async callApi(path, httpMethod, pathParams, queryParams, headerParams, formParams, bodyParam, fetchOptions, returnType) {
+        const finalFetchOptions = Object.assign({}, fetchOptions, {
+            headers: Object.assign({}, headerParams, fetchOptions.headers || {}),
+        })
 
         var response;
         var httpMethodFn = httpMethod.toLowerCase();
+        var parameterizedPath = this.parameterizePath(path, pathParams);
 
         if (httpMethodFn == 'get' || httpMethodFn == 'delete') {
-            response = await this[httpMethodFn](parameterizedPath, fetchOptions);
+            response = await this[httpMethodFn](parameterizedPath, queryParams, finalFetchOptions);
         } else {
-            response = await this[httpMethodFn](parameterizedPath, body, fetchOptions)
+            let body = null;
+        
+            if (bodyParam !== null && bodyParam !== undefined) {
+                body = bodyParam;
+            } else if (formParams !== null && formParams !== undefined) {
+                var _formParams = this.normalizeParams(formParams);
+                for (var key in _formParams) {
+                    if (_formParams.hasOwnProperty(key)) {
+                        body[key] = _formParams[key];
+                    }
+                }
+            }
+            response = await this[httpMethodFn](parameterizedPath, body, finalFetchOptions)
         }
 
         var convertedResponse = ApiClient.convertToType(response, returnType);
         return convertedResponse;
+    }
+
+    /** @private */
+    compactObject(obj) {
+        const cleanObj = Object.keys(obj).reduce((acc, key) => {
+            const _acc = acc;
+            if (obj[key] !== undefined) _acc[key] = obj[key];
+            return _acc;
+        }, {})
+        return cleanObj;
     }
 
     static parseDate(str) {
@@ -297,3 +237,5 @@ ApiClient.CollectionFormatEnum = {
     PIPES: '|',
     MULTI: 'multi'
 };
+
+module.exports = ApiClient
