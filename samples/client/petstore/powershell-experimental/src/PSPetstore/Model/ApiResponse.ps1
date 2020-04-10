@@ -17,7 +17,7 @@ Describes the result of uploading an image resource
 .PARAMETER Code
 No description available.
 
-.PARAMETER Host
+.PARAMETER Type
 No description available.
 
 .PARAMETER Message
@@ -36,7 +36,7 @@ function Initialize-PSApiResponse {
         ${Code},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
         [String]
-        ${Host},
+        ${Type},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true)]
         [String]
         ${Message}
@@ -48,7 +48,7 @@ function Initialize-PSApiResponse {
 
         $PSO = [PSCustomObject]@{
             "code" = ${Code}
-            "host" = ${Host}
+            "type" = ${Type}
             "message" = ${Message}
         }
 
