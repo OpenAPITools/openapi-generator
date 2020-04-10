@@ -37,7 +37,7 @@ No description available.
 Order<PSCustomObject>
 #>
 
-function New-PSOrder {
+function Initialize-PSOrder {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -53,6 +53,7 @@ function New-PSOrder {
         [System.Nullable[System.DateTime]]
         ${ShipDate},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
+        [ValidateSet("placed", "approved", "delivered")]
         [String]
         ${Status},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
@@ -61,7 +62,7 @@ function New-PSOrder {
     )
 
     Process {
-        'Creating object: PSPetstore => PSOrder' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSOrder' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

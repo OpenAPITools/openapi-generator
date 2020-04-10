@@ -86,7 +86,6 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));
-            supportingFiles.add(new SupportingFile("http_signature_test.mustache", "", "http_signature_test.go"));
         }
     }
 
@@ -153,7 +152,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // The superclass determines the list of required golang imports. The actual list of imports
         // depends on which types are used, some of which are changed in the code below (but then preserved
-        // and used through x-basetype in templates). So super.postProcessModels
+        // and used through x-go-base-type in templates). So super.postProcessModels
         // must be invoked at the beginning of this method.
         objs = super.postProcessModels(objs);
 
@@ -167,8 +166,9 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 }
 
                 for (CodegenProperty param : model.vars) {
-                    param.vendorExtensions.put("x-basetype", param.dataType);
-                    if (!param.isNullable || param.isMapContainer || param.isListContainer) {
+                    param.vendorExtensions.put("x-go-base-type", param.dataType);
+                    if (!param.isNullable || param.isMapContainer || param.isListContainer ||
+                            param.isFreeFormObject || param.isAnyType) {
                         continue;
                     }
                     if (param.isDateTime) {

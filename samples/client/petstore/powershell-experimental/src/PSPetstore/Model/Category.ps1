@@ -25,19 +25,20 @@ No description available.
 Category<PSCustomObject>
 #>
 
-function New-PSCategory {
+function Initialize-PSCategory {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Int64]]
         ${Id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
+        [ValidatePattern("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")]
         [String]
         ${Name}
     )
 
     Process {
-        'Creating object: PSPetstore => PSCategory' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSCategory' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

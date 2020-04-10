@@ -37,7 +37,7 @@ pet status in the store
 Pet<PSCustomObject>
 #>
 
-function New-PSPet {
+function Initialize-PSPet {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -46,23 +46,32 @@ function New-PSPet {
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
         [PSCustomObject]
         ${Category},
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true)]
         [String]
         ${Name},
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true)]
         [String[]]
         ${PhotoUrls},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
         [PSCustomObject[]]
         ${Tags},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
+        [ValidateSet("available", "pending", "sold")]
         [String]
         ${Status}
     )
 
     Process {
-        'Creating object: PSPetstore => PSPet' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSPet' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        if (!$Name) {
+            throw "invalid value for 'Name', 'Name' cannot be null."
+        }
+
+        if (!$PhotoUrls) {
+            throw "invalid value for 'PhotoUrls', 'PhotoUrls' cannot be null."
+        }
 
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
