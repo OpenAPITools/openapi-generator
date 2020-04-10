@@ -153,7 +153,7 @@ namespace {{packageName}}.Client
                 {{/netStandard}}
                 {{^netStandard}}
                 {{^supportsUWP}}
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
+                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName{{#isRestSharp_106_10_1_above}}, param.Value.ContentLength{{/isRestSharp_106_10_1_above}}, param.Value.ContentType);
                 {{/supportsUWP}}
                 {{#supportsUWP}}
                 byte[] paramWriter = null;
@@ -565,6 +565,7 @@ namespace {{packageName}}.Client
         /// Convert params to key/value pairs. 
         /// Use collectionFormat to properly format lists and collections.
         /// </summary>
+        /// <param name="collectionFormat">Collection format.</param>
         /// <param name="name">Key name.</param>
         /// <param name="value">Value object.</param>
         /// <returns>A list of KeyValuePairs</returns>

@@ -17,6 +17,10 @@ No description available.
 .PARAMETER Pet
 Pet object that needs to be added to the store
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -31,6 +35,9 @@ function Add-PSPet {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Pet},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -51,6 +58,11 @@ function Add-PSPet {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json', 'application/xml')
@@ -175,6 +187,10 @@ No description available.
 .PARAMETER Status
 Status values that need to be considered for filter
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -190,6 +206,9 @@ function Find-PSPetsByStatus {
         [ValidateSet("available", "pending", "sold")]
         [String[]]
         ${Status},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -210,6 +229,11 @@ function Find-PSPetsByStatus {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/pet/findByStatus'
 
@@ -250,6 +274,10 @@ No description available.
 .PARAMETER Tags
 Tags to filter by
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -264,6 +292,9 @@ function Find-PSPetsByTags {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String[]]
         ${Tags},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -284,6 +315,11 @@ function Find-PSPetsByTags {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/pet/findByTags'
 
@@ -324,6 +360,10 @@ No description available.
 .PARAMETER PetId
 ID of pet to return
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -338,6 +378,9 @@ function Get-PSPetById {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${PetId},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -358,6 +401,11 @@ function Get-PSPetById {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/pet/{petId}'
         if (!$PetId) {
@@ -401,6 +449,10 @@ No description available.
 .PARAMETER Pet
 Pet object that needs to be added to the store
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -415,6 +467,9 @@ function Update-PSPet {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Pet},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -435,6 +490,11 @@ function Update-PSPet {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json', 'application/xml')
