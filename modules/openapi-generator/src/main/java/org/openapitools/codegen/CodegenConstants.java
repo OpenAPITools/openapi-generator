@@ -353,6 +353,15 @@ public class CodegenConstants {
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 
     public static final String DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE = "discriminatorExplicitMappingVerbose";
-    public static final String DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE_DESC = "Every model that has a discriminator explicitly defines the disciminator in itself, the mapping in that discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the spec's defined discriminator mapping schemas. When true, we validate that oneOf and anyOf schemas contain the required discriminator and we throw an error if it's missing. When true model templates should not loop over {{#children}} when defining the discriminator mapping";
+    public static final String DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE_DESC = "This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName.\n" +
+            "\n" +
+            "When this flag is set to true:\n" +
+            "\n" +
+            "- The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document.\n" +
+            "- Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.\n" +
+            "When this flag is set to false:\n" +
+            "\n" +
+            "- The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.\n" +
+            "Note to developers supporting a language generator in OpenAPITools: to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.";
 
 }
