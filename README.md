@@ -1,4 +1,4 @@
-<h1 align="center">OpenAPI Generator</h1>
+<h1 align="center">OpenAPI Generator Test</h1>
 
 <div align="center">
 
