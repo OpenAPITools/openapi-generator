@@ -24,6 +24,22 @@ public class CodegenDiscriminator {
     private String propertyGetter;
     private String propertyType;
     private Map<String, String> mapping;
+
+    // mappedModels is populated differently if discriminatorExplicitMappingVerbose is
+    // True or False. When:
+    //
+    // discriminatorExplicitMappingVerbose == False, this contains:
+    // - the name to schema map info in the discriminator mapping entry in your openapi spec OR
+    // - child schemas that allOf inherit self schema
+    //
+    // discriminatorExplicitMappingVerbose == True, this contains:
+    // - the name to schema map info in the discriminator mapping entry in your openapi spec AND
+    // - x-discriminator-value mappings in child oneOf + anyOf schemas + descendant schemas that allOf inherit self schema AND
+    // - descendant schemas that allOf inherit self schema AND
+    // - child oneOf + anyOf schemas
+    //
+    // see the method createDiscriminator in DefaultCodegen.java
+
     private Set<MappedModel> mappedModels = new LinkedHashSet<>();
 
     public String getPropertyName() {
