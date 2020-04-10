@@ -46,6 +46,7 @@ import java.util.Map.Entry;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+// Codegen for RustServer
 public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
