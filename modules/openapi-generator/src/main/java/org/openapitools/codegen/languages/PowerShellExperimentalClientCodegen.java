@@ -1052,6 +1052,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             }
         }
 
+    }
+
+    @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
