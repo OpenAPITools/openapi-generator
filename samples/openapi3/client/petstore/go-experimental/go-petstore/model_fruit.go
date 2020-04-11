@@ -10,55 +10,67 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 )
 
 // Fruit struct for Fruit
 type Fruit struct {
-    FruitInterface interface {  }
+	FruitInterface interface {  }
 }
 
-func (s *Fruit) MarshalJSON() ([]byte, error) {
-    return json.Marshal(s.FruitInterface)
+func (s Fruit) MarshalJSON() ([]byte, error) {
+	return json.Marshal(s.FruitInterface)
 }
 
 func (s *Fruit) UnmarshalJSON(src []byte) error {
-    var err error
-    var unmarshaledApple *Apple = &Apple{}
-    err = json.Unmarshal(src, unmarshaledApple)
-    if err == nil {
-        s.FruitInterface = unmarshaledApple
-        return nil
-    }
-    var unmarshaledBanana *Banana = &Banana{}
-    err = json.Unmarshal(src, unmarshaledBanana)
-    if err == nil {
-        s.FruitInterface = unmarshaledBanana
-        return nil
-    }
-    return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
+	var err error
+	var unmarshaledApple *Apple = &Apple{}
+	err = json.Unmarshal(src, unmarshaledApple)
+	if err == nil {
+		s.FruitInterface = unmarshaledApple
+		return nil
+	}
+	var unmarshaledBanana *Banana = &Banana{}
+	err = json.Unmarshal(src, unmarshaledBanana)
+	if err == nil {
+		s.FruitInterface = unmarshaledBanana
+		return nil
+	}
+	return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
 }
 type NullableFruit struct {
-	Value Fruit
-	ExplicitNull bool
+	value *Fruit
+	isSet bool
+}
+
+func (v NullableFruit) Get() *Fruit {
+	return v.value
+}
+
+func (v *NullableFruit) Set(val *Fruit) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableFruit) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableFruit) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableFruit(val *Fruit) *NullableFruit {
+	return &NullableFruit{value: val, isSet: true}
 }
 
 func (v NullableFruit) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableFruit) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

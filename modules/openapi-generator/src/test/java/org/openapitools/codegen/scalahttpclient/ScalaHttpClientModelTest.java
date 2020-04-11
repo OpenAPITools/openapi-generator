@@ -144,7 +144,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.setter, "setChildren");
         Assert.assertEquals(property1.dataType, "Set[Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.defaultValue, "Set[Children].empty ");
+        Assert.assertEquals(property1.defaultValue, "Set.empty[Children] ");
         Assert.assertEquals(property1.baseType, "Set");
         Assert.assertEquals(property1.containerType, "set");
         Assert.assertFalse(property1.required);

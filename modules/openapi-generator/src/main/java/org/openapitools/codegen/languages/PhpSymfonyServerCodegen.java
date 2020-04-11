@@ -96,7 +96,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                         SchemaSupportFeature.Polymorphism
                 )
         );
-        
+
         // clear import mapping (from default generator) as php does not use it
         // at the moment
         importMapping.clear();

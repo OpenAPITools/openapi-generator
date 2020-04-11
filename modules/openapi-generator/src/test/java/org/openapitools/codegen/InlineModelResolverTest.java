@@ -313,7 +313,7 @@ public class InlineModelResolverTest {
         assertNotNull(openAPI.getComponents());
         assertNotNull(openAPI.getComponents().getRequestBodies());
     }
-    
+
     @Test
     public void resolveInlineArraySchemaWithTitle() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
@@ -329,7 +329,7 @@ public class InlineModelResolverTest {
         assertTrue(user.getProperties().get("street") instanceof StringSchema);
         assertTrue(user.getProperties().get("city") instanceof StringSchema);
     }
-    
+
     @Test
     public void resolveInlineRequestBody() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");

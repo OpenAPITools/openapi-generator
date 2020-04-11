@@ -68,7 +68,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   val findPetsByStatusOperation = (apiOperation[List[Pet]]("findPetsByStatus")
     summary "Finds Pets by status"
-    parameters(queryParam[List[String]]("status").description(""))
+    parameters(queryParam[List[String]]("status").description("").defaultValue(List.empty[String] ))
   )
 
   get("/pet/findByStatus", operation(findPetsByStatusOperation)) {
@@ -88,7 +88,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   val findPetsByTagsOperation = (apiOperation[List[Pet]]("findPetsByTags")
     summary "Finds Pets by tags"
-    parameters(queryParam[List[String]]("tags").description(""))
+    parameters(queryParam[List[String]]("tags").description("").defaultValue(List.empty[String] ))
   )
 
   get("/pet/findByTags", operation(findPetsByTagsOperation)) {
