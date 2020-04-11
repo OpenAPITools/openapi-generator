@@ -453,7 +453,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
 
         if (!this.apiFirst && !this.reactive) {
-            additionalProperties.put("useSpringfox", true);
+            additionalProperties.put("useSpringDoc", true);
         }
 
 

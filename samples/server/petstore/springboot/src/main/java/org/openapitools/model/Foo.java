@@ -1,17 +1,41 @@
 package org.openapitools.model;
 
 import java.util.Objects;
-import java.util.ArrayList;
-import java.util.List;
-import org.openapitools.model.Animal;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * AnimalFarm
+ * Foo
  */
 
-public class AnimalFarm extends ArrayList<Animal>  {
+public class Foo   {
+  @JsonProperty("bar")
+  private String bar = "bar";
+
+  public Foo bar(String bar) {
+    this.bar = bar;
+    return this;
+  }
+
+  /**
+   * Get bar
+   * @return bar
+  */
+  @Schema(description = "")
+
+
+  public String getBar() {
+    return bar;
+  }
+
+  public void setBar(String bar) {
+    this.bar = bar;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -21,19 +45,21 @@ public class AnimalFarm extends ArrayList<Animal>  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    return true;
+    Foo foo = (Foo) o;
+    return Objects.equals(this.bar, foo.bar);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode());
+    return Objects.hash(bar);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AnimalFarm {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("class Foo {\n");
+    
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("}");
     return sb.toString();
   }

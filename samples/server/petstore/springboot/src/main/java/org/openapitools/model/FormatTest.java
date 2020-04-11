@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -58,8 +57,11 @@ public class FormatTest   {
   @JsonProperty("password")
   private String password;
 
-  @JsonProperty("BigDecimal")
-  private BigDecimal bigDecimal;
+  @JsonProperty("pattern_with_digits")
+  private String patternWithDigits;
+
+  @JsonProperty("pattern_with_digits_and_delimiter")
+  private String patternWithDigitsAndDelimiter;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -72,7 +74,7 @@ public class FormatTest   {
    * maximum: 100
    * @return integer
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 @Min(10) @Max(100) 
   public Integer getInteger() {
@@ -94,7 +96,7 @@ public class FormatTest   {
    * maximum: 200
    * @return int32
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 @Min(20) @Max(200) 
   public Integer getInt32() {
@@ -114,7 +116,7 @@ public class FormatTest   {
    * Get int64
    * @return int64
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Long getInt64() {
@@ -136,7 +138,7 @@ public class FormatTest   {
    * maximum: 543.2
    * @return number
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
   @Valid
@@ -160,7 +162,7 @@ public class FormatTest   {
    * maximum: 987.6
    * @return _float
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 @DecimalMin("54.3") @DecimalMax("987.6") 
   public Float getFloat() {
@@ -182,7 +184,7 @@ public class FormatTest   {
    * maximum: 123.4
    * @return _double
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 @DecimalMin("67.8") @DecimalMax("123.4") 
   public Double getDouble() {
@@ -202,7 +204,7 @@ public class FormatTest   {
    * Get string
    * @return string
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 @Pattern(regexp="/[a-z]/i") 
   public String getString() {
@@ -222,10 +224,10 @@ public class FormatTest   {
    * Get _byte
    * @return _byte
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
-@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$") 
+
   public byte[] getByte() {
     return _byte;
   }
@@ -243,7 +245,7 @@ public class FormatTest   {
    * Get binary
    * @return binary
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -264,7 +266,7 @@ public class FormatTest   {
    * Get date
    * @return date
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
   @Valid
@@ -286,7 +288,7 @@ public class FormatTest   {
    * Get dateTime
    * @return dateTime
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -307,7 +309,7 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
   */
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Schema(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", description = "")
 
   @Valid
 
@@ -328,7 +330,7 @@ public class FormatTest   {
    * Get password
    * @return password
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 @Size(min=10,max=64) 
@@ -340,25 +342,44 @@ public class FormatTest   {
     this.password = password;
   }
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public FormatTest patternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
     return this;
   }
 
   /**
-   * Get bigDecimal
-   * @return bigDecimal
+   * A string that is a 10 digit number. Can have leading zeros.
+   * @return patternWithDigits
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "A string that is a 10 digit number. Can have leading zeros.")
 
-  @Valid
-
-  public BigDecimal getBigDecimal() {
-    return bigDecimal;
+@Pattern(regexp="^\\d{10}$") 
+  public String getPatternWithDigits() {
+    return patternWithDigits;
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public void setPatternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+  }
+
+  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+    return this;
+  }
+
+  /**
+   * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+   * @return patternWithDigitsAndDelimiter
+  */
+  @Schema(description = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+
+@Pattern(regexp="/^image_\\d{1,3}$/i") 
+  public String getPatternWithDigitsAndDelimiter() {
+    return patternWithDigitsAndDelimiter;
+  }
+
+  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
 
@@ -384,12 +405,13 @@ public class FormatTest   {
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -410,7 +432,8 @@ public class FormatTest   {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
+    sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");
     return sb.toString();
   }

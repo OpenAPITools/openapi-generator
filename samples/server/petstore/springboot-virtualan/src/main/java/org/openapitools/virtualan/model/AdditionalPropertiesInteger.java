@@ -3,8 +3,7 @@ package org.openapitools.virtualan.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -28,7 +27,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer>  {
    * Get name
    * @return name
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getName() {

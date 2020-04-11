@@ -398,7 +398,7 @@ public class JavaModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "ArrayList<Children>");
         Assert.assertEquals(cm.imports.size(), 4);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "List", "ArrayList", "Children")).size(), 4);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Schema", "List", "ArrayList", "Children")).size(), 4);
     }
 
     @Test(description = "convert a map model")
@@ -417,7 +417,7 @@ public class JavaModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "HashMap<String, Children>");
         Assert.assertEquals(cm.imports.size(), 4);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "Map", "HashMap", "Children")).size(), 4);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Schema", "Map", "HashMap", "Children")).size(), 4);
     }
 
     @Test(description = "convert a model with upper-case property names")

@@ -3,8 +3,7 @@ package org.openapitools.virtualan.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class TypeHolderExample   {
    * Get stringItem
    * @return stringItem
   */
-  @ApiModelProperty(example = "what", required = true, value = "")
+  @Schema(example = "what", required = true, description = "")
   @NotNull
 
 
@@ -66,7 +65,7 @@ public class TypeHolderExample   {
    * Get numberItem
    * @return numberItem
   */
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(example = "1.234", required = true, description = "")
   @NotNull
 
   @Valid
@@ -88,7 +87,7 @@ public class TypeHolderExample   {
    * Get floatItem
    * @return floatItem
   */
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(example = "1.234", required = true, description = "")
   @NotNull
 
 
@@ -109,7 +108,7 @@ public class TypeHolderExample   {
    * Get integerItem
    * @return integerItem
   */
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @Schema(example = "-2", required = true, description = "")
   @NotNull
 
 
@@ -130,7 +129,7 @@ public class TypeHolderExample   {
    * Get boolItem
    * @return boolItem
   */
-  @ApiModelProperty(example = "true", required = true, value = "")
+  @Schema(example = "true", required = true, description = "")
   @NotNull
 
 
@@ -156,7 +155,7 @@ public class TypeHolderExample   {
    * Get arrayItem
    * @return arrayItem
   */
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @Schema(example = "[0, 1, 2, 3]", required = true, description = "")
   @NotNull
 
 
