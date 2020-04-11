@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "../include/binary.h"
 
 typedef struct sslConfig_t {
     char *clientCertFile;         /* client certificate */
@@ -23,21 +24,15 @@ typedef struct apiClient_t {
     void *dataReceived;
     long dataReceivedLen;
     long response_code;
-    list_t *apiKeys;
+    list_t *apiKeys_api_key;
     char *accessToken;
 } apiClient_t;
-
-typedef struct binary_t
-{
-    uint8_t* data;
-    unsigned int len;
-} binary_t;
 
 apiClient_t* apiClient_create();
 
 apiClient_t* apiClient_create_with_base_path(const char *basePath
 , sslConfig_t *sslConfig
-, list_t *apiKeys
+, list_t *apiKeys_api_key
 );
 
 void apiClient_free(apiClient_t *apiClient);
@@ -49,9 +44,5 @@ sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyF
 void sslConfig_free(sslConfig_t *sslConfig);
 
 char *strReplace(char *orig, char *rep, char *with);
-
-char *base64encode(const void *b64_encode_this, int encode_this_many_bytes);
-
-char *base64decode(const void *b64_decode_this, int decode_this_many_bytes);
 
 #endif // INCLUDE_API_CLIENT_H

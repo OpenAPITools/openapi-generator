@@ -15,6 +15,12 @@
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
 {{/allParams}}
+{{#vendorExtensions.x-powershell-select-accept}}
+.PARAMETER ReturnType
+
+Select the return type (optional): {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}
+
+{{/vendorExtensions.x-powershell-select-accept}}
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -28,11 +34,21 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
     Param (
     {{#allParams}}
         [Parameter(Position = {{vendorExtensions.x-index}}{{#-first}}, ValueFromPipeline = $true{{/-first}}, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        {{#isEnum}}
+        {{#allowableValues}}
+        [ValidateSet({{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}})]
+        {{/allowableValues}}
+        {{/isEnum}}
         [{{{vendorExtensions.x-powershell-data-type}}}]
         {{=<% %>=}}
         ${<%paramName%>},
         <%={{ }}=%>
     {{/allParams}}
+        {{#vendorExtensions.x-powershell-select-accept}}
+        [String]
+        [ValidateSet({{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}})]
+        $ReturnType,
+        {{/vendorExtensions.x-powershell-select-accept}}
         [Switch]
         $WithHttpInfo
     )
@@ -56,6 +72,13 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         $LocalVarAccepts = @({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}})
 
         {{/hasProduces}}
+        {{#vendorExtensions.x-powershell-select-accept}}
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
+
+        {{/vendorExtensions.x-powershell-select-accept}}
         {{#hasConsumes}}
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @({{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}})
@@ -174,7 +197,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{/isKeyInCookie}}
         {{/isApiKey}}
         {{#isBasicBasic}}
-        if ($Configuration["Username"] -and $Configuration["Password"]]) {
+        if ($Configuration["Username"] -and $Configuration["Password"]) {
             $LocalVarBytes = [System.Text.Encoding]::UTF8.GetBytes($Configuration["Username"] + ":" + $Configuration["Password"])
             $LocalVarBase64Text =[Convert]::ToBase64String($LocalVarBytes)
             $LocalVarHeaderParameters['Authorization'] = "Basic " + $LocalVarBase64Text

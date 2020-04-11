@@ -32,6 +32,7 @@ function Initialize-PSCategory {
         [System.Nullable[Int64]]
         ${Id},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true)]
+        [ValidatePattern("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")]
         [String]
         ${Name}
     )

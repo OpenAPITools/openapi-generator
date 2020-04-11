@@ -7,6 +7,9 @@
 
 #region Import functions
 
+# set $ErrorActionPreference to 'Stop' globally
+$ErrorActionPreference = 'Stop'
+
 # store the API client's configuration 
 $Script:Configuration = [System.Collections.HashTable]@{}
 

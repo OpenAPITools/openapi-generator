@@ -3,9 +3,6 @@
 #include <string.h>
 #include <stdio.h>
 #include "../include/apiClient.h"
-#ifdef OPENSSL
-#include "openssl/pem.h"
-#endif
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
@@ -17,7 +14,7 @@ apiClient_t *apiClient_create() {
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->response_code = 0;
-    apiClient->apiKeys = NULL;
+    apiClient->apiKeys_api_key = NULL;
     apiClient->accessToken = NULL;
 
     return apiClient;
@@ -25,7 +22,7 @@ apiClient_t *apiClient_create() {
 
 apiClient_t *apiClient_create_with_base_path(const char *basePath
 , sslConfig_t *sslConfig
-, list_t *apiKeys
+, list_t *apiKeys_api_key
 ) {
     curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
@@ -44,16 +41,16 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->dataReceived = NULL;
     apiClient->dataReceivedLen = 0;
     apiClient->response_code = 0;
-    if(apiKeys!= NULL) {
-        apiClient->apiKeys = list_create();
+    if(apiKeys_api_key!= NULL) {
+        apiClient->apiKeys_api_key = list_create();
         listEntry_t *listEntry = NULL;
-        list_ForEach(listEntry, apiKeys) {
+        list_ForEach(listEntry, apiKeys_api_key) {
             keyValuePair_t *pair = listEntry->data;
             keyValuePair_t *pairDup = keyValuePair_create(strdup(pair->key), strdup(pair->value));
-            list_addElement(apiClient->apiKeys, pairDup);
+            list_addElement(apiClient->apiKeys_api_key, pairDup);
         }
     }else{
-        apiClient->apiKeys = NULL;
+        apiClient->apiKeys_api_key = NULL;
     }
     apiClient->accessToken = NULL;
 
@@ -64,9 +61,9 @@ void apiClient_free(apiClient_t *apiClient) {
     if(apiClient->basePath) {
         free(apiClient->basePath);
     }
-    if(apiClient->apiKeys) {
+    if(apiClient->apiKeys_api_key) {
         listEntry_t *listEntry = NULL;
-        list_ForEach(listEntry, apiClient->apiKeys) {
+        list_ForEach(listEntry, apiClient->apiKeys_api_key) {
             keyValuePair_t *pair = listEntry->data;
             if(pair->key){
                 free(pair->key);
@@ -76,7 +73,7 @@ void apiClient_free(apiClient_t *apiClient) {
             }
             keyValuePair_free(pair);
         }
-        list_free(apiClient->apiKeys);
+        list_free(apiClient->apiKeys_api_key);
     }
     if(apiClient->accessToken) {
         free(apiClient->accessToken);
@@ -393,9 +390,9 @@ void apiClient_invoke(apiClient_t    *apiClient,
         }
 
         // this would only be generated for apiKey authentication
-        if (apiClient->apiKeys != NULL)
+        if (apiClient->apiKeys_api_key != NULL)
         {
-        list_ForEach(listEntry, apiClient->apiKeys) {
+        list_ForEach(listEntry, apiClient->apiKeys_api_key) {
         keyValuePair_t *apiKey = listEntry->data;
         if((apiKey->key != NULL) &&
            (apiKey->value != NULL) )
@@ -527,6 +524,7 @@ char *strReplace(char *orig, char *rep, char *with) {
     return result;
 }
 
+<<<<<<< HEAD
 char *base64encode (const void *b64_encode_this, int encode_this_many_bytes){
 #ifdef OPENSSL
     BIO *b64_bio, *mem_bio;      //Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
@@ -564,3 +562,5 @@ char *base64decode (const void *b64_decode_this, int decode_this_many_bytes, int
     return base64_decoded;        //Returns base-64 decoded data with trailing null terminator.
 #endif
 }
+=======
+>>>>>>> e9d35c5a2a9257e33564464616662d1f8cc09234
