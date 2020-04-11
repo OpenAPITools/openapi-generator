@@ -30,8 +30,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.openapitools.client.model.*;
 import okio.ByteString;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Type;
@@ -51,7 +49,6 @@ public class JSON {
     private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
     private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
     private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
-    private final Log log = LogFactory.getLog(JSON.class);
 
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
@@ -88,7 +85,6 @@ public class JSON {
      * @return The Java class that implements the OpenAPI schema
      */
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        log.debug("getClassByDiscriminator: {}", discriminatorValue);
         Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue);
         if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
