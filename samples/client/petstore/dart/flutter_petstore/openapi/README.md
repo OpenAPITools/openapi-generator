@@ -47,11 +47,10 @@ import 'package:openapi/api.dart';
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
-    var result = api_instance.addPet(pet);
-    print(result);
+    api_instance.addPet(body);
 } catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }
@@ -90,8 +89,6 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](doc//ApiResponse.md)
  - [Category](doc//Category.md)
- - [InlineObject](doc//InlineObject.md)
- - [InlineObject1](doc//InlineObject1.md)
  - [Order](doc//Order.md)
  - [Pet](doc//Pet.md)
  - [Tag](doc//Tag.md)
@@ -106,12 +103,6 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
-
-## auth_cookie
-
-- **Type**: API key
-- **API key parameter name**: AUTH_KEY
-- **Location**: 
 
 ## petstore_auth
 
