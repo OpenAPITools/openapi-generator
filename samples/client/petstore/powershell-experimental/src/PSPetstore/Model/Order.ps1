@@ -53,6 +53,7 @@ function Initialize-PSOrder {
         [System.Nullable[System.DateTime]]
         ${ShipDate},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]
+        [ValidateSet("placed", "approved", "delivered")]
         [String]
         ${Status},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]

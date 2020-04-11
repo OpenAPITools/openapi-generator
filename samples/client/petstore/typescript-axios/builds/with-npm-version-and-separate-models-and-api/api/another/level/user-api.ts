@@ -18,7 +18,7 @@ import { Configuration } from '../../../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../../../base';
-
+// @ts-ignore
 import { User } from '../../../model/some/levels/deep';
 /**
  * UserApi - axios parameter creator

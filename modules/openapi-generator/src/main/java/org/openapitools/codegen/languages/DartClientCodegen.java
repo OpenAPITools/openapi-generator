@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -367,14 +368,21 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
+        if (typeMapping.containsValue(name)) {
+            return camelize(name);
+        } else {
+            // camelize the model name
+            return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        }
     }
 
     @Override
     public String toModelFilename(String name) {
         return underscore(toModelName(name));
+    }
+
+    @Override public String toModelDocFilename(String name) {
+        return super.toModelDocFilename(toModelName(name));
     }
 
     @Override

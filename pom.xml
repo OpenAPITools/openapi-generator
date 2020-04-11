@@ -440,6 +440,11 @@
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>${checkstyle.plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>${git.commit.id.plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -1225,8 +1230,14 @@
                 </property>
             </activation>
             <modules>
-                <!-- comment out below due to https://github.com/OpenAPITools/openapi-generator/issues/5235
-                <module>samples/server/petstore/python-aiohttp</module> -->
+                <!-- servers -->
+                <module>samples/server/petstore/python-aiohttp</module>
+                <module>samples/server/petstore/python-aiohttp-srclayout</module>
+                <module>samples/server/petstore/python-flask</module>
+                <module>samples/server/petstore/python-flask-python2</module>
+                <module>samples/server/petstore/php-slim</module>
+                <module>samples/server/petstore/php-slim4</module>
+                <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
                 <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
@@ -1236,8 +1247,6 @@
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/server/petstore/php-slim</module>
-                <module>samples/server/petstore/php-slim4</module>
                 <module>samples/client/petstore/javascript</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-es6</module>
@@ -1268,10 +1277,6 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
-                <module>samples/server/petstore/rust-server</module>
-                <!-- comment out below due to https://github.com/OpenAPITools/openapi-generator/issues/5235
-                <module>samples/server/petstore/python-flask</module> -->
-                <!--<module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1362,6 +1367,7 @@
                 <module>samples/server/petstore/java-msf4j</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scala-play-server</module>
+                <module>samples/server/petstore/scala-akka-http-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/java-vertx-web/rx</module>
                 <module>samples/server/petstore/scala-finch</module>
@@ -1595,7 +1601,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-core-version>2.1.1</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.17</swagger-parser-version>
+        <swagger-parser-version>2.0.19</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
@@ -1616,5 +1622,6 @@
         <pmd.plugin.version>3.12.0</pmd.plugin.version>
         <violations-maven.plugin.version>1.34</violations-maven.plugin.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
+        <git.commit.id.plugin.version>4.0.0</git.commit.id.plugin.version>
     </properties>
 </project>

@@ -52,7 +52,7 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 }
 
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), timeOutTimer(this) {
+    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false) {
     qsrand(QDateTime::currentDateTime().toTime_t());
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();
