@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
-
+ 
 public class Cat extends Animal implements Serializable {
   
   private @Valid Boolean declawed;
@@ -28,15 +28,17 @@ public class Cat extends Animal implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }
+
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -76,5 +78,7 @@ public class Cat extends Animal implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

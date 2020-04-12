@@ -44,7 +44,7 @@ use JMS\Serializer\Annotation\SerializedName;
 class Pet 
 {
         /**
-     * @var |null
+     * @var int|null
      * @SerializedName("id")
      * @Assert\Type("int")
      * @Type("int")
@@ -52,7 +52,7 @@ class Pet
     protected $id;
 
     /**
-     * @var |null
+     * @var OpenAPI\Server\Model\Category|null
      * @SerializedName("category")
      * @Assert\Type("OpenAPI\Server\Model\Category")
      * @Type("OpenAPI\Server\Model\Category")
@@ -60,7 +60,7 @@ class Pet
     protected $category;
 
     /**
-     * @var 
+     * @var string
      * @SerializedName("name")
      * @Assert\NotNull()
      * @Assert\Type("string")
@@ -69,7 +69,7 @@ class Pet
     protected $name;
 
     /**
-     * @var 
+     * @var string[]
      * @SerializedName("photoUrls")
      * @Assert\NotNull()
      * @Assert\All({
@@ -80,7 +80,7 @@ class Pet
     protected $photoUrls;
 
     /**
-     * @var |null
+     * @var OpenAPI\Server\Model\Tag[]|null
      * @SerializedName("tags")
      * @Assert\All({
      *   @Assert\Type("OpenAPI\Server\Model\Tag")
@@ -92,7 +92,7 @@ class Pet
     /**
      * pet status in the store
      *
-     * @var |null
+     * @var string|null
      * @SerializedName("status")
      * @Assert\Choice({ "available", "pending", "sold" })
      * @Assert\Type("string")
@@ -117,7 +117,7 @@ class Pet
     /**
      * Gets id.
      *
-     * @return |null
+     * @return int|null
      */
     public function getId()
     {
@@ -127,7 +127,7 @@ class Pet
     /**
      * Sets id.
      *
-     * @param |null $id
+     * @param int|null $id
      *
      * @return $this
      */
@@ -141,9 +141,9 @@ class Pet
     /**
      * Gets category.
      *
-     * @return |null
+     * @return OpenAPI\Server\Model\Category|null
      */
-    public function getCategory()
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
@@ -151,11 +151,11 @@ class Pet
     /**
      * Sets category.
      *
-     * @param |null $category
+     * @param OpenAPI\Server\Model\Category|null $category
      *
      * @return $this
      */
-    public function setCategory($category = null)
+    public function setCategory(Category $category = null): ?Category
     {
         $this->category = $category;
 
@@ -165,7 +165,7 @@ class Pet
     /**
      * Gets name.
      *
-     * @return 
+     * @return string
      */
     public function getName()
     {
@@ -175,7 +175,7 @@ class Pet
     /**
      * Sets name.
      *
-     * @param  $name
+     * @param string $name
      *
      * @return $this
      */
@@ -189,9 +189,9 @@ class Pet
     /**
      * Gets photoUrls.
      *
-     * @return 
+     * @return string[]
      */
-    public function getPhotoUrls()
+    public function getPhotoUrls(): array
     {
         return $this->photoUrls;
     }
@@ -199,11 +199,11 @@ class Pet
     /**
      * Sets photoUrls.
      *
-     * @param  $photoUrls
+     * @param string[] $photoUrls
      *
      * @return $this
      */
-    public function setPhotoUrls($photoUrls)
+    public function setPhotoUrls(array $photoUrls): array
     {
         $this->photoUrls = $photoUrls;
 
@@ -213,9 +213,9 @@ class Pet
     /**
      * Gets tags.
      *
-     * @return |null
+     * @return OpenAPI\Server\Model\Tag[]|null
      */
-    public function getTags()
+    public function getTags(): ?array
     {
         return $this->tags;
     }
@@ -223,11 +223,11 @@ class Pet
     /**
      * Sets tags.
      *
-     * @param |null $tags
+     * @param OpenAPI\Server\Model\Tag[]|null $tags
      *
      * @return $this
      */
-    public function setTags($tags = null)
+    public function setTags(array $tags = null): ?array
     {
         $this->tags = $tags;
 
@@ -237,7 +237,7 @@ class Pet
     /**
      * Gets status.
      *
-     * @return |null
+     * @return string|null
      */
     public function getStatus()
     {
@@ -247,7 +247,7 @@ class Pet
     /**
      * Sets status.
      *
-     * @param |null $status  pet status in the store
+     * @param string|null $status  pet status in the store
      *
      * @return $this
      */

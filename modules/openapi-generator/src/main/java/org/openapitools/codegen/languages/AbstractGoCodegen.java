@@ -91,7 +91,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "complex64",
                         "complex128",
                         "rune",
-                        "byte")
+                        "byte",
+                        "map[string]interface{}",
+                        "interface{}"
+                        )
         );
 
         instantiationTypes.clear();
@@ -116,7 +119,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("file", "*os.File");
         typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
+        // A 'type: object' OAS schema without any declared property is
+        // (per JSON schema specification) "an unordered set of properties
+        // mapping a string to an instance".
+        // Hence map[string]interface{} is the proper implementation in golang.
+        // Note: OpenAPITools uses the same token 'object' for free-form objects
+        // and arbitrary types. A free form object is implemented in golang as
+        // map[string]interface{}, whereas an arbitrary type is implemented
+        // in golang as interface{}.
+        // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
+        typeMapping.put("interface{}", "interface{}");
 
         numberTypes = new HashSet<String>(
                 Arrays.asList(
@@ -303,6 +316,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return name;
     }
 
+    /**
+     * Return the golang implementation type for the specified property.
+     * 
+     * @param p the OAS property.
+     * @return the golang implementation type.
+     */
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -342,6 +361,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return toModelName(openAPIType);
     }
 
+    /**
+     * Return the OpenAPI type for the property.
+     * 
+     * @param p the OAS property.
+     * @return the OpenAPI type.
+     */
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
@@ -350,6 +375,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
+        } else if ("object".equals(openAPIType) && ModelUtils.isAnyTypeSchema(p)) {
+            // Arbitrary type. Note this is not the same thing as free-form object.
+            type = "interface{}";
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
@@ -553,6 +581,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 param.vendorExtensions.put("x-exportParamName", sb.toString()); // TODO: 5.0 Remove
                 param.vendorExtensions.put("x-export-param-name", sb.toString());
             }
+        }
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
+        // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
+        // the generated code has a wrapper type and a Get() function to access the underlying type.
+        // For containers (e.g. Array, Map), the generated code returns the type directly. 
+        if (property.isContainer || property.isFreeFormObject || property.isAnyType) {
+            property.vendorExtensions.put("x-golang-is-container", true);
         }
     }
 

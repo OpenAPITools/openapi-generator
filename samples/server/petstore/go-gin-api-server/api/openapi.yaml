@@ -31,7 +31,7 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
-        405:
+        "405":
           content: {}
           description: Invalid input
       security:
@@ -55,13 +55,13 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Pet not found
-        405:
+        "405":
           content: {}
           description: Validation exception
       security:
@@ -93,7 +93,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -106,7 +106,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid status value
       security:
@@ -134,7 +134,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -147,7 +147,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid tag value
       security:
@@ -173,7 +173,7 @@ paths:
           format: int64
           type: integer
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid pet value
       security:
@@ -195,7 +195,7 @@ paths:
           format: int64
           type: integer
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -204,10 +204,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Pet not found
       security:
@@ -237,7 +237,7 @@ paths:
                   description: Updated status of the pet
                   type: string
       responses:
-        405:
+        "405":
           content: {}
           description: Invalid input
       security:
@@ -271,7 +271,7 @@ paths:
                   format: binary
                   type: string
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -289,7 +289,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getInventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -314,7 +314,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -323,7 +323,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid Order
       summary: Place an order for a pet
@@ -343,10 +343,10 @@ paths:
         schema:
           type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Order not found
       summary: Delete purchase order by ID
@@ -367,7 +367,7 @@ paths:
           minimum: 1
           type: integer
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -376,10 +376,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Order not found
       summary: Find purchase order by ID
@@ -461,7 +461,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -481,7 +481,7 @@ paths:
               schema:
                 format: date-time
                 type: string
-        400:
+        "400":
           content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
@@ -509,10 +509,10 @@ paths:
         schema:
           type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Delete user
@@ -528,7 +528,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -537,10 +537,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Get user by user name
@@ -564,10 +564,10 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid user supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Updated user

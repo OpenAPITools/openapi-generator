@@ -1237,6 +1237,12 @@ impl ::std::convert::From<String> for OuterString {
     }
 }
 
+impl std::str::FromStr for OuterString {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok(OuterString(x.to_string()))
+    }
+}
 
 impl ::std::convert::From<OuterString> for String {
     fn from(x: OuterString) -> Self {

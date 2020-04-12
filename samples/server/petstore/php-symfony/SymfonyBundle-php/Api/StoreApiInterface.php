@@ -56,11 +56,11 @@ interface StoreApiInterface
      *
      * Delete purchase order by ID
      *
-     * @param   $orderId  ID of the order that needs to be deleted (required)
+     * @param  string $orderId  ID of the order that needs to be deleted (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return 
+     * @return void
      *
      */
     public function deleteOrder($orderId, &$responseCode, array &$responseHeaders);
@@ -73,7 +73,7 @@ interface StoreApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return 
+     * @return int
      *
      */
     public function getInventory(&$responseCode, array &$responseHeaders);
@@ -83,11 +83,11 @@ interface StoreApiInterface
      *
      * Find purchase order by ID
      *
-     * @param   $orderId  ID of pet that needs to be fetched (required)
+     * @param  int $orderId  ID of pet that needs to be fetched (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return 
+     * @return OpenAPI\Server\Model\Order
      *
      */
     public function getOrderById($orderId, &$responseCode, array &$responseHeaders);
@@ -97,12 +97,12 @@ interface StoreApiInterface
      *
      * Place an order for a pet
      *
-     * @param   $body  order placed for purchasing the pet (required)
+     * @param  OpenAPI\Server\Model\Order $body  order placed for purchasing the pet (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return 
+     * @return OpenAPI\Server\Model\Order
      *
      */
-    public function placeOrder($body, &$responseCode, array &$responseHeaders);
+    public function placeOrder(Order $body, &$responseCode, array &$responseHeaders);
 }

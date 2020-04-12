@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
-
+ 
 public class ReadOnlyFirst  implements Serializable {
   
   private @Valid String bar;
@@ -27,16 +27,17 @@ public class ReadOnlyFirst  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
+
   public void setBar(String bar) {
     this.bar = bar;
-  }
-
-  /**
+  }/**
    **/
   public ReadOnlyFirst baz(String baz) {
     this.baz = baz;
@@ -44,15 +45,17 @@ public class ReadOnlyFirst  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("baz")
   public String getBaz() {
     return baz;
   }
+
   public void setBaz(String baz) {
     this.baz = baz;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -93,5 +96,7 @@ public class ReadOnlyFirst  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

@@ -15,6 +15,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
+import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -31,11 +32,13 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import grandparent
 except ImportError:
-    grandparent = sys.modules['petstore_api.models.grandparent']
+    grandparent = sys.modules[
+        'petstore_api.models.grandparent']
 try:
     from petstore_api.models import parent_all_of
 except ImportError:
-    parent_all_of = sys.modules['petstore_api.models.parent_all_of']
+    parent_all_of = sys.modules[
+        'petstore_api.models.parent_all_of']
 
 
 class Parent(ModelComposed):
@@ -81,8 +84,8 @@ class Parent(ModelComposed):
                 and the value is attribute type.
         """
         return {
-            'radio_waves': (bool,),  # noqa: E501
             'tele_vision': (bool,),  # noqa: E501
+            'radio_waves': (bool,),  # noqa: E501
         }
 
     @staticmethod
@@ -90,8 +93,8 @@ class Parent(ModelComposed):
         return None
 
     attribute_map = {
-        'radio_waves': 'radioWaves',  # noqa: E501
         'tele_vision': 'teleVision',  # noqa: E501
+        'radio_waves': 'radioWaves',  # noqa: E501
     }
 
     required_properties = set([
@@ -108,7 +111,6 @@ class Parent(ModelComposed):
     def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """parent.Parent - a model defined in OpenAPI
 
-
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
@@ -123,8 +125,8 @@ class Parent(ModelComposed):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            radio_waves (bool): [optional]  # noqa: E501
             tele_vision (bool): [optional]  # noqa: E501
+            radio_waves (bool): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -139,8 +141,15 @@ class Parent(ModelComposed):
             '_from_server': _from_server,
             '_configuration': _configuration,
         }
-        model_args = {
+        required_args = {
         }
+        # remove args whose value is Null because they are unset
+        required_arg_names = list(required_args.keys())
+        for required_arg_name in required_arg_names:
+            if required_args[required_arg_name] is nulltype.Null:
+                del required_args[required_arg_name]
+        model_args = {}
+        model_args.update(required_args)
         model_args.update(kwargs)
         composed_info = validate_get_composed_info(
             constant_args, model_args, self)
@@ -149,6 +158,8 @@ class Parent(ModelComposed):
         self._additional_properties_model_instances = composed_info[2]
         unused_args = composed_info[3]
 
+        for var_name, var_value in required_args.items():
+            setattr(self, var_name, var_value)
         for var_name, var_value in six.iteritems(kwargs):
             if var_name in unused_args and \
                         self._configuration is not None and \

@@ -44,7 +44,7 @@ use JMS\Serializer\Annotation\SerializedName;
 class User 
 {
         /**
-     * @var |null
+     * @var int|null
      * @SerializedName("id")
      * @Assert\Type("int")
      * @Type("int")
@@ -52,7 +52,7 @@ class User
     protected $id;
 
     /**
-     * @var |null
+     * @var string|null
      * @SerializedName("username")
      * @Assert\Type("string")
      * @Type("string")
@@ -60,7 +60,7 @@ class User
     protected $username;
 
     /**
-     * @var |null
+     * @var string|null
      * @SerializedName("firstName")
      * @Assert\Type("string")
      * @Type("string")
@@ -68,7 +68,7 @@ class User
     protected $firstName;
 
     /**
-     * @var |null
+     * @var string|null
      * @SerializedName("lastName")
      * @Assert\Type("string")
      * @Type("string")
@@ -76,7 +76,7 @@ class User
     protected $lastName;
 
     /**
-     * @var |null
+     * @var string|null
      * @SerializedName("email")
      * @Assert\Type("string")
      * @Type("string")
@@ -84,7 +84,7 @@ class User
     protected $email;
 
     /**
-     * @var |null
+     * @var string|null
      * @SerializedName("password")
      * @Assert\Type("string")
      * @Type("string")
@@ -92,7 +92,7 @@ class User
     protected $password;
 
     /**
-     * @var |null
+     * @var string|null
      * @SerializedName("phone")
      * @Assert\Type("string")
      * @Type("string")
@@ -102,7 +102,7 @@ class User
     /**
      * User Status
      *
-     * @var |null
+     * @var int|null
      * @SerializedName("userStatus")
      * @Assert\Type("int")
      * @Type("int")
@@ -128,7 +128,7 @@ class User
     /**
      * Gets id.
      *
-     * @return |null
+     * @return int|null
      */
     public function getId()
     {
@@ -138,7 +138,7 @@ class User
     /**
      * Sets id.
      *
-     * @param |null $id
+     * @param int|null $id
      *
      * @return $this
      */
@@ -152,7 +152,7 @@ class User
     /**
      * Gets username.
      *
-     * @return |null
+     * @return string|null
      */
     public function getUsername()
     {
@@ -162,7 +162,7 @@ class User
     /**
      * Sets username.
      *
-     * @param |null $username
+     * @param string|null $username
      *
      * @return $this
      */
@@ -176,7 +176,7 @@ class User
     /**
      * Gets firstName.
      *
-     * @return |null
+     * @return string|null
      */
     public function getFirstName()
     {
@@ -186,7 +186,7 @@ class User
     /**
      * Sets firstName.
      *
-     * @param |null $firstName
+     * @param string|null $firstName
      *
      * @return $this
      */
@@ -200,7 +200,7 @@ class User
     /**
      * Gets lastName.
      *
-     * @return |null
+     * @return string|null
      */
     public function getLastName()
     {
@@ -210,7 +210,7 @@ class User
     /**
      * Sets lastName.
      *
-     * @param |null $lastName
+     * @param string|null $lastName
      *
      * @return $this
      */
@@ -224,7 +224,7 @@ class User
     /**
      * Gets email.
      *
-     * @return |null
+     * @return string|null
      */
     public function getEmail()
     {
@@ -234,7 +234,7 @@ class User
     /**
      * Sets email.
      *
-     * @param |null $email
+     * @param string|null $email
      *
      * @return $this
      */
@@ -248,7 +248,7 @@ class User
     /**
      * Gets password.
      *
-     * @return |null
+     * @return string|null
      */
     public function getPassword()
     {
@@ -258,7 +258,7 @@ class User
     /**
      * Sets password.
      *
-     * @param |null $password
+     * @param string|null $password
      *
      * @return $this
      */
@@ -272,7 +272,7 @@ class User
     /**
      * Gets phone.
      *
-     * @return |null
+     * @return string|null
      */
     public function getPhone()
     {
@@ -282,7 +282,7 @@ class User
     /**
      * Sets phone.
      *
-     * @param |null $phone
+     * @param string|null $phone
      *
      * @return $this
      */
@@ -296,7 +296,7 @@ class User
     /**
      * Gets userStatus.
      *
-     * @return |null
+     * @return int|null
      */
     public function getUserStatus()
     {
@@ -306,7 +306,7 @@ class User
     /**
      * Sets userStatus.
      *
-     * @param |null $userStatus  User Status
+     * @param int|null $userStatus  User Status
      *
      * @return $this
      */

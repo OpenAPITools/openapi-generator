@@ -44,7 +44,7 @@ use JMS\Serializer\Annotation\SerializedName;
 class Order 
 {
         /**
-     * @var |null
+     * @var int|null
      * @SerializedName("id")
      * @Assert\Type("int")
      * @Type("int")
@@ -52,7 +52,7 @@ class Order
     protected $id;
 
     /**
-     * @var |null
+     * @var int|null
      * @SerializedName("petId")
      * @Assert\Type("int")
      * @Type("int")
@@ -60,7 +60,7 @@ class Order
     protected $petId;
 
     /**
-     * @var |null
+     * @var int|null
      * @SerializedName("quantity")
      * @Assert\Type("int")
      * @Type("int")
@@ -68,7 +68,7 @@ class Order
     protected $quantity;
 
     /**
-     * @var |null
+     * @var \DateTime|null
      * @SerializedName("shipDate")
      * @Assert\DateTime()
      * @Type("DateTime")
@@ -78,7 +78,7 @@ class Order
     /**
      * Order Status
      *
-     * @var |null
+     * @var string|null
      * @SerializedName("status")
      * @Assert\Choice({ "placed", "approved", "delivered" })
      * @Assert\Type("string")
@@ -87,7 +87,7 @@ class Order
     protected $status;
 
     /**
-     * @var |null
+     * @var bool|null
      * @SerializedName("complete")
      * @Assert\Type("bool")
      * @Type("bool")
@@ -111,7 +111,7 @@ class Order
     /**
      * Gets id.
      *
-     * @return |null
+     * @return int|null
      */
     public function getId()
     {
@@ -121,7 +121,7 @@ class Order
     /**
      * Sets id.
      *
-     * @param |null $id
+     * @param int|null $id
      *
      * @return $this
      */
@@ -135,7 +135,7 @@ class Order
     /**
      * Gets petId.
      *
-     * @return |null
+     * @return int|null
      */
     public function getPetId()
     {
@@ -145,7 +145,7 @@ class Order
     /**
      * Sets petId.
      *
-     * @param |null $petId
+     * @param int|null $petId
      *
      * @return $this
      */
@@ -159,7 +159,7 @@ class Order
     /**
      * Gets quantity.
      *
-     * @return |null
+     * @return int|null
      */
     public function getQuantity()
     {
@@ -169,7 +169,7 @@ class Order
     /**
      * Sets quantity.
      *
-     * @param |null $quantity
+     * @param int|null $quantity
      *
      * @return $this
      */
@@ -183,9 +183,9 @@ class Order
     /**
      * Gets shipDate.
      *
-     * @return |null
+     * @return \DateTime|null
      */
-    public function getShipDate()
+    public function getShipDate(): ?\DateTime
     {
         return $this->shipDate;
     }
@@ -193,11 +193,11 @@ class Order
     /**
      * Sets shipDate.
      *
-     * @param |null $shipDate
+     * @param \DateTime|null $shipDate
      *
      * @return $this
      */
-    public function setShipDate($shipDate = null)
+    public function setShipDate(\DateTime $shipDate = null): ?\DateTime
     {
         $this->shipDate = $shipDate;
 
@@ -207,7 +207,7 @@ class Order
     /**
      * Gets status.
      *
-     * @return |null
+     * @return string|null
      */
     public function getStatus()
     {
@@ -217,7 +217,7 @@ class Order
     /**
      * Sets status.
      *
-     * @param |null $status  Order Status
+     * @param string|null $status  Order Status
      *
      * @return $this
      */
@@ -231,7 +231,7 @@ class Order
     /**
      * Gets complete.
      *
-     * @return |null
+     * @return bool|null
      */
     public function isComplete()
     {
@@ -241,7 +241,7 @@ class Order
     /**
      * Sets complete.
      *
-     * @param |null $complete
+     * @param bool|null $complete
      *
      * @return $this
      */

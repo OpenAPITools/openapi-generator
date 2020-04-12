@@ -27,16 +27,22 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetNullableMessage
 
-`func (o *HealthCheckResult) GetNullableMessage() NullableString`
+`func (o *HealthCheckResult) GetNullableMessage() string`
 
 GetNullableMessage returns the NullableMessage field if non-nil, zero value otherwise.
 
 ### GetNullableMessageOk
 
-`func (o *HealthCheckResult) GetNullableMessageOk() (NullableString, bool)`
+`func (o *HealthCheckResult) GetNullableMessageOk() (*string, bool)`
 
 GetNullableMessageOk returns a tuple with the NullableMessage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetNullableMessage
+
+`func (o *HealthCheckResult) SetNullableMessage(v string)`
+
+SetNullableMessage sets NullableMessage field to given value.
 
 ### HasNullableMessage
 
@@ -44,19 +50,16 @@ and a boolean to check if the value has been set.
 
 HasNullableMessage returns a boolean if a field has been set.
 
-### SetNullableMessage
+### SetNullableMessageNil
 
-`func (o *HealthCheckResult) SetNullableMessage(v NullableString)`
+`func (o *HealthCheckResult) SetNullableMessageNil(b bool)`
 
-SetNullableMessage gets a reference to the given NullableString and assigns it to the NullableMessage field.
+ SetNullableMessageNil sets the value for NullableMessage to be an explicit nil
 
-### SetNullableMessageExplicitNull
+### UnsetNullableMessage
+`func (o *HealthCheckResult) UnsetNullableMessage()`
 
-`func (o *HealthCheckResult) SetNullableMessageExplicitNull(b bool)`
-
-SetNullableMessageExplicitNull (un)sets NullableMessage to be considered as explicit "null" value
-when serializing to JSON (pass true as argument to set this, false to unset)
-The NullableMessage value is set to nil even if false is passed
+UnsetNullableMessage ensures that no value is present for NullableMessage, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

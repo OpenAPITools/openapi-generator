@@ -56,7 +56,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#addPet
      */
-    public function addPet($body)
+    public function addPet(Pet $body)
     {
         // Implement the operation ...
     }
@@ -179,7 +179,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByStatus
      */
-    public function findPetsByStatus($status)
+    public function findPetsByStatus(array $status)
     {
         // Implement the operation ...
     }
@@ -241,7 +241,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByTags
      */
-    public function findPetsByTags($tags)
+    public function findPetsByTags(array $tags)
     {
         // Implement the operation ...
     }
@@ -363,7 +363,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePet
      */
-    public function updatePet($body)
+    public function updatePet(Pet $body)
     {
         // Implement the operation ...
     }
@@ -485,7 +485,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#uploadFile
      */
-    public function uploadFile($petId, $additionalMetadata = null, $file = null)
+    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null)
     {
         // Implement the operation ...
     }

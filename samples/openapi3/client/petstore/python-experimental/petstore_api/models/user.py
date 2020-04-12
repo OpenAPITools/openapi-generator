@@ -15,6 +15,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
+import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -81,6 +82,10 @@ class User(ModelNormal):
             'password': (str,),  # noqa: E501
             'phone': (str,),  # noqa: E501
             'user_status': (int,),  # noqa: E501
+            'arbitrary_object': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'arbitrary_nullable_object': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'arbitrary_type_value': (object,),  # noqa: E501
+            'arbitrary_nullable_type_value': (object, none_type,),  # noqa: E501
         }
 
     @staticmethod
@@ -96,6 +101,10 @@ class User(ModelNormal):
         'password': 'password',  # noqa: E501
         'phone': 'phone',  # noqa: E501
         'user_status': 'userStatus',  # noqa: E501
+        'arbitrary_object': 'arbitraryObject',  # noqa: E501
+        'arbitrary_nullable_object': 'arbitraryNullableObject',  # noqa: E501
+        'arbitrary_type_value': 'arbitraryTypeValue',  # noqa: E501
+        'arbitrary_nullable_type_value': 'arbitraryNullableTypeValue',  # noqa: E501
     }
 
     @staticmethod
@@ -112,7 +121,6 @@ class User(ModelNormal):
 
     def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """user.User - a model defined in OpenAPI
-
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -136,6 +144,10 @@ class User(ModelNormal):
             password (str): [optional]  # noqa: E501
             phone (str): [optional]  # noqa: E501
             user_status (int): User Status. [optional]  # noqa: E501
+            arbitrary_object (bool, date, datetime, dict, float, int, list, str): test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.. [optional]  # noqa: E501
+            arbitrary_nullable_object (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.. [optional]  # noqa: E501
+            arbitrary_type_value (object): test code generation for any type Value can be any type - string, number, boolean, array or object.. [optional]  # noqa: E501
+            arbitrary_nullable_type_value (object, none_type): test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value.. [optional]  # noqa: E501
         """
 
         self._data_store = {}

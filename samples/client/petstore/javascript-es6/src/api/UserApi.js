@@ -48,7 +48,7 @@ export default class UserApi {
      * @param {module:model/User} body Created user object
      * @param {module:api/UserApi~createUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUser() {
+    createUser(body, callback) {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -88,7 +88,7 @@ export default class UserApi {
      * @param {Array.<module:model/User>} body List of user object
      * @param {module:api/UserApi~createUsersWithArrayInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUsersWithArrayInput() {
+    createUsersWithArrayInput(body, callback) {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -128,7 +128,7 @@ export default class UserApi {
      * @param {Array.<module:model/User>} body List of user object
      * @param {module:api/UserApi~createUsersWithListInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUsersWithListInput() {
+    createUsersWithListInput(body, callback) {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -169,7 +169,7 @@ export default class UserApi {
      * @param {String} username The name that needs to be deleted
      * @param {module:api/UserApi~deleteUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    deleteUser() {
+    deleteUser(username, callback) {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -211,7 +211,7 @@ export default class UserApi {
      * @param {module:api/UserApi~getUserByNameCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/User}
      */
-    getUserByName() {
+    getUserByName(username, callback) {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -254,7 +254,7 @@ export default class UserApi {
      * @param {module:api/UserApi~loginUserCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link String}
      */
-    loginUser() {
+    loginUser(username, password, callback) {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -299,7 +299,7 @@ export default class UserApi {
      * Logs out current logged in user session
      * @param {module:api/UserApi~logoutUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    logoutUser() {
+    logoutUser(callback) {
       let postBody = null;
 
       let pathParams = {
@@ -337,7 +337,7 @@ export default class UserApi {
      * @param {module:model/User} body Updated user object
      * @param {module:api/UserApi~updateUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updateUser() {
+    updateUser(username, body, callback) {
       let postBody = body;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {

@@ -50,14 +50,10 @@ namespace Org.OpenAPITools.Model
         {
             // to ensure "stringItem" is required (not null)
             this.StringItem = stringItem ?? throw new ArgumentNullException("stringItem is a required property for TypeHolderExample and cannot be null");;
-            // to ensure "numberItem" is required (not null)
-            this.NumberItem = numberItem ?? throw new ArgumentNullException("numberItem is a required property for TypeHolderExample and cannot be null");;
-            // to ensure "floatItem" is required (not null)
-            this.FloatItem = floatItem ?? throw new ArgumentNullException("floatItem is a required property for TypeHolderExample and cannot be null");;
-            // to ensure "integerItem" is required (not null)
-            this.IntegerItem = integerItem ?? throw new ArgumentNullException("integerItem is a required property for TypeHolderExample and cannot be null");;
-            // to ensure "boolItem" is required (not null)
-            this.BoolItem = boolItem ?? throw new ArgumentNullException("boolItem is a required property for TypeHolderExample and cannot be null");;
+            this.NumberItem = numberItem;
+            this.FloatItem = floatItem;
+            this.IntegerItem = integerItem;
+            this.BoolItem = boolItem;
             // to ensure "arrayItem" is required (not null)
             this.ArrayItem = arrayItem ?? throw new ArgumentNullException("arrayItem is a required property for TypeHolderExample and cannot be null");;
         }
@@ -156,14 +152,10 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.StringItem != null)
                     hashCode = hashCode * 59 + this.StringItem.GetHashCode();
-                if (this.NumberItem != null)
-                    hashCode = hashCode * 59 + this.NumberItem.GetHashCode();
-                if (this.FloatItem != null)
-                    hashCode = hashCode * 59 + this.FloatItem.GetHashCode();
-                if (this.IntegerItem != null)
-                    hashCode = hashCode * 59 + this.IntegerItem.GetHashCode();
-                if (this.BoolItem != null)
-                    hashCode = hashCode * 59 + this.BoolItem.GetHashCode();
+                hashCode = hashCode * 59 + this.NumberItem.GetHashCode();
+                hashCode = hashCode * 59 + this.FloatItem.GetHashCode();
+                hashCode = hashCode * 59 + this.IntegerItem.GetHashCode();
+                hashCode = hashCode * 59 + this.BoolItem.GetHashCode();
                 if (this.ArrayItem != null)
                     hashCode = hashCode * 59 + this.ArrayItem.GetHashCode();
                 return hashCode;

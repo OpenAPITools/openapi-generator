@@ -81,8 +81,7 @@ namespace Org.OpenAPITools.Model
             this.Quantity = quantity;
             this.ShipDate = shipDate;
             this.Status = status;
-            // use default value if no "complete" provided
-            this.Complete = complete ?? false;
+            this.Complete = complete;
         }
         
         /// <summary>
@@ -171,18 +170,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Id != null)
-                    hashCode = hashCode * 59 + this.Id.GetHashCode();
-                if (this.PetId != null)
-                    hashCode = hashCode * 59 + this.PetId.GetHashCode();
-                if (this.Quantity != null)
-                    hashCode = hashCode * 59 + this.Quantity.GetHashCode();
+                hashCode = hashCode * 59 + this.Id.GetHashCode();
+                hashCode = hashCode * 59 + this.PetId.GetHashCode();
+                hashCode = hashCode * 59 + this.Quantity.GetHashCode();
                 if (this.ShipDate != null)
                     hashCode = hashCode * 59 + this.ShipDate.GetHashCode();
-                if (this.Status != null)
-                    hashCode = hashCode * 59 + this.Status.GetHashCode();
-                if (this.Complete != null)
-                    hashCode = hashCode * 59 + this.Complete.GetHashCode();
+                hashCode = hashCode * 59 + this.Status.GetHashCode();
+                hashCode = hashCode * 59 + this.Complete.GetHashCode();
                 return hashCode;
             }
         }

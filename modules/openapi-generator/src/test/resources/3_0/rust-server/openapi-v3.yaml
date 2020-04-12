@@ -99,12 +99,16 @@ paths:
     post:
       requestBody:
         content:
-          application/xml:
+          text/xml:
             schema:
               $ref: '#/components/schemas/anotherXmlObject'
       responses:
         '201':
           description: 'OK'
+          content:
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
         '400':
           description: Bad Request
     put:

@@ -284,7 +284,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn test_special_tags(&self, param_body: models::Client, context: &C) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/another-fake/dummy",
             self.base_path
         );
 
@@ -360,7 +360,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn fake_outer_boolean_serialize(&self, param_body: Option<models::OuterBoolean>, context: &C) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake/outer/boolean",
             self.base_path
         );
 
@@ -441,7 +441,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn fake_outer_composite_serialize(&self, param_body: Option<models::OuterComposite>, context: &C) -> Box<dyn Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake/outer/composite",
             self.base_path
         );
 
@@ -521,7 +521,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn fake_outer_number_serialize(&self, param_body: Option<models::OuterNumber>, context: &C) -> Box<dyn Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake/outer/number",
             self.base_path
         );
 
@@ -601,7 +601,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn fake_outer_string_serialize(&self, param_body: Option<models::OuterString>, context: &C) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake/outer/string",
             self.base_path
         );
 
@@ -681,7 +681,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn hyphen_param(&self, param_hyphen_param: String, context: &C) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake/hyphenParam/{hyphen_param}",
             self.base_path, hyphen_param=utf8_percent_encode(&param_hyphen_param.to_string(), ID_ENCODE_SET)
         );
 
@@ -742,7 +742,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn test_body_with_query_params(&self, param_query: String, param_body: models::User, context: &C) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake/body-with-query-params",
             self.base_path
         );
 
@@ -808,7 +808,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn test_client_model(&self, param_body: models::Client, context: &C) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake",
             self.base_path
         );
 
@@ -883,7 +883,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_byte: swagger::ByteArray, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Option<swagger::ByteArray>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake",
             self.base_path
         );
 
@@ -925,6 +925,18 @@ impl<F, C> Api<C> for Client<F> where
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Basic(ref basic_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        basic_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -973,7 +985,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, param_enum_form_string: Option<String>, context: &C) -> Box<dyn Future<Item=TestEnumParametersResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake",
             self.base_path
         );
 
@@ -1016,10 +1028,10 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
 
         // Header parameters
-        header! { (Request, "enum_header_string_array") => (String)* }
-        param_enum_header_string_array.map(|header| request.headers_mut().set(Request(header.clone())));
-        header! { (Request, "enum_header_string") => [String] }
-        param_enum_header_string.map(|header| request.headers_mut().set(Request(header)));
+        header! { (RequestEnumHeaderStringArray, "enum_header_string_array") => (String)* }
+        param_enum_header_string_array.map(|header| request.headers_mut().set(RequestEnumHeaderStringArray(header.clone())));
+        header! { (RequestEnumHeaderString, "enum_header_string") => [String] }
+        param_enum_header_string.map(|header| request.headers_mut().set(RequestEnumHeaderString(header)));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1068,7 +1080,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn test_inline_additional_properties(&self, param_param: HashMap<String, String>, context: &C) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake/inline-additionalProperties",
             self.base_path
         );
 
@@ -1133,7 +1145,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn test_json_form_data(&self, param_param: String, param_param2: String, context: &C) -> Box<dyn Future<Item=TestJsonFormDataResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake/jsonFormData",
             self.base_path
         );
 
@@ -1202,7 +1214,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn test_classname(&self, param_body: models::Client, context: &C) -> Box<dyn Future<Item=TestClassnameResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/fake_classname_test",
             self.base_path
         );
 
@@ -1282,7 +1294,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn add_pet(&self, param_body: models::Pet, context: &C) -> Box<dyn Future<Item=AddPetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/pet",
             self.base_path
         );
 
@@ -1309,6 +1321,18 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(ContentType(mimetypes::requests::ADD_PET.clone()));
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1348,7 +1372,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn delete_pet(&self, param_pet_id: i64, param_api_key: Option<String>, context: &C) -> Box<dyn Future<Item=DeletePetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/pet/{pet_id}",
             self.base_path, pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
@@ -1371,9 +1395,21 @@ impl<F, C> Api<C> for Client<F> where
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
 
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
+
         // Header parameters
-        header! { (Request, "api_key") => [String] }
-        param_api_key.map(|header| request.headers_mut().set(Request(header)));
+        header! { (RequestApiKey, "api_key") => [String] }
+        param_api_key.map(|header| request.headers_mut().set(RequestApiKey(header)));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1413,7 +1449,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn find_pets_by_status(&self, param_status: &Vec<String>, context: &C) -> Box<dyn Future<Item=FindPetsByStatusResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/pet/findByStatus",
             self.base_path
         );
 
@@ -1436,6 +1472,18 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1496,7 +1544,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn find_pets_by_tags(&self, param_tags: &Vec<String>, context: &C) -> Box<dyn Future<Item=FindPetsByTagsResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/pet/findByTags",
             self.base_path
         );
 
@@ -1519,6 +1567,18 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1579,7 +1639,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn get_pet_by_id(&self, param_pet_id: i64, context: &C) -> Box<dyn Future<Item=GetPetByIdResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/pet/{pet_id}",
             self.base_path, pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
@@ -1601,6 +1661,19 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::ApiKey(ref api_key) => {
+                    header! { (ApiKey, "api_key") => [String] }
+                    request.headers_mut().set(
+                        ApiKey(api_key.to_string())
+                    )
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1670,7 +1743,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn update_pet(&self, param_body: models::Pet, context: &C) -> Box<dyn Future<Item=UpdatePetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/pet",
             self.base_path
         );
 
@@ -1696,6 +1769,18 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET.clone()));
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1753,7 +1838,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn update_pet_with_form(&self, param_pet_id: i64, param_name: Option<String>, param_status: Option<String>, context: &C) -> Box<dyn Future<Item=UpdatePetWithFormResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/pet/{pet_id}",
             self.base_path, pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
@@ -1783,6 +1868,18 @@ impl<F, C> Api<C> for Client<F> where
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1822,7 +1919,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn upload_file(&self, param_pet_id: i64, param_additional_metadata: Option<String>, param_file: Option<swagger::ByteArray>, context: &C) -> Box<dyn Future<Item=UploadFileResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/pet/{pet_id}/uploadImage",
             self.base_path, pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
@@ -1893,6 +1990,18 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1942,7 +2051,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn delete_order(&self, param_order_id: String, context: &C) -> Box<dyn Future<Item=DeleteOrderResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/store/order/{order_id}",
             self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
@@ -2012,7 +2121,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn get_inventory(&self, context: &C) -> Box<dyn Future<Item=GetInventoryResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/store/inventory",
             self.base_path
         );
 
@@ -2034,6 +2143,19 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::ApiKey(ref api_key) => {
+                    header! { (ApiKey, "api_key") => [String] }
+                    request.headers_mut().set(
+                        ApiKey(api_key.to_string())
+                    )
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2083,7 +2205,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn get_order_by_id(&self, param_order_id: i64, context: &C) -> Box<dyn Future<Item=GetOrderByIdResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/store/order/{order_id}",
             self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
@@ -2174,7 +2296,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn place_order(&self, param_body: models::Order, context: &C) -> Box<dyn Future<Item=PlaceOrderResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/store/order",
             self.base_path
         );
 
@@ -2260,7 +2382,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn create_user(&self, param_body: models::User, context: &C) -> Box<dyn Future<Item=CreateUserResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/user",
             self.base_path
         );
 
@@ -2326,7 +2448,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn create_users_with_array_input(&self, param_body: &Vec<models::User>, context: &C) -> Box<dyn Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/user/createWithArray",
             self.base_path
         );
 
@@ -2391,7 +2513,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn create_users_with_list_input(&self, param_body: &Vec<models::User>, context: &C) -> Box<dyn Future<Item=CreateUsersWithListInputResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/user/createWithList",
             self.base_path
         );
 
@@ -2456,7 +2578,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn delete_user(&self, param_username: String, context: &C) -> Box<dyn Future<Item=DeleteUserResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
@@ -2526,7 +2648,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn get_user_by_name(&self, param_username: String, context: &C) -> Box<dyn Future<Item=GetUserByNameResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
@@ -2617,7 +2739,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn login_user(&self, param_username: String, param_password: String, context: &C) -> Box<dyn Future<Item=LoginUserResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/user/login",
             self.base_path
         );
 
@@ -2711,7 +2833,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn logout_user(&self, context: &C) -> Box<dyn Future<Item=LogoutUserResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/user/logout",
             self.base_path
         );
 
@@ -2772,7 +2894,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn update_user(&self, param_username: String, param_body: models::User, context: &C) -> Box<dyn Future<Item=UpdateUserResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2",
+            "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 

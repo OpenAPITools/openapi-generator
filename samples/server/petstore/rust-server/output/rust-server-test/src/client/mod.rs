@@ -249,7 +249,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn dummy_get(&self, context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}",
+            "{}/dummy",
             self.base_path
         );
 
@@ -310,7 +310,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn dummy_put(&self, param_nested_response: models::InlineObject, context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}",
+            "{}/dummy",
             self.base_path
         );
 
@@ -375,7 +375,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn file_response_get(&self, context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}",
+            "{}/file_response",
             self.base_path
         );
 
@@ -446,7 +446,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn html_post(&self, param_body: String, context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}",
+            "{}/html",
             self.base_path
         );
 
@@ -520,7 +520,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn raw_json_get(&self, context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}",
+            "{}/raw_json",
             self.base_path
         );
 

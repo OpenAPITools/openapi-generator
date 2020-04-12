@@ -25,6 +25,22 @@ The most commonly used openapi-generator-cli commands are:
 
 See 'openapi-generator-cli help <command>' for more information on a specific
 command.
+```
+
+## version
+
+The version command provides version information, returning either the semver version by default or the git sha when passed `--sha`.
+
+```bash
+NAME
+        openapi-generator-cli version - Show version information
+
+SYNOPSIS
+        openapi-generator-cli version [--sha]
+
+OPTIONS
+        --sha
+            Git commit SHA version
 
 ```
 
@@ -230,7 +246,7 @@ An example bash completion script can be found in the repo at [scripts/openapi-g
 
 ## generate
 
-The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The abbreviated options are below, but you may expand the full descriptions.
+The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options available than the previous commands. The abbreviated options are below, but you may expand the full descriptions.
 
 
 ```bash
@@ -473,13 +489,13 @@ openapi-generator generate -g go --additional-properties=prependFormOrBodyParame
     -o out -i petstore.yaml
 ```
 
-To pass more than one generator property, these can be combined via comma:
+Pass more options via comma delimited key/value pairs:
 
 ```bash
 --additional-properties=key1=value1,key2=value2
 ```
 
-For the full list of generator-specified parameters, refer to [generators docs](./generators.md).
+For the full list of generator-specific parameters, refer to [generators docs](./generators.md).
 
 #### Type Mappings and Import Mappings
 

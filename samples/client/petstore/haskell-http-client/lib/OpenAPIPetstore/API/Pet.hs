@@ -55,59 +55,64 @@ import qualified Prelude as P
 -- * Operations
 
 
+-- ** Pet
+
 -- *** addPet
 
--- | @@
+-- | @POST \/pet@
 -- 
 -- Add a new pet to the store
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 addPet 
-  :: Accept accept -- ^ request accept ('MimeType')
+  :: (Consumes AddPet contentType, MimeRender contentType Pet)
+  => ContentType contentType -- ^ request content-type ('MimeType')
   -> Pet -- ^ "body" -  Pet object that needs to be added to the store
-  -> OpenAPIPetstoreRequest  contentType  accept
-addPet _  _ body =
+  -> OpenAPIPetstoreRequest AddPet contentType NoContent MimeNoContent
+addPet _ body =
   _mkRequest "POST" ["/pet"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
     `setBodyParam` body
 
-data  
+data AddPet 
 
 -- | /Body Param/ "body" - Pet object that needs to be added to the store
-instance HasBodyParam  Pet 
+instance HasBodyParam AddPet Pet 
 
 -- | @application/xml@
-instance Consumes  MimeXML
+instance Consumes AddPet MimeXML
 -- | @application/json@
-instance Consumes  MimeJSON
+instance Consumes AddPet MimeJSON
 
-instance Produces  MimeNoContent
+instance Produces AddPet MimeNoContent
 
 
 -- *** deletePet
 
--- | @@
+-- | @DELETE \/pet\/{petId}@
 -- 
 -- Deletes a pet
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 deletePet 
-  :: Accept accept -- ^ request accept ('MimeType')
-  -> Integer -- ^ "petId" -  Pet id to delete
-  -> OpenAPIPetstoreRequest  contentType  accept
-deletePet _  _ ( petId) =
+  :: PetId -- ^ "petId" -  Pet id to delete
+  -> OpenAPIPetstoreRequest DeletePet MimeNoContent NoContent MimeNoContent
+deletePet (PetId petId) =
   _mkRequest "DELETE" ["/pet/",toPath petId]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
 
-data   
-instance Produces  MimeNoContent
+data DeletePet  
+instance HasOptionalParam DeletePet ApiKey where
+  applyOptionalParam req (ApiKey xs) =
+    req `setHeader` toHeader ("api_key", xs)
+instance Produces DeletePet MimeNoContent
 
 
 -- *** findPetsByStatus
 
--- | @@
+-- | @GET \/pet\/findByStatus@
 -- 
 -- Finds Pets by status
 -- 
@@ -117,23 +122,23 @@ instance Produces  MimeNoContent
 -- 
 findPetsByStatus 
   :: Accept accept -- ^ request accept ('MimeType')
-  -> [Text] -- ^ "status" -  Status values that need to be considered for filter
-  -> OpenAPIPetstoreRequest  contentType  accept
-findPetsByStatus _  _ ( status) =
+  -> Status -- ^ "status" -  Status values that need to be considered for filter
+  -> OpenAPIPetstoreRequest FindPetsByStatus MimeNoContent [Pet] accept
+findPetsByStatus  _ (Status status) =
   _mkRequest "GET" ["/pet/findByStatus"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
-    `setQuery` toQueryColl  ("status", Just status)
+    `setQuery` toQueryColl CommaSeparated ("status", Just status)
 
-data   
+data FindPetsByStatus  
 -- | @application/xml@
-instance Produces  MimeXML
+instance Produces FindPetsByStatus MimeXML
 -- | @application/json@
-instance Produces  MimeJSON
+instance Produces FindPetsByStatus MimeJSON
 
 
 -- *** findPetsByTags
 
--- | @@
+-- | @GET \/pet\/findByTags@
 -- 
 -- Finds Pets by tags
 -- 
@@ -143,25 +148,25 @@ instance Produces  MimeJSON
 -- 
 findPetsByTags 
   :: Accept accept -- ^ request accept ('MimeType')
-  -> [Text] -- ^ "tags" -  Tags to filter by
-  -> OpenAPIPetstoreRequest  contentType  accept
-findPetsByTags _  _ ( tags) =
+  -> Tags -- ^ "tags" -  Tags to filter by
+  -> OpenAPIPetstoreRequest FindPetsByTags MimeNoContent [Pet] accept
+findPetsByTags  _ (Tags tags) =
   _mkRequest "GET" ["/pet/findByTags"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
-    `setQuery` toQueryColl  ("tags", Just tags)
+    `setQuery` toQueryColl CommaSeparated ("tags", Just tags)
 
 {-# DEPRECATED findPetsByTags "" #-}
 
-data   
+data FindPetsByTags  
 -- | @application/xml@
-instance Produces  MimeXML
+instance Produces FindPetsByTags MimeXML
 -- | @application/json@
-instance Produces  MimeJSON
+instance Produces FindPetsByTags MimeJSON
 
 
 -- *** getPetById
 
--- | @@
+-- | @GET \/pet\/{petId}@
 -- 
 -- Find pet by ID
 -- 
@@ -171,121 +176,147 @@ instance Produces  MimeJSON
 -- 
 getPetById 
   :: Accept accept -- ^ request accept ('MimeType')
-  -> Integer -- ^ "petId" -  ID of pet to return
-  -> OpenAPIPetstoreRequest  contentType  accept
-getPetById _  _ ( petId) =
+  -> PetId -- ^ "petId" -  ID of pet to return
+  -> OpenAPIPetstoreRequest GetPetById MimeNoContent Pet accept
+getPetById  _ (PetId petId) =
   _mkRequest "GET" ["/pet/",toPath petId]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKey)
 
-data   
+data GetPetById  
 -- | @application/xml@
-instance Produces  MimeXML
+instance Produces GetPetById MimeXML
 -- | @application/json@
-instance Produces  MimeJSON
+instance Produces GetPetById MimeJSON
 
 
 -- *** updatePet
 
--- | @@
+-- | @PUT \/pet@
 -- 
 -- Update an existing pet
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 updatePet 
-  :: Accept accept -- ^ request accept ('MimeType')
+  :: (Consumes UpdatePet contentType, MimeRender contentType Pet)
+  => ContentType contentType -- ^ request content-type ('MimeType')
   -> Pet -- ^ "body" -  Pet object that needs to be added to the store
-  -> OpenAPIPetstoreRequest  contentType  accept
-updatePet _  _ body =
+  -> OpenAPIPetstoreRequest UpdatePet contentType NoContent MimeNoContent
+updatePet _ body =
   _mkRequest "PUT" ["/pet"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
     `setBodyParam` body
 
-data  
+data UpdatePet 
 
 -- | /Body Param/ "body" - Pet object that needs to be added to the store
-instance HasBodyParam  Pet 
+instance HasBodyParam UpdatePet Pet 
 
 -- | @application/xml@
-instance Consumes  MimeXML
+instance Consumes UpdatePet MimeXML
 -- | @application/json@
-instance Consumes  MimeJSON
+instance Consumes UpdatePet MimeJSON
 
-instance Produces  MimeNoContent
+instance Produces UpdatePet MimeNoContent
 
 
 -- *** updatePetWithForm
 
--- | @@
+-- | @POST \/pet\/{petId}@
 -- 
 -- Updates a pet in the store with form data
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 updatePetWithForm 
-  :: Accept accept -- ^ request accept ('MimeType')
-  -> Integer -- ^ "petId" -  ID of pet that needs to be updated
-  -> OpenAPIPetstoreRequest  contentType  accept
-updatePetWithForm _  _ ( petId) =
+  :: (Consumes UpdatePetWithForm MimeFormUrlEncoded)
+  => PetId -- ^ "petId" -  ID of pet that needs to be updated
+  -> OpenAPIPetstoreRequest UpdatePetWithForm MimeFormUrlEncoded NoContent MimeNoContent
+updatePetWithForm (PetId petId) =
   _mkRequest "POST" ["/pet/",toPath petId]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
 
-data   
+data UpdatePetWithForm  
+
+-- | /Optional Param/ "name" - Updated name of the pet
+instance HasOptionalParam UpdatePetWithForm Name2 where
+  applyOptionalParam req (Name2 xs) =
+    req `addForm` toForm ("name", xs)
+
+-- | /Optional Param/ "status" - Updated status of the pet
+instance HasOptionalParam UpdatePetWithForm StatusText where
+  applyOptionalParam req (StatusText xs) =
+    req `addForm` toForm ("status", xs)
 
 -- | @application/x-www-form-urlencoded@
-instance Consumes  MimeFormUrlEncoded
+instance Consumes UpdatePetWithForm MimeFormUrlEncoded
 
-instance Produces  MimeNoContent
+instance Produces UpdatePetWithForm MimeNoContent
 
 
 -- *** uploadFile
 
--- | @@
+-- | @POST \/pet\/{petId}\/uploadImage@
 -- 
 -- uploads an image
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 uploadFile 
-  :: Accept accept -- ^ request accept ('MimeType')
-  -> Integer -- ^ "petId" -  ID of pet to update
-  -> OpenAPIPetstoreRequest  contentType  accept
-uploadFile _  _ ( petId) =
+  :: (Consumes UploadFile MimeMultipartFormData)
+  => PetId -- ^ "petId" -  ID of pet to update
+  -> OpenAPIPetstoreRequest UploadFile MimeMultipartFormData ApiResponse MimeJSON
+uploadFile (PetId petId) =
   _mkRequest "POST" ["/pet/",toPath petId,"/uploadImage"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
 
-data   
+data UploadFile  
+
+-- | /Optional Param/ "additionalMetadata" - Additional data to pass to server
+instance HasOptionalParam UploadFile AdditionalMetadata where
+  applyOptionalParam req (AdditionalMetadata xs) =
+    req `_addMultiFormPart` NH.partLBS "additionalMetadata" (mimeRender' MimeMultipartFormData xs)
+
+-- | /Optional Param/ "file" - file to upload
+instance HasOptionalParam UploadFile File2 where
+  applyOptionalParam req (File2 xs) =
+    req `_addMultiFormPart` NH.partFileSource "file" xs
 
 -- | @multipart/form-data@
-instance Consumes  MimeMultipartFormData
+instance Consumes UploadFile MimeMultipartFormData
 
 -- | @application/json@
-instance Produces  MimeJSON
+instance Produces UploadFile MimeJSON
 
 
 -- *** uploadFileWithRequiredFile
 
--- | @@
+-- | @POST \/fake\/{petId}\/uploadImageWithRequiredFile@
 -- 
 -- uploads an image (required)
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 uploadFileWithRequiredFile 
-  :: Accept accept -- ^ request accept ('MimeType')
-  -> FilePath -- ^ "requiredFile" -  file to upload
-  -> Integer -- ^ "petId" -  ID of pet to update
-  -> OpenAPIPetstoreRequest  contentType  accept
-uploadFileWithRequiredFile _  _ ( requiredFile) ( petId) =
+  :: (Consumes UploadFileWithRequiredFile MimeMultipartFormData)
+  => RequiredFile -- ^ "requiredFile" -  file to upload
+  -> PetId -- ^ "petId" -  ID of pet to update
+  -> OpenAPIPetstoreRequest UploadFileWithRequiredFile MimeMultipartFormData ApiResponse MimeJSON
+uploadFileWithRequiredFile (RequiredFile requiredFile) (PetId petId) =
   _mkRequest "POST" ["/fake/",toPath petId,"/uploadImageWithRequiredFile"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
     `_addMultiFormPart` NH.partFileSource "requiredFile" requiredFile
 
-data   
+data UploadFileWithRequiredFile  
+
+-- | /Optional Param/ "additionalMetadata" - Additional data to pass to server
+instance HasOptionalParam UploadFileWithRequiredFile AdditionalMetadata where
+  applyOptionalParam req (AdditionalMetadata xs) =
+    req `_addMultiFormPart` NH.partLBS "additionalMetadata" (mimeRender' MimeMultipartFormData xs)
 
 -- | @multipart/form-data@
-instance Consumes  MimeMultipartFormData
+instance Consumes UploadFileWithRequiredFile MimeMultipartFormData
 
 -- | @application/json@
-instance Produces  MimeJSON
+instance Produces UploadFileWithRequiredFile MimeJSON
 

@@ -147,8 +147,7 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.MapMapOfString != null)
                     hashCode = hashCode * 59 + this.MapMapOfString.GetHashCode();
-                if (this.MapOfEnumString != null)
-                    hashCode = hashCode * 59 + this.MapOfEnumString.GetHashCode();
+                hashCode = hashCode * 59 + this.MapOfEnumString.GetHashCode();
                 if (this.DirectMap != null)
                     hashCode = hashCode * 59 + this.DirectMap.GetHashCode();
                 if (this.IndirectMap != null)

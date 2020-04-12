@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -66,7 +67,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public DartClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -88,7 +89,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         // clear import mapping (from default generator) as dart does not use it at the moment
         importMapping.clear();
@@ -279,6 +280,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         final String authFolder = sourceFolder + File.separator + "lib" + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "authentication.dart"));
         supportingFiles.add(new SupportingFile("auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/http_bearer_auth.mustache", authFolder, "http_bearer_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -366,14 +368,21 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
+        if (typeMapping.containsValue(name)) {
+            return camelize(name);
+        } else {
+            // camelize the model name
+            return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        }
     }
 
     @Override
     public String toModelFilename(String name) {
         return underscore(toModelName(name));
+    }
+
+    @Override public String toModelDocFilename(String name) {
+        return super.toModelDocFilename(toModelName(name));
     }
 
     @Override

@@ -55,30 +55,32 @@ import qualified Prelude as P
 -- * Operations
 
 
+-- ** AnotherFake
+
 -- *** op123testSpecialTags
 
--- | @@
+-- | @PATCH \/another-fake\/dummy@
 -- 
 -- To test special tags
 -- 
 -- To test special tags and operation ID starting with number
 -- 
 op123testSpecialTags 
-  :: Accept accept -- ^ request accept ('MimeType')
-  -> Client -- ^ "body" -  client model
-  -> OpenAPIPetstoreRequest  contentType  accept
-op123testSpecialTags _  _ body =
+  :: (Consumes Op123testSpecialTags MimeJSON, MimeRender MimeJSON Client)
+  => Client -- ^ "body" -  client model
+  -> OpenAPIPetstoreRequest Op123testSpecialTags MimeJSON Client MimeJSON
+op123testSpecialTags body =
   _mkRequest "PATCH" ["/another-fake/dummy"]
     `setBodyParam` body
 
-data  
+data Op123testSpecialTags 
 
 -- | /Body Param/ "body" - client model
-instance HasBodyParam  Client 
+instance HasBodyParam Op123testSpecialTags Client 
 
 -- | @application/json@
-instance Consumes  MimeJSON
+instance Consumes Op123testSpecialTags MimeJSON
 
 -- | @application/json@
-instance Produces  MimeJSON
+instance Produces Op123testSpecialTags MimeJSON
 

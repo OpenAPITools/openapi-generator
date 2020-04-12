@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
-
+ 
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable {
   
   private @Valid String name;
@@ -29,15 +29,17 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -77,5 +79,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

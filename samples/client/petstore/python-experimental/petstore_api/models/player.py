@@ -15,6 +15,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
+import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -74,7 +75,7 @@ class Player(ModelNormal):
         """
         return {
             'name': (str,),  # noqa: E501
-            'enemy_player': (player.Player,),  # noqa: E501
+            'enemy_player': (Player,),  # noqa: E501
         }
 
     @staticmethod
@@ -118,7 +119,7 @@ class Player(ModelNormal):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            enemy_player (player.Player): [optional]  # noqa: E501
+            enemy_player (Player): [optional]  # noqa: E501
         """
 
         self._data_store = {}

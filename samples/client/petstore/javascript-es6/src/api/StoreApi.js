@@ -48,7 +48,7 @@ export default class StoreApi {
      * @param {String} orderId ID of the order that needs to be deleted
      * @param {module:api/StoreApi~deleteOrderCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    deleteOrder() {
+    deleteOrder(orderId, callback) {
       let postBody = null;
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
@@ -90,7 +90,7 @@ export default class StoreApi {
      * @param {module:api/StoreApi~getInventoryCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Object.<String, {String: Number}>}
      */
-    getInventory() {
+    getInventory(callback) {
       let postBody = null;
 
       let pathParams = {
@@ -128,7 +128,7 @@ export default class StoreApi {
      * @param {module:api/StoreApi~getOrderByIdCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Order}
      */
-    getOrderById() {
+    getOrderById(orderId, callback) {
       let postBody = null;
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
@@ -170,7 +170,7 @@ export default class StoreApi {
      * @param {module:api/StoreApi~placeOrderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Order}
      */
-    placeOrder() {
+    placeOrder(body, callback) {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {

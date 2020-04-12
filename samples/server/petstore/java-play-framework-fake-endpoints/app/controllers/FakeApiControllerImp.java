@@ -27,7 +27,7 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     @Override
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws Exception {
         //Do your magic!!!
-        return new Boolean();
+        return new Boolean(true);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     @Override
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws Exception {
         //Do your magic!!!
-        return new BigDecimal();
+        return new BigDecimal(1.0);
     }
 
     @Override

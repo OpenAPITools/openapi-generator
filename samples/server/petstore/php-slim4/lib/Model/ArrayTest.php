@@ -16,7 +16,7 @@
  */
 namespace OpenAPIServer\Model;
 
-use \ModelInterface;
+use OpenAPIServer\Interfaces\ModelInterface;
 
 /**
  * ArrayTest

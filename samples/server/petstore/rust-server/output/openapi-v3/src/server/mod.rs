@@ -146,7 +146,7 @@ where
         match &method {
 
             // MultigetGet - GET /multiget
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Get if path.matched(paths::ID_MULTIGET) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.multiget_get(&context)
@@ -264,7 +264,7 @@ where
             },
 
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Get if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -325,7 +325,7 @@ where
             },
 
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Get if path.matched(paths::ID_READONLY_AUTH_SCHEME) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -385,7 +385,7 @@ where
             },
 
             // RequiredOctetStreamPut - PUT /required_octet_stream
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Put if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -436,7 +436,7 @@ where
             },
 
             // ResponsesWithHeadersGet - GET /responses_with_headers
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Get if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.responses_with_headers_get(&context)
@@ -497,7 +497,7 @@ where
             },
 
             // UuidGet - GET /uuid
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Get if path.matched(paths::ID_UUID) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.uuid_get(&context)
@@ -537,7 +537,7 @@ where
             },
 
             // XmlExtraPost - POST /xml_extra
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Post if path.matched(paths::ID_XML_EXTRA) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -603,7 +603,7 @@ where
             },
 
             // XmlOtherPost - POST /xml_other
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Post if path.matched(paths::ID_XML_OTHER) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -637,10 +637,19 @@ where
                                             Ok(rsp) => match rsp {
                                                 XmlOtherPostResponse::OK
 
+                                                    (body)
+
 
                                                 => {
                                                     response.set_status(StatusCode::try_from(201).unwrap());
 
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::XML_OTHER_POST_OK.clone()));
+
+                                                    let mut namespaces = BTreeMap::new();
+                                                    // An empty string is used to indicate a global namespace in xmltree.
+                                                    namespaces.insert("".to_string(), models::AnotherXmlObject::NAMESPACE.to_string());
+                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    response.set_body(body);
                                                 },
                                                 XmlOtherPostResponse::BadRequest
 
@@ -669,7 +678,7 @@ where
             },
 
             // XmlOtherPut - PUT /xml_other
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Put if path.matched(paths::ID_XML_OTHER) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -735,7 +744,7 @@ where
             },
 
             // XmlPost - POST /xml
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Post if path.matched(paths::ID_XML) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -801,7 +810,7 @@ where
             },
 
             // XmlPut - PUT /xml
-            &hyper::Method:: if path.matched(paths::ID_) => {
+            &hyper::Method::Put if path.matched(paths::ID_XML) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -890,37 +899,37 @@ impl RequestParser for ApiRequestParser {
         match request.method() {
 
             // MultigetGet - GET /multiget
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("MultigetGet"),
+            &hyper::Method::Get if path.matched(paths::ID_MULTIGET) => Ok("MultigetGet"),
 
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("MultipleAuthSchemeGet"),
+            &hyper::Method::Get if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Ok("MultipleAuthSchemeGet"),
 
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("ReadonlyAuthSchemeGet"),
+            &hyper::Method::Get if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Ok("ReadonlyAuthSchemeGet"),
 
             // RequiredOctetStreamPut - PUT /required_octet_stream
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("RequiredOctetStreamPut"),
+            &hyper::Method::Put if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Ok("RequiredOctetStreamPut"),
 
             // ResponsesWithHeadersGet - GET /responses_with_headers
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("ResponsesWithHeadersGet"),
+            &hyper::Method::Get if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
 
             // UuidGet - GET /uuid
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("UuidGet"),
+            &hyper::Method::Get if path.matched(paths::ID_UUID) => Ok("UuidGet"),
 
             // XmlExtraPost - POST /xml_extra
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlExtraPost"),
+            &hyper::Method::Post if path.matched(paths::ID_XML_EXTRA) => Ok("XmlExtraPost"),
 
             // XmlOtherPost - POST /xml_other
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlOtherPost"),
+            &hyper::Method::Post if path.matched(paths::ID_XML_OTHER) => Ok("XmlOtherPost"),
 
             // XmlOtherPut - PUT /xml_other
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlOtherPut"),
+            &hyper::Method::Put if path.matched(paths::ID_XML_OTHER) => Ok("XmlOtherPut"),
 
             // XmlPost - POST /xml
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlPost"),
+            &hyper::Method::Post if path.matched(paths::ID_XML) => Ok("XmlPost"),
 
             // XmlPut - PUT /xml
-            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlPut"),
+            &hyper::Method::Put if path.matched(paths::ID_XML) => Ok("XmlPut"),
             _ => Err(()),
         }
     }

@@ -211,7 +211,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#placeOrder
      */
-    public function placeOrder($body)
+    public function placeOrder(Order $body)
     {
         // Implement the operation ...
     }

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
-
+ 
 public class AdditionalPropertiesObject extends HashMap<String, Map> implements Serializable {
   
   private @Valid String name;
@@ -28,15 +28,17 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> implements 
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -76,5 +78,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> implements 
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

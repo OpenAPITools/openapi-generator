@@ -12,6 +12,7 @@ sidebar_label: cpp-restsdk
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
 |packageVersion|C++ package version.| |1.0.0|
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
+|variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
 
 ## IMPORT MAPPING
 

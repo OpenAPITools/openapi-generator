@@ -161,8 +161,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnum">outerEnum.</param>
         public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum outerEnum = default(OuterEnum))
         {
-            // to ensure "enumStringRequired" is required (not null)
-            this.EnumStringRequired = enumStringRequired ?? throw new ArgumentNullException("enumStringRequired is a required property for EnumTest and cannot be null");;
+            this.EnumStringRequired = enumStringRequired;
             this.EnumString = enumString;
             this.EnumInteger = enumInteger;
             this.EnumNumber = enumNumber;
@@ -224,16 +223,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.EnumString != null)
-                    hashCode = hashCode * 59 + this.EnumString.GetHashCode();
-                if (this.EnumStringRequired != null)
-                    hashCode = hashCode * 59 + this.EnumStringRequired.GetHashCode();
-                if (this.EnumInteger != null)
-                    hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
-                if (this.EnumNumber != null)
-                    hashCode = hashCode * 59 + this.EnumNumber.GetHashCode();
-                if (this.OuterEnum != null)
-                    hashCode = hashCode * 59 + this.OuterEnum.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumString.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumStringRequired.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumNumber.GetHashCode();
+                hashCode = hashCode * 59 + this.OuterEnum.GetHashCode();
                 return hashCode;
             }
         }
