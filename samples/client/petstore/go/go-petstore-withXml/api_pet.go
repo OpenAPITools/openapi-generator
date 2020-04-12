@@ -26,6 +26,103 @@ var (
 	_ _context.Context
 )
 
+type PetApi interface {
+
+    /*
+     * AddPet Add a new pet to the store
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body Pet object that needs to be added to the store
+     */
+    AddPet(ctx _context.Context, body Pet) (*_nethttp.Response, error)
+
+    /*
+     * DeletePet Deletes a pet
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param petId Pet id to delete
+     * @param optional nil or *DeletePetOpts - Optional Parameters:
+     * @param "ApiKey" (optional.String) - 
+     */
+    DeletePet(ctx _context.Context, petId int64, localVarOptionals *DeletePetOpts) (*_nethttp.Response, error)
+
+    /*
+     * FindPetsByStatus Finds Pets by status
+     *
+     * Multiple status values can be provided with comma separated strings
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param status Status values that need to be considered for filter
+     * @return []Pet
+     */
+    FindPetsByStatus(ctx _context.Context, status []string) ([]Pet, *_nethttp.Response, error)
+
+    /*
+     * FindPetsByTags Finds Pets by tags
+     *
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param tags Tags to filter by
+     * @return []Pet
+     */
+    FindPetsByTags(ctx _context.Context, tags []string) ([]Pet, *_nethttp.Response, error)
+
+    /*
+     * GetPetById Find pet by ID
+     *
+     * Returns a single pet
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param petId ID of pet to return
+     * @return Pet
+     */
+    GetPetById(ctx _context.Context, petId int64) (Pet, *_nethttp.Response, error)
+
+    /*
+     * UpdatePet Update an existing pet
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body Pet object that needs to be added to the store
+     */
+    UpdatePet(ctx _context.Context, body Pet) (*_nethttp.Response, error)
+
+    /*
+     * UpdatePetWithForm Updates a pet in the store with form data
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param petId ID of pet that needs to be updated
+     * @param optional nil or *UpdatePetWithFormOpts - Optional Parameters:
+     * @param "Name" (optional.String) -  Updated name of the pet
+     * @param "Status" (optional.String) -  Updated status of the pet
+     */
+    UpdatePetWithForm(ctx _context.Context, petId int64, localVarOptionals *UpdatePetWithFormOpts) (*_nethttp.Response, error)
+
+    /*
+     * UploadFile uploads an image
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param petId ID of pet to update
+     * @param optional nil or *UploadFileOpts - Optional Parameters:
+     * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
+     * @param "File" (optional.Interface of *os.File) -  file to upload
+     * @return ApiResponse
+     */
+    UploadFile(ctx _context.Context, petId int64, localVarOptionals *UploadFileOpts) (ApiResponse, *_nethttp.Response, error)
+
+    /*
+     * UploadFileWithRequiredFile uploads an image (required)
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param petId ID of pet to update
+     * @param requiredFile file to upload
+     * @param optional nil or *UploadFileWithRequiredFileOpts - Optional Parameters:
+     * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
+     * @return ApiResponse
+     */
+    UploadFileWithRequiredFile(ctx _context.Context, petId int64, requiredFile *os.File, localVarOptionals *UploadFileWithRequiredFileOpts) (ApiResponse, *_nethttp.Response, error)
+}
+
 // PetApiService PetApi service
 type PetApiService service
 

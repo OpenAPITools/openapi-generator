@@ -23,6 +23,20 @@ var (
 	_ _context.Context
 )
 
+type FakeClassnameTags123Api interface {
+
+    /*
+     * TestClassname To test class name in snake case
+     *
+     * To test class name in snake case
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body client model
+     * @return Client
+     */
+    TestClassname(ctx _context.Context, body Client) (Client, *_nethttp.Response, error)
+}
+
 // FakeClassnameTags123ApiService FakeClassnameTags123Api service
 type FakeClassnameTags123ApiService service
 

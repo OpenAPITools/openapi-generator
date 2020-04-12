@@ -26,6 +26,186 @@ var (
 	_ _context.Context
 )
 
+type FakeApi interface {
+
+    /*
+     * CreateXmlItem creates an XmlItem
+     *
+     * this route creates an XmlItem
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param xmlItem XmlItem Body
+     */
+    CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*_nethttp.Response, error)
+
+    /*
+     * FakeOuterBooleanSerialize Method for FakeOuterBooleanSerialize
+     *
+     * Test serialization of outer boolean types
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param optional nil or *FakeOuterBooleanSerializeOpts - Optional Parameters:
+     * @param "Body" (optional.Bool) -  Input boolean as post body
+     * @return bool
+     */
+    FakeOuterBooleanSerialize(ctx _context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *_nethttp.Response, error)
+
+    /*
+     * FakeOuterCompositeSerialize Method for FakeOuterCompositeSerialize
+     *
+     * Test serialization of object with outer number type
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param optional nil or *FakeOuterCompositeSerializeOpts - Optional Parameters:
+     * @param "Body" (optional.Interface of OuterComposite) -  Input composite as post body
+     * @return OuterComposite
+     */
+    FakeOuterCompositeSerialize(ctx _context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *_nethttp.Response, error)
+
+    /*
+     * FakeOuterNumberSerialize Method for FakeOuterNumberSerialize
+     *
+     * Test serialization of outer number types
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param optional nil or *FakeOuterNumberSerializeOpts - Optional Parameters:
+     * @param "Body" (optional.Float32) -  Input number as post body
+     * @return float32
+     */
+    FakeOuterNumberSerialize(ctx _context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *_nethttp.Response, error)
+
+    /*
+     * FakeOuterStringSerialize Method for FakeOuterStringSerialize
+     *
+     * Test serialization of outer string types
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param optional nil or *FakeOuterStringSerializeOpts - Optional Parameters:
+     * @param "Body" (optional.String) -  Input string as post body
+     * @return string
+     */
+    FakeOuterStringSerialize(ctx _context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *_nethttp.Response, error)
+
+    /*
+     * TestBodyWithFileSchema Method for TestBodyWithFileSchema
+     *
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body
+     */
+    TestBodyWithFileSchema(ctx _context.Context, body FileSchemaTestClass) (*_nethttp.Response, error)
+
+    /*
+     * TestBodyWithQueryParams Method for TestBodyWithQueryParams
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param query
+     * @param body
+     */
+    TestBodyWithQueryParams(ctx _context.Context, query string, body User) (*_nethttp.Response, error)
+
+    /*
+     * TestClientModel To test \"client\" model
+     *
+     * To test \&quot;client\&quot; model
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body client model
+     * @return Client
+     */
+    TestClientModel(ctx _context.Context, body Client) (Client, *_nethttp.Response, error)
+
+    /*
+     * TestEndpointParameters Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     *
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param number None
+     * @param double None
+     * @param patternWithoutDelimiter None
+     * @param byte_ None
+     * @param optional nil or *TestEndpointParametersOpts - Optional Parameters:
+     * @param "Integer" (optional.Int32) -  None
+     * @param "Int32_" (optional.Int32) -  None
+     * @param "Int64_" (optional.Int64) -  None
+     * @param "Float" (optional.Float32) -  None
+     * @param "String_" (optional.String) -  None
+     * @param "Binary" (optional.Interface of *os.File) -  None
+     * @param "Date" (optional.String) -  None
+     * @param "DateTime" (optional.Time) -  None
+     * @param "Password" (optional.String) -  None
+     * @param "Callback" (optional.String) -  None
+     */
+    TestEndpointParameters(ctx _context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*_nethttp.Response, error)
+
+    /*
+     * TestEnumParameters To test enum parameters
+     *
+     * To test enum parameters
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param optional nil or *TestEnumParametersOpts - Optional Parameters:
+     * @param "EnumHeaderStringArray" (optional.Interface of []string) -  Header parameter enum test (string array)
+     * @param "EnumHeaderString" (optional.String) -  Header parameter enum test (string)
+     * @param "EnumQueryStringArray" (optional.Interface of []string) -  Query parameter enum test (string array)
+     * @param "EnumQueryString" (optional.String) -  Query parameter enum test (string)
+     * @param "EnumQueryInteger" (optional.Int32) -  Query parameter enum test (double)
+     * @param "EnumQueryDouble" (optional.Float64) -  Query parameter enum test (double)
+     * @param "EnumFormStringArray" (optional.Interface of []string) -  Form parameter enum test (string array)
+     * @param "EnumFormString" (optional.String) -  Form parameter enum test (string)
+     */
+    TestEnumParameters(ctx _context.Context, localVarOptionals *TestEnumParametersOpts) (*_nethttp.Response, error)
+
+    /*
+     * TestGroupParameters Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param requiredStringGroup Required String in group parameters
+     * @param requiredBooleanGroup Required Boolean in group parameters
+     * @param requiredInt64Group Required Integer in group parameters
+     * @param optional nil or *TestGroupParametersOpts - Optional Parameters:
+     * @param "StringGroup" (optional.Int32) -  String in group parameters
+     * @param "BooleanGroup" (optional.Bool) -  Boolean in group parameters
+     * @param "Int64Group" (optional.Int64) -  Integer in group parameters
+     */
+    TestGroupParameters(ctx _context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*_nethttp.Response, error)
+
+    /*
+     * TestInlineAdditionalProperties test inline additionalProperties
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param param request body
+     */
+    TestInlineAdditionalProperties(ctx _context.Context, param map[string]string) (*_nethttp.Response, error)
+
+    /*
+     * TestJsonFormData test json serialization of form data
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param param field1
+     * @param param2 field2
+     */
+    TestJsonFormData(ctx _context.Context, param string, param2 string) (*_nethttp.Response, error)
+
+    /*
+     * TestQueryParameterCollectionFormat Method for TestQueryParameterCollectionFormat
+     *
+     * To test the collection format in query parameters
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param pipe
+     * @param ioutil
+     * @param http
+     * @param url
+     * @param context
+     */
+    TestQueryParameterCollectionFormat(ctx _context.Context, pipe []string, ioutil []string, http []string, url []string, context []string) (*_nethttp.Response, error)
+}
+
 // FakeApiService FakeApi service
 type FakeApiService service
 

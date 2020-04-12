@@ -24,6 +24,82 @@ var (
 	_ _context.Context
 )
 
+type UserApi interface {
+
+    /*
+     * CreateUser Create user
+     *
+     * This can only be done by the logged in user.
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body Created user object
+     */
+    CreateUser(ctx _context.Context, body User) (*_nethttp.Response, error)
+
+    /*
+     * CreateUsersWithArrayInput Creates list of users with given input array
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body List of user object
+     */
+    CreateUsersWithArrayInput(ctx _context.Context, body []User) (*_nethttp.Response, error)
+
+    /*
+     * CreateUsersWithListInput Creates list of users with given input array
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body List of user object
+     */
+    CreateUsersWithListInput(ctx _context.Context, body []User) (*_nethttp.Response, error)
+
+    /*
+     * DeleteUser Delete user
+     *
+     * This can only be done by the logged in user.
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param username The name that needs to be deleted
+     */
+    DeleteUser(ctx _context.Context, username string) (*_nethttp.Response, error)
+
+    /*
+     * GetUserByName Get user by user name
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return User
+     */
+    GetUserByName(ctx _context.Context, username string) (User, *_nethttp.Response, error)
+
+    /*
+     * LoginUser Logs user into the system
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return string
+     */
+    LoginUser(ctx _context.Context, username string, password string) (string, *_nethttp.Response, error)
+
+    /*
+     * LogoutUser Logs out current logged in user session
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     */
+    LogoutUser(ctx _context.Context) (*_nethttp.Response, error)
+
+    /*
+     * UpdateUser Updated user
+     *
+     * This can only be done by the logged in user.
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     */
+    UpdateUser(ctx _context.Context, username string, body User) (*_nethttp.Response, error)
+}
+
 // UserApiService UserApi service
 type UserApiService service
 

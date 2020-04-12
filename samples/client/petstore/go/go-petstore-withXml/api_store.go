@@ -24,6 +24,49 @@ var (
 	_ _context.Context
 )
 
+type StoreApi interface {
+
+    /*
+     * DeleteOrder Delete purchase order by ID
+     *
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param orderId ID of the order that needs to be deleted
+     */
+    DeleteOrder(ctx _context.Context, orderId string) (*_nethttp.Response, error)
+
+    /*
+     * GetInventory Returns pet inventories by status
+     *
+     * Returns a map of status codes to quantities
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @return map[string]int32
+     */
+    GetInventory(ctx _context.Context) (map[string]int32, *_nethttp.Response, error)
+
+    /*
+     * GetOrderById Find purchase order by ID
+     *
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param orderId ID of pet that needs to be fetched
+     * @return Order
+     */
+    GetOrderById(ctx _context.Context, orderId int64) (Order, *_nethttp.Response, error)
+
+    /*
+     * PlaceOrder Place an order for a pet
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body order placed for purchasing the pet
+     * @return Order
+     */
+    PlaceOrder(ctx _context.Context, body Order) (Order, *_nethttp.Response, error)
+}
+
 // StoreApiService StoreApi service
 type StoreApiService service
 

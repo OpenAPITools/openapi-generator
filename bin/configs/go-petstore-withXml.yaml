@@ -6,3 +6,4 @@ additionalProperties:
   packageName: petstore
   withXml: "true"
   withGoCodegenComment: "true"
+  generateInterfaces: true

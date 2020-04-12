@@ -23,6 +23,20 @@ var (
 	_ _context.Context
 )
 
+type AnotherFakeApi interface {
+
+    /*
+     * Call123TestSpecialTags To test special tags
+     *
+     * To test special tags and operation ID starting with number
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body client model
+     * @return Client
+     */
+    Call123TestSpecialTags(ctx _context.Context, body Client) (Client, *_nethttp.Response, error)
+}
+
 // AnotherFakeApiService AnotherFakeApi service
 type AnotherFakeApiService service
 
