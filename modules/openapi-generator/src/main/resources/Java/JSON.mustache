@@ -73,7 +73,7 @@ public class JSON {
                         {{#mappedModels}}
                         classByDiscriminatorValue.put("{{mappingName}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelName}}.class);
                         {{/mappedModels}}
-                        classByDiscriminatorValue.put("{{classname}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{classname}}.class);
+                        classByDiscriminatorValue.put("{{name}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{classname}}.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "{{{propertyBaseName}}}"));
                     }
