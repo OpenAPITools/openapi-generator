@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Model for testing model name starting with number
  **/
- @ApiModel(description = "Model for testing model name starting with number")
+@ApiModel(description = "Model for testing model name starting with number")
 public class Model200Response  implements Serializable {
   
   private @Valid Integer name;

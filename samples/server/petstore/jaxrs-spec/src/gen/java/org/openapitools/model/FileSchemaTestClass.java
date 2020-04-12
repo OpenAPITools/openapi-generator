@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
- 
+
 public class FileSchemaTestClass  implements Serializable {
   
   private @Valid java.io.File file;

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
 })
 
- 
+
 public class Animal  implements Serializable {
   
   private @Valid String className;

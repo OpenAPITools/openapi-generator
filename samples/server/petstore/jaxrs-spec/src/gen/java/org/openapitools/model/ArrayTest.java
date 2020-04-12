@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
- 
+
 public class ArrayTest  implements Serializable {
   
   private @Valid List<String> arrayOfString = new ArrayList<String>();

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
- 
+
 public class AdditionalPropertiesArray extends HashMap<String, List> implements Serializable {
   
   private @Valid String name;
