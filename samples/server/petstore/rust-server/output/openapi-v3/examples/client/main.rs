@@ -30,6 +30,7 @@ use futures::{Future, future, Stream, stream};
 use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       CallbackWithHeaderPostResponse,
+                      ComplexQueryParamGetResponse,
                       EnumInPathPathParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
@@ -66,6 +67,7 @@ fn main() {
             .help("Sets the operation to run")
             .possible_values(&[
                 "CallbackWithHeaderPost",
+                "ComplexQueryParamGet",
                 "MandatoryRequestHeaderGet",
                 "MergePatchJsonGet",
                 "MultigetGet",
@@ -133,6 +135,12 @@ fn main() {
         Some("CallbackWithHeaderPost") => {
             let result = rt.block_on(client.callback_with_header_post(
                   "url_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        },
+        Some("ComplexQueryParamGet") => {
+            let result = rt.block_on(client.complex_query_param_get(
+                  Some(&Vec::new())
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },

@@ -1310,7 +1310,7 @@ impl<C, F> Api<C> for Client<F> where
         // Query parameters
         let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         if let Some(param_enum_query_string_array) = param_enum_query_string_array {
-            query_string.append_pair("enum_query_string_array", &param_enum_query_string_array.join(","));
+            query_string.append_pair("enum_query_string_array", &param_enum_query_string_array.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
         }
         if let Some(param_enum_query_string) = param_enum_query_string {
             query_string.append_pair("enum_query_string", &param_enum_query_string.to_string());
@@ -1887,7 +1887,7 @@ impl<C, F> Api<C> for Client<F> where
 
         // Query parameters
         let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
-            query_string.append_pair("status", &param_status.join(","));
+            query_string.append_pair("status", &param_status.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -1999,7 +1999,7 @@ impl<C, F> Api<C> for Client<F> where
 
         // Query parameters
         let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
-            query_string.append_pair("tags", &param_tags.join(","));
+            query_string.append_pair("tags", &param_tags.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";

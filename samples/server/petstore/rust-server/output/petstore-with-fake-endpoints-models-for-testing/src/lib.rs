@@ -41,8 +41,6 @@ extern crate mime_0_2;
 extern crate percent_encoding;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate serde_ignored;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate tokio;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate uuid;

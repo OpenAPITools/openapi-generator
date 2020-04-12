@@ -87,7 +87,6 @@ mime_multipart = {version = "0.5", optional = true}
 hyper_0_10 = {package = "hyper", version = "0.10", default-features = false, optional=true}
 {{/apiUsesMultipartRelated}}
 serde_ignored = {version = "0.0.4", optional = true}
-tokio = {version = "0.1.17", optional = true}
 url = {version = "1.5", optional = true}
 
 # Client-specific
@@ -111,6 +110,7 @@ frunk-enum-core = { version = "0.2.0", optional = true }
 clap = "2.25"
 error-chain = "0.12"
 env_logger = "0.6"
+tokio = "0.1.17"
 {{^apiUsesUuid}}
 uuid = {version = "0.7", features = ["serde", "v4"]}
 {{/apiUsesUuid}}

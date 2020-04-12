@@ -39,8 +39,6 @@ extern crate hyper_openssl;
 extern crate percent_encoding;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate serde_ignored;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate tokio;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate uuid;
@@ -66,6 +64,12 @@ pub const API_VERSION: &'static str = "1.0.7";
 pub enum CallbackWithHeaderPostResponse {
     /// OK
     OK
+}
+
+#[derive(Debug, PartialEq)]
+pub enum ComplexQueryParamGetResponse {
+    /// Success
+    Success
 }
 
 #[derive(Debug, PartialEq)]
@@ -261,6 +265,11 @@ pub trait Api<C> {
         url: String,
         context: &C) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>;
 
+    fn complex_query_param_get(
+        &self,
+        list_of_strings: Option<&Vec<models::StringObject>>,
+        context: &C) -> Box<dyn Future<Item=ComplexQueryParamGetResponse, Error=ApiError> + Send>;
+
     fn enum_in_path_path_param_get(
         &self,
         path_param: models::StringEnum,
@@ -361,6 +370,11 @@ pub trait ApiNoContext {
         &self,
         url: String,
         ) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>;
+
+    fn complex_query_param_get(
+        &self,
+        list_of_strings: Option<&Vec<models::StringObject>>,
+        ) -> Box<dyn Future<Item=ComplexQueryParamGetResponse, Error=ApiError> + Send>;
 
     fn enum_in_path_path_param_get(
         &self,
@@ -475,6 +489,14 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>
     {
         self.api().callback_with_header_post(url, &self.context())
+    }
+
+    fn complex_query_param_get(
+        &self,
+        list_of_strings: Option<&Vec<models::StringObject>>,
+        ) -> Box<dyn Future<Item=ComplexQueryParamGetResponse, Error=ApiError> + Send>
+    {
+        self.api().complex_query_param_get(list_of_strings, &self.context())
     }
 
     fn enum_in_path_path_param_get(

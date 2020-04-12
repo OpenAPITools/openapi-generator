@@ -23,6 +23,7 @@ pub use crate::context;
 
 use {Api,
      CallbackWithHeaderPostResponse,
+     ComplexQueryParamGetResponse,
      EnumInPathPathParamGetResponse,
      MandatoryRequestHeaderGetResponse,
      MergePatchJsonGetResponse,
@@ -52,6 +53,7 @@ mod paths {
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/callback-with-header$",
+            r"^/complex-query-param$",
             r"^/enum_in_path/(?P<path_param>[^/?#]*)$",
             r"^/mandatory-request-header$",
             r"^/merge-patch-json$",
@@ -73,28 +75,29 @@ mod paths {
         .expect("Unable to create global regex set");
     }
     pub static ID_CALLBACK_WITH_HEADER: usize = 0;
-    pub static ID_ENUM_IN_PATH_PATH_PARAM: usize = 1;
+    pub static ID_COMPLEX_QUERY_PARAM: usize = 1;
+    pub static ID_ENUM_IN_PATH_PATH_PARAM: usize = 2;
     lazy_static! {
         pub static ref REGEX_ENUM_IN_PATH_PATH_PARAM: regex::Regex =
             regex::Regex::new(r"^/enum_in_path/(?P<path_param>[^/?#]*)$")
                 .expect("Unable to create regex for ENUM_IN_PATH_PATH_PARAM");
     }
-    pub static ID_MANDATORY_REQUEST_HEADER: usize = 2;
-    pub static ID_MERGE_PATCH_JSON: usize = 3;
-    pub static ID_MULTIGET: usize = 4;
-    pub static ID_MULTIPLE_AUTH_SCHEME: usize = 5;
-    pub static ID_OVERRIDE_SERVER: usize = 6;
-    pub static ID_PARAMGET: usize = 7;
-    pub static ID_READONLY_AUTH_SCHEME: usize = 8;
-    pub static ID_REGISTER_CALLBACK: usize = 9;
-    pub static ID_REQUIRED_OCTET_STREAM: usize = 10;
-    pub static ID_RESPONSES_WITH_HEADERS: usize = 11;
-    pub static ID_RFC7807: usize = 12;
-    pub static ID_UNTYPED_PROPERTY: usize = 13;
-    pub static ID_UUID: usize = 14;
-    pub static ID_XML: usize = 15;
-    pub static ID_XML_EXTRA: usize = 16;
-    pub static ID_XML_OTHER: usize = 17;
+    pub static ID_MANDATORY_REQUEST_HEADER: usize = 3;
+    pub static ID_MERGE_PATCH_JSON: usize = 4;
+    pub static ID_MULTIGET: usize = 5;
+    pub static ID_MULTIPLE_AUTH_SCHEME: usize = 6;
+    pub static ID_OVERRIDE_SERVER: usize = 7;
+    pub static ID_PARAMGET: usize = 8;
+    pub static ID_READONLY_AUTH_SCHEME: usize = 9;
+    pub static ID_REGISTER_CALLBACK: usize = 10;
+    pub static ID_REQUIRED_OCTET_STREAM: usize = 11;
+    pub static ID_RESPONSES_WITH_HEADERS: usize = 12;
+    pub static ID_RFC7807: usize = 13;
+    pub static ID_UNTYPED_PROPERTY: usize = 14;
+    pub static ID_UUID: usize = 15;
+    pub static ID_XML: usize = 16;
+    pub static ID_XML_EXTRA: usize = 17;
+    pub static ID_XML_OTHER: usize = 18;
 }
 
 pub struct MakeService<T, RC> {
@@ -219,6 +222,54 @@ where
                                                 CallbackWithHeaderPostResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
+            // ComplexQueryParamGet - GET /complex-query-param
+            &hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => {
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.to_owned())
+                    .filter_map(|param_list_of_strings| param_list_of_strings.parse().ok())
+                    .collect::<Vec<_>>();
+                let param_list_of_strings = if !param_list_of_strings.is_empty() {
+                    Some(param_list_of_strings)
+                } else {
+                    None
+                };
+
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.complex_query_param_get(
+                                            param_list_of_strings.as_ref(),
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                ComplexQueryParamGetResponse::Success
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                 },
                                             },
                                             Err(_) => {
@@ -1451,6 +1502,7 @@ where
             },
 
             _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
+            _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => method_not_allowed(),
             _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
@@ -1495,6 +1547,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
         match request.method() {
             // CallbackWithHeaderPost - POST /callback-with-header
             &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Ok("CallbackWithHeaderPost"),
+            // ComplexQueryParamGet - GET /complex-query-param
+            &hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => Ok("ComplexQueryParamGet"),
             // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
             &hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Ok("EnumInPathPathParamGet"),
             // MandatoryRequestHeaderGet - GET /mandatory-request-header

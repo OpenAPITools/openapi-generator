@@ -112,7 +112,7 @@
 {{/-first}}
                 let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.to_owned())
 {{#isListContainer}}
-                    .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse::<{{{baseType}}}>().ok())
+                    .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse().ok())
                     .collect::<Vec<_>>();
 {{^required}}
                 let param_{{{paramName}}} = if !param_{{{paramName}}}.is_empty() {

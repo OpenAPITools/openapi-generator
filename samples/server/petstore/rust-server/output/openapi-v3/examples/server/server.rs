@@ -106,6 +106,7 @@ use openapi_v3::{
     Api,
     ApiError,
     CallbackWithHeaderPostResponse,
+    ComplexQueryParamGetResponse,
     EnumInPathPathParamGetResponse,
     MandatoryRequestHeaderGetResponse,
     MergePatchJsonGetResponse,
@@ -136,6 +137,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("callback_with_header_post(\"{}\") - X-Span-ID: {:?}", url, context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn complex_query_param_get(
+        &self,
+        list_of_strings: Option<&Vec<models::StringObject>>,
+        context: &C) -> Box<Future<Item=ComplexQueryParamGetResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 
