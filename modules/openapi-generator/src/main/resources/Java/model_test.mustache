@@ -21,7 +21,7 @@ import java.util.Map;
 public class {{classname}}Test {
     {{#models}}
     {{#model}}
-    {{^vendorExtensions.isOneOfInterface}}
+    {{^vendorExtensions.x-is-one-of-interface}}
     {{^isEnum}}
     private final {{classname}} model = new {{classname}}();
 
@@ -44,7 +44,7 @@ public class {{classname}}Test {
     }
 
     {{/allVars}}
-    {{/vendorExtensions.isOneOfInterface}}
+    {{/vendorExtensions.x-is-one-of-interface}}
     {{/model}}
     {{/models}}
 }

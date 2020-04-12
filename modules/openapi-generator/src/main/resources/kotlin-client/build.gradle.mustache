@@ -35,9 +35,9 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     {{#moshi}}
     {{^moshiCodeGen}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "com.squareup.moshi:moshi-kotlin:1.9.2"
     {{/moshiCodeGen}}
     compile "com.squareup.moshi:moshi-adapters:1.9.2"
@@ -49,10 +49,31 @@ dependencies {
     {{#gson}}
     compile "com.google.code.gson:gson:2.8.6"
     {{/gson}}
+    {{#jackson}}
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.2"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2"
+    {{/jackson}}
     {{#jvm-okhttp3}}
+    {{^moshi}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{/moshi}}
+    {{#moshi}}
+    {{#modeCodeGen}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{/modeCodeGen}}
+    {{/moshi}}
     compile "com.squareup.okhttp3:okhttp:3.12.6"
     {{/jvm-okhttp3}}
     {{#jvm-okhttp4}}
+    {{^moshi}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{/moshi}}
+    {{#moshi}}
+    {{#modeCodeGen}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{/modeCodeGen}}
+    {{/moshi}}
     compile "com.squareup.okhttp3:okhttp:4.2.2"
     {{/jvm-okhttp4}}
     {{#threetenbp}}

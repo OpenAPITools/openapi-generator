@@ -15,6 +15,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
+import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -130,4 +131,10 @@ class InlineObject4(ModelNormal):
         self.param = param
         self.param2 = param2
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name not in self.attribute_map and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        self.additional_properties_type is None:
+                # discard variable.
+                continue
             setattr(self, var_name, var_value)

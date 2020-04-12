@@ -59,28 +59,28 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Newtonsoft.Json">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\Newtonsoft.Json.12.0.1\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\Newtonsoft.Json.12.0.1\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\Newtonsoft.Json.12.0.1\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\Newtonsoft.Json.12.0.1\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="JsonSubTypes">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\JsonSubTypes.1.5.2\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\JsonSubTypes.1.5.2\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\JsonSubTypes.1.5.2\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\JsonSubTypes.1.5.2\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll</HintPath>
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.105.1.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.105.1.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.105.1.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.105.1.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\NUnit.{{nunit.version}}\lib\{{nunit.targetFramework}}\nunit.framework.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\NUnit.{{nunit.version}}\lib\{{nunit.targetFramework}}\nunit.framework.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\NUnit.{{nunit.version}}\lib\{{nunit.targetFramework}}\nunit.framework.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\NUnit.{{nunit.version}}\lib\{{nunit.targetFramework}}\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

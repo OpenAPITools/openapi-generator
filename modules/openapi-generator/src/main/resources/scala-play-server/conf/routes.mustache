@@ -10,16 +10,16 @@
 
 {{#operations}}
 {{#operation}}
-{{^vendorExtensions.hasPathParams}}
-{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.paddedPath}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}()
-{{/vendorExtensions.hasPathParams}}
+{{^vendorExtensions.x-has-path-params}}
+{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.x-padded-path}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}()
+{{/vendorExtensions.x-has-path-params}}
 {{/operation}}
 {{/operations}}
 {{#operations}}
 {{#operation}}
-{{#vendorExtensions.hasPathParams}}
-{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.paddedPath}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
-{{/vendorExtensions.hasPathParams}}
+{{#vendorExtensions.x-has-path-params}}
+{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.x-padded-path}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+{{/vendorExtensions.x-has-path-params}}
 {{/operation}}
 {{/operations}}
 {{/apis}}

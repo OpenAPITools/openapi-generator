@@ -185,7 +185,7 @@
 #'
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' ####################  CreateUser  ####################
 #'
 #' library(petstore)

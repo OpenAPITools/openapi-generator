@@ -21,6 +21,8 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.FeatureSet;
+import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -43,9 +45,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     public TypeScriptRxjsClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/typescript-rxjs";
         embeddedTemplateDir = templateDir = "typescript-rxjs";
@@ -89,8 +89,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     public void processOpts() {
         super.processOpts();
-        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
-        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
@@ -109,21 +107,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+        if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
-        } else if (ModelUtils.isDateSchema(p)) {
-            return "Date";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "Date";
         }
         return super.getTypeDeclaration(p);
     }

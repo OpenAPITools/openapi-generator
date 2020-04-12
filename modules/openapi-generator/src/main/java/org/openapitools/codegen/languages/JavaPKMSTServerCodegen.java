@@ -54,9 +54,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     public JavaPKMSTServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         groupId = "com.prokarma";
         artifactId = "pkmst-microservice";

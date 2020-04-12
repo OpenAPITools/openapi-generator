@@ -138,6 +138,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     enablePostProcessFile.set(generate.enablePostProcessFile)
                     skipValidateSpec.set(generate.skipValidateSpec)
                     generateAliasAsModel.set(generate.generateAliasAsModel)
+                    engine.set(generate.engine)
                 }
             }
         }

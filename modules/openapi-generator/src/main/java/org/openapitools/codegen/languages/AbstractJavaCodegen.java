@@ -26,6 +26,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -99,7 +101,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public AbstractJavaCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(
@@ -117,7 +119,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".java");
@@ -522,6 +524,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
 
         if (!additionalModelTypeAnnotations.isEmpty()) {
@@ -736,13 +739,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (ModelUtils.isArraySchema(p)) {
             Schema<?> items = getSchemaItems((ArraySchema) p);
             return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            if (inner == null) {
-                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
-                inner = new StringSchema().description("TODO default missing map inner type to string");
-                p.setAdditionalProperties(inner);
-            }
+        } else if (ModelUtils.isMapSchema(p) && !ModelUtils.isComposedSchema(p)) {
+            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
+            // additionalproperties: true
+            Schema<?> inner = getSchemaAdditionalProperties(p);
             return getSchemaType(p) + "<String, " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
         }
         return super.getTypeDeclaration(p);
@@ -757,9 +757,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isArraySchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (ModelUtils.isArraySchema(schema)) {
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.ArrayList<%s>()";
@@ -767,7 +767,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new ArrayList<%s>()";
             }
 
-            Schema<?> items = getSchemaItems((ArraySchema) p);
+            Schema<?> items = getSchemaItems((ArraySchema) schema);
 
             String typeDeclaration = getTypeDeclaration(items);
             Object java8obj = additionalProperties.get("java8");
@@ -779,18 +779,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(schema)) {
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.HashMap<%s>()";
             } else {
                 pattern = "new HashMap<%s>()";
             }
-            if (ModelUtils.getAdditionalProperties(p) == null) {
+            if (ModelUtils.getAdditionalProperties(schema) == null) {
                 return null;
             }
 
-            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(p)));
+            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(schema)));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
@@ -800,38 +800,46 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (p.getDefault() != null) {
-                if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
-                    return p.getDefault().toString() + "l";
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            if (schema.getDefault() != null) {
+                if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
+                    return schema.getDefault().toString() + "l";
                 } else {
-                    return p.getDefault().toString();
+                    return schema.getDefault().toString();
                 }
             }
             return null;
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (p.getDefault() != null) {
-                if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
-                    return p.getDefault().toString() + "f";
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (schema.getDefault() != null) {
+                if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
+                    return schema.getDefault().toString() + "f";
                 } else {
-                    return p.getDefault().toString() + "d";
+                    return schema.getDefault().toString() + "d";
                 }
             }
             return null;
-        } else if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
+        } else if (ModelUtils.isBooleanSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return schema.getDefault().toString();
             }
             return null;
-        } else if (ModelUtils.isURISchema(p)) {
-            if (p.getDefault() != null) {
-                return "URI.create(\"" + escapeText((String) p.getDefault()) + "\")";
+        } else if (ModelUtils.isURISchema(schema)) {
+            if (schema.getDefault() != null) {
+                return "URI.create(\"" + escapeText((String) schema.getDefault()) + "\")";
             }
             return null;
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                String _default = (String) p.getDefault();
-                if (p.getEnum() == null) {
+        } else if (ModelUtils.isStringSchema(schema)) {
+            if (schema.getDefault() != null) {
+                String _default;
+                if (schema.getDefault() instanceof Date){
+                    Date date = (Date) schema.getDefault();
+                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    return String.format(Locale.ROOT, localDate.toString(), "");
+                }
+                else{
+                    _default = (String) schema.getDefault();
+                }
+                if (schema.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
                     // convert to enum var name later in postProcessModels
@@ -839,14 +847,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return null;
-        } else if (ModelUtils.isObjectSchema(p)) {
-            if (p.getDefault() != null) {
-                return super.toDefaultValue(p);
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return super.toDefaultValue(schema);
             }
             return null;
         }
 
-        return super.toDefaultValue(p);
+        return super.toDefaultValue(schema);
     }
 
     @Override
@@ -1067,6 +1075,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
         if (openAPI == null) {
             return;
         }
@@ -1491,7 +1500,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return SNAPSHOT version
      */
     private String buildSnapshotVersion(String version) {
-        if(version.endsWith("-SNAPSHOT")) {
+        if (version.endsWith("-SNAPSHOT")) {
             return version;
         }
         return version + "-SNAPSHOT";

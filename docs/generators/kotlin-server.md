@@ -15,12 +15,12 @@ sidebar_label: kotlin-server
 |featureConditionalHeaders|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |false|
 |featureHSTS|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
-|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dl>|ktor|
+|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
 |packageName|Generated artifact package name.| |org.openapitools.server|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
@@ -52,7 +52,8 @@ sidebar_label: kotlin-server
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>kotlin.Array</li>
+<ul class="column-ul">
+<li>kotlin.Array</li>
 <li>kotlin.Boolean</li>
 <li>kotlin.Byte</li>
 <li>kotlin.ByteArray</li>
@@ -70,7 +71,8 @@ sidebar_label: kotlin-server
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>as</li>
+<ul class="column-ul">
+<li>as</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>

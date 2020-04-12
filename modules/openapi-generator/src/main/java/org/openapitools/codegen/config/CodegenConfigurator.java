@@ -178,6 +178,7 @@ public class CodegenConfigurator {
         return this;
     }
 
+    // TODO: rename this and other references to "global property" rather than "system property"
     public CodegenConfigurator addSystemProperty(String key, String value) {
         this.systemProperties.put(key, value);
         workflowSettingsBuilder.withSystemProperty(key, value);
@@ -439,6 +440,9 @@ public class CodegenConfigurator {
             GlobalSettings.setProperty("debugModels", "");
             GlobalSettings.setProperty("debugOperations", "");
             GlobalSettings.setProperty("debugSupportingFiles", "");
+            GlobalSettings.setProperty("verbose", "true");
+        } else {
+            GlobalSettings.setProperty("verbose", "false");
         }
 
         for (Map.Entry<String, String> entry : workflowSettings.getSystemProperties().entrySet()) {

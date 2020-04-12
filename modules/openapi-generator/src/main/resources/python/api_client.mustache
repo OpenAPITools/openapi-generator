@@ -63,7 +63,7 @@ class ApiClient(object):
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
         if configuration is None:
-            configuration = Configuration()
+            configuration = Configuration.get_default_copy()
         self.configuration = configuration
         self.pool_threads = pool_threads
 
@@ -76,13 +76,25 @@ class ApiClient(object):
         self.user_agent = '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/python{{/httpUserAgent}}'
         self.client_side_validation = configuration.client_side_validation
 
+    {{#asyncio}}
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.close()
+    {{/asyncio}}
+    {{^asyncio}}
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
+    {{/asyncio}}
 
-    def close(self):
+    {{#asyncio}}async {{/asyncio}}def close(self):
+        {{#asyncio}}
+        await self.rest_client.close()
+        {{/asyncio}}
         if self._pool:
             self._pool.close()
             self._pool.join()
