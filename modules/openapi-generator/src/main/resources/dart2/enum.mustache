@@ -13,7 +13,7 @@ class {{classname}} {
     {{/enumVars}}
   {{/allowableValues}}
 
-  static {{classname}} fromJson(String value) {
+  static {{classname}} fromJson({{dataType}} value) {
     return new {{classname}}TypeTransformer().decode(value);
   }
 }
