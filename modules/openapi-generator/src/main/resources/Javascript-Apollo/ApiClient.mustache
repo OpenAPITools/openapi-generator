@@ -14,7 +14,10 @@ const { RESTDataSource } = require('apollo-datasource-rest');
 * @class
 */{{/emitJSDoc}}
 class ApiClient extends RESTDataSource {
-    /** @private */
+    /** 
+     * @private
+     * @ignore
+     */
     paramToString(param) {
         if (param == undefined || param == null) {
             return '';
@@ -26,7 +29,10 @@ class ApiClient extends RESTDataSource {
         return param.toString();
     }
 
-    /** @private */
+    /** 
+     * @private
+     * @ignore
+     */
     parameterizePath(path, pathParams) {
         return path.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
             var value;
@@ -40,7 +46,10 @@ class ApiClient extends RESTDataSource {
         });
     }
 
-    /** @private */
+    /** 
+     * @private
+     * @ignore
+     */
     isFileParam(param) {
         // fs.ReadStream in Node.js and Electron (but not in runtime like browserify)
         if (typeof require === 'function') {
@@ -71,7 +80,10 @@ class ApiClient extends RESTDataSource {
         return false;
     }
 
-    /** @private */
+    /** 
+     * @private
+     * @ignore
+     */
     normalizeParams(params) {
         var newParams = {};
         for (var key in params) {
@@ -88,7 +100,10 @@ class ApiClient extends RESTDataSource {
         return newParams;
     }
 
-    /** @private */
+    /** 
+     * @private
+     * @ignore
+     */
     buildCollectionParam(param, collectionFormat) {
         if (param == null) {
             return null;
@@ -110,7 +125,10 @@ class ApiClient extends RESTDataSource {
         }
     }
 
-    /** @private */
+    /** 
+     * @private
+     * @ignore
+     */
     async callApi(path, httpMethod, pathParams, queryParams, headerParams, formParams, bodyParam, fetchOptions, returnType) {
         const finalFetchOptions = Object.assign({}, fetchOptions, {
             headers: Object.assign({}, headerParams, fetchOptions.headers || {}),
@@ -142,7 +160,10 @@ class ApiClient extends RESTDataSource {
         return convertedResponse;
     }
 
-    /** @private */
+    /** 
+     * @private
+     * @ignore
+     */
     compactObject(obj) {
         const cleanObj = Object.keys(obj).reduce((acc, key) => {
             const _acc = acc;

@@ -110,6 +110,8 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
+        useOneOfInterfaces = true;
+
         // reference: http://www.w3schools.com/js/js_reserved.asp
         setReservedWordsLowerCase(
                 Arrays.asList(

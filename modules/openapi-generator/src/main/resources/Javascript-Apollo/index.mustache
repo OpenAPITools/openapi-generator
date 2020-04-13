@@ -1,8 +1,8 @@
 {{>licenseInfo}}
 
 const ApiClient = require('./ApiClient');
-{{#models}}const {{#model}}{{classFilename}}{{/model}} = require('./{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{importPath}}');
-{{/models}}{{#apiInfo}}{{#apis}}const {{importPath}} = require('./{{#apiPackage}}{{apiPackage}}/{{/apiPackage}}{{importPath}}');
+{{#models}}{{#model}}{{^oneOf}}const {{classFilename}} = require('./{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{importPath}}');{{/oneOf}}
+{{/model}}{{/models}}{{#apiInfo}}{{#apis}}const {{importPath}} = require('./{{#apiPackage}}{{apiPackage}}/{{/apiPackage}}{{importPath}}');
 {{/apis}}{{/apiInfo}}
 
 {{#emitJSDoc}}/**{{#projectDescription}}
@@ -37,22 +37,21 @@ const ApiClient = require('./ApiClient');
 * @version {{projectVersion}}
 */{{/emitJSDoc}}
 module.exports = {
-    {{=< >=}}
-    <#emitJSDoc>/**
+    {{#emitJSDoc}}/**
      * The ApiClient constructor.
-     * @property {module:ApiClient}
-     */</emitJSDoc>
-    ApiClient<#models>,
+     * @property {{=< >=}}{module:ApiClient}<={{ }}=>
+     */{{/emitJSDoc}}
+    ApiClient{{#models}}{{#model}}{{^oneOf}},
 
-    <#emitJSDoc>/**
-     * The <importPath> model constructor.
-     * @property {<importPath>}
-     */</emitJSDoc>
-    <importPath></models><#apiInfo><#apis>,
+    {{#emitJSDoc}}/**
+     * The {{importPath}} model constructor.
+     * @property {{=< >=}}{<importPath>}<={{ }}=>
+     */{{/emitJSDoc}}
+    {{importPath}}{{/oneOf}}{{/model}}{{/models}}{{#apiInfo}}{{#apis}},
 
-    <#emitJSDoc>/**
-    * The <importPath> service constructor.
-    * @property {<importPath>}
-    */</emitJSDoc>
-    <importPath></apis></apiInfo>
-};<={{ }}=>
+    {{#emitJSDoc}}/**
+    * The {{importPath}} service constructor.
+    * @property {{=< >=}}{<importPath>}<={{ }}=>
+    */{{/emitJSDoc}}
+    {{importPath}}{{/apis}}{{/apiInfo}}
+};

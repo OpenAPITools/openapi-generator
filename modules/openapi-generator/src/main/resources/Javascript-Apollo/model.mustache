@@ -1,4 +1,4 @@
 {{>licenseInfo}}
 const ApiClient = require('../ApiClient');
 {{#imports}}const {{import}} = require('./{{import}}');
-{{/imports}}{{#models}}{{#model}}{{#isEnum}}{{>partial_model_enum_class}}{{/isEnum}}{{^isEnum}}{{>partial_model_generic}}{{/isEnum}}{{/model}}{{/models}}
+{{/imports}}{{#models}}{{#model}}{{#isEnum}}{{>partial_model_enum_class}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>partial_model_one_of}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>partial_model_generic}}{{/oneOf}}{{/isEnum}}{{/model}}{{/models}}
