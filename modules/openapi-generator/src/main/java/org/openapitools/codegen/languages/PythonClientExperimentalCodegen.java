@@ -369,7 +369,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
-                // make sure discrimonator models are included in imports
+                // make sure discriminator models are included in imports
                 CodegenDiscriminator discriminator = cm.discriminator;
                 if (discriminator != null) {
                     Set<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels();
