@@ -123,6 +123,11 @@
   image: "img/companies/element_ai.png"
   infoLink: "https://www.elementai.com/"
   pinned: false
+
+  caption: "emineo"
+  image: "img/companies/emineo.png"
+  infoLink: "https://www.emineo.ch/"
+  pinned: false
 -
   caption: "freee"
   image: "img/companies/freee.png"
