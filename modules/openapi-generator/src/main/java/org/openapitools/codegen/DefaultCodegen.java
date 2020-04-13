@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -57,16 +56,11 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
-import org.openapitools.codegen.templating.mustache.IndentedLambda;
-import org.openapitools.codegen.templating.mustache.LowercaseLambda;
-import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
-import org.openapitools.codegen.templating.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static org.openapitools.codegen.utils.OnceLogger.once;
 
 import java.io.File;
 import java.util.*;
@@ -78,6 +72,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class DefaultCodegen implements CodegenConfig {
@@ -504,34 +499,34 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setCircularReferences(Map<String, CodegenModel> models) {
         final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
-            .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
+                .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
 
         models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
     }
 
     private List<CodegenProperty> getModelDependencies(CodegenModel model) {
         return model.getAllVars().stream()
-            .map(prop -> {
-                if (prop.isContainer) {
-                    return prop.items.dataType == null ? null : prop;
-                }
-                return prop.dataType == null ? null : prop;
-            })
-            .filter(prop -> prop != null)
-            .collect(Collectors.toList());
+                .map(prop -> {
+                    if (prop.isContainer) {
+                        return prop.items.dataType == null ? null : prop;
+                    }
+                    return prop.dataType == null ? null : prop;
+                })
+                .filter(prop -> prop != null)
+                .collect(Collectors.toList());
     }
 
     private void setCircularReferencesOnProperties(final String root,
                                                    final Map<String, List<CodegenProperty>> dependencyMap) {
         dependencyMap.getOrDefault(root, new ArrayList<>()).stream()
-            .forEach(prop -> {
-                final List<String> unvisited =
-                    Collections.singletonList(prop.isContainer ? prop.items.dataType : prop.dataType);
-                prop.isCircularReference = isCircularReference(root,
-                                                               new HashSet<>(),
-                                                               new ArrayList<>(unvisited),
-                                                               dependencyMap);
-            });
+                .forEach(prop -> {
+                    final List<String> unvisited =
+                            Collections.singletonList(prop.isContainer ? prop.items.dataType : prop.dataType);
+                    prop.isCircularReference = isCircularReference(root,
+                            new HashSet<>(),
+                            new ArrayList<>(unvisited),
+                            dependencyMap);
+                });
     }
 
     private boolean isCircularReference(final String root,
@@ -545,7 +540,7 @@ public class DefaultCodegen implements CodegenConfig {
                     return true;
                 }
                 dependencyMap.getOrDefault(next, new ArrayList<>())
-                    .forEach(prop -> unvisited.add(prop.isContainer ? prop.items.dataType : prop.dataType));
+                        .forEach(prop -> unvisited.add(prop.isContainer ? prop.items.dataType : prop.dataType));
                 visited.add(next);
             }
         }
@@ -1122,7 +1117,9 @@ public class DefaultCodegen implements CodegenConfig {
         this.allowUnicodeIdentifiers = allowUnicodeIdentifiers;
     }
 
-    public Boolean getUseOneOfInterfaces() { return useOneOfInterfaces; }
+    public Boolean getUseOneOfInterfaces() {
+        return useOneOfInterfaces;
+    }
 
     public void setUseOneOfInterfaces(Boolean useOneOfInterfaces) {
         this.useOneOfInterfaces = useOneOfInterfaces;
@@ -1805,7 +1802,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the name of the 'allOf' composed schema.
-     * 
+     *
      * @param names          List of names
      * @param composedSchema composed schema
      * @return name of the allOf schema
@@ -1857,7 +1854,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return a string representation of the schema type, resolving aliasing and references if necessary.
-     * 
+     *
      * @param schema
      * @return the string representation of the schema type.
      */
@@ -1884,7 +1881,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the OAI type (e.g. integer, long, etc) corresponding to a schema.
      * <pre>$ref</pre> is not taken into account by this method.
-     * 
+     * <p>
      * If the schema is free-form (i.e. 'type: object' with no properties) or inline
      * schema, the returned OAI type is 'object'.
      *
@@ -2117,7 +2114,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.getVendorExtensions().putAll(schema.getExtensions());
         }
         m.isAlias = (typeAliases.containsKey(name)
-                        || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
+                || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.discriminator = createDiscriminator(name, schema);
 
         if (schema.getXml() != null) {
@@ -2226,7 +2223,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            if (parent != null) {
+            if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
                 m.parentSchema = parentName;
                 m.parent = toModelName(parentName);
 
@@ -2320,6 +2317,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (CodegenProperty prop : m.vars) {
                 postProcessModelProperty(m, prop);
             }
+            m.hasVars = m.vars.size() > 0;
         }
         if (m.allVars != null) {
             for (CodegenProperty prop : m.allVars) {
@@ -3302,16 +3300,28 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if ("default".equals(responseCode)) {
+        if ("default".equals(responseCode) || "defaultResponse".equals(responseCode)) {
             r.code = "0";
         } else {
             r.code = responseCode;
-            switch(r.code.charAt(0)) {
-                case '1': r.is1xx = true; break;
-                case '2': r.is2xx = true; break;
-                case '3': r.is3xx = true; break;
-                case '4': r.is4xx = true; break;
-                case '5': r.is5xx = true; break;
+            switch (r.code.charAt(0)) {
+                case '1':
+                    r.is1xx = true;
+                    break;
+                case '2':
+                    r.is2xx = true;
+                    break;
+                case '3':
+                    r.is3xx = true;
+                    break;
+                case '4':
+                    r.is4xx = true;
+                    break;
+                case '5':
+                    r.is5xx = true;
+                    break;
+                default:
+                    throw new RuntimeException("Invalid response code " + responseCode);
             }
         }
         Schema responseSchema;
@@ -5755,9 +5765,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     //// Following methods are related to the "useOneOfInterfaces" feature
+
     /**
      * Add "x-oneOf-name" extension to a given oneOf schema (assuming it has at least 1 oneOf elements)
-     * @param s schema to add the extension to
+     *
+     * @param s    schema to add the extension to
      * @param name name of the parent oneOf schema
      */
     public void addOneOfNameExtension(ComposedSchema s, String name) {
@@ -5768,7 +5780,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Add a given ComposedSchema as an interface model to be generated, assuming it has `oneOf` defined
-     * @param cs ComposedSchema object to create as interface model
+     *
+     * @param cs   ComposedSchema object to create as interface model
      * @param type name to use for the generated interface model
      */
     public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
@@ -5800,7 +5813,8 @@ public class DefaultCodegen implements CodegenConfig {
         addOneOfInterfaces.add(cm);
     }
 
-    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {}
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+    }
     //// End of methods related to the "useOneOfInterfaces" feature
 
     protected void modifyFeatureSet(Consumer<FeatureSet.Builder> processor) {

@@ -153,7 +153,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(VERTX, "HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.9.x. Only for Java8");
+        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
         supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client X.x. JSON processing: Jackson 2.9.x");
 
@@ -293,6 +293,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
         supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
+        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+
 
         if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
@@ -881,6 +883,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
      */
     static boolean isJsonVendorMimeType(String mime) {
         return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        generateYAMLSpecFile(objs);
+        return super.postProcessSupportingFileData(objs);
     }
 
     @Override
