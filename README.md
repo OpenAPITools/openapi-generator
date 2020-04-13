@@ -591,6 +591,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Edge Impulse](https://www.edgeimpulse.com/)
 - [Element AI](https://www.elementai.com/)
 - [Embotics](https://www.embotics.com/)
+- [emineo](https://www.emineo.ch)
 - [Fenergo](https://www.fenergo.com/)
 - [freee](https://corp.freee.co.jp/en/)
 - [FreshCells](https://www.freshcells.de/)
