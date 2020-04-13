@@ -13,7 +13,7 @@
 
 
 import * as globalImportUrl from 'url';
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Configuration } from '../../../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -35,7 +35,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options: any = {}): RequestArgs {
+        addPet(body: Pet, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling addPet.');
@@ -84,7 +84,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePet(petId: number, apiKey?: string, options: any = {}): RequestArgs {
+        deletePet(petId: number, apiKey?: string, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'petId' is not null or undefined
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling deletePet.');
@@ -133,7 +133,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options: any = {}): RequestArgs {
+        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'status' is not null or undefined
             if (status === null || status === undefined) {
                 throw new RequiredError('status','Required parameter status was null or undefined when calling findPetsByStatus.');
@@ -181,7 +181,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByTags(tags: Array<string>, options: any = {}): RequestArgs {
+        findPetsByTags(tags: Array<string>, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'tags' is not null or undefined
             if (tags === null || tags === undefined) {
                 throw new RequiredError('tags','Required parameter tags was null or undefined when calling findPetsByTags.');
@@ -229,7 +229,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPetById(petId: number, options: any = {}): RequestArgs {
+        getPetById(petId: number, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'petId' is not null or undefined
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling getPetById.');
@@ -273,7 +273,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options: any = {}): RequestArgs {
+        updatePet(body: Pet, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling updatePet.');
@@ -323,7 +323,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePetWithForm(petId: number, name?: string, status?: string, options: any = {}): RequestArgs {
+        updatePetWithForm(petId: number, name?: string, status?: string, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'petId' is not null or undefined
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling updatePetWithForm.');
@@ -382,7 +382,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: any, options: any = {}): RequestArgs {
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'petId' is not null or undefined
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling uploadFile.');
