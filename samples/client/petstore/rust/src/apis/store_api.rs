@@ -33,24 +33,24 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static> StoreAp
 }
 
 pub trait StoreApi {
-    fn delete_order(&self, order_id: &str) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
-    fn get_inventory(&self, ) -> std::pin::Pin<Box<dyn Future<Output = Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>>>>>;
-    fn get_order_by_id(&self, order_id: i64) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::Order, Error<serde_json::Value>>>>>;
-    fn place_order(&self, order: crate::models::Order) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::Order, Error<serde_json::Value>>>>>;
+    fn delete_order(&self, order_id: &str) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>+Unpin>;
+    fn get_inventory(&self, ) -> Box<dyn Future<Output = Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>>>+Unpin>;
+    fn get_order_by_id(&self, order_id: i64) -> Box<dyn Future<Output = Result<crate::models::Order, Error<serde_json::Value>>>+Unpin>;
+    fn place_order(&self, order: crate::models::Order) -> Box<dyn Future<Output = Result<crate::models::Order, Error<serde_json::Value>>>+Unpin>;
 }
 
 impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>StoreApi for StoreApiClient<C> {
-    fn delete_order(&self, order_id: &str) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
+    fn delete_order(&self, order_id: &str) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::DELETE, "/store/order/{orderId}".to_string())
         ;
         req = req.with_path_param("orderId".to_string(), order_id.to_string());
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn get_inventory(&self, ) -> std::pin::Pin<Box<dyn Future<Output = Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>>>>> {
+    fn get_inventory(&self, ) -> Box<dyn Future<Output = Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/store/inventory".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
@@ -60,25 +60,25 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>StoreApi
         ;
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn get_order_by_id(&self, order_id: i64) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::Order, Error<serde_json::Value>>>>> {
+    fn get_order_by_id(&self, order_id: i64) -> Box<dyn Future<Output = Result<crate::models::Order, Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/store/order/{orderId}".to_string())
         ;
         req = req.with_path_param("orderId".to_string(), order_id.to_string());
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn place_order(&self, order: crate::models::Order) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::Order, Error<serde_json::Value>>>>> {
+    fn place_order(&self, order: crate::models::Order) -> Box<dyn Future<Output = Result<crate::models::Order, Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/store/order".to_string())
         ;
         req = req.with_body_param(order);
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
 }

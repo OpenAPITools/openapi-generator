@@ -33,86 +33,86 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static> UserApi
 }
 
 pub trait UserApi {
-    fn create_user(&self, body: crate::models::User) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
-    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
-    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
-    fn delete_user(&self, username: &str) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
-    fn get_user_by_name(&self, username: &str) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::User, Error<serde_json::Value>>>>>;
-    fn login_user(&self, username: &str, password: &str) -> std::pin::Pin<Box<dyn Future<Output = Result<String, Error<serde_json::Value>>>>>;
-    fn logout_user(&self, ) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
-    fn update_user(&self, username: &str, body: crate::models::User) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>>;
+    fn create_user(&self, body: crate::models::User) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>+Unpin>;
+    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>+Unpin>;
+    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>+Unpin>;
+    fn delete_user(&self, username: &str) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>+Unpin>;
+    fn get_user_by_name(&self, username: &str) -> Box<dyn Future<Output = Result<crate::models::User, Error<serde_json::Value>>>+Unpin>;
+    fn login_user(&self, username: &str, password: &str) -> Box<dyn Future<Output = Result<String, Error<serde_json::Value>>>+Unpin>;
+    fn logout_user(&self, ) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>+Unpin>;
+    fn update_user(&self, username: &str, body: crate::models::User) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>+Unpin>;
 }
 
 impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>UserApi for UserApiClient<C> {
-    fn create_user(&self, body: crate::models::User) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
+    fn create_user(&self, body: crate::models::User) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/user".to_string())
         ;
         req = req.with_body_param(body);
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
+    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/user/createWithArray".to_string())
         ;
         req = req.with_body_param(body);
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
+    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/user/createWithList".to_string())
         ;
         req = req.with_body_param(body);
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn delete_user(&self, username: &str) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
+    fn delete_user(&self, username: &str) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::DELETE, "/user/{username}".to_string())
         ;
         req = req.with_path_param("username".to_string(), username.to_string());
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn get_user_by_name(&self, username: &str) -> std::pin::Pin<Box<dyn Future<Output = Result<crate::models::User, Error<serde_json::Value>>>>> {
+    fn get_user_by_name(&self, username: &str) -> Box<dyn Future<Output = Result<crate::models::User, Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/user/{username}".to_string())
         ;
         req = req.with_path_param("username".to_string(), username.to_string());
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn login_user(&self, username: &str, password: &str) -> std::pin::Pin<Box<dyn Future<Output = Result<String, Error<serde_json::Value>>>>> {
+    fn login_user(&self, username: &str, password: &str) -> Box<dyn Future<Output = Result<String, Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/user/login".to_string())
         ;
         req = req.with_query_param("username".to_string(), username.to_string());
         req = req.with_query_param("password".to_string(), password.to_string());
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn logout_user(&self, ) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
+    fn logout_user(&self, ) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/user/logout".to_string())
         ;
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
-    fn update_user(&self, username: &str, body: crate::models::User) -> std::pin::Pin<Box<dyn Future<Output = Result<(), Error<serde_json::Value>>>>> {
+    fn update_user(&self, username: &str, body: crate::models::User) -> Box<dyn Future<Output = Result<(), Error<serde_json::Value>>> + Unpin> {
         let mut req = __internal_request::Request::new(hyper::Method::PUT, "/user/{username}".to_string())
         ;
         req = req.with_path_param("username".to_string(), username.to_string());
@@ -120,7 +120,7 @@ impl<C: hyper::client::connect::Connect + Clone + Send + Sync + 'static>UserApi 
         req = req.returns_nothing();
 
         // TODO: do not box here
-        Box::pin(req.execute(self.configuration.borrow()))
+        Box::new(req.execute(self.configuration.borrow()))
     }
 
 }
