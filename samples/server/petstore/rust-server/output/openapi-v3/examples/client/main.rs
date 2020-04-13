@@ -49,7 +49,8 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       XmlOtherPostResponse,
                       XmlOtherPutResponse,
                       XmlPostResponse,
-                      XmlPutResponse
+                      XmlPutResponse,
+                      GetRepoInfoResponse
                      };
 use clap::{App, Arg};
 
@@ -86,6 +87,7 @@ fn main() {
                 "XmlOtherPut",
                 "XmlPost",
                 "XmlPut",
+                "GetRepoInfo",
             ])
             .required(true)
             .index(1))
@@ -100,7 +102,7 @@ fn main() {
         .arg(Arg::with_name("port")
             .long("port")
             .takes_value(true)
-            .default_value("80")
+            .default_value("8080")
             .help("Port to contact"))
         .get_matches();
 
@@ -136,47 +138,47 @@ fn main() {
             let result = rt.block_on(client.callback_with_header_post(
                   "url_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("ComplexQueryParamGet") => {
             let result = rt.block_on(client.complex_query_param_get(
                   Some(&Vec::new())
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("EnumInPathPathParamGet") => {
             let result = rt.block_on(client.enum_in_path_path_param_get(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         Some("MandatoryRequestHeaderGet") => {
             let result = rt.block_on(client.mandatory_request_header_get(
                   "x_header_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("MergePatchJsonGet") => {
             let result = rt.block_on(client.merge_patch_json_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("MultigetGet") => {
             let result = rt.block_on(client.multiget_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("MultipleAuthSchemeGet") => {
             let result = rt.block_on(client.multiple_auth_scheme_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("OverrideServerGet") => {
             let result = rt.block_on(client.override_server_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("ParamgetGet") => {
             let result = rt.block_on(client.paramget_get(
@@ -184,75 +186,81 @@ fn main() {
                   None,
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("ReadonlyAuthSchemeGet") => {
             let result = rt.block_on(client.readonly_auth_scheme_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("RegisterCallbackPost") => {
             let result = rt.block_on(client.register_callback_post(
                   "url_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("RequiredOctetStreamPut") => {
             let result = rt.block_on(client.required_octet_stream_put(
                   swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"))
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("ResponsesWithHeadersGet") => {
             let result = rt.block_on(client.responses_with_headers_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("Rfc7807Get") => {
             let result = rt.block_on(client.rfc7807_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("UntypedPropertyGet") => {
             let result = rt.block_on(client.untyped_property_get(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("UuidGet") => {
             let result = rt.block_on(client.uuid_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("XmlExtraPost") => {
             let result = rt.block_on(client.xml_extra_post(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("XmlOtherPost") => {
             let result = rt.block_on(client.xml_other_post(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("XmlOtherPut") => {
             let result = rt.block_on(client.xml_other_put(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("XmlPost") => {
             let result = rt.block_on(client.xml_post(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("XmlPut") => {
             let result = rt.block_on(client.xml_put(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetRepoInfo") => {
+            let result = rt.block_on(client.get_repo_info(
+                  "repo_id_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         _ => {
             panic!("Invalid operation provided")

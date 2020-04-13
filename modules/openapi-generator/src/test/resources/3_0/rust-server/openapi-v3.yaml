@@ -359,6 +359,24 @@ paths:
         '200':
           description: Success
 
+  /repos/{repoId}:
+    parameters:
+      - in: path
+        name: repoId
+        schema:
+          type: string
+        required: true
+    get:
+      tags: [Repo]
+      operationId: GetRepoInfo
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StringObject"
+
 components:
   securitySchemes:
     authScheme:

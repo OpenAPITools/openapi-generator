@@ -42,7 +42,8 @@ use {Api,
      XmlOtherPostResponse,
      XmlOtherPutResponse,
      XmlPostResponse,
-     XmlPutResponse
+     XmlPutResponse,
+     GetRepoInfoResponse
 };
 
 pub mod callbacks;
@@ -63,6 +64,7 @@ mod paths {
             r"^/paramget$",
             r"^/readonly_auth_scheme$",
             r"^/register-callback$",
+            r"^/repos/(?P<repoId>[^/?#]*)$",
             r"^/required_octet_stream$",
             r"^/responses_with_headers$",
             r"^/rfc7807$",
@@ -90,14 +92,20 @@ mod paths {
     pub static ID_PARAMGET: usize = 8;
     pub static ID_READONLY_AUTH_SCHEME: usize = 9;
     pub static ID_REGISTER_CALLBACK: usize = 10;
-    pub static ID_REQUIRED_OCTET_STREAM: usize = 11;
-    pub static ID_RESPONSES_WITH_HEADERS: usize = 12;
-    pub static ID_RFC7807: usize = 13;
-    pub static ID_UNTYPED_PROPERTY: usize = 14;
-    pub static ID_UUID: usize = 15;
-    pub static ID_XML: usize = 16;
-    pub static ID_XML_EXTRA: usize = 17;
-    pub static ID_XML_OTHER: usize = 18;
+    pub static ID_REPOS_REPOID: usize = 11;
+    lazy_static! {
+        pub static ref REGEX_REPOS_REPOID: regex::Regex =
+            regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
+                .expect("Unable to create regex for REPOS_REPOID");
+    }
+    pub static ID_REQUIRED_OCTET_STREAM: usize = 12;
+    pub static ID_RESPONSES_WITH_HEADERS: usize = 13;
+    pub static ID_RFC7807: usize = 14;
+    pub static ID_UNTYPED_PROPERTY: usize = 15;
+    pub static ID_UUID: usize = 16;
+    pub static ID_XML: usize = 17;
+    pub static ID_XML_EXTRA: usize = 18;
+    pub static ID_XML_OTHER: usize = 19;
 }
 
 pub struct MakeService<T, RC> {
@@ -1501,6 +1509,73 @@ where
                 ) as Self::Future
             },
 
+            // GetRepoInfo - GET /repos/{repoId}
+            &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => {
+                // Path parameters
+                let path: &str = &uri.path().to_string();
+                let path_params =
+                    paths::REGEX_REPOS_REPOID
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE REPOS_REPOID in set but failed match against \"{}\"", path, paths::REGEX_REPOS_REPOID.as_str())
+                    );
+
+                let param_repo_id = match percent_encoding::percent_decode(path_params["repoId"].as_bytes()).decode_utf8() {
+                    Ok(param_repo_id) => match param_repo_id.parse::<String>() {
+                        Ok(param_repo_id) => param_repo_id,
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter repoId: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
+                    },
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["repoId"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
+                };
+
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.get_repo_info(
+                                            param_repo_id,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                GetRepoInfoResponse::OK
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for GET_REPO_INFO_OK"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
             _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
             _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
@@ -1512,6 +1587,7 @@ where
             _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
             _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
             _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
+            _ if path.matched(paths::ID_REPOS_REPOID) => method_not_allowed(),
             _ if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => method_not_allowed(),
             _ if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => method_not_allowed(),
             _ if path.matched(paths::ID_RFC7807) => method_not_allowed(),
@@ -1587,6 +1663,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::POST if path.matched(paths::ID_XML) => Ok("XmlPost"),
             // XmlPut - PUT /xml
             &hyper::Method::PUT if path.matched(paths::ID_XML) => Ok("XmlPut"),
+            // GetRepoInfo - GET /repos/{repoId}
+            &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Ok("GetRepoInfo"),
             _ => Err(()),
         }
     }
