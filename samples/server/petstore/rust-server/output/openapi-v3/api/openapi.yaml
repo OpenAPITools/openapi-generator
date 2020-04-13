@@ -380,6 +380,7 @@ paths:
           description: OK
       tags:
       - Repo
+      - Info
 components:
   schemas:
     EnumWithStarObject:
