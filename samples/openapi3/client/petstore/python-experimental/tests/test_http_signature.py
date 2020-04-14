@@ -295,7 +295,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(request-target\) \(created\) host date digest content-type",'
-                                                r'signature="[a-zA-Z0-9+/]+="',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -326,7 +326,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(created\)",'
-                                                r'signature="[a-zA-Z0-9+/]+="',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -362,7 +362,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(request-target\) \(created\)",'
-                                                r'signature="[a-zA-Z0-9+/]+="',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -398,7 +398,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(request-target\) \(created\)",'
-                                                r'signature="[a-zA-Z0-9+/]+="',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -433,7 +433,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(request-target\) \(created\)",'
-                                                r'signature="[a-zA-Z0-9+/]+"',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
