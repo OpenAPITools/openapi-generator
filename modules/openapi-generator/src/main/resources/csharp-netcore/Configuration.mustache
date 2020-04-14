@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Net;
+using Polly;
 
 namespace {{packageName}}.Client
 {
@@ -336,6 +338,18 @@ namespace {{packageName}}.Client
             }
         }
 
+        /// <summary>
+        /// Gets or sets the status codes for retry policy.
+        /// </summary>
+        /// <value>List of http status codes</value>
+        public IList<HttpStatusCode> RetryStatusCodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum number of retry attempts on the retry status codes.
+        /// </summary>
+        /// <value>Maximum number of retries</value>
+        public int MaxRetries {get; set;}
+
         #endregion Properties
 
         #region Methods
@@ -415,7 +429,9 @@ namespace {{packageName}}.Client
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                RetryStatusCodes = second.RetryStatusCodes ?? first.RetryStatusCodes,
+                MaxRetries = second.MaxRetries == 0 ? first.MaxRetries : second.MaxRetries
             };
             return config;
         }

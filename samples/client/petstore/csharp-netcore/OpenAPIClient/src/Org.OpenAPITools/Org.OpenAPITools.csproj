@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 OpenAPI Petstore
-
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
-
 The version of the OpenAPI document: 1.0.0
 
 -->
@@ -34,6 +32,7 @@ The version of the OpenAPI document: 1.0.0
     <PackageReference Include="JsonSubTypes" Version="1.5.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="RestSharp" Version="106.10.1" />
+    <PackageReference Include="Polly" Version="7.2.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 </Project>
