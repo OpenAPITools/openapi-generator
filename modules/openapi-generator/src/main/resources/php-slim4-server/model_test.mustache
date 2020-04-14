@@ -82,9 +82,7 @@ class {{classname}}Test extends TestCase
      */
     public function testGetOpenApiSchema()
     {
-        $schemaObject = {{classname}}::getOpenApiSchema();
-        $schemaArr = {{classname}}::getOpenApiSchema(true);
-        $this->assertIsObject($schemaObject);
+        $schemaArr = {{classname}}::getOpenApiSchema();
         $this->assertIsArray($schemaArr);
     }
 }

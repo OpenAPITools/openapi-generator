@@ -119,6 +119,8 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
         // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
         supportingFiles.add(new SupportingFile("json_body_parser_middleware.mustache", toSrcPath(invokerPackage + "\\Middleware", srcBasePath), "JsonBodyParserMiddleware.php"));
+        supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
+        supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
     }
 
     /**
