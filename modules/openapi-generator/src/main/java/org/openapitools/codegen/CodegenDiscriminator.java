@@ -33,7 +33,7 @@ public class CodegenDiscriminator {
     // - child schemas that allOf inherit self schema
     //
     // discriminatorExplicitMappingVerbose == True, this contains:
-    // - the name to schema map info in the discriminator mapping entry in your openapi spec AND
+    // - the name to schema map info in the discriminMappedModelator mapping entry in your openapi spec AND
     // - x-discriminator-value mappings in child oneOf + anyOf schemas + descendant schemas that allOf inherit self schema AND
     // - descendant schemas that allOf inherit self schema AND
     // - child oneOf + anyOf schemas
@@ -108,6 +108,9 @@ public class CodegenDiscriminator {
         private String modelName;
 
         public MappedModel(String mappingName, String modelName) {
+            if (mappingName == null) {
+                throw new RuntimeException("Discriminator mapping name cannot be null for model '" + modelName + "'");
+            }
             this.mappingName = mappingName;
             this.modelName = modelName;
         }
