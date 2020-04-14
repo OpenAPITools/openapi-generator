@@ -628,6 +628,22 @@ public class FakeApi {
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
+   * @param testGroupParametersRequest {@link APItestGroupParametersRequest}
+   * @throws ApiException if fails to make API call
+   */
+  public void testGroupParameters(APItestGroupParametersRequest testGroupParametersRequest) throws ApiException {
+    Integer requiredStringGroup = testGroupParametersRequest.requiredStringGroup();
+    Boolean requiredBooleanGroup = testGroupParametersRequest.requiredBooleanGroup();
+    Long requiredInt64Group = testGroupParametersRequest.requiredInt64Group();
+    Integer stringGroup = testGroupParametersRequest.stringGroup();
+    Boolean booleanGroup = testGroupParametersRequest.booleanGroup();
+    Long int64Group = testGroupParametersRequest.int64Group();
+    testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+  }
+
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
    * @param requiredStringGroup Required String in group parameters (required)
    * @param requiredBooleanGroup Required Boolean in group parameters (required)
    * @param requiredInt64Group Required Integer in group parameters (required)
@@ -636,7 +652,7 @@ public class FakeApi {
    * @param int64Group Integer in group parameters (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+  private void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
     // verify the required parameter 'requiredStringGroup' is set
     if (requiredStringGroup == null) {
       throw new ApiException(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
@@ -705,6 +721,83 @@ public class FakeApi {
       throw new ApiException(e);
     }
   }
+
+  public static final class APItestGroupParametersRequest {
+    private Integer requiredStringGroup; // Required String in group parameters (required)
+    private Boolean requiredBooleanGroup; // Required Boolean in group parameters (required)
+    private Long requiredInt64Group; // Required Integer in group parameters (required)
+    private Integer stringGroup; // String in group parameters (optional)
+    private Boolean booleanGroup; // Boolean in group parameters (optional)
+    private Long int64Group; // Integer in group parameters (optional)
+
+    private APItestGroupParametersRequest(Builder builder) {
+      this.requiredStringGroup = builder.requiredStringGroup;
+      this.requiredBooleanGroup = builder.requiredBooleanGroup;
+      this.requiredInt64Group = builder.requiredInt64Group;
+      this.stringGroup = builder.stringGroup;
+      this.booleanGroup = builder.booleanGroup;
+      this.int64Group = builder.int64Group;
+    }
+    public Integer requiredStringGroup() {
+      return requiredStringGroup;
+    }
+    public Boolean requiredBooleanGroup() {
+      return requiredBooleanGroup;
+    }
+    public Long requiredInt64Group() {
+      return requiredInt64Group;
+    }
+    public Integer stringGroup() {
+      return stringGroup;
+    }
+    public Boolean booleanGroup() {
+      return booleanGroup;
+    }
+    public Long int64Group() {
+      return int64Group;
+    }
+    public static Builder newBuilder() {
+      return new Builder();
+    }
+
+    public static class Builder {
+      private Integer requiredStringGroup;
+      private Boolean requiredBooleanGroup;
+      private Long requiredInt64Group;
+      private Integer stringGroup;
+      private Boolean booleanGroup;
+      private Long int64Group;
+
+      public Builder requiredStringGroup(Integer requiredStringGroup) {
+        this.requiredStringGroup = requiredStringGroup;
+        return this;
+      }
+      public Builder requiredBooleanGroup(Boolean requiredBooleanGroup) {
+        this.requiredBooleanGroup = requiredBooleanGroup;
+        return this;
+      }
+      public Builder requiredInt64Group(Long requiredInt64Group) {
+        this.requiredInt64Group = requiredInt64Group;
+        return this;
+      }
+      public Builder stringGroup(Integer stringGroup) {
+        this.stringGroup = stringGroup;
+        return this;
+      }
+      public Builder booleanGroup(Boolean booleanGroup) {
+        this.booleanGroup = booleanGroup;
+        return this;
+      }
+      public Builder int64Group(Long int64Group) {
+        this.int64Group = int64Group;
+        return this;
+      }
+      public APItestGroupParametersRequest build() {
+        return new APItestGroupParametersRequest(this);
+      }
+    }
+  }
+
   /**
    * test inline additionalProperties
    * 

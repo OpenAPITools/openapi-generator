@@ -52,6 +52,36 @@ public class {{classname}} {
   }
 
   {{#operation}}
+  {{#vendorExtensions.x-group-parameters}}
+  {{#hasParams}}
+  /**
+   * {{summary}}
+   * {{notes}}
+   * @param {{operationId}}Request {@link API{{operationId}}Request}
+   {{#returnType}}
+   * @return {{returnType}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#hasParams}}API{{operationId}}Request {{operationId}}Request{{/hasParams}}) throws ApiException {
+    {{#allParams}}
+    {{{dataType}}} {{paramName}} = {{operationId}}Request.{{paramName}}();
+    {{/allParams}}
+    {{#returnType}}return {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  }
+
+  {{/hasParams}}
+  {{/vendorExtensions.x-group-parameters}}
   /**
    * {{summary}}
    * {{notes}}
@@ -73,7 +103,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  {{^vendorExtensions.x-group-parameters}}public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{^hasParams}}public{{/hasParams}}{{#hasParams}}private{{/hasParams}}{{/vendorExtensions.x-group-parameters}} {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     {{#allParams}}
       {{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -160,6 +190,56 @@ public class {{classname}} {
       throw new ApiException(e);
     }
   }
+  {{#vendorExtensions.x-group-parameters}}
+  {{#hasParams}}
+
+  public static final class API{{operationId}}Request {
+    {{#requiredParams}}
+    private {{{dataType}}} {{paramName}}; // {{description}} (required)
+    {{/requiredParams}}
+    {{#optionalParams}}
+    private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}
+    {{/optionalParams}}
+
+    private API{{operationId}}Request(Builder builder) {
+      {{#requiredParams}}
+      this.{{paramName}} = builder.{{paramName}};
+      {{/requiredParams}}
+      {{#optionalParams}}
+      this.{{paramName}} = builder.{{paramName}};
+      {{/optionalParams}}
+    }
+    {{#allParams}}
+    public {{{dataType}}} {{paramName}}() {
+      return {{paramName}};
+    }
+    {{/allParams}}
+    public static Builder newBuilder() {
+      return new Builder();
+    }
+
+    public static class Builder {
+      {{#requiredParams}}
+      private {{{dataType}}} {{paramName}};
+      {{/requiredParams}}
+      {{#optionalParams}}
+      private {{{dataType}}} {{paramName}};
+      {{/optionalParams}}
+
+      {{#allParams}}
+      public Builder {{paramName}}({{{dataType}}} {{paramName}}) {
+        this.{{paramName}} = {{paramName}};
+        return this;
+      }
+      {{/allParams}}
+      public API{{operationId}}Request build() {
+        return new API{{operationId}}Request(this);
+      }
+    }
+  }
+
+  {{/hasParams}}
+  {{/vendorExtensions.x-group-parameters}}
   {{/operation}}
 }
 {{/operations}}
