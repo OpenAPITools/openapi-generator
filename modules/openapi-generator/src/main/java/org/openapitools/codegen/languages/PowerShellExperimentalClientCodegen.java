@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -372,39 +373,75 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                 "System.Nullable[Boolean]"
         ));
 
-        // https://richardspowershellblog.wordpress.com/2009/05/02/powershell-reserved-words/
+        // list of reserved words - must be in lower case
         reservedWords = new HashSet<String>(Arrays.asList(
-                "Begin",
-                "Break",
-                "Catch",
-                "Continue",
-                "Data",
-                "Do",
-                "Dynamicparam",
-                "Else",
-                "Elseif",
-                "End",
-                "Exit",
-                "Filter",
-                "Finally",
-                "For",
-                "Foreach",
-                "From",
-                "Function",
-                "If",
-                "In",
-                "Param",
-                "Process",
-                "Return",
-                "Switch",
-                "Throw",
-                "Trap",
-                "Try",
-                "Until",
-                "While",
-                "Local",
-                "Private",
-                "Where"
+                // https://richardspowershellblog.wordpress.com/2009/05/02/powershell-reserved-words/
+                "begin",
+                "break",
+                "catch",
+                "continue",
+                "data",
+                "do",
+                "dynamicparam",
+                "else",
+                "elseif",
+                "end",
+                "exit",
+                "filter",
+                "finally",
+                "for",
+                "foreach",
+                "from",
+                "function",
+                "if",
+                "in",
+                "param",
+                "process",
+                "return",
+                "switch",
+                "throw",
+                "trap",
+                "try",
+                "until",
+                "while",
+                "local",
+                "private",
+                "where",
+                // special variables 
+                "args",
+                "consolefilename",
+                "error",
+                "event",
+                "eventargs",
+                "eventsubscriber",
+                "executioncontext",
+                "false",
+                "foreach",
+                "home",
+                "host",
+                "input",
+                "lastexitcode",
+                "matches",
+                "myinvocation",
+                "nestedpromptlevel",
+                "null",
+                "pid",
+                "profile",
+                "pscmdlet",
+                "pscommandpath",
+                "psculture",
+                "psdebugcontext",
+                "pshome",
+                "psitem",
+                "psscriptroot",
+                "pssenderinfo",
+                "psuiculture",
+                "psversiontable",
+                "sender",
+                "shellid",
+                "stacktrace",
+                "this",
+                "true"
         ));
 
         defaultIncludes = new HashSet<String>(Arrays.asList(
@@ -500,6 +537,11 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("POWERSHELL_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable POWERSHELL_POST_PROCESS_FILE not defined so the PowerShell code may not be properly formatted. To define it, try 'export POWERSHELL_POST_PROCESS_FILE=\"Edit-DTWBeautifyScript\"'");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
 
         if (additionalProperties.containsKey("powershellGalleryUrl")) {
             setPowershellGalleryUrl((String) additionalProperties.get("powershellGalleryUrl"));
@@ -634,7 +676,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
     @Override
     public String escapeReservedWord(String name) {
-        return "_" + name;
+        return "Var" + name;
     }
 
     /**
@@ -654,23 +696,23 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
             name = name + "_" + modelNameSuffix;
         }
 
-        name = sanitizeName(name);
+        // camelize the model name
+        // phone_number => PhoneNumber
+        name = camelize(sanitizeName(name));
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+            LOGGER.warn(name + " (reserved word or special variable name) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = camelize("model_" + name); // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+            name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
         }
 
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
+        return name;
     }
 
     @Override
@@ -736,27 +778,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
 
     @Override
     public String toParamName(String name) {
-        // sanitize name
-        name = sanitizeName(name);
-
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
-
-        // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
-        // camelize the variable name
-        // pet_id => PetId
-        name = camelize(name, false);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
+        return toVarName(name);
     }
 
     @Override
@@ -835,17 +857,13 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         // sanitize name
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
         // camelize the variable name
         // pet_id => PetId
         name = camelize(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (reserved word or special variable name) cannot be used in naming. Renamed to " + escapeReservedWord(name));
             name = escapeReservedWord(name);
         }
 
@@ -1025,7 +1043,36 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     }
 
     @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String powershellPostProcessFile = System.getenv("POWERSHELL_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(powershellPostProcessFile)) {
+            return; // skip if POWERSHELL_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with ps extension
+        if ("ps".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = powershellPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
+
+    }
+
+    @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
+
 }
