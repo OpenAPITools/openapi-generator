@@ -21,7 +21,7 @@ void main() {
 
   group('Store API with faked client', () {
     test('places an order and gets it by id', () async {
-      // TODO: Please uncomment this after a content type in the petstore order endpoint is fixed.
+      // TODO: Please uncomment this after a content type of the petstore order in petstore.yaml is fixed.
       // final id = newId();
       // final newOrder = makeOrder(id: id);
 
@@ -44,7 +44,7 @@ void main() {
     });
 
     test('deletes an order', () async {
-      // TODO: Please uncomment this after a content type in the petstore order endpoint is fixed.
+      // TODO: Please uncomment this after a content type of the petstore order in petstore.yaml is fixed.
       // final id = newId();
       // final newOrder = makeOrder(id: id);
 
