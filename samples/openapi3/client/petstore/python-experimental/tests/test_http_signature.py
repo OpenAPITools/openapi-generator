@@ -151,9 +151,9 @@ class MockPoolManager(object):
             "{0}: {1}".format(key.lower(), value) for key, value in signed_headers_list]
         string_to_sign = "\n".join(header_items)
         digest = None
-        if self.signing_cfg.signing_scheme in {signing.SCHEME_RSA_SHA512, signing.SCHEME_HS2019}:
+        if self.signing_cfg.hash_algorithm == signing.HASH_SHA512:
             digest = SHA512.new()
-        elif self.signing_cfg.signing_scheme == signing.SCHEME_RSA_SHA256:
+        elif self.signing_cfg.hash_algorithm == signing.HASH_SHA256:
             digest = SHA256.new()
         else:
             self._tc.fail("Unsupported signature scheme: {0}".format(self.signing_cfg.signing_scheme))
@@ -165,7 +165,7 @@ class MockPoolManager(object):
         m2 = r2.search(authorization_header)
         self._tc.assertIsNotNone(m2)
         b64_signature = m2.group(1)
-        signature = base64.b64decode(b64_signature)
+        signature = base64.b64decode(b64_signature, validate=True)
         # Build the message
         signing_alg = self.signing_cfg.signing_algorithm
         if signing_alg is None:
@@ -182,10 +182,12 @@ class MockPoolManager(object):
         elif signing_alg == signing.ALGORITHM_RSASSA_PSS:
             pss.new(self.pubkey).verify(digest, signature)
         elif signing_alg == signing.ALGORITHM_ECDSA_MODE_FIPS_186_3:
-            verifier = DSS.new(self.pubkey, signing.ALGORITHM_ECDSA_MODE_FIPS_186_3)
+            verifier = DSS.new(key=self.pubkey, mode=signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
+                                encoding='der')
             verifier.verify(digest, signature)
         elif signing_alg == signing.ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979:
-            verifier = DSS.new(self.pubkey, signing.ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979)
+            verifier = DSS.new(key=self.pubkey, mode=signing.ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979,
+                                encoding='der')
             verifier.verify(digest, signature)
         else:
             self._tc.fail("Unsupported signing algorithm: {0}".format(signing_alg))
@@ -411,6 +413,7 @@ class PetApiTests(unittest.TestCase):
             signing_scheme=signing.SCHEME_HS2019,
             private_key_path=privkey_path,
             private_key_passphrase=self.private_key_passphrase,
+            hash_algorithm=signing.HASH_SHA512,
             signed_headers=[
                 signing.HEADER_REQUEST_TARGET,
                 signing.HEADER_CREATED,
