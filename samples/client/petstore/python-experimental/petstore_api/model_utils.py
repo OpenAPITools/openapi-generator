@@ -340,6 +340,7 @@ COERCION_INDEX_BY_TYPE = {
     date: 10,
     str: 11,
     file_type: 12,
+    object: 13,      # Any type, i.e. 'type' is not specified in the OAS schema.
 }
 
 # these are used to limit what type conversions we try to do
@@ -629,7 +630,9 @@ def order_response_types(required_types):
         elif (inspect.isclass(class_or_instance)
                 and issubclass(class_or_instance, ModelSimple)):
             return COERCION_INDEX_BY_TYPE[ModelSimple]
-        return COERCION_INDEX_BY_TYPE[class_or_instance]
+        if class_or_instance in COERCION_INDEX_BY_TYPE:
+            return COERCION_INDEX_BY_TYPE[class_or_instance]
+        raise ApiValueError("Unsupported type: %s" % class_or_instance)
 
     sorted_types = sorted(
         required_types,
