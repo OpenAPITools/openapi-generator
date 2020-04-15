@@ -3,9 +3,10 @@ use futures::{Future, future, Stream, stream};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use url::form_urlencoded;
+use log::warn;
 use serde_json;
 use std::io;
+use url::form_urlencoded;
 #[allow(unused_imports)]
 use swagger;
 use swagger::{ApiError, XSpanIdString, Has, RequestParser};
@@ -16,12 +17,12 @@ use uuid;
 use serde_xml_rs;
 
 #[allow(unused_imports)]
-use models;
-use header;
+use crate::models;
+use crate::header;
 
 pub use crate::context;
 
-use {Api,
+use crate::{Api,
      CallbackWithHeaderPostResponse,
      ComplexQueryParamGetResponse,
      EnumInPathPathParamGetResponse,
@@ -48,7 +49,7 @@ use {Api,
 pub mod callbacks;
 
 mod paths {
-    extern crate regex;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
@@ -74,30 +75,30 @@ mod paths {
         ])
         .expect("Unable to create global regex set");
     }
-    pub static ID_CALLBACK_WITH_HEADER: usize = 0;
-    pub static ID_COMPLEX_QUERY_PARAM: usize = 1;
-    pub static ID_ENUM_IN_PATH_PATH_PARAM: usize = 2;
+    pub(crate) static ID_CALLBACK_WITH_HEADER: usize = 0;
+    pub(crate) static ID_COMPLEX_QUERY_PARAM: usize = 1;
+    pub(crate) static ID_ENUM_IN_PATH_PATH_PARAM: usize = 2;
     lazy_static! {
         pub static ref REGEX_ENUM_IN_PATH_PATH_PARAM: regex::Regex =
             regex::Regex::new(r"^/enum_in_path/(?P<path_param>[^/?#]*)$")
                 .expect("Unable to create regex for ENUM_IN_PATH_PATH_PARAM");
     }
-    pub static ID_MANDATORY_REQUEST_HEADER: usize = 3;
-    pub static ID_MERGE_PATCH_JSON: usize = 4;
-    pub static ID_MULTIGET: usize = 5;
-    pub static ID_MULTIPLE_AUTH_SCHEME: usize = 6;
-    pub static ID_OVERRIDE_SERVER: usize = 7;
-    pub static ID_PARAMGET: usize = 8;
-    pub static ID_READONLY_AUTH_SCHEME: usize = 9;
-    pub static ID_REGISTER_CALLBACK: usize = 10;
-    pub static ID_REQUIRED_OCTET_STREAM: usize = 11;
-    pub static ID_RESPONSES_WITH_HEADERS: usize = 12;
-    pub static ID_RFC7807: usize = 13;
-    pub static ID_UNTYPED_PROPERTY: usize = 14;
-    pub static ID_UUID: usize = 15;
-    pub static ID_XML: usize = 16;
-    pub static ID_XML_EXTRA: usize = 17;
-    pub static ID_XML_OTHER: usize = 18;
+    pub(crate) static ID_MANDATORY_REQUEST_HEADER: usize = 3;
+    pub(crate) static ID_MERGE_PATCH_JSON: usize = 4;
+    pub(crate) static ID_MULTIGET: usize = 5;
+    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 6;
+    pub(crate) static ID_OVERRIDE_SERVER: usize = 7;
+    pub(crate) static ID_PARAMGET: usize = 8;
+    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 9;
+    pub(crate) static ID_REGISTER_CALLBACK: usize = 10;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 11;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 12;
+    pub(crate) static ID_RFC7807: usize = 13;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 14;
+    pub(crate) static ID_UUID: usize = 15;
+    pub(crate) static ID_XML: usize = 16;
+    pub(crate) static ID_XML_EXTRA: usize = 17;
+    pub(crate) static ID_XML_OTHER: usize = 18;
 }
 
 pub struct MakeService<T, RC> {

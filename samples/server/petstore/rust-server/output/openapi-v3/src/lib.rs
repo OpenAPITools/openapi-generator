@@ -1,54 +1,5 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 
-// Crates with macros
-
-#[macro_use]
-extern crate serde_derive;
-#[cfg(any(feature = "client", feature = "server"))]
-#[macro_use]
-extern crate lazy_static;
-#[cfg(any(feature = "client", feature = "server"))]
-#[macro_use]
-extern crate url;
-#[macro_use]
-extern crate log;
-
-// Crates for conversion support
-#[cfg(feature = "conversion")]
-#[macro_use]
-extern crate frunk_derives;
-#[cfg(feature = "conversion")]
-#[macro_use]
-extern crate frunk_enum_derive;
-#[cfg(feature = "conversion")]
-extern crate frunk_core;
-
-extern crate mime;
-extern crate serde;
-extern crate futures;
-extern crate chrono;
-extern crate swagger;
-extern crate serde_json;
-
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate hyper;
-#[cfg(any(feature = "client", feature = "server"))]
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-extern crate hyper_openssl;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate percent_encoding;
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate serde_ignored;
-
-#[cfg(any(feature = "client", feature = "server"))]
-extern crate uuid;
-
-extern crate serde_xml_rs;
-
-
-#[cfg(any(feature = "client", feature = "server"))]
-
-
 use futures::Stream;
 use std::io::Error;
 

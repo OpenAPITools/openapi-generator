@@ -1,8 +1,8 @@
 #![allow(unused_qualifications)]
 
-use models;
+use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
-use header;
+use crate::header;
 
 
 // Methods for converting between header::IntoHeaderValue<ANullableContainer> and hyper::header::HeaderValue
@@ -22,8 +22,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ANullableConta
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ANullableContainer {
     #[serde(rename = "NullableThing")]
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
@@ -114,8 +114,8 @@ impl std::str::FromStr for ANullableContainer {
 
 
 /// An additionalPropertiesObject
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesObject(std::collections::HashMap<String, String>);
 
 impl std::convert::From<std::collections::HashMap<String, String>> for AdditionalPropertiesObject {
@@ -183,8 +183,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AllOfObject> {
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AllOfObject {
     #[serde(rename = "sampleProperty")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -292,8 +292,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<BaseAllOf> {
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct BaseAllOf {
     #[serde(rename = "sampleBasePropery")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -388,8 +388,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<GetYamlRespons
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetYamlResponse {
     /// Inner string
     #[serde(rename = "value")]
@@ -484,8 +484,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> 
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct InlineObject {
     #[serde(rename = "id")]
     pub id: String,
@@ -591,8 +591,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectOfObject
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjects {
     #[serde(rename = "inner")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -682,8 +682,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectOfObject
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjectsInner {
     #[serde(rename = "required_thing")]
     pub required_thing: String,

@@ -1,8 +1,8 @@
 #![allow(unused_qualifications)]
 
-use models;
+use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
-use header;
+use crate::header;
 
 
 // Methods for converting between header::IntoHeaderValue<AnotherXmlArray> and hyper::header::HeaderValue
@@ -30,9 +30,12 @@ where
     serde_xml_rs::wrap_primitives(item, serializer, "snake_another_xml_inner")
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-pub struct AnotherXmlArray(#[serde(serialize_with = "wrap_in_snake_another_xml_inner")]Vec<String>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AnotherXmlArray(
+    #[serde(serialize_with = "wrap_in_snake_another_xml_inner")]
+    Vec<String>
+);
 
 impl std::convert::From<Vec<String>> for AnotherXmlArray {
     fn from(x: Vec<String>) -> Self {
@@ -127,8 +130,8 @@ impl AnotherXmlArray {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_inner")]
 pub struct AnotherXmlInner(String);
 
@@ -198,8 +201,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlObje
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_object")]
 pub struct AnotherXmlObject {
     #[serde(rename = "inner_string")]
@@ -312,8 +315,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<DuplicateXmlOb
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelDuplicateXmlObject")]
 pub struct DuplicateXmlObject {
     #[serde(rename = "inner_string")]
@@ -424,8 +427,8 @@ impl DuplicateXmlObject {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumWithStarObject { 
     #[serde(rename = "FOO")]
     FOO,
@@ -436,7 +439,7 @@ pub enum EnumWithStarObject {
 }
 
 impl std::fmt::Display for EnumWithStarObject {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self { 
             EnumWithStarObject::FOO => write!(f, "{}", "FOO"),
             EnumWithStarObject::BAR => write!(f, "{}", "BAR"),
@@ -467,8 +470,8 @@ impl EnumWithStarObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Err(String);
 
 impl std::convert::From<String> for Err {
@@ -519,8 +522,8 @@ impl Err {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Error(String);
 
 impl std::convert::From<String> for Error {
@@ -588,8 +591,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineResponse
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct InlineResponse201 {
     #[serde(rename = "foo")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -674,8 +677,8 @@ impl InlineResponse201 {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MyId(i32);
 
 impl std::convert::From<i32> for MyId {
@@ -730,9 +733,11 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MyIdList> {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-pub struct MyIdList(Vec<i32>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct MyIdList(
+    Vec<i32>
+);
 
 impl std::convert::From<Vec<i32>> for MyIdList {
     fn from(x: Vec<i32>) -> Self {
@@ -844,8 +849,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<NullableTest> 
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NullableTest {
     #[serde(rename = "nullable")]
     pub nullable: swagger::Nullable<String>,
@@ -1008,8 +1013,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectHeader> 
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectHeader {
     #[serde(rename = "requiredObjectHeader")]
     pub required_object_header: bool,
@@ -1122,8 +1127,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectParam> {
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectParam {
     #[serde(rename = "requiredParam")]
     pub required_param: bool,
@@ -1236,8 +1241,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectUntypedP
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectUntypedProps {
     #[serde(rename = "required_untyped")]
     pub required_untyped: serde_json::Value,
@@ -1363,8 +1368,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectWithArra
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectWithArrayOfObjects {
     #[serde(rename = "objectArray")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -1449,8 +1454,8 @@ impl ObjectWithArrayOfObjects {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Ok(String);
 
 impl std::convert::From<String> for Ok {
@@ -1501,8 +1506,8 @@ impl Ok {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OptionalObjectHeader(i32);
 
 impl std::convert::From<i32> for OptionalObjectHeader {
@@ -1541,8 +1546,8 @@ impl OptionalObjectHeader {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct RequiredObjectHeader(bool);
 
 impl std::convert::From<bool> for RequiredObjectHeader {
@@ -1581,8 +1586,8 @@ impl RequiredObjectHeader {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Result(String);
 
 impl std::convert::From<String> for Result {
@@ -1638,8 +1643,8 @@ impl Result {
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum StringEnum { 
     #[serde(rename = "FOO")]
     FOO,
@@ -1648,7 +1653,7 @@ pub enum StringEnum {
 }
 
 impl std::fmt::Display for StringEnum {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self { 
             StringEnum::FOO => write!(f, "{}", "FOO"),
             StringEnum::BAR => write!(f, "{}", "BAR"),
@@ -1677,8 +1682,8 @@ impl StringEnum {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct StringObject(String);
 
 impl std::convert::From<String> for StringObject {
@@ -1730,8 +1735,8 @@ impl StringObject {
 }
 
 /// Test a model containing a UUID
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct UuidObject(uuid::Uuid);
 
 impl std::convert::From<uuid::Uuid> for UuidObject {
@@ -1795,9 +1800,12 @@ where
     serde_xml_rs::wrap_primitives(item, serializer, "camelXmlInner")
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-pub struct XmlArray(#[serde(serialize_with = "wrap_in_camelXmlInner")]Vec<String>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct XmlArray(
+    #[serde(serialize_with = "wrap_in_camelXmlInner")]
+    Vec<String>
+);
 
 impl std::convert::From<Vec<String>> for XmlArray {
     fn from(x: Vec<String>) -> Self {
@@ -1892,8 +1900,8 @@ impl XmlArray {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelXmlInner")]
 pub struct XmlInner(String);
 
@@ -1963,8 +1971,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlObject> {
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelXmlObject")]
 pub struct XmlObject {
     #[serde(rename = "innerString")]

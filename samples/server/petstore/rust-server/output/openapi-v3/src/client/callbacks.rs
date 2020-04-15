@@ -3,9 +3,10 @@ use futures::{Future, future, Stream, stream};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use url::form_urlencoded;
+use log::warn;
 use serde_json;
 use std::io;
+use url::form_urlencoded;
 #[allow(unused_imports)]
 use swagger;
 use swagger::{ApiError, XSpanIdString, Has, RequestParser};
@@ -16,17 +17,17 @@ use uuid;
 use serde_xml_rs;
 
 #[allow(unused_imports)]
-use models;
-use header;
+use crate::models;
+use crate::header;
 
 pub use crate::context;
 
-use CallbackApi as Api;
-use CallbackCallbackWithHeaderPostResponse;
-use CallbackCallbackPostResponse;
+use crate::CallbackApi as Api;
+use crate::CallbackCallbackWithHeaderPostResponse;
+use crate::CallbackCallbackPostResponse;
 
 mod paths {
-    extern crate regex;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
@@ -35,13 +36,13 @@ mod paths {
         ])
         .expect("Unable to create global regex set");
     }
-    pub static ID_REQUEST_QUERY_URL_CALLBACK: usize = 0;
+    pub(crate) static ID_REQUEST_QUERY_URL_CALLBACK: usize = 0;
     lazy_static! {
         pub static ref REGEX_REQUEST_QUERY_URL_CALLBACK: regex::Regex =
             regex::Regex::new(r"^/(?P<request_query_url>.*)/callback$")
                 .expect("Unable to create regex for REQUEST_QUERY_URL_CALLBACK");
     }
-    pub static ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: usize = 1;
+    pub(crate) static ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: usize = 1;
     lazy_static! {
         pub static ref REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: regex::Regex =
             regex::Regex::new(r"^/(?P<request_query_url>.*)/callback-with-header$")

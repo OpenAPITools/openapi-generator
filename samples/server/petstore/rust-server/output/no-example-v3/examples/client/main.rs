@@ -1,16 +1,5 @@
 #![allow(missing_docs, unused_variables, trivial_casts)]
-extern crate no_example_v3;
-extern crate clap;
-extern crate env_logger;
-extern crate futures;
 
-// log may be unused if there are no examples
-#[allow(unused_imports)]
-#[macro_use]
-extern crate log;
-#[macro_use]
-extern crate swagger;
-extern crate tokio;
 
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
@@ -20,6 +9,7 @@ use no_example_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       OpGetResponse
                      };
 use clap::{App, Arg};
+use log::info;
 
 // swagger::Has may be unused if there are no examples
 #[allow(unused_imports)]
@@ -69,8 +59,8 @@ fn main() {
             .expect("Failed to create HTTP client")
     };
 
-    let context: make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
-        make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString::default());
+    let context: swagger::make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
+        swagger::make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString::default());
 
     let client = client.with_context(context);
 

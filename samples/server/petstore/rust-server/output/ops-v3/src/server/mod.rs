@@ -3,9 +3,10 @@ use futures::{Future, future, Stream, stream};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use url::form_urlencoded;
+use log::warn;
 use serde_json;
 use std::io;
+use url::form_urlencoded;
 #[allow(unused_imports)]
 use swagger;
 use swagger::{ApiError, XSpanIdString, Has, RequestParser};
@@ -14,12 +15,12 @@ use swagger::auth::Scopes;
 use swagger::context::ContextualPayload;
 
 #[allow(unused_imports)]
-use models;
-use header;
+use crate::models;
+use crate::header;
 
 pub use crate::context;
 
-use {Api,
+use crate::{Api,
      Op10GetResponse,
      Op11GetResponse,
      Op12GetResponse,
@@ -60,7 +61,7 @@ use {Api,
 };
 
 mod paths {
-    extern crate regex;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
@@ -104,43 +105,43 @@ mod paths {
         ])
         .expect("Unable to create global regex set");
     }
-    pub static ID_OP1: usize = 0;
-    pub static ID_OP10: usize = 1;
-    pub static ID_OP11: usize = 2;
-    pub static ID_OP12: usize = 3;
-    pub static ID_OP13: usize = 4;
-    pub static ID_OP14: usize = 5;
-    pub static ID_OP15: usize = 6;
-    pub static ID_OP16: usize = 7;
-    pub static ID_OP17: usize = 8;
-    pub static ID_OP18: usize = 9;
-    pub static ID_OP19: usize = 10;
-    pub static ID_OP2: usize = 11;
-    pub static ID_OP20: usize = 12;
-    pub static ID_OP21: usize = 13;
-    pub static ID_OP22: usize = 14;
-    pub static ID_OP23: usize = 15;
-    pub static ID_OP24: usize = 16;
-    pub static ID_OP25: usize = 17;
-    pub static ID_OP26: usize = 18;
-    pub static ID_OP27: usize = 19;
-    pub static ID_OP28: usize = 20;
-    pub static ID_OP29: usize = 21;
-    pub static ID_OP3: usize = 22;
-    pub static ID_OP30: usize = 23;
-    pub static ID_OP31: usize = 24;
-    pub static ID_OP32: usize = 25;
-    pub static ID_OP33: usize = 26;
-    pub static ID_OP34: usize = 27;
-    pub static ID_OP35: usize = 28;
-    pub static ID_OP36: usize = 29;
-    pub static ID_OP37: usize = 30;
-    pub static ID_OP4: usize = 31;
-    pub static ID_OP5: usize = 32;
-    pub static ID_OP6: usize = 33;
-    pub static ID_OP7: usize = 34;
-    pub static ID_OP8: usize = 35;
-    pub static ID_OP9: usize = 36;
+    pub(crate) static ID_OP1: usize = 0;
+    pub(crate) static ID_OP10: usize = 1;
+    pub(crate) static ID_OP11: usize = 2;
+    pub(crate) static ID_OP12: usize = 3;
+    pub(crate) static ID_OP13: usize = 4;
+    pub(crate) static ID_OP14: usize = 5;
+    pub(crate) static ID_OP15: usize = 6;
+    pub(crate) static ID_OP16: usize = 7;
+    pub(crate) static ID_OP17: usize = 8;
+    pub(crate) static ID_OP18: usize = 9;
+    pub(crate) static ID_OP19: usize = 10;
+    pub(crate) static ID_OP2: usize = 11;
+    pub(crate) static ID_OP20: usize = 12;
+    pub(crate) static ID_OP21: usize = 13;
+    pub(crate) static ID_OP22: usize = 14;
+    pub(crate) static ID_OP23: usize = 15;
+    pub(crate) static ID_OP24: usize = 16;
+    pub(crate) static ID_OP25: usize = 17;
+    pub(crate) static ID_OP26: usize = 18;
+    pub(crate) static ID_OP27: usize = 19;
+    pub(crate) static ID_OP28: usize = 20;
+    pub(crate) static ID_OP29: usize = 21;
+    pub(crate) static ID_OP3: usize = 22;
+    pub(crate) static ID_OP30: usize = 23;
+    pub(crate) static ID_OP31: usize = 24;
+    pub(crate) static ID_OP32: usize = 25;
+    pub(crate) static ID_OP33: usize = 26;
+    pub(crate) static ID_OP34: usize = 27;
+    pub(crate) static ID_OP35: usize = 28;
+    pub(crate) static ID_OP36: usize = 29;
+    pub(crate) static ID_OP37: usize = 30;
+    pub(crate) static ID_OP4: usize = 31;
+    pub(crate) static ID_OP5: usize = 32;
+    pub(crate) static ID_OP6: usize = 33;
+    pub(crate) static ID_OP7: usize = 34;
+    pub(crate) static ID_OP8: usize = 35;
+    pub(crate) static ID_OP9: usize = 36;
 }
 
 pub struct MakeService<T, RC> {

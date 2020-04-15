@@ -9,7 +9,7 @@ use std::marker::PhantomData;
 use swagger::auth::{AuthData, Authorization, Bearer, Scopes};
 use swagger::context::ContextualPayload;
 use swagger::{EmptyContext, Has, Pop, Push, XSpanIdString};
-use Api;
+use crate::Api;
 
 pub struct MakeAddContext<T, A> {
     inner: T,
