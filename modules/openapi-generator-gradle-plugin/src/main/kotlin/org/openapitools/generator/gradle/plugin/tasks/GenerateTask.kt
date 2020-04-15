@@ -640,7 +640,7 @@ open class GenerateTask : DefaultTask() {
 
                 DefaultGenerator().opts(clientOptInput).generate()
 
-                out.println("Successfully generated code to $outputDir")
+                out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {
                 throw GradleException("Code generation failed.", e)
             }
