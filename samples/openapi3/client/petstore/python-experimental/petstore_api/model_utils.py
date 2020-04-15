@@ -305,7 +305,6 @@ class ModelComposed(OpenApiModel):
                 path_to_item
             )
 
-
     def to_dict(self):
         """Returns the model properties as a dict"""
         return model_to_dict(self, serialize=False)
