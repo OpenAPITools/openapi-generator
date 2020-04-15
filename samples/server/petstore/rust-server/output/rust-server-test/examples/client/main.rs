@@ -17,6 +17,8 @@ use rust_server_test::{Api, ApiNoContext, Client, ContextWrapperExt,
                       SoloObjectPostResponse
                      };
 use clap::{App, Arg};
+
+#[allow(unused_imports)]
 use log::info;
 
 // swagger::Has may be unused if there are no examples

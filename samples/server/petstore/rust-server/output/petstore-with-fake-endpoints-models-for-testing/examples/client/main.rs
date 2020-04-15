@@ -43,6 +43,8 @@ use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client,
                       UpdateUserResponse
                      };
 use clap::{App, Arg};
+
+#[allow(unused_imports)]
 use log::info;
 
 // swagger::Has may be unused if there are no examples

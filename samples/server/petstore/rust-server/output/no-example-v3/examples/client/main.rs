@@ -9,6 +9,8 @@ use no_example_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       OpGetResponse
                      };
 use clap::{App, Arg};
+
+#[allow(unused_imports)]
 use log::info;
 
 // swagger::Has may be unused if there are no examples

@@ -45,6 +45,8 @@ use ops_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       Op9GetResponse
                      };
 use clap::{App, Arg};
+
+#[allow(unused_imports)]
 use log::info;
 
 // swagger::Has may be unused if there are no examples
