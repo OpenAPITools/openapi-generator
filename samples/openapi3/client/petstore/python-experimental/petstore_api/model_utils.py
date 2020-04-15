@@ -147,10 +147,6 @@ class ModelSimple(OpenApiModel):
         """Returns the string representation of the model"""
         return str(self.value)
 
-    def __hash__(self):
-        """Returns the hash value of this object."""
-        return hash(self._data_store['value'])
-
     def __eq__(self, other):
         """Returns true if both objects are equal"""
         if not isinstance(other, self.__class__):
@@ -207,10 +203,6 @@ class ModelNormal(OpenApiModel):
     def to_str(self):
         """Returns the string representation of the model"""
         return pprint.pformat(self.to_dict())
-
-    def __hash__(self):
-        """Returns the hash value of this object."""
-        return hash(frozenset(self._data_store.items()))
 
     def __eq__(self, other):
         """Returns true if both objects are equal"""
@@ -282,15 +274,17 @@ class ModelComposed(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        values = set()
+        values = []
+        # A composed model stores child (oneof/anyOf/allOf) models under
+        # self._var_name_to_model_instances. A named property can exist in
+        # multiple child models. If the property is present in more than one
+        # child model, the value must be the same across all the child models.
         if model_instances:
             for model_instance in model_instances:
                 if name in model_instance._data_store:
                     v = model_instance._data_store[name]
-                    if isinstance(v, list):
-                        values.add(tuple(v))
-                    else:
-                        values.add(v)
+                    if v not in values:
+                        values.append(v)
         len_values = len(values)
         if len_values == 0:
             raise ApiKeyError(
@@ -298,10 +292,10 @@ class ModelComposed(OpenApiModel):
                 path_to_item
             )
         elif len_values == 1:
-            return list(values)[0]
+            return values[0]
         elif len_values > 1:
             raise ApiValueError(
-                "Values stored for property {0} in {1} difffer when looking "
+                "Values stored for property {0} in {1} differ when looking "
                 "at self and self's composed instances. All values must be "
                 "the same".format(name, type(self).__name__),
                 path_to_item
@@ -314,10 +308,6 @@ class ModelComposed(OpenApiModel):
     def to_str(self):
         """Returns the string representation of the model"""
         return pprint.pformat(self.to_dict())
-
-    def __hash__(self):
-        """Returns the hash value of this object."""
-        return hash(frozenset(self._data_store.items()))
 
     def __eq__(self, other):
         """Returns true if both objects are equal"""
