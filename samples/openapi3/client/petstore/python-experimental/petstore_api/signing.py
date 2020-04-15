@@ -143,13 +143,13 @@ class HttpSigningConfiguration(object):
                 self.hash_algorithm = HASH_SHA256
             elif self.hash_algorithm != HASH_SHA256:
                 raise Exception("Hash algorithm must be sha256 when security scheme is %s" %
-                                    SCHEME_RSA_SHA256)
+                                SCHEME_RSA_SHA256)
         elif signing_scheme == SCHEME_RSA_SHA512:
             if self.hash_algorithm is None:
                 self.hash_algorithm = HASH_SHA512
             elif self.hash_algorithm != HASH_SHA512:
                 raise Exception("Hash algorithm must be sha512 when security scheme is %s" %
-                                    SCHEME_RSA_SHA512)
+                                SCHEME_RSA_SHA512)
         elif signing_scheme == SCHEME_HS2019:
             if self.hash_algorithm is None:
                 self.hash_algorithm = HASH_SHA256
