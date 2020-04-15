@@ -156,7 +156,7 @@ class MockPoolManager(object):
         elif self.signing_cfg.hash_algorithm == signing.HASH_SHA256:
             digest = SHA256.new()
         else:
-            self._tc.fail("Unsupported signature scheme: {0}".format(self.signing_cfg.signing_scheme))
+            self._tc.fail("Unsupported hash algorithm: {0}".format(self.signing_cfg.hash_algorithm))
         digest.update(string_to_sign.encode())
         b64_body_digest = base64.b64encode(digest.digest()).decode()
 
@@ -165,7 +165,7 @@ class MockPoolManager(object):
         m2 = r2.search(authorization_header)
         self._tc.assertIsNotNone(m2)
         b64_signature = m2.group(1)
-        signature = base64.b64decode(b64_signature, validate=True)
+        signature = base64.b64decode(b64_signature)
         # Build the message
         signing_alg = self.signing_cfg.signing_algorithm
         if signing_alg is None:
