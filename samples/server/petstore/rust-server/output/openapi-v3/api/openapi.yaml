@@ -360,6 +360,26 @@ paths:
       responses:
         "200":
           description: Success
+  /repos/{repoId}:
+    get:
+      operationId: GetRepoInfo
+      parameters:
+      - explode: false
+        in: path
+        name: repoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringObject'
+          description: OK
+      tags:
+      - Repo
 components:
   schemas:
     EnumWithStarObject:

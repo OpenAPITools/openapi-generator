@@ -209,6 +209,13 @@ pub enum XmlPutResponse {
     BadRequest
 }
 
+#[derive(Debug, PartialEq)]
+pub enum GetRepoInfoResponse {
+    /// OK
+    OK
+    (String)
+}
+
 /// API
 pub trait Api<C> {
     fn callback_with_header_post(
@@ -312,6 +319,11 @@ pub trait Api<C> {
         &self,
         xml_object: Option<models::XmlObject>,
         context: &C) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>;
+
+    fn get_repo_info(
+        &self,
+        repo_id: String,
+        context: &C) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>;
 
 }
 
@@ -418,6 +430,11 @@ pub trait ApiNoContext {
         &self,
         xml_object: Option<models::XmlObject>,
         ) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>;
+
+    fn get_repo_info(
+        &self,
+        repo_id: String,
+        ) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>;
 
 }
 
@@ -597,6 +614,14 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>
     {
         self.api().xml_put(xml_object, &self.context())
+    }
+
+    fn get_repo_info(
+        &self,
+        repo_id: String,
+        ) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>
+    {
+        self.api().get_repo_info(repo_id, &self.context())
     }
 
 }

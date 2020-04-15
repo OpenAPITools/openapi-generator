@@ -114,7 +114,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn op_get(
         &self,
         inline_object: models::InlineObject,
-        context: &C) -> Box<Future<Item=OpGetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=OpGetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op_get({:?}) - X-Span-ID: {:?}", inline_object, context.get().0.clone());

@@ -131,48 +131,48 @@ fn main() {
             let result = rt.block_on(client.test_special_tags(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         Some("Call123example") => {
             let result = rt.block_on(client.call123example(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("FakeOuterBooleanSerialize") => {
             let result = rt.block_on(client.fake_outer_boolean_serialize(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("FakeOuterCompositeSerialize") => {
             let result = rt.block_on(client.fake_outer_composite_serialize(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("FakeOuterNumberSerialize") => {
             let result = rt.block_on(client.fake_outer_number_serialize(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("FakeOuterStringSerialize") => {
             let result = rt.block_on(client.fake_outer_string_serialize(
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("FakeResponseWithNumericalDescription") => {
             let result = rt.block_on(client.fake_response_with_numerical_description(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("HyphenParam") => {
             let result = rt.block_on(client.hyphen_param(
                   "hyphen_param_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("TestBodyWithQueryParams") => {
@@ -180,7 +180,7 @@ fn main() {
                   "query_example".to_string(),
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         /* Disabled because there's no example.
@@ -188,7 +188,7 @@ fn main() {
             let result = rt.block_on(client.test_client_model(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         Some("TestEndpointParameters") => {
@@ -208,7 +208,7 @@ fn main() {
                   Some("password_example".to_string()),
                   Some("callback_example".to_string())
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("TestEnumParameters") => {
             let result = rt.block_on(client.test_enum_parameters(
@@ -220,14 +220,14 @@ fn main() {
                   Some(1.2),
                   Some("enum_form_string_example".to_string())
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("TestInlineAdditionalProperties") => {
             let result = rt.block_on(client.test_inline_additional_properties(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         Some("TestJsonFormData") => {
@@ -235,14 +235,14 @@ fn main() {
                   "param_example".to_string(),
                   "param2_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("TestClassname") => {
             let result = rt.block_on(client.test_classname(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         /* Disabled because there's no example.
@@ -250,7 +250,7 @@ fn main() {
             let result = rt.block_on(client.add_pet(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         Some("DeletePet") => {
@@ -258,32 +258,32 @@ fn main() {
                   789,
                   Some("api_key_example".to_string())
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("FindPetsByStatus") => {
             let result = rt.block_on(client.find_pets_by_status(
                   &Vec::new()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("FindPetsByTags") => {
             let result = rt.block_on(client.find_pets_by_tags(
                   &Vec::new()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("GetPetById") => {
             let result = rt.block_on(client.get_pet_by_id(
                   789
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("UpdatePet") => {
             let result = rt.block_on(client.update_pet(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         Some("UpdatePetWithForm") => {
@@ -292,7 +292,7 @@ fn main() {
                   Some("name_example".to_string()),
                   Some("status_example".to_string())
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("UploadFile") => {
             let result = rt.block_on(client.upload_file(
@@ -300,31 +300,31 @@ fn main() {
                   Some("additional_metadata_example".to_string()),
                   Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("DeleteOrder") => {
             let result = rt.block_on(client.delete_order(
                   "order_id_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("GetInventory") => {
             let result = rt.block_on(client.get_inventory(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("GetOrderById") => {
             let result = rt.block_on(client.get_order_by_id(
                   789
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("PlaceOrder") => {
             let result = rt.block_on(client.place_order(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         /* Disabled because there's no example.
@@ -332,44 +332,44 @@ fn main() {
             let result = rt.block_on(client.create_user(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         Some("CreateUsersWithArrayInput") => {
             let result = rt.block_on(client.create_users_with_array_input(
                   &Vec::new()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("CreateUsersWithListInput") => {
             let result = rt.block_on(client.create_users_with_list_input(
                   &Vec::new()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("DeleteUser") => {
             let result = rt.block_on(client.delete_user(
                   "username_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("GetUserByName") => {
             let result = rt.block_on(client.get_user_by_name(
                   "username_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("LoginUser") => {
             let result = rt.block_on(client.login_user(
                   "username_example".to_string(),
                   "password_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("LogoutUser") => {
             let result = rt.block_on(client.logout_user(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("UpdateUser") => {
@@ -377,7 +377,7 @@ fn main() {
                   "username_example".to_string(),
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         _ => {

@@ -112,7 +112,7 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString>{
         &self,
         callback_request_query_url: String,
         information: Option<String>,
-        context: &C) -> Box<Future<Item=CallbackCallbackWithHeaderPostResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=CallbackCallbackWithHeaderPostResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("callback_callback_with_header_post({:?}) - X-Span-ID: {:?}", information, context.get().0.clone());
@@ -122,7 +122,7 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString>{
     fn callback_callback_post(
         &self,
         callback_request_query_url: String,
-        context: &C) -> Box<Future<Item=CallbackCallbackPostResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=CallbackCallbackPostResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("callback_callback_post() - X-Span-ID: {:?}", context.get().0.clone());

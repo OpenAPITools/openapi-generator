@@ -121,7 +121,7 @@ use rust_server_test::server::MakeService;
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn all_of_get(
         &self,
-        context: &C) -> Box<Future<Item=AllOfGetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=AllOfGetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("all_of_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -131,7 +131,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(
         &self,
-        context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("dummy_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -141,7 +141,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn dummy_put(
         &self,
         nested_response: models::InlineObject,
-        context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("dummy_put({:?}) - X-Span-ID: {:?}", nested_response, context.get().0.clone());
@@ -151,7 +151,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     /// Get a file
     fn file_response_get(
         &self,
-        context: &C) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("file_response_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -160,7 +160,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn get_structured_yaml(
         &self,
-        context: &C) -> Box<Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("get_structured_yaml() - X-Span-ID: {:?}", context.get().0.clone());
@@ -171,7 +171,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn html_post(
         &self,
         body: String,
-        context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("html_post(\"{}\") - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -181,7 +181,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn post_yaml(
         &self,
         value: String,
-        context: &C) -> Box<Future<Item=PostYamlResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("post_yaml(\"{}\") - X-Span-ID: {:?}", value, context.get().0.clone());
@@ -191,7 +191,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     /// Get an arbitrary JSON blob.
     fn raw_json_get(
         &self,
-        context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("raw_json_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -202,7 +202,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn solo_object_post(
         &self,
         value: serde_json::Value,
-        context: &C) -> Box<Future<Item=SoloObjectPostResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("solo_object_post({:?}) - X-Span-ID: {:?}", value, context.get().0.clone());

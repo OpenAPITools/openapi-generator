@@ -149,7 +149,7 @@ use ops_v3::server::MakeService;
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn op10_get(
         &self,
-        context: &C) -> Box<Future<Item=Op10GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op10GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op10_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -158,7 +158,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op11_get(
         &self,
-        context: &C) -> Box<Future<Item=Op11GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op11GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op11_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -167,7 +167,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op12_get(
         &self,
-        context: &C) -> Box<Future<Item=Op12GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op12GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op12_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -176,7 +176,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op13_get(
         &self,
-        context: &C) -> Box<Future<Item=Op13GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op13GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op13_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -185,7 +185,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op14_get(
         &self,
-        context: &C) -> Box<Future<Item=Op14GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op14GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op14_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -194,7 +194,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op15_get(
         &self,
-        context: &C) -> Box<Future<Item=Op15GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op15GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op15_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -203,7 +203,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op16_get(
         &self,
-        context: &C) -> Box<Future<Item=Op16GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op16GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op16_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -212,7 +212,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op17_get(
         &self,
-        context: &C) -> Box<Future<Item=Op17GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op17GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op17_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -221,7 +221,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op18_get(
         &self,
-        context: &C) -> Box<Future<Item=Op18GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op18GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op18_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -230,7 +230,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op19_get(
         &self,
-        context: &C) -> Box<Future<Item=Op19GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op19GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op19_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -239,7 +239,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op1_get(
         &self,
-        context: &C) -> Box<Future<Item=Op1GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op1GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op1_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -248,7 +248,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op20_get(
         &self,
-        context: &C) -> Box<Future<Item=Op20GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op20GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op20_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -257,7 +257,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op21_get(
         &self,
-        context: &C) -> Box<Future<Item=Op21GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op21GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op21_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -266,7 +266,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op22_get(
         &self,
-        context: &C) -> Box<Future<Item=Op22GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op22GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op22_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -275,7 +275,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op23_get(
         &self,
-        context: &C) -> Box<Future<Item=Op23GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op23GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op23_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -284,7 +284,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op24_get(
         &self,
-        context: &C) -> Box<Future<Item=Op24GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op24GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op24_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -293,7 +293,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op25_get(
         &self,
-        context: &C) -> Box<Future<Item=Op25GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op25GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op25_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -302,7 +302,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op26_get(
         &self,
-        context: &C) -> Box<Future<Item=Op26GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op26GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op26_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -311,7 +311,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op27_get(
         &self,
-        context: &C) -> Box<Future<Item=Op27GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op27GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op27_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -320,7 +320,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op28_get(
         &self,
-        context: &C) -> Box<Future<Item=Op28GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op28GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op28_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -329,7 +329,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op29_get(
         &self,
-        context: &C) -> Box<Future<Item=Op29GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op29GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op29_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -338,7 +338,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op2_get(
         &self,
-        context: &C) -> Box<Future<Item=Op2GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op2GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op2_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -347,7 +347,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op30_get(
         &self,
-        context: &C) -> Box<Future<Item=Op30GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op30GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op30_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -356,7 +356,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op31_get(
         &self,
-        context: &C) -> Box<Future<Item=Op31GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op31GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op31_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -365,7 +365,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op32_get(
         &self,
-        context: &C) -> Box<Future<Item=Op32GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op32GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op32_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -374,7 +374,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op33_get(
         &self,
-        context: &C) -> Box<Future<Item=Op33GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op33GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op33_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -383,7 +383,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op34_get(
         &self,
-        context: &C) -> Box<Future<Item=Op34GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op34GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op34_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -392,7 +392,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op35_get(
         &self,
-        context: &C) -> Box<Future<Item=Op35GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op35GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op35_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -401,7 +401,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op36_get(
         &self,
-        context: &C) -> Box<Future<Item=Op36GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op36GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op36_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -410,7 +410,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op37_get(
         &self,
-        context: &C) -> Box<Future<Item=Op37GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op37GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op37_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -419,7 +419,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op3_get(
         &self,
-        context: &C) -> Box<Future<Item=Op3GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op3GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op3_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -428,7 +428,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op4_get(
         &self,
-        context: &C) -> Box<Future<Item=Op4GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op4GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op4_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -437,7 +437,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op5_get(
         &self,
-        context: &C) -> Box<Future<Item=Op5GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op5GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op5_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -446,7 +446,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op6_get(
         &self,
-        context: &C) -> Box<Future<Item=Op6GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op6GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op6_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -455,7 +455,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op7_get(
         &self,
-        context: &C) -> Box<Future<Item=Op7GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op7GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op7_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -464,7 +464,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op8_get(
         &self,
-        context: &C) -> Box<Future<Item=Op8GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op8GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op8_get() - X-Span-ID: {:?}", context.get().0.clone());
@@ -473,7 +473,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn op9_get(
         &self,
-        context: &C) -> Box<Future<Item=Op9GetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Op9GetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("op9_get() - X-Span-ID: {:?}", context.get().0.clone());

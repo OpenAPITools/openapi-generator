@@ -18,7 +18,7 @@ fn main() {
             .help("Whether to use HTTPS or not"))
         .get_matches();
 
-    let addr = "127.0.0.1:80";
+    let addr = "127.0.0.1:8080";
 
     hyper::rt::run(server::create(addr, matches.is_present("https")));
 }

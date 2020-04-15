@@ -43,7 +43,7 @@ fn main() {
         .arg(Arg::with_name("port")
             .long("port")
             .takes_value(true)
-            .default_value("80")
+            .default_value("8080")
             .help("Port to contact"))
         .get_matches();
 
@@ -78,7 +78,7 @@ fn main() {
                   None,
                   Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("MultipartRequestPost") => {
             let result = rt.block_on(client.multipart_request_post(
@@ -87,14 +87,14 @@ fn main() {
                   Some("optional_string_field_example".to_string()),
                   None
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("MultipleIdenticalMimeTypesPost") => {
             let result = rt.block_on(client.multiple_identical_mime_types_post(
                   Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE"))),
                   Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         _ => {
             panic!("Invalid operation provided")

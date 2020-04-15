@@ -53,7 +53,7 @@ fn main() {
         .arg(Arg::with_name("port")
             .long("port")
             .takes_value(true)
-            .default_value("80")
+            .default_value("8080")
             .help("Port to contact"))
         .get_matches();
 
@@ -85,54 +85,54 @@ fn main() {
         Some("AllOfGet") => {
             let result = rt.block_on(client.all_of_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("DummyGet") => {
             let result = rt.block_on(client.dummy_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("DummyPut") => {
             let result = rt.block_on(client.dummy_put(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         Some("FileResponseGet") => {
             let result = rt.block_on(client.file_response_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("GetStructuredYaml") => {
             let result = rt.block_on(client.get_structured_yaml(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("HtmlPost") => {
             let result = rt.block_on(client.html_post(
                   "body_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("PostYaml") => {
             let result = rt.block_on(client.post_yaml(
                   "value_example".to_string()
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("RawJsonGet") => {
             let result = rt.block_on(client.raw_json_get(
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         /* Disabled because there's no example.
         Some("SoloObjectPost") => {
             let result = rt.block_on(client.solo_object_post(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         _ => {
