@@ -48,7 +48,7 @@ fn main() {
         .arg(Arg::with_name("port")
             .long("port")
             .takes_value(true)
-            .default_value("80")
+            .default_value("8080")
             .help("Port to contact"))
         .get_matches();
 
@@ -82,7 +82,7 @@ fn main() {
             let result = rt.block_on(client.op_get(
                   ???
             ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
         _ => {

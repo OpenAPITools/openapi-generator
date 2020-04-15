@@ -69,7 +69,7 @@ mod paths {
             r"^/v2/another-fake/dummy$",
             r"^/v2/fake$",
             r"^/v2/fake/body-with-query-params$",
-            r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$",
+            r"^/v2/fake/hyphenParam/(?P<hyphen-param>[^/?#]*)$",
             r"^/v2/fake/inline-additionalProperties$",
             r"^/v2/fake/jsonFormData$",
             r"^/v2/fake/operation-with-numeric-id$",
@@ -82,8 +82,8 @@ mod paths {
             r"^/v2/pet$",
             r"^/v2/pet/findByStatus$",
             r"^/v2/pet/findByTags$",
-            r"^/v2/pet/(?P<pet_id>[^/?#]*)$",
-            r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$",
+            r"^/v2/pet/(?P<petId>[^/?#]*)$",
+            r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$",
             r"^/v2/store/inventory$",
             r"^/v2/store/order$",
             r"^/v2/store/order/(?P<order_id>[^/?#]*)$",
@@ -102,7 +102,7 @@ mod paths {
     pub static ID_FAKE_HYPHENPARAM_HYPHEN_PARAM: usize = 3;
     lazy_static! {
         pub static ref REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM: regex::Regex =
-            regex::Regex::new(r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$")
+            regex::Regex::new(r"^/v2/fake/hyphenParam/(?P<hyphen-param>[^/?#]*)$")
                 .expect("Unable to create regex for FAKE_HYPHENPARAM_HYPHEN_PARAM");
     }
     pub static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 4;
@@ -120,13 +120,13 @@ mod paths {
     pub static ID_PET_PETID: usize = 16;
     lazy_static! {
         pub static ref REGEX_PET_PETID: regex::Regex =
-            regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)$")
+            regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)$")
                 .expect("Unable to create regex for PET_PETID");
     }
     pub static ID_PET_PETID_UPLOADIMAGE: usize = 17;
     lazy_static! {
         pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex =
-            regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$")
+            regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$")
                 .expect("Unable to create regex for PET_PETID_UPLOADIMAGE");
     }
     pub static ID_STORE_INVENTORY: usize = 18;

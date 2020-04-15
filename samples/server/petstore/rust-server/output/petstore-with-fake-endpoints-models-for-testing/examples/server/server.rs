@@ -148,7 +148,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn test_special_tags(
         &self,
         body: models::Client,
-        context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("test_special_tags({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -157,7 +157,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn call123example(
         &self,
-        context: &C) -> Box<Future<Item=Call123exampleResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("call123example() - X-Span-ID: {:?}", context.get().0.clone());
@@ -167,7 +167,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn fake_outer_boolean_serialize(
         &self,
         body: Option<models::OuterBoolean>,
-        context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("fake_outer_boolean_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -177,7 +177,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn fake_outer_composite_serialize(
         &self,
         body: Option<models::OuterComposite>,
-        context: &C) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("fake_outer_composite_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -187,7 +187,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn fake_outer_number_serialize(
         &self,
         body: Option<models::OuterNumber>,
-        context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("fake_outer_number_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -197,7 +197,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn fake_outer_string_serialize(
         &self,
         body: Option<models::OuterString>,
-        context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("fake_outer_string_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -206,7 +206,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn fake_response_with_numerical_description(
         &self,
-        context: &C) -> Box<Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("fake_response_with_numerical_description() - X-Span-ID: {:?}", context.get().0.clone());
@@ -216,7 +216,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn hyphen_param(
         &self,
         hyphen_param: String,
-        context: &C) -> Box<Future<Item=HyphenParamResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("hyphen_param(\"{}\") - X-Span-ID: {:?}", hyphen_param, context.get().0.clone());
@@ -227,7 +227,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         &self,
         query: String,
         body: models::User,
-        context: &C) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("test_body_with_query_params(\"{}\", {:?}) - X-Span-ID: {:?}", query, body, context.get().0.clone());
@@ -238,7 +238,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn test_client_model(
         &self,
         body: models::Client,
-        context: &C) -> Box<Future<Item=TestClientModelResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("test_client_model({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -262,7 +262,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
-        context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("test_endpoint_parameters({}, {}, \"{}\", {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, context.get().0.clone());
@@ -279,7 +279,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         enum_query_integer: Option<i32>,
         enum_query_double: Option<f64>,
         enum_form_string: Option<String>,
-        context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("test_enum_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, context.get().0.clone());
@@ -290,7 +290,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn test_inline_additional_properties(
         &self,
         param: std::collections::HashMap<String, String>,
-        context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("test_inline_additional_properties({:?}) - X-Span-ID: {:?}", param, context.get().0.clone());
@@ -302,7 +302,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         &self,
         param: String,
         param2: String,
-        context: &C) -> Box<Future<Item=TestJsonFormDataResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=TestJsonFormDataResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("test_json_form_data(\"{}\", \"{}\") - X-Span-ID: {:?}", param, param2, context.get().0.clone());
@@ -313,7 +313,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn test_classname(
         &self,
         body: models::Client,
-        context: &C) -> Box<Future<Item=TestClassnameResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=TestClassnameResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("test_classname({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -324,7 +324,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn add_pet(
         &self,
         body: models::Pet,
-        context: &C) -> Box<Future<Item=AddPetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=AddPetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("add_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -336,7 +336,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         &self,
         pet_id: i64,
         api_key: Option<String>,
-        context: &C) -> Box<Future<Item=DeletePetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=DeletePetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("delete_pet({}, {:?}) - X-Span-ID: {:?}", pet_id, api_key, context.get().0.clone());
@@ -347,7 +347,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn find_pets_by_status(
         &self,
         status: &Vec<String>,
-        context: &C) -> Box<Future<Item=FindPetsByStatusResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=FindPetsByStatusResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("find_pets_by_status({:?}) - X-Span-ID: {:?}", status, context.get().0.clone());
@@ -358,7 +358,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn find_pets_by_tags(
         &self,
         tags: &Vec<String>,
-        context: &C) -> Box<Future<Item=FindPetsByTagsResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=FindPetsByTagsResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("find_pets_by_tags({:?}) - X-Span-ID: {:?}", tags, context.get().0.clone());
@@ -369,7 +369,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn get_pet_by_id(
         &self,
         pet_id: i64,
-        context: &C) -> Box<Future<Item=GetPetByIdResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=GetPetByIdResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("get_pet_by_id({}) - X-Span-ID: {:?}", pet_id, context.get().0.clone());
@@ -380,7 +380,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn update_pet(
         &self,
         body: models::Pet,
-        context: &C) -> Box<Future<Item=UpdatePetResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=UpdatePetResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("update_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -393,7 +393,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         pet_id: i64,
         name: Option<String>,
         status: Option<String>,
-        context: &C) -> Box<Future<Item=UpdatePetWithFormResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=UpdatePetWithFormResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("update_pet_with_form({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, name, status, context.get().0.clone());
@@ -406,7 +406,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         pet_id: i64,
         additional_metadata: Option<String>,
         file: Option<swagger::ByteArray>,
-        context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=UploadFileResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("upload_file({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, additional_metadata, file, context.get().0.clone());
@@ -417,7 +417,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn delete_order(
         &self,
         order_id: String,
-        context: &C) -> Box<Future<Item=DeleteOrderResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=DeleteOrderResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("delete_order(\"{}\") - X-Span-ID: {:?}", order_id, context.get().0.clone());
@@ -427,7 +427,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     /// Returns pet inventories by status
     fn get_inventory(
         &self,
-        context: &C) -> Box<Future<Item=GetInventoryResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=GetInventoryResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("get_inventory() - X-Span-ID: {:?}", context.get().0.clone());
@@ -438,7 +438,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn get_order_by_id(
         &self,
         order_id: i64,
-        context: &C) -> Box<Future<Item=GetOrderByIdResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=GetOrderByIdResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("get_order_by_id({}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
@@ -449,7 +449,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn place_order(
         &self,
         body: models::Order,
-        context: &C) -> Box<Future<Item=PlaceOrderResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=PlaceOrderResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("place_order({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -460,7 +460,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn create_user(
         &self,
         body: models::User,
-        context: &C) -> Box<Future<Item=CreateUserResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=CreateUserResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("create_user({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -471,7 +471,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn create_users_with_array_input(
         &self,
         body: &Vec<models::User>,
-        context: &C) -> Box<Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("create_users_with_array_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -482,7 +482,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn create_users_with_list_input(
         &self,
         body: &Vec<models::User>,
-        context: &C) -> Box<Future<Item=CreateUsersWithListInputResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=CreateUsersWithListInputResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("create_users_with_list_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -493,7 +493,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn delete_user(
         &self,
         username: String,
-        context: &C) -> Box<Future<Item=DeleteUserResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=DeleteUserResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("delete_user(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
@@ -504,7 +504,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn get_user_by_name(
         &self,
         username: String,
-        context: &C) -> Box<Future<Item=GetUserByNameResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=GetUserByNameResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("get_user_by_name(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
@@ -516,7 +516,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         &self,
         username: String,
         password: String,
-        context: &C) -> Box<Future<Item=LoginUserResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=LoginUserResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("login_user(\"{}\", \"{}\") - X-Span-ID: {:?}", username, password, context.get().0.clone());
@@ -526,7 +526,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     /// Logs out current logged in user session
     fn logout_user(
         &self,
-        context: &C) -> Box<Future<Item=LogoutUserResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=LogoutUserResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("logout_user() - X-Span-ID: {:?}", context.get().0.clone());
@@ -538,7 +538,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         &self,
         username: String,
         body: models::User,
-        context: &C) -> Box<Future<Item=UpdateUserResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=UpdateUserResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("update_user(\"{}\", {:?}) - X-Span-ID: {:?}", username, body, context.get().0.clone());
