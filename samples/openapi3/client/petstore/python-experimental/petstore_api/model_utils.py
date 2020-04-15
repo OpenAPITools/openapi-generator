@@ -282,15 +282,13 @@ class ModelComposed(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        values = set()
+        values = []
         if model_instances:
             for model_instance in model_instances:
                 if name in model_instance._data_store:
                     v = model_instance._data_store[name]
-                    if isinstance(v, list):
-                        values.add(tuple(v))
-                    else:
-                        values.add(v)
+                    if v not in values:
+                        values.append(v)
         len_values = len(values)
         if len_values == 0:
             raise ApiKeyError(
@@ -298,14 +296,15 @@ class ModelComposed(OpenApiModel):
                 path_to_item
             )
         elif len_values == 1:
-            return list(values)[0]
+            return values[0]
         elif len_values > 1:
             raise ApiValueError(
-                "Values stored for property {0} in {1} difffer when looking "
+                "Values stored for property {0} in {1} differ when looking "
                 "at self and self's composed instances. All values must be "
                 "the same".format(name, type(self).__name__),
                 path_to_item
             )
+
 
     def to_dict(self):
         """Returns the model properties as a dict"""
