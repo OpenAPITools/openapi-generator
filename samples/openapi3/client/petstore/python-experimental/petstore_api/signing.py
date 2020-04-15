@@ -61,6 +61,10 @@ ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS = {
     ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979
 }
 
+# The cryptographic hash algorithm for the message signature.
+HASH_SHA256 = 'sha256'
+HASH_SHA512 = 'sha512'
+
 
 class HttpSigningConfiguration(object):
     """The configuration parameters for the HTTP signature security scheme.
@@ -106,9 +110,15 @@ class HttpSigningConfiguration(object):
         Supported values are:
         1. For RSA keys: RSASSA-PSS, RSASSA-PKCS1-v1_5.
         2. For ECDSA keys: fips-186-3, deterministic-rfc6979.
-        The default value is inferred from the private key.
-        The default value for RSA keys is RSASSA-PSS.
-        The default value for ECDSA keys is fips-186-3.
+        If None, the signing algorithm is inferred from the private key.
+        The default signing algorithm for RSA keys is RSASSA-PSS.
+        The default signing algorithm for ECDSA keys is fips-186-3.
+    :param hash_algorithm: The hash algorithm for the signature. Supported values are
+        sha256 and sha512.
+        If the signing_scheme is rsa-sha256, the hash algorithm must be set
+        to None or sha256.
+        If the signing_scheme is rsa-sha512, the hash algorithm must be set
+        to None or sha512.
     :param signature_max_validity: The signature max validity, expressed as
         a datetime.timedelta value. It must be a positive value.
     """
@@ -116,6 +126,7 @@ class HttpSigningConfiguration(object):
                  private_key_passphrase=None,
                  signed_headers=None,
                  signing_algorithm=None,
+                 hash_algorithm=None,
                  signature_max_validity=None):
         self.key_id = key_id
         if signing_scheme not in {SCHEME_HS2019, SCHEME_RSA_SHA256, SCHEME_RSA_SHA512}:
@@ -126,6 +137,24 @@ class HttpSigningConfiguration(object):
         self.private_key_path = private_key_path
         self.private_key_passphrase = private_key_passphrase
         self.signing_algorithm = signing_algorithm
+        self.hash_algorithm = hash_algorithm
+        if signing_scheme == SCHEME_RSA_SHA256:
+            if self.hash_algorithm is None:
+                self.hash_algorithm = HASH_SHA256
+            elif self.hash_algorithm != HASH_SHA256:
+                raise Exception("Hash algorithm must be sha256 when security scheme is %s" %
+                                SCHEME_RSA_SHA256)
+        elif signing_scheme == SCHEME_RSA_SHA512:
+            if self.hash_algorithm is None:
+                self.hash_algorithm = HASH_SHA512
+            elif self.hash_algorithm != HASH_SHA512:
+                raise Exception("Hash algorithm must be sha512 when security scheme is %s" %
+                                SCHEME_RSA_SHA512)
+        elif signing_scheme == SCHEME_HS2019:
+            if self.hash_algorithm is None:
+                self.hash_algorithm = HASH_SHA256
+            elif self.hash_algorithm not in {HASH_SHA256, HASH_SHA512}:
+                raise Exception("Invalid hash algorithm")
         if signature_max_validity is not None and signature_max_validity.total_seconds() < 0:
             raise Exception("The signature max validity must be a positive value")
         self.signature_max_validity = signature_max_validity
@@ -317,14 +346,14 @@ class HttpSigningConfiguration(object):
             The prefix is a string that identifies the cryptographc hash. It is used
             to generate the 'Digest' header as specified in RFC 3230.
         """
-        if self.signing_scheme in {SCHEME_RSA_SHA512, SCHEME_HS2019}:
+        if self.hash_algorithm == HASH_SHA512:
             digest = SHA512.new()
             prefix = 'SHA-512='
-        elif self.signing_scheme == SCHEME_RSA_SHA256:
+        elif self.hash_algorithm == HASH_SHA256:
             digest = SHA256.new()
             prefix = 'SHA-256='
         else:
-            raise Exception("Unsupported signing algorithm: {0}".format(self.signing_scheme))
+            raise Exception("Unsupported hash algorithm: {0}".format(self.hash_algorithm))
         digest.update(data)
         return digest, prefix
 
@@ -348,7 +377,10 @@ class HttpSigningConfiguration(object):
             if sig_alg is None:
                 sig_alg = ALGORITHM_ECDSA_MODE_FIPS_186_3
             if sig_alg in ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS:
-                signature = DSS.new(self.private_key, sig_alg).sign(digest)
+                # draft-ietf-httpbis-message-signatures-00 does not specify the ECDSA encoding.
+                # Issue: https://github.com/w3c-ccg/http-signatures/issues/107
+                signature = DSS.new(key=self.private_key, mode=sig_alg,
+                                    encoding='der').sign(digest)
             else:
                 raise Exception("Unsupported signature algorithm: {0}".format(sig_alg))
         else:
