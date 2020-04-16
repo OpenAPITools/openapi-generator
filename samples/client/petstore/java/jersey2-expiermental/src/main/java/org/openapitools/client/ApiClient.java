@@ -51,6 +51,7 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.model.AbstractOpenApiOneOf;
 
 import org.openapitools.client.auth.OAuth;
 
@@ -634,6 +635,52 @@ public class ApiClient {
     return entity;
   }
 
+  public AbstractOpenApiOneOf deserializeOneOf(Response response, AbstractOpenApiOneOf oneOf) throws ApiException{
+
+    Object result = null;
+    int matchCounter = 0;
+    ArrayList<String> matchSchemas = new ArrayList<>();
+
+    for (Map.Entry<String, GenericType> entry : oneOf.getOneOfSchemaMap().entrySet()) {
+      String schemaName = entry.getKey();
+      GenericType schemaType = entry.getValue();
+
+      if (schemaType instanceof GenericType) { // model
+        try {
+          Object deserializedObject = deserialize(response, schemaType);
+          if (deserializedObject != null) {
+            result = deserializedObject;
+            matchCounter++;
+            matchSchemas.add(schemaName);
+          } else {
+            //System.out.println("failed to deserialize..." + (schemaType.getType()));
+          }
+        } catch (Exception ex) {
+          //System.out.println("failed to deserialize {} ..." + ex.toString());
+          // failed to deserialize, do nothing and try next one (schema)
+        }
+      } else {// primitive type
+        //System.out.println("non model: something wrong for " + entry.getKey());
+        // TODO
+        throw new ApiException("Primitive type not yet supported in the oneOf schema");
+      }
+
+    }
+
+    if (matchCounter > 1) {// more than 1 match
+      throw new ApiException("Response body is incorrect as it's valid against more than one schema (" + String.join(", ", matchSchemas) + ") defined in the oneOf model: " + oneOf.getClass().getName());
+    } else if (matchCounter == 0) { // fail to match any
+      throw new ApiException("Response body is incorrect as it's invalid against all schemas (" + String.join(", ", oneOf.getOneOfSchemaMap().keySet()) + ") defined in the oneOf model: " + oneOf.getClass().getName());
+    } else { // only one matched
+      //return result;
+      oneOf.setActualInstance(result);
+      return oneOf;
+    }
+
+  }
+
+
+
   /**
    * Deserialize response body to Java object according to the Content-Type.
    * @param <T> Type
@@ -661,6 +708,9 @@ public class ApiClient {
     List<Object> contentTypes = response.getHeaders().get("Content-Type");
     if (contentTypes != null && !contentTypes.isEmpty())
       contentType = String.valueOf(contentTypes.get(0));
+
+    // read the entity stream multiple times
+    response.bufferEntity();
 
     return response.readEntity(returnType);
   }
@@ -732,10 +782,11 @@ public class ApiClient {
    * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
    * @param returnType The return type into which to deserialize the response
+   * @param oneOf An instance of the response that uses oneOf
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiOneOf oneOf) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(targetURL).path(path)` below,
@@ -841,7 +892,11 @@ public class ApiClient {
         if (returnType == null)
           return new ApiResponse<>(statusCode, responseHeaders);
         else
-          return new ApiResponse<>(statusCode, responseHeaders, deserialize(response, returnType));
+          if (oneOf == null) {
+            return new ApiResponse<>(statusCode, responseHeaders, deserialize(response, returnType));
+          } else { // oneOf
+            return new ApiResponse<>(statusCode, responseHeaders, (T)deserializeOneOf(response, oneOf));
+          }
       } else {
         String message = "error";
         String respBody = null;
@@ -872,8 +927,8 @@ public class ApiClient {
    * @deprecated Add qualified name of the operation as a first parameter.
    */
   @Deprecated
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
-    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiOneOf oneOf) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType, oneOf);
   }
 
   /**
