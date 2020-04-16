@@ -15,7 +15,7 @@ extern crate tokio;
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
-use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client, ContextWrapperExt,
+use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       ApiError,
                       TestSpecialTagsResponse,
                       Call123exampleResponse,
