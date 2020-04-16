@@ -150,8 +150,13 @@ public class {{classname}} {
 
     String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
-    {{#returnType}}GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};{{/returnType}}
-    return apiClient.invokeAPI("{{classname}}.{{operationId}}", localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}});
+    {{#returnType}}
+    GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
+
+    {{/returnType}}
+    return apiClient.invokeAPI("{{classname}}.{{operationId}}", localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+                               localVarAuthNames, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#vendorExtensions.x-java-return-type-one-of}}new {{{returnType}}}(){{/vendorExtensions.x-java-return-type-one-of}}{{^vendorExtensions.x-java-return-type-one-of}}null{{/vendorExtensions.x-java-return-type-one-of}});
   }
   {{#vendorExtensions.x-group-parameters}}
 

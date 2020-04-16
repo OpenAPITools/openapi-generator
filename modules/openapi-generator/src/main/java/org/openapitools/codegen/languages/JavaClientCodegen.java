@@ -372,6 +372,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (JERSEY2.equals(getLibrary()) || JERSEY2_EXPERIMENTAL.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+            if (JERSEY2_EXPERIMENTAL.equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("AbstractOpenApiOneOf.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiOneOf.java"));
+            }
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (NATIVE.equals(getLibrary())) {
             setJava8Mode(true);
@@ -597,6 +600,41 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
         }
 
+        if (JERSEY2_EXPERIMENTAL.equals(getLibrary())) {
+            // index the model
+            HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+            for (Object o : allModels) {
+                HashMap<String, Object> h = (HashMap<String, Object>) o;
+                CodegenModel m = (CodegenModel) h.get("model");
+                modelMaps.put(m.classname, m);
+
+            }
+
+            // check if return type is oneOf/anyeOf model
+            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation op : operationList) {
+                if (op.returnType != null) {
+                    // look up the model
+                    if (modelMaps.containsKey(op.returnType) && modelMaps.get(op.returnType) != null) {
+                        CodegenModel cm = modelMaps.get(op.returnType);
+
+                        if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
+                            op.vendorExtensions.put("x-java-return-type-one-of", true);
+                        }
+
+                        if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+                            op.vendorExtensions.put("x-java-return-type-any-of", true);
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
         return objs;
     }
 
@@ -771,12 +809,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());  // TODO: 5.0 Remove
             cm.getVendorExtensions().putIfAbsent("x-implements", cm.getVendorExtensions().get("implements"));
-            List<String> impl = (List<String>) cm.getVendorExtensions().get("x-implements");
+            //List<String> impl = (List<String>) cm.getVendorExtensions().get("x-implements");
+            if (JERSEY2_EXPERIMENTAL.equals(getLibrary())) {
+                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
+            }
+
             if (this.parcelableModel) {
-                impl.add("Parcelable");
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
             }
             if (this.serializableModel) {
-                impl.add("Serializable");
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
 

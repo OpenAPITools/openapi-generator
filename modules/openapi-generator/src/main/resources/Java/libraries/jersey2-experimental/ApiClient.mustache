@@ -57,6 +57,7 @@ import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+import {{invokerPackage}}.model.AbstractOpenApiOneOf;
 
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
@@ -804,10 +805,11 @@ public class ApiClient {
    * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
    * @param returnType The return type into which to deserialize the response
+   * @param oneOf An instance of the response that uses oneOf
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiOneOf oneOf) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(targetURL).path(path)` below,
@@ -944,8 +946,8 @@ public class ApiClient {
    * @deprecated Add qualified name of the operation as a first parameter.
    */
   @Deprecated
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
-    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiOneOf oneOf) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType, oneOf);
   }
 
   /**
