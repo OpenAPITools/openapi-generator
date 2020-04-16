@@ -504,7 +504,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
         }
 
-        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !JERSEY2_EXPERIMENTAL.equals(getLibrary())) {
             useOneOfInterfaces = true;
             addOneOfInterfaceImports = true;
         }
@@ -615,7 +615,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation op : operationList) {
                 if (op.returnType != null) {
-                    // look up the model
+                    // look up the model to see if it's anyOf/oneOf
                     if (modelMaps.containsKey(op.returnType) && modelMaps.get(op.returnType) != null) {
                         CodegenModel cm = modelMaps.get(op.returnType);
 
@@ -626,13 +626,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
                             op.vendorExtensions.put("x-java-return-type-any-of", true);
                         }
-
+                    } else {
+                        //LOGGER.error("cannot lookup model " + op.returnType);
                     }
-
                 }
-
             }
-
         }
 
         return objs;
