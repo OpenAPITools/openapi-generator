@@ -45,7 +45,7 @@ use crate::{Api,
      XmlPostResponse,
      XmlPutResponse,
      CreateRepoResponse,
-     GetRepoInfoResponse
+     Get RepoInfoResponse
 };
 
 pub mod callbacks;
@@ -1610,7 +1610,7 @@ where
                 ) as Self::Future
             },
 
-            // GetRepoInfo - GET /repos/{repoId}
+            // Get RepoInfo - GET /repos/{repoId}
             &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => {
                 // Path parameters
                 let path: &str = &uri.path().to_string();
@@ -1650,7 +1650,7 @@ where
 
                                         match result {
                                             Ok(rsp) => match rsp {
-                                                GetRepoInfoResponse::OK
+                                                Get RepoInfoResponse::OK
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
@@ -1767,8 +1767,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::PUT if path.matched(paths::ID_XML) => Ok("XmlPut"),
             // CreateRepo - POST /repos
             &hyper::Method::POST if path.matched(paths::ID_REPOS) => Ok("CreateRepo"),
-            // GetRepoInfo - GET /repos/{repoId}
-            &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Ok("GetRepoInfo"),
+            // Get RepoInfo - GET /repos/{repoId}
+            &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Ok("Get RepoInfo"),
             _ => Err(()),
         }
     }

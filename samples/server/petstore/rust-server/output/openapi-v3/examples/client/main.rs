@@ -29,7 +29,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       XmlPostResponse,
                       XmlPutResponse,
                       CreateRepoResponse,
-                      GetRepoInfoResponse
+                      Get RepoInfoResponse
                      };
 use clap::{App, Arg};
 
@@ -70,7 +70,7 @@ fn main() {
                 "XmlPost",
                 "XmlPut",
                 "CreateRepo",
-                "GetRepoInfo",
+                "Get RepoInfo",
             ])
             .required(true)
             .index(1))
@@ -245,7 +245,7 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("GetRepoInfo") => {
+        Some("Get RepoInfo") => {
             let result = rt.block_on(client.get_repo_info(
                   "repo_id_example".to_string()
             ));
