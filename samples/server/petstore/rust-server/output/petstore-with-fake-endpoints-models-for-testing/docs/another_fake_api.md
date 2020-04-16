@@ -4,11 +4,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-**test_special_tags**](another_fake_api.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+**TestSpecialTags**](another_fake_api.md#TestSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-# **test_special_tags**
-> models::Client test_special_tags(body)
+# **TestSpecialTags**
+> models::Client TestSpecialTags(body)
 To test special tags
 
 To test special tags

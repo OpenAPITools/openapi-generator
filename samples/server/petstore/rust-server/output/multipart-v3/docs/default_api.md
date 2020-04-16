@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-****](default_api.md#) | **POST** /multipart_related_request | 
-****](default_api.md#) | **POST** /multipart_request | 
-****](default_api.md#) | **POST** /multiple-identical-mime-types | 
+**MultipartRelatedRequestPost**](default_api.md#MultipartRelatedRequestPost) | **POST** /multipart_related_request | 
+**MultipartRequestPost**](default_api.md#MultipartRequestPost) | **POST** /multipart_request | 
+**MultipleIdenticalMimeTypesPost**](default_api.md#MultipleIdenticalMimeTypesPost) | **POST** /multiple-identical-mime-types | 
 
 
-# ****
-> (required_binary_field, optional)
+# **MultipartRelatedRequestPost**
+> MultipartRelatedRequestPost(required_binary_field, optional)
 
 
 ### Required Parameters
@@ -44,8 +44,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (string_field, binary_field, optional)
+# **MultipartRequestPost**
+> MultipartRequestPost(string_field, binary_field, optional)
 
 
 ### Required Parameters
@@ -81,8 +81,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (optional)
+# **MultipleIdenticalMimeTypesPost**
+> MultipleIdenticalMimeTypesPost(optional)
 
 
 ### Required Parameters

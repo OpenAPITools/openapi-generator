@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 **CreateRepo**](repo_api.md#CreateRepo) | **POST** /repos | 
-**Get Repo\Info**](repo_api.md#Get Repo\Info) | **GET** /repos/{repoId} | 
+**GetRepoInfo**](repo_api.md#GetRepoInfo) | **GET** /repos/{repoId} | 
 
 
 # **CreateRepo**
@@ -33,8 +33,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **Get Repo\Info**
-> serde_json::Value Get Repo\Info(repo_id)
+# **GetRepoInfo**
+> serde_json::Value GetRepoInfo(repo_id)
 
 
 ### Required Parameters

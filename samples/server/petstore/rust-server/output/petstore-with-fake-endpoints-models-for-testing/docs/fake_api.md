@@ -4,23 +4,23 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-**123example**](fake_api.md#123example) | **GET** /fake/operation-with-numeric-id | 
-**fakeOuterBooleanSerialize**](fake_api.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
-**fakeOuterCompositeSerialize**](fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
-**fakeOuterNumberSerialize**](fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
-**fakeOuterStringSerialize**](fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-**fake_response_with_numerical_description**](fake_api.md#fake_response_with_numerical_description) | **GET** /fake/response-with-numerical-description | 
-**hyphenParam**](fake_api.md#hyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
-**testBodyWithQueryParams**](fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
-**testClientModel**](fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model
-**testEndpointParameters**](fake_api.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-**testEnumParameters**](fake_api.md#testEnumParameters) | **GET** /fake | To test enum parameters
-**testInlineAdditionalProperties**](fake_api.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-**testJsonFormData**](fake_api.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+**Call123example**](fake_api.md#Call123example) | **GET** /fake/operation-with-numeric-id | 
+**FakeOuterBooleanSerialize**](fake_api.md#FakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+**FakeOuterCompositeSerialize**](fake_api.md#FakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+**FakeOuterNumberSerialize**](fake_api.md#FakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+**FakeOuterStringSerialize**](fake_api.md#FakeOuterStringSerialize) | **POST** /fake/outer/string | 
+**FakeResponseWithNumericalDescription**](fake_api.md#FakeResponseWithNumericalDescription) | **GET** /fake/response-with-numerical-description | 
+**HyphenParam**](fake_api.md#HyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
+**TestBodyWithQueryParams**](fake_api.md#TestBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
+**TestClientModel**](fake_api.md#TestClientModel) | **PATCH** /fake | To test \"client\" model
+**TestEndpointParameters**](fake_api.md#TestEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+**TestEnumParameters**](fake_api.md#TestEnumParameters) | **GET** /fake | To test enum parameters
+**TestInlineAdditionalProperties**](fake_api.md#TestInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+**TestJsonFormData**](fake_api.md#TestJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
-# **123example**
-> 123example()
+# **Call123example**
+> Call123example()
 
 
 ### Required Parameters
@@ -41,8 +41,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **fakeOuterBooleanSerialize**
-> bool fakeOuterBooleanSerialize(optional)
+# **FakeOuterBooleanSerialize**
+> bool FakeOuterBooleanSerialize(optional)
 
 
 Test serialization of outer boolean types
@@ -75,8 +75,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **fakeOuterCompositeSerialize**
-> models::OuterComposite fakeOuterCompositeSerialize(optional)
+# **FakeOuterCompositeSerialize**
+> models::OuterComposite FakeOuterCompositeSerialize(optional)
 
 
 Test serialization of object with outer number type
@@ -109,8 +109,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **fakeOuterNumberSerialize**
-> f64 fakeOuterNumberSerialize(optional)
+# **FakeOuterNumberSerialize**
+> f64 FakeOuterNumberSerialize(optional)
 
 
 Test serialization of outer number types
@@ -143,8 +143,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **fakeOuterStringSerialize**
-> String fakeOuterStringSerialize(optional)
+# **FakeOuterStringSerialize**
+> String FakeOuterStringSerialize(optional)
 
 
 Test serialization of outer string types
@@ -177,8 +177,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **fake_response_with_numerical_description**
-> fake_response_with_numerical_description()
+# **FakeResponseWithNumericalDescription**
+> FakeResponseWithNumericalDescription()
 
 
 ### Required Parameters
@@ -199,8 +199,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **hyphenParam**
-> hyphenParam(hyphen_param)
+# **HyphenParam**
+> HyphenParam(hyphen_param)
 
 
 To test hyphen in path parameter name
@@ -226,8 +226,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testBodyWithQueryParams**
-> testBodyWithQueryParams(query, body)
+# **TestBodyWithQueryParams**
+> TestBodyWithQueryParams(query, body)
 
 
 ### Required Parameters
@@ -252,8 +252,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testClientModel**
-> models::Client testClientModel(body)
+# **TestClientModel**
+> models::Client TestClientModel(body)
 To test \"client\" model
 
 To test \"client\" model
@@ -279,8 +279,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testEndpointParameters**
-> testEndpointParameters(ctx, number, double, pattern_without_delimiter, byte, optional)
+# **TestEndpointParameters**
+> TestEndpointParameters(ctx, number, double, pattern_without_delimiter, byte, optional)
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -331,8 +331,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testEnumParameters**
-> testEnumParameters(optional)
+# **TestEnumParameters**
+> TestEnumParameters(optional)
 To test enum parameters
 
 To test enum parameters
@@ -371,8 +371,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(param)
+# **TestInlineAdditionalProperties**
+> TestInlineAdditionalProperties(param)
 test inline additionalProperties
 
 ### Required Parameters
@@ -396,8 +396,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **testJsonFormData**
-> testJsonFormData(param, param2)
+# **TestJsonFormData**
+> TestJsonFormData(param, param2)
 test json serialization of form data
 
 ### Required Parameters

@@ -266,7 +266,7 @@ pub enum CreateRepoResponse {
 }
 
 #[derive(Debug, PartialEq)]
-pub enum Get RepoInfoResponse {
+pub enum GetRepoInfoResponse {
     /// OK
     OK
     (serde_json::Value)
@@ -384,7 +384,7 @@ pub trait Api<C> {
     fn get_repo_info(
         &self,
         repo_id: String,
-        context: &C) -> Box<dyn Future<Item=Get RepoInfoResponse, Error=ApiError> + Send>;
+        context: &C) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>;
 
 }
 
@@ -500,7 +500,7 @@ pub trait ApiNoContext {
     fn get_repo_info(
         &self,
         repo_id: String,
-        ) -> Box<dyn Future<Item=Get RepoInfoResponse, Error=ApiError> + Send>;
+        ) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>;
 
 }
 
@@ -693,7 +693,7 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     fn get_repo_info(
         &self,
         repo_id: String,
-        ) -> Box<dyn Future<Item=Get RepoInfoResponse, Error=ApiError> + Send>
+        ) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>
     {
         self.api().get_repo_info(repo_id, &self.context())
     }

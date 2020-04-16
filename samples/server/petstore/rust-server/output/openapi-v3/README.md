@@ -81,6 +81,8 @@ cargo run --example client XmlOtherPost
 cargo run --example client XmlOtherPut
 cargo run --example client XmlPost
 cargo run --example client XmlPut
+cargo run --example client CreateRepo
+cargo run --example client GetRepoInfo
 ```
 
 ### HTTPS
@@ -114,27 +116,29 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[****](docs/default_api.md#) | **POST** /callback-with-header | 
-[****](docs/default_api.md#) | **GET** /complex-query-param | 
-[****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
-[****](docs/default_api.md#) | **GET** /mandatory-request-header | 
-[****](docs/default_api.md#) | **GET** /merge-patch-json | 
-[****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
-[****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
-[****](docs/default_api.md#) | **GET** /override-server | 
-[****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
-[****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
-[****](docs/default_api.md#) | **POST** /register-callback | 
-[****](docs/default_api.md#) | **PUT** /required_octet_stream | 
-[****](docs/default_api.md#) | **GET** /responses_with_headers | 
-[****](docs/default_api.md#) | **GET** /rfc7807 | 
-[****](docs/default_api.md#) | **GET** /untyped_property | 
-[****](docs/default_api.md#) | **GET** /uuid | 
-[****](docs/default_api.md#) | **POST** /xml_extra | 
-[****](docs/default_api.md#) | **POST** /xml_other | 
-[****](docs/default_api.md#) | **PUT** /xml_other | 
-[****](docs/default_api.md#) | **POST** /xml | Post an array
-[****](docs/default_api.md#) | **PUT** /xml | 
+[**CallbackWithHeaderPost**](docs/default_api.md#CallbackWithHeaderPost) | **POST** /callback-with-header | 
+[**ComplexQueryParamGet**](docs/default_api.md#ComplexQueryParamGet) | **GET** /complex-query-param | 
+[**EnumInPathPathParamGet**](docs/default_api.md#EnumInPathPathParamGet) | **GET** /enum_in_path/{path_param} | 
+[**MandatoryRequestHeaderGet**](docs/default_api.md#MandatoryRequestHeaderGet) | **GET** /mandatory-request-header | 
+[**MergePatchJsonGet**](docs/default_api.md#MergePatchJsonGet) | **GET** /merge-patch-json | 
+[**MultigetGet**](docs/default_api.md#MultigetGet) | **GET** /multiget | Get some stuff.
+[**MultipleAuthSchemeGet**](docs/default_api.md#MultipleAuthSchemeGet) | **GET** /multiple_auth_scheme | 
+[**OverrideServerGet**](docs/default_api.md#OverrideServerGet) | **GET** /override-server | 
+[**ParamgetGet**](docs/default_api.md#ParamgetGet) | **GET** /paramget | Get some stuff with parameters.
+[**ReadonlyAuthSchemeGet**](docs/default_api.md#ReadonlyAuthSchemeGet) | **GET** /readonly_auth_scheme | 
+[**RegisterCallbackPost**](docs/default_api.md#RegisterCallbackPost) | **POST** /register-callback | 
+[**RequiredOctetStreamPut**](docs/default_api.md#RequiredOctetStreamPut) | **PUT** /required_octet_stream | 
+[**ResponsesWithHeadersGet**](docs/default_api.md#ResponsesWithHeadersGet) | **GET** /responses_with_headers | 
+[**Rfc7807Get**](docs/default_api.md#Rfc7807Get) | **GET** /rfc7807 | 
+[**UntypedPropertyGet**](docs/default_api.md#UntypedPropertyGet) | **GET** /untyped_property | 
+[**UuidGet**](docs/default_api.md#UuidGet) | **GET** /uuid | 
+[**XmlExtraPost**](docs/default_api.md#XmlExtraPost) | **POST** /xml_extra | 
+[**XmlOtherPost**](docs/default_api.md#XmlOtherPost) | **POST** /xml_other | 
+[**XmlOtherPut**](docs/default_api.md#XmlOtherPut) | **PUT** /xml_other | 
+[**XmlPost**](docs/default_api.md#XmlPost) | **POST** /xml | Post an array
+[**XmlPut**](docs/default_api.md#XmlPut) | **PUT** /xml | 
+[**CreateRepo**](docs/repo_api.md#CreateRepo) | **POST** /repos | 
+[**GetRepoInfo**](docs/repo_api.md#GetRepoInfo) | **GET** /repos/{repoId} | 
 
 
 ## Documentation For Models

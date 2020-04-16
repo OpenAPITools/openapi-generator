@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-****](default_api.md#) | **GET** /op | 
+**OpGet**](default_api.md#OpGet) | **GET** /op | 
 
 
-# ****
-> (inline_object)
+# **OpGet**
+> OpGet(inline_object)
 
 
 ### Required Parameters

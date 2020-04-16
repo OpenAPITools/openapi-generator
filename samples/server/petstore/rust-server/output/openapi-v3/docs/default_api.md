@@ -4,31 +4,31 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-****](default_api.md#) | **POST** /callback-with-header | 
-****](default_api.md#) | **GET** /complex-query-param | 
-****](default_api.md#) | **GET** /enum_in_path/{path_param} | 
-****](default_api.md#) | **GET** /mandatory-request-header | 
-****](default_api.md#) | **GET** /merge-patch-json | 
-****](default_api.md#) | **GET** /multiget | Get some stuff.
-****](default_api.md#) | **GET** /multiple_auth_scheme | 
-****](default_api.md#) | **GET** /override-server | 
-****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
-****](default_api.md#) | **GET** /readonly_auth_scheme | 
-****](default_api.md#) | **POST** /register-callback | 
-****](default_api.md#) | **PUT** /required_octet_stream | 
-****](default_api.md#) | **GET** /responses_with_headers | 
-****](default_api.md#) | **GET** /rfc7807 | 
-****](default_api.md#) | **GET** /untyped_property | 
-****](default_api.md#) | **GET** /uuid | 
-****](default_api.md#) | **POST** /xml_extra | 
-****](default_api.md#) | **POST** /xml_other | 
-****](default_api.md#) | **PUT** /xml_other | 
-****](default_api.md#) | **POST** /xml | Post an array
-****](default_api.md#) | **PUT** /xml | 
+**CallbackWithHeaderPost**](default_api.md#CallbackWithHeaderPost) | **POST** /callback-with-header | 
+**ComplexQueryParamGet**](default_api.md#ComplexQueryParamGet) | **GET** /complex-query-param | 
+**EnumInPathPathParamGet**](default_api.md#EnumInPathPathParamGet) | **GET** /enum_in_path/{path_param} | 
+**MandatoryRequestHeaderGet**](default_api.md#MandatoryRequestHeaderGet) | **GET** /mandatory-request-header | 
+**MergePatchJsonGet**](default_api.md#MergePatchJsonGet) | **GET** /merge-patch-json | 
+**MultigetGet**](default_api.md#MultigetGet) | **GET** /multiget | Get some stuff.
+**MultipleAuthSchemeGet**](default_api.md#MultipleAuthSchemeGet) | **GET** /multiple_auth_scheme | 
+**OverrideServerGet**](default_api.md#OverrideServerGet) | **GET** /override-server | 
+**ParamgetGet**](default_api.md#ParamgetGet) | **GET** /paramget | Get some stuff with parameters.
+**ReadonlyAuthSchemeGet**](default_api.md#ReadonlyAuthSchemeGet) | **GET** /readonly_auth_scheme | 
+**RegisterCallbackPost**](default_api.md#RegisterCallbackPost) | **POST** /register-callback | 
+**RequiredOctetStreamPut**](default_api.md#RequiredOctetStreamPut) | **PUT** /required_octet_stream | 
+**ResponsesWithHeadersGet**](default_api.md#ResponsesWithHeadersGet) | **GET** /responses_with_headers | 
+**Rfc7807Get**](default_api.md#Rfc7807Get) | **GET** /rfc7807 | 
+**UntypedPropertyGet**](default_api.md#UntypedPropertyGet) | **GET** /untyped_property | 
+**UuidGet**](default_api.md#UuidGet) | **GET** /uuid | 
+**XmlExtraPost**](default_api.md#XmlExtraPost) | **POST** /xml_extra | 
+**XmlOtherPost**](default_api.md#XmlOtherPost) | **POST** /xml_other | 
+**XmlOtherPut**](default_api.md#XmlOtherPut) | **PUT** /xml_other | 
+**XmlPost**](default_api.md#XmlPost) | **POST** /xml | Post an array
+**XmlPut**](default_api.md#XmlPut) | **PUT** /xml | 
 
 
-# ****
-> (url)
+# **CallbackWithHeaderPost**
+> CallbackWithHeaderPost(url)
 
 
 ### Required Parameters
@@ -52,8 +52,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (optional)
+# **ComplexQueryParamGet**
+> ComplexQueryParamGet(optional)
 
 
 ### Required Parameters
@@ -84,8 +84,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (path_param)
+# **EnumInPathPathParamGet**
+> EnumInPathPathParamGet(path_param)
 
 
 ### Required Parameters
@@ -109,8 +109,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (x_header)
+# **MandatoryRequestHeaderGet**
+> MandatoryRequestHeaderGet(x_header)
 
 
 ### Required Parameters
@@ -134,8 +134,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> models::AnotherXmlObject ()
+# **MergePatchJsonGet**
+> models::AnotherXmlObject MergePatchJsonGet()
 
 
 ### Required Parameters
@@ -156,8 +156,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> models::AnotherXmlObject ()
+# **MultigetGet**
+> models::AnotherXmlObject MultigetGet()
 Get some stuff.
 
 ### Required Parameters
@@ -178,8 +178,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (ctx, )
+# **MultipleAuthSchemeGet**
+> MultipleAuthSchemeGet(ctx, )
 
 
 ### Required Parameters
@@ -200,8 +200,8 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> ()
+# **OverrideServerGet**
+> OverrideServerGet()
 
 
 ### Required Parameters
@@ -222,8 +222,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> models::AnotherXmlObject (optional)
+# **ParamgetGet**
+> models::AnotherXmlObject ParamgetGet(optional)
 Get some stuff with parameters.
 
 ### Required Parameters
@@ -256,8 +256,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (ctx, )
+# **ReadonlyAuthSchemeGet**
+> ReadonlyAuthSchemeGet(ctx, )
 
 
 ### Required Parameters
@@ -278,8 +278,8 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (url)
+# **RegisterCallbackPost**
+> RegisterCallbackPost(url)
 
 
 ### Required Parameters
@@ -303,8 +303,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (body)
+# **RequiredOctetStreamPut**
+> RequiredOctetStreamPut(body)
 
 
 ### Required Parameters
@@ -328,8 +328,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> String ()
+# **ResponsesWithHeadersGet**
+> String ResponsesWithHeadersGet()
 
 
 ### Required Parameters
@@ -350,8 +350,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> models::ObjectWithArrayOfObjects ()
+# **Rfc7807Get**
+> models::ObjectWithArrayOfObjects Rfc7807Get()
 
 
 ### Required Parameters
@@ -372,8 +372,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (optional)
+# **UntypedPropertyGet**
+> UntypedPropertyGet(optional)
 
 
 ### Required Parameters
@@ -404,8 +404,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> uuid::Uuid ()
+# **UuidGet**
+> uuid::Uuid UuidGet()
 
 
 ### Required Parameters
@@ -426,8 +426,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (optional)
+# **XmlExtraPost**
+> XmlExtraPost(optional)
 
 
 ### Required Parameters
@@ -458,8 +458,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (optional)
+# **XmlOtherPost**
+> XmlOtherPost(optional)
 
 
 ### Required Parameters
@@ -490,8 +490,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (optional)
+# **XmlOtherPut**
+> XmlOtherPut(optional)
 
 
 ### Required Parameters
@@ -522,8 +522,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (optional)
+# **XmlPost**
+> XmlPost(optional)
 Post an array
 
 ### Required Parameters
@@ -554,8 +554,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (optional)
+# **XmlPut**
+> XmlPut(optional)
 
 
 ### Required Parameters
