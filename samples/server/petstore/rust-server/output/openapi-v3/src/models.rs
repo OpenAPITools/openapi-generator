@@ -522,45 +522,125 @@ impl Err {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Error(String);
+// Methods for converting between header::IntoHeaderValue<Error> and hyper::header::HeaderValue
 
-impl std::convert::From<String> for Error {
-    fn from(x: String) -> Self {
-        Error(x)
+#[cfg(any(feature = "client", feature = "server"))]
+impl From<header::IntoHeaderValue<Error>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<Error>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
     }
 }
 
+#[cfg(any(feature = "client", feature = "server"))]
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<Error> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<Error as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Error {
+    #[serde(rename = "code")]
+    pub code: isize,
+
+    #[serde(rename = "retryable")]
+    pub retryable: bool,
+
+    #[serde(rename = "message")]
+    pub message: String,
+
+    #[serde(rename = "innerError")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub inner_error: Option<models::Error>,
+
+}
+
+impl Error {
+    pub fn new(code: isize, retryable: bool, message: String, ) -> Error {
+        Error {
+            code: code,
+            retryable: retryable,
+            message: message,
+            inner_error: None,
+        }
+    }
+}
+
+/// Converts the Error value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
 impl std::string::ToString for Error {
     fn to_string(&self) -> String {
-       self.0.to_string()
+        let mut params: Vec<String> = vec![];
+
+        params.push("code".to_string());
+        params.push(self.code.to_string());
+
+
+        params.push("retryable".to_string());
+        params.push(self.retryable.to_string());
+
+
+        params.push("message".to_string());
+        params.push(self.message.to_string());
+
+        // Skipping innerError in query parameter serialization
+
+        params.join(",").to_string()
     }
 }
 
+/// Converts Query Parameters representation (style=form, explode=false) to a Error value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
 impl std::str::FromStr for Error {
-    type Err = std::string::ParseError;
-    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Ok(Error(x.to_string()))
-    }
-}
+    type Err = String;
 
-impl std::convert::From<Error> for String {
-    fn from(x: Error) -> Self {
-        x.0
-    }
-}
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub code: Vec<isize>,
+            pub retryable: Vec<bool>,
+            pub message: Vec<String>,
+            pub inner_error: Vec<models::Error>,
+        }
 
-impl std::ops::Deref for Error {
-    type Target = String;
-    fn deref(&self) -> &String {
-        &self.0
-    }
-}
+        let mut intermediate_rep = IntermediateRep::default();
 
-impl std::ops::DerefMut for Error {
-    fn deref_mut(&mut self) -> &mut String {
-        &mut self.0
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing Error".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "code" => intermediate_rep.code.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
+                    "retryable" => intermediate_rep.retryable.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
+                    "message" => intermediate_rep.message.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "innerError" => intermediate_rep.inner_error.push(models::Error::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Error".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Error {
+            code: intermediate_rep.code.into_iter().next().ok_or("code missing in Error".to_string())?,
+            retryable: intermediate_rep.retryable.into_iter().next().ok_or("retryable missing in Error".to_string())?,
+            message: intermediate_rep.message.into_iter().next().ok_or("message missing in Error".to_string())?,
+            inner_error: intermediate_rep.inner_error.into_iter().next(),
+        })
     }
 }
 

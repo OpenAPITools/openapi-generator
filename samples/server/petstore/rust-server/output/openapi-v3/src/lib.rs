@@ -214,6 +214,7 @@ pub enum XmlPutResponse {
 pub enum CreateRepoResponse {
     /// Success
     Success
+    (models::Error)
 }
 
 #[derive(Debug, PartialEq)]
