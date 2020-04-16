@@ -15,7 +15,7 @@ extern crate tokio;
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
-use multipart_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+use multipart_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       ApiError,
                       MultipartRelatedRequestPostResponse,
                       MultipartRequestPostResponse,

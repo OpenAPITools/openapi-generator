@@ -27,7 +27,7 @@ mod server;
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
-use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       ApiError,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
@@ -88,6 +88,7 @@ fn main() {
                 "XmlOtherPut",
                 "XmlPost",
                 "XmlPut",
+                "CreateRepo",
                 "GetRepoInfo",
             ])
             .required(true)
@@ -183,7 +184,7 @@ fn main() {
         },
         Some("ParamgetGet") => {
             let result = rt.block_on(client.paramget_get(
-                  Some(serde_json::from_str::<uuid::Uuid>("38400000-8cf0-11bd-b23e-10b96e4ef00d").expect("Failed to parse JSON example")),
+                  Some(serde_json::from_str::<uuid::Uuid>(r#"38400000-8cf0-11bd-b23e-10b96e4ef00d"#).expect("Failed to parse JSON example")),
                   None,
                   None
             ));
@@ -257,14 +258,12 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        /* Disabled because there's no example.
         Some("CreateRepo") => {
             let result = rt.block_on(client.create_repo(
-                  ???
+                  serde_json::from_str::<models::ObjectParam>(r#"{"requiredParam":true}"#).expect("Failed to parse JSON example")
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        */
         Some("GetRepoInfo") => {
             let result = rt.block_on(client.get_repo_info(
                   "repo_id_example".to_string()
