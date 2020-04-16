@@ -330,7 +330,7 @@ COERCION_INDEX_BY_TYPE = {
     ModelComposed: 0,
     ModelNormal: 1,
     ModelSimple: 2,
-    none_type: 3,
+    none_type: 3,    # The type of 'None'.
     list: 4,
     dict: 5,
     float: 6,
@@ -339,8 +339,8 @@ COERCION_INDEX_BY_TYPE = {
     datetime: 9,
     date: 10,
     str: 11,
-    file_type: 12,
-    object: 13,      # Any type, i.e. 'type' is not specified in the OAS schema.
+    file_type: 12,   # 'file_type' is an alias for the built-in 'file' or 'io.IOBase' type.
+    object: 13,      # Any type, i.e. the OAS 'type' attribute is not specified in a schema in a OAS document.
 }
 
 # these are used to limit what type conversions we try to do
@@ -391,7 +391,12 @@ COERCIBLE_TYPE_PAIRS = {
         (str, date),
         # (int, str),
         # (float, str),
-        (str, file_type)
+        (str, file_type),
+        (dict, object),
+        (list, object),
+        (str, object),
+        (int, object),
+        (float, object),
     ),
 }
 
@@ -609,11 +614,11 @@ def order_response_types(required_types):
 
     Args:
         required_types (list/tuple): collection of classes or instance of
-            list or dict with classs information inside it
+            list or dict with class information inside it.
 
     Returns:
         (list): coercion order sorted collection of classes or instance
-            of list or dict with classs information inside it
+            of list or dict with class information inside it.
     """
 
     def index_getter(class_or_instance):
@@ -630,7 +635,7 @@ def order_response_types(required_types):
         elif (inspect.isclass(class_or_instance)
                 and issubclass(class_or_instance, ModelSimple)):
             return COERCION_INDEX_BY_TYPE[ModelSimple]
-        if class_or_instance in COERCION_INDEX_BY_TYPE:
+        elif class_or_instance in COERCION_INDEX_BY_TYPE:
             return COERCION_INDEX_BY_TYPE[class_or_instance]
         raise ApiValueError("Unsupported type: %s" % class_or_instance)
 
@@ -650,7 +655,7 @@ def remove_uncoercible(required_types_classes, current_item, from_server,
                           these should be ordered by COERCION_INDEX_BY_TYPE
         from_server (bool): a boolean of whether the data is from the server
                           if false, the data is from the client
-        current_item (any): the current item to be converted
+        current_item (any): the current item (input data) to be converted
 
     Keyword Args:
         must_convert (bool): if True the item to convert is of the wrong
@@ -951,6 +956,8 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
                                          configuration, from_server)
             elif valid_class == file_type:
                 return deserialize_file(input_value, configuration)
+            elif valid_class == object:
+                return input_value
             return deserialize_primitive(input_value, valid_class,
                                          path_to_item)
         except (ApiTypeError, ApiValueError, ApiKeyError) as conversion_exc:
