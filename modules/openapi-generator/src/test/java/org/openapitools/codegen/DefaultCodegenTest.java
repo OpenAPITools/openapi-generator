@@ -775,6 +775,19 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testDeprecatedModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/component-deprecated.yml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        CodegenModel codedenPetModel = codegen.fromModel("Pet", openAPI.getComponents().getSchemas().get("Pet"));
+        Assert.assertTrue(codedenPetModel.isDeprecated);
+
+        CodegenModel codegenFoodModel = codegen.fromModel("Food", openAPI.getComponents().getSchemas().get("Food"));
+        Assert.assertTrue(codegenFoodModel.isDeprecated);
+    }
+
+    @Test
     public void testDeprecatedProperty() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/property-deplicated.yaml");
         new InlineModelResolver().flatten(openAPI);
