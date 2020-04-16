@@ -394,6 +394,10 @@ paths:
         required: true
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
           description: Success
       tags:
       - Repo
@@ -562,12 +566,34 @@ components:
       type: string
     Ok:
       type: string
-    Error:
-      type: string
     Err:
       type: string
     Result:
       type: string
+    Error:
+      additionalProperties: true
+      example:
+        code: -1
+        retryable: false
+        message: We failed to update the object in your request
+        innerError:
+          code: -100
+          message: You are trying to access an absent object
+      properties:
+        code:
+          type: integer
+        retryable:
+          type: boolean
+        message:
+          example: NotFound
+          type: string
+        innerError:
+          $ref: '#/components/schemas/Error'
+      required:
+      - code
+      - message
+      - retryable
+      type: object
     inline_response_201:
       properties:
         foo:

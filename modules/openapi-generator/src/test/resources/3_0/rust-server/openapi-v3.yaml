@@ -392,6 +392,10 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
   securitySchemes:
@@ -554,9 +558,31 @@ components:
         - BAR
     Ok:
       type: string
-    Error:
-      type: string
     Err:
       type: string
     Result:
       type: string
+    Error:
+      type: object
+      required:
+        - code
+        - retryable
+        - message
+      properties:
+        code:
+          type: integer
+        retryable:
+          type: boolean
+        message:
+          type: string
+          example: NotFound
+        innerError:
+          $ref: "#/components/schemas/Error"
+      additionalProperties: true
+      example:
+        code: -1
+        retryable: false
+        message: We failed to update the object in your request
+        innerError:
+          code: -100
+          message: You are trying to access an absent object

@@ -2273,9 +2273,21 @@ impl<C, F> Api<C> for Client<F> where
                 200 => {
                     let body = response.into_body();
                     Box::new(
-                        future::ok(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+                                                 serde_json::from_str::<models::Error>(body)
+                                                     .map_err(|e| e.into())
+                                             )
+                                 )
+                        .map(move |body| {
                             CreateRepoResponse::Success
-                        )
+                            (body)
+                        })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
                 },
                 code => {
