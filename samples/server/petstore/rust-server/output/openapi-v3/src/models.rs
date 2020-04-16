@@ -553,7 +553,7 @@ pub struct Error {
 
     #[serde(rename = "innerError")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub inner_error: Option<models::Error>,
+    pub inner_error: Box<Option<models::Error>>,
 
 }
 
@@ -563,7 +563,7 @@ impl Error {
             code: code,
             retryable: retryable,
             message: message,
-            inner_error: None,
+            inner_error: Box::new(None),
         }
     }
 }
@@ -639,7 +639,7 @@ impl std::str::FromStr for Error {
             code: intermediate_rep.code.into_iter().next().ok_or("code missing in Error".to_string())?,
             retryable: intermediate_rep.retryable.into_iter().next().ok_or("retryable missing in Error".to_string())?,
             message: intermediate_rep.message.into_iter().next().ok_or("message missing in Error".to_string())?,
-            inner_error: intermediate_rep.inner_error.into_iter().next(),
+            inner_error: Box::new(intermediate_rep.inner_error.into_iter().next()),
         })
     }
 }
