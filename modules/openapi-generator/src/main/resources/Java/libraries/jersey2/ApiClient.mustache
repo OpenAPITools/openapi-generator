@@ -34,6 +34,7 @@ import org.glassfish.jersey.filter.LoggingFilter;
 {{/supportJava6}}
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
@@ -147,6 +148,9 @@ public class ApiClient {
   protected Map<String, String> authenticationLookup;
 
   protected DateFormat dateFormat;
+
+  private List<Integer> retryStatusCodes;
+  private int maxRetries;
 
   public ApiClient() {
     json = new JSON();
@@ -506,6 +510,16 @@ public class ApiClient {
   public String formatDate(Date date) {
     return dateFormat.format(date);
   }
+  
+  /**
+   * Set the configuration for retrying on given http status codes.
+   * @param retryStatusCodes List of http status codes
+   * @param maxRetries Maximum number of times to retry with exponential backoff
+   */
+  public void setRetryConfiguration(List<Integer> retryStatusCodes, int maxRetries) {
+    this.retryStatusCodes = retryStatusCodes;
+    this.maxRetries = maxRetries;
+  }
 
   /**
    * Format the given parameter object into string.
@@ -787,9 +801,53 @@ public class ApiClient {
     else
       return File.createTempFile(prefix, suffix, new File(tempFolderPath));
   }
+  
+  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+    
+    ApiResponse<T> response = null;
+    boolean isRetry = true;
+    int retryCount = 0;
+    if (this.retryStatusCodes != null) {
+      // Making first api call and setting 'isRetry' based on the status codes.
+      try {
+        response = execute(operation, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        isRetry = isRetry(response);
+      } catch (ApiException ex) {
+        if (!isRetry(ex))
+          throw ex;
+      }
+      // Further retrying the request based on status codes (isRetry) and till the
+      // retry count reaches maxRetries.
+      while (retryCount < maxRetries && isRetry == true) {
+        retryCount++;
+        try {
+          TimeUnit.SECONDS.sleep((int) Math.pow(2, retryCount));
+          response = execute(operation, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+          isRetry = isRetry(response);
+        } catch (ApiException ex) {
+          if (!isRetry(ex) || retryCount >= maxRetries)
+            throw ex;
+        } catch (InterruptedException ex) {
+          throw new ApiException(ex);
+        }
+      }
+      return response;
+    } else {
+      return execute(operation, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType,
+          authNames, returnType);
+    }
+  }
+  
+  private <T> boolean isRetry(ApiResponse<T> response) {
+    return this.retryStatusCodes.contains(response.getStatusCode());
+  }
+
+  private boolean isRetry(ApiException ex) {
+    return this.retryStatusCodes.contains(ex.getCode());
+  }
 
   /**
-   * Invoke API by sending HTTP request with the given options.
+   * Execute API call by sending HTTP request with the given options.
    *
    * @param <T> Type
    * @param operation The qualified name of the operation
@@ -807,7 +865,7 @@ public class ApiClient {
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+  private <T> ApiResponse<T> execute(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(targetURL).path(path)` below,
