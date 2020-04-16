@@ -10,11 +10,11 @@ import javax.ws.rs.core.GenericType;
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}
 public abstract class AbstractOpenApiOneOf {
 
-    private Object result;
+    private Object instance;
 
     public abstract Map<String, GenericType> getOneOfSchemaMap();
 
-    public Object getResult() {return result;}
+    public Object getActualInstance() {return instance;}
 
-    public void setResult(Object result) {this.result = result;}
+    public void setActualInstance(Object instance) {this.instance = instance;}
 }
