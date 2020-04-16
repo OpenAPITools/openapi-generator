@@ -79,6 +79,11 @@ public class OneOfImplementorAdditionalData {
             for (CodegenProperty v : m.vars) {
                 omitAdding.add(v.baseName);
             }
+            // also skip the variables inherited from heirarchy of parents
+            for (CodegenProperty v : m.allVars) {
+                omitAdding.add(v.baseName);
+            }
+
         }
         for (CodegenProperty v : toAdd) {
             if (!omitAdding.contains(v.baseName)) {
