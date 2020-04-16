@@ -368,14 +368,14 @@ paths:
         required: true
     get:
       tags: [Repo, Info]
-      operationId: GetRepoInfo
+      operationId: Get Repo\Info
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/StringObject"
+                $ref: "#/components/schemas/RepoObject"
   /repos:
     post:
       tags: [Repo]
@@ -485,6 +485,9 @@ components:
            $ref: '#/components/schemas/StringObject'
     StringObject:
       type: string
+    RepoObject:
+      type: object
+
     MyIDList:
       type:  array
       items:

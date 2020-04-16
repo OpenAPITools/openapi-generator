@@ -57,7 +57,7 @@ use {Api,
      XmlPostResponse,
      XmlPutResponse,
      CreateRepoResponse,
-     GetRepoInfoResponse
+     Get RepoInfoResponse
      };
 
 pub mod callbacks;
@@ -2316,7 +2316,7 @@ impl<C, F> Api<C> for Client<F> where
     fn get_repo_info(
         &self,
         param_repo_id: String,
-        context: &C) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=Get RepoInfoResponse, Error=ApiError> + Send>
     {
         let mut uri = format!(
             "{}/repos/{repo_id}",
@@ -2365,12 +2365,12 @@ impl<C, F> Api<C> for Client<F> where
                         str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-                                                 serde_json::from_str::<String>(body)
+                                                 serde_json::from_str::<serde_json::Value>(body)
                                                      .map_err(|e| e.into())
                                              )
                                  )
                         .map(move |body| {
-                            GetRepoInfoResponse::OK
+                            Get RepoInfoResponse::OK
                             (body)
                         })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>

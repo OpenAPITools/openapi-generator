@@ -362,7 +362,7 @@ paths:
           description: Success
   /repos/{repoId}:
     get:
-      operationId: GetRepoInfo
+      operationId: Get Repo\Info
       parameters:
       - explode: false
         in: path
@@ -376,7 +376,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StringObject'
+                $ref: '#/components/schemas/RepoObject'
           description: OK
       tags:
       - Repo
@@ -485,6 +485,8 @@ components:
       type: object
     StringObject:
       type: string
+    RepoObject:
+      type: object
     MyIDList:
       items:
         $ref: '#/components/schemas/MyID'
