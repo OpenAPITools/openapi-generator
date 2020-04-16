@@ -275,6 +275,23 @@ public class MysqlSchemaCodegenTest {
     }
 
     @Test
+    public void testSetNamedParametersEnabled() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        codegen.setNamedParametersEnabled(true);
+        Assert.assertTrue(codegen.getNamedParametersEnabled());
+        codegen.setNamedParametersEnabled(false);
+        Assert.assertFalse(codegen.getNamedParametersEnabled());
+    }
+
+    @Test
+    public void testGetNamedParametersEnabled() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertFalse(codegen.getNamedParametersEnabled());
+        codegen.setNamedParametersEnabled(true);
+        Assert.assertTrue(codegen.getNamedParametersEnabled());
+    }
+
+    @Test
     public void testSetIdentifierNamingConvention() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         Assert.assertSame("original", codegen.getIdentifierNamingConvention());

@@ -102,6 +102,8 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -176,6 +178,8 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId , char * api_key )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     list_free(localVarHeaderParameters);
@@ -256,6 +260,8 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     list_free(localVarQueryParameters);
     
@@ -335,6 +341,8 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     list_free(localVarQueryParameters);
     
@@ -415,6 +423,8 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId )
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -482,6 +492,8 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -569,6 +581,8 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -669,6 +683,8 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     

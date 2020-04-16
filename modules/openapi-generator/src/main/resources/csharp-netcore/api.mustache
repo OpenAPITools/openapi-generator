@@ -325,13 +325,20 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
-            {{#isBasic}}
+            {{#isBasicBasic}}
             // http basic authentication required
             if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Basic " + {{packageName}}.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
             }
-            {{/isBasic}}
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // bearer authentication required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+            {{/isBasicBearer}}
             {{#isOAuth}}
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))

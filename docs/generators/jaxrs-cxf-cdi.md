@@ -20,8 +20,10 @@ sidebar_label: jaxrs-cxf-cdi
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
 |developerOrganizationUrl|developer organization URL in generated pom.xml| |http://openapitools.org|
 |disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
+|discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
+|generateBuilders|Whether to generate builders for models.| |false|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|

@@ -4,15 +4,15 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Invoke-PSDeleteOrder**](PSStoreApi.md#Invoke-PSDeleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**Remove-PSOrder**](PSStoreApi.md#Remove-PSOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
 [**Get-PSInventory**](PSStoreApi.md#Get-PSInventory) | **GET** /store/inventory | Returns pet inventories by status
 [**Get-PSOrderById**](PSStoreApi.md#Get-PSOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
 [**Invoke-PSPlaceOrder**](PSStoreApi.md#Invoke-PSPlaceOrder) | **POST** /store/order | Place an order for a pet
 
 
-<a name="Invoke-PSDeleteOrder"></a>
-# **Invoke-PSDeleteOrder**
-> void Invoke-PSDeleteOrder<br>
+<a name="Remove-PSOrder"></a>
+# **Remove-PSOrder**
+> void Remove-PSOrder<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OrderId] <String><br>
 
 Delete purchase order by ID
@@ -27,10 +27,10 @@ $OrderId = "OrderId_example" # String | ID of the order that needs to be deleted
 
 # Delete purchase order by ID
 try {
-    Invoke-PSDeleteOrder -OrderId $OrderId
+    Remove-PSOrder -OrderId $OrderId
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling Remove-PSOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
@@ -78,8 +78,8 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 try {
     System.Collections.Hashtable $Result = Get-PSInventory
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling Get-PSInventory: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
@@ -120,8 +120,8 @@ $OrderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
 try {
     Order $Result = Get-PSOrderById -OrderId $OrderId
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling Get-PSOrderById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
@@ -157,14 +157,14 @@ Place an order for a pet
 ```powershell
 Import-Module -Name PSPetstore
 
-$Order = (New-Order -Id 123  -PetId 123  -Quantity 123  -ShipDate Get-Date  -Status "Status_example"  -Complete $false) # Order | order placed for purchasing the pet
+$Order = (Initialize-Order-Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -Status "Status_example" -Complete $false) # Order | order placed for purchasing the pet
 
 # Place an order for a pet
 try {
     Order $Result = Invoke-PSPlaceOrder -Order $Order
 } catch {
-    Write-Host ($_.ErrorDetails | ConvertFrom-Json)
-    Write-Host ($_.Exception.Response.Headers | ConvertTo-Json)
+    Write-Host ("Exception occured when calling Invoke-PSPlaceOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 
