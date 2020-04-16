@@ -50,6 +50,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       XmlOtherPutResponse,
                       XmlPostResponse,
                       XmlPutResponse,
+                      CreateRepoResponse,
                       GetRepoInfoResponse
                      };
 use clap::{App, Arg};
@@ -256,6 +257,14 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
+        Some("CreateRepo") => {
+            let result = rt.block_on(client.create_repo(
+                  ???
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
         Some("GetRepoInfo") => {
             let result = rt.block_on(client.get_repo_info(
                   "repo_id_example".to_string()

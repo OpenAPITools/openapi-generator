@@ -259,6 +259,12 @@ pub enum XmlPutResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum CreateRepoResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum GetRepoInfoResponse {
     /// OK
     OK
@@ -368,6 +374,11 @@ pub trait Api<C> {
         &self,
         xml_object: Option<models::XmlObject>,
         context: &C) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>;
+
+    fn create_repo(
+        &self,
+        object_param: models::ObjectParam,
+        context: &C) -> Box<dyn Future<Item=CreateRepoResponse, Error=ApiError> + Send>;
 
     fn get_repo_info(
         &self,
@@ -479,6 +490,11 @@ pub trait ApiNoContext {
         &self,
         xml_object: Option<models::XmlObject>,
         ) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>;
+
+    fn create_repo(
+        &self,
+        object_param: models::ObjectParam,
+        ) -> Box<dyn Future<Item=CreateRepoResponse, Error=ApiError> + Send>;
 
     fn get_repo_info(
         &self,
@@ -663,6 +679,14 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>
     {
         self.api().xml_put(xml_object, &self.context())
+    }
+
+    fn create_repo(
+        &self,
+        object_param: models::ObjectParam,
+        ) -> Box<dyn Future<Item=CreateRepoResponse, Error=ApiError> + Send>
+    {
+        self.api().create_repo(object_param, &self.context())
     }
 
     fn get_repo_info(
