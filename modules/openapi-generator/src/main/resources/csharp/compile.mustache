@@ -15,13 +15,13 @@ if not exist ".\nuget.exe" powershell -Command "(new-object System.Net.WebClient
 
 if not exist ".\bin" mkdir bin
 
-copy packages\Newtonsoft.Json.12.0.1\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
-copy packages\JsonSubTypes.1.5.2\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll bin\JsonSubTypes.dll
-copy packages\RestSharp.105.1.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{targetFrameworkNuget}}{{/isNet40}}\RestSharp.dll bin\RestSharp.dll
+copy packages\Newtonsoft.Json.{{newtonsoft-json.version}}\lib\{{newtonsoft-json.targetFramework}}\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
+copy packages\JsonSubTypes.{{json-subtypes.version}}\lib\{{json-subtypes.targetFramework}}\JsonSubTypes.dll bin\JsonSubTypes.dll
+copy packages\RestSharp.{{restsharp.version}}\lib\{{restsharp.targetFramework}}\RestSharp.dll bin\RestSharp.dll
 {{#generatePropertyChanged}}
-copy packages\Fody.1.29.4\Fody.dll bin\Fody.dll
-copy packages\PropertyChanged.Fody.1.51.3\PropertyChanged.Fody.dll bin\PropertyChanged.Fody.dll
-copy packages\PropertyChanged.Fody.1.51.3\Lib\dotnet\PropertyChanged.dll bin\PropertyChanged.dll
+copy packages\Fody.{{fody.version}}\Fody.dll bin\Fody.dll
+copy packages\PropertyChanged.Fody.{{propertychanged-fody.version}}\PropertyChanged.Fody.dll bin\PropertyChanged.Fody.dll
+copy packages\PropertyChanged.Fody.{{propertychanged-fody.version}}\Lib\dotnet\PropertyChanged.dll bin\PropertyChanged.dll
 {{/generatePropertyChanged}}
 %CSCPATH%\csc  /reference:bin\Newtonsoft.Json.dll;bin\JsonSubTypes.dll;bin\RestSharp.dll;System.ComponentModel.DataAnnotations.dll {{#generatePropertyChanged}}/r:bin\Fody.dll;bin\PropertyChanged.Fody.dll;bin\PropertyChanged.dll{{/generatePropertyChanged}} /target:library /out:bin\{{packageName}}.dll /recurse:src\{{packageName}}\*.cs /doc:bin\{{packageName}}.xml
 

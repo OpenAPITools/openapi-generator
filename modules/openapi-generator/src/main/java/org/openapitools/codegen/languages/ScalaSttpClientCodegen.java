@@ -28,8 +28,6 @@ import java.io.File;
 import java.util.List;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
-    protected String mainPackage = "org.openapitools.client";
-
     public ScalaSttpClientCodegen() {
         super();
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -51,10 +49,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             invokerPackage = mainPackage + ".core";
             additionalProperties.put("apiPackage", apiPackage);
             additionalProperties.put("modelPackage", modelPackage);
-        }
-
-        if (!additionalProperties.containsKey("java8")) {
-            additionalProperties.put("joda", "true");
         }
 
         supportingFiles.clear();

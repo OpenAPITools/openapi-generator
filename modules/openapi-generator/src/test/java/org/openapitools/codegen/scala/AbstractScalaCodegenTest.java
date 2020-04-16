@@ -82,4 +82,17 @@ public class AbstractScalaCodegenTest {
         Assert.assertEquals(fakeScalaCodegen.toVarName("1AAaa"), "`1AAaa`");
     }
 
+    @Test
+    public void checkScalaTypeImportMapping() {
+        Assert.assertEquals(fakeScalaCodegen.importMapping().get("Seq"),
+                "scala.collection.immutable.Seq", "Seq is immutable collection");
+        Assert.assertEquals(fakeScalaCodegen.importMapping().get("Set"),
+                "scala.collection.immutable.Set", "Set is immutable collection");
+        Assert.assertFalse(fakeScalaCodegen.importMapping().containsKey("List"),
+                "List is a Scala type and must not be imported");
+        Assert.assertFalse(fakeScalaCodegen.importMapping().containsKey("BigDecimal"),
+                "BigDecimal is a Scala type and must not be imported");
+        Assert.assertFalse(fakeScalaCodegen.importMapping().containsKey("BigInt"),
+                "BigInt is a Scala type and must not be imported");
+    }
 }

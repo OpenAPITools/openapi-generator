@@ -34,22 +34,17 @@ GetLengthCm returns the LengthCm field if non-nil, zero value otherwise.
 
 ### GetLengthCmOk
 
-`func (o *BananaReq) GetLengthCmOk() (float32, bool)`
+`func (o *BananaReq) GetLengthCmOk() (*float32, bool)`
 
 GetLengthCmOk returns a tuple with the LengthCm field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### HasLengthCm
-
-`func (o *BananaReq) HasLengthCm() bool`
-
-HasLengthCm returns a boolean if a field has been set.
 
 ### SetLengthCm
 
 `func (o *BananaReq) SetLengthCm(v float32)`
 
-SetLengthCm gets a reference to the given float32 and assigns it to the LengthCm field.
+SetLengthCm sets LengthCm field to given value.
+
 
 ### GetSweet
 
@@ -59,22 +54,22 @@ GetSweet returns the Sweet field if non-nil, zero value otherwise.
 
 ### GetSweetOk
 
-`func (o *BananaReq) GetSweetOk() (bool, bool)`
+`func (o *BananaReq) GetSweetOk() (*bool, bool)`
 
 GetSweetOk returns a tuple with the Sweet field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetSweet
+
+`func (o *BananaReq) SetSweet(v bool)`
+
+SetSweet sets Sweet field to given value.
 
 ### HasSweet
 
 `func (o *BananaReq) HasSweet() bool`
 
 HasSweet returns a boolean if a field has been set.
-
-### SetSweet
-
-`func (o *BananaReq) SetSweet(v bool)`
-
-SetSweet gets a reference to the given bool and assigns it to the Sweet field.
 
 
 ### AsFruitReq

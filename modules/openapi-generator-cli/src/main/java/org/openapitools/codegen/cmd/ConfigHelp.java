@@ -39,9 +39,9 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused","java:S106"})
 @Command(name = "config-help", description = "Config help for chosen lang")
-public class ConfigHelp implements Runnable {
+public class ConfigHelp extends OpenApiGeneratorCommand {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 
@@ -91,7 +91,7 @@ public class ConfigHelp implements Runnable {
     private String newline = System.lineSeparator();
 
     @Override
-    public void run() {
+    public void execute() {
         if (isEmpty(generatorName)) {
             LOGGER.error("[error] A generator name (--generator-name / -g) is required.");
             System.exit(1);
@@ -320,6 +320,7 @@ public class ConfigHelp implements Runnable {
         }
     }
 
+    @SuppressWarnings({"java:S1117"})
     private void generatePlainTextHelp(StringBuilder sb, CodegenConfig config) {
         sb.append(newline).append("CONFIG OPTIONS");
         if (Boolean.TRUE.equals(namedHeader)) {
@@ -418,6 +419,7 @@ public class ConfigHelp implements Runnable {
         }
     }
 
+    @SuppressWarnings({"java:S1117"})
     private void writePlainTextFromMap(
             StringBuilder sb,
             Map<String, String> map,
@@ -449,6 +451,7 @@ public class ConfigHelp implements Runnable {
         }
     }
 
+    @SuppressWarnings({"java:S1117"})
     private void writePlainTextFromArray(StringBuilder sb, String[] arr, String optIndent) {
         if (arr.length > 0) {
             // target a width of 20, then take the max up to 40.
