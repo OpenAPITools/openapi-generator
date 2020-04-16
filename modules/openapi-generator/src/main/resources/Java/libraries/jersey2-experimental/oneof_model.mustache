@@ -1,0 +1,36 @@
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>typeInfoAnnotation}}{{>xmlAnnotation}}
+public class {{classname}} extends AbstractOpenApiOneOf{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+
+    // store a list of schema names defined in oneOf
+    public final static Map<String, GenericType> oneOfSchemas = new HashMap<String, GenericType>();
+
+    static {
+        {{#oneOf}}
+        oneOfSchemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
+        });
+        {{/oneOf}}
+
+    }
+
+    @Override
+    public Map<String, GenericType> getOneOfSchemaMap() {
+        return {{classname}}.oneOfSchemas;
+    }
+
+    private Object deserializedResponse;
+
+    public Object getDeserializedResponse() {
+        return deserializedResponse;
+    }
+
+    public void setDeserializedResponse(Object deserializedResponse) {
+        this.deserializedResponse = deserializedResponse;
+    }
+
+}

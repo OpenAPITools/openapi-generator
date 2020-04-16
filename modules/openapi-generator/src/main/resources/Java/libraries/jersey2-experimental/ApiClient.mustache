@@ -701,6 +701,54 @@ public class ApiClient {
     return entity;
   }
 
+  public AbstractOpenApiOneOf deserializeOneOf(Response response, AbstractOpenApiOneOf oneOf) throws ApiException{
+
+    Object result = null;
+    int matchCounter = 0;
+    ArrayList<String> matchSchemas = new ArrayList<>();
+
+    for (Map.Entry<String, GenericType> entry : oneOf.getOneOfSchemaMap().entrySet()) {
+      System.out.println("running for " + entry.getKey());
+
+      String schemaName = entry.getKey();
+      GenericType schemaType = entry.getValue();
+
+      if (schemaType instanceof GenericType) { // model
+        try {
+          Object deserializedObject = deserialize(response, schemaType);
+          if (deserializedObject != null) {
+            result = deserializedObject;
+            matchCounter++;
+            matchSchemas.add(schemaName);
+          } else {
+            System.out.println("failed to deserialize..." + (schemaType.getType()));
+          }
+        } catch (Exception ex) {
+          System.out.println("failed to deserialize {} ..." + ex.toString());
+          // failed to deserialize, do nothing and try next one (schema)
+        }
+      } else {// primitive type
+        System.out.println("non model: something wrong for " + entry.getKey());
+
+        // TODO
+      }
+
+    }
+
+    if (matchCounter > 1) {// more than 1 match
+      throw new ApiException("Response body is incorrect as it's valid against more than one schema (" + String.join(", ", matchSchemas) + ") defined in the oneOf model: " + oneOf.getClass().getName());
+    } else if (matchCounter == 0) { // fail to match any
+      throw new ApiException("Response body is incorrect as it's invalid against all schemas (" + String.join(", ", oneOf.getOneOfSchemaMap().keySet()) + ") defined in the oneOf model: " + oneOf.getClass().getName());
+    } else { // only one matched
+      //return result;
+      oneOf.setResult(result);
+      return oneOf;
+    }
+
+  }
+
+
+
   /**
    * Deserialize response body to Java object according to the Content-Type.
    * @param <T> Type
@@ -728,6 +776,9 @@ public class ApiClient {
     List<Object> contentTypes = response.getHeaders().get("Content-Type");
     if (contentTypes != null && !contentTypes.isEmpty())
       contentType = String.valueOf(contentTypes.get(0));
+
+    // read the entity stream multiple times
+    response.bufferEntity();
 
     return response.readEntity(returnType);
   }
@@ -915,7 +966,11 @@ public class ApiClient {
         if (returnType == null)
           return new ApiResponse<{{#supportJava6}}T{{/supportJava6}}>(statusCode, responseHeaders);
         else
-          return new ApiResponse<{{#supportJava6}}T{{/supportJava6}}>(statusCode, responseHeaders, deserialize(response, returnType));
+          if (oneOf == null) {
+            return new ApiResponse<>(statusCode, responseHeaders, deserialize(response, returnType));
+          } else { // oneOf
+            return new ApiResponse<>(statusCode, responseHeaders, (T)deserializeOneOf(response, oneOf));
+          }
       } else {
         String message = "error";
         String respBody = null;

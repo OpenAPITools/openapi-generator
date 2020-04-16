@@ -1,0 +1,20 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}}.model;
+
+import org.openapitools.client.ApiException;
+import java.lang.reflect.Type;
+import java.util.Map;
+import javax.ws.rs.core.GenericType;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}
+public abstract class AbstractOpenApiOneOf {
+
+    private Object result;
+
+    public abstract Map<String, GenericType> getOneOfSchemaMap();
+
+    public Object getResult() {return result;}
+
+    public void setResult(Object result) {this.result = result;}
+}

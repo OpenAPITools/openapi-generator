@@ -7,6 +7,7 @@ import {{invokerPackage}}.ApiException;
 {{/imports}}
 import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Assert;
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ import java.util.Map;
 /**
  * API tests for {{classname}}
  */
-@Ignore
 public class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();
