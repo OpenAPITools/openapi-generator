@@ -1621,6 +1621,95 @@ impl OptionalObjectHeader {
     }
 }
 
+// Methods for converting between header::IntoHeaderValue<RepoObject> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl From<header::IntoHeaderValue<RepoObject>> for hyper::header::HeaderValue {
+    fn from(hdr_value: header::IntoHeaderValue<RepoObject>) -> Self {
+        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<RepoObject> {
+    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
+        header::IntoHeaderValue(<RepoObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct RepoObject {
+}
+
+impl RepoObject {
+    pub fn new() -> RepoObject {
+        RepoObject {
+        }
+    }
+}
+
+/// Converts the RepoObject value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for RepoObject {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a RepoObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for RepoObject {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing RepoObject".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    _ => return std::result::Result::Err("Unexpected key while parsing RepoObject".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(RepoObject {
+        })
+    }
+}
+
+
+impl RepoObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct RequiredObjectHeader(bool);

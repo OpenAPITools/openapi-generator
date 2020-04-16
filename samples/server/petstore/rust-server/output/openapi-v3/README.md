@@ -160,6 +160,7 @@ Method | HTTP request | Description
  - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
  - [Ok](docs/Ok.md)
  - [OptionalObjectHeader](docs/OptionalObjectHeader.md)
+ - [RepoObject](docs/RepoObject.md)
  - [RequiredObjectHeader](docs/RequiredObjectHeader.md)
  - [Result](docs/Result.md)
  - [StringEnum](docs/StringEnum.md)
