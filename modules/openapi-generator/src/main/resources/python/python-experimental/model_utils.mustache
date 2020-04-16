@@ -74,7 +74,7 @@ COERCION_INDEX_BY_TYPE = {
     ModelComposed: 0,
     ModelNormal: 1,
     ModelSimple: 2,
-    none_type: 3,
+    none_type: 3,    # The type of 'None'.
     list: 4,
     dict: 5,
     float: 6,
@@ -83,8 +83,8 @@ COERCION_INDEX_BY_TYPE = {
     datetime: 9,
     date: 10,
     str: 11,
-    file_type: 12,
-    object: 13,      # Any type, i.e. 'type' is not specified in the OAS schema.
+    file_type: 12,   # 'file_type' is an alias for the built-in 'file' or 'io.IOBase' type.
+    object: 13,      # Any type, i.e. the OAS 'type' attribute is not specified in a schema in a OAS document.
 }
 
 # these are used to limit what type conversions we try to do
@@ -353,11 +353,11 @@ def order_response_types(required_types):
 
     Args:
         required_types (list/tuple): collection of classes or instance of
-            list or dict with classs information inside it
+            list or dict with class information inside it.
 
     Returns:
         (list): coercion order sorted collection of classes or instance
-            of list or dict with classs information inside it
+            of list or dict with class information inside it.
     """
 
     def index_getter(class_or_instance):
@@ -374,7 +374,7 @@ def order_response_types(required_types):
         elif (inspect.isclass(class_or_instance)
                 and issubclass(class_or_instance, ModelSimple)):
             return COERCION_INDEX_BY_TYPE[ModelSimple]
-        if class_or_instance in COERCION_INDEX_BY_TYPE:
+        elif class_or_instance in COERCION_INDEX_BY_TYPE:
             return COERCION_INDEX_BY_TYPE[class_or_instance]
         raise ApiValueError("Unsupported type: %s" % class_or_instance)
 
