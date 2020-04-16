@@ -116,29 +116,29 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[****](docs/default_api.md#) | **POST** /callback-with-header | 
-[****](docs/default_api.md#) | **GET** /complex-query-param | 
-[****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
-[****](docs/default_api.md#) | **GET** /mandatory-request-header | 
-[****](docs/default_api.md#) | **GET** /merge-patch-json | 
-[****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
-[****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
-[****](docs/default_api.md#) | **GET** /override-server | 
-[****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
-[****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
-[****](docs/default_api.md#) | **POST** /register-callback | 
-[****](docs/default_api.md#) | **PUT** /required_octet_stream | 
-[****](docs/default_api.md#) | **GET** /responses_with_headers | 
-[****](docs/default_api.md#) | **GET** /rfc7807 | 
-[****](docs/default_api.md#) | **GET** /untyped_property | 
-[****](docs/default_api.md#) | **GET** /uuid | 
-[****](docs/default_api.md#) | **POST** /xml_extra | 
-[****](docs/default_api.md#) | **POST** /xml_other | 
-[****](docs/default_api.md#) | **PUT** /xml_other | 
-[****](docs/default_api.md#) | **POST** /xml | Post an array
-[****](docs/default_api.md#) | **PUT** /xml | 
+[****](docs/default_api.md#CallbackWithHeaderPost) | **POST** /callback-with-header | 
+[****](docs/default_api.md#ComplexQueryParamGet) | **GET** /complex-query-param | 
+[****](docs/default_api.md#EnumInPathPathParamGet) | **GET** /enum_in_path/{path_param} | 
+[****](docs/default_api.md#MandatoryRequestHeaderGet) | **GET** /mandatory-request-header | 
+[****](docs/default_api.md#MergePatchJsonGet) | **GET** /merge-patch-json | 
+[****](docs/default_api.md#MultigetGet) | **GET** /multiget | Get some stuff.
+[****](docs/default_api.md#MultipleAuthSchemeGet) | **GET** /multiple_auth_scheme | 
+[****](docs/default_api.md#OverrideServerGet) | **GET** /override-server | 
+[****](docs/default_api.md#ParamgetGet) | **GET** /paramget | Get some stuff with parameters.
+[****](docs/default_api.md#ReadonlyAuthSchemeGet) | **GET** /readonly_auth_scheme | 
+[****](docs/default_api.md#RegisterCallbackPost) | **POST** /register-callback | 
+[****](docs/default_api.md#RequiredOctetStreamPut) | **PUT** /required_octet_stream | 
+[****](docs/default_api.md#ResponsesWithHeadersGet) | **GET** /responses_with_headers | 
+[****](docs/default_api.md#Rfc7807Get) | **GET** /rfc7807 | 
+[****](docs/default_api.md#UntypedPropertyGet) | **GET** /untyped_property | 
+[****](docs/default_api.md#UuidGet) | **GET** /uuid | 
+[****](docs/default_api.md#XmlExtraPost) | **POST** /xml_extra | 
+[****](docs/default_api.md#XmlOtherPost) | **POST** /xml_other | 
+[****](docs/default_api.md#XmlOtherPut) | **PUT** /xml_other | 
+[****](docs/default_api.md#XmlPost) | **POST** /xml | Post an array
+[****](docs/default_api.md#XmlPut) | **PUT** /xml | 
 [**CreateRepo**](docs/repo_api.md#CreateRepo) | **POST** /repos | 
-[**GetRepoInfo**](docs/repo_api.md#GetRepoInfo) | **GET** /repos/{repoId} | 
+[**Get Repo\Info**](docs/repo_api.md#GetRepoInfo) | **GET** /repos/{repoId} | 
 
 
 ## Documentation For Models

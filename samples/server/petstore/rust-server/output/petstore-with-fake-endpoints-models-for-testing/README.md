@@ -119,41 +119,41 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_special_tags**](docs/another_fake_api.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
-[**123example**](docs/fake_api.md#123example) | **GET** /fake/operation-with-numeric-id | 
-[**fakeOuterBooleanSerialize**](docs/fake_api.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](docs/fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](docs/fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
-[**fakeOuterStringSerialize**](docs/fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-[**fake_response_with_numerical_description**](docs/fake_api.md#fake_response_with_numerical_description) | **GET** /fake/response-with-numerical-description | 
-[**hyphenParam**](docs/fake_api.md#hyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
-[**testBodyWithQueryParams**](docs/fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
-[**testClientModel**](docs/fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model
-[**testEndpointParameters**](docs/fake_api.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-[**testEnumParameters**](docs/fake_api.md#testEnumParameters) | **GET** /fake | To test enum parameters
-[**testInlineAdditionalProperties**](docs/fake_api.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](docs/fake_api.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testClassname**](docs/fake_classname_tags123_api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
-[**addPet**](docs/pet_api.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](docs/pet_api.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](docs/pet_api.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](docs/pet_api.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](docs/pet_api.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](docs/pet_api.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](docs/pet_api.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](docs/pet_api.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**deleteOrder**](docs/store_api.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-[**getInventory**](docs/store_api.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**getOrderById**](docs/store_api.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
-[**placeOrder**](docs/store_api.md#placeOrder) | **POST** /store/order | Place an order for a pet
-[**createUser**](docs/user_api.md#createUser) | **POST** /user | Create user
-[**createUsersWithArrayInput**](docs/user_api.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithListInput**](docs/user_api.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**deleteUser**](docs/user_api.md#deleteUser) | **DELETE** /user/{username} | Delete user
-[**getUserByName**](docs/user_api.md#getUserByName) | **GET** /user/{username} | Get user by user name
-[**loginUser**](docs/user_api.md#loginUser) | **GET** /user/login | Logs user into the system
-[**logoutUser**](docs/user_api.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-[**updateUser**](docs/user_api.md#updateUser) | **PUT** /user/{username} | Updated user
+[**test_special_tags**](docs/another_fake_api.md#TestSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+[**123example**](docs/fake_api.md#Call123example) | **GET** /fake/operation-with-numeric-id | 
+[**fakeOuterBooleanSerialize**](docs/fake_api.md#FakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+[**fakeOuterCompositeSerialize**](docs/fake_api.md#FakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+[**fakeOuterNumberSerialize**](docs/fake_api.md#FakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+[**fakeOuterStringSerialize**](docs/fake_api.md#FakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**fake_response_with_numerical_description**](docs/fake_api.md#FakeResponseWithNumericalDescription) | **GET** /fake/response-with-numerical-description | 
+[**hyphenParam**](docs/fake_api.md#HyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
+[**testBodyWithQueryParams**](docs/fake_api.md#TestBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
+[**testClientModel**](docs/fake_api.md#TestClientModel) | **PATCH** /fake | To test \"client\" model
+[**testEndpointParameters**](docs/fake_api.md#TestEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+[**testEnumParameters**](docs/fake_api.md#TestEnumParameters) | **GET** /fake | To test enum parameters
+[**testInlineAdditionalProperties**](docs/fake_api.md#TestInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**testJsonFormData**](docs/fake_api.md#TestJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testClassname**](docs/fake_classname_tags123_api.md#TestClassname) | **PATCH** /fake_classname_test | To test class name in snake case
+[**addPet**](docs/pet_api.md#AddPet) | **POST** /pet | Add a new pet to the store
+[**deletePet**](docs/pet_api.md#DeletePet) | **DELETE** /pet/{petId} | Deletes a pet
+[**findPetsByStatus**](docs/pet_api.md#FindPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**findPetsByTags**](docs/pet_api.md#FindPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+[**getPetById**](docs/pet_api.md#GetPetById) | **GET** /pet/{petId} | Find pet by ID
+[**updatePet**](docs/pet_api.md#UpdatePet) | **PUT** /pet | Update an existing pet
+[**updatePetWithForm**](docs/pet_api.md#UpdatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**uploadFile**](docs/pet_api.md#UploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**deleteOrder**](docs/store_api.md#DeleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
+[**getInventory**](docs/store_api.md#GetInventory) | **GET** /store/inventory | Returns pet inventories by status
+[**getOrderById**](docs/store_api.md#GetOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
+[**placeOrder**](docs/store_api.md#PlaceOrder) | **POST** /store/order | Place an order for a pet
+[**createUser**](docs/user_api.md#CreateUser) | **POST** /user | Create user
+[**createUsersWithArrayInput**](docs/user_api.md#CreateUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+[**createUsersWithListInput**](docs/user_api.md#CreateUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+[**deleteUser**](docs/user_api.md#DeleteUser) | **DELETE** /user/{username} | Delete user
+[**getUserByName**](docs/user_api.md#GetUserByName) | **GET** /user/{username} | Get user by user name
+[**loginUser**](docs/user_api.md#LoginUser) | **GET** /user/login | Logs user into the system
+[**logoutUser**](docs/user_api.md#LogoutUser) | **GET** /user/logout | Logs out current logged in user session
+[**updateUser**](docs/user_api.md#UpdateUser) | **PUT** /user/{username} | Updated user
 
 
 ## Documentation For Models

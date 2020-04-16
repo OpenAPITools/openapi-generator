@@ -101,15 +101,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AllOf_Get**](docs/default_api.md#AllOf_Get) | **GET** /allOf | 
-[**dummyGet**](docs/default_api.md#dummyGet) | **GET** /dummy | A dummy endpoint to make the spec valid.
-[**dummyPut**](docs/default_api.md#dummyPut) | **PUT** /dummy | 
-[**file_responseGet**](docs/default_api.md#file_responseGet) | **GET** /file_response | Get a file
-[**getStructuredYaml**](docs/default_api.md#getStructuredYaml) | **GET** /get-structured-yaml | 
-[**htmlPost**](docs/default_api.md#htmlPost) | **POST** /html | Test HTML handling
-[**post_yaml**](docs/default_api.md#post_yaml) | **POST** /post-yaml | 
-[**raw_jsonGet**](docs/default_api.md#raw_jsonGet) | **GET** /raw_json | Get an arbitrary JSON blob.
-[**solo_objectPost**](docs/default_api.md#solo_objectPost) | **POST** /solo-object | Send an arbitrary JSON blob
+[**AllOf_Get**](docs/default_api.md#AllOfGet) | **GET** /allOf | 
+[**dummyGet**](docs/default_api.md#DummyGet) | **GET** /dummy | A dummy endpoint to make the spec valid.
+[**dummyPut**](docs/default_api.md#DummyPut) | **PUT** /dummy | 
+[**file_responseGet**](docs/default_api.md#FileResponseGet) | **GET** /file_response | Get a file
+[**getStructuredYaml**](docs/default_api.md#GetStructuredYaml) | **GET** /get-structured-yaml | 
+[**htmlPost**](docs/default_api.md#HtmlPost) | **POST** /html | Test HTML handling
+[**post_yaml**](docs/default_api.md#PostYaml) | **POST** /post-yaml | 
+[**raw_jsonGet**](docs/default_api.md#RawJsonGet) | **GET** /raw_json | Get an arbitrary JSON blob.
+[**solo_objectPost**](docs/default_api.md#SoloObjectPost) | **POST** /solo-object | Send an arbitrary JSON blob
 
 
 ## Documentation For Models

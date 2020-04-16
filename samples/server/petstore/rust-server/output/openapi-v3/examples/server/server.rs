@@ -128,7 +128,7 @@ use openapi_v3::{
     XmlPostResponse,
     XmlPutResponse,
     CreateRepoResponse,
-    Get RepoInfoResponse,
+    GetRepoInfoResponse,
 };
 use openapi_v3::server::MakeService;
 
@@ -353,7 +353,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn get_repo_info(
         &self,
         repo_id: String,
-        context: &C) -> Box<dyn Future<Item=Get RepoInfoResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
         info!("get_repo_info(\"{}\") - X-Span-ID: {:?}", repo_id, context.get().0.clone());

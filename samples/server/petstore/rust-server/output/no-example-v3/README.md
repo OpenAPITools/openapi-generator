@@ -94,7 +94,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[****](docs/default_api.md#) | **GET** /op | 
+[****](docs/default_api.md#OpGet) | **GET** /op | 
 
 
 ## Documentation For Models

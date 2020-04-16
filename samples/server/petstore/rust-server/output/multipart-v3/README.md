@@ -97,9 +97,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[****](docs/default_api.md#) | **POST** /multipart_related_request | 
-[****](docs/default_api.md#) | **POST** /multipart_request | 
-[****](docs/default_api.md#) | **POST** /multiple-identical-mime-types | 
+[****](docs/default_api.md#MultipartRelatedRequestPost) | **POST** /multipart_related_request | 
+[****](docs/default_api.md#MultipartRequestPost) | **POST** /multipart_request | 
+[****](docs/default_api.md#MultipleIdenticalMimeTypesPost) | **POST** /multiple-identical-mime-types | 
 
 
 ## Documentation For Models

@@ -4,19 +4,19 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-**AllOf_Get**](default_api.md#AllOf_Get) | **GET** /allOf | 
-**dummyGet**](default_api.md#dummyGet) | **GET** /dummy | A dummy endpoint to make the spec valid.
-**dummyPut**](default_api.md#dummyPut) | **PUT** /dummy | 
-**file_responseGet**](default_api.md#file_responseGet) | **GET** /file_response | Get a file
-**getStructuredYaml**](default_api.md#getStructuredYaml) | **GET** /get-structured-yaml | 
-**htmlPost**](default_api.md#htmlPost) | **POST** /html | Test HTML handling
-**post_yaml**](default_api.md#post_yaml) | **POST** /post-yaml | 
-**raw_jsonGet**](default_api.md#raw_jsonGet) | **GET** /raw_json | Get an arbitrary JSON blob.
-**solo_objectPost**](default_api.md#solo_objectPost) | **POST** /solo-object | Send an arbitrary JSON blob
+**AllOfGet**](default_api.md#AllOfGet) | **GET** /allOf | 
+**DummyGet**](default_api.md#DummyGet) | **GET** /dummy | A dummy endpoint to make the spec valid.
+**DummyPut**](default_api.md#DummyPut) | **PUT** /dummy | 
+**FileResponseGet**](default_api.md#FileResponseGet) | **GET** /file_response | Get a file
+**GetStructuredYaml**](default_api.md#GetStructuredYaml) | **GET** /get-structured-yaml | 
+**HtmlPost**](default_api.md#HtmlPost) | **POST** /html | Test HTML handling
+**PostYaml**](default_api.md#PostYaml) | **POST** /post-yaml | 
+**RawJsonGet**](default_api.md#RawJsonGet) | **GET** /raw_json | Get an arbitrary JSON blob.
+**SoloObjectPost**](default_api.md#SoloObjectPost) | **POST** /solo-object | Send an arbitrary JSON blob
 
 
-# **AllOf_Get**
-> models::AllOfObject AllOf_Get()
+# **AllOfGet**
+> models::AllOfObject AllOfGet()
 
 
 Test getting an object which uses allOf
@@ -39,8 +39,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **dummyGet**
-> dummyGet()
+# **DummyGet**
+> DummyGet()
 A dummy endpoint to make the spec valid.
 
 ### Required Parameters
@@ -61,8 +61,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **dummyPut**
-> dummyPut(nested_response)
+# **DummyPut**
+> DummyPut(nested_response)
 
 
 ### Required Parameters
@@ -86,8 +86,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **file_responseGet**
-> swagger::ByteArray file_responseGet()
+# **FileResponseGet**
+> swagger::ByteArray FileResponseGet()
 Get a file
 
 ### Required Parameters
@@ -108,8 +108,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getStructuredYaml**
-> models::GetYamlResponse getStructuredYaml()
+# **GetStructuredYaml**
+> models::GetYamlResponse GetStructuredYaml()
 
 
 Test returning arbitrary structured YAML
@@ -132,8 +132,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **htmlPost**
-> String htmlPost(body)
+# **HtmlPost**
+> String HtmlPost(body)
 Test HTML handling
 
 ### Required Parameters
@@ -157,8 +157,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **post_yaml**
-> post_yaml(value)
+# **PostYaml**
+> PostYaml(value)
 
 
 Test sending an arbitrary unsupported format - e.g. YAML
@@ -184,8 +184,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **raw_jsonGet**
-> serde_json::Value raw_jsonGet()
+# **RawJsonGet**
+> serde_json::Value RawJsonGet()
 Get an arbitrary JSON blob.
 
 ### Required Parameters
@@ -206,8 +206,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **solo_objectPost**
-> solo_objectPost(value)
+# **SoloObjectPost**
+> SoloObjectPost(value)
 Send an arbitrary JSON blob
 
 ### Required Parameters

@@ -4,18 +4,18 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-**createUser**](user_api.md#createUser) | **POST** /user | Create user
-**createUsersWithArrayInput**](user_api.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-**createUsersWithListInput**](user_api.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-**deleteUser**](user_api.md#deleteUser) | **DELETE** /user/{username} | Delete user
-**getUserByName**](user_api.md#getUserByName) | **GET** /user/{username} | Get user by user name
-**loginUser**](user_api.md#loginUser) | **GET** /user/login | Logs user into the system
-**logoutUser**](user_api.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-**updateUser**](user_api.md#updateUser) | **PUT** /user/{username} | Updated user
+**CreateUser**](user_api.md#CreateUser) | **POST** /user | Create user
+**CreateUsersWithArrayInput**](user_api.md#CreateUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+**CreateUsersWithListInput**](user_api.md#CreateUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+**DeleteUser**](user_api.md#DeleteUser) | **DELETE** /user/{username} | Delete user
+**GetUserByName**](user_api.md#GetUserByName) | **GET** /user/{username} | Get user by user name
+**LoginUser**](user_api.md#LoginUser) | **GET** /user/login | Logs user into the system
+**LogoutUser**](user_api.md#LogoutUser) | **GET** /user/logout | Logs out current logged in user session
+**UpdateUser**](user_api.md#UpdateUser) | **PUT** /user/{username} | Updated user
 
 
-# **createUser**
-> createUser(body)
+# **CreateUser**
+> CreateUser(body)
 Create user
 
 This can only be done by the logged in user.
@@ -41,8 +41,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+# **CreateUsersWithArrayInput**
+> CreateUsersWithArrayInput(body)
 Creates list of users with given input array
 
 ### Required Parameters
@@ -66,8 +66,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createUsersWithListInput**
-> createUsersWithListInput(body)
+# **CreateUsersWithListInput**
+> CreateUsersWithListInput(body)
 Creates list of users with given input array
 
 ### Required Parameters
@@ -91,8 +91,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteUser**
-> deleteUser(username)
+# **DeleteUser**
+> DeleteUser(username)
 Delete user
 
 This can only be done by the logged in user.
@@ -118,8 +118,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getUserByName**
-> models::User getUserByName(username)
+# **GetUserByName**
+> models::User GetUserByName(username)
 Get user by user name
 
 ### Required Parameters
@@ -143,8 +143,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **loginUser**
-> String loginUser(username, password)
+# **LoginUser**
+> String LoginUser(username, password)
 Logs user into the system
 
 ### Required Parameters
@@ -169,8 +169,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **logoutUser**
-> logoutUser()
+# **LogoutUser**
+> LogoutUser()
 Logs out current logged in user session
 
 ### Required Parameters
@@ -191,8 +191,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateUser**
-> updateUser(username, body)
+# **UpdateUser**
+> UpdateUser(username, body)
 Updated user
 
 This can only be done by the logged in user.

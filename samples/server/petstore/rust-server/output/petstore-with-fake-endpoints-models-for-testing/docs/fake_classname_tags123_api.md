@@ -4,11 +4,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-**testClassname**](fake_classname_tags123_api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
+**TestClassname**](fake_classname_tags123_api.md#TestClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
-# **testClassname**
-> models::Client testClassname(ctx, body)
+# **TestClassname**
+> models::Client TestClassname(ctx, body)
 To test class name in snake case
 
 To test class name in snake case

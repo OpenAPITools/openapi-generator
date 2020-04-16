@@ -57,7 +57,7 @@ use crate::{Api,
      XmlPostResponse,
      XmlPutResponse,
      CreateRepoResponse,
-     Get RepoInfoResponse
+     GetRepoInfoResponse
      };
 
 pub mod callbacks;
@@ -2330,7 +2330,7 @@ impl<C, F> Api<C> for Client<F> where
     fn get_repo_info(
         &self,
         param_repo_id: String,
-        context: &C) -> Box<dyn Future<Item=Get RepoInfoResponse, Error=ApiError> + Send>
+        context: &C) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>
     {
         let mut uri = format!(
             "{}/repos/{repo_id}",
@@ -2384,7 +2384,7 @@ impl<C, F> Api<C> for Client<F> where
                                              )
                                  )
                         .map(move |body| {
-                            Get RepoInfoResponse::OK
+                            GetRepoInfoResponse::OK
                             (body)
                         })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
