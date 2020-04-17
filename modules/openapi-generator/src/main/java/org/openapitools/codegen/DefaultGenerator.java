@@ -783,12 +783,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     continue;
                 }
 
-<<<<<<< HEAD
-                File targetedFile = new File(outputFilename);
-                if (ignoreProcessor.allowsFile(targetedFile)) {
-                    if (targetedFile.exists() && !support.canOverwrite) {
-                        LOGGER.info("Skipped overwriting " + support.destinationFilename + " as the file already exists.");
-=======
                 if (ignoreProcessor.allowsFile(new File(outputFilename))) {
                     // support.templateFile is the unmodified/original supporting file name (e.g. build.sh.mustache)
                     // templatingEngine.templateExists dispatches resolution to this, performing template-engine specific inspect of support file extensions.
@@ -800,7 +794,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         if (config.isEnablePostProcessFile()) {
                             config.postProcessFile(written, "supporting-mustache");
                         }
->>>>>>> origin/master
                     } else {
                         if (Arrays.stream(templatingEngine.getFileExtensions()).anyMatch(templateFile::endsWith)) {
                             String templateContent = templatingEngine.compileTemplate(this, bundle, support.templateFile);
@@ -813,7 +806,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         } else {
                             InputStream in = null;
 
-<<<<<<< HEAD
                             try {
                                 in = new FileInputStream(templateFile);
                             } catch (Exception e) {
@@ -827,20 +819,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             if (config.isEnablePostProcessFile()) {
                                 config.postProcessFile(outputFile, "supporting-common");
                             }
-=======
-                        try {
-                            in = new FileInputStream(templateFile);
-                        } catch (Exception e) {
-                            // continue
-                        }
-                        if (in == null) {
-                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
-                        }
-                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
-                        files.add(outputFile);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(outputFile, "supporting-common");
->>>>>>> origin/master
                         }
                     }
 
