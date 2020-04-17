@@ -37,7 +37,7 @@ import org.openapitools.codegen.config.GlobalSettings
  *
  * Example (CLI):
  *
- * ./gradlew -q openApiGenerate
+ * ./gradlew -q openApiGenerate --input=/path/to/file
  *
  * @author Jim Schubert
  */
@@ -68,6 +68,14 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val outputDir = project.objects.property<String>()
 
+    @Suppress("unused")
+    @get:Internal
+    @set:Option(option = "input", description = "The input specification.")
+    var input: String? = null
+        set(value) {
+            inputSpec.set(value)
+        }
+    
     /**
      * The Open API 2.0/3.x specification location.
      */
