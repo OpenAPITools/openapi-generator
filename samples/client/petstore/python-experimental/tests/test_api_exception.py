@@ -51,8 +51,7 @@ class ApiExceptionTests(unittest.TestCase):
         except ApiException as e:
             self.assertEqual(e.status, 404)
             self.assertEqual(e.reason, "Not Found")
-            body = e.body.decode('utf-8') if six.PY3 else e.body
-            self.checkRegex(body, "Pet not found")
+            self.checkRegex(e.body, "Pet not found")
 
     def test_500_error(self):
         self.pet_api.add_pet(self.pet)
@@ -71,8 +70,7 @@ class ApiExceptionTests(unittest.TestCase):
         except ApiException as e:
             self.assertEqual(e.status, 500)
             self.assertEqual(e.reason, "Internal Server Error")
-            body = e.body.decode('utf-8') if six.PY3 else e.body
-            self.checkRegex(body, "Error 500 Internal Server Error")
+            self.checkRegex(e.body, "Error 500 Internal Server Error")
 
     def checkRaiseRegex(self, expected_exception, expected_regex):
         if sys.version_info < (3, 0):
