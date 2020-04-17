@@ -63,6 +63,7 @@ impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
     }
 }
 
+<<<<<<< HEAD
 {{#vendorExtensions.isString}}
 impl std::string::ToString for {{{classname}}} {
     fn to_string(&self) -> String {
@@ -70,13 +71,16 @@ impl std::string::ToString for {{{classname}}} {
     }
 }
 
+=======
+{{#vendorExtensions.x-is-string}}
+>>>>>>> origin/master
 impl std::str::FromStr for {{{classname}}} {
     type Err = std::string::ParseError;
     fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
         std::result::Result::Ok({{{classname}}}(x.to_string()))
     }
 }
-{{/vendorExtensions.isString}}
+{{/vendorExtensions.x-is-string}}
 
 impl std::convert::From<{{{classname}}}> for {{{dataType}}} {
     fn from(x: {{{classname}}}) -> Self {

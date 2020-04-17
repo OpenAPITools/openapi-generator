@@ -28,6 +28,9 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * FormatTest
@@ -104,7 +107,7 @@ public class FormatTest {
    * @return integer
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+ @Min(10) @Max(100)  @ApiModelProperty(value = "")
 
   public Integer getInteger() {
     return integer;
@@ -129,7 +132,7 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+ @Min(20) @Max(200)  @ApiModelProperty(value = "")
 
   public Integer getInt32() {
     return int32;
@@ -176,7 +179,9 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
-  @ApiModelProperty(required = true, value = "")
+  @NotNull
+  @Valid
+ @DecimalMin("32.1") @DecimalMax("543.2")  @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumber() {
     return number;
@@ -201,7 +206,7 @@ public class FormatTest {
    * @return _float
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+ @DecimalMin("54.3") @DecimalMax("987.6")  @ApiModelProperty(value = "")
 
   public Float getFloat() {
     return _float;
@@ -226,7 +231,7 @@ public class FormatTest {
    * @return _double
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+ @DecimalMin("67.8") @DecimalMax("123.4")  @ApiModelProperty(value = "")
 
   public Double getDouble() {
     return _double;
@@ -249,7 +254,7 @@ public class FormatTest {
    * @return string
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+ @Pattern(regexp="/[a-z]/i")  @ApiModelProperty(value = "")
 
   public String getString() {
     return string;
@@ -271,7 +276,8 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
-  @ApiModelProperty(required = true, value = "")
+  @NotNull
+ @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  @ApiModelProperty(required = true, value = "")
 
   public byte[] getByte() {
     return _byte;
@@ -294,6 +300,7 @@ public class FormatTest {
    * @return binary
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public File getBinary() {
@@ -316,6 +323,8 @@ public class FormatTest {
    * Get date
    * @return date
   **/
+  @NotNull
+  @Valid
   @ApiModelProperty(required = true, value = "")
 
   public LocalDate getDate() {
@@ -339,6 +348,7 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public OffsetDateTime getDateTime() {
@@ -362,6 +372,7 @@ public class FormatTest {
    * @return uuid
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
 
   public UUID getUuid() {
@@ -384,7 +395,8 @@ public class FormatTest {
    * Get password
    * @return password
   **/
-  @ApiModelProperty(required = true, value = "")
+  @NotNull
+ @Size(min=10,max=64)  @ApiModelProperty(required = true, value = "")
 
   public String getPassword() {
     return password;
@@ -407,6 +419,7 @@ public class FormatTest {
    * @return bigDecimal
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public BigDecimal getBigDecimal() {

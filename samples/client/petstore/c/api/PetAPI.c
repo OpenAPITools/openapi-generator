@@ -11,10 +11,54 @@
     snprintf(dst, 256, "%ld", (long int)(src));\
 }while(0)
 
+// Functions for enum STATUS for PetAPI_findPetsByStatus
+
+static char* findPetsByStatus_STATUS_ToString(openapi_petstore_findPetsByStatus_status_e STATUS){
+    char *STATUSArray[] =  { "NULL", "available", "pending", "sold" };
+    return STATUSArray[STATUS];
+}
+
+static openapi_petstore_findPetsByStatus_status_e findPetsByStatus_STATUS_FromString(char* STATUS){
+    int stringToReturn = 0;
+    char *STATUSArray[] =  { "NULL", "available", "pending", "sold" };
+    size_t sizeofArray = sizeof(STATUSArray) / sizeof(STATUSArray[0]);
+    while(stringToReturn < sizeofArray) {
+        if(strcmp(STATUS, STATUSArray[stringToReturn]) == 0) {
+            return stringToReturn;
+        }
+        stringToReturn++;
+    }
+    return 0;
+}
+
+/*
+// Function findPetsByStatus_STATUS_convertToJSON is not currently used,
+// since conversion to JSON passes through the conversion of the model, and ToString. The function is kept for future reference.
+//
+static cJSON *findPetsByStatus_STATUS_convertToJSON(openapi_petstore_findPetsByStatus_status_e STATUS) {
+    cJSON *item = cJSON_CreateObject();
+    return item;
+    fail:
+    cJSON_Delete(item);
+    return NULL;
+}
+
+// Function findPetsByStatus_STATUS_parseFromJSON is not currently used,
+// since conversion from JSON passes through the conversion of the model, and FromString. The function is kept for future reference.
+//
+static openapi_petstore_findPetsByStatus_status_e findPetsByStatus_STATUS_parseFromJSON(cJSON* STATUSJSON) {
+    openapi_petstore_findPetsByStatus_status_e STATUSVariable = 0;
+    return STATUSVariable;
+end:
+    return 0;
+}
+*/
+
+
 // Add a new pet to the store
 //
 void
-PetAPI_addPet(apiClient_t *apiClient ,pet_t * body)
+PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -58,6 +102,8 @@ PetAPI_addPet(apiClient_t *apiClient ,pet_t * body)
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -73,7 +119,7 @@ end:
 // Deletes a pet
 //
 void
-PetAPI_deletePet(apiClient_t *apiClient ,long petId ,char * api_key)
+PetAPI_deletePet(apiClient_t *apiClient, long petId , char * api_key )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_create();
@@ -132,6 +178,8 @@ PetAPI_deletePet(apiClient_t *apiClient ,long petId ,char * api_key)
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     list_free(localVarHeaderParameters);
@@ -151,7 +199,7 @@ end:
 // Multiple status values can be provided with comma separated strings
 //
 list_t*
-PetAPI_findPetsByStatus(apiClient_t *apiClient ,list_t * status)
+PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
 {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = NULL;
@@ -212,6 +260,8 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient ,list_t * status)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     list_free(localVarQueryParameters);
     
@@ -230,7 +280,7 @@ end:
 // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 //
 list_t*
-PetAPI_findPetsByTags(apiClient_t *apiClient ,list_t * tags)
+PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
 {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = NULL;
@@ -291,6 +341,8 @@ PetAPI_findPetsByTags(apiClient_t *apiClient ,list_t * tags)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     list_free(localVarQueryParameters);
     
@@ -309,7 +361,7 @@ end:
 // Returns a single pet
 //
 pet_t*
-PetAPI_getPetById(apiClient_t *apiClient ,long petId)
+PetAPI_getPetById(apiClient_t *apiClient, long petId )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -371,6 +423,8 @@ PetAPI_getPetById(apiClient_t *apiClient ,long petId)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -388,7 +442,7 @@ end:
 // Update an existing pet
 //
 void
-PetAPI_updatePet(apiClient_t *apiClient ,pet_t * body)
+PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -438,6 +492,8 @@ PetAPI_updatePet(apiClient_t *apiClient ,pet_t * body)
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -453,7 +509,7 @@ end:
 // Updates a pet in the store with form data
 //
 void
-PetAPI_updatePetWithForm(apiClient_t *apiClient ,long petId ,char * name ,char * status)
+PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char * status )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -525,6 +581,8 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient ,long petId ,char * name ,char *
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -545,7 +603,7 @@ end:
 // uploads an image
 //
 api_response_t*
-PetAPI_uploadFile(apiClient_t *apiClient ,long petId ,char * additionalMetadata ,binary_t* file)
+PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata , binary_t* file )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -625,6 +683,8 @@ PetAPI_uploadFile(apiClient_t *apiClient ,long petId ,char * additionalMetadata 
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     

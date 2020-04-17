@@ -26,7 +26,8 @@ sidebar_label: go-server
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>bool</li>
+<ul class="column-ul">
+<li>bool</li>
 <li>byte</li>
 <li>complex128</li>
 <li>complex64</li>
@@ -35,6 +36,8 @@ sidebar_label: go-server
 <li>int</li>
 <li>int32</li>
 <li>int64</li>
+<li>interface{}</li>
+<li>map[string]interface{}</li>
 <li>rune</li>
 <li>string</li>
 <li>uint</li>
@@ -44,7 +47,8 @@ sidebar_label: go-server
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>bool</li>
+<ul class="column-ul">
+<li>bool</li>
 <li>break</li>
 <li>byte</li>
 <li>case</li>

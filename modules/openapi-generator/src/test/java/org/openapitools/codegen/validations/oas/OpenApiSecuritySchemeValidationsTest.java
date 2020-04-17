@@ -20,7 +20,7 @@ public class OpenApiSecuritySchemeValidationsTest {
 
         SecurityScheme securityScheme = new SecurityScheme().in(in).name(key);
 
-        ValidationResult result = validator.validate(securityScheme);
+        ValidationResult result = validator.validate(new SecuritySchemeWrapper(null, securityScheme));
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
@@ -39,7 +39,7 @@ public class OpenApiSecuritySchemeValidationsTest {
 
         SecurityScheme securityScheme = new SecurityScheme().in(in).name(key);
 
-        ValidationResult result = validator.validate(securityScheme);
+        ValidationResult result = validator.validate(new SecuritySchemeWrapper(null, securityScheme));
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
@@ -58,7 +58,7 @@ public class OpenApiSecuritySchemeValidationsTest {
 
         SecurityScheme securityScheme = new SecurityScheme().in(in).name(key);
 
-        ValidationResult result = validator.validate(securityScheme);
+        ValidationResult result = validator.validate(new SecuritySchemeWrapper(null, securityScheme));
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()

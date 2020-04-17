@@ -1261,8 +1261,25 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 XmlOtherPostResponse::OK
+<<<<<<< HEAD
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+=======
+
+                                                    (body)
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(201).unwrap());
+
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::XML_OTHER_POST_OK.clone()));
+
+                                                    let mut namespaces = BTreeMap::new();
+                                                    // An empty string is used to indicate a global namespace in xmltree.
+                                                    namespaces.insert("".to_string(), models::AnotherXmlObject::NAMESPACE.to_string());
+                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    response.set_body(body);
+>>>>>>> origin/master
                                                 },
                                                 XmlOtherPostResponse::BadRequest
                                                 => {
@@ -1300,18 +1317,19 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<models::AnotherXmlArray> = if !body.is_empty() {
+                                let param_another_xml_array: Option<models::AnotherXmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_string) => param_string,
+                                        Ok(param_another_xml_array) => param_another_xml_array,
                                         Err(_) => None,
                                     }
                                 } else {
                                     None
                                 };
+<<<<<<< HEAD
 
                                 Box::new(
                                     api_impl.xml_other_put(
@@ -1323,6 +1341,12 @@ where
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
+=======
+                                Box::new(api_impl.xml_other_put(param_another_xml_array, &context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+>>>>>>> origin/master
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
@@ -1354,10 +1378,14 @@ where
                                     }
                                 ))
                             },
+<<<<<<< HEAD
                             Err(e) => Box::new(future::ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
                                                 .body(Body::from(format!("Couldn't read body parameter string: {}", e)))
                                                 .expect("Unable to create Bad Request response due to unable to read body parameter string"))),
+=======
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter AnotherXmlArray: {}", e)))),
+>>>>>>> origin/master
                         }
                     })
                 ) as Self::Future
@@ -1373,18 +1401,19 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<models::XmlArray> = if !body.is_empty() {
+                                let param_xml_array: Option<models::XmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_string) => param_string,
+                                        Ok(param_xml_array) => param_xml_array,
                                         Err(_) => None,
                                     }
                                 } else {
                                     None
                                 };
+<<<<<<< HEAD
 
                                 Box::new(
                                     api_impl.xml_post(
@@ -1396,6 +1425,12 @@ where
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
+=======
+                                Box::new(api_impl.xml_post(param_xml_array, &context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+>>>>>>> origin/master
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
@@ -1427,10 +1462,14 @@ where
                                     }
                                 ))
                             },
+<<<<<<< HEAD
                             Err(e) => Box::new(future::ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
                                                 .body(Body::from(format!("Couldn't read body parameter string: {}", e)))
                                                 .expect("Unable to create Bad Request response due to unable to read body parameter string"))),
+=======
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter XmlArray: {}", e)))),
+>>>>>>> origin/master
                         }
                     })
                 ) as Self::Future

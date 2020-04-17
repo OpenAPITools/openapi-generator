@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -18,6 +17,23 @@ import (
 type ReadOnlyFirst struct {
 	Bar *string `json:"bar,omitempty"`
 	Baz *string `json:"baz,omitempty"`
+}
+
+// NewReadOnlyFirst instantiates a new ReadOnlyFirst object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewReadOnlyFirst() *ReadOnlyFirst {
+	this := ReadOnlyFirst{}
+	return &this
+}
+
+// NewReadOnlyFirstWithDefaults instantiates a new ReadOnlyFirst object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewReadOnlyFirstWithDefaults() *ReadOnlyFirst {
+	this := ReadOnlyFirst{}
+	return &this
 }
 
 // GetBar returns the Bar field value if set, zero value otherwise.
@@ -29,14 +45,13 @@ func (o *ReadOnlyFirst) GetBar() string {
 	return *o.Bar
 }
 
-// GetBarOk returns a tuple with the Bar field value if set, zero value otherwise
+// GetBarOk returns a tuple with the Bar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ReadOnlyFirst) GetBarOk() (string, bool) {
+func (o *ReadOnlyFirst) GetBarOk() (*string, bool) {
 	if o == nil || o.Bar == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Bar, true
+	return o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
@@ -62,14 +77,13 @@ func (o *ReadOnlyFirst) GetBaz() string {
 	return *o.Baz
 }
 
-// GetBazOk returns a tuple with the Baz field value if set, zero value otherwise
+// GetBazOk returns a tuple with the Baz field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ReadOnlyFirst) GetBazOk() (string, bool) {
+func (o *ReadOnlyFirst) GetBazOk() (*string, bool) {
 	if o == nil || o.Baz == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Baz, true
+	return o.Baz, true
 }
 
 // HasBaz returns a boolean if a field has been set.
@@ -86,25 +100,49 @@ func (o *ReadOnlyFirst) SetBaz(v string) {
 	o.Baz = &v
 }
 
+func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Bar != nil {
+		toSerialize["bar"] = o.Bar
+	}
+	if o.Baz != nil {
+		toSerialize["baz"] = o.Baz
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableReadOnlyFirst struct {
-	Value ReadOnlyFirst
-	ExplicitNull bool
+	value *ReadOnlyFirst
+	isSet bool
+}
+
+func (v NullableReadOnlyFirst) Get() *ReadOnlyFirst {
+	return v.value
+}
+
+func (v *NullableReadOnlyFirst) Set(val *ReadOnlyFirst) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableReadOnlyFirst) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableReadOnlyFirst) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableReadOnlyFirst(val *ReadOnlyFirst) *NullableReadOnlyFirst {
+	return &NullableReadOnlyFirst{value: val, isSet: true}
 }
 
 func (v NullableReadOnlyFirst) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableReadOnlyFirst) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

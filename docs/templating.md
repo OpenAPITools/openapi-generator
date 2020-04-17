@@ -41,9 +41,10 @@ OpenAPI Generator not only supports local files for templating, but also templat
 
 You can define your classpath to contain your JAR and the openapi-generator-cli _fat jar_, then invoke main class `org.openapitools.codegen.OpenAPIGenerator`. For instance,
 
-```sh
+```bash
 java -cp /path/totemplate-classpath-example-1.0-SNAPSHOT.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
-    org.openapitools.codegen.OpenAPIGenerator generate -i https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml \
+    org.openapitools.codegen.OpenAPIGenerator generate \
+    -i https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml \
     -g html -o template-example -t templates/htmlDocs
 ```
 
@@ -525,7 +526,7 @@ apiTemplateFiles.put("api.mustache", ".java");
 
 For C-like languages which also require header files, you may create two files per operation.
 
-```objc
+```objectivec
 // create a header and implementation for each operation group:
 apiTemplateFiles.put("api-header.mustache", ".h");
 apiTemplateFiles.put("api-body.mustache", ".m");

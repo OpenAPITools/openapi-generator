@@ -177,7 +177,317 @@ impl<F> Client<F>
     }
 }
 
+<<<<<<< HEAD
 /// Error type failing to create a Client
+=======
+impl<F, C> Api<C> for Client<F> where
+    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}}{
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError>> {
+        let mut uri = format!(
+            "{}{{{basePathWithoutHost}}}{{{vendorExtensions.x-path-format-string}}}",
+            self.base_path{{#pathParams}}, {{{paramName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+{{#queryParams}}{{#required}}        query_string.append_pair("{{{baseName}}}", &param_{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});{{/required}}
+{{^required}}        if let Some({{{paramName}}}) = param_{{{paramName}}} {
+            query_string.append_pair("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
+        }{{/required}}{{/queryParams}}
+{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}        if let Some(auth_data) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                query_string.append_pair("{{keyParamName}}", api_key);
+            }
+        }{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::{{#vendorExtensions}}{{{HttpMethod}}}{{/vendorExtensions}}, uri);
+
+{{#vendorExtensions}}
+  {{#consumesMultipart}}
+        let mut multipart = Multipart::new(); 
+
+    {{#vendorExtensions}}
+      {{#formParams}}
+        {{#-first}}
+        // For each parameter, encode as appropriate and add to the multipart body as a stream.
+        {{/-first}}
+        {{^isByteArray}}
+          {{#jsonSchema}}
+
+        let {{{paramName}}}_str = match serde_json::to_string(&param_{{{paramName}}}) {
+            Ok(str) => str,
+            Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse {{{paramName}}} to string: {}", e))))),
+        };
+
+        let {{{paramName}}}_vec = {{{paramName}}}_str.as_bytes().to_vec();
+
+        let {{{paramName}}}_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
+
+        let {{{paramName}}}_cursor = Cursor::new({{{paramName}}}_vec);
+
+        multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  None as Option<&str>, Some({{{paramName}}}_mime));  
+
+          {{/jsonSchema}}
+        {{/isByteArray}}
+        {{#isByteArray}}
+
+        let {{{paramName}}}_vec = param_{{{paramName}}}.to_vec();
+
+        let {{{paramName}}}_mime = match mime::Mime::from_str("application/octet-stream") {
+            Ok(mime) => mime,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to get mime type: {:?}", err))))),
+        };
+
+        let {{{paramName}}}_cursor = Cursor::new({{{paramName}}}_vec);
+
+        let filename = None as Option<&str> ;
+        multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  filename, Some({{{paramName}}}_mime));  
+
+        {{/isByteArray}}
+        {{#-last}}
+        {{/-last}}
+      {{/formParams}}
+    {{/vendorExtensions}}
+
+        let mut fields = match multipart.prepare() {
+            Ok(fields) => fields,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
+        };
+
+        let mut body_string = String::new();
+        fields.to_body().read_to_string(&mut body_string).unwrap();
+        let boundary = fields.boundary();
+
+        let multipart_header = match Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
+            Ok(multipart_header) => multipart_header,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
+        };
+
+        request.set_body(body_string.into_bytes());
+        request.headers_mut().set(ContentType(multipart_header));
+
+  {{/consumesMultipart}}
+{{/vendorExtensions}}
+{{#vendorExtensions}}
+  {{^consumesMultipart}}
+    {{#vendorExtensions}}
+      {{#formParams}}
+        {{#-first}}
+        let params = &[
+        {{/-first}}
+            ("{{{baseName}}}", {{#vendorExtensions}}{{#required}}Some({{#isString}}param_{{{paramName}}}{{/isString}}{{^isString}}format!("{:?}", param_{{{paramName}}}){{/isString}}){{/required}}{{^required}}{{#isString}}param_{{{paramName}}}{{/isString}}{{^isString}}param_{{{paramName}}}.map(|param| format!("{:?}", param)){{/isString}}{{/required}}),{{/vendorExtensions}}
+        {{#-last}}
+        ];
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
+
+        request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}}.clone()));
+        request.set_body(body.into_bytes());
+        {{/-last}}
+      {{/formParams}}
+    {{/vendorExtensions}}
+    {{#bodyParam}}
+      {{#-first}}
+        // Body parameter
+      {{/-first}}
+        {{#vendorExtensions}}
+        {{#consumesPlainText}}
+        {{#isByteArray}}
+        let body = param_{{{paramName}}}.0;
+        {{/isByteArray}}
+        {{^isByteArray}}
+        let body = param_{{{paramName}}};
+        {{/isByteArray}}
+        {{/consumesPlainText}}
+        {{#required}}
+        {{#consumesXml}}
+        let body = param_{{{paramName}}}.to_xml();
+        {{/consumesXml}}
+        {{#consumesJson}}
+        let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
+        {{/consumesJson}}
+        {{/required}}
+        {{^required}}
+        let body = param_{{{paramName}}}.map(|ref body| {
+            {{#consumesXml}}
+            body.to_xml()
+            {{/consumesXml}}
+            {{#consumesJson}}
+            serde_json::to_string(body).expect("impossible to fail to serialize")
+            {{/consumesJson}}
+        });
+        {{/required}}
+        {{/vendorExtensions}}
+        {{^required}}
+
+        if let Some(body) = body {
+{{/required}}
+        request.set_body(body);
+{{^required}}
+        }
+{{/required}}
+
+        request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}}.clone()));
+    {{/bodyParam}}
+  {{/consumesMultipart}}
+{{/vendorExtensions}}
+
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+{{#vendorExtensions.x-has-header-auth-methods}}
+
+        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+            {{#authMethods}}
+                {{#isApiKey}}
+                    {{#isKeyInHeader}}
+                &AuthData::ApiKey(ref api_key) => {
+                    header! { ({{#vendorExtensions}}{{x-apiKeyName}}{{/vendorExtensions}}, "{{keyParamName}}") => [String] }
+                    request.headers_mut().set(
+                        {{#vendorExtensions}}{{x-apiKeyName}}{{/vendorExtensions}}(api_key.to_string())
+                    )
+                },
+                    {{/isKeyInHeader}}
+                {{/isApiKey}}
+                {{#isBasicBasic}}
+                &AuthData::Basic(ref basic_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        basic_header.clone(),
+                    ))
+                },
+                {{/isBasicBasic}}
+                {{#isBasicBearer}}
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                {{/isBasicBearer}}
+                {{#isOAuth}}
+                {{^isBasicBearer}}
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                {{/isBasicBearer}}
+                {{/isOAuth}}
+            {{/authMethods}}
+                _ => {}
+            }
+        });
+{{/vendorExtensions.x-has-header-auth-methods}}
+{{#headerParams}}
+{{#-first}}
+
+        // Header parameters
+{{/-first}}{{^isMapContainer}}        header! { (Request{{vendorExtensions.x-type-name}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
+{{#required}}        request.headers_mut().set(Request{{vendorExtensions.x-type-name}}(param_{{{paramName}}}{{#isListContainer}}.clone(){{/isListContainer}}));
+{{/required}}{{^required}}        param_{{{paramName}}}.map(|header| request.headers_mut().set(Request{{vendorExtensions.x-type-name}}(header{{#isListContainer}}.clone(){{/isListContainer}})));
+{{/required}}{{/isMapContainer}}{{#isMapContainer}}                let param_{{{paramName}}}: Option<{{{dataType}}}> = None;
+{{/isMapContainer}}
+{{/headerParams}}
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+{{#responses}}
+                {{{code}}} => {
+{{#headers}}                    header! { (Response{{{nameInCamelCase}}}, "{{{baseName}}}") => [{{{datatype}}}] }
+                    let response_{{{name}}} = match response.headers().safe_get::<Response{{{nameInCamelCase}}}>() {
+                        Some(response_{{{name}}}) => response_{{{name}}}.0.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
+                    };
+{{/headers}}
+                    let body = response.body();
+                    Box::new(
+{{#dataType}}
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+{{#vendorExtensions}}
+  {{#producesBytes}}
+                            Ok(swagger::ByteArray(body.to_vec()))
+  {{/producesBytes}}
+  {{^producesBytes}}
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+    {{#producesXml}}
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<{{{dataType}}}>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+    {{/producesXml}}
+    {{#producesJson}}
+                                serde_json::from_str::<{{{dataType}}}>(body)
+                                .map_err(|e| e.into())
+    {{/producesJson}}
+    {{#producesPlainText}}
+                                Ok(body.to_string())
+    {{/producesPlainText}}
+                            )
+  {{/producesBytes}}
+{{/vendorExtensions}}
+                        )
+                        .map(move |body| {
+                            {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body: body, {{/-first}}{{{name}}}: response_{{{name}}}{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/headers}}
+                        })
+{{/dataType}}{{^dataType}}
+                        future::ok(
+                            {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}
+{{#headers}}
+  {{#-first}}
+                            {
+  {{/-first}}
+                              {{{name}}}: response_{{{name}}},
+  {{#-last}}
+                            }
+  {{/-last}}
+{{/headers}}
+                        )
+{{/dataType}}
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+{{/responses}}
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+}
+
+>>>>>>> origin/master
 #[derive(Debug)]
 pub enum ClientInitError {
     /// Invalid URL Scheme

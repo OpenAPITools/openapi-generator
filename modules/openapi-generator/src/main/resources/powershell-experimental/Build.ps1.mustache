@@ -1,0 +1,66 @@
+{{> partial_header}}
+function Get-FunctionsToExport {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [ValidateNotNullOrEmpty()]
+        [Alias('FullName')]
+        $Path
+    )
+
+    Process {
+        $Token = $null
+        $ParserErr = $null
+
+        $Ast = [System.Management.Automation.Language.Parser]::ParseFile(
+            $Path,
+            [ref]$Token,
+            [ref]$ParserErr
+        )
+
+        if ($ParserErr) {
+            throw $ParserErr
+        } else {
+            foreach ($name in 'Begin', 'Process', 'End') {
+	            foreach ($Statement in $Ast."${name}Block".Statements) {
+		            if (
+                        [String]::IsNullOrWhiteSpace($Statement.Name) -or
+                        $Statement.Extent.ToString() -notmatch
+                        ('function\W+{0}' -f $Statement.Name)
+                    ) {
+			            continue
+		            }
+
+		            $Statement.Name
+	            }
+            }
+        }
+    }
+}
+
+$ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
+$FunctionPath = 'Api', 'Model', 'Client' | ForEach-Object {Join-Path "$ScriptDir\src\{{{packageName}}}\" $_}
+
+$Manifest = @{
+    Path = "$ScriptDir\src\{{{packageName}}}\{{{packageName}}}.psd1"
+
+    Author = 'OpenAPI Generator Team'
+    CompanyName = 'openapitools.org'
+    Description = '{{{packageName}}} - the PowerShell module for {{{appName}}}'
+
+    ModuleVersion = '{{{packageVersion}}}'
+
+    RootModule = '{{{packageName}}}.psm1'
+    Guid = '{{packageGuid}}' # Has to be static, otherwise each new build will be considered different module
+
+    PowerShellVersion = '3.0'
+
+    FunctionsToExport = $FunctionPath | Get-ChildItem -Filter *.ps1 | Get-FunctionsToExport
+
+    VariablesToExport = @()
+    AliasesToExport = @()
+    CmdletsToExport = @()
+
+}
+
+New-ModuleManifest @Manifest

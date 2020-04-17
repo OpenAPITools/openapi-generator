@@ -45,4 +45,7 @@ configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 {{/isOAuth}}
 {{/authMethods}}
+
+# Defining host is optional and default to {{{basePath}}}
+configuration.host = "{{{basePath}}}"
 {{/hasAuthMethods}}
