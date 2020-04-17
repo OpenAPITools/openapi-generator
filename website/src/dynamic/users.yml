@@ -374,6 +374,11 @@
   infoLink: "https://www.yahoo.co.jp"
   pinned: false
 -
+  caption: YITU Technology
+  image: "img/companies/yitu.jpeg"
+  infoLink: "https://www.yitutech.com/"
+  pinned: false
+-
   caption: Yelp 
   image: "img/companies/yelp.png"
   infoLink: "https://www.yelp.com/"
