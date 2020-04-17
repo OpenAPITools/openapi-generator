@@ -216,6 +216,15 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         return objs;
     }
 
+    /**
+     * Overriding toRegularExpression() to avoid escapeText() being called,
+     * as it would return a broken regular expression if any escaped character / metacharacter were present.
+     */
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
+    }
+
     @Override
     public String toModelFilename(String name) {
         return super.toModelFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
