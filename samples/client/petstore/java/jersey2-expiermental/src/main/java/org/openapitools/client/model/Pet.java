@@ -28,7 +28,6 @@ import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * Pet
  */
 @JsonPropertyOrder({

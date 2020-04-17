@@ -26,7 +26,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * EnumArrays
  */
 @JsonPropertyOrder({

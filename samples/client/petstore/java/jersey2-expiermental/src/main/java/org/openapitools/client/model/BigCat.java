@@ -26,7 +26,6 @@ import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * BigCat
  */
 @JsonPropertyOrder({

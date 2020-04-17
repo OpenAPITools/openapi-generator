@@ -26,7 +26,6 @@ import org.openapitools.client.model.DogAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * Dog
  */
 @JsonPropertyOrder({

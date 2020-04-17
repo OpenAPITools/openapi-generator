@@ -24,7 +24,6 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")

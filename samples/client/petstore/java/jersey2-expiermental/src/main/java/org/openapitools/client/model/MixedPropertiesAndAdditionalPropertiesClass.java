@@ -30,7 +30,6 @@ import org.threeten.bp.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 @JsonPropertyOrder({

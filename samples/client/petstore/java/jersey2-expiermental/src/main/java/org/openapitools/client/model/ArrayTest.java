@@ -27,7 +27,6 @@ import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * ArrayTest
  */
 @JsonPropertyOrder({

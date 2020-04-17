@@ -28,7 +28,6 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * AdditionalPropertiesClass
  */
 @JsonPropertyOrder({

@@ -25,7 +25,6 @@ import org.openapitools.client.model.OuterEnum;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * EnumTest
  */
 @JsonPropertyOrder({

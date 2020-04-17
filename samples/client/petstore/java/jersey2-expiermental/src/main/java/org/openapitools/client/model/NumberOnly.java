@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * TODO TODO
  * NumberOnly
  */
 @JsonPropertyOrder({
