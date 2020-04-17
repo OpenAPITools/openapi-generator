@@ -1357,7 +1357,7 @@ public class DefaultCodegenTest {
                         .get("application/json")
                         .getSchema()
                         .getExtensions()
-                        .get("x-oneOf-name"),
+                        .get("x-one-of-name"),
                 "CreateState"
         );
         Assert.assertEquals(
@@ -1370,11 +1370,11 @@ public class DefaultCodegenTest {
                         .get("application/json")
                         .getSchema()
                         .getExtensions()
-                        .get("x-oneOf-name"),
+                        .get("x-one-of-name"),
                 "GetState200"
         );
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
-        Assert.assertEquals(items.getExtensions().get("x-oneOf-name"), "CustomOneOfArraySchemaOneOf");
+        Assert.assertEquals(items.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaOneOf");
     }
 }
