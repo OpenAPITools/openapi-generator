@@ -128,6 +128,7 @@ use openapi_v3::{
     XmlPutResponse,
     CreateRepoResponse,
     GetRepoInfoResponse,
+    OverwriteRepoResponse,
 };
 use openapi_v3::server::MakeService;
 
@@ -356,6 +357,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("get_repo_info(\"{}\") - X-Span-ID: {:?}", repo_id, context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn overwrite_repo(
+        &self,
+        body: Option<models::RepoObject>,
+        context: &C) -> Box<dyn Future<Item=OverwriteRepoResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("overwrite_repo({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 

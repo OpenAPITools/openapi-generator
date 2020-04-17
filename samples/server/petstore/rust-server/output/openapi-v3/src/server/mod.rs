@@ -44,7 +44,8 @@ use {Api,
      XmlPostResponse,
      XmlPutResponse,
      CreateRepoResponse,
-     GetRepoInfoResponse
+     GetRepoInfoResponse,
+     OverwriteRepoResponse
 };
 
 pub mod callbacks;
@@ -1665,6 +1666,82 @@ where
                 }) as Self::Future
             },
 
+            // OverwriteRepo - PUT /repos
+            &hyper::Method::PUT if path.matched(paths::ID_REPOS) => {
+                // Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Self::Future {
+                        match result {
+                            Ok(body) => {
+                                let mut unused_elements = Vec::new();
+                                let param_body: Option<models::RepoObject> = if !body.is_empty() {
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
+                                        Ok(param_body) => param_body,
+                                        Err(_) => None,
+                                    }
+                                } else {
+                                    None
+                                };
+
+                                Box::new(
+                                    api_impl.overwrite_repo(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        if !unused_elements.is_empty() {
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
+                                        }
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                OverwriteRepoResponse::OK
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for OVERWRITE_REPO_OK"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                            },
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
+                        }
+                    })
+                ) as Self::Future
+            },
+
             _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
             _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
@@ -1757,6 +1834,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::POST if path.matched(paths::ID_REPOS) => Ok("CreateRepo"),
             // GetRepoInfo - GET /repos/{repoId}
             &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Ok("GetRepoInfo"),
+            // OverwriteRepo - PUT /repos
+            &hyper::Method::PUT if path.matched(paths::ID_REPOS) => Ok("OverwriteRepo"),
             _ => Err(()),
         }
     }

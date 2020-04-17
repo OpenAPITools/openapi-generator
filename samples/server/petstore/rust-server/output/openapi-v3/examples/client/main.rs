@@ -51,7 +51,8 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       XmlPostResponse,
                       XmlPutResponse,
                       CreateRepoResponse,
-                      GetRepoInfoResponse
+                      GetRepoInfoResponse,
+                      OverwriteRepoResponse
                      };
 use clap::{App, Arg};
 
@@ -90,6 +91,7 @@ fn main() {
                 "XmlPut",
                 "CreateRepo",
                 "GetRepoInfo",
+                "OverwriteRepo",
             ])
             .required(true)
             .index(1))
@@ -267,6 +269,12 @@ fn main() {
         Some("GetRepoInfo") => {
             let result = rt.block_on(client.get_repo_info(
                   "repo_id_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("OverwriteRepo") => {
+            let result = rt.block_on(client.overwrite_repo(
+                  None
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

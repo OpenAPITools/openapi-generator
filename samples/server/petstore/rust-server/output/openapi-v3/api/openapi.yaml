@@ -401,6 +401,22 @@ paths:
           description: Success
       tags:
       - Repo
+    put:
+      operationId: OverwriteRepo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepoObject'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: OK
+      tags:
+      - Repo
 components:
   schemas:
     EnumWithStarObject:

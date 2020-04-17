@@ -272,6 +272,13 @@ pub enum GetRepoInfoResponse {
     (serde_json::Value)
 }
 
+#[derive(Debug, PartialEq)]
+pub enum OverwriteRepoResponse {
+    /// OK
+    OK
+    (models::Error)
+}
+
 /// API
 pub trait Api<C> {
     fn callback_with_header_post(
@@ -385,6 +392,11 @@ pub trait Api<C> {
         &self,
         repo_id: String,
         context: &C) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>;
+
+    fn overwrite_repo(
+        &self,
+        body: Option<models::RepoObject>,
+        context: &C) -> Box<dyn Future<Item=OverwriteRepoResponse, Error=ApiError> + Send>;
 
 }
 
@@ -501,6 +513,11 @@ pub trait ApiNoContext {
         &self,
         repo_id: String,
         ) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>;
+
+    fn overwrite_repo(
+        &self,
+        body: Option<models::RepoObject>,
+        ) -> Box<dyn Future<Item=OverwriteRepoResponse, Error=ApiError> + Send>;
 
 }
 
@@ -696,6 +713,14 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         ) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>
     {
         self.api().get_repo_info(repo_id, &self.context())
+    }
+
+    fn overwrite_repo(
+        &self,
+        body: Option<models::RepoObject>,
+        ) -> Box<dyn Future<Item=OverwriteRepoResponse, Error=ApiError> + Send>
+    {
+        self.api().overwrite_repo(body, &self.context())
     }
 
 }
