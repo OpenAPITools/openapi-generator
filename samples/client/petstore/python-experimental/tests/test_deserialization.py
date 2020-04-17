@@ -382,7 +382,7 @@ class DeserializationTests(unittest.TestCase):
 
     def test_deserialize_binary(self):
         """Ensures that bytes deserialization works"""
-        response_types_mixed = (str,)
+        response_types_mixed = (bytes,)
 
         # sample from http://www.jtricks.com/download-text
         HTTPResponse = namedtuple(
@@ -394,12 +394,11 @@ class DeserializationTests(unittest.TestCase):
             return headers
         def get_header(name, default=None):
             return headers.get(name, default)
-        data = "str"
 
         http_response = HTTPResponse(
             status=200,
             reason='OK',
-            data=json.dumps(data).encode("utf-8") if six.PY3 else json.dumps(data),
+            data=b'str',
             getheaders=get_headers,
             getheader=get_header
         )
@@ -407,8 +406,8 @@ class DeserializationTests(unittest.TestCase):
         mock_response = RESTResponse(http_response)
 
         binary = self.deserialize(mock_response, response_types_mixed, True)
-        self.assertEqual(isinstance(binary, str), True)
-        self.assertEqual(binary, data)
+        self.assertEqual(isinstance(binary, bytes), True)
+        self.assertEqual(binary, b"str")
 
     def test_deserialize_string_boolean_map(self):
         """

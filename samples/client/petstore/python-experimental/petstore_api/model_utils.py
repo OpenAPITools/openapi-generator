@@ -342,6 +342,7 @@ COERCION_INDEX_BY_TYPE = {
     date: 10,
     str: 11,
     file_type: 12,
+    bytes: 13,
 }
 
 # these are used to limit what type conversions we try to do

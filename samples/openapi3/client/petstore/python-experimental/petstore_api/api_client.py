@@ -22,7 +22,7 @@ from six.moves.urllib.parse import quote
 
 from petstore_api import rest
 from petstore_api.configuration import Configuration
-from petstore_api.exceptions import ApiValueError
+from petstore_api.exceptions import ApiValueError, ApiException
 from petstore_api.model_utils import (
     ModelNormal,
     ModelSimple,
@@ -178,26 +178,30 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
-        # perform request and return response
-        response_data = self.request(
-            method, url, query_params=query_params, headers=header_params,
-            post_params=post_params, body=body,
-            _preload_content=_preload_content,
-            _request_timeout=_request_timeout)
+        try:
+            # perform request and return response
+            response_data = self.request(
+                method, url, query_params=query_params, headers=header_params,
+                post_params=post_params, body=body,
+                _preload_content=_preload_content,
+                _request_timeout=_request_timeout)
 
-        self.last_response = response_data
+            self.last_response = response_data
 
-        return_data = response_data
-        if _preload_content:
-            # deserialize response data
-            if response_type:
-                return_data = self.deserialize(
-                    response_data,
-                    response_type,
-                    _check_type
-                )
-            else:
-                return_data = None
+            return_data = response_data
+            if _preload_content:
+                # deserialize response data
+                if response_type:
+                    return_data = self.deserialize(
+                        response_data,
+                        response_type,
+                        _check_type
+                    )
+                else:
+                    return_data = None
+        except ApiException as e:
+            e.body = e.body.decode('utf-8') if six.PY3 else e.body
+            raise e
 
         if _return_http_data_only:
             return (return_data)

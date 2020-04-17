@@ -204,7 +204,7 @@ class ApiClient(object):
                 else:
                     return_data = None
         except ApiException as e:
-            body = e.body.decode('utf-8') if six.PY3 else e.body
+            e.body = e.body.decode('utf-8') if six.PY3 else e.body
             raise e
 
         if _return_http_data_only:
