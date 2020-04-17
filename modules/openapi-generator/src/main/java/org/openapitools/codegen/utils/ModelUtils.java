@@ -1165,14 +1165,6 @@ public class ModelUtils {
         int nullSchemaChildrenCount = 0;
         boolean hasAmbiguousParents = false;
         List<String> refedWithoutDiscriminator = new ArrayList<>();
-        String schemaName = "";
-        for (String thisSchemaName : allSchemas.keySet()) {
-            Schema sc = allSchemas.get(thisSchemaName);
-            if (isComposedSchema(sc) && (ComposedSchema) sc == composedSchema) {
-                schemaName = thisSchemaName;
-                break;
-            }
-        }
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -1189,10 +1181,7 @@ public class ModelUtils {
                     } else {
                         // not a parent since discriminator.propertyName is not set
                         hasAmbiguousParents = true;
-                        boolean isNotExtractedInlineSchema = !parentName.equals(schemaName+"_allOf");
-                        if (isNotExtractedInlineSchema) {
-                            refedWithoutDiscriminator.add(parentName);
-                        }
+                        refedWithoutDiscriminator.add(parentName);
                     }
                 } else {
                     // not a ref, doing nothing, except counting the number of times the 'null' type
