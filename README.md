@@ -642,6 +642,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Vouchery.io](https://vouchery.io)
 - [Xero](https://www.xero.com/)
 - [Yahoo Japan](https://www.yahoo.co.jp/)
+- [Yitu](https://www.yitutech.com/)
 - [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
 
