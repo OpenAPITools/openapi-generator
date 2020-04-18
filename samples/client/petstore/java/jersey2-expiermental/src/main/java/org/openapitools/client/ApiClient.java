@@ -51,7 +51,7 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
-import org.openapitools.client.model.AbstractOpenApiOneOf;
+import org.openapitools.client.model.AbstractOpenApiSchema;
 
 import org.openapitools.client.auth.OAuth;
 
@@ -635,13 +635,13 @@ public class ApiClient {
     return entity;
   }
 
-  public AbstractOpenApiOneOf deserializeOneOf(Response response, AbstractOpenApiOneOf oneOf) throws ApiException{
+  public AbstractOpenApiSchema deserializeSchemas(Response response, AbstractOpenApiSchema schema) throws ApiException{
 
     Object result = null;
     int matchCounter = 0;
     ArrayList<String> matchSchemas = new ArrayList<>();
 
-    for (Map.Entry<String, GenericType> entry : oneOf.getOneOfSchemaMap().entrySet()) {
+    for (Map.Entry<String, GenericType> entry : schema.getSchemas().entrySet()) {
       String schemaName = entry.getKey();
       GenericType schemaType = entry.getValue();
 
@@ -651,28 +651,33 @@ public class ApiClient {
           if (deserializedObject != null) {
             result = deserializedObject;
             matchCounter++;
-            matchSchemas.add(schemaName);
+
+            if ("anyOf".equals(schema.getSchemaType())) {
+              break;
+            } else if ("oneOf".equals(schema.getSchemaType())) {
+              matchSchemas.add(schemaName);
+            } else {
+              throw new ApiException("Unknowe type found while expecting anyOf/oneOf:" + schema.getSchemaType());
+            }
           } else {
-            //System.out.println("failed to deserialize..." + (schemaType.getType()));
+            // failed to deserialize the response in the schema provided, proceed to the next one if any
           }
         } catch (Exception ex) {
-          //System.out.println("failed to deserialize {} ..." + ex.toString());
           // failed to deserialize, do nothing and try next one (schema)
         }
       } else {// unknown type
-        throw new ApiException(schemaType.getClass() + " is not a GenericType and cannot be handled properly.");
+        throw new ApiException(schemaType.getClass() + " is not a GenericType and cannot be handled properly in deserialization.");
       }
 
     }
 
-    if (matchCounter > 1) {// more than 1 match
-      throw new ApiException("Response body is invalid as it matches more than one schema (" + String.join(", ", matchSchemas) + ") defined in the oneOf model: " + oneOf.getClass().getName());
-    } else if (matchCounter == 0) { // fail to match any
-      throw new ApiException("Response body is invalid as it doens't match any schemas (" + String.join(", ", oneOf.getOneOfSchemaMap().keySet()) + ") defined in the oneOf model: " + oneOf.getClass().getName());
+    if (matchCounter > 1 && "oneOf".equals(schema.getSchemaType())) {// more than 1 match for oneOf
+      throw new ApiException("Response body is invalid as it matches more than one schema (" + String.join(", ", matchSchemas) + ") defined in the oneOf model: " + schema.getClass().getName());
+    } else if (matchCounter == 0) { // fail to match any in oneOf/anyOf schemas
+      throw new ApiException("Response body is invalid as it doens't match any schemas (" + String.join(", ", schema.getSchemas().keySet()) + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
     } else { // only one matched
-      //return result;
-      oneOf.setActualInstance(result);
-      return oneOf;
+      schema.setActualInstance(result);
+      return schema;
     }
 
   }
@@ -780,11 +785,11 @@ public class ApiClient {
    * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
    * @param returnType The return type into which to deserialize the response
-   * @param oneOf An instance of the response that uses oneOf
+   * @param schema An instance of the response that uses oneOf/anyOf
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiOneOf oneOf) throws ApiException {
+  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiSchema schema) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(targetURL).path(path)` below,
@@ -890,10 +895,10 @@ public class ApiClient {
         if (returnType == null)
           return new ApiResponse<>(statusCode, responseHeaders);
         else
-          if (oneOf == null) {
+          if (schema == null) {
             return new ApiResponse<>(statusCode, responseHeaders, deserialize(response, returnType));
-          } else { // oneOf
-            return new ApiResponse<>(statusCode, responseHeaders, (T)deserializeOneOf(response, oneOf));
+          } else { // oneOf/anyOf
+            return new ApiResponse<>(statusCode, responseHeaders, (T)deserializeSchemas(response, schema));
           }
       } else {
         String message = "error";
@@ -925,8 +930,8 @@ public class ApiClient {
    * @deprecated Add qualified name of the operation as a first parameter.
    */
   @Deprecated
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiOneOf oneOf) throws ApiException {
-    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType, oneOf);
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiSchema schema) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType, schema);
   }
 
   /**
