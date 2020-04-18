@@ -259,22 +259,44 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/parent}}
             {{#vars}}
             {{#hasValidation}}
+            {{#isEnum}}
+            {{#maxLength}}
+            // {{{name}}} ({{{dataType}}}) maxLength
+            if(this.{{{name}}} != null && this.{{{name}}}.ToString().Length > {{maxLength}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
+            }
+            {{/maxLength}}
+            {{/isEnum}}
+            {{^isEnum}}
             {{#maxLength}}
             // {{{name}}} ({{{dataType}}}) maxLength
             if(this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
             }
-
             {{/maxLength}}
+            {{/isEnum}}
+
+			{{#isEnum}}
+            {{#minLength}}
+            // {{{name}}} ({{{dataType}}}) minLength
+            if(this.{{{name}}} != null && this.{{{name}}}.ToString().Length < {{minLength}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
+            }
+            {{/minLength}}
+            {{/isEnum}}
+            {{^isEnum}}
             {{#minLength}}
             // {{{name}}} ({{{dataType}}}) minLength
             if(this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
             }
-
             {{/minLength}}
+            {{/isEnum}}
+            
             {{#maximum}}
             // {{{name}}} ({{{dataType}}}) maximum
             if(this.{{{name}}} > ({{{dataType}}}){{maximum}})

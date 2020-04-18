@@ -42,5 +42,6 @@ public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setDefaultDatabaseName(MysqlSchemaOptionsProvider.DEFAULT_DATABASE_NAME_VALUE);
         verify(clientCodegen).setJsonDataTypeEnabled(Boolean.valueOf(MysqlSchemaOptionsProvider.JSON_DATA_TYPE_ENABLED_VALUE));
         verify(clientCodegen).setIdentifierNamingConvention(MysqlSchemaOptionsProvider.IDENTIFIER_NAMING_CONVENTION_VALUE);
+        verify(clientCodegen).setNamedParametersEnabled(Boolean.valueOf(MysqlSchemaOptionsProvider.NAMED_PARAMETERS_ENABLED_VALUE));
     }
 }
