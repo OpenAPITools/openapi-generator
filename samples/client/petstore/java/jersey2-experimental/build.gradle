@@ -83,7 +83,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'petstore-jersey2'
+            pom.artifactId = 'petstore-jersey2-exp'
         }
     }
 
