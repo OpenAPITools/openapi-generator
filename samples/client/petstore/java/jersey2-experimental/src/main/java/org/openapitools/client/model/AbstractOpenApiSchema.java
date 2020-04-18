@@ -19,13 +19,23 @@ import java.util.Map;
 import javax.ws.rs.core.GenericType;
 
 
-public abstract class AbstractOpenApiOneOf {
+public abstract class AbstractOpenApiSchema {
 
     private Object instance;
 
-    public abstract Map<String, GenericType> getOneOfSchemaMap();
+    public final String schemaType;
+
+    public AbstractOpenApiSchema(String schemaType) {
+        this.schemaType = schemaType;
+    }
+
+    public abstract Map<String, GenericType> getSchemas();
 
     public Object getActualInstance() {return instance;}
 
     public void setActualInstance(Object instance) {this.instance = instance;}
+
+    public String getSchemaType() {
+        return schemaType;
+    }
 }
