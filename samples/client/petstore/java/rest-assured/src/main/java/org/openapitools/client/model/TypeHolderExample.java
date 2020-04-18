@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * TypeHolderExample
@@ -67,6 +70,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   **/
+  @NotNull
   @ApiModelProperty(example = "what", required = true, value = "")
 
   public String getStringItem() {
@@ -89,6 +93,8 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   **/
+  @NotNull
+  @Valid
   @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public BigDecimal getNumberItem() {
@@ -111,6 +117,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   **/
+  @NotNull
   @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public Float getFloatItem() {
@@ -133,6 +140,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   **/
+  @NotNull
   @ApiModelProperty(example = "-2", required = true, value = "")
 
   public Integer getIntegerItem() {
@@ -155,6 +163,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   **/
+  @NotNull
   @ApiModelProperty(example = "true", required = true, value = "")
 
   public Boolean isBoolItem() {
@@ -182,6 +191,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   **/
+  @NotNull
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
 
   public List<Integer> getArrayItem() {
