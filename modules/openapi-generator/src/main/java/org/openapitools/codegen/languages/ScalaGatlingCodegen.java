@@ -82,7 +82,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
         // Although the generator supports authorization, it's done via manual header modification and it's done
         // globally. This means it doesn't _technically_ support auth per OpenAPI Spec (which would allow, for example, a different API key per operation),
         // so it's not listed here as supported.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -101,7 +101,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         sourceFolder = "src" + File.separator + "gatling" + File.separator + "scala";
 

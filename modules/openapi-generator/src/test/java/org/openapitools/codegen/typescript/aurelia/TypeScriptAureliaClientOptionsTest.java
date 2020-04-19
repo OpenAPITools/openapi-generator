@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.typescript.aurelia;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen;
 import org.openapitools.codegen.options.TypeScriptAureliaClientOptionsProvider;
 
-public class TypeScriptAureliaClientOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private TypeScriptAureliaClientCodegen clientCodegen;
+public class TypeScriptAureliaClientOptionsTest extends AbstractOptionsTest {
+    private TypeScriptAureliaClientCodegen clientCodegen = mock(TypeScriptAureliaClientCodegen.class, mockSettings);
 
     public TypeScriptAureliaClientOptionsTest() {
         super(new TypeScriptAureliaClientOptionsProvider());
@@ -40,16 +39,10 @@ public class TypeScriptAureliaClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAureliaClientOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setModelPropertyNaming(TypeScriptAureliaClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
-            times = 1;
-            clientCodegen.setSupportsES6(TypeScriptAureliaClientOptionsProvider.SUPPORTS_ES6_VALUE);
-            times = 1;
-            clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAureliaClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAureliaClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setModelPropertyNaming(TypeScriptAureliaClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+        verify(clientCodegen).setSupportsES6(TypeScriptAureliaClientOptionsProvider.SUPPORTS_ES6_VALUE);
+        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAureliaClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
     }
 }

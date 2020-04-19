@@ -92,10 +92,10 @@ public class InlineModelResolver {
     /**
      * Return false if model can be represented by primitives e.g. string, object 
      * without properties, array or map of other model (model contanier), etc.
-     * 
+     *
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
-     * 
+     *
      * @param schema target schema
      */
     private boolean isModelNeeded(Schema schema) {
@@ -127,7 +127,7 @@ public class InlineModelResolver {
     /**
      * Recursively gather inline models that need to be generated and
      * replace inline schemas with $ref to schema to-be-generated.
-     * 
+     *
      * @param schema target schema
      */
     private void gatherInlineModels(Schema schema, String modelPrefix) {
@@ -135,10 +135,10 @@ public class InlineModelResolver {
             // if ref already, no inline schemas should be present but check for
             // any to catch OpenAPI violations
             if (isModelNeeded(schema) || "object".equals(schema.getType()) ||
-                schema.getProperties() != null || schema.getAdditionalProperties() != null ||
-                schema instanceof ComposedSchema) {
+                    schema.getProperties() != null || schema.getAdditionalProperties() != null ||
+                    schema instanceof ComposedSchema) {
                 LOGGER.error("Illegal schema found with $ref combined with other properties," +
-                    " no properties should be defined alongside a $ref:\n " + schema.toString());
+                        " no properties should be defined alongside a $ref:\n " + schema.toString());
             }
             return;
         }
@@ -173,13 +173,13 @@ public class InlineModelResolver {
         } else if (schema.getProperties() != null) {
             // If non-object type is specified but also properties
             LOGGER.error("Illegal schema found with non-object type combined with properties," +
-                " no properties should be defined:\n " + schema.toString());
+                    " no properties should be defined:\n " + schema.toString());
             return;
         } else if (schema.getAdditionalProperties() != null) {
             // If non-object type is specified but also additionalProperties
             LOGGER.error("Illegal schema found with non-object type combined with" +
-                " additionalProperties, no additionalProperties should be defined:\n " +
-                schema.toString());
+                    " additionalProperties, no additionalProperties should be defined:\n " +
+                    schema.toString());
             return;
         }
         // Check array items
@@ -188,7 +188,7 @@ public class InlineModelResolver {
             Schema items = array.getItems();
             if (items == null) {
                 LOGGER.error("Illegal schema found with array type but no items," +
-                " items must be defined for array schemas:\n " + schema.toString());
+                        " items must be defined for array schemas:\n " + schema.toString());
                 return;
             }
             // Recurse to create $refs for inner models
@@ -208,7 +208,7 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, modelPrefix + "AllOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "AllOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_allOf", inner);
                         newAllOf.add(refSchema); // replace with ref
                     } else {
                         newAllOf.add(inner);
@@ -222,7 +222,7 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, modelPrefix + "AnyOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "AnyOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_anyOf", inner);
                         newAnyOf.add(refSchema); // replace with ref
                     } else {
                         newAnyOf.add(inner);
@@ -236,7 +236,7 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, modelPrefix + "OneOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "OneOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_oneOf", inner);
                         newOneOf.add(refSchema); // replace with ref
                     } else {
                         newOneOf.add(inner);
@@ -387,7 +387,7 @@ public class InlineModelResolver {
      * with underscores
      *
      * e.g. io.schema.User_name => io_schema_User_name
-     * 
+     *
      * @param title String title field in the schema if present
      * @param key String model name
      *
@@ -424,8 +424,8 @@ public class InlineModelResolver {
      */
     private String sanitizeName(final String name) {
         return name
-            .replaceAll("^[0-9]", "_") // e.g. 12object => _2object
-            .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
+                .replaceAll("^[0-9]", "_") // e.g. 12object => _2object
+                .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
     }
 
     private String uniqueName(final String name) {
@@ -496,7 +496,7 @@ public class InlineModelResolver {
     private void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
         if (vendorExtensions == null) {
-             return;
+            return;
         }
         for (String extName : vendorExtensions.keySet()) {
             target.addExtension(extName, vendorExtensions.get(extName));

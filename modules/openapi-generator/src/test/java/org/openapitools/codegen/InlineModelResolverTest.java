@@ -313,7 +313,7 @@ public class InlineModelResolverTest {
         assertNotNull(openAPI.getComponents());
         assertNotNull(openAPI.getComponents().getSchemas());
     }
-    
+
     @Test
     public void resolveInlineArraySchemaWithTitle() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
@@ -334,7 +334,7 @@ public class InlineModelResolverTest {
         assertTrue(user.getProperties().get("street") instanceof StringSchema);
         assertTrue(user.getProperties().get("city") instanceof StringSchema);
     }
-    
+
     @Test
     public void resolveInlineRequestBody() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
@@ -762,7 +762,7 @@ public class InlineModelResolverTest {
     private void checkComposedChildren(OpenAPI openAPI, List<Schema> children, String schemaName, String key) {
         assertNotNull(children);
         Schema inlined = children.get(0);
-        assertEquals("#/components/schemas/ComposedObjectModelInline" + schemaName, inlined.get$ref());
+        assertEquals("#/components/schemas/ComposedObjectModelInline_" + key, inlined.get$ref());
         Schema child = ModelUtils.getReferencedSchema(openAPI, inlined);
         assertNotNull(child.getProperties());
         assertNotNull(child.getProperties().get("composed_object_model_inline_" + key));
@@ -895,8 +895,8 @@ public class InlineModelResolverTest {
         assertTrue(foodSchema instanceof ComposedSchema);
         ComposedSchema food = (ComposedSchema) foodSchema;
         assertEquals(2, food.getOneOf().size());
-        assertEquals("#/components/schemas/CatMyFoodOneOf", food.getOneOf().get(0).get$ref());
-        assertEquals("#/components/schemas/CatMyFoodOneOf_1", food.getOneOf().get(1).get$ref());
+        assertEquals("#/components/schemas/CatMyFood_oneOf", food.getOneOf().get(0).get$ref());
+        assertEquals("#/components/schemas/CatMyFood_oneOf_1", food.getOneOf().get(1).get$ref());
 
         // myHabitat is an allOf
         Schema habSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("myHabitat"));
@@ -904,7 +904,7 @@ public class InlineModelResolverTest {
         ComposedSchema hab = (ComposedSchema) habSchema;
         assertEquals(2, hab.getAllOf().size());
         assertEquals("#/components/schemas/Geography", hab.getAllOf().get(0).get$ref());
-        assertEquals("#/components/schemas/CatMyHabitatAllOf", hab.getAllOf().get(1).get$ref());
+        assertEquals("#/components/schemas/CatMyHabitat_allOf", hab.getAllOf().get(1).get$ref());
 
         // geography properties
         Schema geoSchema = ModelUtils.getReferencedSchema(openAPI, hab.getAllOf().get(0));
@@ -1023,8 +1023,8 @@ public class InlineModelResolverTest {
         assertTrue(foodSchema instanceof ComposedSchema);
         ComposedSchema food = (ComposedSchema) foodSchema;
         assertEquals(2, food.getOneOf().size());
-        assertEquals("#/components/schemas/CatMyFoodOneOf", food.getOneOf().get(0).get$ref());
-        assertEquals("#/components/schemas/CatMyFoodOneOf_1", food.getOneOf().get(1).get$ref());
+        assertEquals("#/components/schemas/CatMyFood_oneOf", food.getOneOf().get(0).get$ref());
+        assertEquals("#/components/schemas/CatMyFood_oneOf_1", food.getOneOf().get(1).get$ref());
 
         // myHabitat is an allOf
         Schema habSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("myHabitat"));
@@ -1032,7 +1032,7 @@ public class InlineModelResolverTest {
         ComposedSchema hab = (ComposedSchema) habSchema;
         assertEquals(2, hab.getAllOf().size());
         assertEquals("#/components/schemas/Geography", hab.getAllOf().get(0).get$ref());
-        assertEquals("#/components/schemas/CatMyHabitatAllOf", hab.getAllOf().get(1).get$ref());
+        assertEquals("#/components/schemas/CatMyHabitat_allOf", hab.getAllOf().get(1).get$ref());
 
         // geography properties
         Schema geoSchema = ModelUtils.getReferencedSchema(openAPI, hab.getAllOf().get(0));

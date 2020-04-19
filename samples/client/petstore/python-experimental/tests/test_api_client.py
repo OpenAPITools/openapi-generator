@@ -11,6 +11,8 @@ $ nosetests -v
 
 import os
 import time
+import atexit
+import weakref
 import unittest
 from dateutil.parser import parse
 
@@ -44,7 +46,7 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual('PREFIX', client.configuration.api_key_prefix['api_key'])
 
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
 
         # test api key auth
         self.assertEqual(header_params['test1'], 'value1')
@@ -59,14 +61,14 @@ class ApiClientTests(unittest.TestCase):
         config.api_key['api_key'] = '123456'
         config.api_key_prefix['api_key'] = None
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
         self.assertEqual(header_params['api_key'], '123456')
 
         # test api key with empty prefix
         config.api_key['api_key'] = '123456'
         config.api_key_prefix['api_key'] = ''
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
         self.assertEqual(header_params['api_key'], '123456')
 
         # test api key with prefix specified in the api_key, useful when the prefix
@@ -74,7 +76,7 @@ class ApiClientTests(unittest.TestCase):
         config.api_key['api_key'] = 'PREFIX=123456'
         config.api_key_prefix['api_key'] = None
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
         self.assertEqual(header_params['api_key'], 'PREFIX=123456')
 
 
@@ -199,3 +201,17 @@ class ApiClientTests(unittest.TestCase):
         model = petstore_api.StringBooleanMap(**model_dict)
         result = self.api_client.sanitize_for_serialization(model)
         self.assertEqual(result, model_dict)
+
+    def test_context_manager_closes_threadpool(self):
+        with petstore_api.ApiClient() as client:
+            self.assertIsNotNone(client.pool)
+            pool_ref = weakref.ref(client._pool)
+            self.assertIsNotNone(pool_ref())
+        self.assertIsNone(pool_ref())
+
+    def test_atexit_closes_threadpool(self):
+        client = petstore_api.ApiClient()
+        self.assertIsNotNone(client.pool)
+        self.assertIsNotNone(client._pool)
+        atexit._run_exitfuncs()
+        self.assertIsNone(client._pool)

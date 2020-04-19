@@ -76,7 +76,9 @@ class DateFormatTests: XCTestCase {
 	}
 
 	func testCodableAlwaysResultsInUTCEncodedDate() {
-		let jsonData = "{\"date\":\"1970-01-01T00:00:00.000Z\"}".data(using: .utf8)!
+        CodableHelper.jsonEncoder.outputFormatting.remove(.prettyPrinted)
+
+        let jsonData = "{\"date\":\"1970-01-01T00:00:00.000Z\"}".data(using: .utf8)!
 		let decodeResult = CodableHelper.decode(DateTest.self, from: jsonData)
 		XCTAssert(decodeResult.decodableObj != nil && decodeResult.error == nil)
 

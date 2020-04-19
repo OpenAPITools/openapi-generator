@@ -153,7 +153,7 @@ namespace {{packageName}}.Client
                 {{/netStandard}}
                 {{^netStandard}}
                 {{^supportsUWP}}
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
+                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName{{#isRestSharp_106_10_1_above}}, param.Value.ContentLength{{/isRestSharp_106_10_1_above}}, param.Value.ContentType);
                 {{/supportsUWP}}
                 {{#supportsUWP}}
                 byte[] paramWriter = null;
@@ -297,6 +297,8 @@ namespace {{packageName}}.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return ((DateTimeOffset)obj).ToString (Configuration.DateTimeFormat);
+            else if (obj is bool)
+                return (bool)obj ? "true" : "false";
             else if (obj is IList)
             {
                 var flattenedString = new StringBuilder();
@@ -563,6 +565,7 @@ namespace {{packageName}}.Client
         /// Convert params to key/value pairs. 
         /// Use collectionFormat to properly format lists and collections.
         /// </summary>
+        /// <param name="collectionFormat">Collection format.</param>
         /// <param name="name">Key name.</param>
         /// <param name="value">Value object.</param>
         /// <returns>A list of KeyValuePairs</returns>

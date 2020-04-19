@@ -19,15 +19,19 @@ package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 
 import java.util.Map;
 
 public class TypeScriptAngularJsClientOptionsProvider implements OptionsProvider {
     public static final String SUPPORTS_ES6_VALUE = "false";
+    public static final String NULL_SAFE_ADDITIONAL_PROPS_VALUE = "false";
+    public static final String ENUM_NAME_SUFFIX = "Enum";
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
+    public static final String ENUM_PROPERTY_NAMING_VALUE = "PascalCase";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
 
@@ -42,7 +46,10 @@ public class TypeScriptAngularJsClientOptionsProvider implements OptionsProvider
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, SUPPORTS_ES6_VALUE)
+                .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_VALUE)
+                .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
+                .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)

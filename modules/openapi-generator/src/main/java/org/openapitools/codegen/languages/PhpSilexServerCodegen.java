@@ -39,7 +39,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     public PhpSilexServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -52,7 +52,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-                .build();
+        );
 
         invokerPackage = camelize("OpenAPIServer");
         String packageName = "OpenAPIServer";

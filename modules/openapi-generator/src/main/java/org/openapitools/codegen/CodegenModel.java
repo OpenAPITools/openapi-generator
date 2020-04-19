@@ -24,8 +24,16 @@ import java.util.*;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel implements IJsonSchemaValidationProperties {
+    // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
+    // oneOf attributes in the OAS. First codegen inspects 'allOf', then 'anyOf', then 'oneOf'.
+    // If there are multiple object references in the attribute ('allOf', 'anyOf', 'oneOf'), and one of the
+    // object is a discriminator, that object is set as the parent. If no discriminator is specified,
+    // codegen returns the first one in the list, i.e. there is no obvious parent in the OpenAPI specification.
+    // When possible, the mustache templates should use 'allParents' to handle multiple parents.
     public String parent, parentSchema;
     public List<String> interfaces;
+    // The list of parent model name from the schemas. In order of preference, the parent is obtained
+    // from the 'allOf' attribute, then 'anyOf', and finally 'oneOf'.
     public List<String> allParents;
 
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
@@ -38,7 +46,13 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();
 
-    public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
+    public String name;
+    // The language-specific name of the class that implements this schema.
+    // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
+    public String classname;
+    // The value of the 'title' attribute in the OpenAPI document.
+    public String title;
+    public String description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
     public String classFilename; // store the class file name, mainly used for import
     public String unescapedDescription;
     public CodegenDiscriminator discriminator;

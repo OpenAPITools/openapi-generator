@@ -9,7 +9,6 @@ These map almost fully 1:1 with the options you'd pass to the CLI or Maven plugi
 
 Tasks are listed under the "OpenAPI Tools" tasks heading.
 
-
 .OpenAPI Tools Tasks
 |===
 |task name |description
@@ -38,6 +37,30 @@ compileJava.dependsOn tasks.openApiGenerate
 ```
 ====
 
+All extensions can be rewritten as tasks. Where you can have only a single extension defined in your gradle file, you may have multiple tasks.
+
+.One Extension, multiple tasks
+[source,groovy]
+----
+// Validating a single specification
+openApiValidate {
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for validating one specification
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+
+// Define a task for validating another specification
+task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for batch validations
+task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
+----
+
 == Plugin Setup
 
 //# RELEASE_VERSION
@@ -45,7 +68,7 @@ compileJava.dependsOn tasks.openApiGenerate
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.2.3-SNAPSHOT"
+  id "org.openapi.generator" version "4.3.0"
 }
 ----
 
@@ -61,7 +84,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.2.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.2.3"
   }
 }
 
@@ -307,6 +330,10 @@ apply plugin: 'org.openapi.generator'
 |false
 |To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions. When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
 
+|engine
+|String
+|mustache
+|Templating engine: "mustache" (default) or "handlebars" (beta)
 |===
 
 [NOTE]
@@ -353,6 +380,11 @@ openApiGenerate {
 |String
 |None
 |The input specification to validate. Supports all formats supported by the Parser.
+
+|recommend
+|Boolean
+|true
+|Whether or not to offer recommendations related to the validated specification document.
 
 |===
 
@@ -498,6 +530,7 @@ BUILD SUCCESSFUL in 0s
 ----
 openApiValidate {
    inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+   recommend = true
 }
 ----
 
@@ -626,7 +659,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.3') {
             exclude group: 'com.google.guava'
         }
     }

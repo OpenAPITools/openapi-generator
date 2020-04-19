@@ -351,7 +351,18 @@ func (c *APIClient) prepareRequest(
 	for header, value := range c.cfg.DefaultHeader {
 		localVarRequest.Header.Add(header, value)
 	}
-
+{{#hasHttpSignatureMethods}}
+	if ctx != nil {
+		// HTTP Signature Authentication. All request headers must be set (including default headers)
+		// because the headers may be included in the signature.
+		if auth, ok := ctx.Value(ContextHttpSignatureAuth).(HttpSignatureAuth); ok {
+			err = SignRequest(ctx, localVarRequest, auth)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+{{/hasHttpSignatureMethods}}
 	return localVarRequest, nil
 }
 

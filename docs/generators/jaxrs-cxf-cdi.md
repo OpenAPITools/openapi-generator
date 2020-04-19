@@ -14,22 +14,24 @@ sidebar_label: jaxrs-cxf-cdi
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
-|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date (if you really have a good reason not to use threetenbp</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets &quot;java8&quot; to true</dd><dt>**threetenbp**</dt><dd>Backport of JSR310 (preferred for jdk &lt; 1.8)</dd><dl>|legacy|
+|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date (if you really have a good reason not to use threetenbp</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets &quot;java8&quot; to true</dd><dt>**threetenbp**</dt><dd>Backport of JSR310 (preferred for jdk &lt; 1.8)</dd></dl>|legacy|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
 |developerOrganizationUrl|developer organization URL in generated pom.xml| |http://openapitools.org|
 |disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
+|discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
+|generateBuilders|Whether to generate builders for models.| |false|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |implFolder|folder for generated implementation code| |src/main/java|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
-|java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd><dl>|false|
-|library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)</dd><dt>**quarkus**</dt><dd>Server using Quarkus</dd><dt>**thorntail**</dt><dd>Server using Thorntail</dd><dt>**openliberty**</dt><dd>Server using Open Liberty</dd><dt>**helidon**</dt><dd>Server using Helidon</dd><dl>|&lt;default&gt;|
+|java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|false|
+|library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)</dd><dt>**quarkus**</dt><dd>Server using Quarkus</dd><dt>**thorntail**</dt><dd>Server using Thorntail</dd><dt>**openliberty**</dt><dd>Server using Open Liberty</dd><dt>**helidon**</dt><dd>Server using Helidon</dd></dl>|&lt;default&gt;|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
@@ -44,7 +46,7 @@ sidebar_label: jaxrs-cxf-cdi
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
 |serverPort|The port on which the server should be started| |8080|
-|snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd><dl>|null|
+|snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/gen/java|
@@ -85,7 +87,8 @@ sidebar_label: jaxrs-cxf-cdi
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Boolean</li>
+<ul class="column-ul">
+<li>Boolean</li>
 <li>Double</li>
 <li>Float</li>
 <li>Integer</li>
@@ -98,7 +101,8 @@ sidebar_label: jaxrs-cxf-cdi
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>apiclient</li>
 <li>apiexception</li>
 <li>apiresponse</li>
@@ -169,3 +173,111 @@ sidebar_label: jaxrs-cxf-cdi
 <li>volatile</li>
 <li>while</li>
 </ul>
+
+## FEATURE SET
+
+
+### Client Modification Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasePath|✓|ToolingExtension
+|Authorizations|✗|ToolingExtension
+|UserAgent|✗|ToolingExtension
+
+### Data Type Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Custom|✗|OAS2,OAS3
+|Int32|✓|OAS2,OAS3
+|Int64|✓|OAS2,OAS3
+|Float|✓|OAS2,OAS3
+|Double|✓|OAS2,OAS3
+|Decimal|✓|ToolingExtension
+|String|✓|OAS2,OAS3
+|Byte|✓|OAS2,OAS3
+|Binary|✓|OAS2,OAS3
+|Boolean|✓|OAS2,OAS3
+|Date|✓|OAS2,OAS3
+|DateTime|✓|OAS2,OAS3
+|Password|✓|OAS2,OAS3
+|File|✓|OAS2
+|Array|✓|OAS2,OAS3
+|Maps|✓|ToolingExtension
+|CollectionFormat|✓|OAS2
+|CollectionFormatMulti|✓|OAS2
+|Enum|✓|OAS2,OAS3
+|ArrayOfEnum|✓|ToolingExtension
+|ArrayOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfPrimitives|✓|ToolingExtension
+|ArrayOfCollectionOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfEnum|✓|ToolingExtension
+|MapOfEnum|✓|ToolingExtension
+|MapOfModel|✓|ToolingExtension
+|MapOfCollectionOfPrimitives|✓|ToolingExtension
+|MapOfCollectionOfModel|✓|ToolingExtension
+|MapOfCollectionOfEnum|✓|ToolingExtension
+
+### Documentation Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Readme|✓|ToolingExtension
+|Model|✓|ToolingExtension
+|Api|✓|ToolingExtension
+
+### Global Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Host|✓|OAS2,OAS3
+|BasePath|✓|OAS2,OAS3
+|Info|✓|OAS2,OAS3
+|Schemes|✗|OAS2,OAS3
+|PartialSchemes|✓|OAS2,OAS3
+|Consumes|✓|OAS2
+|Produces|✓|OAS2
+|ExternalDocumentation|✓|OAS2,OAS3
+|Examples|✓|OAS2,OAS3
+|XMLStructureDefinitions|✗|OAS2,OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
+|Callbacks|✗|OAS3
+|LinkObjects|✗|OAS3
+
+### Parameter Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Path|✓|OAS2,OAS3
+|Query|✓|OAS2,OAS3
+|Header|✓|OAS2,OAS3
+|Body|✓|OAS2
+|FormUnencoded|✓|OAS2
+|FormMultipart|✓|OAS2
+|Cookie|✓|OAS3
+
+### Schema Support Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Simple|✓|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
+|Polymorphism|✗|OAS2,OAS3
+|Union|✗|OAS3
+
+### Security Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
+|OpenIDConnect|✗|OAS3
+|BearerToken|✗|OAS3
+|OAuth2_Implicit|✗|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+
+### Wire Format Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|JSON|✓|OAS2,OAS3
+|XML|✓|OAS2,OAS3
+|PROTOBUF|✗|ToolingExtension
+|Custom|✗|OAS2,OAS3

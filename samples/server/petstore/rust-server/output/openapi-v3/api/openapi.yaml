@@ -81,11 +81,15 @@ paths:
     post:
       requestBody:
         content:
-          application/xml:
+          text/xml:
             schema:
               $ref: '#/components/schemas/anotherXmlObject'
       responses:
         "201":
+          content:
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
           description: OK
         "400":
           description: Bad Request

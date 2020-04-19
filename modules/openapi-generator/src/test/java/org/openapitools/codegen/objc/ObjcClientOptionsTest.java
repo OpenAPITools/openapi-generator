@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.objc;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.ObjcClientCodegen;
 import org.openapitools.codegen.options.ObjcClientOptionsProvider;
 
-public class ObjcClientOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private ObjcClientCodegen clientCodegen;
+public class ObjcClientOptionsTest extends AbstractOptionsTest {
+    private ObjcClientCodegen clientCodegen = mock(ObjcClientCodegen.class, mockSettings);
 
     public ObjcClientOptionsTest() {
         super(new ObjcClientOptionsProvider());
@@ -40,20 +39,12 @@ public class ObjcClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setClassPrefix(ObjcClientOptionsProvider.CLASS_PREFIX_VALUE);
-            times = 1;
-            clientCodegen.setPodName(ObjcClientOptionsProvider.POD_NAME_VALUE);
-            times = 1;
-            clientCodegen.setPodVersion(ObjcClientOptionsProvider.POD_VERSION_VALUE);
-            times = 1;
-            clientCodegen.setAuthorName(ObjcClientOptionsProvider.AUTHOR_NAME_VALUE);
-            times = 1;
-            clientCodegen.setAuthorEmail(ObjcClientOptionsProvider.AUTHOR_EMAIL_VALUE);
-            times = 1;
-            clientCodegen.setGitRepoURL(ObjcClientOptionsProvider.GIT_REPO_URL_VALUE);
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setClassPrefix(ObjcClientOptionsProvider.CLASS_PREFIX_VALUE);
+        verify(clientCodegen).setPodName(ObjcClientOptionsProvider.POD_NAME_VALUE);
+        verify(clientCodegen).setPodVersion(ObjcClientOptionsProvider.POD_VERSION_VALUE);
+        verify(clientCodegen).setAuthorName(ObjcClientOptionsProvider.AUTHOR_NAME_VALUE);
+        verify(clientCodegen).setAuthorEmail(ObjcClientOptionsProvider.AUTHOR_EMAIL_VALUE);
+        verify(clientCodegen).setGitRepoURL(ObjcClientOptionsProvider.GIT_REPO_URL_VALUE);
     }
 }

@@ -23,7 +23,7 @@ sidebar_label: csharp
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|targetFramework|The target .NET framework version.|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5**</dt><dd>.NET Framework 4.5+ compatible</dd><dt>**v5.0**</dt><dd>.NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dt>**uwp**</dt><dd>Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dl>|v4.5|
+|targetFramework|The target .NET framework version.|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5**</dt><dd>.NET Framework 4.5 compatible</dd><dt>**v4.5.2**</dt><dd>.NET Framework 4.5.2+ compatible</dd><dt>**v5.0**</dt><dd>.NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dt>**uwp**</dt><dd>Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)</dd></dl>|v4.5|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useCompareNetObjects|Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
@@ -46,7 +46,8 @@ sidebar_label: csharp
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Boolean</li>
+<ul class="column-ul">
+<li>Boolean</li>
 <li>Collection</li>
 <li>DateTime</li>
 <li>DateTime?</li>
@@ -82,7 +83,8 @@ sidebar_label: csharp
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Client</li>
+<ul class="column-ul">
+<li>Client</li>
 <li>abstract</li>
 <li>as</li>
 <li>base</li>
@@ -176,3 +178,111 @@ sidebar_label: csharp
 <li>volatile</li>
 <li>while</li>
 </ul>
+
+## FEATURE SET
+
+
+### Client Modification Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasePath|✓|ToolingExtension
+|Authorizations|✗|ToolingExtension
+|UserAgent|✓|ToolingExtension
+
+### Data Type Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Custom|✗|OAS2,OAS3
+|Int32|✓|OAS2,OAS3
+|Int64|✓|OAS2,OAS3
+|Float|✓|OAS2,OAS3
+|Double|✓|OAS2,OAS3
+|Decimal|✓|ToolingExtension
+|String|✓|OAS2,OAS3
+|Byte|✓|OAS2,OAS3
+|Binary|✓|OAS2,OAS3
+|Boolean|✓|OAS2,OAS3
+|Date|✓|OAS2,OAS3
+|DateTime|✓|OAS2,OAS3
+|Password|✓|OAS2,OAS3
+|File|✓|OAS2
+|Array|✓|OAS2,OAS3
+|Maps|✓|ToolingExtension
+|CollectionFormat|✓|OAS2
+|CollectionFormatMulti|✓|OAS2
+|Enum|✓|OAS2,OAS3
+|ArrayOfEnum|✓|ToolingExtension
+|ArrayOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfPrimitives|✓|ToolingExtension
+|ArrayOfCollectionOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfEnum|✓|ToolingExtension
+|MapOfEnum|✓|ToolingExtension
+|MapOfModel|✓|ToolingExtension
+|MapOfCollectionOfPrimitives|✓|ToolingExtension
+|MapOfCollectionOfModel|✓|ToolingExtension
+|MapOfCollectionOfEnum|✓|ToolingExtension
+
+### Documentation Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Readme|✓|ToolingExtension
+|Model|✓|ToolingExtension
+|Api|✓|ToolingExtension
+
+### Global Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Host|✓|OAS2,OAS3
+|BasePath|✓|OAS2,OAS3
+|Info|✓|OAS2,OAS3
+|Schemes|✗|OAS2,OAS3
+|PartialSchemes|✓|OAS2,OAS3
+|Consumes|✓|OAS2
+|Produces|✓|OAS2
+|ExternalDocumentation|✓|OAS2,OAS3
+|Examples|✓|OAS2,OAS3
+|XMLStructureDefinitions|✗|OAS2,OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
+|Callbacks|✗|OAS3
+|LinkObjects|✗|OAS3
+
+### Parameter Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Path|✓|OAS2,OAS3
+|Query|✓|OAS2,OAS3
+|Header|✓|OAS2,OAS3
+|Body|✓|OAS2
+|FormUnencoded|✓|OAS2
+|FormMultipart|✓|OAS2
+|Cookie|✗|OAS3
+
+### Schema Support Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Simple|✓|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
+|Polymorphism|✓|OAS2,OAS3
+|Union|✗|OAS3
+
+### Security Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
+|OpenIDConnect|✗|OAS3
+|BearerToken|✗|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+
+### Wire Format Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|JSON|✓|OAS2,OAS3
+|XML|✓|OAS2,OAS3
+|PROTOBUF|✗|ToolingExtension
+|Custom|✗|OAS2,OAS3

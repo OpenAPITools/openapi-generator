@@ -25,12 +25,14 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
@@ -51,7 +53,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -72,7 +74,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+         );
 
         // this may set datatype right for additional properties
         instantiationTypes.put("map", "dict");
@@ -95,6 +97,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         modelTestTemplateFiles.remove("model_test.mustache", ".py");
         modelTestTemplateFiles.put("python-experimental/model_test.mustache", ".py");
 
+        // this generator does not use SORT_PARAMS_BY_REQUIRED_FLAG
+        // this generator uses the following order for endpoint paramters and model properties
+        // required params/props with no enum of length one
+        // required params/props with enum of length one (which is used to set a default value as a python named arg value)
+        // optional params/props with **kwargs in python
+        cliOptions.remove(4);
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
                 .build();
@@ -115,6 +124,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 
+
+        // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
+        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
+           (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+        List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
+        if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
+            supportingFiles.add(new SupportingFile("python-experimental/signing.mustache", packagePath(), "signing.py"));
+        }
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
@@ -277,7 +294,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // name looks like cat.Cat
         String moduleName = name.split("\\.")[0];
         // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        String modelImport = "try:\n    from " + modelPackage() + " import "+ moduleName+ "\nexcept ImportError:\n    "+moduleName+" = sys.modules['"+modelPackage() + "."+ moduleName+"']";
+        String modelImport = "try:\n    from " + modelPackage() +
+          " import " + moduleName+ "\nexcept ImportError:\n    " +
+          moduleName + " = sys.modules[\n        '" + modelPackage() + "." + moduleName + "']";
         return modelImport;
     }
 
@@ -350,7 +369,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
-                // make sure discrimonator models are included in imports
+                // make sure discriminator models are included in imports
                 CodegenDiscriminator discriminator = cm.discriminator;
                 if (discriminator != null) {
                     Set<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels();
@@ -444,26 +463,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
 
         // put "enumVars" map into `allowableValues", including `name` and `value`
-        List<Map<String, Object>> enumVars = new ArrayList<>();
-        String commonPrefix = findCommonPrefixOfVars(values);
-        int truncateIdx = commonPrefix.length();
-        for (Object value : values) {
-            Map<String, Object> enumVar = new HashMap<>();
-            String enumName;
-            if (truncateIdx == 0) {
-                enumName = value.toString();
-            } else {
-                enumName = value.toString().substring(truncateIdx);
-                if ("".equals(enumName)) {
-                    enumName = value.toString();
-                }
-            }
+        List<Map<String, Object>> enumVars = buildEnumVars(values, dataType);
 
-            enumVar.put("name", toEnumVarName(enumName, dataType));
-            enumVar.put("value", toEnumValue(value.toString(), dataType));
-            enumVar.put("isString", isDataTypeString(dataType));
-            enumVars.add(enumVar);
-        }
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
         if (referencedSchema.isPresent()) {
@@ -528,7 +529,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // When we serialize/deserialize ModelSimple models, validations and enums will be checked.
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
-            responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(response));
+            responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(response), importMapping);
         } else { // no model/alias defined
             responseSchema = ModelUtils.getSchemaFromResponse(response);
         }
@@ -581,12 +582,30 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                                      Map<String, Schema> schemas,
                                      CodegenOperation op,
                                      ApiResponse methodResponse) {
+        handleMethodResponse(operation, schemas, op, methodResponse, Collections.<String, String>emptyMap());
+    }
+
+    /**
+     * Set op's returnBaseType, returnType, examples etc.
+     *
+     * @param operation      endpoint Operation
+     * @param schemas        a map of the schemas in the openapi spec
+     * @param op             endpoint CodegenOperation
+     * @param methodResponse the default ApiResponse for the endpoint
+     * @param importMappings mappings of external types to be omitted by unaliasing
+     */
+    @Override
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> importMappings) {
         // we have a custom version of this method to handle endpoints that return models where
         // type != object the model has validations and/or enums
         // we do this by invoking our custom fromResponse method to create defaultResponse
         // which we then use to set op.returnType and op.returnBaseType
         CodegenResponse defaultResponse = fromResponse("defaultResponse", methodResponse);
-        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
+        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse), importMappings);
 
         if (responseSchema != null) {
             op.returnBaseType = defaultResponse.baseType;
@@ -687,6 +706,56 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
+    private void addNullDefaultToOneOfAnyOfReqProps(Schema schema, CodegenModel result){
+        // for composed schema models, if the required properties are only from oneOf or anyOf models
+        // give them a nulltype.Null so the user can omit including them in python
+        ComposedSchema cs = (ComposedSchema) schema;
+
+        // these are the properties that are from properties in self cs or cs allOf
+        Map<String, Schema> selfProperties = new LinkedHashMap<String, Schema>();
+        List<String> selfRequired = new ArrayList<String>();
+
+        // these are the properties that are from properties in cs oneOf or cs anyOf
+        Map<String, Schema> otherProperties = new LinkedHashMap<String, Schema>();
+        List<String> otherRequired = new ArrayList<String>();
+
+        List<Schema> oneOfanyOfSchemas = new ArrayList<>();
+        List<Schema> oneOf = cs.getOneOf();
+        if (oneOf != null) {
+            oneOfanyOfSchemas.addAll(oneOf);
+        }
+        List<Schema> anyOf = cs.getAnyOf();
+        if (anyOf != null) {
+            oneOfanyOfSchemas.addAll(anyOf);
+        }
+        for (Schema sc: oneOfanyOfSchemas) {
+            Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
+            addProperties(otherProperties, otherRequired, refSchema);
+        }
+        Set<String> otherRequiredSet = new HashSet<String>(otherRequired);
+
+        List<Schema> allOf = cs.getAllOf();
+        if ((schema.getProperties() != null && !schema.getProperties().isEmpty()) || allOf != null) {
+            // NOTE: this function also adds the allOf propesrties inside schema
+            addProperties(selfProperties, selfRequired, schema);
+        }
+        if (result.discriminator != null) {
+            selfRequired.add(result.discriminator.getPropertyBaseName());
+        }
+        Set<String> selfRequiredSet = new HashSet<String>(selfRequired);
+
+        List<CodegenProperty> reqVars = result.getRequiredVars();
+        if (reqVars != null) {
+            for (CodegenProperty cp: reqVars) {
+                String propName = cp.baseName;
+                if (otherRequiredSet.contains(propName) && !selfRequiredSet.contains(propName)) {
+                    // if var is in otherRequiredSet and is not in selfRequiredSet and is in result.requiredVars
+                    // then set it to nullable because the user doesn't have to give a value for it
+                    cp.setDefaultValue("nulltype.Null");
+                }
+            }
+        }
+    }
 
     /**
      * Convert OAS Model object to Codegen Model object
@@ -787,6 +856,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (result.imports.contains(result.classname)) {
             result.imports.remove(result.classname);
         }
+
+        if (result.requiredVars.size() > 0 && (result.oneOf.size() > 0 || result.anyOf.size() > 0)) {
+            addNullDefaultToOneOfAnyOfReqProps(schema, result);
+        }
+
         return result;
     }
 
@@ -804,19 +878,31 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return oasType;
     }
 
+    /**
+     * Return a string representation of the Python types for the specified schema.
+     * Primitive types in the OAS specification are implemented in Python using the corresponding
+     * Python primitive types.
+     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types. 
+     * 
+     * @param p The OAS schema.
+     * @param prefix prepended to the returned value.
+     * @param suffix appended to the returned value.
+     * @return a string representation of the Python types
+     */
     public String getTypeString(Schema p, String prefix, String suffix) {
         // this is used to set dataType, which defines a python tuple of classes
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
-        if (ModelUtils.isNullable(p)) {
+        // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
+        if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
         if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || p.getType() == "object") && ModelUtils.getAdditionalProperties(p) != null) {
+        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && ModelUtils.getAdditionalProperties(p) != null) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {

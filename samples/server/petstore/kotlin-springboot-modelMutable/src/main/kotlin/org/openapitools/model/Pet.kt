@@ -16,34 +16,34 @@ import io.swagger.annotations.ApiModelProperty
 
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */
-data class Pet (
+data class Pet(
 
-        @get:NotNull 
-        @ApiModelProperty(example = "doggie", required = true, value = "")
-        @JsonProperty("name") var name: kotlin.String,
+    @get:NotNull 
+    @ApiModelProperty(example = "doggie", required = true, value = "")
+    @JsonProperty("name") var name: kotlin.String,
 
-        @get:NotNull 
-        @ApiModelProperty(example = "null", required = true, value = "")
-        @JsonProperty("photoUrls") var photoUrls: kotlin.collections.List<kotlin.String>,
+    @get:NotNull 
+    @ApiModelProperty(example = "null", required = true, value = "")
+    @JsonProperty("photoUrls") var photoUrls: kotlin.collections.List<kotlin.String>,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") var id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("id") var id: kotlin.Long? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("category") var category: Category? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("category") var category: Category? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
 
-        @ApiModelProperty(example = "null", value = "pet status in the store")
-        @JsonProperty("status") var status: Pet.Status? = null
+    @ApiModelProperty(example = "null", value = "pet status in the store")
+    @JsonProperty("status") var status: Pet.Status? = null
 ) {
 
     /**

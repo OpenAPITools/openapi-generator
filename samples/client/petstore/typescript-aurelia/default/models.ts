@@ -37,7 +37,7 @@ export interface Order {
   id?: number;
   petId?: number;
   quantity?: number;
-  shipDate?: Date;
+  shipDate?: string;
   /**
    * Order Status
    */

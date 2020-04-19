@@ -21,17 +21,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Represents those settings applied to a generation workflow.
  */
 @SuppressWarnings("WeakerAccess")
 public class WorkflowSettings {
-
+    private static final AtomicLong lastWarning = new AtomicLong(0);
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
     public static final String DEFAULT_OUTPUT_DIR = ".";
     public static final boolean DEFAULT_VERBOSE = false;
@@ -74,7 +78,15 @@ public class WorkflowSettings {
         this.templateDir = builder.templateDir;
         this.templatingEngineName = builder.templatingEngineName;
         this.ignoreFileOverride = builder.ignoreFileOverride;
+        // TODO: rename to globalProperties for 5.0
         this.systemProperties = ImmutableMap.copyOf(builder.systemProperties);
+        if (this.systemProperties.size() > 0) {
+            // write no more than every 5s. This is temporary until version 5.0 as once(Logger) is not accessible here.
+            // thread contention may cause this to write more than once, but this is just an attempt to reduce noise
+            if (System.currentTimeMillis() - lastWarning.getAndUpdate(x -> System.currentTimeMillis()) > 5000) {
+                LOGGER.warn("systemProperties will be renamed to globalProperties in version 5.0");
+            }
+        }
     }
 
     /**
@@ -406,15 +418,29 @@ public class WorkflowSettings {
          */
         public Builder withTemplateDir(String templateDir) {
             if (templateDir != null) {
+                URI uri = null;
                 File f = new File(templateDir);
 
                 // check to see if the folder exists
-                if (!(f.exists() && f.isDirectory())) {
+                if (f.exists() && f.isDirectory()) {
+                    uri = f.toURI();
+                    this.templateDir =  Paths.get(uri).toAbsolutePath().toString();
+                } else {
+                    URL url = this.getClass().getClassLoader().getResource(templateDir);
+                    if (url != null) {
+                        try {
+                            uri = url.toURI();
+                            this.templateDir = templateDir;
+                        } catch (URISyntaxException e) {
+                            LOGGER.warn("The requested template was found on the classpath, but resulted in a syntax error.");
+                        }
+                    }
+                }
+
+                if (uri == null) {
                     throw new IllegalArgumentException(
                             "Template directory " + templateDir + " does not exist.");
                 }
-
-                this.templateDir =  Paths.get(f.toURI()).toAbsolutePath().toString();
             }
 
             return this;

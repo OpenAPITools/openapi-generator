@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include <QObject>
 #include <QString>
+#include <QTimer>
 
 #include "PFXHttpFileElement.h"
 
@@ -67,22 +68,32 @@ public:
     QString http_attribute_encode(QString attribute_name, QString input);
     void execute(PFXHttpRequestInput *input);
     static QSslConfiguration *sslDefaultConfiguration;
-    void setTimeOut(int tout);
+    void setTimeOut(int timeOutMs);
     void setWorkingDirectory(const QString &path);
     PFXHttpFileElement getHttpFileElement(const QString &fieldname = QString());
     QByteArray *getMultiPartField(const QString &fieldname = QString());
+    void setResponseCompressionEnabled(bool enable);
+    void setRequestCompressionEnabled(bool enable);
 signals:
     void on_execution_finished(PFXHttpRequestWorker *worker);
 
 private:
+    enum PFXCompressionType{
+        Zlib,
+        Gzip
+    };
     QNetworkAccessManager *manager;
     QMap<QString, QString> headers;
     QMap<QString, PFXHttpFileElement> files;
     QMap<QString, QByteArray *> multiPartFields;
     QString workingDirectory;
-    int _timeOut;
+    QTimer timeOutTimer;
+    bool isResponseCompressionEnabled;
+    bool isRequestCompressionEnabled;
     void on_manager_timeout(QNetworkReply *reply);
-    void process_form_response();
+    void process_response(QNetworkReply *reply);
+    QByteArray decompress(const QByteArray& data);
+    QByteArray compress(const QByteArray& input, int level, PFXCompressionType compressType); 
 private slots:
     void on_manager_finished(QNetworkReply *reply);
 };

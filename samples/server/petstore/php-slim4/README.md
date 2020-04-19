@@ -46,6 +46,8 @@ Command | Target
 `$ composer test` | All tests
 `$ composer test-apis` | Apis tests
 `$ composer test-models` | Models tests
+`$ composer test-mock` | Mock feature tests
+`$ composer test-utils` | Utils tests
 
 #### Config
 
@@ -98,6 +100,8 @@ Switch on option in `./index.php`:
 --- $app->addErrorMiddleware(false, true, true);
 +++ $app->addErrorMiddleware(true, true, true);
 ```
+
+## [Mock Server Documentation](./docs/MockServer.md)
 
 ## API Endpoints
 

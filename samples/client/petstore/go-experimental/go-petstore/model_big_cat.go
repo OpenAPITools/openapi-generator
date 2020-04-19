@@ -10,99 +10,93 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
 // BigCat struct for BigCat
 type BigCat struct {
+<<<<<<< HEAD
 	ClassName string `json:"className"`
 	Color *string `json:"color,omitempty"`
 	Declawed *bool `json:"declawed,omitempty"`
 	Kind *BigCatAllOfKind `json:"kind,omitempty"`
+=======
+	Cat
+	Kind *string `json:"kind,omitempty"`
+>>>>>>> origin/master
 }
 
-// GetClassName returns the ClassName field value
-func (o *BigCat) GetClassName() string {
-	if o == nil {
+// NewBigCat instantiates a new BigCat object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewBigCat() *BigCat {
+	this := BigCat{}
+	return &this
+}
+
+// NewBigCatWithDefaults instantiates a new BigCat object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewBigCatWithDefaults() *BigCat {
+	this := BigCat{}
+	return &this
+}
+
+// GetKind returns the Kind field value if set, zero value otherwise.
+func (o *BigCat) GetKind() string {
+	if o == nil || o.Kind == nil {
 		var ret string
 		return ret
 	}
-
-	return o.ClassName
+	return *o.Kind
 }
 
-// SetClassName sets field value
-func (o *BigCat) SetClassName(v string) {
-	o.ClassName = v
-}
-
-// GetColor returns the Color field value if set, zero value otherwise.
-func (o *BigCat) GetColor() string {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret
-	}
-	return *o.Color
-}
-
-// GetColorOk returns a tuple with the Color field value if set, zero value otherwise
+// GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BigCat) GetColorOk() (string, bool) {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret, false
+func (o *BigCat) GetKindOk() (*string, bool) {
+	if o == nil || o.Kind == nil {
+		return nil, false
 	}
-	return *o.Color, true
+	return o.Kind, true
 }
 
-// HasColor returns a boolean if a field has been set.
-func (o *BigCat) HasColor() bool {
-	if o != nil && o.Color != nil {
+// HasKind returns a boolean if a field has been set.
+func (o *BigCat) HasKind() bool {
+	if o != nil && o.Kind != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *BigCat) SetColor(v string) {
-	o.Color = &v
+// SetKind gets a reference to the given string and assigns it to the Kind field.
+func (o *BigCat) SetKind(v string) {
+	o.Kind = &v
 }
 
-// GetDeclawed returns the Declawed field value if set, zero value otherwise.
-func (o *BigCat) GetDeclawed() bool {
-	if o == nil || o.Declawed == nil {
-		var ret bool
-		return ret
+func (o BigCat) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	serializedCat, errCat := json.Marshal(o.Cat)
+	if errCat != nil {
+		return []byte{}, errCat
 	}
-	return *o.Declawed
-}
-
-// GetDeclawedOk returns a tuple with the Declawed field value if set, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *BigCat) GetDeclawedOk() (bool, bool) {
-	if o == nil || o.Declawed == nil {
-		var ret bool
-		return ret, false
+	errCat = json.Unmarshal([]byte(serializedCat), &toSerialize)
+	if errCat != nil {
+		return []byte{}, errCat
 	}
-	return *o.Declawed, true
-}
-
-// HasDeclawed returns a boolean if a field has been set.
-func (o *BigCat) HasDeclawed() bool {
-	if o != nil && o.Declawed != nil {
-		return true
+	if o.Kind != nil {
+		toSerialize["kind"] = o.Kind
 	}
-
-	return false
+	return json.Marshal(toSerialize)
 }
 
-// SetDeclawed gets a reference to the given bool and assigns it to the Declawed field.
-func (o *BigCat) SetDeclawed(v bool) {
-	o.Declawed = &v
+type NullableBigCat struct {
+	value *BigCat
+	isSet bool
 }
 
+<<<<<<< HEAD
 // GetKind returns the Kind field value if set, zero value otherwise.
 func (o *BigCat) GetKind() BigCatAllOfKind {
 	if o == nil || o.Kind == nil {
@@ -120,41 +114,41 @@ func (o *BigCat) GetKindOk() (BigCatAllOfKind, bool) {
 		return ret, false
 	}
 	return *o.Kind, true
+=======
+func (v NullableBigCat) Get() *BigCat {
+	return v.value
 }
 
-// HasKind returns a boolean if a field has been set.
-func (o *BigCat) HasKind() bool {
-	if o != nil && o.Kind != nil {
-		return true
-	}
-
-	return false
+func (v *NullableBigCat) Set(val *BigCat) {
+	v.value = val
+	v.isSet = true
+>>>>>>> origin/master
 }
 
+func (v NullableBigCat) IsSet() bool {
+	return v.isSet
+}
+
+<<<<<<< HEAD
 // SetKind gets a reference to the given BigCatAllOfKind and assigns it to the Kind field.
 func (o *BigCat) SetKind(v BigCatAllOfKind) {
 	o.Kind = &v
+=======
+func (v *NullableBigCat) Unset() {
+	v.value = nil
+	v.isSet = false
+>>>>>>> origin/master
 }
 
-type NullableBigCat struct {
-	Value BigCat
-	ExplicitNull bool
+func NewNullableBigCat(val *BigCat) *NullableBigCat {
+	return &NullableBigCat{value: val, isSet: true}
 }
 
 func (v NullableBigCat) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableBigCat) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

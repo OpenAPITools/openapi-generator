@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.typescript.typescriptnode;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.openapitools.codegen.options.TypeScriptNodeClientOptionsProvider;
 
-public class TypeScriptNodeClientOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private TypeScriptNodeClientCodegen clientCodegen;
+public class TypeScriptNodeClientOptionsTest extends AbstractOptionsTest {
+    private TypeScriptNodeClientCodegen clientCodegen = mock(TypeScriptNodeClientCodegen.class, mockSettings);
 
     public TypeScriptNodeClientOptionsTest() {
         super(new TypeScriptNodeClientOptionsProvider());
@@ -40,16 +39,10 @@ public class TypeScriptNodeClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setModelPropertyNaming(TypeScriptNodeClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
-            times = 1;
-            clientCodegen.setSupportsES6(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.SUPPORTS_ES6_VALUE));
-            times = 1;
-            clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setModelPropertyNaming(TypeScriptNodeClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+        verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.SUPPORTS_ES6_VALUE));
+        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
     }
 }

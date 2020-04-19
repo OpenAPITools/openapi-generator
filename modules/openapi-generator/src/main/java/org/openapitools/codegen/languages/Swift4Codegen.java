@@ -78,7 +78,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public Swift4Codegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
@@ -97,7 +97,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
@@ -148,7 +148,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary"
+                        "NSError", "NSDictionary",
+                        // Cannot override with a stored property 'className'
+                        "className"
                         )
                 );
 
@@ -1011,7 +1013,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenParameter.paramName + "_example\"";
                 }
             } else if ("Bool".equals(codegenParameter.dataType)) { // boolean
-                if (Boolean.TRUE.equals(codegenParameter.example)) {
+                if (Boolean.parseBoolean(codegenParameter.example)) {
                     return "true";
                 } else {
                     return "false";
@@ -1051,7 +1053,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.name + "_example\"";
                 }
             } else if ("Bool".equals(codegenProperty.dataType)) { // boolean
-                if (Boolean.TRUE.equals(codegenProperty.example)) {
+                if (Boolean.parseBoolean(codegenProperty.example)) {
                     return "true";
                 } else {
                     return "false";

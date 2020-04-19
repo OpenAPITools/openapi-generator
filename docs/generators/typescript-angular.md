@@ -8,14 +8,17 @@ sidebar_label: typescript-angular
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiModulePrefix|The prefix of the generated ApiModule.| |null|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|enumNameSuffix|Suffix that will be appended to all enum names. A special 'v4-compat' value enables the backward-compatible behavior (as pre v4.2.3)| |v4-compat|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
 |fileNaming|Naming convention for the output files: 'camelCase', 'kebab-case'.| |camelCase|
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
 |modelSuffix|The suffix of the generated model.| |null|
-|ngVersion|The version of Angular.| |8.0.0|
+|ngVersion|The version of Angular.| |9.0.0|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
+|nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |providedInRoot|Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).| |false|
 |serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
@@ -44,7 +47,8 @@ sidebar_label: typescript-angular
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
+<ul class="column-ul">
+<li>Array</li>
 <li>Blob</li>
 <li>Boolean</li>
 <li>Date</li>
@@ -56,6 +60,7 @@ sidebar_label: typescript-angular
 <li>Long</li>
 <li>Map</li>
 <li>Object</li>
+<li>ReadonlyArray</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>
@@ -66,7 +71,8 @@ sidebar_label: typescript-angular
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>await</li>
 <li>boolean</li>
 <li>break</li>
@@ -135,3 +141,111 @@ sidebar_label: typescript-angular
 <li>with</li>
 <li>yield</li>
 </ul>
+
+## FEATURE SET
+
+
+### Client Modification Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasePath|✓|ToolingExtension
+|Authorizations|✗|ToolingExtension
+|UserAgent|✗|ToolingExtension
+
+### Data Type Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Custom|✗|OAS2,OAS3
+|Int32|✓|OAS2,OAS3
+|Int64|✓|OAS2,OAS3
+|Float|✓|OAS2,OAS3
+|Double|✓|OAS2,OAS3
+|Decimal|✓|ToolingExtension
+|String|✓|OAS2,OAS3
+|Byte|✓|OAS2,OAS3
+|Binary|✓|OAS2,OAS3
+|Boolean|✓|OAS2,OAS3
+|Date|✓|OAS2,OAS3
+|DateTime|✓|OAS2,OAS3
+|Password|✓|OAS2,OAS3
+|File|✓|OAS2
+|Array|✓|OAS2,OAS3
+|Maps|✓|ToolingExtension
+|CollectionFormat|✓|OAS2
+|CollectionFormatMulti|✓|OAS2
+|Enum|✓|OAS2,OAS3
+|ArrayOfEnum|✓|ToolingExtension
+|ArrayOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfPrimitives|✓|ToolingExtension
+|ArrayOfCollectionOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfEnum|✓|ToolingExtension
+|MapOfEnum|✓|ToolingExtension
+|MapOfModel|✓|ToolingExtension
+|MapOfCollectionOfPrimitives|✓|ToolingExtension
+|MapOfCollectionOfModel|✓|ToolingExtension
+|MapOfCollectionOfEnum|✓|ToolingExtension
+
+### Documentation Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Readme|✓|ToolingExtension
+|Model|✓|ToolingExtension
+|Api|✓|ToolingExtension
+
+### Global Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Host|✓|OAS2,OAS3
+|BasePath|✓|OAS2,OAS3
+|Info|✓|OAS2,OAS3
+|Schemes|✗|OAS2,OAS3
+|PartialSchemes|✓|OAS2,OAS3
+|Consumes|✓|OAS2
+|Produces|✓|OAS2
+|ExternalDocumentation|✓|OAS2,OAS3
+|Examples|✓|OAS2,OAS3
+|XMLStructureDefinitions|✗|OAS2,OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
+|Callbacks|✗|OAS3
+|LinkObjects|✗|OAS3
+
+### Parameter Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Path|✓|OAS2,OAS3
+|Query|✓|OAS2,OAS3
+|Header|✓|OAS2,OAS3
+|Body|✓|OAS2
+|FormUnencoded|✓|OAS2
+|FormMultipart|✓|OAS2
+|Cookie|✓|OAS3
+
+### Schema Support Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Simple|✓|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
+|Polymorphism|✓|OAS2,OAS3
+|Union|✗|OAS3
+
+### Security Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
+|OpenIDConnect|✗|OAS3
+|BearerToken|✗|OAS3
+|OAuth2_Implicit|✗|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+
+### Wire Format Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|JSON|✓|OAS2,OAS3
+|XML|✓|OAS2,OAS3
+|PROTOBUF|✗|ToolingExtension
+|Custom|✗|OAS2,OAS3

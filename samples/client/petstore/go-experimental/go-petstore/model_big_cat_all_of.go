@@ -10,13 +10,29 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
 // BigCatAllOf struct for BigCatAllOf
 type BigCatAllOf struct {
 	Kind *BigCatAllOfKind `json:"kind,omitempty"`
+}
+
+// NewBigCatAllOf instantiates a new BigCatAllOf object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewBigCatAllOf() *BigCatAllOf {
+	this := BigCatAllOf{}
+	return &this
+}
+
+// NewBigCatAllOfWithDefaults instantiates a new BigCatAllOf object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewBigCatAllOfWithDefaults() *BigCatAllOf {
+	this := BigCatAllOf{}
+	return &this
 }
 
 // GetKind returns the Kind field value if set, zero value otherwise.
@@ -28,14 +44,20 @@ func (o *BigCatAllOf) GetKind() BigCatAllOfKind {
 	return *o.Kind
 }
 
-// GetKindOk returns a tuple with the Kind field value if set, zero value otherwise
+// GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+<<<<<<< HEAD
 func (o *BigCatAllOf) GetKindOk() (BigCatAllOfKind, bool) {
 	if o == nil || o.Kind == nil {
 		var ret BigCatAllOfKind
 		return ret, false
+=======
+func (o *BigCatAllOf) GetKindOk() (*string, bool) {
+	if o == nil || o.Kind == nil {
+		return nil, false
+>>>>>>> origin/master
 	}
-	return *o.Kind, true
+	return o.Kind, true
 }
 
 // HasKind returns a boolean if a field has been set.
@@ -52,25 +74,46 @@ func (o *BigCatAllOf) SetKind(v BigCatAllOfKind) {
 	o.Kind = &v
 }
 
+func (o BigCatAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Kind != nil {
+		toSerialize["kind"] = o.Kind
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableBigCatAllOf struct {
-	Value BigCatAllOf
-	ExplicitNull bool
+	value *BigCatAllOf
+	isSet bool
+}
+
+func (v NullableBigCatAllOf) Get() *BigCatAllOf {
+	return v.value
+}
+
+func (v *NullableBigCatAllOf) Set(val *BigCatAllOf) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableBigCatAllOf) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableBigCatAllOf) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableBigCatAllOf(val *BigCatAllOf) *NullableBigCatAllOf {
+	return &NullableBigCatAllOf{value: val, isSet: true}
 }
 
 func (v NullableBigCatAllOf) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableBigCatAllOf) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

@@ -403,6 +403,7 @@ Other parameters are passed through a pointer to a apiTestEnumParametersRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+<<<<<<< HEAD
  **enumHeaderStringArray** | [**[]TestEnumParametersBodyEnumFormStringArrayItems**](TestEnumParametersBodyEnumFormStringArrayItems.md) | Header parameter enum test (string array) | 
  **enumHeaderString** | [**EnumHeaderString**](.md) | Header parameter enum test (string) | 
  **enumQueryStringArray** | [**[]TestEnumParametersBodyEnumFormStringArrayItems**](TestEnumParametersBodyEnumFormStringArrayItems.md) | Query parameter enum test (string array) | 
@@ -411,6 +412,16 @@ Name | Type | Description  | Notes
  **enumQueryDouble** | [**EnumQueryDouble**](.md) | Query parameter enum test (double) | 
  **enumFormStringArray** | [**[]TestEnumParametersBodyEnumFormStringArrayItems**](TestEnumParametersBodyEnumFormStringArrayItems.md) | Form parameter enum test (string array) | 
  **enumFormString** | [**TestEnumParametersBodyEnumFormString**](testEnumParametersBodyEnumFormString.md) |  | 
+=======
+ **enumHeaderStringArray** | [**[]string**](string.md) | Header parameter enum test (string array) | 
+ **enumHeaderString** | **string** | Header parameter enum test (string) | [default to &quot;-efg&quot;]
+ **enumQueryStringArray** | [**[]string**](string.md) | Query parameter enum test (string array) | 
+ **enumQueryString** | **string** | Query parameter enum test (string) | [default to &quot;-efg&quot;]
+ **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
+ **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
+ **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to &quot;$&quot;]
+ **enumFormString** | **string** | Form parameter enum test (string) | [default to &quot;-efg&quot;]
+>>>>>>> origin/master
 
 ### Return type
 

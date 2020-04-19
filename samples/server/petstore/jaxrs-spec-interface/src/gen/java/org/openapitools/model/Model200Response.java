@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 /**
  * Model for testing model name starting with number
  **/
@@ -30,16 +29,17 @@ public class Model200Response  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public Integer getName() {
     return name;
   }
+
   public void setName(Integer name) {
     this.name = name;
-  }
-
-  /**
+  }/**
    **/
   public Model200Response propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -47,15 +47,17 @@ public class Model200Response  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }
+
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -96,5 +98,7 @@ public class Model200Response  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

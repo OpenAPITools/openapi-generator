@@ -84,6 +84,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     description = "Validates an Open API 2.0 or 3.x specification document."
 
                     inputSpec.set(validate.inputSpec)
+                    recommend.set(validate.recommend)
                 }
 
                 create("openApiGenerate", GenerateTask::class.java) {
@@ -137,6 +138,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     enablePostProcessFile.set(generate.enablePostProcessFile)
                     skipValidateSpec.set(generate.skipValidateSpec)
                     generateAliasAsModel.set(generate.generateAliasAsModel)
+                    engine.set(generate.engine)
                 }
             }
         }

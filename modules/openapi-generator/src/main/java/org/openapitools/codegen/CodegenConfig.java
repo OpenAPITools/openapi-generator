@@ -291,5 +291,7 @@ public interface CodegenConfig {
 
     FeatureSet getFeatureSet();
 
-    void setFeatureSet(FeatureSet featureSet);
+    boolean isRemoveEnumValuePrefix();
+
+    void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 }

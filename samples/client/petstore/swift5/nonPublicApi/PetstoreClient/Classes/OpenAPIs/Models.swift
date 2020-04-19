@@ -25,6 +25,7 @@ internal enum DownloadException: Error {
 internal enum DecodableRequestBuilderError: Error {
     case emptyDataResponse
     case nilHTTPResponse
+    case unsuccessfulHTTPStatusCode
     case jsonDecoding(DecodingError)
     case generalError(Error)
 }
@@ -43,8 +44,10 @@ internal class Response<T> {
     internal convenience init(response: HTTPURLResponse, body: T?) {
         let rawHeader = response.allHeaderFields
         var header = [String: String]()
-        for case let (key, value) as (String, String) in rawHeader {
-            header[key] = value
+        for (key, value) in rawHeader {
+            if let key = key as? String, let value = value as? String {
+                header[key] = value
+            }
         }
         self.init(statusCode: response.statusCode, header: header, body: body)
     }

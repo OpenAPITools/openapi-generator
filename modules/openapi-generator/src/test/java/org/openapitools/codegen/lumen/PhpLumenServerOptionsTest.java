@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.lumen;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpLumenServerCodegen;
 import org.openapitools.codegen.options.PhpLumenServerOptionsProvider;
 
-public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private PhpLumenServerCodegen clientCodegen;
+public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
+    private PhpLumenServerCodegen clientCodegen = mock(PhpLumenServerCodegen.class, mockSettings);
 
     public PhpLumenServerOptionsTest() {
         super(new PhpLumenServerOptionsProvider());
@@ -40,24 +39,14 @@ public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(PhpLumenServerOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setParameterNamingConvention(PhpLumenServerOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
-            clientCodegen.setModelPackage(PhpLumenServerOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(PhpLumenServerOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
-            times = 1;
-            clientCodegen.setInvokerPackage(PhpLumenServerOptionsProvider.INVOKER_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setPackageName(PhpLumenServerOptionsProvider.PACKAGE_NAME_VALUE);
-            times = 1;
-            clientCodegen.setSrcBasePath(PhpLumenServerOptionsProvider.SRC_BASE_PATH_VALUE);
-            times = 1;
-            clientCodegen.setArtifactVersion(PhpLumenServerOptionsProvider.ARTIFACT_VERSION_VALUE);
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpLumenServerOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setParameterNamingConvention(PhpLumenServerOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
+        verify(clientCodegen).setModelPackage(PhpLumenServerOptionsProvider.MODEL_PACKAGE_VALUE);
+        verify(clientCodegen).setApiPackage(PhpLumenServerOptionsProvider.API_PACKAGE_VALUE);
+        verify(clientCodegen).setInvokerPackage(PhpLumenServerOptionsProvider.INVOKER_PACKAGE_VALUE);
+        verify(clientCodegen).setPackageName(PhpLumenServerOptionsProvider.PACKAGE_NAME_VALUE);
+        verify(clientCodegen).setSrcBasePath(PhpLumenServerOptionsProvider.SRC_BASE_PATH_VALUE);
+        verify(clientCodegen).setArtifactVersion(PhpLumenServerOptionsProvider.ARTIFACT_VERSION_VALUE);
     }
 }

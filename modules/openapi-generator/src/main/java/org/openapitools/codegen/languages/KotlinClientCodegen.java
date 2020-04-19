@@ -51,7 +51,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
-    protected String requestDateConverter = RequestDateConverter.TO_STRING.value;
+    protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
     protected String collectionType = CollectionType.ARRAY.value;
 
     public enum DateLibrary {
@@ -99,7 +99,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         /*
          * OAuth flows supported _only_ by client explicitly setting bearer token. The "flows" are not supported.
          */
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(WireFormatFeature.XML, WireFormatFeature.PROTOBUF)
                 .excludeSecurityFeatures(
@@ -122,7 +122,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(ClientModificationFeature.BasePath)
-                .build();
+        );
 
         artifactId = "kotlin-client";
         packageName = "org.openapitools.client";
@@ -172,8 +172,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption requestDateConverter = new CliOption(REQUEST_DATE_CONVERTER, "JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)");
         Map<String, String> requestDateConverterOptions = new HashMap<>();
-        requestDateConverterOptions.put(RequestDateConverter.TO_STRING.value, "[DEFAULT] Use the 'toString'-method of the date-time object to retrieve the related string representation.");
-        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "Date formater option using a json converter.");
+        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "[DEFAULT] Date formater option using a json converter.");
+        requestDateConverterOptions.put(RequestDateConverter.TO_STRING.value, "Use the 'toString'-method of the date-time object to retrieve the related string representation.");
         requestDateConverter.setEnum(requestDateConverterOptions);
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);
@@ -323,18 +323,26 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void addSupportingSerializerAdapters(final String infrastructureFolder) {
         supportingFiles.add(new SupportingFile("jvm-common/infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
         supportingFiles.add(new SupportingFile("jvm-common/infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
-        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
-        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
-        
+
         switch (getSerializationLibrary()) {
             case moshi:
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
                 break;
 
             case gson:
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
                 break;
+
+            case jackson:
+                //supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
+                break;
+
         }
     }
 

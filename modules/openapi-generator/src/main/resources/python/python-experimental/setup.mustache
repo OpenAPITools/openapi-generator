@@ -16,13 +16,23 @@ VERSION = "{{packageVersion}}"
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil"]
+REQUIRES = [
+  "urllib3 >= 1.15",
+  "six >= 1.10",
+  "certifi",
+  "python-dateutil",
+  "nulltype",
 {{#asyncio}}
-REQUIRES.append("aiohttp >= 3.0.0")
+  "aiohttp >= 3.0.0",
 {{/asyncio}}
 {{#tornado}}
-REQUIRES.append("tornado>=4.2,<5")
+  "tornado>=4.2,<5",
 {{/tornado}}
+{{#hasHttpSignatureMethods}}
+  "pem>=19.3.0",
+  "pycryptodome>=3.9.0",
+{{/hasHttpSignatureMethods}}
+]
 EXTRAS = {':python_version <= "2.7"': ['future']}
 
 setup(
