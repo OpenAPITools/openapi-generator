@@ -612,8 +612,8 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("MessageEventCoreWithTimeListEntries");
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel("MessageEventCoreWithTimeListEntries", schema);
-        Assert.assertEquals(model.parent, "MessageEventCore");
-        Assert.assertEquals(model.allParents, Collections.singletonList("MessageEventCore"));
+        Assert.assertEquals(model.parent, null);
+        Assert.assertEquals(model.allParents, null);
     }
 
     @Test
