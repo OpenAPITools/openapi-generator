@@ -5543,11 +5543,18 @@ public class DefaultCodegen implements CodegenConfig {
             setParameterNullable(codegenParameter, codegenProperty);
         }
 
+        addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
+
         // set the parameter's example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
 
         return codegenParameter;
+    }
+
+    private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body){
+        if(codegenParameter.jsonSchema == null)
+            codegenParameter.jsonSchema = Json.pretty(body);
     }
 
     protected void addOption(String key, String description, String defaultValue) {
