@@ -1104,9 +1104,9 @@ public class ModelUtils {
     public static Map<String, List<String>> getChildrenMap(OpenAPI openAPI) {
         Map<String, Schema> allSchemas = getSchemas(openAPI);
 
-        // FIXME: The collect here will throw NPE if a spec document has only a single oneOf hierarchy.
         Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
             .filter(entry -> isComposedSchema(entry.getValue()))
+                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)!=null)
             .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
 
         return groupedByParent.entrySet().stream()
