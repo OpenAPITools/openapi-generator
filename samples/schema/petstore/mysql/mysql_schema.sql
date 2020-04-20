@@ -495,6 +495,11 @@ CREATE TABLE IF NOT EXISTS `XmlItem` (
 
 
 --
+-- OAuth2 framework tables
+-- Thanks to https://github.com/dsquier/oauth2-server-php-mysql repo
+--
+
+--
 -- Table structure for table `oauth_clients`
 --
 CREATE TABLE IF NOT EXISTS `oauth_clients` (
@@ -550,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
 --
 CREATE TABLE IF NOT EXISTS `oauth_users` (
   `username`            VARCHAR(80)    DEFAULT NULL,
-  `password`            VARCHAR(80)    DEFAULT NULL,
+  `password`            VARCHAR(255)   DEFAULT NULL,
   `first_name`          VARCHAR(80)    DEFAULT NULL,
   `last_name`           VARCHAR(80)    DEFAULT NULL,
   `email`               VARCHAR(2000)  DEFAULT NULL,
