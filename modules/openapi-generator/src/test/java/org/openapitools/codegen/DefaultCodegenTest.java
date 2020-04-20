@@ -605,15 +605,34 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testAllOfSingleRefWithOwnPropsNoDiscriminator() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
+    public void testAllOfSingleAndDoubleRefWithOwnPropsNoDiscriminator() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
         final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
 
-        Schema schema = openAPI.getComponents().getSchemas().get("MessageEventCoreWithTimeListEntries");
         codegen.setOpenAPI(openAPI);
-        CodegenModel model = codegen.fromModel("MessageEventCoreWithTimeListEntries", schema);
-        Assert.assertEquals(model.parent, null);
-        Assert.assertEquals(model.allParents, null);
+
+        Schema supermanSchema = openAPI.getComponents().getSchemas().get("SuperMan");
+        CodegenModel supermanModel = codegen.fromModel("SuperMan", supermanSchema);
+        Assert.assertEquals(supermanModel.parent, null);
+        Assert.assertEquals(supermanModel.allParents, null);
+
+        Schema superboySchema = openAPI.getComponents().getSchemas().get("SuperBoy");
+        CodegenModel superboyModel = codegen.fromModel("SuperBoy", superboySchema);
+        Assert.assertEquals(superboyModel.parent, null);
+        Assert.assertEquals(superboyModel.allParents, null);
+    }
+
+    @Test
+    public void testAllParents() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml");
+        final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
+
+        codegen.setOpenAPI(openAPI);
+
+        Schema adultSchema = openAPI.getComponents().getSchemas().get("Adult");
+        CodegenModel adultModel = codegen.fromModel("Adult", adultSchema);
+        Assert.assertEquals(adultModel.parent, "Person");
+        Assert.assertEquals(adultModel.allParents, Collections.singletonList("Person"));
     }
 
     @Test
