@@ -290,7 +290,12 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map({{returnBaseType}}FromJSON));
         {{/isListContainer}}
         {{^isListContainer}}
+        {{#isMapContainer}}
+        return new runtime.JSONApiResponse(response, (jsonValue) => runtime.mapValues(jsonValue, {{returnBaseType}}FromJSON));
+        {{/isMapContainer}}
+        {{^isMapContainer}}
         return new runtime.JSONApiResponse(response, (jsonValue) => {{returnBaseType}}FromJSON(jsonValue));
+        {{/isMapContainer}}
         {{/isListContainer}}
         {{/returnTypeIsPrimitive}}
         {{/isResponseFile}}
