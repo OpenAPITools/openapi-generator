@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
 --
 CREATE TABLE IF NOT EXISTS `oauth_users` (
   `username`            VARCHAR(80)    DEFAULT NULL,
-  `password`            VARCHAR(80)    DEFAULT NULL,
+  `password`            VARCHAR(255)   DEFAULT NULL,
   `first_name`          VARCHAR(80)    DEFAULT NULL,
   `last_name`           VARCHAR(80)    DEFAULT NULL,
   `email`               VARCHAR(2000)  DEFAULT NULL,
