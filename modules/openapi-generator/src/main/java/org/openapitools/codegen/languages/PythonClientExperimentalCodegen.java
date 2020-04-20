@@ -975,11 +975,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 example = p.paramName + "_example";
             }
             example = "'" + escapeText(example) + "'";
-        } else if ("Binary".equals(type) || "bytes".equals(type)) {
-            if (example == null) {
-                example = "bytes_example";
-            }
-            example = "b'" + escapeText(example) + "'";
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";

@@ -135,8 +135,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "object");
         typeMapping.put("file", "file");
-        typeMapping.put("binary", "bytes");
-        typeMapping.put("ByteArray", "bytes");
         // map uuid to string for the time being
         typeMapping.put("UUID", "str");
         typeMapping.put("URI", "str");
@@ -902,11 +900,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 example = p.paramName + "_example";
             }
             example = "'" + escapeText(example) + "'";
-        } else if ("Binary".equals(type) || "bytes".equals(type)) {
-            if (example == null) {
-                example = "bytes_example";
-            }
-            example = "b'" + escapeText(example) + "'";
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";
