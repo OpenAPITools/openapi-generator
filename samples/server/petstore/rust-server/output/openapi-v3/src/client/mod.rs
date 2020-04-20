@@ -1887,7 +1887,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = "application/xml";
+        let header = "text/xml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1905,30 +1905,24 @@ impl<C, F> Api<C> for Client<F> where
                 201 => {
                     let body = response.into_body();
                     Box::new(
-<<<<<<< HEAD
-                        future::ok(
-                            XmlOtherPostResponse::OK
-                        )
-                    ) as Box<dyn Future<Item=_, Error=_> + Send>
-=======
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-                            str::from_utf8(&body)
-                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                            .and_then(|body|
-                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                serde_xml_rs::from_str::<models::AnotherXmlObject>(body)
-                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-                            )
-                        )
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                                 serde_xml_rs::from_str::<models::AnotherXmlObject>(body)
+                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
+                                 )
                         .map(move |body| {
-                            XmlOtherPostResponse::OK(body)
+                            XmlOtherPostResponse::OK
+                            (body)
                         })
-                    ) as Box<dyn Future<Item=_, Error=_>>
->>>>>>> origin/master
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
                 },
                 400 => {
                     let body = response.into_body();
@@ -1961,15 +1955,11 @@ impl<C, F> Api<C> for Client<F> where
         }))
     }
 
-<<<<<<< HEAD
     fn xml_other_put(
         &self,
-        param_string: Option<models::AnotherXmlArray>,
+        param_another_xml_array: Option<models::AnotherXmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>
     {
-=======
-    fn xml_other_put(&self, param_another_xml_array: Option<models::AnotherXmlArray>, context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>> {
->>>>>>> origin/master
         let mut uri = format!(
             "{}/xml_other",
             self.base_path
@@ -2057,15 +2047,11 @@ impl<C, F> Api<C> for Client<F> where
         }))
     }
 
-<<<<<<< HEAD
     fn xml_post(
         &self,
-        param_string: Option<models::XmlArray>,
+        param_xml_array: Option<models::XmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>
     {
-=======
-    fn xml_post(&self, param_xml_array: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>> {
->>>>>>> origin/master
         let mut uri = format!(
             "{}/xml",
             self.base_path
