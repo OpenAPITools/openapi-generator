@@ -31,16 +31,17 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
     return smallCamel;
   }
+
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
-  }
-
-  /**
+  }/**
    **/
   public Capitalization capitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -48,16 +49,17 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
     return capitalCamel;
   }
+
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
-  }
-
-  /**
+  }/**
    **/
   public Capitalization smallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -65,16 +67,17 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
     return smallSnake;
   }
+
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
-  }
-
-  /**
+  }/**
    **/
   public Capitalization capitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -82,16 +85,17 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
     return capitalSnake;
   }
+
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
-  }
-
-  /**
+  }/**
    **/
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -99,16 +103,17 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
+
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
-  }
-
-  /**
+  }/**
    * Name of the pet 
    **/
   public Capitalization ATT_NAME(String ATT_NAME) {
@@ -117,15 +122,17 @@ public class Capitalization  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {
     return ATT_NAME;
   }
+
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -174,5 +181,7 @@ public class Capitalization  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

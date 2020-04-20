@@ -25,7 +25,7 @@ No description available.
 Tag<PSCustomObject>
 #>
 
-function New-PSTag {
+function Initialize-PSTag {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true)]
@@ -37,7 +37,7 @@ function New-PSTag {
     )
 
     Process {
-        'Creating object: PSPetstore => PSTag' | Write-Debug
+        'Creating PSCustomObject: PSPetstore => PSTag' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $PSO = [PSCustomObject]@{

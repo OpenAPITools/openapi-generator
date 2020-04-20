@@ -375,6 +375,12 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val configOptions = project.objects.mapProperty<String, String>()
 
+    /**
+     * Templating engine: "mustache" (default) or "handlebars" (beta)
+     */
+    @get:Internal
+    val engine = project.objects.property<String?>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -561,7 +567,14 @@ open class GenerateTask : DefaultTask() {
                 configurator.setGenerateAliasAsModel(value)
             }
 
+            engine.ifNotEmpty { value ->
+                if ("handlebars".equals(value, ignoreCase = true)) {
+                    configurator.setTemplatingEngineName("handlebars")
+                }
+            }
+
             if (systemProperties.isPresent) {
+                // TODO: rename to globalProperties in 5.0
                 systemProperties.get().forEach { entry ->
                     configurator.addSystemProperty(entry.key, entry.value)
                 }
@@ -627,7 +640,7 @@ open class GenerateTask : DefaultTask() {
 
                 DefaultGenerator().opts(clientOptInput).generate()
 
-                out.println("Successfully generated code to $outputDir")
+                out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {
                 throw GradleException("Code generation failed.", e)
             }
