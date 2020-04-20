@@ -135,6 +135,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "object");
         typeMapping.put("file", "file");
+        // TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "str");
+        typeMapping.put("ByteArray", "str");
         // map uuid to string for the time being
         typeMapping.put("UUID", "str");
         typeMapping.put("URI", "str");
