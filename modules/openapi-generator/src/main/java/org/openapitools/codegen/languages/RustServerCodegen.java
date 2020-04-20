@@ -556,11 +556,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private boolean isMimetypeXml(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType) ||
-<<<<<<< HEAD
-               mimetype.toLowerCase(Locale.ROOT).startsWith(problemXmlMimeType);
-=======
+               mimetype.toLowerCase(Locale.ROOT).startsWith(problemXmlMimeType) ||
                mimetype.toLowerCase(Locale.ROOT).startsWith(textXmlMimeType);
->>>>>>> origin/master
     }
 
     private boolean isMimetypeJson(String mimetype) {
@@ -611,8 +608,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
-<<<<<<< HEAD
-=======
         // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
         once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
@@ -626,7 +621,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         op.vendorExtensions.put("x-path-format-string", pathFormatString);
 
->>>>>>> origin/master
         // The Rust code will need to contain a series of regular expressions.
         // For performance, we'll construct these at start-of-day and re-use
         // them.  That means we need labels for them.
@@ -738,22 +732,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             pathSetEntry.put("pathRegEx", regex + "$");
             pathSetMap.put(pathId, pathSetEntry);
         }
-<<<<<<< HEAD
 
-        op.vendorExtensions.put("operation_id", underscore(op.operationId));
-        op.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
-        op.vendorExtensions.put("path", op.path.replace("{", ":").replace("}", ""));
-        op.vendorExtensions.put("x-path-format-string", formatPath);
-        op.vendorExtensions.put("formatPath", formatPath);
-        op.vendorExtensions.put("PATH_ID", pathId);
-        op.vendorExtensions.put("hasPathParams", hasPathParams);
-        op.vendorExtensions.put("HttpMethod", op.httpMethod.toUpperCase(Locale.ROOT));
-
-        if (!op.vendorExtensions.containsKey("x-mustUseResponse")) {
-          // If there's more than one response, than by default the user must explicitly handle them
-          op.vendorExtensions.put("x-mustUseResponse", op.responses.size() > 1);
-        }
-=======
         String underscoredOperationId = underscore(op.operationId);
         op.vendorExtensions.put("operation_id", underscoredOperationId); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-operation-id", underscoredOperationId);
@@ -766,11 +745,18 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         op.vendorExtensions.put("x-path-id", pathId);
         op.vendorExtensions.put("hasPathParams", !op.pathParams.isEmpty()); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-has-path-params", !op.pathParams.isEmpty());
+        op.vendorExtensions.put("hasPathParams", hasPathParams); // TODO: 5.0 Remove
+        op.vendorExtensions.put("x-path-format-string", formatPath);
 
-        String vendorExtensionHttpMethod = Character.toUpperCase(op.httpMethod.charAt(0)) + op.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        String vendorExtensionHttpMethod = op.httpMethod.toUpperCase(Locale.ROOT);
         op.vendorExtensions.put("HttpMethod", vendorExtensionHttpMethod); // TODO: 5.0 Remove
         op.vendorExtensions.put("x-http-method", vendorExtensionHttpMethod);
->>>>>>> origin/master
+
+        // TODO: 5.0 Fix formatting
+        if (!op.vendorExtensions.containsKey("x-mustUseResponse")) {
+          // If there's more than one response, than by default the user must explicitly handle them
+          op.vendorExtensions.put("x-mustUseResponse", op.responses.size() > 1);
+        }
 
         for (CodegenParameter param : op.allParams) {
             processParam(param, op);
@@ -998,11 +984,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenOperation op : operationList) {
-<<<<<<< HEAD
             postProcessOperationWithModels(op, allModels);
         }
 
@@ -1012,6 +994,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     private void postProcessOperationWithModels(CodegenOperation op, List<Object> allModels) {
         boolean consumesPlainText = false;
         boolean consumesXml = false;
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         if (op.consumes != null) {
             for (Map<String, String> consume : op.consumes) {
@@ -1026,99 +1011,52 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     } else if (isMimetypeWwwFormUrlEncoded(mediaType)) {
                         additionalProperties.put("usesUrlEncodedForm", true);
                     } else if (isMimetypeMultipartFormData(mediaType)) {
-                        op.vendorExtensions.put("consumesMultipart", true);
+                        op.vendorExtensions.put("consumesMultipart", true); // TODO Remove: 5.0 Remove
+                        op.vendorExtensions.put("x-consumes-multipart", true);
                         additionalProperties.put("apiUsesMultipartFormData", true);
                         additionalProperties.put("apiUsesMultipart", true);
                     } else if (isMimetypeMultipartRelated(mediaType)) {
                         op.vendorExtensions.put("consumesMultipartRelated", true);
                         additionalProperties.put("apiUsesMultipartRelated", true);
                         additionalProperties.put("apiUsesMultipart", true);
-=======
-            boolean consumesPlainText = false;
-            boolean consumesXml = false;
-
-            if (op.consumes != null) {
-                for (Map<String, String> consume : op.consumes) {
-                    if (consume.get("mediaType") != null) {
-                        String mediaType = consume.get("mediaType");
-
-                        if (isMimetypeXml(mediaType)) {
-                            additionalProperties.put("usesXml", true);
-                            consumesXml = true;
-                        } else if (isMimetypePlain(mediaType)) {
-                            consumesPlainText = true;
-                        } else if (isMimetypeWwwFormUrlEncoded(mediaType)) {
-                            additionalProperties.put("usesUrlEncodedForm", true);
-                        } else if (isMimetypeMultipartFormData(mediaType)) {
-                            op.vendorExtensions.put("consumesMultipart", true); // TODO: 5.0 Remove
-                            op.vendorExtensions.put("x-consumes-multipart", true);
-                            additionalProperties.put("apiUsesMultipart", true);
-                        }
->>>>>>> origin/master
                     }
                 }
             }
         }
 
-<<<<<<< HEAD
+        String underscoredOperationId = underscore(op.operationId).toUpperCase(Locale.ROOT);
         if (op.bodyParam != null) {
             // Default to consuming json
-            op.bodyParam.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
+            op.bodyParam.vendorExtensions.put("uppercase_operation_id", underscoredOperationId); // TODO: 5.0 Remove
+            op.bodyParam.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId);
             if (consumesXml) {
-                op.bodyParam.vendorExtensions.put("consumesXml", true);
+                op.bodyParam.vendorExtensions.put("consumesXml", true); // TODO: 5.0 Remove
+                op.bodyParam.vendorExtensions.put("x-consumes-xml", true);
             } else if (consumesPlainText) {
-                op.bodyParam.vendorExtensions.put("consumesPlainText", true);
+                op.bodyParam.vendorExtensions.put("consumesPlainText", true); // TODO: 5.0 Remove
+                op.bodyParam.vendorExtensions.put("x-consumes-plain-text", true);
             } else {
-                op.bodyParam.vendorExtensions.put("consumesJson", true);
-=======
-            String underscoredOperationId = underscore(op.operationId).toUpperCase(Locale.ROOT);
-            if (op.bodyParam != null) {
-                // Default to consuming json
-                op.bodyParam.vendorExtensions.put("uppercase_operation_id", underscoredOperationId); // TODO: 5.0 Remove
-                op.bodyParam.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId);
-                if (consumesXml) {
-                    op.bodyParam.vendorExtensions.put("consumesXml", true); // TODO: 5.0 Remove
-                    op.bodyParam.vendorExtensions.put("x-consumes-xml", true);
-                } else if (consumesPlainText) {
-                    op.bodyParam.vendorExtensions.put("consumesPlainText", true); // TODO: 5.0 Remove
-                    op.bodyParam.vendorExtensions.put("x-consumes-plain-text", true);
-                } else {
-                    op.bodyParam.vendorExtensions.put("consumesJson", true); // TODO: 5.0 Remove
-                    op.bodyParam.vendorExtensions.put("x-consumes-json", true);
-                }
->>>>>>> origin/master
+                op.bodyParam.vendorExtensions.put("consumesJson", true); // TODO: 5.0 Remove
+                op.bodyParam.vendorExtensions.put("x-consumes-json", true);
             }
         }
 
         for (CodegenParameter param : op.bodyParams) {
             processParam(param, op);
 
-<<<<<<< HEAD
-            param.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
+            param.vendorExtensions.put("uppercase_operation_id", underscoredOperationId); // TODO: 5.0 Remove
+            param.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId);
 
             // Default to producing json if nothing else is specified
             if (consumesXml) {
-                param.vendorExtensions.put("consumesXml", true);
+                param.vendorExtensions.put("consumesXml", true); // TODO: 5.0 Remove
+                param.vendorExtensions.put("x-consumes-xml", true);
             } else if (consumesPlainText) {
-                param.vendorExtensions.put("consumesPlainText", true);
+                param.vendorExtensions.put("consumesPlainText", true); // TODO: 5.0 Remove
+                param.vendorExtensions.put("x-consumes-plain-text", true);
             } else {
-                param.vendorExtensions.put("consumesJson", true);
-=======
-                param.vendorExtensions.put("uppercase_operation_id", underscoredOperationId); // TODO: 5.0 Remove
-                param.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId);
-
-                // Default to producing json if nothing else is specified
-                if (consumesXml) {
-                    param.vendorExtensions.put("consumesXml", true); // TODO: 5.0 Remove
-                    param.vendorExtensions.put("x-consumes-xml", true);
-                } else if (consumesPlainText) {
-                    param.vendorExtensions.put("consumesPlainText", true); // TODO: 5.0 Remove
-                    param.vendorExtensions.put("x-consumes-plain-text", true);
-                } else {
-                    param.vendorExtensions.put("consumesJson", true); // TODO: 5.0 Remove
-                    param.vendorExtensions.put("x-consumes-json", true);
-                }
->>>>>>> origin/master
+                param.vendorExtensions.put("consumesJson", true); // TODO: 5.0 Remove
+                param.vendorExtensions.put("x-consumes-json", true);
             }
         }
 
@@ -1138,37 +1076,24 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
-<<<<<<< HEAD
         if (op.authMethods != null) {
             boolean headerAuthMethods = false;
-=======
-                for (CodegenSecurity s : op.authMethods) {
-                    if (s.isApiKey && s.isKeyInHeader) {
-                        s.vendorExtensions.put("x-apiKeyName", toModelName(s.keyParamName)); // TODO: 5.0 Remove
-                        s.vendorExtensions.put("x-api-key-name", toModelName(s.keyParamName));
-                        headerAuthMethods = true;
-                    }
->>>>>>> origin/master
 
             for (CodegenSecurity s : op.authMethods) {
                 if (s.isApiKey && s.isKeyInHeader) {
-                    s.vendorExtensions.put("x-apiKeyName", toModelName(s.keyParamName));
+                    s.vendorExtensions.put("x-apiKeyName", toModelName(s.keyParamName)); // TODO: 5.0 Remove
+                    s.vendorExtensions.put("x-api-key-name", toModelName(s.keyParamName));
                     headerAuthMethods = true;
                 }
 
-<<<<<<< HEAD
                 if (s.isBasicBasic || s.isBasicBearer || s.isOAuth) {
                     headerAuthMethods = true;
-=======
-                if (headerAuthMethods) {
-                    op.vendorExtensions.put("hasHeaderAuthMethods", "true"); // TODO: 5.0 Remove
-                    op.vendorExtensions.put("x-has-header-auth-methods", "true");
->>>>>>> origin/master
                 }
             }
 
             if (headerAuthMethods) {
-                op.vendorExtensions.put("hasHeaderAuthMethods", "true");
+                op.vendorExtensions.put("hasHeaderAuthMethods", "true"); // TODO: 5.0 Remove
+                op.vendorExtensions.put("x-has-header-auth-methods", "true");
             }
         }
 
@@ -1678,17 +1603,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("apiUsesUuid", true);
         }
 
-<<<<<<< HEAD
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
             param.vendorExtensions.put("formatString", "{:?}");
             example = null;
         } else if (param.isString) {
-            param.vendorExtensions.put("formatString", "\\\"{}\\\"");
-=======
-        if (param.isString) {
             param.vendorExtensions.put("formatString", "\\\"{}\\\""); // TODO: 5.0 Remove
             param.vendorExtensions.put("x-format-string", "\\\"{}\\\""); // TODO: 5.0 Remove
->>>>>>> origin/master
             example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
         } else if (param.isPrimitiveType) {
             if ((param.isByteArray) || (param.isBinary)) {
