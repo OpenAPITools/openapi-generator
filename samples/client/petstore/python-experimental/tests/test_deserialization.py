@@ -380,7 +380,7 @@ class DeserializationTests(unittest.TestCase):
         finally:
             os.unlink(file_path)
 
-    def test_deserialize_binary(self):
+    def test_deserialize_binary_to_str(self):
         """Ensures that bytes deserialization works"""
         response_types_mixed = (str,)
 
