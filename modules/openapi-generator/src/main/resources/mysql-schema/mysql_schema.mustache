@@ -45,6 +45,11 @@ CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{
 {{/isArrayModel}}{{/hasVars}}{{/model}}{{/models}}
 {{#hasOAuthMethods}}
 --
+-- OAuth2 framework tables
+-- Thanks to https://github.com/dsquier/oauth2-server-php-mysql repo
+--
+
+--
 -- Table structure for table `oauth_clients`
 --
 CREATE TABLE IF NOT EXISTS `oauth_clients` (
