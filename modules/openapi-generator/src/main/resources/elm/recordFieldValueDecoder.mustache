@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 {{#isListContainer}}(Json.Decode.list {{/isListContainer}}{{#isMapContainer}}(Json.Decode.dict {{/isMapContainer}}{{#items}}{{>recordFieldValueDecoder}}{{/items}}{{^isContainer}}{{#isCircularReference}}(Json.Decode.lazy (\_ -> {{/isCircularReference}}{{>fieldDecoder}}{{#isCircularReference}})){{/isCircularReference}}{{/isContainer}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}
-=======
-{{#isNullable}}(Decode.nullable {{/isNullable}}{{#isContainer}}({{#isListContainer}}Decode.list{{/isListContainer}}{{#isMapContainer}}Decode.dict{{/isMapContainer}} {{#items}}{{>recordFieldValueDecoder}}{{/items}}){{/isContainer}}{{^isContainer}}{{vendorExtensions.x-elm-decoder}}{{/isContainer}}{{#isNullable}}){{^required}} {{{defaultValue}}}{{/required}}{{/isNullable}}
->>>>>>> origin/master
