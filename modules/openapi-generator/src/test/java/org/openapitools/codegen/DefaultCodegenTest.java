@@ -623,6 +623,19 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllParents() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml");
+        final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
+
+        codegen.setOpenAPI(openAPI);
+
+        Schema adultSchema = openAPI.getComponents().getSchemas().get("Adult");
+        CodegenModel adultModel = codegen.fromModel("Adult", adultSchema);
+        Assert.assertEquals(adultModel.parent, "Person");
+        Assert.assertEquals(adultModel.allParents, Collections.singletonList("Person"));
+    }
+
+    @Test
     public void testAllOfSingleRefNoOwnProps() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
         final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
