@@ -5,7 +5,6 @@ kumuluzee:
 
     rest-client:
         registrations:
-            {{#apiClassFiles}}
-            - class: {{.}}
+            {{#apiInfo}}{{#apis}}{{#operations}}- class: {{{invokerPackage}}}.{{{classname}}}
               url: http://localhost:8080/v2
-            {{/apiClassFiles}}
+            {{/operations}}{{/apis}}{{/apiInfo}}

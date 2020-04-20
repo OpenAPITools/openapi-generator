@@ -910,13 +910,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
 
-        Set<String> apiClassNames = new HashSet<>();
-        for (Object operation : allOperations) {
-            String classname = (String)(((Map<String, Object>)operation).get("classname"));
-            apiClassNames.add(config.apiPackage() + "." + classname);
-        }
-        bundle.put("apiClassFiles", apiClassNames);
-
         Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
         if (authMethods != null && !authMethods.isEmpty()) {
