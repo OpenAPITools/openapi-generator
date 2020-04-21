@@ -54,12 +54,12 @@
 {{#pattern}}
             'regex': {
             {{#isBinary}}
-                'pattern': br'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
+                'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
                 {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
             {{/isBinary}}
             {{^isBinary}}
                 {{#isByteArray}}
-                'pattern': br'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
+                'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
                 {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
                 {{/isByteArray}}
                 {{^isByteArray}}
