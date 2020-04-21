@@ -24,7 +24,7 @@ class TestFormatTest(unittest.TestCase):
     def setUp(self):
         self.required_named_args = dict(
             number=40.1,
-            byte=b'what',
+            byte='what',
             date=datetime.date(2019, 3, 23),
             password='rainbowtable'
         )
