@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **double** | **float** | None | 
 **string** | **str** | None | [optional] 
 **pattern_without_delimiter** | **str** | None | 
-**byte** | **bytes** | None | 
+**byte** | **str** | None | 
 **binary** | **file** | None | [optional] 
 **date** | **date** | None | [optional] 
 **date_time** | **datetime** | None | [optional] 

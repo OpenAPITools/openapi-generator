@@ -976,7 +976,7 @@ class FakeApi(object):
                 number (float): None
                 double (float): None
                 pattern_without_delimiter (str): None
-                byte (bytes): None
+                byte (str): None
 
             Keyword Args:
                 integer (int): None. [optional]
@@ -1146,7 +1146,7 @@ class FakeApi(object):
                     'pattern_without_delimiter':
                         (str,),
                     'byte':
-                        (bytes,),
+                        (str,),
                     'integer':
                         (int,),
                     'int32':

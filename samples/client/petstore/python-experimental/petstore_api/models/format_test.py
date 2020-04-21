@@ -111,7 +111,7 @@ class FormatTest(ModelNormal):
         """
         return {
             'number': (float,),  # noqa: E501
-            'byte': (bytes,),  # noqa: E501
+            'byte': (str,),  # noqa: E501
             'date': (date,),  # noqa: E501
             'password': (str,),  # noqa: E501
             'integer': (int,),  # noqa: E501
@@ -162,7 +162,7 @@ class FormatTest(ModelNormal):
 
         Args:
             number (float):
-            byte (bytes):
+            byte (str):
             date (date):
             password (str):
 
