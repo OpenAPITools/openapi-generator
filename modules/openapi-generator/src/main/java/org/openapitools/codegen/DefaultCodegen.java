@@ -2117,6 +2117,10 @@ public class DefaultCodegen implements CodegenConfig {
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.discriminator = createDiscriminator(name, schema);
 
+        if (schema.getDeprecated() != null) {
+            m.isDeprecated = schema.getDeprecated();
+        }
+
         if (schema.getXml() != null) {
             m.xmlPrefix = schema.getXml().getPrefix();
             m.xmlNamespace = schema.getXml().getNamespace();
