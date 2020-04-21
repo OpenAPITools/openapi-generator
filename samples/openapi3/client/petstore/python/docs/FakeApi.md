@@ -485,7 +485,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     number = 3.4 # float | None
 double = 3.4 # float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-byte = b'bytes_example' # bytes | None
+byte = 'byte_example' # str | None
 integer = 56 # int | None (optional)
 int32 = 56 # int | None (optional)
 int64 = 56 # int | None (optional)
@@ -511,7 +511,7 @@ Name | Type | Description  | Notes
  **number** | **float**| None | 
  **double** | **float**| None | 
  **pattern_without_delimiter** | **str**| None | 
- **byte** | **bytes**| None | 
+ **byte** | **str**| None | 
  **integer** | **int**| None | [optional] 
  **int32** | **int**| None | [optional] 
  **int64** | **int**| None | [optional] 

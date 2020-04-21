@@ -40,7 +40,7 @@ class FormatTest(object):
         'float': 'float',
         'double': 'float',
         'string': 'str',
-        'byte': 'bytes',
+        'byte': 'str',
         'binary': 'file',
         'date': 'date',
         'date_time': 'datetime',
@@ -306,7 +306,7 @@ class FormatTest(object):
 
 
         :return: The byte of this FormatTest.  # noqa: E501
-        :rtype: bytes
+        :rtype: str
         """
         return self._byte
 
@@ -316,7 +316,7 @@ class FormatTest(object):
 
 
         :param byte: The byte of this FormatTest.  # noqa: E501
-        :type: bytes
+        :type: str
         """
         if self.local_vars_configuration.client_side_validation and byte is None:  # noqa: E501
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501

@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **number** | **float** |  | 
-**byte** | **bytes** |  | 
+**byte** | **str** |  | 
 **date** | **date** |  | 
 **password** | **str** |  | 
 **integer** | **int** |  | [optional] 

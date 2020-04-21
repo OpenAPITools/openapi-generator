@@ -193,7 +193,7 @@ class ApiClient(object):
             return_data = response_data
 
             if not _preload_content:
-                return return_data
+                raise tornado.gen.Return(return_data)
 
             if six.PY3:
                 if response_type not in ["file", "bytes"]:

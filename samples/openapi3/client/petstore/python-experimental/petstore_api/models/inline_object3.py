@@ -112,7 +112,7 @@ class InlineObject3(ModelNormal):
             'number': (float,),  # noqa: E501
             'double': (float,),  # noqa: E501
             'pattern_without_delimiter': (str,),  # noqa: E501
-            'byte': (bytes,),  # noqa: E501
+            'byte': (str,),  # noqa: E501
             'integer': (int,),  # noqa: E501
             'int32': (int,),  # noqa: E501
             'int64': (int,),  # noqa: E501
@@ -165,7 +165,7 @@ class InlineObject3(ModelNormal):
             number (float): None
             double (float): None
             pattern_without_delimiter (str): None
-            byte (bytes): None
+            byte (str): None
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types

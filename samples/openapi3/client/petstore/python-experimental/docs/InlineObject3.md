@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 **number** | **float** | None | 
 **double** | **float** | None | 
 **pattern_without_delimiter** | **str** | None | 
-**byte** | **bytes** | None | 
+**byte** | **str** | None | 
 **integer** | **int** | None | [optional] 
 **int32** | **int** | None | [optional] 
 **int64** | **int** | None | [optional] 

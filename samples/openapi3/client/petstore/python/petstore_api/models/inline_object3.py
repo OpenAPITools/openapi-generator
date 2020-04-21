@@ -41,7 +41,7 @@ class InlineObject3(object):
         'double': 'float',
         'string': 'str',
         'pattern_without_delimiter': 'str',
-        'byte': 'bytes',
+        'byte': 'str',
         'binary': 'file',
         'date': 'date',
         'date_time': 'datetime',
@@ -343,7 +343,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :return: The byte of this InlineObject3.  # noqa: E501
-        :rtype: bytes
+        :rtype: str
         """
         return self._byte
 
@@ -354,7 +354,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param byte: The byte of this InlineObject3.  # noqa: E501
-        :type: bytes
+        :type: str
         """
         if self.local_vars_configuration.client_side_validation and byte is None:  # noqa: E501
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501

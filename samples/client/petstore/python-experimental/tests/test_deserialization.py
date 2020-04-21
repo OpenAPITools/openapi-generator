@@ -35,8 +35,6 @@ from petstore_api.model_utils import (
 
 from petstore_api.rest import RESTResponse
 
-from pprint import pprint
-
 MockResponse = namedtuple('MockResponse', 'data')
 
 class DeserializationTests(unittest.TestCase):
