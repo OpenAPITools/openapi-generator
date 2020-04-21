@@ -1,9 +1,8 @@
 declare var fetch: any;
 
 import {HttpLibrary, RequestContext, ResponseContext} from './http';
-import * as e6p from 'es6-promise'
+import 'es6-promise/auto';
 import { from, Observable } from '../rxjsStub';
-e6p.polyfill();
 import 'isomorphic-fetch';
 
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
