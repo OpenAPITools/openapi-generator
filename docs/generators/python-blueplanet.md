@@ -12,7 +12,6 @@ sidebar_label: python-blueplanet
 |packageName|python package name (convention: snake_case).| |openapi_server|
 |packageVersion|python package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|pythonSrcRoot|put python sources in this subdirectory of output folder (defaults to &quot;&quot; for). Use this for src/ layout.| ||
 |serverPort|TCP port to listen to in app.run| |8080|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
