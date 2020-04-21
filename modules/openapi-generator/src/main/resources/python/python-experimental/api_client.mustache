@@ -190,11 +190,10 @@ class ApiClient(object):
 
             if not _preload_content:
                 {{^tornado}}
-                yield return_data
-                return
+                return (return_data)
                 {{/tornado}}
                 {{#tornado}}
-                return return_data
+                raise tornado.gen.Return(return_data)
                 {{/tornado}}
                 return return_data
 
