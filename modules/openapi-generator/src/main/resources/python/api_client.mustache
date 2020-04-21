@@ -201,7 +201,13 @@ class ApiClient(object):
             return_data = response_data
 
             if not _preload_content:
+                {{^tornado}}
                 return return_data
+                {{/tornado}}
+                {{#tornado}}
+                yield return_data
+                return
+                {{/tornado}}
 
             if six.PY3:
                 if response_type not in ["file", "bytes"]:

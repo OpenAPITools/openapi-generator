@@ -189,6 +189,13 @@ class ApiClient(object):
             return_data = response_data
 
             if not _preload_content:
+                {{^tornado}}
+                yield return_data
+                return
+                {{/tornado}}
+                {{#tornado}}
+                return return_data
+                {{/tornado}}
                 return return_data
 
             # deserialize response data
