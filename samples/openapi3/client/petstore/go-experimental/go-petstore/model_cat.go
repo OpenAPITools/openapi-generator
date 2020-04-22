@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -18,6 +17,23 @@ import (
 type Cat struct {
 	Animal
 	Declawed *bool `json:"declawed,omitempty"`
+}
+
+// NewCat instantiates a new Cat object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewCat() *Cat {
+	this := Cat{}
+	return &this
+}
+
+// NewCatWithDefaults instantiates a new Cat object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewCatWithDefaults() *Cat {
+	this := Cat{}
+	return &this
 }
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
@@ -29,14 +45,13 @@ func (o *Cat) GetDeclawed() bool {
 	return *o.Declawed
 }
 
-// GetDeclawedOk returns a tuple with the Declawed field value if set, zero value otherwise
+// GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cat) GetDeclawedOk() (bool, bool) {
+func (o *Cat) GetDeclawedOk() (*bool, bool) {
 	if o == nil || o.Declawed == nil {
-		var ret bool
-		return ret, false
+		return nil, false
 	}
-	return *o.Declawed, true
+	return o.Declawed, true
 }
 
 // HasDeclawed returns a boolean if a field has been set.
@@ -53,25 +68,54 @@ func (o *Cat) SetDeclawed(v bool) {
 	o.Declawed = &v
 }
 
+func (o Cat) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	serializedAnimal, errAnimal := json.Marshal(o.Animal)
+	if errAnimal != nil {
+		return []byte{}, errAnimal
+	}
+	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
+	if errAnimal != nil {
+		return []byte{}, errAnimal
+	}
+	if o.Declawed != nil {
+		toSerialize["declawed"] = o.Declawed
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableCat struct {
-	Value Cat
-	ExplicitNull bool
+	value *Cat
+	isSet bool
+}
+
+func (v NullableCat) Get() *Cat {
+	return v.value
+}
+
+func (v *NullableCat) Set(val *Cat) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableCat) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableCat) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableCat(val *Cat) *NullableCat {
+	return &NullableCat{value: val, isSet: true}
 }
 
 func (v NullableCat) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableCat) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

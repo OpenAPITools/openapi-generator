@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
@@ -85,6 +86,7 @@ public class ApiClient {
      */
     public ApiClient() {
         init();
+        initHttpClient();
 
         // Setup authentications (key: authentication name, value: authentication).
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
@@ -113,25 +115,58 @@ public class ApiClient {
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID, secret, and additional parameters
      */
     public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
-        init();
+        this(null, clientId, clientSecret, parameters);
+    }
 
-        RetryingOAuth retryingOAuth = new RetryingOAuth("", clientId, OAuthFlow.implicit, clientSecret, parameters);
+    /*
+     * Constructor for ApiClient to support access token retry on 401/403 configured with base path, client ID, secret, and additional parameters
+     */
+    public ApiClient(String basePath, String clientId, String clientSecret, Map<String, String> parameters) {
+        init();
+        if (basePath != null) {
+            this.basePath = basePath;
+        }
+
+        String tokenUrl = "";
+        if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
+            URI uri = URI.create(getBasePath());
+            tokenUrl = uri.getScheme() + ":" +
+                (uri.getAuthority() != null ? "//" + uri.getAuthority() : "") +
+                tokenUrl;
+            if (!URI.create(tokenUrl).isAbsolute()) {
+                throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
+            }
+        }
+        RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.implicit, clientSecret, parameters);
         authentications.put(
                 "petstore_auth",
                 retryingOAuth
         );
-        httpClient.interceptors().add(retryingOAuth);
+        initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
+        // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+        authentications.put("http_basic_test", new HttpBasicAuth());
 
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
 
-    private void init() {
+    private void initHttpClient() {
+        initHttpClient(Collections.<Interceptor>emptyList());
+    }
+
+    private void initHttpClient(List<Interceptor> interceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addNetworkInterceptor(getProgressInterceptor());
+        for (Interceptor interceptor: interceptors) {
+            builder.addInterceptor(interceptor);
+        }
+
         httpClient = builder.build();
+    }
 
-
+    private void init() {
         verifyingSsl = true;
 
         json = new JSON();

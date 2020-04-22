@@ -15,6 +15,7 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
+import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -121,9 +122,9 @@ class TypeHolderExample(ModelNormal):
             array_item ([int]):
 
         Keyword Args:
-            string_item (str): defaults to 'what', must be one of ['what']  # noqa: E501
-            number_item (float): defaults to 1.234, must be one of [1.234]  # noqa: E501
-            integer_item (int): defaults to -2, must be one of [-2]  # noqa: E501
+            string_item (str): defaults to 'what', must be one of ["what", ]  # noqa: E501
+            number_item (float): defaults to 1.234, must be one of [1.234, ]  # noqa: E501
+            integer_item (int): defaults to -2, must be one of [-2, ]  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -151,4 +152,10 @@ class TypeHolderExample(ModelNormal):
         self.bool_item = bool_item
         self.array_item = array_item
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name not in self.attribute_map and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        self.additional_properties_type is None:
+                # discard variable.
+                continue
             setattr(self, var_name, var_value)

@@ -12,10 +12,14 @@ class UserApiTests : public QObject {
 private slots:
     void createUserTest();
     void createUsersWithArrayInputTest();
+    /*
     void createUsersWithListInputTest();
     void deleteUserTest();
     void getUserByNameTest();
+    */
     void loginUserTest();
     void logoutUserTest();
+    /*
     void updateUserTest();
+    */
 };

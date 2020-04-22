@@ -28,7 +28,7 @@ public class KotlinSpringServerCodegenTest {
     public void embeddedEnumArrayTest() throws Exception {
         String baseModelPackage = "zz";
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue______kotlinArrayEnumEmbedded.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue______kotlinArrayEnumEmbedded.yaml");
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, baseModelPackage + ".yyyy.model.xxxx");

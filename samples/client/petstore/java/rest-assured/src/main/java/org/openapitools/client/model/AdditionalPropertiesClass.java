@@ -27,6 +27,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * AdditionalPropertiesClass
@@ -128,6 +131,7 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, BigDecimal> getMapNumber() {
@@ -221,6 +225,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -252,6 +257,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -283,6 +289,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, Map<String, String>> getMapMapString() {
@@ -314,6 +321,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -337,6 +345,7 @@ public class AdditionalPropertiesClass {
    * @return anytype1
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Object getAnytype1() {
@@ -360,6 +369,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Object getAnytype2() {
@@ -383,6 +393,7 @@ public class AdditionalPropertiesClass {
    * @return anytype3
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Object getAnytype3() {

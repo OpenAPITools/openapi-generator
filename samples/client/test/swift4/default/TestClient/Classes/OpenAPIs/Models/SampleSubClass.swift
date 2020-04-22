@@ -8,7 +8,6 @@
 import Foundation
 
 /** This is a subclass defived from the SampleBase class. */
-
 public struct SampleSubClass: Codable {
 
     public var baseClassStringProp: String?

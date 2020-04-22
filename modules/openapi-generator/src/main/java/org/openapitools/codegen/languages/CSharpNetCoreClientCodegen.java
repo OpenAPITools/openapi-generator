@@ -92,7 +92,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public CSharpNetCoreClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -115,7 +115,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         // mapped non-nullable type without ?
         typeMapping = new HashMap<String, String>();

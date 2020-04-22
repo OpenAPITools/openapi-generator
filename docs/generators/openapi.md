@@ -41,11 +41,13 @@ sidebar_label: openapi
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>
+<ul class="column-ul">
+</ul>
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>
+<ul class="column-ul">
+</ul>
 
 ## FEATURE SET
 

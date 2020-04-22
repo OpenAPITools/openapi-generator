@@ -61,7 +61,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     public ElixirClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -82,7 +82,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         // set the output folder here
         outputFolder = "generated-code/elixir";

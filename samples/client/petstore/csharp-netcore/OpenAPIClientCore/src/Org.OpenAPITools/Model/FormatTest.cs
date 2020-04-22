@@ -58,10 +58,10 @@ namespace Org.OpenAPITools.Model
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
-            this.Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");;
+            this.Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
             this.Date = date;
             // to ensure "password" is required (not null)
-            this.Password = password ?? throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");;
+            this.Password = password ?? throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             this.Integer = integer;
             this.Int32 = int32;
             this.Int64 = int64;
