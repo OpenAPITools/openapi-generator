@@ -12,13 +12,13 @@
 
 package io.swagger.client.model
 import play.api.libs.json._
-import java.time.OffsetDateTime
+import org.joda.time.DateTime
 
 case class Order (
                   id: Option[Long],
                   petId: Option[Long],
                   quantity: Option[Int],
-                  shipDate: Option[OffsetDateTime],
+                  shipDate: Option[DateTime],
                   status:  Option[OrderStatusEnum.OrderStatusEnum],
                   complete: Option[Boolean]
 )

@@ -47,11 +47,9 @@ public class FormatTest   {
   private Resource binary;
 
   @JsonProperty("date")
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
   @JsonProperty("dateTime")
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime dateTime;
 
   @JsonProperty("uuid")

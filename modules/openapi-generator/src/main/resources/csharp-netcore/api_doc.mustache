@@ -36,15 +36,11 @@ namespace Example
             config.BasePath = "{{{basePath}}}";
             {{#hasAuthMethods}}
             {{#authMethods}}
-            {{#isBasicBasic}}
+            {{#isBasic}}
             // Configure HTTP basic authorization: {{{name}}}
             config.Username = "YOUR_USERNAME";
             config.Password = "YOUR_PASSWORD";
-            {{/isBasicBasic}}
-            {{#isBasicBearer}}
-            // Configure Bearer token for authorization: {{{name}}}
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-            {{/isBasicBearer}}
+            {{/isBasic}}
             {{#isApiKey}}
             // Configure API key authorization: {{{name}}}
             config.AddApiKey("{{{keyParamName}}}", "YOUR_API_KEY");

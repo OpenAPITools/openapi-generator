@@ -32,7 +32,7 @@ Test serialization of outer boolean types
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = true // Bool | Input boolean as post body (optional)
+let body = false // Bool | Input boolean as post body (optional)
 
 FakeAPI.fakeOuterBooleanSerialize(body: body) { (response, error) in
     guard error == nil else {
@@ -517,10 +517,10 @@ Fake endpoint to test group parameters (optional)
 import PetstoreClient
 
 let requiredStringGroup = 987 // Int | Required String in group parameters
-let requiredBooleanGroup = true // Bool | Required Boolean in group parameters
+let requiredBooleanGroup = false // Bool | Required Boolean in group parameters
 let requiredInt64Group = 987 // Int64 | Required Integer in group parameters
 let stringGroup = 987 // Int | String in group parameters (optional)
-let booleanGroup = true // Bool | Boolean in group parameters (optional)
+let booleanGroup = false // Bool | Boolean in group parameters (optional)
 let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
 // Fake endpoint to test group parameters (optional)

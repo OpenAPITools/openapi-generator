@@ -15,7 +15,6 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
-import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -109,6 +108,7 @@ class OuterComposite(ModelNormal):
     def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """outer_composite.OuterComposite - a model defined in OpenAPI
 
+
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
@@ -135,10 +135,4 @@ class OuterComposite(ModelNormal):
         self._configuration = _configuration
 
         for var_name, var_value in six.iteritems(kwargs):
-            if var_name not in self.attribute_map and \
-                        self._configuration is not None and \
-                        self._configuration.discard_unknown_keys and \
-                        self.additional_properties_type is None:
-                # discard variable.
-                continue
             setattr(self, var_name, var_value)

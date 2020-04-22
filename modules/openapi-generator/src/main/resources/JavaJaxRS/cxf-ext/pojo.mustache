@@ -67,9 +67,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
   * @return {{name}}
   */
   @JsonProperty("{{baseName}}")
-{{#vendorExtensions.x-extra-annotation}}
-  {{{vendorExtensions.x-extra-annotation}}}
-{{/vendorExtensions.x-extra-annotation}}
+{{#vendorExtensions.extraAnnotation}}
+  {{{vendorExtensions.extraAnnotation}}}
+{{/vendorExtensions.extraAnnotation}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
     return {{name}} == null ? null : {{name}}.value();
   }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {

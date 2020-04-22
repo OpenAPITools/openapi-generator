@@ -103,7 +103,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
 
         // TODO: Bash maintainer review
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .documentationFeatures(EnumSet.of(
                         DocumentationFeature.Readme
                 ))
@@ -125,7 +125,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                         SchemaSupportFeature.Polymorphism,
                         SchemaSupportFeature.Union
                 )
-        );
+                .build();
 
         setReservedWordsLowerCase(
                 Arrays.asList(

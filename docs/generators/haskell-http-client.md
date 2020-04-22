@@ -46,8 +46,7 @@ sidebar_label: haskell-http-client
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Bool</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Bool</li>
 <li>Char</li>
 <li>Double</li>
 <li>FilePath</li>
@@ -61,8 +60,7 @@ sidebar_label: haskell-http-client
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>accept</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>accept</li>
 <li>as</li>
 <li>case</li>
 <li>class</li>

@@ -29,17 +29,15 @@ public class ArrayOfNumberOnly  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
-
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -78,7 +76,5 @@ public class ArrayOfNumberOnly  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
 }
 

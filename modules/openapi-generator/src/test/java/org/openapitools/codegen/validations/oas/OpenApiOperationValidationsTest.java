@@ -47,7 +47,7 @@ public class OpenApiOperationValidationsTest {
             op.setRequestBody(body);
         }
 
-        ValidationResult result = validator.validate(new OperationWrapper(null, op, method));
+        ValidationResult result = validator.validate(new OperationWrapper(op, method));
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
@@ -77,7 +77,7 @@ public class OpenApiOperationValidationsTest {
             op.setRequestBody(body);
         }
 
-        ValidationResult result = validator.validate(new OperationWrapper(null, op, method));
+        ValidationResult result = validator.validate(new OperationWrapper(op, method));
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
@@ -103,7 +103,7 @@ public class OpenApiOperationValidationsTest {
             op.setRequestBody(body);
         }
 
-        ValidationResult result = validator.validate(new OperationWrapper(null, op, method));
+        ValidationResult result = validator.validate(new OperationWrapper(op, method));
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()

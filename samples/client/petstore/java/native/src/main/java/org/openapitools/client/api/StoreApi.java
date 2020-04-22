@@ -42,8 +42,7 @@ public class StoreApi {
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
-  private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public StoreApi() {
     this(new ApiClient());
   }
@@ -54,7 +53,6 @@ public class StoreApi {
     memberVarBaseUri = apiClient.getBaseUri();
     memberVarInterceptor = apiClient.getRequestInterceptor();
     memberVarReadTimeout = apiClient.getReadTimeout();
-    memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
   /**
@@ -90,9 +88,6 @@ public class StoreApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "deleteOrder call received non-success response",
@@ -135,9 +130,6 @@ public class StoreApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "getInventory call received non-success response",
@@ -187,9 +179,6 @@ public class StoreApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "getOrderById call received non-success response",
@@ -240,9 +229,6 @@ public class StoreApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "placeOrder call received non-success response",

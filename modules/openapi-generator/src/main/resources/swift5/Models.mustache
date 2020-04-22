@@ -25,7 +25,6 @@ protocol JSONEncodable {
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DecodableRequestBuilderError: Error {
     case emptyDataResponse
     case nilHTTPResponse
-    case unsuccessfulHTTPStatusCode
     case jsonDecoding(DecodingError)
     case generalError(Error)
 }
@@ -45,10 +44,8 @@ protocol JSONEncodable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} convenience init(response: HTTPURLResponse, body: T?) {
         let rawHeader = response.allHeaderFields
         var header = [String:String]()
-        for (key, value) in rawHeader {
-            if let key = key as? String, let value = value as? String {
-                header[key] = value
-            }
+        for case let (key, value) as (String, String) in rawHeader {
+            header[key] = value
         }
         self.init(statusCode: response.statusCode, header: header, body: body)
     }

@@ -28,17 +28,15 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
-
   public void setName(String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -78,7 +76,5 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
 }
 

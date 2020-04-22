@@ -12,7 +12,6 @@
 
 from __future__ import absolute_import
 
-import copy
 import logging
 import multiprocessing
 import sys
@@ -38,17 +37,6 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
-    :param discard_unknown_keys: Boolean value indicating whether to discard
-      unknown properties. A server may send a response that includes additional
-      properties that are not known by the client in the following scenarios:
-      1. The OpenAPI document is incomplete, i.e. it does not match the server
-         implementation.
-      2. The client was generated using an older version of the OpenAPI document
-         and the server has been upgraded since then.
-      If a schema in the OpenAPI document defines the additionalProperties attribute,
-      then all undeclared properties received by the server are injected into the
-      additional properties map. In that case, there are undeclared properties, and
-      nothing to discard.
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
@@ -125,12 +113,9 @@ class Configuration(object):
       )
     """
 
-    _default = None
-
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
-                 discard_unknown_keys=False,
                  signing_info=None,
                  ):
         """Constructor
@@ -161,7 +146,6 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
-        self.discard_unknown_keys = discard_unknown_keys
         if signing_info is not None:
             signing_info.host = host
         self.signing_info = signing_info
@@ -231,45 +215,6 @@ class Configuration(object):
         """
         # Disable client side validation
         self.client_side_validation = True
-
-    def __deepcopy__(self, memo):
-        cls = self.__class__
-        result = cls.__new__(cls)
-        memo[id(self)] = result
-        for k, v in self.__dict__.items():
-            if k not in ('logger', 'logger_file_handler'):
-                setattr(result, k, copy.deepcopy(v, memo))
-        # shallow copy of loggers
-        result.logger = copy.copy(self.logger)
-        # use setters to configure loggers
-        result.logger_file = self.logger_file
-        result.debug = self.debug
-        return result
-
-    @classmethod
-    def set_default(cls, default):
-        """Set default instance of configuration.
-
-        It stores default configuration, which can be
-        returned by get_default_copy method.
-
-        :param default: object of Configuration
-        """
-        cls._default = copy.deepcopy(default)
-
-    @classmethod
-    def get_default_copy(cls):
-        """Return new instance of configuration.
-
-        This method returns newly created, based on default constructor,
-        object of Configuration class or returns a copy of default
-        configuration passed by the set_default method.
-
-        :return: The configuration object.
-        """
-        if cls._default is not None:
-            return copy.deepcopy(cls._default)
-        return Configuration()
 
     @property
     def logger_file(self):

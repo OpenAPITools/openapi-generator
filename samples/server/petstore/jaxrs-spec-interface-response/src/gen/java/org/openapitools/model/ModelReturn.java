@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 /**
  * Model for testing reserved words
  **/
@@ -48,7 +47,7 @@ public class ModelReturn  implements Serializable {
       return false;
     }
     ModelReturn _return = (ModelReturn) o;
-    return Objects.equals(this._return, _return._return);
+    return Objects.equals(_return, _return._return);
   }
 
   @Override

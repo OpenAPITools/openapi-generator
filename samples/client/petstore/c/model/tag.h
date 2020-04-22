@@ -11,10 +11,6 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
-#include "../include/binary.h"
-
-typedef struct tag_t tag_t;
-
 
 
 

@@ -18,7 +18,7 @@ import { {{classname}} } from './{{importPath}}';
     {{/hasMore}}{{/apis}}{{/apiInfo}} {{/providedInRoot}}]
 })
 export class {{apiModuleClassName}} {
-    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders{{#enforceGenericModuleWithProviders}}<{{apiModuleClassName}}>{{/enforceGenericModuleWithProviders}} {
+    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
         return {
             ngModule: {{apiModuleClassName}},
             providers: [ { provide: Configuration, useFactory: configurationFactory } ]

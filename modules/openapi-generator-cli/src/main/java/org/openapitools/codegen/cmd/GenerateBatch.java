@@ -50,9 +50,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection", "java:S106"})
+@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
 @Command(name = "batch", description = "Generate code in batch via external configs.", hidden = true)
-public class GenerateBatch extends OpenApiGeneratorCommand {
+public class GenerateBatch implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateBatch.class);
 
@@ -89,7 +89,7 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
      * @see Thread#run()
      */
     @Override
-    public void execute() {
+    public void run() {
         if (configs.size() < 1) {
             LOGGER.error("No configuration file inputs specified");
             System.exit(1);

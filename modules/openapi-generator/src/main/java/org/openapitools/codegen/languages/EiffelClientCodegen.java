@@ -61,7 +61,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
     public EiffelClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -84,7 +84,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-        );
+                .build();
 
         uuid = UUID.randomUUID();
         uuidTest = UUID.randomUUID();

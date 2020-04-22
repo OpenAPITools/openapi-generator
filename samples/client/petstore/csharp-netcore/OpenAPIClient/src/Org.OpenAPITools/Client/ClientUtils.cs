@@ -165,6 +165,17 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        /// Dynamically cast the object into target type.
+        /// </summary>
+        /// <param name="fromObject">Object to be casted</param>
+        /// <param name="toObject">Target type</param>
+        /// <returns>Casted object</returns>
+        public static dynamic ConvertType(dynamic fromObject, Type toObject)
+        {
+            return Convert.ChangeType(fromObject, toObject);
+        }
+
+        /// <summary>
         /// Select the Content-Type header's value from the given content-type array:
         /// if JSON type exists in the given array, use it;
         /// otherwise use the first one defined in 'consumes'

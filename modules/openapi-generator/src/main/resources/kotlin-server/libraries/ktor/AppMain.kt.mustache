@@ -9,23 +9,11 @@ import io.ktor.application.log
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.config.HoconApplicationConfig
-{{#featureAutoHead}}
 import io.ktor.features.AutoHeadResponse
-{{/featureAutoHead}}
-{{#featureCompression}}
 import io.ktor.features.Compression
-{{/featureCompression}}
-{{#featureCORS}}
-import io.ktor.features.CORS
-{{/featureCORS}}
-{{#featureConditionalHeaders}}
-import io.ktor.features.ConditionalHeaders
-{{/featureConditionalHeaders}}
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
-{{#featureHSTS}}
 import io.ktor.features.HSTS
-{{/featureHSTS}}
 import io.ktor.gson.GsonConverter
 import io.ktor.http.ContentType
 import io.ktor.locations.KtorExperimentalLocationsAPI

@@ -62,7 +62,7 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 	if apiResponse.StatusCode != 200 {
 		t.Log(apiResponse)
 	}
-/* issue deleting users due to issue in the server side (500). commented out below for the time being
+
 	//tear down
 	_, err1 := client.UserApi.DeleteUser(context.Background(), "gopher1").Execute()
 	if err1 != nil {
@@ -75,7 +75,6 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 		t.Errorf("Error while deleting user")
 		t.Log(err2)
 	}
-*/
 }
 
 func TestGetUserByName(t *testing.T) {
@@ -142,7 +141,6 @@ func TestUpdateUser(t *testing.T) {
 	}
 }
 
-/* issue deleting users due to issue in the server side (500). commented out below for the time being
 func TestDeleteUser(t *testing.T) {
 	apiResponse, err := client.UserApi.DeleteUser(context.Background(), "gopher").Execute()
 
@@ -153,4 +151,3 @@ func TestDeleteUser(t *testing.T) {
 		t.Log(apiResponse)
 	}
 }
-*/

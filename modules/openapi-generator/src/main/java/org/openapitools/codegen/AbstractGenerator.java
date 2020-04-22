@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen;
 
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
@@ -28,16 +28,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public abstract class AbstractGenerator implements TemplatingGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGenerator.class);
-    protected boolean dryRun = false;
-    protected Map<String, DryRunStatus> dryRunStatusMap = new HashMap<>();
-
+    
     /**
      * Is the minimal-file-update option enabled?
      * 
@@ -54,19 +50,19 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
      * @throws IOException If file cannot be written.
      */
     public File writeToFile(String filename, String contents) throws IOException {
-        return writeToFile(filename, contents.getBytes(StandardCharsets.UTF_8));
+        return writeToFile(filename, contents.getBytes(Charset.forName("UTF-8")));
     }
 
     /**
      * Write bytes to a file
      * 
      * @param filename The name of file to write
-     * @param contents The contents bytes.  Typically, this is a UTF-8 formatted string.
+     * @param contents The contents bytes.  Typically this is a UTF-8 formatted string.
      * @return File representing the written file.
      * @throws IOException If file cannot be written.
      */
     @SuppressWarnings("static-method")
-    public File writeToFile(String filename, byte[] contents) throws IOException {
+    public File writeToFile(String filename, byte contents[]) throws IOException {
         if (getEnableMinimalUpdate()) {
             String tempFilename = filename + ".tmp";
             // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)

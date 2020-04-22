@@ -37,7 +37,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     xml_item = petstore_api.XmlItem() # xml_item.XmlItem | XmlItem Body
@@ -92,7 +92,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = True # bool | Input boolean as post body (optional)
@@ -148,7 +148,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = petstore_api.OuterComposite() # outer_composite.OuterComposite | Input composite as post body (optional)
@@ -204,7 +204,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = petstore_api.OuterEnum("placed") # outer_enum.OuterEnum | Input enum as post body (optional)
@@ -260,7 +260,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = petstore_api.OuterNumber(3.4) # outer_number.OuterNumber | Input number as post body (optional)
@@ -316,7 +316,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 'body_example' # str | Input string as post body (optional)
@@ -372,7 +372,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = petstore_api.FileSchemaTestClass() # file_schema_test_class.FileSchemaTestClass | 
@@ -424,7 +424,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     query = 'query_example' # str | 
@@ -480,7 +480,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = petstore_api.Client() # client.Client | client model
@@ -536,7 +536,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     
@@ -599,7 +599,6 @@ configuration.password = 'YOUR_PASSWORD'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -691,7 +690,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     enum_header_string_array = ['enum_header_string_array_example'] # [str] | Header parameter enum test (string array) (optional)
@@ -762,7 +761,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     required_string_group = 56 # int | Required String in group parameters
@@ -833,7 +832,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     param = {'key': 'param_example'} # {str: (str,)} | request body
@@ -886,7 +885,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     param = 'param_example' # str | field1

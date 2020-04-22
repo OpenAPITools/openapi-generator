@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 	"time"
 )
@@ -25,27 +26,6 @@ type Order struct {
 	Complete *bool `json:"complete,omitempty"`
 }
 
-// NewOrder instantiates a new Order object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewOrder() *Order {
-	this := Order{}
-	var complete bool = false
-	this.Complete = &complete
-	return &this
-}
-
-// NewOrderWithDefaults instantiates a new Order object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewOrderWithDefaults() *Order {
-	this := Order{}
-	var complete bool = false
-	this.Complete = &complete
-	return &this
-}
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Order) GetId() int64 {
 	if o == nil || o.Id == nil {
@@ -55,13 +35,14 @@ func (o *Order) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetIdOk() (*int64, bool) {
+func (o *Order) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
-		return nil, false
+		var ret int64
+		return ret, false
 	}
-	return o.Id, true
+	return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -87,13 +68,14 @@ func (o *Order) GetPetId() int64 {
 	return *o.PetId
 }
 
-// GetPetIdOk returns a tuple with the PetId field value if set, nil otherwise
+// GetPetIdOk returns a tuple with the PetId field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetPetIdOk() (*int64, bool) {
+func (o *Order) GetPetIdOk() (int64, bool) {
 	if o == nil || o.PetId == nil {
-		return nil, false
+		var ret int64
+		return ret, false
 	}
-	return o.PetId, true
+	return *o.PetId, true
 }
 
 // HasPetId returns a boolean if a field has been set.
@@ -119,13 +101,14 @@ func (o *Order) GetQuantity() int32 {
 	return *o.Quantity
 }
 
-// GetQuantityOk returns a tuple with the Quantity field value if set, nil otherwise
+// GetQuantityOk returns a tuple with the Quantity field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetQuantityOk() (*int32, bool) {
+func (o *Order) GetQuantityOk() (int32, bool) {
 	if o == nil || o.Quantity == nil {
-		return nil, false
+		var ret int32
+		return ret, false
 	}
-	return o.Quantity, true
+	return *o.Quantity, true
 }
 
 // HasQuantity returns a boolean if a field has been set.
@@ -151,13 +134,14 @@ func (o *Order) GetShipDate() time.Time {
 	return *o.ShipDate
 }
 
-// GetShipDateOk returns a tuple with the ShipDate field value if set, nil otherwise
+// GetShipDateOk returns a tuple with the ShipDate field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetShipDateOk() (*time.Time, bool) {
+func (o *Order) GetShipDateOk() (time.Time, bool) {
 	if o == nil || o.ShipDate == nil {
-		return nil, false
+		var ret time.Time
+		return ret, false
 	}
-	return o.ShipDate, true
+	return *o.ShipDate, true
 }
 
 // HasShipDate returns a boolean if a field has been set.
@@ -183,13 +167,14 @@ func (o *Order) GetStatus() string {
 	return *o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// GetStatusOk returns a tuple with the Status field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetStatusOk() (*string, bool) {
+func (o *Order) GetStatusOk() (string, bool) {
 	if o == nil || o.Status == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Status, true
+	return *o.Status, true
 }
 
 // HasStatus returns a boolean if a field has been set.
@@ -215,13 +200,14 @@ func (o *Order) GetComplete() bool {
 	return *o.Complete
 }
 
-// GetCompleteOk returns a tuple with the Complete field value if set, nil otherwise
+// GetCompleteOk returns a tuple with the Complete field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetCompleteOk() (*bool, bool) {
+func (o *Order) GetCompleteOk() (bool, bool) {
 	if o == nil || o.Complete == nil {
-		return nil, false
+		var ret bool
+		return ret, false
 	}
-	return o.Complete, true
+	return *o.Complete, true
 }
 
 // HasComplete returns a boolean if a field has been set.
@@ -238,61 +224,25 @@ func (o *Order) SetComplete(v bool) {
 	o.Complete = &v
 }
 
-func (o Order) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.PetId != nil {
-		toSerialize["petId"] = o.PetId
-	}
-	if o.Quantity != nil {
-		toSerialize["quantity"] = o.Quantity
-	}
-	if o.ShipDate != nil {
-		toSerialize["shipDate"] = o.ShipDate
-	}
-	if o.Status != nil {
-		toSerialize["status"] = o.Status
-	}
-	if o.Complete != nil {
-		toSerialize["complete"] = o.Complete
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableOrder struct {
-	value *Order
-	isSet bool
-}
-
-func (v NullableOrder) Get() *Order {
-	return v.value
-}
-
-func (v *NullableOrder) Set(val *Order) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableOrder) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableOrder) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableOrder(val *Order) *NullableOrder {
-	return &NullableOrder{value: val, isSet: true}
+	Value Order
+	ExplicitNull bool
 }
 
 func (v NullableOrder) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableOrder) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

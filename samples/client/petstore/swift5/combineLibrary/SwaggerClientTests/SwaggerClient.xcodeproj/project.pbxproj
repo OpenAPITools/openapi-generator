@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A5EA12582419390400E30FC3 /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA12562419390400E30FC3 /* FileUtils.swift */; };
-		A5EA12592419390400E30FC3 /* UIImage+Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA12572419390400E30FC3 /* UIImage+Extras.swift */; };
 		B024164FBFF71BF644D4419A /* Pods_SwaggerClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177A58DD5CF63F2989335DCC /* Pods_SwaggerClient.framework */; };
 		B1D0246C8960F47A60098F37 /* Pods_SwaggerClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F96A0131101344CC5406CB3 /* Pods_SwaggerClientTests.framework */; };
 		B596E4BD205657A500B46F03 /* APIHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596E4BC205657A500B46F03 /* APIHelperTests.swift */; };
@@ -38,8 +36,6 @@
 		4EF2021609D112A6F5AE0F55 /* Pods-SwaggerClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F96A0131101344CC5406CB3 /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D99518E8E05FD856A952698 /* Pods-SwaggerClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.debug.xcconfig"; sourceTree = "<group>"; };
-		A5EA12562419390400E30FC3 /* FileUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
-		A5EA12572419390400E30FC3 /* UIImage+Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extras.swift"; sourceTree = "<group>"; };
 		B596E4BC205657A500B46F03 /* APIHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelperTests.swift; sourceTree = "<group>"; };
 		EAEC0BBE1D4E30CE00C908A3 /* SwaggerClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwaggerClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAEC0BC11D4E30CE00C908A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -137,8 +133,6 @@
 				EAEC0BE51D4E379000C908A3 /* StoreAPITests.swift */,
 				EAEC0BE71D4E38CB00C908A3 /* UserAPITests.swift */,
 				B596E4BC205657A500B46F03 /* APIHelperTests.swift */,
-				A5EA12562419390400E30FC3 /* FileUtils.swift */,
-				A5EA12572419390400E30FC3 /* UIImage+Extras.swift */,
 			);
 			path = SwaggerClientTests;
 			sourceTree = "<group>";
@@ -317,10 +311,8 @@
 			files = (
 				B596E4BD205657A500B46F03 /* APIHelperTests.swift in Sources */,
 				EAEC0BE81D4E38CB00C908A3 /* UserAPITests.swift in Sources */,
-				A5EA12592419390400E30FC3 /* UIImage+Extras.swift in Sources */,
 				EAEC0BE61D4E379000C908A3 /* StoreAPITests.swift in Sources */,
 				EAEC0BE41D4E330700C908A3 /* PetAPITests.swift in Sources */,
-				A5EA12582419390400E30FC3 /* FileUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

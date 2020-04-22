@@ -23,7 +23,7 @@ nlohmann::json {{classname}}::to_json() const
 
 bool {{classname}}::operator==(const {{classname}}& other) const
 {
-    return {{#vars}}{{name}} == other.{{name}}{{#hasMore}} && {{/hasMore}}{{/vars}};
+    return {{#vars}}{{baseName}} == other.{{baseName}}{{#hasMore}} && {{/hasMore}}{{/vars}};
 }
 
 bool {{classname}}::operator!=(const {{classname}}& other) const
@@ -34,19 +34,19 @@ bool {{classname}}::operator!=(const {{classname}}& other) const
 void to_json(nlohmann::json& j, const {{classname}}& o)
 {
     {{#vars}}
-    {{^required}}if (!o.{{name}}.isEmpty()){{/required}}
-        j["{{baseName}}"] = o.{{name}}{{^required}}.get(){{/required}};
+    {{^required}}if (!o.{{baseName}}.isEmpty()){{/required}}
+        j["{{baseName}}"] = o.{{baseName}}{{^required}}.get(){{/required}};
     {{/vars}}
 }
 
 void from_json(const nlohmann::json& j, {{classname}}& o)
 {
     {{#vars}}
-    {{#required}}j.at("{{baseName}}").get_to(o.{{name}});{{/required}}
+    {{#required}}j.at("{{baseName}}").get_to(o.{{baseName}});{{/required}}
     {{^required}}if (j.find("{{baseName}}") != j.end()) {
-        {{{dataType}}} temporary_{{name}};
-        j.at("{{baseName}}").get_to(temporary_{{name}});
-        o.{{name}} = Pistache::Some(temporary_{{name}});
+        {{{dataType}}} temporary_{{baseName}};
+        j.at("{{baseName}}").get_to(temporary_{{baseName}});
+        o.{{baseName}} = Pistache::Some(temporary_{{baseName}});
     }{{/required}}
     {{/vars}}
 }

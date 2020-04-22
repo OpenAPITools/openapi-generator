@@ -113,7 +113,7 @@ describe(`API (functionality)`, () => {
       const petService = TestBed.get(PetService);
 
       return petService.deletePet(createdPet.id).subscribe(
-        result => expect(result.code).toEqual(200),
+        result => expect(result).toBeFalsy(),
         error => fail(`expected a result, not the error: ${error.message}`),
       );
     }));
@@ -148,7 +148,7 @@ describe(`API (functionality)`, () => {
       const userService = TestBed.get(UserService);
 
       return userService.createUser(newUser).subscribe(
-        result => expect(result.code).toEqual(200),
+        result => expect(result).toBeFalsy(),
         error => fail(`expected a result, not the error: ${error.message}`),
       );
     }));

@@ -4,15 +4,20 @@ import time
 import {{{packageName}}}
 from pprint import pprint
 {{> python_doc_auth_partial}}
-# Enter a context with an instance of the API client
 {{#hasAuthMethods}}
+# Defining host is optional and default to {{{basePath}}}
+configuration.host = "{{{basePath}}}"
+# Enter a context with an instance of the API client
 with {{{packageName}}}.ApiClient(configuration) as api_client:
-{{/hasAuthMethods}}
-{{^hasAuthMethods}}
-with {{{packageName}}}.ApiClient() as api_client:
-{{/hasAuthMethods}}
     # Create an instance of the API class
     api_instance = {{{packageName}}}.{{{classname}}}(api_client)
+{{/hasAuthMethods}}
+{{^hasAuthMethods}}
+# Enter a context with an instance of the API client
+with {{{packageName}}}.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = {{{packageName}}}.{{{classname}}}(api_client)
+{{/hasAuthMethods}}
     {{#requiredParams}}{{^defaultValue}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}
     {{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}
     {{/optionalParams}}

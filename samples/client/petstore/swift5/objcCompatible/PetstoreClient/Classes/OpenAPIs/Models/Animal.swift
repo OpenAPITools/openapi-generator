@@ -7,19 +7,14 @@
 
 import Foundation
 
-@objc public class Animal: NSObject, Codable {
+public struct Animal: Codable {
 
-    public var _className: String
+    public var className: String
     public var color: String? = "red"
 
-    public init(_className: String, color: String?) {
-        self._className = _className
+    public init(className: String, color: String?) {
+        self.className = className
         self.color = color
-    }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case _className = "className"
-        case color
     }
 
 }

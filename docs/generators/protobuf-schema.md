@@ -21,8 +21,7 @@ sidebar_label: protobuf-schema
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>array</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>array</li>
 <li>bool</li>
 <li>bytes</li>
 <li>double</li>
@@ -43,8 +42,7 @@ sidebar_label: protobuf-schema
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-</ul>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>
 
 ## FEATURE SET
 

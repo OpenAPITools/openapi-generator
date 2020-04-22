@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -26,11 +24,20 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.io.File;
 import java.util.*;
@@ -39,7 +46,6 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
@@ -93,7 +99,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_25;
-    protected String feignVersion = FEIGN_10;
+    protected String feignVersion = FEIGN_9;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
@@ -104,14 +110,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String authFolder;
     protected String serializationLibrary = null;
 
+    protected boolean useOneOfInterfaces = false;
+    protected List<CodegenModel> addOneOfInterfaces = new ArrayList<CodegenModel>();
+
     public JavaClientCodegen() {
         super();
 
-        // TODO: Move GlobalFeature.ParameterizedServer to library: jersey after moving featureSet to generatorMetadata
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
-        );
+                .build();
 
         outputFolder = "generated-code" + File.separator + "java";
         embeddedTemplateDir = templateDir = "Java";
@@ -138,13 +145,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
-        cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x' (default), '9.x' (deprecated)"));
+        cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x', '9.x' (default)"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.x (deprecated) or 10.x (default). JSON processing: Jackson 2.9.x.");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.x or 10.x. JSON processing: Jackson 2.9.x. To enable OpenFeign 10.x, set the 'feignVersion' option to '10.x'");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.x. JSON processing: Gson 2.x (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
@@ -153,7 +160,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(VERTX, "HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
+        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.9.x. Only for Java8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
         supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client X.x. JSON processing: Jackson 2.9.x");
 
@@ -199,7 +206,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void processOpts() {
         if ((WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
-        } else if (MICROPROFILE.equals(getLibrary())) {
+        }
+        else if (MICROPROFILE.equals(getLibrary())) {
             dateLibrary = "legacy";
         }
 
@@ -236,14 +244,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if ("10.x".equals(feignVersion)) {
                 additionalProperties.put("useFeign10", true);
             } else if ("9.x".equals(feignVersion)) {
-                additionalProperties.put("useFeign10", false);
-                once(LOGGER).warn("Feign 9.x support has been deprecated. Please use 10.x (default) instead.");
+                // do nothing as 9.x is the default
             } else {
-                throw new RuntimeException("Ivalid feignOoption '{}'. Must be '10.x' or '9.x' (deprecated).");
+                throw new RuntimeException("Ivalid feignOoption '{}'. Must be '10.x' or '9.x'.");
             }
-        } else {
-            // default to feign 10.x
-            additionalProperties.put("useFeign10", true);
         }
         additionalProperties.put(FEIGN_VERSION, feignVersion);
 
@@ -291,11 +295,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml").doNotOverwrite());
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
-        supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
-        supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
-        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
-
-
         if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
@@ -400,11 +399,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
 
         } else if (REST_ASSURED.equals(getLibrary())) {
-            if (getSerializationLibrary() == null) {
-                LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
+            if(getSerializationLibrary() == null) {
+                LOGGER.info("No serializationLibrary configured, using '"+SERIALIZATION_LIBRARY_GSON+"' as fallback");
                 setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
             }
-            if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+            if(SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
                 supportingFiles.add(new SupportingFile("JacksonObjectMapper.mustache", invokerFolder, "JacksonObjectMapper.java"));
             } else if (SERIALIZATION_LIBRARY_GSON.equals(getSerializationLibrary())) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -478,11 +477,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         }
 
-        if (getSerializationLibrary() == null) {
-            LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
+        if(getSerializationLibrary() == null) {
+            LOGGER.info("No serializationLibrary configured, using '"+SERIALIZATION_LIBRARY_GSON+"' as fallback");
             setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
         }
-        if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+        if(SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
             additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
             if (!NATIVE.equals(getLibrary())) {
@@ -501,7 +500,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
             useOneOfInterfaces = true;
-            addOneOfInterfaceImports = true;
         }
 
     }
@@ -691,7 +689,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             model.imports.remove("ToStringSerializer");
         }
     }
-
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
@@ -731,9 +728,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         objs = super.postProcessModels(objs);
         List<Object> models = (List<Object>) objs.get("models");
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !JERSEY1.equals(getLibrary())) {
             List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
             for (Object _mo : models) {
@@ -744,8 +738,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
                     // only add JsonNullable and related imports to optional and nullable values
                     addImports |= isOptionalNullable;
-                    var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable); // TODO: 5.0 Remove
-                    var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                    var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable);
                 }
                 if (addImports) {
                     Map<String, String> imports2Classnames = new HashMap<String, String>() {{
@@ -767,8 +760,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());  // TODO: 5.0 Remove
-            cm.getVendorExtensions().putIfAbsent("x-implements", cm.getVendorExtensions().get("implements"));
+            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());
             List<String> impl = (List<String>) cm.getVendorExtensions().get("implements");
             if (this.parcelableModel) {
                 impl.add("Parcelable");
@@ -837,7 +829,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     /**
      * Serialization library.
-     *
      * @return 'gson' or 'jackson'
      */
     public String getSerializationLibrary() {
@@ -845,17 +836,261 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public void setSerializationLibrary(String serializationLibrary) {
-        if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
+        if(SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
-        } else if (SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
+        } else if(SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }
     }
 
+    public void addOneOfNameExtension(Schema s, String name) {
+        ComposedSchema cs = (ComposedSchema) s;
+        if (cs.getOneOf() != null && cs.getOneOf().size() > 0) {
+            cs.addExtension("x-oneOf-name", name);
+        }
+    }
+
+    public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
+        CodegenModel cm = new CodegenModel();
+
+        for (Schema o : cs.getOneOf()) {
+            // TODO: inline objects
+            cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
+        }
+        cm.name = type;
+        cm.classname = type;
+        cm.vendorExtensions.put("isOneOfInterface", true);
+        cm.discriminator = createDiscriminator("", (Schema) cs);
+        cm.interfaceModels = new ArrayList<CodegenModel>();
+
+        addOneOfInterfaces.add(cm);
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        // we process the openapi schema here to find oneOf schemas here and create interface models for them
+        super.preprocessOpenAPI(openAPI);
+        Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
+        if (schemas == null) {
+            schemas = new HashMap<String, Schema>();
+        }
+        Map<String, PathItem> pathItems = openAPI.getPaths();
+
+        // we need to add all request and response bodies to processed schemas
+        if (pathItems != null) {
+            for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
+                for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
+                    String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
+                    // process request body
+                    RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
+                    Schema requestSchema = null;
+                    if (b != null) {
+                        requestSchema = ModelUtils.getSchemaFromRequestBody(b);
+                    }
+                    if (requestSchema != null) {
+                        schemas.put(opId, requestSchema);
+                    }
+                    // process all response bodies
+                    for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
+                        ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
+                        Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                        if (responseSchema != null) {
+                            schemas.put(opId + ar.getKey(), responseSchema);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (Map.Entry<String, Schema> e : schemas.entrySet()) {
+            String n = toModelName(e.getKey());
+            Schema s = e.getValue();
+            String nOneOf = toModelName(n + "OneOf");
+            if (ModelUtils.isComposedSchema(s)) {
+                addOneOfNameExtension(s, n);
+            } else if (ModelUtils.isArraySchema(s)) {
+                Schema items = ((ArraySchema) s).getItems();
+                if (ModelUtils.isComposedSchema(items)) {
+                    addOneOfNameExtension(items, nOneOf);
+                    addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
+                }
+            } else if (ModelUtils.isMapSchema(s)) {
+                Schema addProps = ModelUtils.getAdditionalProperties(s);
+                if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
+                    addOneOfNameExtension(addProps, nOneOf);
+                    addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
+                }
+            }
+        }
+    }
+
+    private class OneOfImplementorAdditionalData {
+        private String implementorName;
+        private List<String> additionalInterfaces = new ArrayList<String>();
+        private List<CodegenProperty> additionalProps = new ArrayList<CodegenProperty>();
+        private List<Map<String, String>> additionalImports = new ArrayList<Map<String, String>>();
+
+        public OneOfImplementorAdditionalData(String implementorName) {
+            this.implementorName = implementorName;
+        }
+
+        public String getImplementorName() {
+            return implementorName;
+        }
+
+        public void addFromInterfaceModel(CodegenModel cm, List<Map<String, String>> modelsImports) {
+            // Add cm as implemented interface
+            additionalInterfaces.add(cm.classname);
+
+            // Add all vars defined on cm
+            // a "oneOf" model (cm) by default inherits all properties from its "interfaceModels",
+            // but we only want to add properties defined on cm itself
+            List<CodegenProperty> toAdd = new ArrayList<CodegenProperty>(cm.vars);
+            // note that we can't just toAdd.removeAll(m.vars) for every interfaceModel,
+            // as they might have different value of `hasMore` and thus are not equal
+            List<String> omitAdding = new ArrayList<String>();
+            for (CodegenModel m : cm.interfaceModels) {
+                for (CodegenProperty v : m.vars) {
+                    omitAdding.add(v.baseName);
+                }
+            }
+            for (CodegenProperty v : toAdd) {
+                if (!omitAdding.contains(v.baseName)) {
+                    additionalProps.add(v.clone());
+                }
+            }
+
+            // Add all imports of cm
+            for (Map<String, String> importMap : modelsImports) {
+                // we're ok with shallow clone here, because imports are strings only
+                additionalImports.add(new HashMap<String, String>(importMap));
+            }
+        }
+
+        public void addToImplementor(CodegenModel implcm, List<Map<String, String>> implImports) {
+            implcm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());
+
+            // Add implemented interfaces
+            for (String intf : additionalInterfaces) {
+                List<String> impl = (List<String>) implcm.getVendorExtensions().get("implements");
+                impl.add(intf);
+                // Add imports for interfaces
+                implcm.imports.add(intf);
+                Map<String, String> importsItem = new HashMap<String, String>();
+                importsItem.put("import", toModelImport(intf));
+                implImports.add(importsItem);
+            }
+
+            // Add oneOf-containing models properties - we need to properly set the hasMore values to make renderind correct
+            if (implcm.vars.size() > 0 && additionalProps.size() > 0) {
+                implcm.vars.get(implcm.vars.size() - 1).hasMore = true;
+            }
+            for (int i = 0; i < additionalProps.size(); i++) {
+                CodegenProperty var = additionalProps.get(i);
+                if (i == additionalProps.size() - 1) {
+                    var.hasMore = false;
+                } else {
+                    var.hasMore = true;
+                }
+                implcm.vars.add(var);
+            }
+
+            // Add imports
+            for (Map<String, String> oneImport : additionalImports) {
+                // exclude imports from this package - these are imports that only the oneOf interface needs
+                if (!implImports.contains(oneImport) && !oneImport.getOrDefault("import", "").startsWith(modelPackage())) {
+                    implImports.add(oneImport);
+                }
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        if (this.useOneOfInterfaces) {
+            // First, add newly created oneOf interfaces
+            for (CodegenModel cm : addOneOfInterfaces) {
+                Map<String, Object> modelValue = new HashMap<String, Object>() {{
+                    putAll(additionalProperties());
+                    put("model", cm);
+                }};
+                List<Object> modelsValue = Arrays.asList(modelValue);
+                List<Map<String, String>> importsValue = new ArrayList<Map<String, String>>();
+                for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+                    Map<String, String> oneImport = new HashMap<String, String>() {{
+                        put("import", importMapping.get(i));
+                    }};
+                    importsValue.add(oneImport);
+                }
+                Map<String, Object> objsValue = new HashMap<String, Object>() {{
+                    put("models", modelsValue);
+                    put("package", modelPackage());
+                    put("imports", importsValue);
+                    put("classname", cm.classname);
+                    putAll(additionalProperties);
+                }};
+                objs.put(cm.name, objsValue);
+            }
+
+            // - Add all "oneOf" models as interfaces to be implemented by the models that
+            //   are the choices in "oneOf"; also mark the models containing "oneOf" as interfaces
+            // - Add all properties of "oneOf" to the implementing classes (NOTE that this
+            //   would be problematic if the class was in multiple such "oneOf" models, in which
+            //   case it would get all their properties, but it's probably better than not doing this)
+            // - Add all imports of "oneOf" model to all the implementing classes (this might not
+            //   be optimal, as it can contain more than necessary, but it's good enough)
+            Map<String, OneOfImplementorAdditionalData> additionalDataMap = new HashMap<String, OneOfImplementorAdditionalData>();
+            for (Map.Entry modelsEntry : objs.entrySet()) {
+                Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
+                List<Object> models = (List<Object>) modelsAttrs.get("models");
+                List<Map<String, String>> modelsImports = (List<Map<String, String>>) modelsAttrs.getOrDefault("imports", new ArrayList<Map<String, String>>());
+                for (Object _mo : models) {
+                    Map<String, Object> mo = (Map<String, Object>) _mo;
+                    CodegenModel cm = (CodegenModel) mo.get("model");
+                    if (cm.oneOf.size() > 0) {
+                        cm.vendorExtensions.put("isOneOfInterface", true);
+                        // if this is oneOf interface, make sure we include the necessary jackson imports for it
+                        for (String s : Arrays.asList("JsonTypeInfo", "JsonSubTypes")) {
+                            Map<String, String> i = new HashMap<String, String>() {{
+                                put("import", importMapping.get(s));
+                            }};
+                            if (!modelsImports.contains(i)) {
+                                modelsImports.add(i);
+                            }
+                        }
+                        for (String one : cm.oneOf) {
+                            if (!additionalDataMap.containsKey(one)) {
+                                additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
+                            }
+                            additionalDataMap.get(one).addFromInterfaceModel(cm, modelsImports);
+                        }
+                    }
+                }
+            }
+
+            for (Map.Entry modelsEntry : objs.entrySet()) {
+                Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
+                List<Object> models = (List<Object>) modelsAttrs.get("models");
+                List<Map<String, String>> imports = (List<Map<String, String>>) modelsAttrs.get("imports");
+                for (Object _implmo : models) {
+                    Map<String, Object> implmo = (Map<String, Object>) _implmo;
+                    CodegenModel implcm = (CodegenModel) implmo.get("model");
+                    if (additionalDataMap.containsKey(implcm.name)) {
+                        additionalDataMap.get(implcm.name).addToImplementor(implcm, imports);
+                    }
+                }
+            }
+        }
+
+        return objs;
+    }
+
     public void forceSerializationLibrary(String serializationLibrary) {
-        if ((this.serializationLibrary != null) && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
+        if((this.serializationLibrary != null) && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
             LOGGER.warn("The configured serializationLibrary '" + this.serializationLibrary + "', is not supported by the library: '" + getLibrary() + "', switching back to: " + serializationLibrary);
         }
         setSerializationLibrary(serializationLibrary);
@@ -886,29 +1121,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        generateYAMLSpecFile(objs);
-        return super.postProcessSupportingFileData(objs);
-    }
-
-    @Override
     public String toApiVarName(String name) {
         String apiVarName = super.toApiVarName(name);
         if (reservedWords.contains(apiVarName)) {
             apiVarName = escapeReservedWord(apiVarName);
         }
         return apiVarName;
-    }
-
-    @Override
-    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
-            Map<String, String> oneImport = new HashMap<String, String>() {{
-                put("import", importMapping.get(i));
-            }};
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
-            }
-        }
     }
 }

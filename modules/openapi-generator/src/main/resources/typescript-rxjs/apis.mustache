@@ -37,7 +37,7 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
+    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.paramNameAlternative}}: {{vendorExtensions.paramNameAlternative}}{{/vendorExtensions.paramNameAlternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
         {{#hasParams}}
         {{#allParams}}
         {{#required}}
@@ -108,7 +108,7 @@ export class {{classname}} extends BaseAPI {
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
-            '{{baseName}}': ({{> paramNamePartial}} as any).toISOString().split('T')[0],
+            '{{baseName}}': ({{> paramNamePartial}} as any).toISOString(),
             {{/isDate}}
             {{^isDate}}
             '{{baseName}}': {{> paramNamePartial}},
@@ -137,7 +137,7 @@ export class {{classname}} extends BaseAPI {
         {{/isDateTime}}
         {{^isDateTime}}
         {{#isDate}}
-        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString().split('T')[0]; }
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString(); }
         {{/isDate}}
         {{^isDate}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }

@@ -7,14 +7,14 @@
 
 
 {{#isEnum}}
-char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
-    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+char* {{classname}}_ToString({{classname}}_e {{classname}}){
+char *{{classname}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
     return {{classname}}Array[{{classname}}];
 }
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}}) {
+{{classname}}_e {{classname}}_FromString(char* {{classname}}){
     int stringToReturn = 0;
-    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{classname}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{classname}}Array) / sizeof({{classname}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{classname}}, {{classname}}Array[stringToReturn]) == 0) {
@@ -25,10 +25,10 @@ char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_
     return 0;
 }
 
-cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
-    cJSON *item = cJSON_CreateObject();
+cJSON *{{classname}}_convertToJSON({{classname}}_e {{classname}}) {
+cJSON *item = cJSON_CreateObject();
 {{#isString}}
-    if(cJSON_AddStringToObject(item, "{{{classname}}}", {{classFilename}}_{{{classname}}}_ToString({{{classname}}})) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{classname}}}", {{{classname}}}_ToString({{{classname}}})) == NULL) {
         goto fail;
     }
 {{/isString}}
@@ -37,39 +37,36 @@ cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarN
         goto fail;
     }
 {{/isNumeric}}
-{{#isBoolean}}
-    if(cJSON_AddBoolToObject(item, "{{{classname}}}", {{{classname}}}) == NULL) {
-        goto fail;
-    }
-{{/isBoolean}}
     return item;
-fail:
+    fail:
     cJSON_Delete(item);
     return NULL;
 }
 
-{{classFilename}}_{{classname}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON) {
-    {{classFilename}}_{{classname}}_e *{{classname}} = NULL;
+{{classname}}_e {{classname}}_parseFromJSON(cJSON *{{classname}}JSON){
+
+{{classname}}_e *{{classname}} = NULL;
+
 {{#isEnum}}
 {{#isNumeric}}
-    cJSON *{{{classname}}}Var = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{classname}}}");
-    if(!cJSON_IsNumber({{{classname}}}Var))
-    {
-        goto end;
-    }
+cJSON *{{{classname}}}Var = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{classname}}}");
+if(!cJSON_IsNumber({{{classname}}}Var))
+{
+    goto end;
+}
 {{/isNumeric}}
 {{#isString}}
-    {{classFilename}}_{{{classname}}}_e {{classname}}Variable;
-    cJSON *{{{classname}}}Var = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{classname}}}");
-    if(!cJSON_IsString({{{classname}}}Var) || ({{{classname}}}Var->valuestring == NULL)){
-        goto end;
-    }
-    {{classname}}Variable = {{classFilename}}_{{classname}}_FromString({{{classname}}}Var->valuestring);
+{{{classname}}}_e {{classname}}Variable;
+cJSON *{{{classname}}}Var = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{classname}}}");
+if(!cJSON_IsString({{{classname}}}Var) || ({{{classname}}}Var->valuestring == NULL)){
+    goto end;
+}
+{{classname}}Variable = {{classname}}_FromString({{{classname}}}Var->valuestring);
 {{/isString}}
 {{/isEnum}}
-    return {{classname}}Variable;
+return {{classname}}Variable;
 end:
-    return 0;
+return 0;
 }
 {{/isEnum}}
 {{^isEnum}}
@@ -77,14 +74,14 @@ end:
     {{^isContainer}}
     {{^isModel}}
     {{#isEnum}}
-char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-    char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
-	return {{name}}Array[{{name}}];
-}
+    char* {{name}}{{classname}}_ToString({{name}}_e {{name}}){
+    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+        return {{name}}Array[{{name}}];
+    }
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
+    {{name}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -93,7 +90,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
         stringToReturn++;
     }
     return 0;
-}
+    }
     {{/isEnum}}
     {{/isModel}}
     {{/isContainer}}
@@ -101,14 +98,14 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{#items}}
     {{^isModel}}
     {{#isEnum}}
-char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
-	return {{name}}Array[{{name}} - 1];
-}
+    char* {{name}}{{classname}}_ToString({{name}}_e {{name}}){
+        char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+        return {{name}}Array[{{name}} - 1];
+    }
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}) {
+    {{name}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -117,7 +114,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
         stringToReturn++;
     }
     return 0;
-}
+    }
     {{/isEnum}}
     {{/isModel}}
     {{/items}}
@@ -130,7 +127,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isEnum}}
     {{^isEnum}}
     {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
@@ -155,7 +152,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{name}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
@@ -205,9 +202,6 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
 
 
 void {{classname}}_free({{classname}}_t *{{classname}}) {
-    if(NULL == {{classname}}){
-        return ;
-    }
     listEntry_t *listEntry;
     {{#vars}}
     {{^isContainer}}
@@ -397,18 +391,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         goto fail;
     }
     {{/isString}}
-    {{#isBoolean}}
-    if(cJSON_AddBoolToObject({{{name}}}, "", *(cJSON_bool *){{{name}}}ListEntry->data) == NULL)
-    {
-        goto fail;
-    }
-    {{/isBoolean}}
-    {{#isNumeric}}
+    {{^isString}}
     if(cJSON_AddNumberToObject({{{name}}}, "", *(double *){{{name}}}ListEntry->data) == NULL)
     {
         goto fail;
     }
-    {{/isNumeric}}
+    {{/isString}}
     {{/items}}
     }
     {{/isPrimitiveType}}
@@ -421,7 +409,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     listEntry_t *{{{name}}}ListEntry;
     if ({{{classname}}}->{{{name}}}) {
     list_ForEach({{{name}}}ListEntry, {{classname}}->{{{name}}}) {
-    cJSON *itemLocal = {{complexType}}_convertToJSON({{#isEnum}}{{#items}}({{projectName}}_{{classVarName}}_{{enumName}}_e){{/items}}{{/isEnum}}{{{name}}}ListEntry->data);
+    cJSON *itemLocal = {{complexType}}_convertToJSON({{#isEnum}}{{#items}}({{datatypeWithEnum}}_e){{/items}}{{/isEnum}}{{{name}}}ListEntry->data);
     if(itemLocal == NULL) {
     goto fail;
     }
@@ -435,7 +423,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     if({{{name}}} == NULL) {
         goto fail; //primitive map container
     }
-    cJSON *localMapObject = {{{name}}};
+    cJSON *localMapObject = cJSON_CreateObject(); //Memory free to be implemented in user code
     listEntry_t *{{{name}}}ListEntry;
     if ({{{classname}}}->{{{name}}}) {
     list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{name}}}) {
@@ -447,19 +435,14 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
             goto fail;
         }
         {{/isString}}
-        {{#isNumeric}}
+        {{^isString}}
         if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, *(double *)localKeyValue->value) == NULL)
         {
             goto fail;
         }
-        {{/isNumeric}}
-        {{#isBoolean}}
-        if(cJSON_AddBoolToObject(localMapObject, localKeyValue->key, *(cJSON_bool *)localKeyValue->value) == NULL)
-        {
-            goto fail;
-        }
-        {{/isBoolean}}
+        {{/isString}}
         {{/items}}
+        cJSON_AddItemToObject({{{name}}},"", localMapObject);
     }
     }
     {{/isMapContainer}}
@@ -508,7 +491,7 @@ fail:
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}Variable;
+    {{{name}}}_e {{name}}Variable;
     {{^required}}if ({{{name}}}) { {{/required}}
     if(!cJSON_IsString({{{name}}}))
     {
@@ -534,16 +517,19 @@ fail:
     }
     {{/isByteArray}}
     {{#isBinary}}
-    binary_t* decoded_str_{{{name}}} = malloc(sizeof(struct binary_t));
+    binary_t* decoded_str_{{{name}}};
     {{^required}}if ({{{name}}}) { {{/required}}
     if(!cJSON_IsString({{{name}}}))
     {
     goto end; //Binary
     }
-    decoded_str_{{{name}}}->data = base64decode({{{name}}}->valuestring, strlen({{{name}}}->valuestring), &decoded_str_{{{name}}}->len);
+    char* decoded = base64decode({{{name}}}->valuestring, strlen({{{name}}}->valuestring));
+    decoded_str_{{{name}}}->data = malloc(strlen(decoded) - 1);
     if (!decoded_str_{{{name}}}->data) {
         goto end;
     }
+    memcpy(decoded_str_{{{name}}}->data,decoded,(strlen(decoded)-1));
+    decoded_str_{{{name}}}->len = strlen(decoded) - 1;
     {{/isBinary}}
     {{#isDate}}
     {{^required}}if ({{{name}}}) { {{/required}}
@@ -563,7 +549,7 @@ fail:
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{classFilename}}_{{datatypeWithEnum}}_e {{name}}_local_nonprim_enum;
+    {{datatypeWithEnum}}_e {{name}}_local_nonprim_enum;
     {{^required}}if ({{{name}}}) { {{/required}}
     {{{name}}}_local_nonprim_enum = {{datatypeWithEnum}}_parseFromJSON({{{name}}}); //enum model
     {{/isEnum}}
@@ -615,20 +601,13 @@ fail:
         }
         list_addElement({{{name}}}List , strdup({{{name}}}_local->valuestring));
         {{/isString}}
-        {{#isNumeric}}
+        {{^isString}}
         if(!cJSON_IsNumber({{{name}}}_local))
         {
             goto end;
         }
         list_addElement({{{name}}}List , &{{{name}}}_local->valuedouble);
-        {{/isNumeric}}
-        {{#isBoolean}}
-        if(!cJSON_IsBool({{{name}}}_local))
-        {
-            goto end;
-        }
-        list_addElement({{{name}}}List , {{{name}}}_local->valueint);
-        {{/isBoolean}}
+        {{/isString}}
         {{/items}}
     }
     {{/isPrimitiveType}}
@@ -647,7 +626,7 @@ fail:
         if(!cJSON_IsObject({{{name}}}_local_nonprimitive)){
             goto end;
         }
-        {{#isEnum}}{{#items}}{{classFilename}}_{{datatypeWithEnum}}_e {{/items}}{{/isEnum}}{{^isEnum}}{{complexType}}_t *{{/isEnum}}{{{name}}}Item = {{complexType}}_parseFromJSON({{{name}}}_local_nonprimitive);
+        {{#isEnum}}{{#items}}{{datatypeWithEnum}}_e {{/items}}{{/isEnum}}{{^isEnum}}{{complexType}}_t *{{/isEnum}}{{{name}}}Item = {{complexType}}_parseFromJSON({{{name}}}_local_nonprimitive);
 
         list_addElement({{{name}}}List, {{#isEnum}}{{#items}}(void *){{/items}}{{/isEnum}}{{{name}}}Item);
     }
@@ -664,31 +643,22 @@ fail:
     keyValuePair_t *localMapKeyPair;
     cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
     {
-		cJSON *localMapObject = {{{name}}}_local_map;
-        {{#items}}
         {{#isString}}
-        if(!cJSON_IsString(localMapObject))
+        if(!cJSON_IsString({{{name}}}_local_map))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
-        {{/isString}}
-        {{#isBoolean}}
-        if(!cJSON_IsBool(localMapObject))
-        {
-            goto end;
-        }
-        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string), &localMapObject->valueint);
-        {{/isBoolean}}
-        {{#isNumeric}}
-        if(!cJSON_IsNumber(localMapObject))
-        {
-            goto end;
-        }
-        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
-        {{/isNumeric}}
-		{{/items}}
+        localMapKeyPair = keyValuePair_create(strdup({{{name}}}_local_map->string),strdup({{{name}}}_local_map->valuestring))
         list_addElement({{{name}}}List , localMapKeyPair);
+        {{/isString}}
+        {{^isString}}
+        if(!cJSON_IsNumber({{{name}}}_local_map))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup({{{name}}}_local_map->string),&{{{name}}}_local_map->valuedouble );
+        list_addElement({{{name}}}List , localMapKeyPair);
+        {{/isString}}
     }
     {{/isMapContainer}}
     {{/isContainer}}

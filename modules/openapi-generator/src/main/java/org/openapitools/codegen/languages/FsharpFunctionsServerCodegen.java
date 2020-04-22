@@ -54,7 +54,7 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         super();
 
         // TODO: There's a README.mustache, but it doesn't seem to be referenced…
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
 //                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(
@@ -74,7 +74,7 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

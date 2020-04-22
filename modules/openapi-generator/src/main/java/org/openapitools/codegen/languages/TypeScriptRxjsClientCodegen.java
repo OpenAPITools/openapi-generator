@@ -21,8 +21,6 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.FeatureSet;
-import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -30,8 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-
-import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
@@ -45,7 +41,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     public TypeScriptRxjsClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         outputFolder = "generated-code/typescript-rxjs";
         embeddedTemplateDir = templateDir = "typescript-rxjs";
@@ -89,6 +87,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     public void processOpts() {
         super.processOpts();
+        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
+        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
@@ -107,10 +107,21 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isFileSchema(p)) {
+        Schema inner;
+        if (ModelUtils.isArraySchema(p)) {
+            inner = ((ArraySchema) p).getItems();
+            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            inner = ModelUtils.getAdditionalProperties(p);
+            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
+        } else if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
+        } else if (ModelUtils.isDateSchema(p)) {
+            return "Date";
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            return "Date";
         }
         return super.getTypeDeclaration(p);
     }
@@ -248,13 +259,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     private void setParamNameAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (param.paramName.equals(paramName)) {
-            param.vendorExtensions.put("paramNameAlternative", paramNameAlternative); // TODO: 5.0 Remove
-            param.vendorExtensions.put("x-param-name-alternative", paramNameAlternative);
+            param.vendorExtensions.put("paramNameAlternative", paramNameAlternative);
         }
     }
 

@@ -25,22 +25,6 @@ The most commonly used openapi-generator-cli commands are:
 
 See 'openapi-generator-cli help <command>' for more information on a specific
 command.
-```
-
-## version
-
-The version command provides version information, returning either the semver version by default or the git sha when passed `--sha`.
-
-```bash
-NAME
-        openapi-generator-cli version - Show version information
-
-SYNOPSIS
-        openapi-generator-cli version [--sha]
-
-OPTIONS
-        --sha
-            Git commit SHA version
 
 ```
 
@@ -137,7 +121,7 @@ CONFIG OPTIONS
 	    Go package version. (Default: 1.0.0)
 
 	withGoCodegenComment
-	    whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs (Default: false)
+	    whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs (Default: false)
 
 	withXml
 	    whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML) (Default: false)
@@ -246,7 +230,7 @@ An example bash completion script can be found in the repo at [scripts/openapi-g
 
 ## generate
 
-The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options available than the previous commands. The abbreviated options are below, but you may expand the full descriptions.
+The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The abbreviated options are below, but you may expand the full descriptions.
 
 
 ```bash
@@ -258,16 +242,16 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--api-name-suffix <api name suffix>] [--api-package <api package>]
-                [--artifact-id <artifact id>] [--artifact-version <artifact version>]
+                [--api-package <api package>] [--artifact-id <artifact id>]
+                [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...] [--dry-run]
+                [-D <system properties>...]
                 [(-e <templating engine> | --engine <templating engine>)]
                 [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
-                [--generate-alias-as-model] [--git-host <git host>]
-                [--git-repo-id <git repo id>] [--git-user-id <git user id>]
-                [--group-id <group id>] [--http-user-agent <http user agent>]
+                [--generate-alias-as-model] [--git-repo-id <git repo id>]
+                [--git-user-id <git user id>] [--group-id <group id>]
+                [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
@@ -290,19 +274,14 @@ SYNOPSIS
 ```
 
 <details>
-<summary>generate OPTIONS</summary>
-
+  <summary>generate OPTIONS</summary>
+  
 ```bash
 OPTIONS
         -a <authorization>, --auth <authorization>
             adds authorization headers when fetching the OpenAPI definitions
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
-
-        --api-name-suffix <api name suffix>
-            Suffix that will be appended to all API names ('tags'). Default:
-            Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators
-            suppport this feature at the moment.
 
         --api-package <api package>
             package for generated api classes
@@ -316,40 +295,29 @@ OPTIONS
             generated library's filename
 
         -c <configuration file>, --config <configuration file>
-            Path to configuration file. It can be JSON or YAML. If file is JSON,
-            the content should have the format {"optionKey":"optionValue",
-            "optionKey1":"optionValue1"...}. If file is YAML, the content should
-            have the format optionKey: optionValue. Supported options can be
-            different for each language. Run config-help -g {generator name}
-            command for language-specific config options.
+            Path to configuration file configuration file. It can be json or
+            yaml.If file is json, the content should have the format
+            {"optionKey":"optionValue", "optionKey1":"optionValue1"...}.If file
+            is yaml, the content should have the format optionKey:
+            optionValueSupported options can be different for each language. Run
+            config-help -g {generator name} command for language specific config
+            options.
 
         -D <system properties>
             sets specified system properties in the format of
             name=value,name=value (or multiple options, each with name=value)
 
-        --dry-run
-            Try things out and report on potential changes (without actually
-            making changes).
-
         -e <templating engine>, --engine <templating engine>
             templating engine: "mustache" (default) or "handlebars" (beta)
 
         --enable-post-process-file
-            Enable post-processing file using environment variables.
+            enablePostProcessFile
 
         -g <generator name>, --generator-name <generator name>
             generator to use (see list command for list)
 
         --generate-alias-as-model
-            Generate model implementation for aliases to map and array schemas.
-            An 'alias' is an array, map, or list which is defined inline in a 
-            OpenAPI document and becomes a model in the generated code.
-            A 'map' schema is an object that can have undeclared properties,
-            i.e. the 'additionalproperties' attribute is set on that object.
-            An 'array' schema is a list of sub schemas in a OAS document.
-
-        --git-host <git host>
-            Git host, e.g. gitlab.com.
+            Generate alias to map, array as models
 
         --git-repo-id <git repo id>
             Git repo ID, e.g. openapi-generator.
@@ -404,10 +372,12 @@ OPTIONS
             Only write output files that have changed.
 
         --model-name-prefix <model name prefix>
-            Prefix that will be prepended to all model names.
+            Prefix that will be prepended to all model names. Default is the
+            empty string.
 
         --model-name-suffix <model name suffix>
-            Suffix that will be appended to all model names.
+            Suffix that will be appended to all model names. Default is the
+            empty string.
 
         --model-package <model package>
             package for generated models
@@ -440,8 +410,8 @@ OPTIONS
             generation.
 
         --server-variables <server variables>
-            sets server variables overrides for spec documents which support
-            variable templating of servers.
+            sets server variables for spec documents which support variable
+            templating of servers.
 
         --skip-validate-spec
             Skips the default behavior of validating an input specification.
@@ -489,13 +459,13 @@ openapi-generator generate -g go --additional-properties=prependFormOrBodyParame
     -o out -i petstore.yaml
 ```
 
-Pass more options via comma delimited key/value pairs:
+To pass more than one generator property, these can be combined via comma:
 
 ```bash
 --additional-properties=key1=value1,key2=value2
 ```
 
-For the full list of generator-specific parameters, refer to [generators docs](./generators.md).
+For the full list of generator-specified parameters, refer to [generators docs](./generators.md).
 
 #### Type Mappings and Import Mappings
 
@@ -517,6 +487,8 @@ openapi-generator generate \
     --import-mappings=DateTime=java.time.LocalDateTime \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```
+
+<!-- TODO: Document all primitive types here -->
 
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
@@ -669,4 +641,3 @@ EOF
 # Generate them
 openapi-generator batch *.yaml
 ```
-

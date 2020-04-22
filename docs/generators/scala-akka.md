@@ -7,11 +7,9 @@ sidebar_label: scala-akka
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
-|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (prefered for JDK 1.8+)</dd></dl>|java8|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |mainPackage|Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage'| |org.openapitools.client|
 |modelPackage|package for generated models| |null|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -23,8 +21,9 @@ sidebar_label: scala-akka
 | ---------- | ------- |
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
+|BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
-|DateTime|org.joda.time.*|
+|DateTime|org.joda.time.DateTime|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
 |ListBuffer|scala.collection.mutable.ListBuffer|
@@ -48,8 +47,7 @@ sidebar_label: scala-akka
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Any</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Any</li>
 <li>Array</li>
 <li>Boolean</li>
 <li>Double</li>
@@ -66,8 +64,7 @@ sidebar_label: scala-akka
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>abstract</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
 <li>case</li>
 <li>catch</li>
 <li>class</li>
@@ -202,7 +199,7 @@ sidebar_label: scala-akka
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✓|OAS3
+|BearerToken|✗|OAS3
 |OAuth2_Implicit|✗|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3

@@ -60,7 +60,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
             } catch (Exception ignored) {
             }
         }
-        throw new TemplateNotFoundException(name);
+        throw new RuntimeException("couldnt find a subtemplate " + name);
     }
 
     public Mustache.Compiler getCompiler() {

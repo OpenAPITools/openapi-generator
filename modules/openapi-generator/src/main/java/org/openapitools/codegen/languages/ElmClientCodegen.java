@@ -61,7 +61,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public ElmClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(SecurityFeature.BearerToken))
@@ -80,7 +80,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-        );
+                .build();
 
         templateDir = "elm";
         apiPackage = "Api.Request";

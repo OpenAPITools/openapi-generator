@@ -1,53 +1,42 @@
-/**
- * The UserController file is a very simple one, which does not need to be changed manually,
- * unless there's a case where business logic reoutes the request to an entity which is not
- * the service.
- * The heavy lifting of the Controller item is done in Request.js - that is where request
- * parameters are extracted and sent to the service, and where response is handled.
- */
-
 const Controller = require('./Controller');
-const service = require('../services/UserService');
-const createUser = async (request, response) => {
-  await Controller.handleRequest(request, response, service.createUser);
-};
 
-const createUsersWithArrayInput = async (request, response) => {
-  await Controller.handleRequest(request, response, service.createUsersWithArrayInput);
-};
+class UserController {
+  constructor(Service) {
+    this.service = Service;
+  }
 
-const createUsersWithListInput = async (request, response) => {
-  await Controller.handleRequest(request, response, service.createUsersWithListInput);
-};
+  async createUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.createUser);
+  }
 
-const deleteUser = async (request, response) => {
-  await Controller.handleRequest(request, response, service.deleteUser);
-};
+  async createUsersWithArrayInput(request, response) {
+    await Controller.handleRequest(request, response, this.service.createUsersWithArrayInput);
+  }
 
-const getUserByName = async (request, response) => {
-  await Controller.handleRequest(request, response, service.getUserByName);
-};
+  async createUsersWithListInput(request, response) {
+    await Controller.handleRequest(request, response, this.service.createUsersWithListInput);
+  }
 
-const loginUser = async (request, response) => {
-  await Controller.handleRequest(request, response, service.loginUser);
-};
+  async deleteUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.deleteUser);
+  }
 
-const logoutUser = async (request, response) => {
-  await Controller.handleRequest(request, response, service.logoutUser);
-};
+  async getUserByName(request, response) {
+    await Controller.handleRequest(request, response, this.service.getUserByName);
+  }
 
-const updateUser = async (request, response) => {
-  await Controller.handleRequest(request, response, service.updateUser);
-};
+  async loginUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.loginUser);
+  }
 
+  async logoutUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.logoutUser);
+  }
 
-module.exports = {
-  createUser,
-  createUsersWithArrayInput,
-  createUsersWithListInput,
-  deleteUser,
-  getUserByName,
-  loginUser,
-  logoutUser,
-  updateUser,
-};
+  async updateUser(request, response) {
+    await Controller.handleRequest(request, response, this.service.updateUser);
+  }
+
+}
+
+module.exports = UserController;

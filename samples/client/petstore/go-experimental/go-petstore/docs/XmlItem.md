@@ -36,23 +36,6 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewXmlItem
-
-`func NewXmlItem() *XmlItem`
-
-NewXmlItem instantiates a new XmlItem object
-This constructor will assign default values to properties that have it defined,
-and makes sure properties required by API are set, but the set of arguments
-will change when the set of required properties is changed
-
-### NewXmlItemWithDefaults
-
-`func NewXmlItemWithDefaults() *XmlItem`
-
-NewXmlItemWithDefaults instantiates a new XmlItem object
-This constructor will only assign default values to properties that have it defined,
-but it doesn't guarantee that properties required by API are set
-
 ### GetAttributeString
 
 `func (o *XmlItem) GetAttributeString() string`
@@ -61,22 +44,22 @@ GetAttributeString returns the AttributeString field if non-nil, zero value othe
 
 ### GetAttributeStringOk
 
-`func (o *XmlItem) GetAttributeStringOk() (*string, bool)`
+`func (o *XmlItem) GetAttributeStringOk() (string, bool)`
 
 GetAttributeStringOk returns a tuple with the AttributeString field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetAttributeString
-
-`func (o *XmlItem) SetAttributeString(v string)`
-
-SetAttributeString sets AttributeString field to given value.
 
 ### HasAttributeString
 
 `func (o *XmlItem) HasAttributeString() bool`
 
 HasAttributeString returns a boolean if a field has been set.
+
+### SetAttributeString
+
+`func (o *XmlItem) SetAttributeString(v string)`
+
+SetAttributeString gets a reference to the given string and assigns it to the AttributeString field.
 
 ### GetAttributeNumber
 
@@ -86,22 +69,22 @@ GetAttributeNumber returns the AttributeNumber field if non-nil, zero value othe
 
 ### GetAttributeNumberOk
 
-`func (o *XmlItem) GetAttributeNumberOk() (*float32, bool)`
+`func (o *XmlItem) GetAttributeNumberOk() (float32, bool)`
 
 GetAttributeNumberOk returns a tuple with the AttributeNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetAttributeNumber
-
-`func (o *XmlItem) SetAttributeNumber(v float32)`
-
-SetAttributeNumber sets AttributeNumber field to given value.
 
 ### HasAttributeNumber
 
 `func (o *XmlItem) HasAttributeNumber() bool`
 
 HasAttributeNumber returns a boolean if a field has been set.
+
+### SetAttributeNumber
+
+`func (o *XmlItem) SetAttributeNumber(v float32)`
+
+SetAttributeNumber gets a reference to the given float32 and assigns it to the AttributeNumber field.
 
 ### GetAttributeInteger
 
@@ -111,22 +94,22 @@ GetAttributeInteger returns the AttributeInteger field if non-nil, zero value ot
 
 ### GetAttributeIntegerOk
 
-`func (o *XmlItem) GetAttributeIntegerOk() (*int32, bool)`
+`func (o *XmlItem) GetAttributeIntegerOk() (int32, bool)`
 
 GetAttributeIntegerOk returns a tuple with the AttributeInteger field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetAttributeInteger
-
-`func (o *XmlItem) SetAttributeInteger(v int32)`
-
-SetAttributeInteger sets AttributeInteger field to given value.
 
 ### HasAttributeInteger
 
 `func (o *XmlItem) HasAttributeInteger() bool`
 
 HasAttributeInteger returns a boolean if a field has been set.
+
+### SetAttributeInteger
+
+`func (o *XmlItem) SetAttributeInteger(v int32)`
+
+SetAttributeInteger gets a reference to the given int32 and assigns it to the AttributeInteger field.
 
 ### GetAttributeBoolean
 
@@ -136,22 +119,22 @@ GetAttributeBoolean returns the AttributeBoolean field if non-nil, zero value ot
 
 ### GetAttributeBooleanOk
 
-`func (o *XmlItem) GetAttributeBooleanOk() (*bool, bool)`
+`func (o *XmlItem) GetAttributeBooleanOk() (bool, bool)`
 
 GetAttributeBooleanOk returns a tuple with the AttributeBoolean field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetAttributeBoolean
-
-`func (o *XmlItem) SetAttributeBoolean(v bool)`
-
-SetAttributeBoolean sets AttributeBoolean field to given value.
 
 ### HasAttributeBoolean
 
 `func (o *XmlItem) HasAttributeBoolean() bool`
 
 HasAttributeBoolean returns a boolean if a field has been set.
+
+### SetAttributeBoolean
+
+`func (o *XmlItem) SetAttributeBoolean(v bool)`
+
+SetAttributeBoolean gets a reference to the given bool and assigns it to the AttributeBoolean field.
 
 ### GetWrappedArray
 
@@ -161,22 +144,22 @@ GetWrappedArray returns the WrappedArray field if non-nil, zero value otherwise.
 
 ### GetWrappedArrayOk
 
-`func (o *XmlItem) GetWrappedArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetWrappedArrayOk() ([]int32, bool)`
 
 GetWrappedArrayOk returns a tuple with the WrappedArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetWrappedArray
-
-`func (o *XmlItem) SetWrappedArray(v []int32)`
-
-SetWrappedArray sets WrappedArray field to given value.
 
 ### HasWrappedArray
 
 `func (o *XmlItem) HasWrappedArray() bool`
 
 HasWrappedArray returns a boolean if a field has been set.
+
+### SetWrappedArray
+
+`func (o *XmlItem) SetWrappedArray(v []int32)`
+
+SetWrappedArray gets a reference to the given []int32 and assigns it to the WrappedArray field.
 
 ### GetNameString
 
@@ -186,22 +169,22 @@ GetNameString returns the NameString field if non-nil, zero value otherwise.
 
 ### GetNameStringOk
 
-`func (o *XmlItem) GetNameStringOk() (*string, bool)`
+`func (o *XmlItem) GetNameStringOk() (string, bool)`
 
 GetNameStringOk returns a tuple with the NameString field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNameString
-
-`func (o *XmlItem) SetNameString(v string)`
-
-SetNameString sets NameString field to given value.
 
 ### HasNameString
 
 `func (o *XmlItem) HasNameString() bool`
 
 HasNameString returns a boolean if a field has been set.
+
+### SetNameString
+
+`func (o *XmlItem) SetNameString(v string)`
+
+SetNameString gets a reference to the given string and assigns it to the NameString field.
 
 ### GetNameNumber
 
@@ -211,22 +194,22 @@ GetNameNumber returns the NameNumber field if non-nil, zero value otherwise.
 
 ### GetNameNumberOk
 
-`func (o *XmlItem) GetNameNumberOk() (*float32, bool)`
+`func (o *XmlItem) GetNameNumberOk() (float32, bool)`
 
 GetNameNumberOk returns a tuple with the NameNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNameNumber
-
-`func (o *XmlItem) SetNameNumber(v float32)`
-
-SetNameNumber sets NameNumber field to given value.
 
 ### HasNameNumber
 
 `func (o *XmlItem) HasNameNumber() bool`
 
 HasNameNumber returns a boolean if a field has been set.
+
+### SetNameNumber
+
+`func (o *XmlItem) SetNameNumber(v float32)`
+
+SetNameNumber gets a reference to the given float32 and assigns it to the NameNumber field.
 
 ### GetNameInteger
 
@@ -236,22 +219,22 @@ GetNameInteger returns the NameInteger field if non-nil, zero value otherwise.
 
 ### GetNameIntegerOk
 
-`func (o *XmlItem) GetNameIntegerOk() (*int32, bool)`
+`func (o *XmlItem) GetNameIntegerOk() (int32, bool)`
 
 GetNameIntegerOk returns a tuple with the NameInteger field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNameInteger
-
-`func (o *XmlItem) SetNameInteger(v int32)`
-
-SetNameInteger sets NameInteger field to given value.
 
 ### HasNameInteger
 
 `func (o *XmlItem) HasNameInteger() bool`
 
 HasNameInteger returns a boolean if a field has been set.
+
+### SetNameInteger
+
+`func (o *XmlItem) SetNameInteger(v int32)`
+
+SetNameInteger gets a reference to the given int32 and assigns it to the NameInteger field.
 
 ### GetNameBoolean
 
@@ -261,22 +244,22 @@ GetNameBoolean returns the NameBoolean field if non-nil, zero value otherwise.
 
 ### GetNameBooleanOk
 
-`func (o *XmlItem) GetNameBooleanOk() (*bool, bool)`
+`func (o *XmlItem) GetNameBooleanOk() (bool, bool)`
 
 GetNameBooleanOk returns a tuple with the NameBoolean field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNameBoolean
-
-`func (o *XmlItem) SetNameBoolean(v bool)`
-
-SetNameBoolean sets NameBoolean field to given value.
 
 ### HasNameBoolean
 
 `func (o *XmlItem) HasNameBoolean() bool`
 
 HasNameBoolean returns a boolean if a field has been set.
+
+### SetNameBoolean
+
+`func (o *XmlItem) SetNameBoolean(v bool)`
+
+SetNameBoolean gets a reference to the given bool and assigns it to the NameBoolean field.
 
 ### GetNameArray
 
@@ -286,22 +269,22 @@ GetNameArray returns the NameArray field if non-nil, zero value otherwise.
 
 ### GetNameArrayOk
 
-`func (o *XmlItem) GetNameArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetNameArrayOk() ([]int32, bool)`
 
 GetNameArrayOk returns a tuple with the NameArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNameArray
-
-`func (o *XmlItem) SetNameArray(v []int32)`
-
-SetNameArray sets NameArray field to given value.
 
 ### HasNameArray
 
 `func (o *XmlItem) HasNameArray() bool`
 
 HasNameArray returns a boolean if a field has been set.
+
+### SetNameArray
+
+`func (o *XmlItem) SetNameArray(v []int32)`
+
+SetNameArray gets a reference to the given []int32 and assigns it to the NameArray field.
 
 ### GetNameWrappedArray
 
@@ -311,22 +294,22 @@ GetNameWrappedArray returns the NameWrappedArray field if non-nil, zero value ot
 
 ### GetNameWrappedArrayOk
 
-`func (o *XmlItem) GetNameWrappedArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetNameWrappedArrayOk() ([]int32, bool)`
 
 GetNameWrappedArrayOk returns a tuple with the NameWrappedArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNameWrappedArray
-
-`func (o *XmlItem) SetNameWrappedArray(v []int32)`
-
-SetNameWrappedArray sets NameWrappedArray field to given value.
 
 ### HasNameWrappedArray
 
 `func (o *XmlItem) HasNameWrappedArray() bool`
 
 HasNameWrappedArray returns a boolean if a field has been set.
+
+### SetNameWrappedArray
+
+`func (o *XmlItem) SetNameWrappedArray(v []int32)`
+
+SetNameWrappedArray gets a reference to the given []int32 and assigns it to the NameWrappedArray field.
 
 ### GetPrefixString
 
@@ -336,22 +319,22 @@ GetPrefixString returns the PrefixString field if non-nil, zero value otherwise.
 
 ### GetPrefixStringOk
 
-`func (o *XmlItem) GetPrefixStringOk() (*string, bool)`
+`func (o *XmlItem) GetPrefixStringOk() (string, bool)`
 
 GetPrefixStringOk returns a tuple with the PrefixString field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixString
-
-`func (o *XmlItem) SetPrefixString(v string)`
-
-SetPrefixString sets PrefixString field to given value.
 
 ### HasPrefixString
 
 `func (o *XmlItem) HasPrefixString() bool`
 
 HasPrefixString returns a boolean if a field has been set.
+
+### SetPrefixString
+
+`func (o *XmlItem) SetPrefixString(v string)`
+
+SetPrefixString gets a reference to the given string and assigns it to the PrefixString field.
 
 ### GetPrefixNumber
 
@@ -361,22 +344,22 @@ GetPrefixNumber returns the PrefixNumber field if non-nil, zero value otherwise.
 
 ### GetPrefixNumberOk
 
-`func (o *XmlItem) GetPrefixNumberOk() (*float32, bool)`
+`func (o *XmlItem) GetPrefixNumberOk() (float32, bool)`
 
 GetPrefixNumberOk returns a tuple with the PrefixNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixNumber
-
-`func (o *XmlItem) SetPrefixNumber(v float32)`
-
-SetPrefixNumber sets PrefixNumber field to given value.
 
 ### HasPrefixNumber
 
 `func (o *XmlItem) HasPrefixNumber() bool`
 
 HasPrefixNumber returns a boolean if a field has been set.
+
+### SetPrefixNumber
+
+`func (o *XmlItem) SetPrefixNumber(v float32)`
+
+SetPrefixNumber gets a reference to the given float32 and assigns it to the PrefixNumber field.
 
 ### GetPrefixInteger
 
@@ -386,22 +369,22 @@ GetPrefixInteger returns the PrefixInteger field if non-nil, zero value otherwis
 
 ### GetPrefixIntegerOk
 
-`func (o *XmlItem) GetPrefixIntegerOk() (*int32, bool)`
+`func (o *XmlItem) GetPrefixIntegerOk() (int32, bool)`
 
 GetPrefixIntegerOk returns a tuple with the PrefixInteger field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixInteger
-
-`func (o *XmlItem) SetPrefixInteger(v int32)`
-
-SetPrefixInteger sets PrefixInteger field to given value.
 
 ### HasPrefixInteger
 
 `func (o *XmlItem) HasPrefixInteger() bool`
 
 HasPrefixInteger returns a boolean if a field has been set.
+
+### SetPrefixInteger
+
+`func (o *XmlItem) SetPrefixInteger(v int32)`
+
+SetPrefixInteger gets a reference to the given int32 and assigns it to the PrefixInteger field.
 
 ### GetPrefixBoolean
 
@@ -411,22 +394,22 @@ GetPrefixBoolean returns the PrefixBoolean field if non-nil, zero value otherwis
 
 ### GetPrefixBooleanOk
 
-`func (o *XmlItem) GetPrefixBooleanOk() (*bool, bool)`
+`func (o *XmlItem) GetPrefixBooleanOk() (bool, bool)`
 
 GetPrefixBooleanOk returns a tuple with the PrefixBoolean field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixBoolean
-
-`func (o *XmlItem) SetPrefixBoolean(v bool)`
-
-SetPrefixBoolean sets PrefixBoolean field to given value.
 
 ### HasPrefixBoolean
 
 `func (o *XmlItem) HasPrefixBoolean() bool`
 
 HasPrefixBoolean returns a boolean if a field has been set.
+
+### SetPrefixBoolean
+
+`func (o *XmlItem) SetPrefixBoolean(v bool)`
+
+SetPrefixBoolean gets a reference to the given bool and assigns it to the PrefixBoolean field.
 
 ### GetPrefixArray
 
@@ -436,22 +419,22 @@ GetPrefixArray returns the PrefixArray field if non-nil, zero value otherwise.
 
 ### GetPrefixArrayOk
 
-`func (o *XmlItem) GetPrefixArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetPrefixArrayOk() ([]int32, bool)`
 
 GetPrefixArrayOk returns a tuple with the PrefixArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixArray
-
-`func (o *XmlItem) SetPrefixArray(v []int32)`
-
-SetPrefixArray sets PrefixArray field to given value.
 
 ### HasPrefixArray
 
 `func (o *XmlItem) HasPrefixArray() bool`
 
 HasPrefixArray returns a boolean if a field has been set.
+
+### SetPrefixArray
+
+`func (o *XmlItem) SetPrefixArray(v []int32)`
+
+SetPrefixArray gets a reference to the given []int32 and assigns it to the PrefixArray field.
 
 ### GetPrefixWrappedArray
 
@@ -461,22 +444,22 @@ GetPrefixWrappedArray returns the PrefixWrappedArray field if non-nil, zero valu
 
 ### GetPrefixWrappedArrayOk
 
-`func (o *XmlItem) GetPrefixWrappedArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetPrefixWrappedArrayOk() ([]int32, bool)`
 
 GetPrefixWrappedArrayOk returns a tuple with the PrefixWrappedArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixWrappedArray
-
-`func (o *XmlItem) SetPrefixWrappedArray(v []int32)`
-
-SetPrefixWrappedArray sets PrefixWrappedArray field to given value.
 
 ### HasPrefixWrappedArray
 
 `func (o *XmlItem) HasPrefixWrappedArray() bool`
 
 HasPrefixWrappedArray returns a boolean if a field has been set.
+
+### SetPrefixWrappedArray
+
+`func (o *XmlItem) SetPrefixWrappedArray(v []int32)`
+
+SetPrefixWrappedArray gets a reference to the given []int32 and assigns it to the PrefixWrappedArray field.
 
 ### GetNamespaceString
 
@@ -486,22 +469,22 @@ GetNamespaceString returns the NamespaceString field if non-nil, zero value othe
 
 ### GetNamespaceStringOk
 
-`func (o *XmlItem) GetNamespaceStringOk() (*string, bool)`
+`func (o *XmlItem) GetNamespaceStringOk() (string, bool)`
 
 GetNamespaceStringOk returns a tuple with the NamespaceString field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNamespaceString
-
-`func (o *XmlItem) SetNamespaceString(v string)`
-
-SetNamespaceString sets NamespaceString field to given value.
 
 ### HasNamespaceString
 
 `func (o *XmlItem) HasNamespaceString() bool`
 
 HasNamespaceString returns a boolean if a field has been set.
+
+### SetNamespaceString
+
+`func (o *XmlItem) SetNamespaceString(v string)`
+
+SetNamespaceString gets a reference to the given string and assigns it to the NamespaceString field.
 
 ### GetNamespaceNumber
 
@@ -511,22 +494,22 @@ GetNamespaceNumber returns the NamespaceNumber field if non-nil, zero value othe
 
 ### GetNamespaceNumberOk
 
-`func (o *XmlItem) GetNamespaceNumberOk() (*float32, bool)`
+`func (o *XmlItem) GetNamespaceNumberOk() (float32, bool)`
 
 GetNamespaceNumberOk returns a tuple with the NamespaceNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNamespaceNumber
-
-`func (o *XmlItem) SetNamespaceNumber(v float32)`
-
-SetNamespaceNumber sets NamespaceNumber field to given value.
 
 ### HasNamespaceNumber
 
 `func (o *XmlItem) HasNamespaceNumber() bool`
 
 HasNamespaceNumber returns a boolean if a field has been set.
+
+### SetNamespaceNumber
+
+`func (o *XmlItem) SetNamespaceNumber(v float32)`
+
+SetNamespaceNumber gets a reference to the given float32 and assigns it to the NamespaceNumber field.
 
 ### GetNamespaceInteger
 
@@ -536,22 +519,22 @@ GetNamespaceInteger returns the NamespaceInteger field if non-nil, zero value ot
 
 ### GetNamespaceIntegerOk
 
-`func (o *XmlItem) GetNamespaceIntegerOk() (*int32, bool)`
+`func (o *XmlItem) GetNamespaceIntegerOk() (int32, bool)`
 
 GetNamespaceIntegerOk returns a tuple with the NamespaceInteger field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNamespaceInteger
-
-`func (o *XmlItem) SetNamespaceInteger(v int32)`
-
-SetNamespaceInteger sets NamespaceInteger field to given value.
 
 ### HasNamespaceInteger
 
 `func (o *XmlItem) HasNamespaceInteger() bool`
 
 HasNamespaceInteger returns a boolean if a field has been set.
+
+### SetNamespaceInteger
+
+`func (o *XmlItem) SetNamespaceInteger(v int32)`
+
+SetNamespaceInteger gets a reference to the given int32 and assigns it to the NamespaceInteger field.
 
 ### GetNamespaceBoolean
 
@@ -561,22 +544,22 @@ GetNamespaceBoolean returns the NamespaceBoolean field if non-nil, zero value ot
 
 ### GetNamespaceBooleanOk
 
-`func (o *XmlItem) GetNamespaceBooleanOk() (*bool, bool)`
+`func (o *XmlItem) GetNamespaceBooleanOk() (bool, bool)`
 
 GetNamespaceBooleanOk returns a tuple with the NamespaceBoolean field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNamespaceBoolean
-
-`func (o *XmlItem) SetNamespaceBoolean(v bool)`
-
-SetNamespaceBoolean sets NamespaceBoolean field to given value.
 
 ### HasNamespaceBoolean
 
 `func (o *XmlItem) HasNamespaceBoolean() bool`
 
 HasNamespaceBoolean returns a boolean if a field has been set.
+
+### SetNamespaceBoolean
+
+`func (o *XmlItem) SetNamespaceBoolean(v bool)`
+
+SetNamespaceBoolean gets a reference to the given bool and assigns it to the NamespaceBoolean field.
 
 ### GetNamespaceArray
 
@@ -586,22 +569,22 @@ GetNamespaceArray returns the NamespaceArray field if non-nil, zero value otherw
 
 ### GetNamespaceArrayOk
 
-`func (o *XmlItem) GetNamespaceArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetNamespaceArrayOk() ([]int32, bool)`
 
 GetNamespaceArrayOk returns a tuple with the NamespaceArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNamespaceArray
-
-`func (o *XmlItem) SetNamespaceArray(v []int32)`
-
-SetNamespaceArray sets NamespaceArray field to given value.
 
 ### HasNamespaceArray
 
 `func (o *XmlItem) HasNamespaceArray() bool`
 
 HasNamespaceArray returns a boolean if a field has been set.
+
+### SetNamespaceArray
+
+`func (o *XmlItem) SetNamespaceArray(v []int32)`
+
+SetNamespaceArray gets a reference to the given []int32 and assigns it to the NamespaceArray field.
 
 ### GetNamespaceWrappedArray
 
@@ -611,22 +594,22 @@ GetNamespaceWrappedArray returns the NamespaceWrappedArray field if non-nil, zer
 
 ### GetNamespaceWrappedArrayOk
 
-`func (o *XmlItem) GetNamespaceWrappedArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetNamespaceWrappedArrayOk() ([]int32, bool)`
 
 GetNamespaceWrappedArrayOk returns a tuple with the NamespaceWrappedArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetNamespaceWrappedArray
-
-`func (o *XmlItem) SetNamespaceWrappedArray(v []int32)`
-
-SetNamespaceWrappedArray sets NamespaceWrappedArray field to given value.
 
 ### HasNamespaceWrappedArray
 
 `func (o *XmlItem) HasNamespaceWrappedArray() bool`
 
 HasNamespaceWrappedArray returns a boolean if a field has been set.
+
+### SetNamespaceWrappedArray
+
+`func (o *XmlItem) SetNamespaceWrappedArray(v []int32)`
+
+SetNamespaceWrappedArray gets a reference to the given []int32 and assigns it to the NamespaceWrappedArray field.
 
 ### GetPrefixNsString
 
@@ -636,22 +619,22 @@ GetPrefixNsString returns the PrefixNsString field if non-nil, zero value otherw
 
 ### GetPrefixNsStringOk
 
-`func (o *XmlItem) GetPrefixNsStringOk() (*string, bool)`
+`func (o *XmlItem) GetPrefixNsStringOk() (string, bool)`
 
 GetPrefixNsStringOk returns a tuple with the PrefixNsString field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixNsString
-
-`func (o *XmlItem) SetPrefixNsString(v string)`
-
-SetPrefixNsString sets PrefixNsString field to given value.
 
 ### HasPrefixNsString
 
 `func (o *XmlItem) HasPrefixNsString() bool`
 
 HasPrefixNsString returns a boolean if a field has been set.
+
+### SetPrefixNsString
+
+`func (o *XmlItem) SetPrefixNsString(v string)`
+
+SetPrefixNsString gets a reference to the given string and assigns it to the PrefixNsString field.
 
 ### GetPrefixNsNumber
 
@@ -661,22 +644,22 @@ GetPrefixNsNumber returns the PrefixNsNumber field if non-nil, zero value otherw
 
 ### GetPrefixNsNumberOk
 
-`func (o *XmlItem) GetPrefixNsNumberOk() (*float32, bool)`
+`func (o *XmlItem) GetPrefixNsNumberOk() (float32, bool)`
 
 GetPrefixNsNumberOk returns a tuple with the PrefixNsNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixNsNumber
-
-`func (o *XmlItem) SetPrefixNsNumber(v float32)`
-
-SetPrefixNsNumber sets PrefixNsNumber field to given value.
 
 ### HasPrefixNsNumber
 
 `func (o *XmlItem) HasPrefixNsNumber() bool`
 
 HasPrefixNsNumber returns a boolean if a field has been set.
+
+### SetPrefixNsNumber
+
+`func (o *XmlItem) SetPrefixNsNumber(v float32)`
+
+SetPrefixNsNumber gets a reference to the given float32 and assigns it to the PrefixNsNumber field.
 
 ### GetPrefixNsInteger
 
@@ -686,22 +669,22 @@ GetPrefixNsInteger returns the PrefixNsInteger field if non-nil, zero value othe
 
 ### GetPrefixNsIntegerOk
 
-`func (o *XmlItem) GetPrefixNsIntegerOk() (*int32, bool)`
+`func (o *XmlItem) GetPrefixNsIntegerOk() (int32, bool)`
 
 GetPrefixNsIntegerOk returns a tuple with the PrefixNsInteger field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixNsInteger
-
-`func (o *XmlItem) SetPrefixNsInteger(v int32)`
-
-SetPrefixNsInteger sets PrefixNsInteger field to given value.
 
 ### HasPrefixNsInteger
 
 `func (o *XmlItem) HasPrefixNsInteger() bool`
 
 HasPrefixNsInteger returns a boolean if a field has been set.
+
+### SetPrefixNsInteger
+
+`func (o *XmlItem) SetPrefixNsInteger(v int32)`
+
+SetPrefixNsInteger gets a reference to the given int32 and assigns it to the PrefixNsInteger field.
 
 ### GetPrefixNsBoolean
 
@@ -711,22 +694,22 @@ GetPrefixNsBoolean returns the PrefixNsBoolean field if non-nil, zero value othe
 
 ### GetPrefixNsBooleanOk
 
-`func (o *XmlItem) GetPrefixNsBooleanOk() (*bool, bool)`
+`func (o *XmlItem) GetPrefixNsBooleanOk() (bool, bool)`
 
 GetPrefixNsBooleanOk returns a tuple with the PrefixNsBoolean field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixNsBoolean
-
-`func (o *XmlItem) SetPrefixNsBoolean(v bool)`
-
-SetPrefixNsBoolean sets PrefixNsBoolean field to given value.
 
 ### HasPrefixNsBoolean
 
 `func (o *XmlItem) HasPrefixNsBoolean() bool`
 
 HasPrefixNsBoolean returns a boolean if a field has been set.
+
+### SetPrefixNsBoolean
+
+`func (o *XmlItem) SetPrefixNsBoolean(v bool)`
+
+SetPrefixNsBoolean gets a reference to the given bool and assigns it to the PrefixNsBoolean field.
 
 ### GetPrefixNsArray
 
@@ -736,22 +719,22 @@ GetPrefixNsArray returns the PrefixNsArray field if non-nil, zero value otherwis
 
 ### GetPrefixNsArrayOk
 
-`func (o *XmlItem) GetPrefixNsArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetPrefixNsArrayOk() ([]int32, bool)`
 
 GetPrefixNsArrayOk returns a tuple with the PrefixNsArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixNsArray
-
-`func (o *XmlItem) SetPrefixNsArray(v []int32)`
-
-SetPrefixNsArray sets PrefixNsArray field to given value.
 
 ### HasPrefixNsArray
 
 `func (o *XmlItem) HasPrefixNsArray() bool`
 
 HasPrefixNsArray returns a boolean if a field has been set.
+
+### SetPrefixNsArray
+
+`func (o *XmlItem) SetPrefixNsArray(v []int32)`
+
+SetPrefixNsArray gets a reference to the given []int32 and assigns it to the PrefixNsArray field.
 
 ### GetPrefixNsWrappedArray
 
@@ -761,22 +744,22 @@ GetPrefixNsWrappedArray returns the PrefixNsWrappedArray field if non-nil, zero 
 
 ### GetPrefixNsWrappedArrayOk
 
-`func (o *XmlItem) GetPrefixNsWrappedArrayOk() (*[]int32, bool)`
+`func (o *XmlItem) GetPrefixNsWrappedArrayOk() ([]int32, bool)`
 
 GetPrefixNsWrappedArrayOk returns a tuple with the PrefixNsWrappedArray field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### SetPrefixNsWrappedArray
-
-`func (o *XmlItem) SetPrefixNsWrappedArray(v []int32)`
-
-SetPrefixNsWrappedArray sets PrefixNsWrappedArray field to given value.
 
 ### HasPrefixNsWrappedArray
 
 `func (o *XmlItem) HasPrefixNsWrappedArray() bool`
 
 HasPrefixNsWrappedArray returns a boolean if a field has been set.
+
+### SetPrefixNsWrappedArray
+
+`func (o *XmlItem) SetPrefixNsWrappedArray(v []int32)`
+
+SetPrefixNsWrappedArray gets a reference to the given []int32 and assigns it to the PrefixNsWrappedArray field.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

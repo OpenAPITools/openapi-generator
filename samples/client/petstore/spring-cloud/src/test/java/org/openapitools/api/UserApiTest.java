@@ -28,7 +28,7 @@ public class UserApiTest {
         client.createUser(user).execute();
 
         User fetched = client.getUserByName(user.getUsername()).execute().getBody();
-        assertEquals(user.getUsername(), fetched.getUsername());
+        assertEquals(user.getId(), fetched.getId());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class UserApiTest {
         client.createUser(user).execute();
 
         String token = client.loginUser(user.getUsername(), user.getPassword()).execute().getBody();
-        assertTrue(token.contains("logged in user session:"));
+        assertTrue(token.startsWith("logged in user session:"));
     }
 
     @Test

@@ -32,8 +32,6 @@ public class ScalaAkkaClientOptionsProvider implements OptionsProvider {
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String MAIN_PACKAGE_VALUE = "net.test";
-    public static final String MODEL_PROPERTY_NAMING = "camelCase";
-    public static final String DATE_LIBRARY = "joda";
 
 
     @Override
@@ -53,8 +51,6 @@ public class ScalaAkkaClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put("mainPackage", MAIN_PACKAGE_VALUE)
-                .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING)
-                .put("dateLibrary", DATE_LIBRARY)
                 .build();
     }
 

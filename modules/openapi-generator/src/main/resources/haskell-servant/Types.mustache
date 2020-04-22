@@ -34,7 +34,7 @@ import Data.Function ((&))
 {{#model}}
 
 -- | {{description}}
-{{^vendorExtensions.x-custom-newtype}}
+{{^vendorExtensions.x-customNewtype}}
 {{^parent}}
 {{vendorExtensions.x-data}} {{classname}} = {{classname}}
   { {{#vars}}{{& name}} :: {{^required}}Maybe {{/required}}{{dataType}} -- ^ {{& description}}{{#hasMore}}
@@ -57,10 +57,10 @@ instance ToSchema {{classname}} where
 newtype {{classname}} = {{classname}} { un{{classname}} :: {{parent}} }
   deriving (Show, Eq, FromJSON, ToJSON, Generic, Data)
 {{/parent}}
-{{/vendorExtensions.x-custom-newtype}}
-{{#vendorExtensions.x-custom-newtype}}
-newtype {{classname}} = {{classname}} {{vendorExtensions.x-custom-newtype}} deriving (Show, Eq, FromJSON, ToJSON, Generic)
-{{/vendorExtensions.x-custom-newtype}}
+{{/vendorExtensions.x-customNewtype}}
+{{#vendorExtensions.x-customNewtype}}
+newtype {{classname}} = {{classname}} {{vendorExtensions.x-customNewtype}} deriving (Show, Eq, FromJSON, ToJSON, Generic)
+{{/vendorExtensions.x-customNewtype}}
 {{/model}}
 {{/models}}
 

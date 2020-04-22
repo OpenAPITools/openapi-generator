@@ -15,7 +15,6 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
-import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -84,9 +83,9 @@ class Child(ModelComposed):
                 and the value is attribute type.
         """
         return {
-            'inter_net': (bool,),  # noqa: E501
             'radio_waves': (bool,),  # noqa: E501
             'tele_vision': (bool,),  # noqa: E501
+            'inter_net': (bool,),  # noqa: E501
         }
 
     @staticmethod
@@ -94,9 +93,9 @@ class Child(ModelComposed):
         return None
 
     attribute_map = {
-        'inter_net': 'interNet',  # noqa: E501
         'radio_waves': 'radioWaves',  # noqa: E501
         'tele_vision': 'teleVision',  # noqa: E501
+        'inter_net': 'interNet',  # noqa: E501
     }
 
     required_properties = set([
@@ -113,6 +112,7 @@ class Child(ModelComposed):
     def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """child.Child - a model defined in OpenAPI
 
+
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
@@ -127,9 +127,9 @@ class Child(ModelComposed):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            inter_net (bool): [optional]  # noqa: E501
             radio_waves (bool): [optional]  # noqa: E501
             tele_vision (bool): [optional]  # noqa: E501
+            inter_net (bool): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -144,32 +144,16 @@ class Child(ModelComposed):
             '_from_server': _from_server,
             '_configuration': _configuration,
         }
-        required_args = {
+        model_args = {
         }
-        # remove args whose value is Null because they are unset
-        required_arg_names = list(required_args.keys())
-        for required_arg_name in required_arg_names:
-            if required_args[required_arg_name] is nulltype.Null:
-                del required_args[required_arg_name]
-        model_args = {}
-        model_args.update(required_args)
         model_args.update(kwargs)
         composed_info = validate_get_composed_info(
             constant_args, model_args, self)
         self._composed_instances = composed_info[0]
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
-        unused_args = composed_info[3]
 
-        for var_name, var_value in required_args.items():
-            setattr(self, var_name, var_value)
         for var_name, var_value in six.iteritems(kwargs):
-            if var_name in unused_args and \
-                        self._configuration is not None and \
-                        self._configuration.discard_unknown_keys and \
-                        not self._additional_properties_model_instances:
-                # discard variable.
-                continue
             setattr(self, var_name, var_value)
 
     @staticmethod

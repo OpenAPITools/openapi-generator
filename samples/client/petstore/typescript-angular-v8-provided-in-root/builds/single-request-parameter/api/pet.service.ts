@@ -25,51 +25,39 @@ import { Configuration }                                     from '../configurat
 
 
 export interface AddPetRequestParams {
-    /** Pet object that needs to be added to the store */
     body: Pet;
 }
 
 export interface DeletePetRequestParams {
-    /** Pet id to delete */
     petId: number;
     apiKey?: string;
 }
 
 export interface FindPetsByStatusRequestParams {
-    /** Status values that need to be considered for filter */
     status: Array<'available' | 'pending' | 'sold'>;
 }
 
 export interface FindPetsByTagsRequestParams {
-    /** Tags to filter by */
     tags: Array<string>;
 }
 
 export interface GetPetByIdRequestParams {
-    /** ID of pet to return */
     petId: number;
 }
 
 export interface UpdatePetRequestParams {
-    /** Pet object that needs to be added to the store */
     body: Pet;
 }
 
 export interface UpdatePetWithFormRequestParams {
-    /** ID of pet that needs to be updated */
     petId: number;
-    /** Updated name of the pet */
     name?: string;
-    /** Updated status of the pet */
     status?: string;
 }
 
 export interface UploadFileRequestParams {
-    /** ID of pet to update */
     petId: number;
-    /** Additional data to pass to server */
     additionalMetadata?: string;
-    /** file to upload */
     file?: Blob;
 }
 
@@ -113,7 +101,7 @@ export class PetService {
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
+        if (typeof value === "object") {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         } else {
             httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
@@ -414,11 +402,8 @@ export class PetService {
         let headers = this.defaultHeaders;
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys) {
-            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
-            if (key) {
-                headers = headers.set('api_key', key);
-            }
+        if (this.configuration.apiKeys && this.configuration.apiKeys["api_key"]) {
+            headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

@@ -36,6 +36,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
         outputFolder = "generated-code/typescript-aurelia";
         embeddedTemplateDir = templateDir = "typescript-aurelia";
+
     }
 
     @Override

@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
@@ -18,23 +19,6 @@ type ArrayTest struct {
 	ArrayOfString *[]string `json:"array_of_string,omitempty"`
 	ArrayArrayOfInteger *[][]int64 `json:"array_array_of_integer,omitempty"`
 	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
-}
-
-// NewArrayTest instantiates a new ArrayTest object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewArrayTest() *ArrayTest {
-	this := ArrayTest{}
-	return &this
-}
-
-// NewArrayTestWithDefaults instantiates a new ArrayTest object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewArrayTestWithDefaults() *ArrayTest {
-	this := ArrayTest{}
-	return &this
 }
 
 // GetArrayOfString returns the ArrayOfString field value if set, zero value otherwise.
@@ -46,13 +30,14 @@ func (o *ArrayTest) GetArrayOfString() []string {
 	return *o.ArrayOfString
 }
 
-// GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, nil otherwise
+// GetArrayOfStringOk returns a tuple with the ArrayOfString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayOfStringOk() (*[]string, bool) {
+func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
 	if o == nil || o.ArrayOfString == nil {
-		return nil, false
+		var ret []string
+		return ret, false
 	}
-	return o.ArrayOfString, true
+	return *o.ArrayOfString, true
 }
 
 // HasArrayOfString returns a boolean if a field has been set.
@@ -78,13 +63,14 @@ func (o *ArrayTest) GetArrayArrayOfInteger() [][]int64 {
 	return *o.ArrayArrayOfInteger
 }
 
-// GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, nil otherwise
+// GetArrayArrayOfIntegerOk returns a tuple with the ArrayArrayOfInteger field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayArrayOfIntegerOk() (*[][]int64, bool) {
+func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
 	if o == nil || o.ArrayArrayOfInteger == nil {
-		return nil, false
+		var ret [][]int64
+		return ret, false
 	}
-	return o.ArrayArrayOfInteger, true
+	return *o.ArrayArrayOfInteger, true
 }
 
 // HasArrayArrayOfInteger returns a boolean if a field has been set.
@@ -110,13 +96,14 @@ func (o *ArrayTest) GetArrayArrayOfModel() [][]ReadOnlyFirst {
 	return *o.ArrayArrayOfModel
 }
 
-// GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, nil otherwise
+// GetArrayArrayOfModelOk returns a tuple with the ArrayArrayOfModel field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayTest) GetArrayArrayOfModelOk() (*[][]ReadOnlyFirst, bool) {
+func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
 	if o == nil || o.ArrayArrayOfModel == nil {
-		return nil, false
+		var ret [][]ReadOnlyFirst
+		return ret, false
 	}
-	return o.ArrayArrayOfModel, true
+	return *o.ArrayArrayOfModel, true
 }
 
 // HasArrayArrayOfModel returns a boolean if a field has been set.
@@ -133,52 +120,25 @@ func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 	o.ArrayArrayOfModel = &v
 }
 
-func (o ArrayTest) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.ArrayOfString != nil {
-		toSerialize["array_of_string"] = o.ArrayOfString
-	}
-	if o.ArrayArrayOfInteger != nil {
-		toSerialize["array_array_of_integer"] = o.ArrayArrayOfInteger
-	}
-	if o.ArrayArrayOfModel != nil {
-		toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableArrayTest struct {
-	value *ArrayTest
-	isSet bool
-}
-
-func (v NullableArrayTest) Get() *ArrayTest {
-	return v.value
-}
-
-func (v *NullableArrayTest) Set(val *ArrayTest) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableArrayTest) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableArrayTest) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableArrayTest(val *ArrayTest) *NullableArrayTest {
-	return &NullableArrayTest{value: val, isSet: true}
+	Value ArrayTest
+	ExplicitNull bool
 }
 
 func (v NullableArrayTest) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableArrayTest) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

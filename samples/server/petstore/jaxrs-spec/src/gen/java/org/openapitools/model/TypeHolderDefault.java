@@ -33,25 +33,22 @@ public class TypeHolderDefault  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
   @NotNull
   public String getStringItem() {
     return stringItem;
   }
-
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
-  }/**
+  }
+
+  /**
    **/
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -60,17 +57,16 @@ public class TypeHolderDefault  implements Serializable {
   public BigDecimal getNumberItem() {
     return numberItem;
   }
-
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
-  }/**
+  }
+
+  /**
    **/
   public TypeHolderDefault integerItem(Integer integerItem) {
     this.integerItem = integerItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -79,17 +75,16 @@ public class TypeHolderDefault  implements Serializable {
   public Integer getIntegerItem() {
     return integerItem;
   }
-
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
-  }/**
+  }
+
+  /**
    **/
   public TypeHolderDefault boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -98,17 +93,16 @@ public class TypeHolderDefault  implements Serializable {
   public Boolean getBoolItem() {
     return boolItem;
   }
-
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
-  }/**
+  }
+
+  /**
    **/
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -117,10 +111,10 @@ public class TypeHolderDefault  implements Serializable {
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -167,7 +161,5 @@ public class TypeHolderDefault  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
 }
 

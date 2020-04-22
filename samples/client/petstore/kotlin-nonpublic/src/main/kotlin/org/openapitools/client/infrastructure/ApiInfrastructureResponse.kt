@@ -4,9 +4,7 @@ internal enum class ResponseType {
     Success, Informational, Redirection, ClientError, ServerError
 }
 
-internal interface Response
-
-internal abstract class ApiInfrastructureResponse<T>(val responseType: ResponseType): Response {
+internal abstract class ApiInfrastructureResponse<T>(val responseType: ResponseType) {
     abstract val statusCode: Int
     abstract val headers: Map<String,List<String>>
 }
@@ -29,7 +27,6 @@ internal class Redirection<T>(
 ) : ApiInfrastructureResponse<T>(ResponseType.Redirection)
 
 internal class ClientError<T>(
-    val message: String? = null,
     val body: Any? = null,
     override val statusCode: Int = -1,
     override val headers: Map<String, List<String>> = mapOf()

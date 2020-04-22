@@ -28,12 +28,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.junit.*;
 
@@ -45,16 +42,12 @@ import static org.junit.Assert.*;
 public class PetApiTest {
 
     private PetApi api = new PetApi();
-    private static final Logger LOG = LoggerFactory.getLogger(PetApiTest.class);
-    // In the circle.yml file, /etc/host is configured with an entry to resolve petstore.swagger.io to 127.0.0.1
-    private static String basePath = "http://petstore.swagger.io:80/v2";
 
     @Before
     public void setup() {
         // setup authentication
         ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
         apiKeyAuth.setApiKey("special-key");
-        api.getApiClient().setBasePath(basePath);
     }
 
     @Test
@@ -62,7 +55,7 @@ public class PetApiTest {
         // the default api client is used
         assertEquals(Configuration.getDefaultApiClient(), api.getApiClient());
         assertNotNull(api.getApiClient());
-        assertEquals(basePath, api.getApiClient().getBasePath());
+        assertEquals("http://petstore.swagger.io:80/v2", api.getApiClient().getBasePath());
         assertFalse(api.getApiClient().isDebugging());
 
         ApiClient oldClient = api.getApiClient();
@@ -81,7 +74,7 @@ public class PetApiTest {
         // set api client via setter method
         api.setApiClient(oldClient);
         assertNotNull(api.getApiClient());
-        assertEquals(basePath, api.getApiClient().getBasePath());
+        assertEquals("http://petstore.swagger.io:80/v2", api.getApiClient().getBasePath());
         assertFalse(api.getApiClient().isDebugging());
     }
 
@@ -92,7 +85,6 @@ public class PetApiTest {
 
         Pet fetched = api.getPetById(pet.getId());
         assertPetMatches(pet, fetched);
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -106,7 +98,6 @@ public class PetApiTest {
         Pet fetched = resp.getData();
 
         assertPetMatches(pet, fetched);
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -153,7 +144,6 @@ public class PetApiTest {
             }
         } while (result.isEmpty());
         assertPetMatches(pet, fetched);
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -207,7 +197,6 @@ public class PetApiTest {
         assertEquals(404, exception.getCode());
         assertEquals("Not Found", exception.getMessage());
         assertEquals("application/json", exception.getResponseHeaders().get("Content-Type").get(0));
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -266,31 +255,26 @@ public class PetApiTest {
         final ApiException exception = getCallback3.getException();
         assertNotNull(exception);
         assertEquals(404, exception.getCode());
-        api.deletePet(pet1.getId(), null);
-        api.deletePet(pet2.getId(), null);
     }
 
 
     @Test
     public void testUpdatePet() throws Exception {
         Pet pet = createPet();
-        api.addPet(pet);
         pet.setName("programmer");
 
         api.updatePet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
         assertPetMatches(pet, fetched);
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
     public void testFindPetsByStatus() throws Exception {
-        assertEquals(basePath, api.getApiClient().getBasePath());
         Pet pet = createPet();
-        api.addPet(pet);
         pet.setName("programmer");
         pet.setStatus(Pet.StatusEnum.PENDING);
+
         api.updatePet(pet);
 
         List<Pet> pets = api.findPetsByStatus(Arrays.asList("pending"));
@@ -351,7 +335,6 @@ public class PetApiTest {
         Pet updated = api.getPetById(fetched.getId());
 
         assertEquals(updated.getName(), "furt");
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -360,13 +343,12 @@ public class PetApiTest {
         api.addPet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
-        api.deletePet(pet.getId(), null);
+        api.deletePet(fetched.getId(), null);
 
         try {
             fetched = api.getPetById(fetched.getId());
             fail("expected an error");
         } catch (ApiException e) {
-            LOG.info("Code: {}. Message: {}", e.getCode(), e.getMessage());
             assertEquals(404, e.getCode());
         }
     }
@@ -382,7 +364,6 @@ public class PetApiTest {
         writer.close();
 
         api.uploadFile(pet.getId(), "a test file", new File(file.getAbsolutePath()));
-        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -415,7 +396,7 @@ public class PetApiTest {
 
     private Pet createPet() {
         Pet pet = new Pet();
-        pet.setId(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE));
+        pet.setId(1234567L);
         pet.setName("gorilla");
 
         Category category = new Category();

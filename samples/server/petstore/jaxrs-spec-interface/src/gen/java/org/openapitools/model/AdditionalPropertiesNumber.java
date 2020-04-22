@@ -29,17 +29,15 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
-
   public void setName(String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -79,7 +77,5 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
 }
 

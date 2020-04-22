@@ -11,34 +11,30 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
-#include "../include/binary.h"
-
-typedef struct user_t user_t;
-
 
 
 
 typedef struct user_t {
     long id; //numeric
     char *username; // string
-    char *first_name; // string
-    char *last_name; // string
+    char *firstName; // string
+    char *lastName; // string
     char *email; // string
     char *password; // string
     char *phone; // string
-    int user_status; //numeric
+    int userStatus; //numeric
 
 } user_t;
 
 user_t *user_create(
     long id,
     char *username,
-    char *first_name,
-    char *last_name,
+    char *firstName,
+    char *lastName,
     char *email,
     char *password,
     char *phone,
-    int user_status
+    int userStatus
 );
 
 void user_free(user_t *user);

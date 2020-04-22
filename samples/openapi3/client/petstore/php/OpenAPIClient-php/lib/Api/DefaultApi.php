@@ -300,7 +300,6 @@ class DefaultApi
 
 
 
-
         // body params
         $_tempBody = null;
 

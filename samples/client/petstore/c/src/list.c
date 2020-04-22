@@ -88,10 +88,8 @@ void list_iterateThroughListBackward(list_t *list,
 }
 
 void list_free(list_t *list) {
-    if(list){
-        list_iterateThroughListForward(list, listEntry_free, NULL);
-        free(list);
-    }
+    list_iterateThroughListForward(list, listEntry_free, NULL);
+    free(list);
 }
 
 void list_addElement(list_t *list, void *dataToAddInList) {

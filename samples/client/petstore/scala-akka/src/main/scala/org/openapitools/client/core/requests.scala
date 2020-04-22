@@ -78,8 +78,6 @@ sealed trait Credentials {
 
 sealed case class BasicCredentials(user: String, password: String) extends Credentials
 
-sealed case class BearerToken(token: String) extends Credentials
-
 sealed case class ApiKeyCredentials(key: ApiKeyValue, keyName: String, location: ApiKeyLocation) extends Credentials {
   override def asQueryParam: Option[(String, String)] = location match {
     case ApiKeyLocations.QUERY => Some((keyName, key.value))
@@ -96,8 +94,6 @@ object ApiKeyLocations {
   case object QUERY extends ApiKeyLocation
 
   case object HEADER extends ApiKeyLocation
-
-  case object COOKIE extends ApiKeyLocation
 
 }
 

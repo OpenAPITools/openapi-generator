@@ -37,7 +37,9 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
     public JavaResteasyServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         artifactId = "openapi-jaxrs-resteasy-server";
         outputFolder = "generated-code/JavaJaxRS-Resteasy";

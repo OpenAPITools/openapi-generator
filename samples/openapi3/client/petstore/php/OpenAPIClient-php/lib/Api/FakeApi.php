@@ -304,7 +304,6 @@ class FakeApi
 
 
 
-
         // body params
         $_tempBody = null;
 
@@ -556,7 +555,6 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
 
@@ -817,7 +815,6 @@ class FakeApi
 
 
 
-
         // body params
         $_tempBody = null;
         if (isset($outer_composite)) {
@@ -1072,7 +1069,6 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
 
@@ -1333,7 +1329,6 @@ class FakeApi
 
 
 
-
         // body params
         $_tempBody = null;
         if (isset($body)) {
@@ -1546,7 +1541,6 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
 
@@ -1776,16 +1770,8 @@ class FakeApi
 
         // query params
         if ($query !== null) {
-            if('form' === 'form' && is_array($query)) {
-                foreach($query as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['query'] = $query;
-            }
+            $queryParams['query'] = ObjectSerializer::toQueryValue($query);
         }
-
 
 
         // body params
@@ -2052,7 +2038,6 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
 
@@ -2405,7 +2390,6 @@ class FakeApi
 
 
 
-
         // form params
         if ($integer !== null) {
             $formParams['integer'] = ObjectSerializer::toFormValue($integer);
@@ -2711,50 +2695,24 @@ class FakeApi
         $multipart = false;
 
         // query params
+        if (is_array($enum_query_string_array)) {
+            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'multi', true);
+        }
         if ($enum_query_string_array !== null) {
-            if('form' === 'form' && is_array($enum_query_string_array)) {
-                foreach($enum_query_string_array as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['enum_query_string_array'] = $enum_query_string_array;
-            }
+            $queryParams['enum_query_string_array'] = ObjectSerializer::toQueryValue($enum_query_string_array);
         }
         // query params
         if ($enum_query_string !== null) {
-            if('form' === 'form' && is_array($enum_query_string)) {
-                foreach($enum_query_string as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['enum_query_string'] = $enum_query_string;
-            }
+            $queryParams['enum_query_string'] = ObjectSerializer::toQueryValue($enum_query_string);
         }
         // query params
         if ($enum_query_integer !== null) {
-            if('form' === 'form' && is_array($enum_query_integer)) {
-                foreach($enum_query_integer as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['enum_query_integer'] = $enum_query_integer;
-            }
+            $queryParams['enum_query_integer'] = ObjectSerializer::toQueryValue($enum_query_integer);
         }
         // query params
         if ($enum_query_double !== null) {
-            if('form' === 'form' && is_array($enum_query_double)) {
-                foreach($enum_query_double as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['enum_query_double'] = $enum_query_double;
-            }
+            $queryParams['enum_query_double'] = ObjectSerializer::toQueryValue($enum_query_double);
         }
-
         // header params
         if (is_array($enum_header_string_array)) {
             $enum_header_string_array = ObjectSerializer::serializeCollection($enum_header_string_array, 'csv');
@@ -3047,49 +3005,20 @@ class FakeApi
 
         // query params
         if ($required_string_group !== null) {
-            if('form' === 'form' && is_array($required_string_group)) {
-                foreach($required_string_group as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['required_string_group'] = $required_string_group;
-            }
+            $queryParams['required_string_group'] = ObjectSerializer::toQueryValue($required_string_group);
         }
         // query params
         if ($required_int64_group !== null) {
-            if('form' === 'form' && is_array($required_int64_group)) {
-                foreach($required_int64_group as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['required_int64_group'] = $required_int64_group;
-            }
+            $queryParams['required_int64_group'] = ObjectSerializer::toQueryValue($required_int64_group);
         }
         // query params
         if ($string_group !== null) {
-            if('form' === 'form' && is_array($string_group)) {
-                foreach($string_group as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['string_group'] = $string_group;
-            }
+            $queryParams['string_group'] = ObjectSerializer::toQueryValue($string_group);
         }
         // query params
         if ($int64_group !== null) {
-            if('form' === 'form' && is_array($int64_group)) {
-                foreach($int64_group as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['int64_group'] = $int64_group;
-            }
+            $queryParams['int64_group'] = ObjectSerializer::toQueryValue($int64_group);
         }
-
         // header params
         if ($required_boolean_group !== null) {
             $headerParams['required_boolean_group'] = ObjectSerializer::toHeaderValue($required_boolean_group);
@@ -3320,7 +3249,6 @@ class FakeApi
 
 
 
-
         // body params
         $_tempBody = null;
         if (isset($request_body)) {
@@ -3548,7 +3476,6 @@ class FakeApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
 
@@ -3815,49 +3742,40 @@ class FakeApi
         $multipart = false;
 
         // query params
+        if (is_array($pipe)) {
+            $pipe = ObjectSerializer::serializeCollection($pipe, 'multi', true);
+        }
         if ($pipe !== null) {
-            if('form' === 'form' && is_array($pipe)) {
-                foreach($pipe as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['pipe'] = $pipe;
-            }
+            $queryParams['pipe'] = ObjectSerializer::toQueryValue($pipe);
         }
         // query params
         if (is_array($ioutil)) {
-            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'form', true);
+            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'csv', true);
         }
         if ($ioutil !== null) {
-            $queryParams['ioutil'] = $ioutil;
+            $queryParams['ioutil'] = ObjectSerializer::toQueryValue($ioutil);
         }
         // query params
         if (is_array($http)) {
-            $http = ObjectSerializer::serializeCollection($http, 'spaceDelimited', true);
+            $http = ObjectSerializer::serializeCollection($http, 'space', true);
         }
         if ($http !== null) {
-            $queryParams['http'] = $http;
+            $queryParams['http'] = ObjectSerializer::toQueryValue($http);
         }
         // query params
         if (is_array($url)) {
-            $url = ObjectSerializer::serializeCollection($url, 'form', true);
+            $url = ObjectSerializer::serializeCollection($url, 'csv', true);
         }
         if ($url !== null) {
-            $queryParams['url'] = $url;
+            $queryParams['url'] = ObjectSerializer::toQueryValue($url);
         }
         // query params
-        if ($context !== null) {
-            if('form' === 'form' && is_array($context)) {
-                foreach($context as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['context'] = $context;
-            }
+        if (is_array($context)) {
+            $context = ObjectSerializer::serializeCollection($context, 'multi', true);
         }
-
+        if ($context !== null) {
+            $queryParams['context'] = ObjectSerializer::toQueryValue($context);
+        }
 
 
         // body params

@@ -80,6 +80,12 @@ extension URL: JSONEncodable {
     }
 }
 
+extension URL: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return self
+    }
+}
+
 extension UUID: JSONEncodable {
     func encodeToJSON() -> Any {
         return self.uuidString

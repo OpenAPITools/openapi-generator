@@ -68,13 +68,13 @@ import           Web.HttpApiData
 
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasFormParams}}
-data {{vendorExtensions.x-form-name}} = {{vendorExtensions.x-form-name}}
-  { {{#formParams}}{{vendorExtensions.x-form-prefix}}{{vendorExtensions.x-form-param-name}} :: {{dataType}}{{#hasMore}}
+data {{vendorExtensions.x-formName}} = {{vendorExtensions.x-formName}}
+  { {{#formParams}}{{vendorExtensions.x-formPrefix}}{{vendorExtensions.x-formParamName}} :: {{dataType}}{{#hasMore}}
   , {{/hasMore}}{{/formParams}}
   } deriving (Show, Eq, Generic, Data)
 
-instance FromForm {{vendorExtensions.x-form-name}}
-instance ToForm {{vendorExtensions.x-form-name}}
+instance FromForm {{vendorExtensions.x-formName}}
+instance ToForm {{vendorExtensions.x-formName}}
 {{/hasFormParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 -- | List of elements parsed from a query.
@@ -130,7 +130,7 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 {{#apiInfo}}
 -- | Servant type-level API, generated from the OpenAPI spec for {{title}}.
 type {{title}}API
-    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-route-type}} -- '{{operationId}}' route{{#hasMore}}
+    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-routeType}} -- '{{operationId}}' route{{#hasMore}}
     :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
     :<|> {{/hasMore}}{{/apis}}{{#serveStatic}}
     :<|> Raw {{/serveStatic}}
@@ -155,7 +155,7 @@ newtype {{title}}ClientError = {{title}}ClientError ClientError
 -- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
 -- a backend, the API can be served using @run{{title}}MiddlewareServer@.
 data {{title}}Backend m = {{title}}Backend
-  { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-client-type}}{- ^ {{& notes}} -}{{#hasMore}}
+  { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-clientType}}{- ^ {{& notes}} -}{{#hasMore}}
   , {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
   , {{/hasMore}}{{/apis}}
   }

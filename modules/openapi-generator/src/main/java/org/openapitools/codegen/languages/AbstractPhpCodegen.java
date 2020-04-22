@@ -31,7 +31,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -397,7 +396,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return toVarName(name);
     }
 
-    private String toGenericName(String name) {
+    @Override
+    public String toModelName(String name) {
         // remove [
         name = name.replaceAll("\\]", "");
 
@@ -418,13 +418,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
-
-        return name;
-    }
-
-    @Override
-    public String toModelName(String name) {
-        name = toGenericName(name);
 
         // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
@@ -653,7 +646,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toGenericName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
@@ -675,15 +668,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenOperation op : operationList) {
             // for API test method name
             // e.g. public function test{{vendorExtensions.x-testOperationId}}()
-            op.vendorExtensions.put("x-testOperationId", camelize(op.operationId)); // TODO: 5.0 Remove
-            op.vendorExtensions.put("x-test-operation-id", camelize(op.operationId));
+            op.vendorExtensions.put("x-testOperationId", camelize(op.operationId));
         }
         return objs;
     }

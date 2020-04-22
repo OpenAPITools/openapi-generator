@@ -75,7 +75,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     public JMeterClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
@@ -97,7 +97,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-        );
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code/JMeterClientCodegen";

@@ -34,7 +34,6 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
@@ -81,7 +80,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public HaskellServantCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -101,7 +100,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         // override the mapping to keep the original mapping in Haskell
         specialCharReplacements.put("-", "Dash");
@@ -507,9 +506,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, servers);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);
 
@@ -562,8 +558,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // store form parameter name in the vendor extensions
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formParamName", camelize(param.baseName)); // TODO: 5.0 Remove
-            param.vendorExtensions.put("x-form-param-name", camelize(param.baseName));
+            param.vendorExtensions.put("x-formParamName", camelize(param.baseName));
         }
 
         // Add the HTTP method and return type
@@ -577,15 +572,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         path.add("Verb '" + op.httpMethod.toUpperCase(Locale.ROOT) + " 200 '[JSON] " + returnType);
         type.add("m " + returnType);
 
-        op.vendorExtensions.put("x-routeType", joinStrings(" :> ", path)); // TODO: 5.0 Remove
-        op.vendorExtensions.put("x-route-type", joinStrings(" :> ", path));
-        op.vendorExtensions.put("x-clientType", joinStrings(" -> ", type)); // TODO: 5.0 Remove
-        op.vendorExtensions.put("x-client-type", joinStrings(" -> ", type));
-        op.vendorExtensions.put("x-formName", "Form" + camelize(op.operationId)); // TODO: 5.0 Remove
-        op.vendorExtensions.put("x-form-name", "Form" + camelize(op.operationId));
+        op.vendorExtensions.put("x-routeType", joinStrings(" :> ", path));
+        op.vendorExtensions.put("x-clientType", joinStrings(" -> ", type));
+        op.vendorExtensions.put("x-formName", "Form" + camelize(op.operationId));
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formPrefix", camelize(op.operationId, true)); // TODO: 5.0 Remove
-            param.vendorExtensions.put("x-form-prefix", camelize(op.operationId, true));
+            param.vendorExtensions.put("x-formPrefix", camelize(op.operationId, true));
         }
         return op;
     }
@@ -642,9 +633,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public CodegenModel fromModel(String name, Schema mod) {
         CodegenModel model = super.fromModel(name, mod);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         setGenerateToSchema(model);
 
         // Clean up the class name to remove invalid characters
@@ -663,9 +651,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         String dataOrNewtype = "data";
         if (!"object".equals(model.dataType) && typeMapping.containsKey(model.dataType)) {
             String newtype = typeMapping.get(model.dataType);
-            model.vendorExtensions.put("x-customNewtype", newtype); // TODO: 5.0 Remove
-            // note; newtype is a single lowercase word in Haskell (not separated by hyphen)
-            model.vendorExtensions.put("x-custom-newtype", newtype);
+            model.vendorExtensions.put("x-customNewtype", newtype);
         }
 
         // Provide the prefix as a vendor extension, so that it can be used in the ToJSON and FromJSON instances.

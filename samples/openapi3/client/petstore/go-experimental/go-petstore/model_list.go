@@ -10,29 +10,13 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
 // List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
-}
-
-// NewList instantiates a new List object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewList() *List {
-	this := List{}
-	return &this
-}
-
-// NewListWithDefaults instantiates a new List object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewListWithDefaults() *List {
-	this := List{}
-	return &this
 }
 
 // GetVar123List returns the Var123List field value if set, zero value otherwise.
@@ -44,13 +28,14 @@ func (o *List) GetVar123List() string {
 	return *o.Var123List
 }
 
-// GetVar123ListOk returns a tuple with the Var123List field value if set, nil otherwise
+// GetVar123ListOk returns a tuple with the Var123List field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *List) GetVar123ListOk() (*string, bool) {
+func (o *List) GetVar123ListOk() (string, bool) {
 	if o == nil || o.Var123List == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Var123List, true
+	return *o.Var123List, true
 }
 
 // HasVar123List returns a boolean if a field has been set.
@@ -67,46 +52,25 @@ func (o *List) SetVar123List(v string) {
 	o.Var123List = &v
 }
 
-func (o List) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Var123List != nil {
-		toSerialize["123-list"] = o.Var123List
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableList struct {
-	value *List
-	isSet bool
-}
-
-func (v NullableList) Get() *List {
-	return v.value
-}
-
-func (v *NullableList) Set(val *List) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableList) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableList) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableList(val *List) *NullableList {
-	return &NullableList{value: val, isSet: true}
+	Value List
+	ExplicitNull bool
 }
 
 func (v NullableList) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableList) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

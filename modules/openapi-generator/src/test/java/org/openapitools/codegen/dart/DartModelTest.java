@@ -293,7 +293,7 @@ public class DartModelTest {
         final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);
-        Assert.assertEquals(cm.classname, codegen.toModelName(expectedName));
+        Assert.assertEquals(cm.classname, expectedName);
     }
 
     @Test(description = "test enum variable names for reserved words")
@@ -309,7 +309,7 @@ public class DartModelTest {
     // datetime (or primitive type) not yet supported in HTTP request body
     @Test(description = "returns DateTime when using `--model-name-prefix`")
     public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new DartClientCodegen();
         codegen.setModelNamePrefix("foo");
         codegen.setOpenAPI(openAPI);

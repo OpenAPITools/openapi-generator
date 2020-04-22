@@ -223,7 +223,6 @@ pub enum XmlExtraPostResponse {
 pub enum XmlOtherPostResponse {
     /// OK
     OK
-    (models::AnotherXmlObject)
     ,
     /// Bad Request
     BadRequest
@@ -356,13 +355,13 @@ pub trait Api<C> {
 
     fn xml_other_put(
         &self,
-        another_xml_array: Option<models::AnotherXmlArray>,
+        string: Option<models::AnotherXmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>;
 
     /// Post an array
     fn xml_post(
         &self,
-        xml_array: Option<models::XmlArray>,
+        string: Option<models::XmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>;
 
     fn xml_put(
@@ -467,13 +466,13 @@ pub trait ApiNoContext {
 
     fn xml_other_put(
         &self,
-        another_xml_array: Option<models::AnotherXmlArray>,
+        string: Option<models::AnotherXmlArray>,
         ) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>;
 
     /// Post an array
     fn xml_post(
         &self,
-        xml_array: Option<models::XmlArray>,
+        string: Option<models::XmlArray>,
         ) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>;
 
     fn xml_put(
@@ -643,19 +642,19 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn xml_other_put(
         &self,
-        another_xml_array: Option<models::AnotherXmlArray>,
+        string: Option<models::AnotherXmlArray>,
         ) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>
     {
-        self.api().xml_other_put(another_xml_array, &self.context())
+        self.api().xml_other_put(string, &self.context())
     }
 
     /// Post an array
     fn xml_post(
         &self,
-        xml_array: Option<models::XmlArray>,
+        string: Option<models::XmlArray>,
         ) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>
     {
-        self.api().xml_post(xml_array, &self.context())
+        self.api().xml_post(string, &self.context())
     }
 
     fn xml_put(

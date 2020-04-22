@@ -36,7 +36,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         super();
 
         // TODO: ConfluenceWiki maintainer review
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeParameterFeatures(ParameterFeature.Cookie)
@@ -49,7 +49,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
                         SchemaSupportFeature.Polymorphism,
                         SchemaSupportFeature.Union
                 )
-        );
+                .build();
 
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "confluenceWikiDocs";

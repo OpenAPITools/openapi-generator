@@ -34,7 +34,7 @@ public class BashTest {
     public void petstoreOperationTest() {
 
         final OpenAPI openAPI
-            = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-bash.json");
+            = TestUtils.parseSpec("src/test/resources/2_0/petstore-bash.json");
         final DefaultCodegen codegen = new BashClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Operation findPetsByStatusOperation
@@ -63,7 +63,7 @@ public class BashTest {
     public void petstoreParameterExampleTest() {
 
         final OpenAPI openAPI
-            = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-bash.json");
+            = TestUtils.parseSpec("src/test/resources/2_0/petstore-bash.json");
         final DefaultCodegen codegen = new BashClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Operation addPetOperation

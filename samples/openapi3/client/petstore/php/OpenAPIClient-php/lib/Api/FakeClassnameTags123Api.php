@@ -315,7 +315,6 @@ class FakeClassnameTags123Api
 
 
 
-
         // body params
         $_tempBody = null;
         if (isset($client)) {

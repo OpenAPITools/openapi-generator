@@ -18,7 +18,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   }
 
   {{#vars}}
-    {{#vendorExtensions.x-extra-annotation}}{{vendorExtensions.x-extra-annotation}}{{/vendorExtensions.x-extra-annotation}}
+    {{#vendorExtensions.extraAnnotation}}{{vendorExtensions.extraAnnotation}}{{/vendorExtensions.extraAnnotation}}
   @JsonProperty("{{baseName}}")
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};

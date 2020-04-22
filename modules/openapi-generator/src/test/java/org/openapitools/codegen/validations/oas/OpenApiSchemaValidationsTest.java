@@ -18,7 +18,7 @@ public class OpenApiSchemaValidationsTest {
         config.setEnableRecommendations(true);
         OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
 
-        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        ValidationResult result = validator.validate(schema);
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
@@ -39,7 +39,7 @@ public class OpenApiSchemaValidationsTest {
         config.setEnableRecommendations(false);
         OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
 
-        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        ValidationResult result = validator.validate(schema);
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
@@ -56,7 +56,7 @@ public class OpenApiSchemaValidationsTest {
         config.setEnableOneOfWithPropertiesRecommendation(false);
         OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
 
-        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        ValidationResult result = validator.validate(schema);
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()

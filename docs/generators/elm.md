@@ -22,8 +22,7 @@ sidebar_label: elm
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Bool</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Bool</li>
 <li>Dict</li>
 <li>Float</li>
 <li>Int</li>
@@ -33,8 +32,7 @@ sidebar_label: elm
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>as</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>as</li>
 <li>case</li>
 <li>else</li>
 <li>exposing</li>

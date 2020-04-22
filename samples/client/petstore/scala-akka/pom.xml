@@ -20,6 +20,7 @@
     <json4s.ext.version>3.2.11</json4s.ext.version>
     <akka.version>2.5.21</akka.version>
     <akka.http.version>10.1.7</akka.http.version>
+    <joda.time.version>2.10.1</joda.time.version>
     <typesafeconfig.version>1.3.3</typesafeconfig.version>
     <akka.http.json4s.version>1.25.2</akka.http.json4s.version>
     <junit.version>4.13</junit.version>
@@ -34,6 +35,11 @@
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${joda.time.version}</version>
     </dependency>
     <dependency>
       <groupId>com.typesafe</groupId>

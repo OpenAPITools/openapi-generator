@@ -19,13 +19,12 @@
 package org.openapitools.generator.gradle.plugin.tasks
 
 import io.swagger.parser.OpenAPIParser
-import io.swagger.v3.parser.core.models.ParseOptions
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
+import org.gradle.api.logging.Logging
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.property
@@ -72,11 +71,7 @@ open class ValidateTask : DefaultTask() {
         val recommendations = recommend.get()
 
         logger.quiet("Validating spec $spec")
-
-        val options = ParseOptions()
-        options.isResolve = true
-        
-        val result = OpenAPIParser().readLocation(spec, null, options)
+        val result = OpenAPIParser().readLocation(spec, null, null)
         val messages = result.messages.toSet()
         val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
 

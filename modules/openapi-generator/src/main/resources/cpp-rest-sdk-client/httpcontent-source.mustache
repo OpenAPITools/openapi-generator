@@ -13,7 +13,7 @@ HttpContent::~HttpContent()
 {
 }
 
-utility::string_t HttpContent::getContentDisposition() const
+utility::string_t HttpContent::getContentDisposition()
 {
     return m_ContentDisposition;
 }
@@ -23,7 +23,7 @@ void HttpContent::setContentDisposition( const utility::string_t & value )
     m_ContentDisposition = value;
 }
 
-utility::string_t HttpContent::getName() const
+utility::string_t HttpContent::getName()
 {
     return m_Name;
 }
@@ -33,7 +33,7 @@ void HttpContent::setName( const utility::string_t & value )
     m_Name = value;
 }
 
-utility::string_t HttpContent::getFileName() const
+utility::string_t HttpContent::getFileName()
 {
     return m_FileName;
 }
@@ -43,7 +43,7 @@ void HttpContent::setFileName( const utility::string_t & value )
     m_FileName = value;
 }
 
-utility::string_t HttpContent::getContentType() const
+utility::string_t HttpContent::getContentType()
 {
     return m_ContentType;
 }
@@ -53,7 +53,7 @@ void HttpContent::setContentType( const utility::string_t & value )
     m_ContentType = value;
 }
 
-std::shared_ptr<std::istream> HttpContent::getData() const
+std::shared_ptr<std::istream> HttpContent::getData()
 {
     return m_Data;
 }

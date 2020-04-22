@@ -36,9 +36,8 @@ import java.util.concurrent.Callable;
 import static com.google.common.collect.Lists.newArrayList;
 import static io.airlift.airline.ParserUtil.createInstance;
 
-@SuppressWarnings({"java:S106"})
 @Command(name = "completion", description = "Complete commands (for using in tooling such as Bash Completions).", hidden = true)
-public class CompletionCommand extends OpenApiGeneratorCommand
+public class CompletionCommand
         implements Runnable, Callable<Void> {
     private static final Map<Context, Class<? extends Suggester>> BUILTIN_SUGGESTERS = ImmutableMap.<Context, Class<? extends Suggester>>builder()
             .put(Context.GLOBAL, GlobalSuggester.class)
@@ -96,7 +95,7 @@ public class CompletionCommand extends OpenApiGeneratorCommand
     }
 
     @Override
-    void execute() {
+    public void run() {
         System.out.println(Joiner.on("\n").join(generateSuggestions()));
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class Capitalization: NSObject, Codable {
+public struct Capitalization: Codable {
 
     public var smallCamel: String?
     public var capitalCamel: String?

@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   description: This is a sample server Petstore server. For this sample, you can use
     the api key `special-key` to test the authorization filters.
@@ -26,15 +26,6 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-          description: successful operation
         "405":
           description: Invalid input
       security:
@@ -50,15 +41,6 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-          description: successful operation
         "400":
           description: Invalid ID supplied
         "404":
@@ -220,45 +202,6 @@ paths:
       tags:
       - pet
       x-openapi-router-controller: openapi_server.controllers.pet_controller
-    patch:
-      operationId: update_pet_status_with_enum
-      parameters:
-      - description: ID of pet to return
-        explode: false
-        in: path
-        name: petId
-        required: true
-        schema:
-          format: int64
-          type: integer
-        style: simple
-      - description: The required status
-        example: pending
-        explode: true
-        in: query
-        name: status
-        required: true
-        schema:
-          $ref: '#/components/schemas/statusEnum'
-        style: form
-      responses:
-        "200":
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-          description: successful operation
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Pet not found
-      summary: Set the status of a pet in the store using an enum
-      tags:
-      - pet
-      x-openapi-router-controller: openapi_server.controllers.pet_controller
     post:
       operationId: update_pet_with_form
       parameters:
@@ -272,7 +215,18 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/PetForm'
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
+              type: object
       responses:
         "405":
           description: Invalid input
@@ -298,7 +252,19 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/UploadForm'
+        $ref: '#/components/requestBodies/inline_object_1'
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  format: binary
+                  type: string
+              type: object
       responses:
         "200":
           content:
@@ -621,17 +587,6 @@ paths:
       - user
       x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
-  parameters:
-    statusEnum:
-      description: The required status
-      example: pending
-      explode: true
-      in: query
-      name: status
-      required: true
-      schema:
-        $ref: '#/components/schemas/statusEnum'
-      style: form
   requestBodies:
     UserArray:
       content:
@@ -640,7 +595,7 @@ components:
             items:
               $ref: '#/components/schemas/User'
             type: array
-      description: List of user objects
+      description: List of user object
       required: true
     Pet:
       content:
@@ -652,22 +607,16 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    PetForm:
+    inline_object:
       content:
         application/x-www-form-urlencoded:
-          example:
-            name: fluffy
-            status: available
           schema:
-            $ref: '#/components/schemas/PetForm'
-    UploadForm:
+            $ref: '#/components/schemas/inline_object'
+    inline_object_1:
       content:
         multipart/form-data:
-          example:
-            additionalMetadata: additional metadata example
-            file: c29tZSB0ZXN0IGRhdGEK
           schema:
-            $ref: '#/components/schemas/UploadForm'
+            $ref: '#/components/schemas/inline_object_1'
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -825,34 +774,6 @@ components:
       type: object
       xml:
         name: Pet
-    PetForm:
-      description: A form for updating a pet
-      properties:
-        name:
-          description: Updated name of the pet
-          type: string
-        status:
-          description: Updated status of the pet
-          type: string
-      required:
-      - name
-      - status
-      title: A pet form
-      type: object
-    UploadForm:
-      description: A form for attaching files to a pet
-      properties:
-        additionalMetadata:
-          description: Additional data to pass to server
-          type: string
-        file:
-          description: file to upload
-          format: binary
-          type: string
-      required:
-      - file
-      title: An upload form
-      type: object
     ApiResponse:
       description: Describes the result of uploading an image resource
       example:
@@ -869,13 +790,25 @@ components:
           type: string
       title: An uploaded response
       type: object
-    statusEnum:
-      description: pet status in the store
-      enum:
-      - available
-      - pending
-      - sold
-      type: string
+    inline_object:
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string
+      type: object
+    inline_object_1:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        file:
+          description: file to upload
+          format: binary
+          type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

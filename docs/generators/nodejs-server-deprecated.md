@@ -44,13 +44,11 @@ sidebar_label: nodejs-server-deprecated
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-</ul>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>break</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>break</li>
 <li>case</li>
 <li>catch</li>
 <li>class</li>
@@ -61,7 +59,6 @@ sidebar_label: nodejs-server-deprecated
 <li>delete</li>
 <li>do</li>
 <li>else</li>
-<li>enum</li>
 <li>export</li>
 <li>extends</li>
 <li>finally</li>

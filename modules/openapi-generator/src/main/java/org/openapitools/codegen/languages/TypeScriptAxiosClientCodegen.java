@@ -44,7 +44,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public TypeScriptAxiosClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment

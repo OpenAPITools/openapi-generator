@@ -18,7 +18,7 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.exceptions import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiTypeError,
     ApiValueError
 )
@@ -84,16 +84,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = []  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -191,17 +186,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'body'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['body']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -305,17 +294,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'outer_composite'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['outer_composite']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -419,17 +402,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'body'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['body']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -533,17 +510,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'body'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['body']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -647,17 +618,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'file_schema_test_class'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['file_schema_test_class']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -761,18 +726,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'query',
-            'user'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['query', 'user']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -882,17 +840,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'client'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['client']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1026,30 +978,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'number',
-            'double',
-            'pattern_without_delimiter',
-            'byte',
-            'integer',
-            'int32',
-            'int64',
-            'float',
-            'string',
-            'binary',
-            'date',
-            'date_time',
-            'password',
-            'param_callback'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password', 'param_callback']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1233,24 +1166,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'enum_header_string_array',
-            'enum_header_string',
-            'enum_query_string_array',
-            'enum_query_string',
-            'enum_query_integer',
-            'enum_query_double',
-            'enum_form_string_array',
-            'enum_form_string'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['enum_header_string_array', 'enum_header_string', 'enum_query_string_array', 'enum_query_string', 'enum_query_integer', 'enum_query_double', 'enum_form_string_array', 'enum_form_string']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1377,22 +1297,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'required_string_group',
-            'required_boolean_group',
-            'required_int64_group',
-            'string_group',
-            'boolean_group',
-            'int64_group'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['required_string_group', 'required_boolean_group', 'required_int64_group', 'string_group', 'boolean_group', 'int64_group']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1508,17 +1417,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'request_body'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['request_body']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1622,18 +1525,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'param',
-            'param2'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['param', 'param2']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
@@ -1751,21 +1647,11 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = [
-            'pipe',
-            'ioutil',
-            'http',
-            'url',
-            'context'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = ['pipe', 'ioutil', 'http', 'url', 'context']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:

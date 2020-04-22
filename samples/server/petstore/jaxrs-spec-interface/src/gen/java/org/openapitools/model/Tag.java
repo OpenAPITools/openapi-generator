@@ -27,17 +27,16 @@ public class Tag  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
-
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+  /**
    **/
   public Tag name(String name) {
     this.name = name;
@@ -45,17 +44,15 @@ public class Tag  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
-
   public void setName(String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -96,7 +93,5 @@ public class Tag  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
 }
 

@@ -7,12 +7,13 @@ from Crypto.IO import PEM, PKCS8
 from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
+from datetime import datetime
 from email.utils import formatdate
 import json
 import os
 import re
 from six.moves.urllib.parse import urlencode, urlparse
-from time import time
+from time import mktime
 
 # The constants below define a subset of HTTP headers that can be included in the
 # HTTP signature scheme. Additional headers may be included in the signature.
@@ -52,10 +53,6 @@ ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS = {
     ALGORITHM_ECDSA_MODE_FIPS_186_3,
     ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979
 }
-
-# The cryptographic hash algorithm for the message signature.
-HASH_SHA256 = 'sha256'
-HASH_SHA512 = 'sha512'
 
 
 class HttpSigningConfiguration(object):
@@ -102,15 +99,9 @@ class HttpSigningConfiguration(object):
         Supported values are:
         1. For RSA keys: RSASSA-PSS, RSASSA-PKCS1-v1_5.
         2. For ECDSA keys: fips-186-3, deterministic-rfc6979.
-        If None, the signing algorithm is inferred from the private key.
-        The default signing algorithm for RSA keys is RSASSA-PSS.
-        The default signing algorithm for ECDSA keys is fips-186-3.
-    :param hash_algorithm: The hash algorithm for the signature. Supported values are
-        sha256 and sha512.
-        If the signing_scheme is rsa-sha256, the hash algorithm must be set
-        to None or sha256.
-        If the signing_scheme is rsa-sha512, the hash algorithm must be set
-        to None or sha512.
+        The default value is inferred from the private key.
+        The default value for RSA keys is RSASSA-PSS.
+        The default value for ECDSA keys is fips-186-3.
     :param signature_max_validity: The signature max validity, expressed as
         a datetime.timedelta value. It must be a positive value.
     """
@@ -118,7 +109,6 @@ class HttpSigningConfiguration(object):
                  private_key_passphrase=None,
                  signed_headers=None,
                  signing_algorithm=None,
-                 hash_algorithm=None,
                  signature_max_validity=None):
         self.key_id = key_id
         if signing_scheme not in {SCHEME_HS2019, SCHEME_RSA_SHA256, SCHEME_RSA_SHA512}:
@@ -129,24 +119,6 @@ class HttpSigningConfiguration(object):
         self.private_key_path = private_key_path
         self.private_key_passphrase = private_key_passphrase
         self.signing_algorithm = signing_algorithm
-        self.hash_algorithm = hash_algorithm
-        if signing_scheme == SCHEME_RSA_SHA256:
-            if self.hash_algorithm is None:
-                self.hash_algorithm = HASH_SHA256
-            elif self.hash_algorithm != HASH_SHA256:
-                raise Exception("Hash algorithm must be sha256 when security scheme is %s" %
-                                SCHEME_RSA_SHA256)
-        elif signing_scheme == SCHEME_RSA_SHA512:
-            if self.hash_algorithm is None:
-                self.hash_algorithm = HASH_SHA512
-            elif self.hash_algorithm != HASH_SHA512:
-                raise Exception("Hash algorithm must be sha512 when security scheme is %s" %
-                                SCHEME_RSA_SHA512)
-        elif signing_scheme == SCHEME_HS2019:
-            if self.hash_algorithm is None:
-                self.hash_algorithm = HASH_SHA256
-            elif self.hash_algorithm not in {HASH_SHA256, HASH_SHA512}:
-                raise Exception("Invalid hash algorithm")
         if signature_max_validity is not None and signature_max_validity.total_seconds() < 0:
             raise Exception("The signature max validity must be a positive value")
         self.signature_max_validity = signature_max_validity
@@ -256,6 +228,12 @@ class HttpSigningConfiguration(object):
                         "Signing algorithm {0} is not compatible with private key".format(
                             self.signing_algorithm))
 
+    def _get_unix_time(self, ts):
+        """Converts and returns a datetime object to UNIX time, the number of seconds
+           elapsed since January 1, 1970 UTC.
+        """
+        return (ts - datetime(1970, 1, 1)).total_seconds()
+
     def _get_signed_header_info(self, resource_path, method, headers, body, query_params):
         """Build the HTTP headers (name, value) that need to be included in
         the HTTP signature scheme.
@@ -284,16 +262,15 @@ class HttpSigningConfiguration(object):
         if query_params:
             request_target += "?" + urlencode(query_params)
 
-        # Get UNIX time, e.g. seconds since epoch, not including leap seconds.
-        now = time()
-        # Format date per RFC 7231 section-7.1.1.2. An example is:
-        # Date: Wed, 21 Oct 2015 07:28:00 GMT
-        cdate = formatdate(timeval=now, localtime=False, usegmt=True)
+        # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
+        now = datetime.now()
+        stamp = mktime(now.timetuple())
+        cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
         # The '(created)' value MUST be a Unix timestamp integer value.
         # Subsecond precision is not supported.
-        created = int(now)
+        created = int(self._get_unix_time(now))
         if self.signature_max_validity is not None:
-            expires = now + self.signature_max_validity.total_seconds()
+            expires = self._get_unix_time(now + self.signature_max_validity)
 
         signed_headers_list = []
         request_headers_dict = {}
@@ -338,14 +315,14 @@ class HttpSigningConfiguration(object):
             The prefix is a string that identifies the cryptographc hash. It is used
             to generate the 'Digest' header as specified in RFC 3230.
         """
-        if self.hash_algorithm == HASH_SHA512:
+        if self.signing_scheme in {SCHEME_RSA_SHA512, SCHEME_HS2019}:
             digest = SHA512.new()
             prefix = 'SHA-512='
-        elif self.hash_algorithm == HASH_SHA256:
+        elif self.signing_scheme == SCHEME_RSA_SHA256:
             digest = SHA256.new()
             prefix = 'SHA-256='
         else:
-            raise Exception("Unsupported hash algorithm: {0}".format(self.hash_algorithm))
+            raise Exception("Unsupported signing algorithm: {0}".format(self.signing_scheme))
         digest.update(data)
         return digest, prefix
 
@@ -369,10 +346,7 @@ class HttpSigningConfiguration(object):
             if sig_alg is None:
                 sig_alg = ALGORITHM_ECDSA_MODE_FIPS_186_3
             if sig_alg in ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS:
-                # draft-ietf-httpbis-message-signatures-00 does not specify the ECDSA encoding.
-                # Issue: https://github.com/w3c-ccg/http-signatures/issues/107
-                signature = DSS.new(key=self.private_key, mode=sig_alg,
-                                    encoding='der').sign(digest)
+                signature = DSS.new(self.private_key, sig_alg).sign(digest)
             else:
                 raise Exception("Unsupported signature algorithm: {0}".format(sig_alg))
         else:

@@ -96,24 +96,24 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.21"
-    rest_assured_version = "4.3.0"
+    rest_assured_version = "4.0.0"
     junit_version = "4.13"
 {{#jackson}}
-    jackson_version = "2.10.3"
-    jackson_databind_version = "2.10.3"
+    jackson_version = "2.10.1"
+    jackson_databind_version = "2.9.10"
     jackson_databind_nullable_version = 0.2.1
 {{/jackson}}
 {{#gson}}
-    gson_version = "2.8.6"
-    gson_fire_version = "1.8.4"
+    gson_version = "2.8.5"
+    gson_fire_version = "1.8.3"
 {{/gson}}
 {{#joda}}
-    jodatime_version = "2.10.5"
+    jodatime_version = "2.9.9"
 {{/joda}}
 {{#threetenbp}}
-    threetenbp_version = "1.4.3"
+    threetenbp_version = "1.4.0"
 {{/threetenbp}}
-    okio_version = "1.17.5"
+    okio_version = "1.13.0"
 }
 
 dependencies {
@@ -138,11 +138,5 @@ dependencies {
     compile "org.threeten:threetenbp:$threetenbp_version"
 {{/threetenbp}}
     compile "com.squareup.okio:okio:$okio_version"
-{{#useBeanValidation}}
-    compile "javax.validation:validation-api:2.0.1.Final"
-{{/useBeanValidation}}
-{{#performBeanValidation}}
-    compile "org.hibernate:hibernate-validator:6.0.19.Final"
-{{/performBeanValidation}}
     testCompile "junit:junit:$junit_version"
 }

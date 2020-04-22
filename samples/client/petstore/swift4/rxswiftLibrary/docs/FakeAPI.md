@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**testBodyWithFileSchema**](FakeAPI.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeAPI.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeAPI.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeAPI.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+[**testEndpointParameters**](FakeAPI.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeAPI.md#testenumparameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -32,7 +32,7 @@ Test serialization of outer boolean types
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = true // Bool | Input boolean as post body (optional)
+let body = false // Bool | Input boolean as post body (optional)
 
 // TODO RxSwift sample code not yet implemented. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -303,9 +303,9 @@ No authorization required
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void>
 ```
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example 
 ```swift
@@ -433,10 +433,10 @@ Fake endpoint to test group parameters (optional)
 import PetstoreClient
 
 let requiredStringGroup = 987 // Int | Required String in group parameters
-let requiredBooleanGroup = true // Bool | Required Boolean in group parameters
+let requiredBooleanGroup = false // Bool | Required Boolean in group parameters
 let requiredInt64Group = 987 // Int64 | Required Integer in group parameters
 let stringGroup = 987 // Int | String in group parameters (optional)
-let booleanGroup = true // Bool | Boolean in group parameters (optional)
+let booleanGroup = false // Bool | Boolean in group parameters (optional)
 let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
 // TODO RxSwift sample code not yet implemented. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new

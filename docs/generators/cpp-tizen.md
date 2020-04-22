@@ -8,10 +8,8 @@ sidebar_label: cpp-tizen
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
 
 ## IMPORT MAPPING
 
@@ -27,8 +25,7 @@ sidebar_label: cpp-tizen
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>bool</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>bool</li>
 <li>double</li>
 <li>float</li>
 <li>int</li>
@@ -38,8 +35,7 @@ sidebar_label: cpp-tizen
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>alignas</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>alignas</li>
 <li>alignof</li>
 <li>and</li>
 <li>and_eq</li>

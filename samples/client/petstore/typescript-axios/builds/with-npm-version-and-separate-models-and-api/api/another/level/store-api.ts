@@ -18,7 +18,7 @@ import { Configuration } from '../../../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../../../base';
-// @ts-ignore
+
 import { Order } from '../../../model/some/levels/deep';
 /**
  * StoreApi - axios parameter creator
@@ -33,7 +33,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder: async (orderId: string, options: any = {}): Promise<RequestArgs> => {
+        deleteOrder(orderId: string, options: any = {}): RequestArgs {
             // verify required parameter 'orderId' is not null or undefined
             if (orderId === null || orderId === undefined) {
                 throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling deleteOrder.');
@@ -54,8 +54,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -68,7 +67,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory: async (options: any = {}): Promise<RequestArgs> => {
+        getInventory(options: any = {}): RequestArgs {
             const localVarPath = `/store/inventory`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
@@ -82,8 +81,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // authentication api_key required
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-                    ? await configuration.apiKey("api_key")
-                    : await configuration.apiKey;
+                    ? configuration.apiKey("api_key")
+                    : configuration.apiKey;
                 localVarHeaderParameter["api_key"] = localVarApiKeyValue;
             }
 
@@ -92,8 +91,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -107,7 +105,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById: async (orderId: number, options: any = {}): Promise<RequestArgs> => {
+        getOrderById(orderId: number, options: any = {}): RequestArgs {
             // verify required parameter 'orderId' is not null or undefined
             if (orderId === null || orderId === undefined) {
                 throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderById.');
@@ -128,8 +126,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -143,7 +140,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder: async (body: Order, options: any = {}): Promise<RequestArgs> => {
+        placeOrder(body: Order, options: any = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
@@ -165,8 +162,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
@@ -191,8 +187,8 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteOrder(orderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await StoreApiAxiosParamCreator(configuration).deleteOrder(orderId, options);
+        deleteOrder(orderId: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
+            const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).deleteOrder(orderId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -204,8 +200,8 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInventory(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
-            const localVarAxiosArgs = await StoreApiAxiosParamCreator(configuration).getInventory(options);
+        getInventory(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }> {
+            const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).getInventory(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -218,8 +214,8 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrderById(orderId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
-            const localVarAxiosArgs = await StoreApiAxiosParamCreator(configuration).getOrderById(orderId, options);
+        getOrderById(orderId: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order> {
+            const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).getOrderById(orderId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -232,8 +228,8 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async placeOrder(body: Order, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
-            const localVarAxiosArgs = await StoreApiAxiosParamCreator(configuration).placeOrder(body, options);
+        placeOrder(body: Order, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order> {
+            const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).placeOrder(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -256,7 +252,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @throws {RequiredError}
          */
         deleteOrder(orderId: string, options?: any): AxiosPromise<void> {
-            return StoreApiFp(configuration).deleteOrder(orderId, options).then((request) => request(axios, basePath));
+            return StoreApiFp(configuration).deleteOrder(orderId, options)(axios, basePath);
         },
         /**
          * Returns a map of status codes to quantities
@@ -265,7 +261,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @throws {RequiredError}
          */
         getInventory(options?: any): AxiosPromise<{ [key: string]: number; }> {
-            return StoreApiFp(configuration).getInventory(options).then((request) => request(axios, basePath));
+            return StoreApiFp(configuration).getInventory(options)(axios, basePath);
         },
         /**
          * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -275,7 +271,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @throws {RequiredError}
          */
         getOrderById(orderId: number, options?: any): AxiosPromise<Order> {
-            return StoreApiFp(configuration).getOrderById(orderId, options).then((request) => request(axios, basePath));
+            return StoreApiFp(configuration).getOrderById(orderId, options)(axios, basePath);
         },
         /**
          * 
@@ -285,7 +281,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @throws {RequiredError}
          */
         placeOrder(body: Order, options?: any): AxiosPromise<Order> {
-            return StoreApiFp(configuration).placeOrder(body, options).then((request) => request(axios, basePath));
+            return StoreApiFp(configuration).placeOrder(body, options)(axios, basePath);
         },
     };
 };
@@ -306,7 +302,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public deleteOrder(orderId: string, options?: any) {
-        return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.configuration).deleteOrder(orderId, options)(this.axios, this.basePath);
     }
 
     /**
@@ -317,7 +313,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getInventory(options?: any) {
-        return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.configuration).getInventory(options)(this.axios, this.basePath);
     }
 
     /**
@@ -329,7 +325,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getOrderById(orderId: number, options?: any) {
-        return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.configuration).getOrderById(orderId, options)(this.axios, this.basePath);
     }
 
     /**
@@ -341,7 +337,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public placeOrder(body: Order, options?: any) {
-        return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
+        return StoreApiFp(this.configuration).placeOrder(body, options)(this.axios, this.basePath);
     }
 
 }

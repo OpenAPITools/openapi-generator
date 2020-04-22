@@ -1,5 +1,4 @@
-{{^objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct {{classname}}: Codable { {{/objcCompatible}}
-{{#objcCompatible}}@objc {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class {{classname}}: NSObject, Codable { {{/objcCompatible}}
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct {{classname}}: Codable {
 
 {{#allVars}}
 {{#isEnum}}
@@ -18,7 +17,7 @@
     {{#vendorExtensions.x-swift-optional-scalar}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{name}}Num: NSNumber? {
         get {
-            return {{name}} as NSNumber?
+            return {{name}}.map({ return NSNumber(value: $0) })
         }
     }
     {{/vendorExtensions.x-swift-optional-scalar}}
@@ -63,7 +62,7 @@
 
     // Decodable protocol methods
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}}{{#objcCompatible}} required{{/objcCompatible}} init(from decoder: Decoder) throws {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         {{#allVars}}

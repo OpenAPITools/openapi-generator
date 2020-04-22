@@ -51,7 +51,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public PerlClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -73,7 +73,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-        );
+                .build();
 
         // add multiple inheritance support (beta)
         supportsMultipleInheritance = true;

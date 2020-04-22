@@ -302,7 +302,7 @@ public class PhpModelTest {
 
     @Test(description = "test enum array model")
     public void enumArrayModelTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
@@ -337,7 +337,7 @@ public class PhpModelTest {
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumMdoelValueTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
@@ -376,7 +376,7 @@ public class PhpModelTest {
     // datetime (or primitive type) not yet supported in HTTP request body
     @Test(description = "returns DateTime when using `--model-name-prefix`")
     public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setModelNamePrefix("foo");
         codegen.setOpenAPI(openAPI);

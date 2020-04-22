@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Org.OpenAPITools.Client
 {
@@ -99,11 +98,5 @@ namespace Org.OpenAPITools.Client
         /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
         /// <returns>API key with prefix.</returns>
         string GetApiKeyWithPrefix(string apiKeyIdentifier);
-
-        /// <summary>
-        /// Gets certificate collection to be sent with requests.
-        /// </summary>
-        /// <value>X509 Certificate collection.</value>
-        X509CertificateCollection ClientCertificates { get; }
     }
 }

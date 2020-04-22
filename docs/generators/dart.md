@@ -37,8 +37,7 @@ sidebar_label: dart
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>String</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>String</li>
 <li>bool</li>
 <li>double</li>
 <li>int</li>
@@ -47,8 +46,7 @@ sidebar_label: dart
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>abstract</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
 <li>as</li>
 <li>assert</li>
 <li>async</li>

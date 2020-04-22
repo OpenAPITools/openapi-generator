@@ -53,6 +53,16 @@
             <level>ERROR</level>
         </filter>
     </appender>
+    <appender name="ONCELOGGER_COLOR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <withJansi>true</withJansi>
+        <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+            <marker>ONCE</marker>
+        </evaluator>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%thread] %highlight(%-5level) %logger{36} - %red(%msg)%n</pattern>
+        </encoder>
+    </appender>
 
     <logger name="io.swagger" level="warn">
         <!-- Colorize by passing -Dcolor -->

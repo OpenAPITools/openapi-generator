@@ -23,7 +23,6 @@
 #include <QNetworkReply>
 #include <QObject>
 #include <QString>
-#include <QTimer>
 
 #include "PFXHttpFileElement.h"
 
@@ -68,7 +67,7 @@ public:
     QString http_attribute_encode(QString attribute_name, QString input);
     void execute(PFXHttpRequestInput *input);
     static QSslConfiguration *sslDefaultConfiguration;
-    void setTimeOut(int timeOutMs);
+    void setTimeOut(int tout);
     void setWorkingDirectory(const QString &path);
     PFXHttpFileElement getHttpFileElement(const QString &fieldname = QString());
     QByteArray *getMultiPartField(const QString &fieldname = QString());
@@ -87,7 +86,7 @@ private:
     QMap<QString, PFXHttpFileElement> files;
     QMap<QString, QByteArray *> multiPartFields;
     QString workingDirectory;
-    QTimer timeOutTimer;
+    int _timeOut;
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;
     void on_manager_timeout(QNetworkReply *reply);

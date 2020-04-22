@@ -117,7 +117,7 @@ export class StoreService {
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
+        if (typeof value === "object") {
             this.addToHttpParamsRecursive(httpParams, value);
         } else {
             this.addToHttpParamsRecursive(httpParams, value, key);
@@ -199,11 +199,8 @@ export class StoreService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys) {
-            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
-            if (key) {
-                headers.set('api_key', key);
-            }
+        if (this.configuration.apiKeys && this.configuration.apiKeys["api_key"]) {
+            headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

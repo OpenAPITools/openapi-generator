@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+
 /**
  * Model for testing model with \&quot;_class\&quot; property
  **/
@@ -28,17 +29,15 @@ public class ClassModel  implements Serializable {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;
   }
-
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -77,7 +76,5 @@ public class ClassModel  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
 }
 

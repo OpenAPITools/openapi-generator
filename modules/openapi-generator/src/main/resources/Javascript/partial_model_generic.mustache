@@ -11,16 +11,16 @@
    * {{description}}{{/description}}
    * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
    * @class{{#useInheritance}}{{#parent}}
-   * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
+   * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-isArray}}Array{{/vendorExtensions.x-isArray}}{{#vendorExtensions.x-isMap}}Object{{/vendorExtensions.x-isMap}}{{/parentModel}}{{/parent}}{{#interfaces}}
    * @implements module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
    * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{#description}}{{{description}}}{{/description}}{{/vendorExtensions.x-all-required}}
    */
 {{/emitJSDoc}}
   var exports = function({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) {
     var _this = this;
-{{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}    _this = new Array();
+{{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}    _this = new Array();
     Object.setPrototypeOf(_this, exports);
-{{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}
+{{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}
     {{#useInheritance}}
     {{#parentModel}}
     {{classname}}.call(_this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});
@@ -52,18 +52,18 @@
    * @return {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
    */
 {{/emitJSDoc}}
-{{#vendorExtensions.x-is-primitive}}
+{{#vendorExtensions.x-isPrimitive}}
   exports.constructFromObject = function(data, obj) {
     return data;
   }
-{{/vendorExtensions.x-is-primitive}}
-{{^vendorExtensions.x-is-primitive}}
+{{/vendorExtensions.x-isPrimitive}}
+{{^vendorExtensions.x-isPrimitive}}
   exports.constructFromObject = function(data, obj) {
     if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
       obj = obj || new exports();
       {{#parent}}
       {{^parentModel}}
-      ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-item-type}}');
+      ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-itemType}}');
       {{/parentModel}}
       {{/parent}}
       {{#useInheritance}}
@@ -84,7 +84,7 @@
     }
     return obj;
   }
-{{/vendorExtensions.x-is-primitive}}
+{{/vendorExtensions.x-isPrimitive}}
 {{#useInheritance}}{{#parentModel}}
   exports.prototype = Object.create({{classname}}.prototype);
   exports.prototype.constructor = exports;

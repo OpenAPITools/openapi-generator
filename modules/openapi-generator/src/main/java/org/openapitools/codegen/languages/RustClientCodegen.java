@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -65,7 +64,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public RustClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -89,7 +88,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-        );
+                .build();
 
         outputFolder = "generated-code/rust";
         modelTemplateFiles.put("model.mustache", ".rs");
@@ -114,7 +113,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Self", "self", "sizeof", "static", "struct",
                         "super", "trait", "true", "type", "typeof",
                         "unsafe", "unsized", "use", "virtual", "where",
-                        "while", "yield", "async", "await", "dyn", "try"
+                        "while", "yield"
                 )
         );
 
@@ -189,10 +188,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -220,11 +215,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         discriminatorVars.add(mas);
                     }
                     // TODO: figure out how to properly have the original property type that didn't go through toVarName
-                    String vendorExtensionTagName = cm.discriminator.getPropertyName().replace("_", "");
-                    cm.vendorExtensions.put("tagName", vendorExtensionTagName); // TODO: 5.0 Remove
-                    cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
-                    cm.vendorExtensions.put("mappedModels", discriminatorVars); // TODO: 5.0 Remove
-                    cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
+                    cm.vendorExtensions.put("tagName", cm.discriminator.getPropertyName().replace("_", ""));
+                    cm.vendorExtensions.put("mappedModels", discriminatorVars);
                 }
             }
         }

@@ -21,9 +21,6 @@ tag_t *tag_create(
 
 
 void tag_free(tag_t *tag) {
-    if(NULL == tag){
-        return ;
-    }
     listEntry_t *listEntry;
     free(tag->name);
     free(tag);

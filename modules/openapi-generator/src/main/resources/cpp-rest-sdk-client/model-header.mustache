@@ -34,12 +34,12 @@ public:
     void validate() override;
 
     web::json::value toJson() const override;
-    bool fromJson(const web::json::value& json) override;
+    void fromJson(const web::json::value& json) override;
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
-    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
-    enum class e{{classname}}
+    enum class e{{classname}} 
     {
         {{#allowableValues}}
         {{#enumVars}}
@@ -48,8 +48,8 @@ public:
         /// {{enumDescription}}
         /// </summary>
         {{/enumDescription}}
-        {{classname}}_{{{name}}}{{^last}},{{/last}}
-        {{/enumVars}}
+        {{classname}}_{{{name}}}{{^last}},{{/last}}        
+        {{/enumVars}}        
         {{/allowableValues}}
     };
 
@@ -78,10 +78,10 @@ public:
     void validate() override;
 
     web::json::value toJson() const override;
-    bool fromJson(const web::json::value& json) override;
+    void fromJson(const web::json::value& json) override;
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
-    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
     /////////////////////////////////////////////
     /// {{classname}} members
@@ -93,8 +93,9 @@ public:
     /// </summary>
     {{#isContainer}}{{{dataType}}}& {{getter}}();
     {{/isContainer}}{{^isContainer}}{{{dataType}}} {{getter}}() const;
-    {{/isContainer}}bool {{nameInCamelCase}}IsSet() const;
+    {{/isContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
+    {{/required}}
 
     {{#isPrimitiveType}}
     void {{setter}}({{{dataType}}} value);
@@ -110,7 +111,8 @@ protected:
     {{#vars}}
     {{^isInherited}}
     {{{dataType}}} m_{{name}};
-    bool m_{{name}}IsSet;
+    {{^required}}bool m_{{name}}IsSet;
+    {{/required}}
     {{/isInherited}}
     {{/vars}}
 };

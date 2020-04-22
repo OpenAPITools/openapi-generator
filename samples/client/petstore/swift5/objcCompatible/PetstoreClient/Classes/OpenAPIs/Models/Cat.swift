@@ -7,27 +7,21 @@
 
 import Foundation
 
-@objc public class Cat: NSObject, Codable {
+public struct Cat: Codable {
 
-    public var _className: String
+    public var className: String
     public var color: String? = "red"
     public var declawed: Bool?
     public var declawedNum: NSNumber? {
         get {
-            return declawed as NSNumber?
+            return declawed.map({ return NSNumber(value: $0) })
         }
     }
 
-    public init(_className: String, color: String?, declawed: Bool?) {
-        self._className = _className
+    public init(className: String, color: String?, declawed: Bool?) {
+        self.className = className
         self.color = color
         self.declawed = declawed
-    }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case _className = "className"
-        case color
-        case declawed
     }
 
 }

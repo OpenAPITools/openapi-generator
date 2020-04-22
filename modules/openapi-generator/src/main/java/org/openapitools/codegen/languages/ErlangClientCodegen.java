@@ -58,7 +58,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public ErlangClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(SecurityFeature.ApiKey))
@@ -77,7 +77,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-        );
+                .build();
 
         outputFolder = "generated-code/erlang";
         modelTemplateFiles.put("model.mustache", ".erl");

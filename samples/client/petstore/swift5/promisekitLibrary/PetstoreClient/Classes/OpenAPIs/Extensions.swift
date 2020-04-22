@@ -173,12 +173,6 @@ extension KeyedDecodingContainerProtocol {
 
 }
 
-extension HTTPURLResponse {
-    var isStatusCodeSuccessful: Bool {
-        return Array(200 ..< 300).contains(statusCode)
-    }
-}
-
 extension RequestBuilder {
     public func execute() -> Promise<Response<T>> {
         let deferred = Promise<Response<T>>.pending()

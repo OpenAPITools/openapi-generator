@@ -111,7 +111,7 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' ####################  DeleteOrder  ####################
 #'
 #' library(petstore)

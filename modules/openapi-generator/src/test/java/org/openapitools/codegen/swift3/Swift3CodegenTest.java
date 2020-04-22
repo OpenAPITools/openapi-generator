@@ -89,7 +89,7 @@ public class Swift3CodegenTest {
 
     @Test(description = "returns NSData when response format is binary", enabled = false)
     public void binaryDataTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new Swift3Codegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
@@ -104,7 +104,7 @@ public class Swift3CodegenTest {
 
     @Test(description = "returns ISOFullDate when response format is date", enabled = false)
     public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new Swift3Codegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";

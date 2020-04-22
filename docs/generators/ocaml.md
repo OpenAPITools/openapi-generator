@@ -40,8 +40,7 @@ sidebar_label: ocaml
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Yojson.Safe.t</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Yojson.Safe.t</li>
 <li>bool</li>
 <li>bytes</li>
 <li>char</li>
@@ -55,8 +54,7 @@ sidebar_label: ocaml
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>and</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>and</li>
 <li>as</li>
 <li>asr</li>
 <li>assert</li>

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc open class StoreAPI: NSObject {
+open class StoreAPI {
     /**
      Delete purchase order by ID
      

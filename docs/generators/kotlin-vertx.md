@@ -14,7 +14,7 @@ sidebar_label: kotlin-vertx
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
@@ -46,8 +46,7 @@ sidebar_label: kotlin-vertx
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>kotlin.Array</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>kotlin.Array</li>
 <li>kotlin.Boolean</li>
 <li>kotlin.Byte</li>
 <li>kotlin.ByteArray</li>
@@ -65,8 +64,7 @@ sidebar_label: kotlin-vertx
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>as</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>as</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>

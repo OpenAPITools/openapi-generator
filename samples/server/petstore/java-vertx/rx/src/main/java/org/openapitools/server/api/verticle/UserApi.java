@@ -11,13 +11,13 @@ import java.util.Map;
 
 public interface UserApi  {
     //createUser
-    public Completable createUser(User body);
+    public Completable createUser(User user);
     
     //createUsersWithArrayInput
-    public Completable createUsersWithArrayInput(List<User> body);
+    public Completable createUsersWithArrayInput(List<User> user);
     
     //createUsersWithListInput
-    public Completable createUsersWithListInput(List<User> body);
+    public Completable createUsersWithListInput(List<User> user);
     
     //deleteUser
     public Completable deleteUser(String username);
@@ -32,6 +32,6 @@ public interface UserApi  {
     public Completable logoutUser();
     
     //updateUser
-    public Completable updateUser(String username,User body);
+    public Completable updateUser(String username,User user);
     
 }

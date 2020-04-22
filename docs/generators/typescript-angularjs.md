@@ -9,8 +9,7 @@ sidebar_label: typescript-angularjs
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumNameSuffix|Suffix that will be appended to all enum names. A special 'v4-compat' value enables the backward-compatible behavior (as pre v4.2.3)| |v4-compat|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
-|nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -31,8 +30,7 @@ sidebar_label: typescript-angularjs
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Array</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
 <li>Boolean</li>
 <li>Date</li>
 <li>Double</li>
@@ -43,7 +41,6 @@ sidebar_label: typescript-angularjs
 <li>Long</li>
 <li>Map</li>
 <li>Object</li>
-<li>ReadonlyArray</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>
@@ -54,8 +51,7 @@ sidebar_label: typescript-angularjs
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>abstract</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
 <li>await</li>
 <li>boolean</li>
 <li>break</li>

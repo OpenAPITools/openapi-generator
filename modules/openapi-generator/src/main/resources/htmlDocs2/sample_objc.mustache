@@ -19,7 +19,7 @@
 {{classname}} *apiInstance = [[{{classname}} alloc] init];
 
 {{#summary}}// {{{.}}}
-{{/summary}}[apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.x-first-param-alt-name}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+{{/summary}}[apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
     {{paramName}}{{/secondaryParam}}:{{paramName}}{{/allParams}}
               {{#hasParams}}completionHandler: {{/hasParams}}^({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error) {
 {{#returnType}}

@@ -309,22 +309,22 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn xml_other_put(
         &self,
-        another_xml_array: Option<models::AnotherXmlArray>,
+        string: Option<models::AnotherXmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
-        info!("xml_other_put({:?}) - X-Span-ID: {:?}", another_xml_array, context.get().0.clone());
+        info!("xml_other_put({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 
     /// Post an array
     fn xml_post(
         &self,
-        xml_array: Option<models::XmlArray>,
+        string: Option<models::XmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
-        info!("xml_post({:?}) - X-Span-ID: {:?}", xml_array, context.get().0.clone());
+        info!("xml_post({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 

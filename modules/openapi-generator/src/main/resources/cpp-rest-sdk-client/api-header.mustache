@@ -33,9 +33,9 @@ public:
     {{#operation}}
     virtual pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
         {{#allParams}}
-        {{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
         {{/allParams}}
-    ) const = 0;
+    ) = 0;
     {{/operation}}
 };{{/gmockApis}}
 
@@ -46,7 +46,7 @@ public:
     using Base = I{{classname}};
     {{/gmockApis}}
 
-    explicit {{classname}}( std::shared_ptr<const ApiClient> apiClient );
+    explicit {{classname}}( std::shared_ptr<ApiClient> apiClient );
 
     {{#gmockApis}}
     ~{{classname}}() override;
@@ -67,13 +67,13 @@ public:
     {{/allParams}}
     pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
         {{#allParams}}
-        {{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
         {{/allParams}}
-    ) const{{#gmockApis}} override{{/gmockApis}};
+    ){{#gmockApis}} override{{/gmockApis}};
     {{/operation}}
 
 protected:
-    std::shared_ptr<const ApiClient> m_ApiClient;
+    std::shared_ptr<ApiClient> m_ApiClient;
 };
 
 {{#apiNamespaceDeclarations}}

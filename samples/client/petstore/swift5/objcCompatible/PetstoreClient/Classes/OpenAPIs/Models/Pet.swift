@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class Pet: NSObject, Codable {
+public struct Pet: Codable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"
@@ -15,11 +15,6 @@ import Foundation
         case sold = "sold"
     }
     public var _id: Int64?
-    public var _idNum: NSNumber? {
-        get {
-            return _id as NSNumber?
-        }
-    }
     public var category: Category?
     public var name: String
     public var photoUrls: [String]

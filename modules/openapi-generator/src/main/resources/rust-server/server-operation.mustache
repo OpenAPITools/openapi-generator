@@ -1,5 +1,5 @@
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            &hyper::Method::{{vendorExtensions.x-http-method}} if path.matched(paths::ID_{{vendorExtensions.x-path-id}}) => {
+            &hyper::Method::{{vendorExtensions.HttpMethod}} if path.matched(paths::ID_{{vendorExtensions.PATH_ID}}) => {
 {{#hasAuthMethods}}
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
@@ -52,10 +52,10 @@
                 // Path parameters
                 let path: &str = &uri.path().to_string();
                 let path_params =
-                    paths::REGEX_{{{x-path-id}}}
+                    paths::REGEX_{{{PATH_ID}}}
                     .captures(&path)
                     .unwrap_or_else(||
-                        panic!("Path {} matched RE {{{x-path-id}}} in set but failed match against \"{}\"", path, paths::REGEX_{{{x-path-id}}}.as_str())
+                        panic!("Path {} matched RE {{{PATH_ID}}} in set but failed match against \"{}\"", path, paths::REGEX_{{{PATH_ID}}}.as_str())
                     );
 
   {{/hasPathParams}}

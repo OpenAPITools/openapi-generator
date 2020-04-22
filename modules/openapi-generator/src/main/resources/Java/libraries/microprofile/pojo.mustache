@@ -57,9 +57,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
    * @return {{name}}
   **/
   @JsonbProperty("{{baseName}}")
-{{#vendorExtensions.x-extra-annotation}}
-  {{{vendorExtensions.x-extra-annotation}}}
-{{/vendorExtensions.x-extra-annotation}}
+{{#vendorExtensions.extraAnnotation}}
+  {{{vendorExtensions.extraAnnotation}}}
+{{/vendorExtensions.extraAnnotation}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;

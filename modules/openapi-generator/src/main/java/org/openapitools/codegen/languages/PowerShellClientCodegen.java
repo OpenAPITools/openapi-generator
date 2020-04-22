@@ -50,7 +50,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     public PowerShellClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -70,7 +70,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
         
         outputFolder = "generated-code" + File.separator + "powershell";
         modelTemplateFiles.put("model.mustache", ".ps1");

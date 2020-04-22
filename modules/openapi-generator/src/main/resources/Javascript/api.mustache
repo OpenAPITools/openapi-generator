@@ -52,7 +52,7 @@
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
-</emitJSDoc>    this.<operationId><#usePromises>WithHttpInfo</usePromises> = function(<vendorExtensions.x-codegen-arg-list>) {<#hasOptionalParams>
+</emitJSDoc>    this.<operationId><#usePromises>WithHttpInfo</usePromises> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
       opts = opts || {};</hasOptionalParams>
       var postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
 <#allParams>
@@ -117,8 +117,8 @@
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
      */
-</emitJSDoc>    this.<operationId> = function(<vendorExtensions.x-codegen-arg-list>) {
-      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-arg-list>)
+</emitJSDoc>    this.<operationId> = function(<vendorExtensions.x-codegen-argList>) {
+      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-argList>)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class Pet  implements Serializable {
   
   private @Valid Long id;
-  private @Valid Category category;
+  private @Valid Category category = null;
   private @Valid String name;
   private @Valid List<String> photoUrls = new ArrayList<String>();
   private @Valid List<Tag> tags = new ArrayList<Tag>();
@@ -48,13 +48,13 @@ public enum StatusEnum {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String value) {
+    public static StatusEnum fromValue(String v) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -175,12 +175,12 @@ public enum StatusEnum {
       return false;
     }
     Pet pet = (Pet) o;
-    return Objects.equals(this.id, pet.id) &&
-        Objects.equals(this.category, pet.category) &&
-        Objects.equals(this.name, pet.name) &&
-        Objects.equals(this.photoUrls, pet.photoUrls) &&
-        Objects.equals(this.tags, pet.tags) &&
-        Objects.equals(this.status, pet.status);
+    return Objects.equals(id, pet.id) &&
+        Objects.equals(category, pet.category) &&
+        Objects.equals(name, pet.name) &&
+        Objects.equals(photoUrls, pet.photoUrls) &&
+        Objects.equals(tags, pet.tags) &&
+        Objects.equals(status, pet.status);
   }
 
   @Override

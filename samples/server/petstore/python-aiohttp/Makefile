@@ -11,11 +11,8 @@ clean:
 		find . -name "*.py[oc]" -delete
 		find . -name "__pycache__" -delete
 
-venv: 
-		python -m venv $(VENV)
-
-test: clean venv
+test: clean
 		bash ./test_python3.sh
 
-test-all: clean venv
+test-all: clean
 		bash ./test_python3.sh

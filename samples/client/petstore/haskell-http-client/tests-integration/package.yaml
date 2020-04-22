@@ -27,7 +27,7 @@ dependencies:
 - http-api-data >= 0.3.4 && <0.5
 - http-media >= 0.4 && < 0.9
 - text >=0.11 && <1.3
-- time (>=1.5 && <1.9) || (>=1.10 && <2.0)
+- time >=1.5 && <1.9
 - vector >=0.10.9 && <0.13
 - exceptions >= 0.4
 - case-insensitive

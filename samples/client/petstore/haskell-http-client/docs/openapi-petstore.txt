@@ -875,37 +875,6 @@ ArrayTest :: !Maybe [Text] -> !Maybe [[Integer]] -> !Maybe [[ReadOnlyFirst]] -> 
 --   fields, if any)
 mkArrayTest :: ArrayTest
 
--- | BigCat
-data BigCat
-BigCat :: !Text -> !Maybe Text -> !Maybe Bool -> !Maybe E'Kind -> BigCat
-
--- | <i>Required</i> "className"
-[bigCatClassName] :: BigCat -> !Text
-
--- | "color"
-[bigCatColor] :: BigCat -> !Maybe Text
-
--- | "declawed"
-[bigCatDeclawed] :: BigCat -> !Maybe Bool
-
--- | "kind"
-[bigCatKind] :: BigCat -> !Maybe E'Kind
-
--- | Construct a value of type <a>BigCat</a> (by applying it's required
---   fields, if any)
-mkBigCat :: Text -> BigCat
-
--- | BigCatAllOf
-data BigCatAllOf
-BigCatAllOf :: !Maybe E'Kind -> BigCatAllOf
-
--- | "kind"
-[bigCatAllOfKind] :: BigCatAllOf -> !Maybe E'Kind
-
--- | Construct a value of type <a>BigCatAllOf</a> (by applying it's
---   required fields, if any)
-mkBigCatAllOf :: BigCatAllOf
-
 -- | Capitalization
 data Capitalization
 Capitalization :: !Maybe Text -> !Maybe Text -> !Maybe Text -> !Maybe Text -> !Maybe Text -> !Maybe Text -> Capitalization
@@ -1140,10 +1109,10 @@ mkFormatTest :: Double -> ByteArray -> Date -> Text -> FormatTest
 data HasOnlyReadOnly
 HasOnlyReadOnly :: !Maybe Text -> !Maybe Text -> HasOnlyReadOnly
 
--- | <i>ReadOnly</i> "bar"
+-- | "bar"
 [hasOnlyReadOnlyBar] :: HasOnlyReadOnly -> !Maybe Text
 
--- | <i>ReadOnly</i> "foo"
+-- | "foo"
 [hasOnlyReadOnlyFoo] :: HasOnlyReadOnly -> !Maybe Text
 
 -- | Construct a value of type <a>HasOnlyReadOnly</a> (by applying it's
@@ -1231,13 +1200,13 @@ Name :: !Int -> !Maybe Int -> !Maybe Text -> !Maybe Int -> Name
 -- | <i>Required</i> "name"
 [nameName] :: Name -> !Int
 
--- | <i>ReadOnly</i> "snake_case"
+-- | "snake_case"
 [nameSnakeCase] :: Name -> !Maybe Int
 
 -- | "property"
 [nameProperty] :: Name -> !Maybe Text
 
--- | <i>ReadOnly</i> "123Number"
+-- | "123Number"
 [name123number] :: Name -> !Maybe Int
 
 -- | Construct a value of type <a>Name</a> (by applying it's required
@@ -1328,7 +1297,7 @@ mkPet :: Text -> [Text] -> Pet
 data ReadOnlyFirst
 ReadOnlyFirst :: !Maybe Text -> !Maybe Text -> ReadOnlyFirst
 
--- | <i>ReadOnly</i> "bar"
+-- | "bar"
 [readOnlyFirstBar] :: ReadOnlyFirst -> !Maybe Text
 
 -- | "baz"
@@ -1720,35 +1689,6 @@ fromE'JustSymbol :: E'JustSymbol -> Text
 -- | parse <a>E'JustSymbol</a> enum
 toE'JustSymbol :: Text -> Either String E'JustSymbol
 
--- | Enum of <a>Text</a>
-data E'Kind
-
--- | <pre>
---   "lions"
---   </pre>
-E'Kind'Lions :: E'Kind
-
--- | <pre>
---   "tigers"
---   </pre>
-E'Kind'Tigers :: E'Kind
-
--- | <pre>
---   "leopards"
---   </pre>
-E'Kind'Leopards :: E'Kind
-
--- | <pre>
---   "jaguars"
---   </pre>
-E'Kind'Jaguars :: E'Kind
-
--- | unwrap <a>E'Kind</a> enum
-fromE'Kind :: E'Kind -> Text
-
--- | parse <a>E'Kind</a> enum
-toE'Kind :: Text -> Either String E'Kind
-
 -- | Enum of <a>Text</a> . Order Status
 data E'Status
 
@@ -1896,15 +1836,6 @@ instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Status
 instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Status
 instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Status
 instance GHC.Show.Show OpenAPIPetstore.Model.E'Status
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BigCat
-instance GHC.Show.Show OpenAPIPetstore.Model.BigCat
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BigCatAllOf
-instance GHC.Show.Show OpenAPIPetstore.Model.BigCatAllOf
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Kind
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Kind
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Kind
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Kind
-instance GHC.Show.Show OpenAPIPetstore.Model.E'Kind
 instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumArrays
 instance GHC.Show.Show OpenAPIPetstore.Model.EnumArrays
 instance GHC.Enum.Enum OpenAPIPetstore.Model.E'JustSymbol
@@ -2171,15 +2102,6 @@ instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.E'Status
 instance Web.Internal.HttpApiData.ToHttpApiData OpenAPIPetstore.Model.E'Status
 instance Web.Internal.HttpApiData.FromHttpApiData OpenAPIPetstore.Model.E'Status
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData OpenAPIPetstore.Model.E'Status
-instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.BigCat
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BigCat
-instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.BigCatAllOf
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BigCatAllOf
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.E'Kind
-instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.E'Kind
-instance Web.Internal.HttpApiData.ToHttpApiData OpenAPIPetstore.Model.E'Kind
-instance Web.Internal.HttpApiData.FromHttpApiData OpenAPIPetstore.Model.E'Kind
-instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData OpenAPIPetstore.Model.E'Kind
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.EnumArrays
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.EnumArrays
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.E'JustSymbol
@@ -2891,21 +2813,6 @@ arrayTestArrayArrayOfIntegerL :: Lens_' ArrayTest (Maybe [[Integer]])
 
 -- | <a>arrayTestArrayArrayOfModel</a> Lens
 arrayTestArrayArrayOfModelL :: Lens_' ArrayTest (Maybe [[ReadOnlyFirst]])
-
--- | <a>bigCatClassName</a> Lens
-bigCatClassNameL :: Lens_' BigCat Text
-
--- | <a>bigCatColor</a> Lens
-bigCatColorL :: Lens_' BigCat (Maybe Text)
-
--- | <a>bigCatDeclawed</a> Lens
-bigCatDeclawedL :: Lens_' BigCat (Maybe Bool)
-
--- | <a>bigCatKind</a> Lens
-bigCatKindL :: Lens_' BigCat (Maybe E'Kind)
-
--- | <a>bigCatAllOfKind</a> Lens
-bigCatAllOfKindL :: Lens_' BigCatAllOf (Maybe E'Kind)
 
 -- | <a>capitalizationSmallCamel</a> Lens
 capitalizationSmallCamelL :: Lens_' Capitalization (Maybe Text)

@@ -42,7 +42,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
     public GoGinServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(
@@ -60,7 +60,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code/go";

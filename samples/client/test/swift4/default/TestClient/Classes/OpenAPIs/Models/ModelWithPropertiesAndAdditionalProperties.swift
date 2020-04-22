@@ -8,6 +8,7 @@
 import Foundation
 
 /** This is an empty model with no properties and only additionalProperties of type int32 */
+
 public struct ModelWithPropertiesAndAdditionalProperties: Codable {
 
     public var myIntegerReq: Int

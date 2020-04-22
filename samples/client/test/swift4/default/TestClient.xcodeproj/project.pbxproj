@@ -221,8 +221,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 87FDCE50021B77EB5CF8EF08 /* Build configuration list for PBXProject "TestClient" */;
 			compatibilityVersion = "Xcode 10.0";

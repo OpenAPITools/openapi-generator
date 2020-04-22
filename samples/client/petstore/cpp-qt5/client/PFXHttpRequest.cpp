@@ -52,17 +52,14 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 }
 
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false) {
+    : QObject(parent), manager(nullptr), _timeOut(0) {
     qsrand(QDateTime::currentDateTime().toTime_t());
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();
     connect(manager, &QNetworkAccessManager::finished, this, &PFXHttpRequestWorker::on_manager_finished);
-    timeOutTimer.setSingleShot(true);
 }
 
 PFXHttpRequestWorker::~PFXHttpRequestWorker() {
-    QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
-    timeOutTimer.stop();
     for (const auto &item : multiPartFields) {
         if (item != nullptr) {
             delete item;
@@ -96,11 +93,8 @@ QByteArray *PFXHttpRequestWorker::getMultiPartField(const QString &fieldname) {
     return nullptr;
 }
 
-void PFXHttpRequestWorker::setTimeOut(int timeOutMs) {
-    timeOutTimer.setInterval(timeOutMs);
-    if(timeOutTimer.interval() == 0) {
-        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
-    }
+void PFXHttpRequestWorker::setTimeOut(int timeOut) {
+    _timeOut = timeOut;
 }
 
 void PFXHttpRequestWorker::setWorkingDirectory(const QString &path) {
@@ -360,17 +354,12 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if (timeOutTimer.interval() > 0) {
-        QObject::connect(&timeOutTimer, &QTimer::timeout, [=]() { on_manager_timeout(reply); });
-        timeOutTimer.start();
+    if (_timeOut > 0) {
+        QTimer::singleShot(_timeOut, [=]() { on_manager_timeout(reply); });
     }
 }
 
 void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
-    if(timeOutTimer.isActive()) {
-        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
-        timeOutTimer.stop();
-    }
     error_type = reply->error();
     error_str = reply->errorString();
     if (reply->rawHeaderPairs().count() > 0) {

@@ -41,8 +41,7 @@ sidebar_label: nim
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>bool</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>bool</li>
 <li>char</li>
 <li>cstring</li>
 <li>float</li>
@@ -64,8 +63,7 @@ sidebar_label: nim
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>addr</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>addr</li>
 <li>and</li>
 <li>as</li>
 <li>asm</li>

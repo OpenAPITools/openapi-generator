@@ -8,14 +8,14 @@ case class {{classname}}(
 )
 
 object {{classname}} {
-  {{^vendorExtensions.x-has-files}}
+  {{^vendorExtensions.hasFiles}}
   implicit lazy val {{classVarName}}JsonFormat: Format[{{classname}}] = {{^isMapModel}}Json.format[{{classname}}]{{/isMapModel}}{{#isMapModel}}{
     {{#lambda.indented_4}}{{>extensibleObjectJsonFormat}}{{/lambda.indented_4}}
   }{{/isMapModel}}
-  {{/vendorExtensions.x-has-files}}
-  {{#vendorExtensions.x-has-files}}
+  {{/vendorExtensions.hasFiles}}
+  {{#vendorExtensions.hasFiles}}
   // NOTE: The JSON format for {{classname}} was not generated because it contains a file variable which cannot be encoded to JSON.
-  {{/vendorExtensions.x-has-files}}
+  {{/vendorExtensions.hasFiles}}
   {{#vars}}
   {{#isEnum}}
 

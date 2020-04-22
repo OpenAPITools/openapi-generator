@@ -33,7 +33,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     public GroovyClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -52,7 +52,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-        );
+                .build();
 
         // avoid importing the following as models
         languageSpecificPrimitives.add("Date");

@@ -100,7 +100,7 @@ class ApiClient {
                              Object body,
                              Map<String, String> headerParams,
                              Map<String, String> formParams,
-                             String nullableContentType,
+                             String contentType,
                              List<String> authNames) async {
 
     _updateParamsForAuth(authNames, queryParams, headerParams);
@@ -116,10 +116,7 @@ class ApiClient {
     String url = basePath + path + queryString;
 
     headerParams.addAll(_defaultHeaderMap);
-    if (nullableContentType != null) {
-      final contentType = nullableContentType;
-      headerParams['Content-Type'] = contentType;
-    }
+    headerParams['Content-Type'] = contentType;
 
     if(body is MultipartRequest) {
       var request = MultipartRequest(method, Uri.parse(url));
@@ -130,21 +127,20 @@ class ApiClient {
       var response = await client.send(request);
       return Response.fromStream(response);
     } else {
-      var msgBody = nullableContentType == "application/x-www-form-urlencoded" ? formParams : serialize(body);
-      final nullableHeaderParams = (headerParams.isEmpty)? null: headerParams;
+      var msgBody = contentType == "application/x-www-form-urlencoded" ? formParams : serialize(body);
       switch(method) {
         case "POST":
-          return client.post(url, headers: nullableHeaderParams, body: msgBody);
+          return client.post(url, headers: headerParams, body: msgBody);
         case "PUT":
-          return client.put(url, headers: nullableHeaderParams, body: msgBody);
+          return client.put(url, headers: headerParams, body: msgBody);
         case "DELETE":
-          return client.delete(url, headers: nullableHeaderParams);
+          return client.delete(url, headers: headerParams);
         case "PATCH":
-          return client.patch(url, headers: nullableHeaderParams, body: msgBody);
+          return client.patch(url, headers: headerParams, body: msgBody);
         case "HEAD":
-          return client.head(url, headers: nullableHeaderParams);
+          return client.head(url, headers: headerParams);
         default:
-          return client.get(url, headers: nullableHeaderParams);
+          return client.get(url, headers: headerParams);
       }
     }
   }

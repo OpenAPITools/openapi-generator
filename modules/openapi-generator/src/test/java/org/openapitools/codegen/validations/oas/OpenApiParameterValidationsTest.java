@@ -22,7 +22,7 @@ public class OpenApiParameterValidationsTest {
         parameter.setIn(in);
         parameter.setName(key);
 
-        ValidationResult result = validator.validate(new ParameterWrapper(null, parameter));
+        ValidationResult result = validator.validate(parameter);
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
@@ -43,7 +43,7 @@ public class OpenApiParameterValidationsTest {
         parameter.setIn(in);
         parameter.setName(key);
 
-        ValidationResult result = validator.validate(new ParameterWrapper(null, parameter));
+        ValidationResult result = validator.validate(parameter);
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
@@ -64,7 +64,7 @@ public class OpenApiParameterValidationsTest {
         parameter.setIn(in);
         parameter.setName(key);
 
-        ValidationResult result = validator.validate(new ParameterWrapper(null, parameter));
+        ValidationResult result = validator.validate(parameter);
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()

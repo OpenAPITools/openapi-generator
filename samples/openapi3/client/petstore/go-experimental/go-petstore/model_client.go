@@ -10,29 +10,13 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
 // Client struct for Client
 type Client struct {
 	Client *string `json:"client,omitempty"`
-}
-
-// NewClient instantiates a new Client object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewClient() *Client {
-	this := Client{}
-	return &this
-}
-
-// NewClientWithDefaults instantiates a new Client object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewClientWithDefaults() *Client {
-	this := Client{}
-	return &this
 }
 
 // GetClient returns the Client field value if set, zero value otherwise.
@@ -44,13 +28,14 @@ func (o *Client) GetClient() string {
 	return *o.Client
 }
 
-// GetClientOk returns a tuple with the Client field value if set, nil otherwise
+// GetClientOk returns a tuple with the Client field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Client) GetClientOk() (*string, bool) {
+func (o *Client) GetClientOk() (string, bool) {
 	if o == nil || o.Client == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Client, true
+	return *o.Client, true
 }
 
 // HasClient returns a boolean if a field has been set.
@@ -67,46 +52,25 @@ func (o *Client) SetClient(v string) {
 	o.Client = &v
 }
 
-func (o Client) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Client != nil {
-		toSerialize["client"] = o.Client
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableClient struct {
-	value *Client
-	isSet bool
-}
-
-func (v NullableClient) Get() *Client {
-	return v.value
-}
-
-func (v *NullableClient) Set(val *Client) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableClient) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableClient) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableClient(val *Client) *NullableClient {
-	return &NullableClient{value: val, isSet: true}
+	Value Client
+	ExplicitNull bool
 }
 
 func (v NullableClient) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableClient) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

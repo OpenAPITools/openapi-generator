@@ -24,7 +24,7 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](/Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -77,11 +77,11 @@ Finds Pets by status
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List**](..//Models/String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
+ **status** | [**List**](/Models/String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
 
 ### Return type
 
-[**List**](..//Models/Pet.md)
+[**List**](/Models/Pet.md)
 
 ### Authorization
 
@@ -104,11 +104,11 @@ Finds Pets by tags
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List**](..//Models/String.md)| Tags to filter by | [default to null]
+ **tags** | [**List**](/Models/String.md)| Tags to filter by | [default to null]
 
 ### Return type
 
-[**List**](..//Models/Pet.md)
+[**List**](/Models/Pet.md)
 
 ### Authorization
 
@@ -135,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Pet**](..//Models/Pet.md)
+[**Pet**](/Models/Pet.md)
 
 ### Authorization
 
@@ -156,7 +156,7 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](/Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -214,7 +214,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApiResponse**](..//Models/ApiResponse.md)
+[**ApiResponse**](/Models/ApiResponse.md)
 
 ### Authorization
 

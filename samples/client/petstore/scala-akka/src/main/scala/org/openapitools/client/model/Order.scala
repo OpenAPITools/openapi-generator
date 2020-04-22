@@ -11,14 +11,15 @@
  */
 package org.openapitools.client.model
 
-import java.time.OffsetDateTime
 import org.openapitools.client.core.ApiModel
+import org.joda.time.DateTime
+import java.util.UUID
 
 case class Order (
   id: Option[Long] = None,
   petId: Option[Long] = None,
   quantity: Option[Int] = None,
-  shipDate: Option[OffsetDateTime] = None,
+  shipDate: Option[DateTime] = None,
   /* Order Status */
   status: Option[OrderEnums.Status] = None,
   complete: Option[Boolean] = None

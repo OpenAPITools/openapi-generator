@@ -26,10 +26,6 @@ void UserApiTests::createUserTest() {
         userCreated = true;
         loop.quit();
     });
-    connect(&api, &PFXUserApi::createUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
-        qDebug() << "Error happened while issuing request : " << error_str;
-        loop.quit();
-    });
 
     api.createUser(createRandomUser());
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
@@ -46,10 +42,6 @@ void UserApiTests::createUsersWithArrayInputTest() {
         usersCreated = true;
         loop.quit();
     });
-    connect(&api, &PFXUserApi::createUsersWithArrayInputSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
-        qDebug() << "Error happened while issuing request : " << error_str;
-        loop.quit();
-    });
 
     QList<PFXUser> users;
     users.append(createRandomUser());
@@ -61,8 +53,6 @@ void UserApiTests::createUsersWithArrayInputTest() {
     QVERIFY2(usersCreated, "didn't finish within timeout");
 }
 
-/* commented out due to error response from the server:
- * https://travis-ci.org/github/OpenAPITools/openapi-generator/builds/667967012
 void UserApiTests::createUsersWithListInputTest() {
     PFXUserApi api;
     QEventLoop loop;
@@ -70,10 +60,6 @@ void UserApiTests::createUsersWithListInputTest() {
 
     connect(&api, &PFXUserApi::createUsersWithListInputSignal, [&]() {
         usersCreated = true;
-        loop.quit();
-    });
-    connect(&api, &PFXUserApi::createUsersWithListInputSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
-        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
@@ -100,11 +86,6 @@ void UserApiTests::deleteUserTest() {
         userDeleted = true;
         loop.quit();
     });
-    connect(&api, &PFXUserApi::deleteUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
-        userDeleted = true;
-        qDebug() << "Error happened while issuing request : " << error_str;
-        loop.quit();
-    });
 
     api.deleteUser("rambo");
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
@@ -123,18 +104,13 @@ void UserApiTests::getUserByNameTest() {
         QVERIFY(summary.getUsername() == "johndoe");
         loop.quit();
     });
-    connect(&api, &PFXUserApi::getUserByNameSignalE, [&](PFXUser, QNetworkReply::NetworkError, QString error_str) {
-        userFetched = true;
-        qDebug() << "Error happened while issuing request : " << error_str;
-        loop.quit();
-    });
 
     api.getUserByName("johndoe");
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(userFetched, "didn't finish within timeout");
 }
-*/
+
 void UserApiTests::loginUserTest() {
     PFXUserApi api;
     QEventLoop loop;
@@ -143,11 +119,6 @@ void UserApiTests::loginUserTest() {
     connect(&api, &PFXUserApi::loginUserSignal, [&](QString summary) {
         userLogged = true;
         qDebug() << summary;
-        loop.quit();
-    });
-    connect(&api, &PFXUserApi::loginUserSignalE, [&](QString, QNetworkReply::NetworkError, QString error_str) {
-        userLogged = true;
-        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
@@ -166,10 +137,6 @@ void UserApiTests::logoutUserTest() {
         userLoggedOut = true;
         loop.quit();
     });
-    connect(&api, &PFXUserApi::logoutUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
-        qDebug() << "Error happened while issuing request : " << error_str;
-        loop.quit();
-    });
 
     api.logoutUser();
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
@@ -177,8 +144,6 @@ void UserApiTests::logoutUserTest() {
     QVERIFY2(userLoggedOut, "didn't finish within timeout");
 }
 
-/* commented out due to error response from the server:
- * https://travis-ci.org/github/OpenAPITools/openapi-generator/builds/667995040
 void UserApiTests::updateUserTest() {
     PFXUserApi api;
     QEventLoop loop;
@@ -186,10 +151,6 @@ void UserApiTests::updateUserTest() {
 
     connect(&api, &PFXUserApi::updateUserSignal, [&]() {
         userUpdated = true;
-        loop.quit();
-    });
-    connect(&api, &PFXUserApi::updateUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
-        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 
@@ -200,4 +161,3 @@ void UserApiTests::updateUserTest() {
     loop.exec();
     QVERIFY2(userUpdated, "didn't finish within timeout");
 }
-*/

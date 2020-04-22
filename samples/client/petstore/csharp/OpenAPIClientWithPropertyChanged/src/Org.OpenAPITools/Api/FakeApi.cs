@@ -2319,7 +2319,7 @@ namespace Org.OpenAPITools.Api
             if (enumQueryDouble != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_double", enumQueryDouble)); // query parameter
             if (enumHeaderStringArray != null) localVarHeaderParams.Add("enum_header_string_array", this.Configuration.ApiClient.ParameterToString(enumHeaderStringArray)); // header parameter
             if (enumHeaderString != null) localVarHeaderParams.Add("enum_header_string", this.Configuration.ApiClient.ParameterToString(enumHeaderString)); // header parameter
-            if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", this.Configuration.ApiClient.Serialize(enumFormStringArray)); // form parameter
+            if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", this.Configuration.ApiClient.ParameterToString(enumFormStringArray)); // form parameter
             if (enumFormString != null) localVarFormParams.Add("enum_form_string", this.Configuration.ApiClient.ParameterToString(enumFormString)); // form parameter
 
 
@@ -2403,7 +2403,7 @@ namespace Org.OpenAPITools.Api
             if (enumQueryDouble != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_double", enumQueryDouble)); // query parameter
             if (enumHeaderStringArray != null) localVarHeaderParams.Add("enum_header_string_array", this.Configuration.ApiClient.ParameterToString(enumHeaderStringArray)); // header parameter
             if (enumHeaderString != null) localVarHeaderParams.Add("enum_header_string", this.Configuration.ApiClient.ParameterToString(enumHeaderString)); // header parameter
-            if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", this.Configuration.ApiClient.Serialize(enumFormStringArray)); // form parameter
+            if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", this.Configuration.ApiClient.ParameterToString(enumFormStringArray)); // form parameter
             if (enumFormString != null) localVarFormParams.Add("enum_form_string", this.Configuration.ApiClient.ParameterToString(enumFormString)); // form parameter
 
 

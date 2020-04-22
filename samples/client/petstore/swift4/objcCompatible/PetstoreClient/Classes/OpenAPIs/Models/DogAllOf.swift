@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class DogAllOf: NSObject, Codable {
+public struct DogAllOf: Codable {
 
     public var breed: String?
 

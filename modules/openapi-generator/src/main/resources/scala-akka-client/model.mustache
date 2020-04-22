@@ -1,10 +1,9 @@
 {{>licenseInfo}}
 package {{package}}
 
-{{#imports}}
-import {{import}}
-{{/imports}}
 import {{mainPackage}}.core.ApiModel
+import org.joda.time.DateTime
+import java.util.UUID
 
 {{#models}}
 {{#model}}

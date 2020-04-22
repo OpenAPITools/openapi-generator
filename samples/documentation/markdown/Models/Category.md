@@ -1,4 +1,4 @@
-# Category
+# ./Models.Category
 ## Properties
 
 Name | Type | Description | Notes

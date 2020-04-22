@@ -44,8 +44,7 @@ sidebar_label: swift4
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Any</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Any</li>
 <li>AnyObject</li>
 <li>Bool</li>
 <li>Character</li>
@@ -65,8 +64,7 @@ sidebar_label: swift4
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>#available</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>#available</li>
 <li>#colorLiteral</li>
 <li>#column</li>
 <li>#else</li>

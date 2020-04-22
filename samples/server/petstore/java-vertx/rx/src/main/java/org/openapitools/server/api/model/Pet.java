@@ -12,12 +12,12 @@ import org.openapitools.server.api.model.Tag;
 /**
  * A pet for sale in the pet store
  **/
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL) 
 public class Pet   {
   
-  private Long id;
-  private Category category;
-  private String name;
+  private Long id = null;
+  private Category category = null;
+  private String name = null;
   private List<String> photoUrls = new ArrayList<>();
   private List<Tag> tags = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class Pet   {
     }
   }
 
-  private StatusEnum status;
+  private StatusEnum status = null;
 
   public Pet () {
 

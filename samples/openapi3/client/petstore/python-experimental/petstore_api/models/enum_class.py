@@ -15,7 +15,6 @@ import re  # noqa: F401
 import sys  # noqa: F401
 
 import six  # noqa: F401
-import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
@@ -100,7 +99,7 @@ class EnumClass(ModelSimple):
         Args:
 
         Keyword Args:
-            value (str): defaults to '-efg', must be one of ["_abc", "-efg", "(xyz)", ]  # noqa: E501
+            value (str): defaults to '-efg', must be one of ['-efg']  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -124,10 +123,4 @@ class EnumClass(ModelSimple):
 
         self.value = value
         for var_name, var_value in six.iteritems(kwargs):
-            if var_name not in self.attribute_map and \
-                        self._configuration is not None and \
-                        self._configuration.discard_unknown_keys and \
-                        self.additional_properties_type is None:
-                # discard variable.
-                continue
             setattr(self, var_name, var_value)

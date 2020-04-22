@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class ArrayOfNumberOnly: NSObject, Codable {
+public struct ArrayOfNumberOnly: Codable {
 
     public var arrayNumber: [Double]?
 

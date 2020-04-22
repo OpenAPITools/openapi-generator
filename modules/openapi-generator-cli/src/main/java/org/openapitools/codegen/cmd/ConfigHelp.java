@@ -39,9 +39,9 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
-@SuppressWarnings({"unused","java:S106"})
+@SuppressWarnings("unused")
 @Command(name = "config-help", description = "Config help for chosen lang")
-public class ConfigHelp extends OpenApiGeneratorCommand {
+public class ConfigHelp implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 
@@ -91,7 +91,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     private String newline = System.lineSeparator();
 
     @Override
-    public void execute() {
+    public void run() {
         if (isEmpty(generatorName)) {
             LOGGER.error("[error] A generator name (--generator-name / -g) is required.");
             System.exit(1);
@@ -196,7 +196,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                     sb.append("<dd>").append(escapeHtml4(entry.getValue())).append("</dd>");
                 }
 
-                sb.append("</dl>");
+                sb.append("<dl>");
             } else {
                 sb.append(" ");
             }
@@ -246,7 +246,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
             sb.append(newline).append("## LANGUAGE PRIMITIVES").append(newline).append(newline);
 
-            sb.append("<ul class=\"column-ul\">").append(newline);
+            sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
             config.languageSpecificPrimitives()
                     .stream()
                     .sorted(String::compareTo)
@@ -257,7 +257,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         if (Boolean.TRUE.equals(reservedWords)) {
             sb.append(newline).append("## RESERVED WORDS").append(newline).append(newline);
 
-            sb.append("<ul class=\"column-ul\">").append(newline);
+            sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
             config.reservedWords()
                     .stream()
                     .sorted(String::compareTo)
@@ -268,7 +268,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         if (Boolean.TRUE.equals(featureSets)) {
             sb.append(newline).append("## FEATURE SET").append(newline).append(newline);
 
-            List<FeatureSet.FeatureSetFlattened> flattened = config.getGeneratorMetadata().getFeatureSet().flatten();
+            List<FeatureSet.FeatureSetFlattened> flattened = config.getFeatureSet().flatten();
             flattened.sort(Comparator.comparing(FeatureSet.FeatureSetFlattened::getFeatureCategory));
 
             AtomicReference<String> lastCategory = new AtomicReference<>();
@@ -320,7 +320,6 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         }
     }
 
-    @SuppressWarnings({"java:S1117"})
     private void generatePlainTextHelp(StringBuilder sb, CodegenConfig config) {
         sb.append(newline).append("CONFIG OPTIONS");
         if (Boolean.TRUE.equals(namedHeader)) {
@@ -386,7 +385,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         if (Boolean.TRUE.equals(featureSets)) {
             sb.append(newline).append("FEATURE SET").append(newline);
 
-            List<FeatureSet.FeatureSetFlattened> flattened = config.getGeneratorMetadata().getFeatureSet().flatten();
+            List<FeatureSet.FeatureSetFlattened> flattened = config.getFeatureSet().flatten();
             flattened.sort(Comparator.comparing(FeatureSet.FeatureSetFlattened::getFeatureCategory));
 
             AtomicReference<String> lastCategory = new AtomicReference<>();
@@ -419,7 +418,6 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         }
     }
 
-    @SuppressWarnings({"java:S1117"})
     private void writePlainTextFromMap(
             StringBuilder sb,
             Map<String, String> map,
@@ -451,7 +449,6 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         }
     }
 
-    @SuppressWarnings({"java:S1117"})
     private void writePlainTextFromArray(StringBuilder sb, String[] arr, String optIndent) {
         if (arr.length > 0) {
             // target a width of 20, then take the max up to 40.

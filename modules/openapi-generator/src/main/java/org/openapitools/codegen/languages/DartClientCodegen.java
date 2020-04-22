@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -67,7 +66,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public DartClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -89,7 +88,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-        );
+                .build();
 
         // clear import mapping (from default generator) as dart does not use it at the moment
         importMapping.clear();
@@ -280,7 +279,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         final String authFolder = sourceFolder + File.separator + "lib" + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "authentication.dart"));
         supportingFiles.add(new SupportingFile("auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/http_bearer_auth.mustache", authFolder, "http_bearer_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -368,21 +366,14 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        if (typeMapping.containsValue(name)) {
-            return camelize(name);
-        } else {
-            // camelize the model name
-            return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
-        }
+        // camelize the model name
+        // phone_number => PhoneNumber
+        return camelize(name);
     }
 
     @Override
     public String toModelFilename(String name) {
         return underscore(toModelName(name));
-    }
-
-    @Override public String toModelDocFilename(String name) {
-        return super.toModelDocFilename(toModelName(name));
     }
 
     @Override
@@ -478,7 +469,25 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         Map<String, Object> allowableValues = cm.allowableValues;
         List<Object> values = (List<Object>) allowableValues.get("values");
-        List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
+        List<Map<String, String>> enumVars =
+                new ArrayList<Map<String, String>>();
+        String commonPrefix = findCommonPrefixOfVars(values);
+        int truncateIdx = commonPrefix.length();
+        for (Object value : values) {
+            Map<String, String> enumVar = new HashMap<String, String>();
+            String enumName;
+            if (truncateIdx == 0) {
+                enumName = value.toString();
+            } else {
+                enumName = value.toString().substring(truncateIdx);
+                if ("".equals(enumName)) {
+                    enumName = value.toString();
+                }
+            }
+            enumVar.put("name", toEnumVarName(enumName, cm.dataType));
+            enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
+            enumVars.add(enumVar);
+        }
         cm.allowableValues.put("enumVars", enumVars);
         return true;
     }

@@ -267,7 +267,6 @@ class UserApi
 
 
 
-
         // body params
         $_tempBody = null;
         if (isset($user)) {
@@ -484,7 +483,6 @@ class UserApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
 
@@ -707,7 +705,6 @@ class UserApi
 
 
 
-
         // body params
         $_tempBody = null;
         if (isset($user)) {
@@ -924,7 +921,6 @@ class UserApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
         // path params
@@ -1197,7 +1193,6 @@ class UserApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
         // path params
@@ -1484,27 +1479,12 @@ class UserApi
 
         // query params
         if ($username !== null) {
-            if('form' === 'form' && is_array($username)) {
-                foreach($username as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['username'] = $username;
-            }
+            $queryParams['username'] = ObjectSerializer::toQueryValue($username);
         }
         // query params
         if ($password !== null) {
-            if('form' === 'form' && is_array($password)) {
-                foreach($password as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['password'] = $password;
-            }
+            $queryParams['password'] = ObjectSerializer::toQueryValue($password);
         }
-
 
 
         // body params
@@ -1709,7 +1689,6 @@ class UserApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
 
@@ -1937,7 +1916,6 @@ class UserApi
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-
 
 
         // path params

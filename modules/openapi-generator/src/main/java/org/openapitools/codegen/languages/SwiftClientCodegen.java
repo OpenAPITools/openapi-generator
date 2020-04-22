@@ -95,7 +95,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
                 .stability(Stability.DEPRECATED)
                 .build();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -110,7 +110,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");

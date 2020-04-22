@@ -26,8 +26,7 @@ sidebar_label: lua
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>boolean</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>boolean</li>
 <li>nil</li>
 <li>number</li>
 <li>string</li>
@@ -35,8 +34,7 @@ sidebar_label: lua
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>and</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>and</li>
 <li>boolean</li>
 <li>break</li>
 <li>do</li>

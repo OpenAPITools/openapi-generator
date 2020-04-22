@@ -46,7 +46,7 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
     public GraphQLSchemaCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
 //                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(
@@ -61,7 +61,7 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-        );
+                .build();
 
         outputFolder = "generated-code/graphql-schema";
         modelTemplateFiles.put("model.mustache", ".graphql");

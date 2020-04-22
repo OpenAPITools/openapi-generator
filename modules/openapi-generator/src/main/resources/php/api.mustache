@@ -473,33 +473,15 @@ use {{invokerPackage}}\ObjectSerializer;
 
         {{#queryParams}}
         // query params
-        {{#isExplode}}
-        if (${{paramName}} !== null) {
-        {{#style}}
-            if('form' === '{{style}}' && is_array(${{paramName}})) {
-                foreach(${{paramName}} as $key => $value) {
-                    $queryParams[$key] = $value;
-                }
-            }
-            else {
-                $queryParams['{{baseName}}'] = ${{paramName}};
-            }
-        {{/style}}
-        {{^style}}
-            $queryParams['{{baseName}}'] = ${{paramName}};
-        {{/style}}
-        }
-        {{/isExplode}}
-        {{^isExplode}}
+        {{#collectionFormat}}
         if (is_array(${{paramName}})) {
-            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{#style}}{{style}}{{/style}}{{^style}}{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{/style}}', true);
+            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{collectionFormat}}', true);
         }
+        {{/collectionFormat}}
         if (${{paramName}} !== null) {
-            $queryParams['{{baseName}}'] = ${{paramName}};
+            $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}});
         }
-        {{/isExplode}}
         {{/queryParams}}
-
         {{#headerParams}}
         // header params
         {{#collectionFormat}}

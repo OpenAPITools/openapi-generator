@@ -41,7 +41,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     public StaticHtmlGenerator() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
                 .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
                 .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
@@ -49,7 +49,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
                 .globalFeatures(EnumSet.allOf(GlobalFeature.class))
                 .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
                 .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
-        );
+                .build();
 
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs";

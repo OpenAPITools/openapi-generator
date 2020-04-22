@@ -40,8 +40,7 @@ sidebar_label: php-symfony
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>array</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>array</li>
 <li>bool</li>
 <li>byte</li>
 <li>double</li>
@@ -56,8 +55,7 @@ sidebar_label: php-symfony
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>__halt_compiler</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>__halt_compiler</li>
 <li>_header_accept</li>
 <li>_tempbody</li>
 <li>abstract</li>

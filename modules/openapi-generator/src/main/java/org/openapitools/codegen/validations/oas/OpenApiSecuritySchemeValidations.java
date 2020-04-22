@@ -1,7 +1,6 @@
 package org.openapitools.codegen.validations.oas;
 
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.validation.GenericValidator;
 import org.openapitools.codegen.validation.ValidationRule;
@@ -12,7 +11,7 @@ import java.util.Locale;
 /**
  * A standalone instance for evaluating rules and recommendations related to OAS {@link SecurityScheme}
  */
-class OpenApiSecuritySchemeValidations extends GenericValidator<SecuritySchemeWrapper> {
+class OpenApiSecuritySchemeValidations extends GenericValidator<SecurityScheme> {
     OpenApiSecuritySchemeValidations(RuleConfiguration ruleConfiguration) {
         super(new ArrayList<>());
         if (ruleConfiguration.isEnableRecommendations()) {
@@ -32,8 +31,7 @@ class OpenApiSecuritySchemeValidations extends GenericValidator<SecuritySchemeWr
      * @param securityScheme Security schemes are often used as header parameters (e.g. APIKEY).
      * @return <code>true</code> if the check succeeds (header does not have an underscore, e.g. 'api_key')
      */
-    private static ValidationRule.Result apacheNginxHeaderCheck(SecuritySchemeWrapper securitySchemeWrapper) {
-        SecurityScheme securityScheme = securitySchemeWrapper.getSecurityScheme();
+    private static ValidationRule.Result apacheNginxHeaderCheck(SecurityScheme securityScheme) {
         if (securityScheme == null || securityScheme.getIn() != SecurityScheme.In.HEADER)
             return ValidationRule.Pass.empty();
         ValidationRule.Result result = ValidationRule.Pass.empty();

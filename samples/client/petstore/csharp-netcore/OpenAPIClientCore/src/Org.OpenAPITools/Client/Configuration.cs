@@ -15,7 +15,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Org.OpenAPITools.Client
@@ -222,12 +221,6 @@ namespace Org.OpenAPITools.Client
             
             return apiKeyValue;
         }
-
-        /// <summary>
-        /// Gets or sets certificate collection to be sent with requests.
-        /// </summary>
-        /// <value>X509 Certificate collection.</value>
-        public X509CertificateCollection ClientCertificates { get; set; }
 
         /// <summary>
         /// Gets or sets the access token for OAuth2 authentication.

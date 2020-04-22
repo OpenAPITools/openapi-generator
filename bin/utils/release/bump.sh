@@ -163,13 +163,11 @@ if [[ -z "${to}" ]]; then
             ;;
         snapshot)
             if [[ true = ${from_parts[3]} ]]; then
-                # Going from -SNAPSHOT to its release
-                to="${from_parts[0]}.${from_parts[1]}.${from_parts[2]}"
+                err "Can't move from SNAPSHOT to SNAPSHOT (from=${from})."
             else
-                # Going from some version to its next version and -SNAPSHOT
                 to="${from_parts[0]}.${from_parts[1]}.$(( ${from_parts[2]} + 1 ))-SNAPSHOT"
+                version "$to" to_parts
             fi
-            version "$to" to_parts
             ;;
     esac
    fi

@@ -1,4 +1,4 @@
-# ApiResponse
+# ./Models.ApiResponse
 ## Properties
 
 Name | Type | Description | Notes

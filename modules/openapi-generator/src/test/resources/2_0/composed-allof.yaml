@@ -51,8 +51,3 @@ definitions:
         type: string
       p2:
         type: string
-
-  NewMessageEventCoreNoOwnProps:
-    type: object
-    allOf:
-      - $ref: "#/definitions/MessageEventCore"

@@ -41,7 +41,9 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public JavaInflectorServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         sourceFolder = "src/gen/java";
         apiTestTemplateFiles.clear(); // TODO: add test template

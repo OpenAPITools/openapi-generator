@@ -99,7 +99,7 @@ type alias Array =
 {-| Composed model
 -}
 type alias Composed =
-    { composedBase: ComposedBase
+    { base : Float
     , value : Maybe String
     }
 
@@ -318,10 +318,11 @@ encodeComposedPairs : Composed -> List EncodedField
 encodeComposedPairs model =
     let
         pairs =
-            [ maybeEncode "value" Json.Encode.string model.value
+            [ encode "base" Json.Encode.float model.base
+            , maybeEncode "value" Json.Encode.string model.value
             ]
     in
-    encodeComposedBasePairs model.composedBase ++ pairs
+    pairs
 
 
 encodeComposedBase : ComposedBase -> Json.Encode.Value
@@ -652,7 +653,7 @@ arrayDecoder =
 composedDecoder : Json.Decode.Decoder Composed
 composedDecoder =
     Json.Decode.succeed Composed
-        |> decodeChain composedBaseDecoder
+        |> decode "base" Json.Decode.float 
         |> maybeDecode "value" Json.Decode.string Nothing
 
 

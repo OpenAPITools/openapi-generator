@@ -17,8 +17,6 @@
 		6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */; };
 		6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */; };
 		751C65B82F596107A3DC8ED9 /* Pods_SwaggerClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F60AECFF321A25553B6A5B0 /* Pods_SwaggerClient.framework */; };
-		A5EA125C2419398500E30FC3 /* UIImage+Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA125A2419398500E30FC3 /* UIImage+Extras.swift */; };
-		A5EA125D2419398500E30FC3 /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA125B2419398500E30FC3 /* FileUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,8 +44,6 @@
 		6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreAPITests.swift; sourceTree = "<group>"; };
 		6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPITests.swift; sourceTree = "<group>"; };
 		8F60AECFF321A25553B6A5B0 /* Pods_SwaggerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5EA125A2419398500E30FC3 /* UIImage+Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extras.swift"; sourceTree = "<group>"; };
-		A5EA125B2419398500E30FC3 /* FileUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
 		A638467ACFB30852DEA51F7A /* Pods-SwaggerClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.debug.xcconfig"; sourceTree = "<group>"; };
 		B4B2BEC2ECA535C616F2F3FE /* Pods-SwaggerClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		C07EC0A94AA0F86D60668B32 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,8 +132,6 @@
 				6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */,
 				6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */,
 				6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */,
-				A5EA125B2419398500E30FC3 /* FileUtils.swift */,
-				A5EA125A2419398500E30FC3 /* UIImage+Extras.swift */,
 			);
 			path = SwaggerClientTests;
 			sourceTree = "<group>";
@@ -318,9 +312,7 @@
 			files = (
 				6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */,
 				6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */,
-				A5EA125C2419398500E30FC3 /* UIImage+Extras.swift in Sources */,
 				6D4EFBB51C693BE200B96B06 /* PetAPITests.swift in Sources */,
-				A5EA125D2419398500E30FC3 /* FileUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

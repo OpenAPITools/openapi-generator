@@ -274,32 +274,24 @@ class ModelComposed(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        values = []
-        # A composed model stores child (oneof/anyOf/allOf) models under
-        # self._var_name_to_model_instances. A named property can exist in
-        # multiple child models. If the property is present in more than one
-        # child model, the value must be the same across all the child models.
         if model_instances:
+            values = set()
             for model_instance in model_instances:
                 if name in model_instance._data_store:
-                    v = model_instance._data_store[name]
-                    if v not in values:
-                        values.append(v)
-        len_values = len(values)
-        if len_values == 0:
-            raise ApiKeyError(
-                "{0} has no key '{1}'".format(type(self).__name__, name),
-                path_to_item
-            )
-        elif len_values == 1:
-            return values[0]
-        elif len_values > 1:
+                    values.add(model_instance._data_store[name])
+            if len(values) == 1:
+                return list(values)[0]
             raise ApiValueError(
-                "Values stored for property {0} in {1} differ when looking "
+                "Values stored for property {0} in {1} difffer when looking "
                 "at self and self's composed instances. All values must be "
                 "the same".format(name, type(self).__name__),
                 path_to_item
             )
+
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            path_to_item
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""
@@ -726,11 +718,7 @@ def get_required_type_classes(required_types_mixed):
 def change_keys_js_to_python(input_dict, model_class):
     """
     Converts from javascript_key keys in the input_dict to python_keys in
-    the output dict using the mapping in model_class.
-    If the input_dict contains a key which does not declared in the model_class,
-    the key is added to the output dict as is. The assumption is the model_class
-    may have undeclared properties (additionalProperties attribute in the OAS
-    document).
+    the output dict using the mapping in model_class
     """
 
     output_dict = {}
@@ -943,9 +931,8 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
     if not valid_classes_coercible or key_type:
         # we do not handle keytype errors, json will take care
         # of this for us
-        if configuration is None or not configuration.discard_unknown_keys:
-            raise get_type_error(input_value, path_to_item, valid_classes,
-                                 key_type=key_type)
+        raise get_type_error(input_value, path_to_item, valid_classes,
+                             key_type=key_type)
     for valid_class in valid_classes_coercible:
         try:
             if issubclass(valid_class, OpenApiModel):
@@ -1094,7 +1081,7 @@ def model_to_dict(model_instance, serialize=True):
 
     model_instances = [model_instance]
     if model_instance._composed_schemas() is not None:
-        model_instances.extend(model_instance._composed_instances)
+        model_instances = model_instance._composed_instances
     for model_instance in model_instances:
         for attr, value in six.iteritems(model_instance._data_store):
             if serialize:
@@ -1202,88 +1189,53 @@ def get_allof_instances(self, model_args, constant_args):
 
         # and use it to make the instance
         kwargs.update(constant_args)
-        try:
-            allof_instance = allof_class(**kwargs)
-            composed_instances.append(allof_instance)
-        except Exception as ex:
-            raise ApiValueError(
-                "Invalid inputs given to generate an instance of '%s'. The "
-                "input data was invalid for the allOf schema '%s' in the composed "
-                "schema '%s'. Error=%s" % (
-                    allof_class.__class__.__name__,
-                    allof_class.__class__.__name__,
-                    self.__class__.__name__,
-                    str(ex)
-                )
-            )
+        allof_instance = allof_class(**kwargs)
+        composed_instances.append(allof_instance)
     return composed_instances
 
 
 def get_oneof_instance(self, model_args, constant_args):
     """
-    Find the oneOf schema that matches the input data (e.g. payload).
-    If exactly one schema matches the input data, an instance of that schema
-    is returned.
-    If zero or more than one schema match the input data, an exception is raised.
-    In OAS 3.x, the payload MUST, by validation, match exactly one of the
-    schemas described by oneOf.
     Args:
         self: the class we are handling
         model_args (dict): var_name to var_value
-            The input data, e.g. the payload that must match a oneOf schema
-            in the OpenAPI document.
+            used to make instances
         constant_args (dict): var_name to var_value
-            args that every model requires, including configuration, server
-            and path to item.
+            used to make instances
 
     Returns
-        oneof_instance (instance/None)
+        oneof_instance (instance)
     """
+    oneof_instance = None
     if len(self._composed_schemas()['oneOf']) == 0:
-        return None
+        return oneof_instance
 
-    oneof_instances = []
-    # Iterate over each oneOf schema and determine if the input data
-    # matches the oneOf schemas.
     for oneof_class in self._composed_schemas()['oneOf']:
-        # transform js keys from input data to python keys in fixed_model_args
+        # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
             model_args, oneof_class)
 
-        # Extract a dict with the properties that are declared in the oneOf schema.
-        # Undeclared properties (e.g. properties that are allowed because of the
-        # additionalProperties attribute in the OAS document) are not added to
-        # the dict.
+        # extract a dict of only required keys from fixed_model_args
         kwargs = {}
         var_names = set(oneof_class.openapi_types().keys())
         for var_name in var_names:
             if var_name in fixed_model_args:
                 kwargs[var_name] = fixed_model_args[var_name]
 
-        # do not try to make a model with no input args
-        if len(kwargs) == 0:
-            continue
-
         # and use it to make the instance
         kwargs.update(constant_args)
         try:
             oneof_instance = oneof_class(**kwargs)
-            oneof_instances.append(oneof_instance)
+            break
         except Exception:
             pass
-    if len(oneof_instances) == 0:
+    if oneof_instance is None:
         raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. None "
-            "of the oneOf schemas matched the input data." %
+            "Invalid inputs given to generate an instance of %s. Unable to "
+            "make any instances of the classes in oneOf definition." %
             self.__class__.__name__
         )
-    elif len(oneof_instances) > 1:
-        raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. Multiple "
-            "oneOf schemas matched the inputs, but a max of one is allowed." %
-            self.__class__.__name__
-        )
-    return oneof_instances[0]
+    return oneof_instance
 
 
 def get_anyof_instances(self, model_args, constant_args):
@@ -1313,10 +1265,6 @@ def get_anyof_instances(self, model_args, constant_args):
             if var_name in fixed_model_args:
                 kwargs[var_name] = fixed_model_args[var_name]
 
-        # do not try to make a model with no input args
-        if len(kwargs) == 0:
-            continue
-
         # and use it to make the instance
         kwargs.update(constant_args)
         try:
@@ -1326,8 +1274,8 @@ def get_anyof_instances(self, model_args, constant_args):
             pass
     if len(anyof_instances) == 0:
         raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. None of the "
-            "anyOf schemas matched the inputs." %
+            "Invalid inputs given to generate an instance of %s. Unable to "
+            "make any instances of the classes in anyOf definition." %
             self.__class__.__name__
         )
     return anyof_instances
@@ -1378,18 +1326,10 @@ def get_unused_args(self, composed_instances, model_args):
 
 def validate_get_composed_info(constant_args, model_args, self):
     """
-    For composed schemas, generate schema instances for
-    all schemas in the oneOf/anyOf/allOf definition. If additional
-    properties are allowed, also assign those properties on
-    all matched schemas that contain additionalProperties.
-    Openapi schemas are python classes.
-
-    Exceptions are raised if:
-    - no oneOf schema matches the model_args input data
-    - > 1 oneOf schema matches the model_args input data
-    - > 1 oneOf schema matches the model_args input data
-    - no anyOf schema matches the model_args input data
-    - any of the allOf schemas do not match the model_args input data
+    For composed schemas/classes, validates the classes to make sure that
+    they do not share any of the same parameters. If there is no collision
+    then composed model instances are created and returned tot the calling
+    self model
 
     Args:
         constant_args (dict): these are the args that every model requires
@@ -1431,16 +1371,16 @@ def validate_get_composed_info(constant_args, model_args, self):
 
     # set any remaining values
     unused_args = get_unused_args(self, composed_instances, model_args)
-    if len(unused_args) > 0 and \
-            len(additional_properties_model_instances) == 0 and \
-            (self._configuration is None or
-                not self._configuration.discard_unknown_keys):
-        raise ApiValueError(
-            "Invalid input arguments input when making an instance of "
-            "class %s. Not all inputs were used. The unused input data "
-            "is %s" % (self.__class__.__name__, unused_args)
-        )
-
+    if len(unused_args) > 0:
+        if len(additional_properties_model_instances) == 0:
+            raise ApiValueError(
+                "Invalid input arguments input when making an instance of "
+                "class %s. Not all inputs were used. The unused input data "
+                "is %s" % (self.__class__.__name__, unused_args)
+            )
+        for var_name, var_value in six.iteritems(unused_args):
+            for instance in additional_properties_model_instances:
+                setattr(instance, var_name, var_value)
     # no need to add additional_properties to var_name_to_model_instances here
     # because additional_properties_model_instances will direct us to that
     # instance when we use getattr or setattr
@@ -1449,6 +1389,5 @@ def validate_get_composed_info(constant_args, model_args, self):
     return [
       composed_instances,
       var_name_to_model_instances,
-      additional_properties_model_instances,
-      unused_args
+      additional_properties_model_instances
     ]

@@ -36,10 +36,10 @@ make
 - Once visual studio opens, CMake should show up in top menu bar.
 - Select CMake > Build All.
 
-*Note: If the CMake menu item doesn't show up in Visual Studio, CMake
-for Visual Studio must be installed. In this case, open the 'Visual Studio
-Installer' application. Select 'modify' Visual Studio 2017. Make sure
-'Desktop Development with C++' is installed, and specifically that 'Visual
+*Note: If the CMake menu item doesn't show up in Visual Studio, CMake 
+for Visual Studio must be installed. In this case, open the 'Visual Studio 
+Installer' application. Select 'modify' Visual Studio 2017. Make sure 
+'Desktop Development with C++' is installed, and specifically that 'Visual 
 C++ tools for CMake' is selected in the 'Installation Details' section.
 
 Also be sure to review the CMakeLists.txt file. Edits are likely required.*

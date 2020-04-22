@@ -102,7 +102,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public SpringCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -127,7 +127,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         outputFolder = "generated-code/javaSpring";
         embeddedTemplateDir = templateDir = "JavaSpring";
@@ -652,7 +652,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         } else if (rt.startsWith("Map")) {
             int end = rt.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring("Map<".length(), end).split(",", 2)[1].trim());
+                dataTypeAssigner.setReturnType(rt.substring("Map<".length(), end).split(",")[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
         } else if (rt.startsWith("Set")) {

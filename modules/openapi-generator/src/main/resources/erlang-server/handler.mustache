@@ -225,7 +225,7 @@ handle_request_json(
                 LogicHandler,
                 OperationID,
                 Req1,
-                maps:merge(State#state.context, Populated)
+                Populated
             ),
             _ = {{packageName}}_api:validate_response(
                 OperationID,

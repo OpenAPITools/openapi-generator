@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
@@ -26,23 +27,6 @@ type User struct {
 	UserStatus *int32 `json:"userStatus,omitempty"`
 }
 
-// NewUser instantiates a new User object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewUser() *User {
-	this := User{}
-	return &this
-}
-
-// NewUserWithDefaults instantiates a new User object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewUserWithDefaults() *User {
-	this := User{}
-	return &this
-}
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *User) GetId() int64 {
 	if o == nil || o.Id == nil {
@@ -52,13 +36,14 @@ func (o *User) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetIdOk() (*int64, bool) {
+func (o *User) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
-		return nil, false
+		var ret int64
+		return ret, false
 	}
-	return o.Id, true
+	return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -84,13 +69,14 @@ func (o *User) GetUsername() string {
 	return *o.Username
 }
 
-// GetUsernameOk returns a tuple with the Username field value if set, nil otherwise
+// GetUsernameOk returns a tuple with the Username field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetUsernameOk() (*string, bool) {
+func (o *User) GetUsernameOk() (string, bool) {
 	if o == nil || o.Username == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Username, true
+	return *o.Username, true
 }
 
 // HasUsername returns a boolean if a field has been set.
@@ -116,13 +102,14 @@ func (o *User) GetFirstName() string {
 	return *o.FirstName
 }
 
-// GetFirstNameOk returns a tuple with the FirstName field value if set, nil otherwise
+// GetFirstNameOk returns a tuple with the FirstName field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetFirstNameOk() (*string, bool) {
+func (o *User) GetFirstNameOk() (string, bool) {
 	if o == nil || o.FirstName == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.FirstName, true
+	return *o.FirstName, true
 }
 
 // HasFirstName returns a boolean if a field has been set.
@@ -148,13 +135,14 @@ func (o *User) GetLastName() string {
 	return *o.LastName
 }
 
-// GetLastNameOk returns a tuple with the LastName field value if set, nil otherwise
+// GetLastNameOk returns a tuple with the LastName field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetLastNameOk() (*string, bool) {
+func (o *User) GetLastNameOk() (string, bool) {
 	if o == nil || o.LastName == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.LastName, true
+	return *o.LastName, true
 }
 
 // HasLastName returns a boolean if a field has been set.
@@ -180,13 +168,14 @@ func (o *User) GetEmail() string {
 	return *o.Email
 }
 
-// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
+// GetEmailOk returns a tuple with the Email field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetEmailOk() (*string, bool) {
+func (o *User) GetEmailOk() (string, bool) {
 	if o == nil || o.Email == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Email, true
+	return *o.Email, true
 }
 
 // HasEmail returns a boolean if a field has been set.
@@ -212,13 +201,14 @@ func (o *User) GetPassword() string {
 	return *o.Password
 }
 
-// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
+// GetPasswordOk returns a tuple with the Password field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetPasswordOk() (*string, bool) {
+func (o *User) GetPasswordOk() (string, bool) {
 	if o == nil || o.Password == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Password, true
+	return *o.Password, true
 }
 
 // HasPassword returns a boolean if a field has been set.
@@ -244,13 +234,14 @@ func (o *User) GetPhone() string {
 	return *o.Phone
 }
 
-// GetPhoneOk returns a tuple with the Phone field value if set, nil otherwise
+// GetPhoneOk returns a tuple with the Phone field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetPhoneOk() (*string, bool) {
+func (o *User) GetPhoneOk() (string, bool) {
 	if o == nil || o.Phone == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Phone, true
+	return *o.Phone, true
 }
 
 // HasPhone returns a boolean if a field has been set.
@@ -276,13 +267,14 @@ func (o *User) GetUserStatus() int32 {
 	return *o.UserStatus
 }
 
-// GetUserStatusOk returns a tuple with the UserStatus field value if set, nil otherwise
+// GetUserStatusOk returns a tuple with the UserStatus field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetUserStatusOk() (*int32, bool) {
+func (o *User) GetUserStatusOk() (int32, bool) {
 	if o == nil || o.UserStatus == nil {
-		return nil, false
+		var ret int32
+		return ret, false
 	}
-	return o.UserStatus, true
+	return *o.UserStatus, true
 }
 
 // HasUserStatus returns a boolean if a field has been set.
@@ -299,67 +291,25 @@ func (o *User) SetUserStatus(v int32) {
 	o.UserStatus = &v
 }
 
-func (o User) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.Username != nil {
-		toSerialize["username"] = o.Username
-	}
-	if o.FirstName != nil {
-		toSerialize["firstName"] = o.FirstName
-	}
-	if o.LastName != nil {
-		toSerialize["lastName"] = o.LastName
-	}
-	if o.Email != nil {
-		toSerialize["email"] = o.Email
-	}
-	if o.Password != nil {
-		toSerialize["password"] = o.Password
-	}
-	if o.Phone != nil {
-		toSerialize["phone"] = o.Phone
-	}
-	if o.UserStatus != nil {
-		toSerialize["userStatus"] = o.UserStatus
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableUser struct {
-	value *User
-	isSet bool
-}
-
-func (v NullableUser) Get() *User {
-	return v.value
-}
-
-func (v *NullableUser) Set(val *User) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableUser) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableUser) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableUser(val *User) *NullableUser {
-	return &NullableUser{value: val, isSet: true}
+	Value User
+	ExplicitNull bool
 }
 
 func (v NullableUser) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableUser) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

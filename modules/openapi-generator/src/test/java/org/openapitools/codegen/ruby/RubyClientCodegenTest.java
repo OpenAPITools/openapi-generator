@@ -29,11 +29,9 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.TreeSet;
 
 import static org.testng.Assert.assertTrue;
@@ -51,7 +49,7 @@ public class RubyClientCodegenTest {
         output.mkdirs();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/pathWithHtmlEntity.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/pathWithHtmlEntity.yaml");
         CodegenConfig codegenConfig = new RubyClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
@@ -115,7 +113,7 @@ public class RubyClientCodegenTest {
         output.mkdirs();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/npe1.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/npe1.yaml");
         CodegenConfig codegenConfig = new RubyClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
@@ -138,7 +136,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "verify enum parameters (query, form, header)")
     public void enumParameterTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new RubyClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";
@@ -153,7 +151,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test example value for body parameter")
     public void bodyParameterTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
         codegen.setOpenAPI(openAPI);
@@ -168,7 +166,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test nullable for properties")
     public void nullablePropertyTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
         final String path = "/pet";
@@ -197,7 +195,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test properties without nullable")
     public void propertiesWithoutNullableTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
         final String path = "/pet";
@@ -283,7 +281,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test nullable for parameters (OAS3)")
     public void nullableParameterOAS3Test() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
         codegen.setOpenAPI(openAPI);
@@ -305,7 +303,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test nullable for parameters (OAS2)")
     public void nullableParameterOAS2Test() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-nullable.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-nullable.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
         codegen.setOpenAPI(openAPI);
@@ -329,7 +327,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test anyOf (OAS3)")
     public void anyOfTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOf.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/anyOf.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
 
@@ -345,7 +343,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test oneOf (OAS3)")
     public void oneOfTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
 
@@ -361,7 +359,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test allOf (OAS3)")
     public void allOfTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
 
@@ -381,7 +379,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test allOf with only allOf and duplicated properties(OAS3)")
     public void allOfDuplicatedPropertiesTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOfDuplicatedProperties.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOfDuplicatedProperties.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
 
@@ -410,7 +408,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test allOf with discriminator and duplicated properties(OAS3) for Child model")
     public void allOfMappingDuplicatedPropertiesTestForChild() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
 
@@ -420,50 +418,52 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(child);
 
         // to test allVars (without parent's properties)
-        List<String> allVars  =
-                child.getAllVars().stream()
-                        .map(CodegenProperty::getName)
-                        .collect(Collectors.toList());
-        List<String> allVarsExpected = Arrays.asList(
-                "age",
-                "first_name",
-                "_type",
-                "last_name",
-                "duplicated_optional",
-                "duplicated_required",
-                "person_required"
-        );
-        Assert.assertEquals(allVars.size(), allVarsExpected.size());
-        Assert.assertTrue(allVars.containsAll(allVarsExpected));
+        Assert.assertEquals(child.getAllVars().size(), 7);
+
+        CodegenProperty cp0 = child.getAllVars().get(0);
+        Assert.assertEquals(cp0.name, "_type");
+
+        CodegenProperty cp1 = child.getAllVars().get(1);
+        Assert.assertEquals(cp1.name, "last_name");
+
+        CodegenProperty cp2 = child.getAllVars().get(2);
+        Assert.assertEquals(cp2.name, "first_name");
+
+        CodegenProperty cp3 = child.getAllVars().get(3);
+        Assert.assertEquals(cp3.name, "duplicated_optional");
+
+        CodegenProperty cp4 = child.getAllVars().get(4);
+        Assert.assertEquals(cp4.name, "duplicated_required");
+
+        CodegenProperty cp5 = child.getAllVars().get(5);
+        Assert.assertEquals(cp5.name, "person_required");
+
+        CodegenProperty cp6 = child.getAllVars().get(6);
+        Assert.assertEquals(cp6.name, "age");
 
         // to test vars (without parent's properties)
-        List<String> vars  =
-                child.getVars().stream()
-                        .map(CodegenProperty::getName)
-                        .collect(Collectors.toList());
-        List<String> varsExpected = Arrays.asList(
-                "age",
-                "first_name"
-        );
-        Assert.assertEquals(vars.size(), varsExpected.size());
-        Assert.assertTrue(vars.containsAll(varsExpected));
+        Assert.assertEquals(child.getVars().size(), 2);
+
+        cp0 = child.getVars().get(0);
+        Assert.assertEquals(cp0.name, "age");
+
+        cp1 = child.getVars().get(1);
+        Assert.assertEquals(cp1.name, "first_name");
 
         // to test requiredVars
-        List<String> requiredVars  =
-                child.getRequiredVars().stream()
-                        .map(CodegenProperty::getName)
-                        .collect(Collectors.toList());
-        List<String> requiredVarsExpected = Arrays.asList(
-                "duplicated_required",
-                "person_required"
-                );
-        Assert.assertEquals(vars.size(), requiredVarsExpected.size());
-        Assert.assertTrue(requiredVars.containsAll(requiredVarsExpected));
+        Assert.assertEquals(child.getRequiredVars().size(), 2);
+
+        cp0 = child.getRequiredVars().get(0);
+        Assert.assertEquals(cp0.name, "duplicated_required");
+
+        cp1 = child.getRequiredVars().get(1);
+        Assert.assertEquals(cp1.name, "person_required");
+
     }
 
     @Test(description = "test allOf with discriminator and duplicated properties(OAS3) for Adult model")
     public void allOfMappingDuplicatedPropertiesTestForAdult() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
 
@@ -523,7 +523,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test allOf composition")
     public void allOfCompositionTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_composition.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
 
@@ -591,7 +591,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test example string imported from x-example parameterr (OAS2)")
     public void exampleStringFromExampleParameterOAS2Test() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-nullable.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-nullable.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
         codegen.setOpenAPI(openAPI);
@@ -606,7 +606,7 @@ public class RubyClientCodegenTest {
 
     @Test(description = "test example string imported from example in schema (OAS3)")
     public void exampleStringFromXExampleParameterOAS3Test() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
         codegen.setOpenAPI(openAPI);
@@ -627,7 +627,7 @@ public class RubyClientCodegenTest {
      */
     @Test(description = "test regex patterns")
     public void exampleRegexParameterValidationOAS3Test() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/test_regex.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/test_regex.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/ping";

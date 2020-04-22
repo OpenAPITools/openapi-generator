@@ -7,14 +7,9 @@
 
 import Foundation
 
-@objc public class Tag: NSObject, Codable {
+public struct Tag: Codable {
 
     public var _id: Int64?
-    public var _idNum: NSNumber? {
-        get {
-            return _id as NSNumber?
-        }
-    }
     public var name: String?
 
     public init(_id: Int64?, name: String?) {

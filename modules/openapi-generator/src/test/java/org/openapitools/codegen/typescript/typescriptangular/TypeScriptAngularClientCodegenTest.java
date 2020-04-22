@@ -19,18 +19,6 @@ import org.testng.annotations.Test;
 
 public class TypeScriptAngularClientCodegenTest {
     @Test
-    public void toVarName() {
-        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
-        codegen.processOpts();
-        Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
-
-        codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "camelCase");
-        codegen.processOpts();
-        Assert.assertEquals(codegen.toVarName("valid_var"), "validVar");
-    }
-
-    @Test
     public void toEnumVarName() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         // unspecified option should default to PascalCase

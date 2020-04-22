@@ -17,30 +17,45 @@
 
 package org.openapitools.codegen.cmd;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import io.airlift.airline.Command;
-import io.airlift.airline.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@SuppressWarnings({"unused", "java:S106"})
-@Command(name = "version", description = "Show version information used in tooling")
-public class Version extends OpenApiGeneratorCommand {
+@Command(name = "version", description = "Show version information")
+public class Version implements Runnable {
 
-    @Option(name = {"--sha"}, description = "Git commit SHA version")
-    private Boolean sha;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Meta.class);
 
-    @Option(name = {"--full"}, description = "Full version details")
-    private Boolean full;
+    private static final String VERSION_PLACEHOLDER = "${project.version}";
+
+    private static final String UNREADABLE_VERSION = "unreadable";
+    private static final String UNSET_VERSION = "unset";
+    private static final String UNKNOWN_VERSION = "unknown";
+
+    public static String readVersionFromResources() {
+        Properties versionProperties = new Properties();
+        try (InputStream is = Version.class.getResourceAsStream("/version.properties")) {
+            versionProperties.load(is);
+        } catch (IOException ex) {
+            LOGGER.error("Error loading version properties", ex);
+            return UNREADABLE_VERSION;
+        }
+
+        String version = versionProperties.getProperty("version", UNKNOWN_VERSION).trim();
+        if (VERSION_PLACEHOLDER.equals(version)) {
+            return UNSET_VERSION;
+        } else {
+            return version;
+        }
+    }
 
     @Override
-    public void execute() {
-        String version;
-
-        if (Boolean.TRUE.equals(full)) {
-            version = buildInfo.versionDisplayText();
-        } else if (Boolean.TRUE.equals(sha)) {
-            version = buildInfo.getSha();
-        } else {
-            version = buildInfo.getVersion();
-        }
+    public void run() {
+        String version = readVersionFromResources();
         System.out.println(version);
     }
 

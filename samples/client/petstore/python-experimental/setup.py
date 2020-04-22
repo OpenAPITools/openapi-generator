@@ -26,7 +26,6 @@ REQUIRES = [
   "six >= 1.10",
   "certifi",
   "python-dateutil",
-  "nulltype",
 ]
 EXTRAS = {':python_version <= "2.7"': ['future']}
 

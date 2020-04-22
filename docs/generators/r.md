@@ -5,7 +5,7 @@ sidebar_label: r
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|exceptionPackage|Specify the exception handling package|<dl><dt>**default**</dt><dd>Use stop() for raising exceptions.</dd><dt>**rlang**</dt><dd>Use rlang package for exceptions.</dd></dl>|default|
+|exceptionPackage|Specify the exception handling package|<dl><dt>**default**</dt><dd>Use stop() for raising exceptions.</dd><dt>**rlang**</dt><dd>Use rlang package for exceptions.</dd><dl>|default|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|R package name (convention: lowercase).| |openapi|
 |packageVersion|R package version.| |1.0.0|
@@ -25,8 +25,7 @@ sidebar_label: r
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>character</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>character</li>
 <li>data.frame</li>
 <li>integer</li>
 <li>numeric</li>
@@ -35,8 +34,7 @@ sidebar_label: r
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>apiresponse</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>apiresponse</li>
 <li>break</li>
 <li>else</li>
 <li>false</li>

@@ -22,7 +22,6 @@ import io.airlift.airline.Option;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.validation.ValidationResult;
@@ -33,9 +32,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings({"unused","java:S106"})
 @Command(name = "validate", description = "Validate specification")
-public class Validate extends OpenApiGeneratorCommand {
+public class Validate implements Runnable {
 
     @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
             description = "location of the OpenAPI spec, as URL or file (required)")
@@ -45,11 +43,10 @@ public class Validate extends OpenApiGeneratorCommand {
     private Boolean recommend;
 
     @Override
-    public void execute() {
+    public void run() {
         System.out.println("Validating spec (" + spec + ")");
-        ParseOptions options = new ParseOptions();
-        options.setResolve(true);
-        SwaggerParseResult result = new OpenAPIParser().readLocation(spec, null, options);
+
+        SwaggerParseResult result = new OpenAPIParser().readLocation(spec, null, null);
         List<String> messageList = result.getMessages();
         Set<String> errors = new HashSet<>(messageList);
         Set<String> warnings = new HashSet<>();
@@ -58,9 +55,7 @@ public class Validate extends OpenApiGeneratorCommand {
         OpenAPI specification = result.getOpenAPI();
 
         RuleConfiguration ruleConfiguration = new RuleConfiguration();
-
-        if (recommend != null) ruleConfiguration.setEnableRecommendations(recommend);
-        else ruleConfiguration.setEnableRecommendations(false);
+        ruleConfiguration.setEnableRecommendations(recommend != null ? recommend : false);
 
         OpenApiEvaluator evaluator = new OpenApiEvaluator(ruleConfiguration);
         ValidationResult validationResult = evaluator.validate(specification);

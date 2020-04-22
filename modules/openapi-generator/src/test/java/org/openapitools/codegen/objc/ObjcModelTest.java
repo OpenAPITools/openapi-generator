@@ -302,7 +302,7 @@ public class ObjcModelTest {
 
     @Test(description = "test udid")
     public void udidAndPasswordDataModelTest() {
-        final OpenAPI openAPI =  TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI =  TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("format_test");
@@ -317,7 +317,7 @@ public class ObjcModelTest {
 
     @Test(description = "test mixedProperties")
     public void mixedPropertiesDataModelTest() {
-        final OpenAPI openAPI =  TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI =  TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
@@ -329,7 +329,7 @@ public class ObjcModelTest {
 
     @Test(description = "test isArrayModel")
     public void isArrayModelModelTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = openAPI.getComponents().getSchemas().get("AnimalFarm");
         codegen.setOpenAPI(openAPI);
@@ -342,7 +342,7 @@ public class ObjcModelTest {
 
     @Test(description = "test binary data")
     public void binaryDataModelTest() {
-        final OpenAPI openAPI =  TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
+        final OpenAPI openAPI =  TestUtils.parseSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
@@ -357,7 +357,7 @@ public class ObjcModelTest {
 
     @Test(description = "create proper imports per #316")
     public void issue316Test() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/postBodyTest.json");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/postBodyTest.json");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
 

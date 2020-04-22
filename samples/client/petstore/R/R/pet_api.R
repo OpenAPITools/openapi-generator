@@ -197,7 +197,7 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' ####################  AddPet  ####################
 #'
 #' library(petstore)

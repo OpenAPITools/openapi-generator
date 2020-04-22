@@ -171,9 +171,3 @@ extension KeyedDecodingContainerProtocol {
     }
 
 }
-
-extension HTTPURLResponse {
-    var isStatusCodeSuccessful: Bool {
-        return Array(200 ..< 300).contains(statusCode)
-    }
-}

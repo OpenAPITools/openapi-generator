@@ -59,7 +59,9 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     public JavaVertXServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code" + File.separator + "javaVertXServer";

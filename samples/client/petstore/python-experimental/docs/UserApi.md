@@ -30,7 +30,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     body = petstore_api.User() # user.User | Created user object
@@ -83,7 +83,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     body = [petstore_api.User()] # [user.User] | List of user object
@@ -136,7 +136,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     body = [petstore_api.User()] # [user.User] | List of user object
@@ -191,7 +191,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be deleted
@@ -245,7 +245,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
@@ -301,7 +301,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | The user name for login
@@ -358,7 +358,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     
@@ -409,7 +409,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
+with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.UserApi(api_client)
     username = 'username_example' # str | name that need to be deleted

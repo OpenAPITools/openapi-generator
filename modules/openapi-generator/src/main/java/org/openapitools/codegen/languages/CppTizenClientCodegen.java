@@ -43,7 +43,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         super();
 
         // TODO: cpp-tizen maintainer review
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BearerToken
@@ -61,7 +61,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         outputFolder = "";
         modelTemplateFiles.put("model-header.mustache", ".h");

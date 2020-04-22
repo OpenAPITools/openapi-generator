@@ -459,7 +459,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # ****
-> models::AnotherXmlObject (optional)
+> (optional)
 
 
 ### Required Parameters
@@ -477,7 +477,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**models::AnotherXmlObject**](anotherXmlObject.md)
+ (empty response body)
 
 ### Authorization
 
@@ -485,8 +485,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: text/xml
- - **Accept**: text/xml, 
+ - **Content-Type**: application/xml
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -505,7 +505,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **another_xml_array** | [**AnotherXmlArray**](AnotherXmlArray.md)|  | 
+ **string** | [**string**](string.md)|  | 
 
 ### Return type
 
@@ -537,7 +537,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xml_array** | [**XmlArray**](XmlArray.md)|  | 
+ **string** | [**string**](string.md)|  | 
 
 ### Return type
 

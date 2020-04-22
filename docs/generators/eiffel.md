@@ -42,8 +42,7 @@ sidebar_label: eiffel
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>BOOLEAN</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>BOOLEAN</li>
 <li>INTEGER_16</li>
 <li>INTEGER_32</li>
 <li>INTEGER_64</li>
@@ -58,8 +57,7 @@ sidebar_label: eiffel
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>across</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>across</li>
 <li>agent</li>
 <li>alias</li>
 <li>all</li>

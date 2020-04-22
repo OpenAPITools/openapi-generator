@@ -35,10 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeEntries:(NSOrderedSet<{{{arrayModelType}}}ManagedObject*> *)values;
 {{/isArrayModel}}
 {{^isArrayModel}}
-{{#vars}}{{#isListContainer}}{{#complexType}}- (void)add{{vendorExtensions.x-uppercase-name}}Object:({{complexType}}ManagedObject *)value;
-- (void)remove{{vendorExtensions.x-uppercase-name}}Object:({{complexType}}ManagedObject *)value;
-- (void)add{{vendorExtensions.x-uppercase-name}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
-- (void)remove{{vendorExtensions.x-uppercase-name}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
+{{#vars}}{{#isListContainer}}{{#complexType}}- (void)add{{vendorExtensions.x-uppercaseName}}Object:({{complexType}}ManagedObject *)value;
+- (void)remove{{vendorExtensions.x-uppercaseName}}Object:({{complexType}}ManagedObject *)value;
+- (void)add{{vendorExtensions.x-uppercaseName}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
+- (void)remove{{vendorExtensions.x-uppercaseName}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
 {{/complexType}}{{/isListContainer}}{{/vars}}
 {{/isArrayModel}}
 @end

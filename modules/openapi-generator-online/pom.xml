@@ -18,7 +18,6 @@
         <spring-boot-version>2.0.7.RELEASE</spring-boot-version>
         <springfox-version>2.8.0</springfox-version>
         <junit-version>4.13</junit-version>
-        <jackson-version>2.10.2</jackson-version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -118,12 +117,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-           <version>${jackson-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson-version}</version>
         </dependency>
         <!-- Bean Validation API support -->
         <dependency>

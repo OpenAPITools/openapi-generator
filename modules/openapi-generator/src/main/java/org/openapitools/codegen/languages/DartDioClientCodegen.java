@@ -40,7 +40,6 @@ import java.util.Set;
 
 import io.swagger.v3.oas.models.media.Schema;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -262,10 +261,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
         objs = super.postProcessModels(objs);
         List<Object> models = (List<Object>) objs.get("models");
         ProcessUtils.addIndexToProperties(models, 1);
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             Set<String> modelImports = new HashSet<>();
@@ -281,9 +276,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             }
 
             cm.imports = modelImports;
-            boolean hasVars =  cm.vars.size() > 0;
-            cm.vendorExtensions.put("hasVars", hasVars); // TODO: 5.0 Remove
-            cm.vendorExtensions.put("x-has-vars", hasVars);
+            cm.vendorExtensions.put("hasVars", cm.vars.size() > 0);
         }
         return objs;
     }
@@ -349,16 +342,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
                 }
             }
 
-            // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-            once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
-            op.vendorExtensions.put("isJson", isJson); // TODO: 5.0 Remove
-            op.vendorExtensions.put("isForm", isForm); // TODO: 5.0 Remove
-            op.vendorExtensions.put("isMultipart", isMultipart); // TODO: 5.0 Remove
-
-            op.vendorExtensions.put("x-is-json", isJson);
-            op.vendorExtensions.put("x-is-form", isForm);
-            op.vendorExtensions.put("x-is-multipart", isMultipart);
+            op.vendorExtensions.put("isJson", isJson);
+            op.vendorExtensions.put("isForm", isForm);
+            op.vendorExtensions.put("isMultipart", isMultipart);
 
             if (op.getHasFormParams()) {
                 fullImports.add("package:" + pubName + "/api_util.dart");

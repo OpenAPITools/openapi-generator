@@ -12,7 +12,7 @@ import static org.testng.AssertJUnit.assertNull;
 public class ExampleGeneratorTest {
     @Test
     public void generateFromResponseSchemaWithPrimitiveType() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 
@@ -41,7 +41,7 @@ public class ExampleGeneratorTest {
 
     @Test
     public void generateFromResponseSchemaWithNoExample() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 
@@ -67,7 +67,7 @@ public class ExampleGeneratorTest {
 
     @Test
     public void generateFromResponseSchemaWithArrayOfModel() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 
@@ -96,7 +96,7 @@ public class ExampleGeneratorTest {
 
     @Test
     public void generateFromResponseSchemaWithArrayOfPrimitiveTypes() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 
@@ -125,7 +125,7 @@ public class ExampleGeneratorTest {
 
     @Test
     public void generateFromResponseSchemaWithModel() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 

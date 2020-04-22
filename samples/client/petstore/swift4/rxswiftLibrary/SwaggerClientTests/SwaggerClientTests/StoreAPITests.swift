@@ -17,7 +17,7 @@ class StoreAPITests: XCTestCase {
 
     let testTimeout = 10.0
     let disposeBag = DisposeBag()
-/*
+
     func test1PlaceOrder() {
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
         let shipDate = Date()
@@ -71,7 +71,7 @@ class StoreAPITests: XCTestCase {
         }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-*/
+
 }
 
 private extension Date {

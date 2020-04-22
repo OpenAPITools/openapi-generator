@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
@@ -17,23 +18,6 @@ import (
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`
 	Files *[]File `json:"files,omitempty"`
-}
-
-// NewFileSchemaTestClass instantiates a new FileSchemaTestClass object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewFileSchemaTestClass() *FileSchemaTestClass {
-	this := FileSchemaTestClass{}
-	return &this
-}
-
-// NewFileSchemaTestClassWithDefaults instantiates a new FileSchemaTestClass object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewFileSchemaTestClassWithDefaults() *FileSchemaTestClass {
-	this := FileSchemaTestClass{}
-	return &this
 }
 
 // GetFile returns the File field value if set, zero value otherwise.
@@ -45,13 +29,14 @@ func (o *FileSchemaTestClass) GetFile() File {
 	return *o.File
 }
 
-// GetFileOk returns a tuple with the File field value if set, nil otherwise
+// GetFileOk returns a tuple with the File field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *FileSchemaTestClass) GetFileOk() (*File, bool) {
+func (o *FileSchemaTestClass) GetFileOk() (File, bool) {
 	if o == nil || o.File == nil {
-		return nil, false
+		var ret File
+		return ret, false
 	}
-	return o.File, true
+	return *o.File, true
 }
 
 // HasFile returns a boolean if a field has been set.
@@ -77,13 +62,14 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 	return *o.Files
 }
 
-// GetFilesOk returns a tuple with the Files field value if set, nil otherwise
+// GetFilesOk returns a tuple with the Files field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *FileSchemaTestClass) GetFilesOk() (*[]File, bool) {
+func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
 	if o == nil || o.Files == nil {
-		return nil, false
+		var ret []File
+		return ret, false
 	}
-	return o.Files, true
+	return *o.Files, true
 }
 
 // HasFiles returns a boolean if a field has been set.
@@ -100,49 +86,25 @@ func (o *FileSchemaTestClass) SetFiles(v []File) {
 	o.Files = &v
 }
 
-func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.File != nil {
-		toSerialize["file"] = o.File
-	}
-	if o.Files != nil {
-		toSerialize["files"] = o.Files
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableFileSchemaTestClass struct {
-	value *FileSchemaTestClass
-	isSet bool
-}
-
-func (v NullableFileSchemaTestClass) Get() *FileSchemaTestClass {
-	return v.value
-}
-
-func (v *NullableFileSchemaTestClass) Set(val *FileSchemaTestClass) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableFileSchemaTestClass) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableFileSchemaTestClass) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableFileSchemaTestClass(val *FileSchemaTestClass) *NullableFileSchemaTestClass {
-	return &NullableFileSchemaTestClass{value: val, isSet: true}
+	Value FileSchemaTestClass
+	ExplicitNull bool
 }
 
 func (v NullableFileSchemaTestClass) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableFileSchemaTestClass) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

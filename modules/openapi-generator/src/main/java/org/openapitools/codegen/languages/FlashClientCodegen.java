@@ -46,7 +46,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     public FlashClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -67,7 +67,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-        );
+                .build();
 
         modelPackage = "org.openapitools.client.model";
         apiPackage = "org.openapitools.client.api";

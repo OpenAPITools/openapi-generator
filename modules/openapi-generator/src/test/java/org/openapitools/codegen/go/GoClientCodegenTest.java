@@ -60,7 +60,7 @@ public class GoClientCodegenTest {
 
     @Test(description = "test example value for body parameter")
     public void bodyParameterTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final GoClientCodegen codegen = new GoClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";

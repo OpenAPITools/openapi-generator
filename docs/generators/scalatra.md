@@ -7,10 +7,8 @@ sidebar_label: scalatra
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
-|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (prefered for JDK 1.8+)</dd></dl>|java8|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |modelPackage|package for generated models| |null|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -43,15 +41,13 @@ sidebar_label: scalatra
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|List|
 |map|HashMap|
 |set|Set|
 
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Any</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Any</li>
 <li>Array</li>
 <li>Boolean</li>
 <li>Double</li>
@@ -68,46 +64,57 @@ sidebar_label: scalatra
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>abstract</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<li>assert</li>
+<li>boolean</li>
+<li>break</li>
+<li>byte</li>
 <li>case</li>
 <li>catch</li>
+<li>char</li>
 <li>class</li>
-<li>def</li>
+<li>const</li>
+<li>continue</li>
+<li>default</li>
 <li>do</li>
+<li>double</li>
 <li>else</li>
+<li>enum</li>
 <li>extends</li>
-<li>false</li>
 <li>final</li>
 <li>finally</li>
+<li>float</li>
 <li>for</li>
-<li>forSome</li>
+<li>goto</li>
 <li>if</li>
-<li>implicit</li>
+<li>implements</li>
 <li>import</li>
-<li>lazy</li>
-<li>match</li>
+<li>instanceof</li>
+<li>int</li>
+<li>interface</li>
+<li>long</li>
+<li>native</li>
 <li>new</li>
-<li>null</li>
-<li>object</li>
-<li>override</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>
+<li>public</li>
 <li>return</li>
-<li>sealed</li>
+<li>short</li>
+<li>static</li>
+<li>strictfp</li>
 <li>super</li>
+<li>switch</li>
+<li>synchronized</li>
 <li>this</li>
 <li>throw</li>
-<li>trait</li>
-<li>true</li>
+<li>throws</li>
+<li>transient</li>
 <li>try</li>
 <li>type</li>
-<li>val</li>
-<li>var</li>
+<li>void</li>
+<li>volatile</li>
 <li>while</li>
-<li>with</li>
-<li>yield</li>
 </ul>
 
 ## FEATURE SET

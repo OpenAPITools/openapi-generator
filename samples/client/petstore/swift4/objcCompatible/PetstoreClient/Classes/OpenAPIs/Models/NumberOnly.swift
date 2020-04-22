@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class NumberOnly: NSObject, Codable {
+public struct NumberOnly: Codable {
 
     public var justNumber: Double?
 

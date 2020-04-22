@@ -21,7 +21,7 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
-ApiClient::ApiClient(std::shared_ptr<const ApiConfiguration> configuration )
+ApiClient::ApiClient(std::shared_ptr<ApiConfiguration> configuration )
     : m_Configuration(configuration)
 {
 }
@@ -37,11 +37,11 @@ void ApiClient::setResponseHandler(const ResponseHandlerType& responseHandler) {
     m_ResponseHandler = responseHandler;
 }
 
-std::shared_ptr<const ApiConfiguration> ApiClient::getConfiguration() const
+std::shared_ptr<ApiConfiguration> ApiClient::getConfiguration() const
 {
     return m_Configuration;
 }
-void ApiClient::setConfiguration(std::shared_ptr<const ApiConfiguration> configuration)
+void ApiClient::setConfiguration(std::shared_ptr<ApiConfiguration> configuration)
 {
     m_Configuration = configuration;
 }
@@ -108,7 +108,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
     web::http::client::http_client client(m_Configuration->getBaseUrl(), m_Configuration->getHttpConfig());
 
     web::http::http_request request;
-    for (const auto& kvp : headerParams)
+    for ( auto& kvp : headerParams )
     {
         request.headers().add(kvp.first, kvp.second);
     }
@@ -116,18 +116,18 @@ pplx::task<web::http::http_response> ApiClient::callApi(
     if (fileParams.size() > 0)
     {
         MultipartFormData uploadData;
-        for (const auto& kvp : formParams)
+        for (auto& kvp : formParams)
         {
             uploadData.add(ModelBase::toHttpContent(kvp.first, kvp.second));
         }
-        for (const auto& kvp : fileParams)
+        for (auto& kvp : fileParams)
         {
             uploadData.add(ModelBase::toHttpContent(kvp.first, kvp.second));
         }
         std::stringstream data;
         uploadData.writeTo(data);
         auto bodyString = data.str();
-        const auto length = bodyString.size();
+        auto length = bodyString.size();
         request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, utility::conversions::to_string_t("multipart/form-data; boundary=") + uploadData.getBoundary());
     }
     else
@@ -137,7 +137,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
             std::stringstream data;
             postBody->writeTo(data);
             auto bodyString = data.str();
-            const auto length = bodyString.size();
+            auto length = bodyString.size();
             request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, contentType);
         }
         else
@@ -157,7 +157,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
             else
             {
                 web::http::uri_builder formData;
-                for (const auto& kvp : formParams)
+                for (auto& kvp : formParams)
                 {
                     formData.append_query(kvp.first, kvp.second);
                 }
@@ -170,7 +170,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
     }
 
     web::http::uri_builder builder(path);
-    for (const auto& kvp : queryParams)
+    for (auto& kvp : queryParams)
     {
         builder.append_query(kvp.first, kvp.second);
     }

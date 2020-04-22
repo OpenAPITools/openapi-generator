@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class List: NSObject, Codable {
+public struct List: Codable {
 
     public var _123list: String?
 

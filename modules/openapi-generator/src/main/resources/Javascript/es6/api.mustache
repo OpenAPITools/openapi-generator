@@ -43,10 +43,10 @@ export default class <&classname> {
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
-</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-arg-list>) {
-      <#vendorExtensions.x-codegen-has-optional-params>
+</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-argList>) {
+      <#vendorExtensions.x-codegen-hasOptionalParams>
       opts = opts || {};
-      </vendorExtensions.x-codegen-has-optional-params>
+      </vendorExtensions.x-codegen-hasOptionalParams>
       let postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
 <#allParams>
 <#required>
@@ -105,8 +105,8 @@ export default class <&classname> {
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
      */
 </emitJSDoc>
-    <operationId>(<vendorExtensions.x-codegen-arg-list>) {
-      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-arg-list>)
+    <operationId>(<vendorExtensions.x-codegen-argList>) {
+      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-argList>)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

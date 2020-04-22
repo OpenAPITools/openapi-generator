@@ -59,7 +59,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
     public PhpZendExpressivePathHandlerServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -72,7 +72,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-        );
+                .build();
 
         //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
         typeMapping.put("double", "float");
@@ -337,7 +337,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
             op.httpMethod = httpMethodDeclaration;
             //Producing content with media type "*/*" is not supported
             if (op.produces != null) {
-                for (Map<String, String> p : op.produces) {
+                for (Map<String, String> p: op.produces) {
                     if (p.replace("mediaType", "*/*", "n/a")) {
                         LOGGER.warn("Media type range '*/*' is not supported, using 'n/a' for code generation instead");
                     }

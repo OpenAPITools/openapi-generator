@@ -43,7 +43,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     public RubySinatraServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -59,7 +59,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         apiPackage = "lib";
         outputFolder = "generated-code" + File.separator + "sinatra";

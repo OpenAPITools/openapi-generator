@@ -50,8 +50,7 @@ public class FakeApi {
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
-  private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public FakeApi() {
     this(new ApiClient());
   }
@@ -62,7 +61,6 @@ public class FakeApi {
     memberVarBaseUri = apiClient.getBaseUri();
     memberVarInterceptor = apiClient.getRequestInterceptor();
     memberVarReadTimeout = apiClient.getReadTimeout();
-    memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
   /**
@@ -99,9 +97,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "createXmlItem call received non-success response",
@@ -147,9 +142,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "fakeOuterBooleanSerialize call received non-success response",
@@ -196,9 +188,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "fakeOuterCompositeSerialize call received non-success response",
@@ -245,9 +234,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "fakeOuterNumberSerialize call received non-success response",
@@ -294,9 +280,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "fakeOuterStringSerialize call received non-success response",
@@ -346,9 +329,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testBodyWithFileSchema call received non-success response",
@@ -411,9 +391,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testBodyWithQueryParams call received non-success response",
@@ -463,9 +440,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testClientModel call received non-success response",
@@ -538,9 +512,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testEndpointParameters call received non-success response",
@@ -608,9 +579,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testEnumParameters call received non-success response",
@@ -688,9 +656,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testGroupParameters call received non-success response",
@@ -739,9 +704,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testInlineAdditionalProperties call received non-success response",
@@ -793,9 +755,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testJsonFormData call received non-success response",
@@ -875,9 +834,6 @@ public class FakeApi {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw new ApiException(localVarResponse.statusCode(),
             "testQueryParameterCollectionFormat call received non-success response",

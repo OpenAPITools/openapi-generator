@@ -41,7 +41,9 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     public JavaResteasyEapServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         artifactId = "openapi-jaxrs-resteasy-eap-server";
         useBeanValidation = true;

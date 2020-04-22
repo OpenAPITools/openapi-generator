@@ -8,6 +8,7 @@
 import Foundation
 
 /** This is an empty model with no properties and only additionalProperties of type string */
+
 public struct ModelWithStringAdditionalPropertiesOnly: Codable {
 
     public var additionalProperties: [String: String] = [:]

@@ -69,12 +69,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 .stability(Stability.BETA)
                 .build();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-        );
+                .build();
 
         outputFolder = "generated-code/protobuf-schema";
         modelTemplateFiles.put("model.mustache", ".proto");

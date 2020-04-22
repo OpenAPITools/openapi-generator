@@ -44,7 +44,7 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                 .build();
 
         // TODO: Avro maintainer review.
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .parameterFeatures(EnumSet.noneOf(ParameterFeature.class))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
@@ -55,7 +55,7 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                         SchemaSupportFeature.Union
                 )
                 .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-        );
+                .build();
 
         outputFolder = "generated-code/avro-schema";
         modelTemplateFiles.put("model.mustache", ".avsc");

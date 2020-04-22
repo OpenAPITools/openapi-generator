@@ -48,3 +48,5 @@ def deserialize_json(s, type)
   response = double('response', headers: headers, body: s)
   API_CLIENT.deserialize(response, type)
 end
+
+

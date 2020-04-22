@@ -57,7 +57,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public LuaClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -77,7 +77,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         outputFolder = "generated-code/lua";
         modelTemplateFiles.put("model.mustache", ".lua");

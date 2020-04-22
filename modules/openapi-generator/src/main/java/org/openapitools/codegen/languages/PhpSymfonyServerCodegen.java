@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
@@ -82,7 +81,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     public PhpSymfonyServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -95,8 +94,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-        );
-
+                .build();
+        
         // clear import mapping (from default generator) as php does not use it
         // at the moment
         importMapping.clear();
@@ -383,9 +382,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         operations.put("controllerName", toControllerName((String) operations.get("pathPrefix")));
         operations.put("symfonyService", toSymfonyService((String) operations.get("pathPrefix")));
@@ -401,21 +397,17 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 // to the templating engine
                 String typeHint = getTypeHint(param.dataType);
                 if (!typeHint.isEmpty()) {
-                    param.vendorExtensions.put("x-parameterType", typeHint); // TODO: 5.0 Remove
-                    param.vendorExtensions.put("x-parameter-type", typeHint);
+                    param.vendorExtensions.put("x-parameterType", typeHint);
                 }
 
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-parameterType", getTypeHint(param.dataType + "[]")); // TODO: 5.0 Remove
-                    param.vendorExtensions.put("x-parameter-type", getTypeHint(param.dataType + "[]"));
+                    param.vendorExtensions.put("x-parameterType", getTypeHint(param.dataType + "[]"));
                 }
 
                 // Create a variable to display the correct data type in comments for interfaces
-                param.vendorExtensions.put("x-commentType", param.dataType); // TODO: 5.0 Remove
-                param.vendorExtensions.put("x-comment-type", param.dataType);
+                param.vendorExtensions.put("x-commentType", param.dataType);
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-commentType", param.dataType + "[]"); // TODO: 5.0 Remove
-                    param.vendorExtensions.put("x-comment-type", param.dataType + "[]");
+                    param.vendorExtensions.put("x-commentType", param.dataType + "[]");
                 }
 
                 // Quote default values for strings
@@ -429,15 +421,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
             // Create a variable to display the correct return type in comments for interfaces
             if (op.returnType != null) {
-                op.vendorExtensions.put("x-commentType", op.returnType); // TODO: 5.0 Remove
-                op.vendorExtensions.put("x-comment-type", op.returnType);
+                op.vendorExtensions.put("x-commentType", op.returnType);
                 if (op.returnContainer != null && op.returnContainer.equals("array")) {
-                    op.vendorExtensions.put("x-commentType", op.returnType + "[]"); // TODO: 5.0 Remove
-                    op.vendorExtensions.put("x-comment-type", op.returnType + "[]");
+                    op.vendorExtensions.put("x-commentType", op.returnType + "[]");
                 }
             } else {
-                op.vendorExtensions.put("x-commentType", "void"); // TODO: 5.0 Remove
-                op.vendorExtensions.put("x-comment-type", "void");
+                op.vendorExtensions.put("x-commentType", "void");
             }
 
             // Add operation's authentication methods to whole interface
@@ -459,9 +448,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModels(objs);
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         ArrayList<Object> modelsArray = (ArrayList<Object>) objs.get("models");
         Map<String, Object> models = (Map<String, Object>) modelsArray.get(0);
         CodegenModel model = (CodegenModel) models.get("model");
@@ -473,21 +459,17 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 // to the templating engine
                 String typeHint = getTypeHint(var.dataType);
                 if (!typeHint.isEmpty()) {
-                    var.vendorExtensions.put("x-parameterType", typeHint); // TODO: 5.0 Remove
-                    var.vendorExtensions.put("x-parameter-type", typeHint);
+                    var.vendorExtensions.put("x-parameterType", typeHint);
                 }
 
                 if (var.isContainer) {
-                    var.vendorExtensions.put("x-parameterType", getTypeHint(var.dataType + "[]")); // TODO: 5.0 Remove
-                    var.vendorExtensions.put("x-parameter-type", getTypeHint(var.dataType + "[]"));
+                    var.vendorExtensions.put("x-parameterType", getTypeHint(var.dataType + "[]"));
                 }
 
                 // Create a variable to display the correct data type in comments for models
-                var.vendorExtensions.put("x-commentType", var.dataType); // TODO: 5.0 Remove
-                var.vendorExtensions.put("x-comment-type", var.dataType);
+                var.vendorExtensions.put("x-commentType", var.dataType);
                 if (var.isContainer) {
-                    var.vendorExtensions.put("x-commentType", var.dataType + "[]"); // TODO: 5.0 Remove
-                    var.vendorExtensions.put("x-comment-type", var.dataType + "[]");
+                    var.vendorExtensions.put("x-commentType", var.dataType + "[]");
                 }
             }
         }

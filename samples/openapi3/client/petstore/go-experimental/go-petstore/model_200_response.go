@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
@@ -17,23 +18,6 @@ import (
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`
 	Class *string `json:"class,omitempty"`
-}
-
-// NewModel200Response instantiates a new Model200Response object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewModel200Response() *Model200Response {
-	this := Model200Response{}
-	return &this
-}
-
-// NewModel200ResponseWithDefaults instantiates a new Model200Response object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewModel200ResponseWithDefaults() *Model200Response {
-	this := Model200Response{}
-	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -45,13 +29,14 @@ func (o *Model200Response) GetName() int32 {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Model200Response) GetNameOk() (*int32, bool) {
+func (o *Model200Response) GetNameOk() (int32, bool) {
 	if o == nil || o.Name == nil {
-		return nil, false
+		var ret int32
+		return ret, false
 	}
-	return o.Name, true
+	return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -77,13 +62,14 @@ func (o *Model200Response) GetClass() string {
 	return *o.Class
 }
 
-// GetClassOk returns a tuple with the Class field value if set, nil otherwise
+// GetClassOk returns a tuple with the Class field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Model200Response) GetClassOk() (*string, bool) {
+func (o *Model200Response) GetClassOk() (string, bool) {
 	if o == nil || o.Class == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Class, true
+	return *o.Class, true
 }
 
 // HasClass returns a boolean if a field has been set.
@@ -100,49 +86,25 @@ func (o *Model200Response) SetClass(v string) {
 	o.Class = &v
 }
 
-func (o Model200Response) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.Class != nil {
-		toSerialize["class"] = o.Class
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableModel200Response struct {
-	value *Model200Response
-	isSet bool
-}
-
-func (v NullableModel200Response) Get() *Model200Response {
-	return v.value
-}
-
-func (v *NullableModel200Response) Set(val *Model200Response) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableModel200Response) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableModel200Response) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableModel200Response(val *Model200Response) *NullableModel200Response {
-	return &NullableModel200Response{value: val, isSet: true}
+	Value Model200Response
+	ExplicitNull bool
 }
 
 func (v NullableModel200Response) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableModel200Response) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
@@ -17,23 +18,6 @@ import (
 type Tag struct {
 	Id *int64 `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
-}
-
-// NewTag instantiates a new Tag object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewTag() *Tag {
-	this := Tag{}
-	return &this
-}
-
-// NewTagWithDefaults instantiates a new Tag object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewTagWithDefaults() *Tag {
-	this := Tag{}
-	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -45,13 +29,14 @@ func (o *Tag) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Tag) GetIdOk() (*int64, bool) {
+func (o *Tag) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
-		return nil, false
+		var ret int64
+		return ret, false
 	}
-	return o.Id, true
+	return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -77,13 +62,14 @@ func (o *Tag) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Tag) GetNameOk() (*string, bool) {
+func (o *Tag) GetNameOk() (string, bool) {
 	if o == nil || o.Name == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Name, true
+	return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -100,49 +86,25 @@ func (o *Tag) SetName(v string) {
 	o.Name = &v
 }
 
-func (o Tag) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableTag struct {
-	value *Tag
-	isSet bool
-}
-
-func (v NullableTag) Get() *Tag {
-	return v.value
-}
-
-func (v *NullableTag) Set(val *Tag) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableTag) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableTag) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableTag(val *Tag) *NullableTag {
-	return &NullableTag{value: val, isSet: true}
+	Value Tag
+	ExplicitNull bool
 }
 
 func (v NullableTag) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableTag) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

@@ -26,7 +26,6 @@ REQUIRES = [
   "six >= 1.10",
   "certifi",
   "python-dateutil",
-  "nulltype",
   "pem>=19.3.0",
   "pycryptodome>=3.9.0",
 ]

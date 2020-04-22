@@ -1,6 +1,6 @@
 {
   "presets": [
-    ["react-app", { "absoluteRuntime": false }],
+    "react-app",
     "@babel/preset-flow"
   ],
   "plugins": [

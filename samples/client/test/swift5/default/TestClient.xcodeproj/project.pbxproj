@@ -187,14 +187,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 87FDCE50021B77EB5CF8EF08 /* Build configuration list for PBXProject "TestClient" */;
 			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				Base,
 				en,
 			);
 			mainGroup = 3049D31996790CF8E31B6F01;
@@ -425,7 +424,7 @@
 				4CDAC84BFAB424A21776ADCA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = "";
 		};
 /* End XCConfigurationList section */
 	};

@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
@@ -17,26 +18,6 @@ import (
 type Category struct {
 	Id *int64 `json:"id,omitempty"`
 	Name string `json:"name"`
-}
-
-// NewCategory instantiates a new Category object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewCategory(name string, ) *Category {
-	this := Category{}
-	this.Name = name
-	return &this
-}
-
-// NewCategoryWithDefaults instantiates a new Category object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewCategoryWithDefaults() *Category {
-	this := Category{}
-	var name string = "default-name"
-	this.Name = name
-	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -48,13 +29,14 @@ func (o *Category) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Category) GetIdOk() (*int64, bool) {
+func (o *Category) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
-		return nil, false
+		var ret int64
+		return ret, false
 	}
-	return o.Id, true
+	return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -73,7 +55,7 @@ func (o *Category) SetId(v int64) {
 
 // GetName returns the Name field value
 func (o *Category) GetName() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
@@ -81,63 +63,30 @@ func (o *Category) GetName() string {
 	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *Category) GetNameOk() (*string, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
 // SetName sets field value
 func (o *Category) SetName(v string) {
 	o.Name = v
 }
 
-func (o Category) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableCategory struct {
-	value *Category
-	isSet bool
-}
-
-func (v NullableCategory) Get() *Category {
-	return v.value
-}
-
-func (v *NullableCategory) Set(val *Category) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableCategory) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableCategory) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableCategory(val *Category) *NullableCategory {
-	return &NullableCategory{value: val, isSet: true}
+	Value Category
+	ExplicitNull bool
 }
 
 func (v NullableCategory) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableCategory) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

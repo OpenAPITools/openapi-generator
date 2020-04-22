@@ -28,8 +28,7 @@ sidebar_label: javascript-closure-angular
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Blob</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Blob</li>
 <li>Date</li>
 <li>Object</li>
 <li>boolean</li>
@@ -39,8 +38,7 @@ sidebar_label: javascript-closure-angular
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>abstract</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
 <li>assert</li>
 <li>break</li>
 <li>byte</li>

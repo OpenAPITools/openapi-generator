@@ -69,7 +69,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     public CSharpNancyFXServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .excludeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -84,7 +84,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         outputFolder = "generated-code" + File.separator + getName();
         apiTemplateFiles.put("api.mustache", ".cs");

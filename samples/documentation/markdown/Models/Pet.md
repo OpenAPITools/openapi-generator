@@ -1,4 +1,4 @@
-# Pet
+# ./Models.Pet
 ## Properties
 
 Name | Type | Description | Notes

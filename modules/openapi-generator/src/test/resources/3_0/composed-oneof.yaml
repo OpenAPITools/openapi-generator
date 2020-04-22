@@ -42,26 +42,6 @@ paths:
           description: OK
 components:
   schemas:
-    CustomOneOfSchema:
-      oneOf:
-        - $ref: '#/components/schemas/ObjA'
-        - $ref: '#/components/schemas/ObjB'
-      discriminator:
-        propertyName: realtype
-        mapping:
-          a-type: '#/components/schemas/ObjA'
-          b-type: '#/components/schemas/ObjB'
-    CustomOneOfArraySchema:
-      type: array
-      items:
-        oneOf:
-          - $ref: '#/components/schemas/ObjA'
-          - $ref: '#/components/schemas/ObjB'
-        discriminator:
-          propertyName: realtype
-          mapping:
-            a-type: '#/components/schemas/ObjA'
-            b-type: '#/components/schemas/ObjB'
     ObjA:
       type: object
       properties:

@@ -23,8 +23,7 @@ setup(
     url="{{packageUrl}}",
     keywords=["Swagger", "{{appName}}"],
     install_requires=REQUIRES,
-    packages=find_packages({{#pythonSrcRoot}}"{{{.}}}"{{/pythonSrcRoot}}),{{#pythonSrcRoot}}
-    package_dir={"": "{{{.}}}"},{{/pythonSrcRoot}}
+    packages=find_packages(),
     package_data={'': ['swagger/swagger.yaml']},
     include_package_data=True,
     entry_points={

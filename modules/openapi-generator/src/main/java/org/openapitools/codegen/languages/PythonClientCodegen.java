@@ -59,7 +59,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public PythonClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -80,7 +80,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         // clear import mapping (from default generator) as python does not use it
         // at the moment
@@ -266,7 +266,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
             supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-            supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
@@ -706,11 +705,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         for (int i=0 ; i< indentation ; i++) indentation_string += "    ";
         String example = super.toExampleValue(schema);
 
-        if (ModelUtils.isNullType(schema) && null != example) {
-            // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
-            // though this tooling supports it.
-            return "None";
-        }
         // correct "true"s into "True"s, since super.toExampleValue uses "toString()" on Java booleans
         if (ModelUtils.isBooleanSchema(schema) && null!=example) {
             if ("false".equalsIgnoreCase(example)) example = "False";

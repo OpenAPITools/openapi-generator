@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
@@ -23,44 +24,25 @@ const (
 	DELIVERED OuterEnum = "delivered"
 )
 
-// Ptr returns reference to OuterEnum value
-func (v OuterEnum) Ptr() *OuterEnum {
-	return &v
-}
-
-
 type NullableOuterEnum struct {
-	value *OuterEnum
-	isSet bool
-}
-
-func (v NullableOuterEnum) Get() *OuterEnum {
-	return v.value
-}
-
-func (v *NullableOuterEnum) Set(val *OuterEnum) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableOuterEnum) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableOuterEnum) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableOuterEnum(val *OuterEnum) *NullableOuterEnum {
-	return &NullableOuterEnum{value: val, isSet: true}
+	Value OuterEnum
+	ExplicitNull bool
 }
 
 func (v NullableOuterEnum) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableOuterEnum) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

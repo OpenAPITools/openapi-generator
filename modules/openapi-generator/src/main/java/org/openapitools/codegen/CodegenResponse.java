@@ -22,11 +22,6 @@ import java.util.*;
 public class CodegenResponse implements IJsonSchemaValidationProperties {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
     public String code;
-    public boolean is1xx;
-    public boolean is2xx;
-    public boolean is3xx;
-    public boolean is4xx;
-    public boolean is5xx;
     public String message;
     public boolean hasMore;
     public List<Map<String, Object>> examples;

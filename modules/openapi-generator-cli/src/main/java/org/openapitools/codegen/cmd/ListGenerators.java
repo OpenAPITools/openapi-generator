@@ -16,9 +16,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // NOTE: List can later have subcommands such as list languages, list types, list frameworks, etc.
-@SuppressWarnings({"java:S106"})
 @Command(name = "list", description = "Lists the available generators")
-public class ListGenerators extends OpenApiGeneratorCommand {
+public class ListGenerators implements Runnable {
 
     @Option(name = {"-s", "--short" }, description = "shortened output (suitable for scripting)")
     private Boolean shortened = false;
@@ -35,7 +34,7 @@ public class ListGenerators extends OpenApiGeneratorCommand {
     private String include = "stable,beta,experimental";
 
     @Override
-    public void execute() {
+    public void run() {
         List<CodegenConfig> generators = new ArrayList<>();
         List<Stability> stabilities = Arrays.asList(Stability.values());
 

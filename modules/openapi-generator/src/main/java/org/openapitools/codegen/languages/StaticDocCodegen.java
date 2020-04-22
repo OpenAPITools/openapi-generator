@@ -33,7 +33,7 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
     public StaticDocCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
                 .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
                 .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
@@ -41,7 +41,7 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
                 .globalFeatures(EnumSet.allOf(GlobalFeature.class))
                 .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
                 .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
-        );
+                .build();
 
         // clear import mapping (from default generator) as this generator does not use it
         // at the moment

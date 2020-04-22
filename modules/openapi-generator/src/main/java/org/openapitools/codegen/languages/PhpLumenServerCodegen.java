@@ -62,7 +62,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
     public PhpLumenServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -75,7 +75,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-        );
+                .build();
 
         embeddedTemplateDir = templateDir = "php-lumen";
 

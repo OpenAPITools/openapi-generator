@@ -307,11 +307,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val configOptions = project.objects.mapProperty<String, String>()
 
-    /**
-     * Templating engine: "mustache" (default) or "handlebars" (beta)
-     */
-    val engine = project.objects.property<String?>()
-
     init {
         applyDefaults()
     }

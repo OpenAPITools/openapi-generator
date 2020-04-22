@@ -71,10 +71,10 @@ newtype {{{x-paramNameType}}} = {{{x-paramNameType}}} { un{{{x-paramNameType}}} 
 -- {{/title}}{{#description}}
 -- {{{.}}}{{/description}}{{#isAlias}}
 newtype {{classname}} = {{classname}}
-  { un{{classname}} :: {{{vendorExtensions.x-data-type}}}
+  { un{{classname}} :: {{{vendorExtensions.x-dataType}}}
   } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
 data {{classname}} = {{classname}}
-  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-data-type}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#isReadOnly}}/ReadOnly/ {{/isReadOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
+  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#isReadOnly}}/ReadOnly/ {{/isReadOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   } deriving (P.Show, P.Eq, P.Typeable{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}
 
@@ -93,7 +93,7 @@ instance A.ToJSON {{classname}} where
       , {{/hasMore}}{{/vars}}
       ]
 
-{{#vendorExtensions.x-has-mime-form-url-encoded}}
+{{#vendorExtensions.x-hasMimeFormUrlEncoded}}
 -- | FromForm {{classname}}
 instance WH.FromForm {{classname}} where
   fromForm f =
@@ -108,12 +108,12 @@ instance WH.ToForm {{classname}} where
       [ {{#vars}}_toFormItem "{{baseName}}" ({{#required}}Just {{/required}}{{name}}){{#hasMore}}
       , {{/hasMore}}{{/vars}}
       ]
-{{/vendorExtensions.x-has-mime-form-url-encoded}}
+{{/vendorExtensions.x-hasMimeFormUrlEncoded}}
 
 {{#generateModelConstructors}}
 -- | Construct a value of type '{{classname}}' (by applying it's required fields, if any)
 mk{{classname}}
-  :: {{#vars}}{{#required}}{{{vendorExtensions.x-data-type}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
+  :: {{#vars}}{{#required}}{{{vendorExtensions.x-dataType}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
   -> {{/required}}{{/vars}}{{classname}}
 mk{{classname}} {{#vars}}{{#required}}{{name}} {{/required}}{{/vars}}=
   {{classname}}

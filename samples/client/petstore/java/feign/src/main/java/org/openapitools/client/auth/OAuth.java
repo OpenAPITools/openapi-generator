@@ -80,14 +80,14 @@ public class OAuth implements RequestInterceptor {
         }
         // If first time, get the token
         if (expirationTimeMillis == null || System.currentTimeMillis() >= expirationTimeMillis) {
-            updateAccessToken(template);
+            updateAccessToken();
         }
         if (getAccessToken() != null) {
             template.header("Authorization", "Bearer " + getAccessToken());
         }
     }
 
-    public synchronized void updateAccessToken(RequestTemplate template) {
+    public synchronized void updateAccessToken() {
         OAuthJSONAccessTokenResponse accessTokenResponse;
         try {
             accessTokenResponse = oauthClient.accessToken(tokenRequestBuilder.buildBodyMessage());

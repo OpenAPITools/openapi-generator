@@ -46,13 +46,13 @@ public class UserApiVerticle extends AbstractVerticle {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
                 String serviceId = "createUser";
-                JsonObject bodyParam = message.body().getJsonObject("body");
-                if (bodyParam == null) {
-                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                JsonObject userParam = message.body().getJsonObject("User");
+                if (userParam == null) {
+                    manageError(message, new MainApiException(400, "User is required"), serviceId);
                     return;
                 }
-                User body = Json.mapper.readValue(bodyParam.encode(), User.class);
-                service.createUser(body).subscribe(
+                User user = Json.mapper.readValue(userParam.encode(), User.class);
+                service.createUser(user).subscribe(
                     () -> {
                         message.reply(null);
                     },
@@ -70,14 +70,14 @@ public class UserApiVerticle extends AbstractVerticle {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
                 String serviceId = "createUsersWithArrayInput";
-                JsonArray bodyParam = message.body().getJsonArray("body");
-                if(bodyParam == null) {
-                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                JsonArray userParam = message.body().getJsonArray("User");
+                if(userParam == null) {
+                    manageError(message, new MainApiException(400, "User is required"), serviceId);
                     return;
                 }
-                List<User> body = Json.mapper.readValue(bodyParam.encode(),
-                    Json.mapper.getTypeFactory().constructCollectionType(List.class, User.class));
-                service.createUsersWithArrayInput(body).subscribe(
+                List<User> user = Json.mapper.readValue(userParam.encode(),
+                    Json.mapper.getTypeFactory().constructCollectionType(List.class, List.class));
+                service.createUsersWithArrayInput(user).subscribe(
                     () -> {
                         message.reply(null);
                     },
@@ -95,14 +95,14 @@ public class UserApiVerticle extends AbstractVerticle {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
                 String serviceId = "createUsersWithListInput";
-                JsonArray bodyParam = message.body().getJsonArray("body");
-                if(bodyParam == null) {
-                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                JsonArray userParam = message.body().getJsonArray("User");
+                if(userParam == null) {
+                    manageError(message, new MainApiException(400, "User is required"), serviceId);
                     return;
                 }
-                List<User> body = Json.mapper.readValue(bodyParam.encode(),
-                    Json.mapper.getTypeFactory().constructCollectionType(List.class, User.class));
-                service.createUsersWithListInput(body).subscribe(
+                List<User> user = Json.mapper.readValue(userParam.encode(),
+                    Json.mapper.getTypeFactory().constructCollectionType(List.class, List.class));
+                service.createUsersWithListInput(user).subscribe(
                     () -> {
                         message.reply(null);
                     },
@@ -222,13 +222,13 @@ public class UserApiVerticle extends AbstractVerticle {
                     return;
                 }
                 String username = usernameParam;
-                JsonObject bodyParam = message.body().getJsonObject("body");
-                if (bodyParam == null) {
-                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                JsonObject userParam = message.body().getJsonObject("User");
+                if (userParam == null) {
+                    manageError(message, new MainApiException(400, "User is required"), serviceId);
                     return;
                 }
-                User body = Json.mapper.readValue(bodyParam.encode(), User.class);
-                service.updateUser(username, body).subscribe(
+                User user = Json.mapper.readValue(userParam.encode(), User.class);
+                service.updateUser(username, user).subscribe(
                     () -> {
                         message.reply(null);
                     },

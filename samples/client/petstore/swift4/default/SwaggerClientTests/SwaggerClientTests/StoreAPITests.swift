@@ -15,7 +15,7 @@ class StoreAPITests: XCTestCase {
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 
     let testTimeout = 10.0
-/*
+
     func test1PlaceOrder() {
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
         let shipDate = Date()
@@ -82,7 +82,7 @@ class StoreAPITests: XCTestCase {
 
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-*/
+
     func testDownloadProgress() {
         let responseExpectation = self.expectation(description: "obtain response")
         let progressExpectation = self.expectation(description: "obtain progress")

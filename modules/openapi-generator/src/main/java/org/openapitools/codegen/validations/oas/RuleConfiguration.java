@@ -10,9 +10,6 @@ public class RuleConfiguration {
     private boolean enableApacheNginxUnderscoreRecommendation = defaultedBoolean(propertyPrefix + ".apache-nginx-underscore", true);
     private boolean enableOneOfWithPropertiesRecommendation = defaultedBoolean(propertyPrefix + ".oneof-properties-ambiguity", true);
     private boolean enableUnusedSchemasRecommendation = defaultedBoolean(propertyPrefix + ".unused-schemas", true);
-    private boolean enableSchemaTypeRecommendation = defaultedBoolean(propertyPrefix + ".schema-type", true);
-    private boolean enableNullableAttributeRecommendation = defaultedBoolean(propertyPrefix + ".nullable-deprecated", true);
-    private boolean enableInvalidTypeRecommendation = defaultedBoolean(propertyPrefix + ".invalid-type", true);
 
     private boolean enableApiRequestUriWithBodyRecommendation = defaultedBoolean(propertyPrefix + ".anti-patterns.uri-unexpected-body", true);
 
@@ -94,85 +91,7 @@ public class RuleConfiguration {
     }
 
     /**
-     * Enable or Disable the recommendation check for schemas containing type definitions, specifically
-     * for changes between OpenAPI 3.0.x and 3.1.
-     * 
-     * <p>
-     * For more details, see {@link RuleConfiguration#isEnableSchemaTypeRecommendation()}
-     *
-     * @param enableSchemaTypeRecommendation <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void setEnableSchemaTypeRecommendation(boolean enableSchemaTypeRecommendation) {
-        this.enableSchemaTypeRecommendation = enableSchemaTypeRecommendation;
-    }
-
-    /**
-     * Gets whether the recommendation check for for schemas containing type definitions.
-     * <p>
-     * In OpenAPI 3.0.x, the "type" attribute must be a string value.
-     * In OpenAPI 3.1, the type attribute may be:
-     *   A string value
-     *   The 'null' value
-     *   An array containing primitive types and the 'null' value.
-     *
-     * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableSchemaTypeRecommendation() {
-        return enableSchemaTypeRecommendation;
-    }
-    
-    /**
-     * Enable or Disable the recommendation check for the 'nullable' attribute.
-     * 
-     * <p>
-     * For more details, see {@link RuleConfiguration#isEnableNullableAttributeRecommendation()}
-     *
-     * @param enableNullableAttributeRecommendation <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void setEnableNullableAttributeRecommendation(boolean enableNullableAttributeRecommendation) {
-        this.enableNullableAttributeRecommendation = enableNullableAttributeRecommendation;
-    }
-
-    /**
-     * Gets whether the recommendation check for for schemas containing the 'nullable' attribute.
-     * <p>
-     * In OpenAPI 3.0.x, the "nullable" attribute is supported. However, because it is deprecated in 3.1
-     * and above, a warning is logged to prepare for OpenAPI 3.1 recommendations.
-     * In OpenAPI 3.1, the 'nullable' attribute is deprecated. Instead the OpenAPI specification should
-     * use the 'null' type.
-     *
-     * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableNullableAttributeRecommendation() {
-        return enableNullableAttributeRecommendation;
-    }
-
-    /**
-     * Enable or Disable the recommendation check for the 'type' attribute.
-     * 
-     * <p>
-     * For more details, see {@link RuleConfiguration#isEnableInvalidTypeRecommendation()}
-     *
-     * @param enableInvalidTypeRecommendation <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void setEnableInvalidTypeRecommendation(boolean enableInvalidTypeRecommendation) {
-        this.enableInvalidTypeRecommendation = enableInvalidTypeRecommendation;
-    }
-
-    /**
-     * Gets whether the recommendation check for for schemas containing invalid values for the 'type' attribute.
-     * <p>
-     *
-     * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableInvalidTypeRecommendation() {
-        return enableInvalidTypeRecommendation;
-    }
-
-    /**
      * Get whether recommendations are enabled.
-     * <p>
-     * The 'type' attribute must be one of 'null', 'boolean', 'object', 'array', 'number', 'string', or 'integer'
      *
      * @return <code>true</code> if enabled, <code>false</code> if disabled
      */

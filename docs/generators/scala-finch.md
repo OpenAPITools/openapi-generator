@@ -40,8 +40,7 @@ sidebar_label: scala-finch
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Any</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Any</li>
 <li>AnyRef</li>
 <li>AnyVal</li>
 <li>Boolean</li>
@@ -56,8 +55,7 @@ sidebar_label: scala-finch
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>abstract</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
 <li>assert</li>
 <li>break</li>
 <li>byte</li>

@@ -19,12 +19,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Collection;
@@ -59,7 +57,6 @@ public class ApiClient {
   private int port;
   private String basePath;
   private Consumer<HttpRequest.Builder> interceptor;
-  private Consumer<HttpResponse<InputStream>> responseInterceptor;
   private Duration readTimeout;
 
   private static String valueToString(Object value) {
@@ -175,7 +172,6 @@ public class ApiClient {
     basePath = baseURI.getRawPath();
     interceptor = null;
     readTimeout = null;
-    responseInterceptor = null;
   }
 
   /**
@@ -308,29 +304,6 @@ public class ApiClient {
   }
 
   /**
-   * Set a custom response interceptor.
-   *
-   * <p>This is useful for logging, monitoring or extraction of header variables</p>
-   *
-   * @param interceptor A function invoked before creating each request. A value
-   *                    of null resets the interceptor to a no-op.
-   * @return This object.
-   */
-  public ApiClient setResponseInterceptor(Consumer<HttpResponse<InputStream>> interceptor) {
-    this.responseInterceptor = interceptor;
-    return this;
-  }
-
- /**
-   * Get the custom response interceptor.
-   *
-   * @return The custom interceptor that was set, or null if there isn't any.
-   */
-  public Consumer<HttpResponse<InputStream>> getResponseInterceptor() {
-    return responseInterceptor;
-  }
-
-  /**
    * Set the read timeout for the http client.
    *
    * <p>This is the value used by default for each request, though it can be
@@ -345,7 +318,7 @@ public class ApiClient {
     this.readTimeout = readTimeout;
     return this;
   }
-  
+
   /**
    * Get the read timeout that was set.
    *

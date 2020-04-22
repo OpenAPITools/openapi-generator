@@ -144,7 +144,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>2.10.4</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -154,7 +154,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <doclint>none</doclint>
                     <tags>
                         <tag>
                             <name>http.response.details</name>
@@ -278,8 +277,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
-        <jackson-version>2.10.3</jackson-version>
-        <jackson-databind-version>2.10.3</jackson-databind-version>
+        <jackson-version>2.10.1</jackson-version>
+        <jackson-databind-version>2.10.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.13</junit-version>

@@ -17,16 +17,38 @@
 
 package org.openapitools.codegen.java;
 
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import com.google.common.collect.ImmutableMap;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.*;
+
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
@@ -34,16 +56,15 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class JavaClientCodegenTest {
 
@@ -207,7 +228,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithAllOf() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
         final JavaClientCodegen codegen = new JavaClientCodegen();
 
         Operation operation = openAPI.getPaths().get("/ping").getPost();
@@ -267,7 +288,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 37);
+        Assert.assertEquals(generatedFiles.size(), 34);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -284,15 +305,12 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "pom.xml");
         TestUtils.ensureContainsFile(generatedFiles, output, "README.md");
         TestUtils.ensureContainsFile(generatedFiles, output, "settings.gradle");
-        TestUtils.ensureContainsFile(generatedFiles, output, "api/openapi.yaml");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiCallback.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiException.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiResponse.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ServerConfiguration.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ServerVariable.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
@@ -343,7 +361,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 40);
+        Assert.assertEquals(generatedFiles.size(), 37);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -361,15 +379,12 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "pom.xml");
         TestUtils.ensureContainsFile(generatedFiles, output, "README.md");
         TestUtils.ensureContainsFile(generatedFiles, output, "settings.gradle");
-        TestUtils.ensureContainsFile(generatedFiles, output, "api/openapi.yaml");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/api/xxxx/PingApi.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiCallback.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiClient.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiException.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiResponse.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ServerConfiguration.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ServerVariable.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/ApiKeyAuth.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/Authentication.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBasicAuth.java");
@@ -416,7 +431,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 26);
+        Assert.assertEquals(generatedFiles.size(), 23);
         validateJavaSourceFiles(generatedFiles);
 
         String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
@@ -435,7 +450,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testReferencedHeader() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue855.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -450,7 +465,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testAuthorizationScopeValues_Issue392() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue392.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue392.yaml");
 
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
@@ -478,7 +493,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testAuthorizationsHasMoreWhenFiltered() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue4584.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue4584.yaml");
 
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
@@ -498,7 +513,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testFreeFormObjects() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue796.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue796.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
@@ -529,60 +544,11 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cm.getClassname(), "OtherObj");
     }
 
-    /**
-     * See https://github.com/OpenAPITools/openapi-generator/issues/3589
-     */
-    @Test
-    public void testImportMapping() throws IOException {
-
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.JAVA8_MODE, true);
-        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
-
-        Map<String, String> importMappings = new HashMap<>();
-        importMappings.put("TypeAlias", "foo.bar.TypeAlias");
-
-        File output = Files.createTempDirectory("test").toFile();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
-                .setLibrary(JavaClientCodegen.RESTEASY)
-                .setAdditionalProperties(properties)
-                .setImportMappings(importMappings)
-                .setInputSpec("src/test/resources/3_0/type-alias.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        Assert.assertEquals(clientOptInput.getConfig().importMapping().get("TypeAlias"), "foo.bar.TypeAlias");
-
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-        generator.opts(clientOptInput).generate();
-
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 1);
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/org/openapitools/client/model/ParentType.java");
-
-        final String parentTypeContents = generatedFiles.values().iterator().next();
-
-        final Pattern FIELD_PATTERN = Pattern.compile(".* private (.*?) typeAlias;.*", Pattern.DOTALL);
-        Matcher fieldMatcher = FIELD_PATTERN.matcher(parentTypeContents);
-        Assert.assertTrue(fieldMatcher.matches());
-
-        // this is the type of the field 'typeAlias'. With a working importMapping it should
-        // be 'foo.bar.TypeAlias' or just 'TypeAlias'
-        Assert.assertEquals(fieldMatcher.group(1), "foo.bar.TypeAlias");
-    }
-
     @Test
     public void testBearerAuth() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/pingBearerAuth.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/pingBearerAuth.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
-
+        
         List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
         Assert.assertEquals(security.size(), 1);
         Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);

@@ -1,6 +1,6 @@
 ---
 id: faq
-title: "FAQ: General"
+title: FAQ: General
 ---
 
 ## Do you have a chat room?

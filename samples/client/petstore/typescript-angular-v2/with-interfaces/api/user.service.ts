@@ -190,7 +190,7 @@ export class UserService implements UserServiceInterface {
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
+        if (typeof value === "object") {
             this.addToHttpParamsRecursive(httpParams, value);
         } else {
             this.addToHttpParamsRecursive(httpParams, value, key);

@@ -59,7 +59,7 @@ public class PerlClientCodegenTest {
 
     @Test
     public void testIssue677() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue677.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue677.yaml");
         final PerlClientCodegen codegen = new PerlClientCodegen();
         codegen.setOpenAPI(openAPI);
 

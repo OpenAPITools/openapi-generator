@@ -29,8 +29,7 @@ sidebar_label: python-experimental
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>bool</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>bool</li>
 <li>date</li>
 <li>datetime</li>
 <li>dict</li>
@@ -46,8 +45,7 @@ sidebar_label: python-experimental
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>all_params</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>all_params</li>
 <li>and</li>
 <li>as</li>
 <li>assert</li>

@@ -57,15 +57,15 @@ interface {{classname}}
      *
     {{/description}}
     {{#allParams}}
-     * @param  {{vendorExtensions.x-comment-type}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{vendorExtensions.x-commentType}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
     {{/allParams}}
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return {{{vendorExtensions.x-comment-type}}}
+     * @return {{{vendorExtensions.x-commentType}}}
      *
      */
-    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}&$responseCode, array &$responseHeaders);
+    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameterType}}{{vendorExtensions.x-parameterType}} {{/vendorExtensions.x-parameterType}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}&$responseCode, array &$responseHeaders);
 {{/operation}}
 }
 {{/operations}}

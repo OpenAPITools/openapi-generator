@@ -31,8 +31,7 @@ sidebar_label: apex
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>Blob</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Blob</li>
 <li>Boolean</li>
 <li>Date</li>
 <li>Datetime</li>
@@ -48,8 +47,7 @@ sidebar_label: apex
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>abstract</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
 <li>activate</li>
 <li>and</li>
 <li>any</li>

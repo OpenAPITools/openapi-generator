@@ -10,7 +10,7 @@ import re  # noqa: F401
 import six
 
 from {{packageName}}.api_client import ApiClient
-from {{packageName}}.exceptions import (  # noqa: F401
+from {{packageName}}.exceptions import (
     ApiTypeError,
     ApiValueError
 )
@@ -99,36 +99,20 @@ class {{classname}}(object):
         """
 
         {{#servers.0}}
-        local_var_hosts = [
-{{#servers}}
-            '{{{url}}}'{{^-last}},{{/-last}}
-{{/servers}}
-        ]
+        local_var_hosts = [{{#servers}}'{{{url}}}'{{^-last}}, {{/-last}}{{/servers}}]  # noqa: E501
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            _host_index = int(kwargs.get('_host_index'))
-            if _host_index < 0 or _host_index >= len(local_var_hosts):
-                raise ApiValueError(
-                    "Invalid host index. Must be 0 <= index < %s"
-                    % len(local_var_host)
-                )
-            local_var_host = local_var_hosts[_host_index]
+            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
+                raise ApiValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
+            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         {{/servers.0}}
         local_var_params = locals()
 
-        all_params = [
-{{#allParams}}
-            '{{paramName}}'{{#hasMore}},{{/hasMore}}
-{{/allParams}}
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
-        )
+        all_params = [{{#allParams}}'{{paramName}}'{{#hasMore}}, {{/hasMore}}{{/allParams}}]  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params{{#servers.0}} and key != "_host_index"{{/servers.0}}:

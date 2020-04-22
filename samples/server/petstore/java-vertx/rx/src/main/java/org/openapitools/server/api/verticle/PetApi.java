@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface PetApi  {
     //addPet
-    public Completable addPet(Pet body);
+    public Completable addPet(Pet pet);
     
     //deletePet
     public Completable deletePet(Long petId,String apiKey);
@@ -28,7 +28,7 @@ public interface PetApi  {
     public Single<Pet> getPetById(Long petId);
     
     //updatePet
-    public Completable updatePet(Pet body);
+    public Completable updatePet(Pet pet);
     
     //updatePetWithForm
     public Completable updatePetWithForm(Long petId,String name,String status);

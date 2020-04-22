@@ -1,6 +1,6 @@
 ---
 id: fork-qna
-title: "Swagger Codegen Fork: Q&A"
+title: Swagger Codegen Fork: Q&A
 ---
 
 This document aims to answer some questions about the fork for historical reference, where these questions don't fit into other documents related to the project itself.

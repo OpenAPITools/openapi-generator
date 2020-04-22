@@ -8,23 +8,12 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-
-@objc public class Name: NSObject, Codable {
+public struct Name: Codable {
 
     public var name: Int
     public var snakeCase: Int?
-    public var snakeCaseNum: NSNumber? {
-        get {
-            return snakeCase as NSNumber?
-        }
-    }
     public var property: String?
     public var _123number: Int?
-    public var _123numberNum: NSNumber? {
-        get {
-            return _123number as NSNumber?
-        }
-    }
 
     public init(name: Int, snakeCase: Int?, property: String?, _123number: Int?) {
         self.name = name

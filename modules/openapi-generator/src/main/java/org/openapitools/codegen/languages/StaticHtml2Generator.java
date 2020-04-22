@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
@@ -55,7 +54,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     public StaticHtml2Generator() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
                 .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
                 .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
@@ -63,7 +62,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
                 .globalFeatures(EnumSet.allOf(GlobalFeature.class))
                 .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
                 .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
-        );
+                .build();
 
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs2";
@@ -202,20 +201,13 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (op.returnType != null) {
             op.returnType = normalizeType(op.returnType);
         }
 
         //path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'
         op.path = sanitizePath(op.path);
-
-        String methodUpperCase = httpMethod.toUpperCase(Locale.ROOT);
-        op.vendorExtensions.put("x-codegen-httpMethodUpperCase", methodUpperCase); // TODO: 5.0 Remove
-        op.vendorExtensions.put("x-codegen-http-method-upper-case", methodUpperCase);
+        op.vendorExtensions.put("x-codegen-httpMethodUpperCase", httpMethod.toUpperCase(Locale.ROOT));
 
         return op;
     }
@@ -247,10 +239,6 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
      */
     public List<CodegenParameter> postProcessParameterEnum(List<CodegenParameter> parameterList) {
         String enumFormatted = "";
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenParameter parameter : parameterList) {
             if (parameter.isEnum) {
                 for (int i = 0; i < parameter._enum.size(); i++) {
@@ -260,11 +248,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
                         enumFormatted += "`" + parameter._enum.get(i) + "`" + spacer;
                 }
                 Markdown markInstance = new Markdown();
-                if (!enumFormatted.isEmpty()) {
-                    String formattedExtension = markInstance.toHtml(enumFormatted);
-                    parameter.vendorExtensions.put("x-eumFormatted", formattedExtension); // TODO: 5.0 Remove
-                    parameter.vendorExtensions.put("x-eum-formatted", formattedExtension);
-                }
+                if (!enumFormatted.isEmpty())
+                    parameter.vendorExtensions.put("x-eumFormatted", markInstance.toHtml(enumFormatted));
             }
         }
         return parameterList;

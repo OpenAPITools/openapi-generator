@@ -49,7 +49,7 @@ import ch.lambdaj.function.convert.Converter;
 @Command(name = "meta", description = "MetaGenerator. Generator for creating a new template set "
         + "and configuration for Codegen.  The output will be based on the language you "
         + "specify, and includes default templates to include.")
-public class Meta extends OpenApiGeneratorCommand {
+public class Meta implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Meta.class);
 
@@ -80,7 +80,7 @@ public class Meta extends OpenApiGeneratorCommand {
     private String language = "java";
 
     @Override
-    public void execute() {
+    public void run() {
         final File targetDir = new File(outputFolder);
         LOGGER.info("writing to folder [{}]", targetDir.getAbsolutePath());
 
@@ -110,7 +110,7 @@ public class Meta extends OpenApiGeneratorCommand {
                         new SupportingFile("myFile.template", String.join(File.separator, "src", "main", "resources", name), "myFile.mustache"),
                         new SupportingFile("services.mustache", "src/main/resources/META-INF/services", CodegenConfig.class.getCanonicalName()));
 
-        String currentVersion = buildInfo.getVersion();
+        String currentVersion = Version.readVersionFromResources();
 
         Map<String, Object> data =
                 new ImmutableMap.Builder<String, Object>()

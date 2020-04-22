@@ -32,7 +32,6 @@ import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,13 +62,13 @@ import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 
 /**
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
  */
-@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class CodeGenMojo extends AbstractMojo {
 
@@ -82,10 +81,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Component
     private BuildContext buildContext = new DefaultBuildContext();
 
-    @Parameter(name = "verbose", defaultValue = "false")
+    @Parameter(name = "verbose", required = false, defaultValue = "false")
     private boolean verbose;
 
-    // TODO: 5.0 Remove `language` option.
     /**
      * Client language to generate.
      */
@@ -96,7 +94,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * The name of the generator to use.
      */
-    @Parameter(name = "generatorName", property = "openapi.generator.maven.plugin.generatorName")
+    @Parameter(name = "generatorName")
     private String generatorName;
 
     /**
@@ -115,19 +113,19 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Git host, e.g. gitlab.com.
      */
-    @Parameter(name = "gitHost", property = "openapi.generator.maven.plugin.gitHost")
+    @Parameter(name = "gitHost", property = "openapi.generator.maven.plugin.gitHost", required = false)
     private String gitHost;
 
     /**
      * Git user ID, e.g. swagger-api.
      */
-    @Parameter(name = "gitUserId", property = "openapi.generator.maven.plugin.gitUserId")
+    @Parameter(name = "gitUserId", property = "openapi.generator.maven.plugin.gitUserId", required = false)
     private String gitUserId;
 
     /**
      * Git repo ID, e.g. openapi-generator.
      */
-    @Parameter(name = "gitRepoId", property = "openapi.generator.maven.plugin.gitRepoId")
+    @Parameter(name = "gitRepoId", property = "openapi.generator.maven.plugin.gitRepoId", required = false)
     private String gitRepoId;
 
     /**
@@ -158,13 +156,13 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Path to separate json configuration file.
      */
-    @Parameter(name = "configurationFile", property = "openapi.generator.maven.plugin.configurationFile")
+    @Parameter(name = "configurationFile", property = "openapi.generator.maven.plugin.configurationFile", required = false)
     private String configurationFile;
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
      */
-    @Parameter(name = "skipOverwrite", property = "openapi.generator.maven.plugin.skipOverwrite")
+    @Parameter(name = "skipOverwrite", property = "openapi.generator.maven.plugin.skipOverwrite", required = false)
     private Boolean skipOverwrite;
 
     /**
@@ -212,67 +210,67 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Sets the library
      */
-    @Parameter(name = "library", property = "openapi.generator.maven.plugin.library")
+    @Parameter(name = "library", property = "openapi.generator.maven.plugin.library", required = false)
     private String library;
 
     /**
      * Sets the prefix for model enums and classes
      */
-    @Parameter(name = "modelNamePrefix", property = "openapi.generator.maven.plugin.modelNamePrefix")
+    @Parameter(name = "modelNamePrefix", property = "openapi.generator.maven.plugin.modelNamePrefix", required = false)
     private String modelNamePrefix;
 
     /**
      * Sets the suffix for model enums and classes
      */
-    @Parameter(name = "modelNameSuffix", property = "openapi.generator.maven.plugin.modelNameSuffix")
+    @Parameter(name = "modelNameSuffix", property = "openapi.generator.maven.plugin.modelNameSuffix", required = false)
     private String modelNameSuffix;
 
     /**
      * Sets an optional ignoreFileOverride path
      */
-    @Parameter(name = "ignoreFileOverride", property = "openapi.generator.maven.plugin.ignoreFileOverride")
+    @Parameter(name = "ignoreFileOverride", property = "openapi.generator.maven.plugin.ignoreFileOverride", required = false)
     private String ignoreFileOverride;
 
     /**
      * Sets custom User-Agent header value
      */
-    @Parameter(name = "httpUserAgent", property = "openapi.generator.maven.plugin.httpUserAgent")
+    @Parameter(name = "httpUserAgent", property = "openapi.generator.maven.plugin.httpUserAgent", required = false)
     private String httpUserAgent;
 
     /**
      * To remove operationId prefix (e.g. user_getName => getName)
      */
-    @Parameter(name = "removeOperationIdPrefix", property = "openapi.generator.maven.plugin.removeOperationIdPrefix")
+    @Parameter(name = "removeOperationIdPrefix", property = "openapi.generator.maven.plugin.removeOperationIdPrefix", required = false)
     private Boolean removeOperationIdPrefix;
 
     /**
      * To write all log messages (not just errors) to STDOUT
      */
-    @Parameter(name = "logToStderr", property = "openapi.generator.maven.plugin.logToStderr")
+    @Parameter(name = "logToStderr", property = "openapi.generator.maven.plugin.logToStderr", required = false)
     private Boolean logToStderr;
 
     /**
      * To file post-processing hook
      */
-    @Parameter(name = "enablePostProcessFile", property = "openapi.generator.maven.plugin.enablePostProcessFile")
+    @Parameter(name = "enablePostProcessFile", property = "openapi.generator.maven.plugin.enablePostProcessFile", required = false)
     private Boolean enablePostProcessFile;
 
     /**
      * To skip spec validation
      */
-    @Parameter(name = "skipValidateSpec", property = "openapi.generator.maven.plugin.skipValidateSpec")
+    @Parameter(name = "skipValidateSpec", property = "openapi.generator.maven.plugin.skipValidateSpec", required = false)
     private Boolean skipValidateSpec;
 
     /**
      * To treat a document strictly against the spec.
      */
-    @Parameter(name = "strictSpec", property = "openapi.generator.maven.plugin.strictSpec")
+    @Parameter(name = "strictSpec", property = "openapi.generator.maven.plugin.strictSpec", required = false)
     private Boolean strictSpec;
 
     /**
      * To generate alias (array, map) as model
      */
-    @Parameter(name = "generateAliasAsModel", property = "openapi.generator.maven.plugin.generateAliasAsModel")
+    @Parameter(name = "generateAliasAsModel", property = "openapi.generator.maven.plugin.generateAliasAsModel", required = false)
     private Boolean generateAliasAsModel;
 
     /**
@@ -326,94 +324,87 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Generate the apis
      */
-    @Parameter(name = "generateApis", property = "openapi.generator.maven.plugin.generateApis")
+    @Parameter(name = "generateApis", property = "openapi.generator.maven.plugin.generateApis", required = false)
     private Boolean generateApis = true;
-
-    /**
-     * A comma separated list of apis to generate. All apis is the default.
-     */
-    @Parameter(name = "apisToGenerate", property = "openapi.generator.maven.plugin.apisToGenerate")
-    private String apisToGenerate = "";
 
     /**
      * Generate the models
      */
-    @Parameter(name = "generateModels", property = "openapi.generator.maven.plugin.generateModels")
+    @Parameter(name = "generateModels", property = "openapi.generator.maven.plugin.generateModels", required = false)
     private Boolean generateModels = true;
 
     /**
      * A comma separated list of models to generate. All models is the default.
      */
-    @Parameter(name = "modelsToGenerate", property = "openapi.generator.maven.plugin.modelsToGenerate")
+    @Parameter(name = "modelsToGenerate", property = "openapi.generator.maven.plugin.modelsToGenerate", required = false)
     private String modelsToGenerate = "";
 
     /**
      * Generate the supporting files
      */
-    @Parameter(name = "generateSupportingFiles", property = "openapi.generator.maven.plugin.generateSupportingFiles")
+    @Parameter(name = "generateSupportingFiles", property = "openapi.generator.maven.plugin.generateSupportingFiles", required = false)
     private Boolean generateSupportingFiles = true;
 
     /**
      * A comma separated list of models to generate. All models is the default.
      */
-    @Parameter(name = "supportingFilesToGenerate", property = "openapi.generator.maven.plugin.supportingFilesToGenerate")
+    @Parameter(name = "supportingFilesToGenerate", property = "openapi.generator.maven.plugin.supportingFilesToGenerate", required = false)
     private String supportingFilesToGenerate = "";
 
     /**
      * Generate the model tests
      */
-    @Parameter(name = "generateModelTests", property = "openapi.generator.maven.plugin.generateModelTests")
+    @Parameter(name = "generateModelTests", property = "openapi.generator.maven.plugin.generateModelTests", required = false)
     private Boolean generateModelTests = true;
 
     /**
      * Generate the model documentation
      */
-    @Parameter(name = "generateModelDocumentation", property = "openapi.generator.maven.plugin.generateModelDocumentation")
+    @Parameter(name = "generateModelDocumentation", property = "openapi.generator.maven.plugin.generateModelDocumentation", required = false)
     private Boolean generateModelDocumentation = true;
 
     /**
      * Generate the api tests
      */
-    @Parameter(name = "generateApiTests", property = "openapi.generator.maven.plugin.generateApiTests")
+    @Parameter(name = "generateApiTests", property = "openapi.generator.maven.plugin.generateApiTests", required = false)
     private Boolean generateApiTests = true;
 
     /**
      * Generate the api documentation
      */
-    @Parameter(name = "generateApiDocumentation", property = "openapi.generator.maven.plugin.generateApiDocumentation")
+    @Parameter(name = "generateApiDocumentation", property = "openapi.generator.maven.plugin.generateApiDocumentation", required = false)
     private Boolean generateApiDocumentation = true;
 
     /**
      * Generate the api documentation
      */
-    @Parameter(name = "withXml", property = "openapi.generator.maven.plugin.withXml")
+    @Parameter(name = "withXml", property = "openapi.generator.maven.plugin.withXml", required = false)
     private Boolean withXml = false;
 
     /**
      * Skip the execution.
      */
-    @Parameter(name = "skip", property = "codegen.skip", defaultValue = "false")
+    @Parameter(name = "skip", property = "codegen.skip", required = false, defaultValue = "false")
     private Boolean skip;
 
     /**
      * Skip the execution if the source file is older than the output folder.
      */
-    @Parameter(name = "skipIfSpecIsUnchanged", property = "codegen.skipIfSpecIsUnchanged", defaultValue = "false")
+    @Parameter(name = "skipIfSpecIsUnchanged", property = "codegen.skipIfSpecIsUnchanged", required = false, defaultValue = "false")
     private Boolean skipIfSpecIsUnchanged;
 
     /**
      * Add the output directory to the project as a source root, so that the generated java types
      * are compiled and included in the project artifact.
      */
-    @Parameter(defaultValue = "true", property = "openapi.generator.maven.plugin.addCompileSourceRoot")
+    @Parameter(defaultValue = "true")
     private boolean addCompileSourceRoot = true;
 
-    // TODO: Rename to global properties in version 5.0
     @Parameter
-    protected Map<String, String> environmentVariables = new HashMap<>();
+    protected Map<String, String> environmentVariables = new HashMap<String, String>();
 
     @Parameter
-    protected Map<String, String> originalEnvironmentVariables = new HashMap<>();
+    protected Map<String, String> originalEnvironmentVariables = new HashMap<String, String>();
 
     @Parameter(property = "codegen.configHelp")
     private boolean configHelp = false;
@@ -434,36 +425,36 @@ public class CodeGenMojo extends AbstractMojo {
         addCompileSourceRootIfConfigured();
 
         try {
-            if (Boolean.TRUE.equals(skip)) {
+            if (skip) {
                 getLog().info("Code generation is skipped.");
                 return;
             }
 
-            if (buildContext != null && inputSpec != null ) {
-                if (buildContext.isIncremental() &&
-                        inputSpecFile.exists() &&
-                        !buildContext.hasDelta(inputSpecFile)) {
-                    getLog().info(
-                            "Code generation is skipped in delta-build because source-json was not modified.");
-                    return;
+            if (buildContext != null) {
+                if (buildContext.isIncremental()) {
+                    if (inputSpec != null) {
+                        if (inputSpecFile.exists()) {
+                            if (!buildContext.hasDelta(inputSpecFile)) {
+                                getLog().info(
+                                        "Code generation is skipped in delta-build because source-json was not modified.");
+                                return;
+                            }
+                        }
+                    }
                 }
             }
 
-            if (Boolean.TRUE.equals(skipIfSpecIsUnchanged) && inputSpecFile.exists()) {
-                File storedInputSpecHashFile = getHashFile(inputSpecFile);
-                if (storedInputSpecHashFile.exists()) {
-                    String inputSpecHash = null;
-                    try {
-                        inputSpecHash = calculateInputSpecHash(inputSpecFile);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    @SuppressWarnings("UnstableApiUsage")
-                    String storedInputSpecHash = Files.asCharSource(storedInputSpecHashFile, StandardCharsets.UTF_8).read();
-                    if (storedInputSpecHash.equals(inputSpecHash)) {
-                        getLog().info(
-                                "Code generation is skipped because input was unchanged");
-                        return;
+            if (skipIfSpecIsUnchanged) {
+                if (inputSpecFile.exists()) {
+                    File storedInputSpecHashFile = getHashFile(inputSpecFile);
+                    if(storedInputSpecHashFile.exists()) {
+                        String inputSpecHash = calculateInputSpecHash(inputSpecFile);
+                        String storedInputSpecHash = Files.asCharSource(storedInputSpecHashFile, Charsets.UTF_8).read();
+                        if (inputSpecHash.equals(storedInputSpecHash)) {
+                            getLog().info(
+                                    "Code generation is skipped because input was unchanged");
+                            return;
+                        }
                     }
                 }
             }
@@ -612,7 +603,7 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Set generation options
             if (null != generateApis && generateApis) {
-                GlobalSettings.setProperty(CodegenConstants.APIS, apisToGenerate);
+                GlobalSettings.setProperty(CodegenConstants.APIS, "");
             } else {
                 GlobalSettings.clearProperty(CodegenConstants.APIS);
             }
@@ -642,7 +633,7 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
-                // Retained for backwards-compatibility with configOptions -> import-mappings
+                // Retained for backwards-compataibility with configOptions -> import-mappings
                 if (importMappings == null && configOptions.containsKey("import-mappings")) {
                     applyImportMappingsKvp(configOptions.get("import-mappings").toString(),
                             configurator);
@@ -712,12 +703,16 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if (environmentVariables != null) {
+
                 for (String key : environmentVariables.keySet()) {
                     originalEnvironmentVariables.put(key, GlobalSettings.getProperty(key));
                     String value = environmentVariables.get(key);
-                    if (value != null) {
-                        configurator.addSystemProperty(key, value);
+                    if (value == null) {
+                        // don't put null values
+                        value = "";
                     }
+                    GlobalSettings.setProperty(key, value);
+                    configurator.addSystemProperty(key, value);
                 }
             }
 
@@ -757,14 +752,14 @@ public class CodeGenMojo extends AbstractMojo {
                 File parent = new File(storedInputSpecHashFile.getParent());
                 parent.mkdirs();
             }
-            Files.asCharSink(storedInputSpecHashFile, StandardCharsets.UTF_8).write(inputSpecHash);
+            Files.asCharSink(storedInputSpecHashFile, Charsets.UTF_8).write(inputSpecHash);
 
         } catch (Exception e) {
             // Maven logs exceptions thrown by plugins only if invoked with -e
             // I find it annoying to jump through hoops to get basic diagnostic information,
             // so let's log it in any case:
             if (buildContext != null) {
-                buildContext.addMessage(inputSpecFile, 0, 0, "unexpected error in Open-API generation", BuildContext.SEVERITY_WARNING, e);
+                buildContext.addError(inputSpecFile, 0, 0, "unexpected error in Open-API generation", e);
             }
             getLog().error(e);
             throw new MojoExecutionException(
@@ -792,8 +787,8 @@ public class CodeGenMojo extends AbstractMojo {
             URLConnection conn = inputSpecRemoteUrl.openConnection();
             if (isNotEmpty(auth)) {
                 List<AuthorizationValue> authList = AuthParser.parse(auth);
-                for (AuthorizationValue a : authList) {
-                    conn.setRequestProperty(a.getKeyName(), a.getValue());
+                for (AuthorizationValue auth : authList) {
+                    conn.setRequestProperty(auth.getKeyName(), auth.getValue());
                 }
             }
             try (ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream())) {
@@ -809,7 +804,7 @@ public class CodeGenMojo extends AbstractMojo {
                 inputSpecTempFile.exists()
                         ? Files.asByteSource(inputSpecTempFile)
                         : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecTempFile.toString().replaceAll("\\\\","/")))
-                        .asByteSource(StandardCharsets.UTF_8);
+                        .asByteSource(Charsets.UTF_8);
 
         return inputSpecByteSource.hash(Hashing.sha256()).toString();
     }
@@ -870,7 +865,6 @@ public class CodeGenMojo extends AbstractMojo {
             }
         }
     }
-
     /**
      * This method enables conversion of true/false strings in
      * config.additionalProperties (configuration/configOptions) to proper booleans.

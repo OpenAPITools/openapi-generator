@@ -45,7 +45,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
     public ScalazClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -60,7 +60,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-        );
+                .build();
 
         outputFolder = "generated-code/scalaz";
         embeddedTemplateDir = templateDir = "scalaz";
@@ -128,11 +128,55 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         instantiationTypes.put("map", "HashMap");
 
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
+
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+    }
+
+    public void setModelPropertyNaming(String naming) {
+        if ("original".equals(naming) || "camelCase".equals(naming) ||
+                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+            this.modelPropertyNaming = naming;
+        } else {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        if ("_".equals(name)) {
+            name = "_u";
+        }
+
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
+        }
+
+        name = getNameUsingModelPropertyNaming(name);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
     }
 
     @Override
@@ -228,6 +272,31 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         }
 
         return camelize(operationId, true);
+    }
+
+    @Override
+    public String toModelName(final String name) {
+        final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        final String camelizedName = camelize(sanitizedName);
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(camelizedName)) {
+            final String modelName = "Model" + camelizedName;
+            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        return camelizedName;
     }
 
     private static abstract class CustomLambda implements Mustache.Lambda {

@@ -10,29 +10,13 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
 // ArrayOfArrayOfNumberOnly struct for ArrayOfArrayOfNumberOnly
 type ArrayOfArrayOfNumberOnly struct {
 	ArrayArrayNumber *[][]float32 `json:"ArrayArrayNumber,omitempty"`
-}
-
-// NewArrayOfArrayOfNumberOnly instantiates a new ArrayOfArrayOfNumberOnly object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewArrayOfArrayOfNumberOnly() *ArrayOfArrayOfNumberOnly {
-	this := ArrayOfArrayOfNumberOnly{}
-	return &this
-}
-
-// NewArrayOfArrayOfNumberOnlyWithDefaults instantiates a new ArrayOfArrayOfNumberOnly object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewArrayOfArrayOfNumberOnlyWithDefaults() *ArrayOfArrayOfNumberOnly {
-	this := ArrayOfArrayOfNumberOnly{}
-	return &this
 }
 
 // GetArrayArrayNumber returns the ArrayArrayNumber field value if set, zero value otherwise.
@@ -44,13 +28,14 @@ func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumber() [][]float32 {
 	return *o.ArrayArrayNumber
 }
 
-// GetArrayArrayNumberOk returns a tuple with the ArrayArrayNumber field value if set, nil otherwise
+// GetArrayArrayNumberOk returns a tuple with the ArrayArrayNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumberOk() (*[][]float32, bool) {
+func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumberOk() ([][]float32, bool) {
 	if o == nil || o.ArrayArrayNumber == nil {
-		return nil, false
+		var ret [][]float32
+		return ret, false
 	}
-	return o.ArrayArrayNumber, true
+	return *o.ArrayArrayNumber, true
 }
 
 // HasArrayArrayNumber returns a boolean if a field has been set.
@@ -67,46 +52,25 @@ func (o *ArrayOfArrayOfNumberOnly) SetArrayArrayNumber(v [][]float32) {
 	o.ArrayArrayNumber = &v
 }
 
-func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.ArrayArrayNumber != nil {
-		toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableArrayOfArrayOfNumberOnly struct {
-	value *ArrayOfArrayOfNumberOnly
-	isSet bool
-}
-
-func (v NullableArrayOfArrayOfNumberOnly) Get() *ArrayOfArrayOfNumberOnly {
-	return v.value
-}
-
-func (v *NullableArrayOfArrayOfNumberOnly) Set(val *ArrayOfArrayOfNumberOnly) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableArrayOfArrayOfNumberOnly) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableArrayOfArrayOfNumberOnly) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableArrayOfArrayOfNumberOnly(val *ArrayOfArrayOfNumberOnly) *NullableArrayOfArrayOfNumberOnly {
-	return &NullableArrayOfArrayOfNumberOnly{value: val, isSet: true}
+	Value ArrayOfArrayOfNumberOnly
+	ExplicitNull bool
 }
 
 func (v NullableArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableArrayOfArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

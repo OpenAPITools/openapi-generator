@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
@@ -23,44 +24,25 @@ const (
 	XYZ EnumClass = "(xyz)"
 )
 
-// Ptr returns reference to EnumClass value
-func (v EnumClass) Ptr() *EnumClass {
-	return &v
-}
-
-
 type NullableEnumClass struct {
-	value *EnumClass
-	isSet bool
-}
-
-func (v NullableEnumClass) Get() *EnumClass {
-	return v.value
-}
-
-func (v *NullableEnumClass) Set(val *EnumClass) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableEnumClass) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableEnumClass) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableEnumClass(val *EnumClass) *NullableEnumClass {
-	return &NullableEnumClass{value: val, isSet: true}
+	Value EnumClass
+	ExplicitNull bool
 }
 
 func (v NullableEnumClass) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableEnumClass) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

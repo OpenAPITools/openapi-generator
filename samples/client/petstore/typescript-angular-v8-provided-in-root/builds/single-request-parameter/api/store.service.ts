@@ -24,17 +24,14 @@ import { Configuration }                                     from '../configurat
 
 
 export interface DeleteOrderRequestParams {
-    /** ID of the order that needs to be deleted */
     orderId: string;
 }
 
 export interface GetOrderByIdRequestParams {
-    /** ID of pet that needs to be fetched */
     orderId: number;
 }
 
 export interface PlaceOrderRequestParams {
-    /** order placed for purchasing the pet */
     body: Order;
 }
 
@@ -65,7 +62,7 @@ export class StoreService {
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
+        if (typeof value === "object") {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
         } else {
             httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
@@ -160,11 +157,8 @@ export class StoreService {
         let headers = this.defaultHeaders;
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys) {
-            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
-            if (key) {
-                headers = headers.set('api_key', key);
-            }
+        if (this.configuration.apiKeys && this.configuration.apiKeys["api_key"]) {
+            headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

@@ -10,6 +10,7 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
 	"os"
 	"time"
@@ -47,27 +48,6 @@ type InlineObject3 struct {
 	Callback *string `json:"callback,omitempty"`
 }
 
-// NewInlineObject3 instantiates a new InlineObject3 object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte_ string, ) *InlineObject3 {
-	this := InlineObject3{}
-	this.Number = number
-	this.Double = double
-	this.PatternWithoutDelimiter = patternWithoutDelimiter
-	this.Byte = byte_
-	return &this
-}
-
-// NewInlineObject3WithDefaults instantiates a new InlineObject3 object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewInlineObject3WithDefaults() *InlineObject3 {
-	this := InlineObject3{}
-	return &this
-}
-
 // GetInteger returns the Integer field value if set, zero value otherwise.
 func (o *InlineObject3) GetInteger() int32 {
 	if o == nil || o.Integer == nil {
@@ -77,13 +57,14 @@ func (o *InlineObject3) GetInteger() int32 {
 	return *o.Integer
 }
 
-// GetIntegerOk returns a tuple with the Integer field value if set, nil otherwise
+// GetIntegerOk returns a tuple with the Integer field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetIntegerOk() (*int32, bool) {
+func (o *InlineObject3) GetIntegerOk() (int32, bool) {
 	if o == nil || o.Integer == nil {
-		return nil, false
+		var ret int32
+		return ret, false
 	}
-	return o.Integer, true
+	return *o.Integer, true
 }
 
 // HasInteger returns a boolean if a field has been set.
@@ -109,13 +90,14 @@ func (o *InlineObject3) GetInt32() int32 {
 	return *o.Int32
 }
 
-// GetInt32Ok returns a tuple with the Int32 field value if set, nil otherwise
+// GetInt32Ok returns a tuple with the Int32 field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetInt32Ok() (*int32, bool) {
+func (o *InlineObject3) GetInt32Ok() (int32, bool) {
 	if o == nil || o.Int32 == nil {
-		return nil, false
+		var ret int32
+		return ret, false
 	}
-	return o.Int32, true
+	return *o.Int32, true
 }
 
 // HasInt32 returns a boolean if a field has been set.
@@ -141,13 +123,14 @@ func (o *InlineObject3) GetInt64() int64 {
 	return *o.Int64
 }
 
-// GetInt64Ok returns a tuple with the Int64 field value if set, nil otherwise
+// GetInt64Ok returns a tuple with the Int64 field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetInt64Ok() (*int64, bool) {
+func (o *InlineObject3) GetInt64Ok() (int64, bool) {
 	if o == nil || o.Int64 == nil {
-		return nil, false
+		var ret int64
+		return ret, false
 	}
-	return o.Int64, true
+	return *o.Int64, true
 }
 
 // HasInt64 returns a boolean if a field has been set.
@@ -166,21 +149,12 @@ func (o *InlineObject3) SetInt64(v int64) {
 
 // GetNumber returns the Number field value
 func (o *InlineObject3) GetNumber() float32 {
-	if o == nil  {
+	if o == nil {
 		var ret float32
 		return ret
 	}
 
 	return o.Number
-}
-
-// GetNumberOk returns a tuple with the Number field value
-// and a boolean to check if the value has been set.
-func (o *InlineObject3) GetNumberOk() (*float32, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return &o.Number, true
 }
 
 // SetNumber sets field value
@@ -197,13 +171,14 @@ func (o *InlineObject3) GetFloat() float32 {
 	return *o.Float
 }
 
-// GetFloatOk returns a tuple with the Float field value if set, nil otherwise
+// GetFloatOk returns a tuple with the Float field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetFloatOk() (*float32, bool) {
+func (o *InlineObject3) GetFloatOk() (float32, bool) {
 	if o == nil || o.Float == nil {
-		return nil, false
+		var ret float32
+		return ret, false
 	}
-	return o.Float, true
+	return *o.Float, true
 }
 
 // HasFloat returns a boolean if a field has been set.
@@ -222,21 +197,12 @@ func (o *InlineObject3) SetFloat(v float32) {
 
 // GetDouble returns the Double field value
 func (o *InlineObject3) GetDouble() float64 {
-	if o == nil  {
+	if o == nil {
 		var ret float64
 		return ret
 	}
 
 	return o.Double
-}
-
-// GetDoubleOk returns a tuple with the Double field value
-// and a boolean to check if the value has been set.
-func (o *InlineObject3) GetDoubleOk() (*float64, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return &o.Double, true
 }
 
 // SetDouble sets field value
@@ -253,13 +219,14 @@ func (o *InlineObject3) GetString() string {
 	return *o.String
 }
 
-// GetStringOk returns a tuple with the String field value if set, nil otherwise
+// GetStringOk returns a tuple with the String field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetStringOk() (*string, bool) {
+func (o *InlineObject3) GetStringOk() (string, bool) {
 	if o == nil || o.String == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.String, true
+	return *o.String, true
 }
 
 // HasString returns a boolean if a field has been set.
@@ -278,21 +245,12 @@ func (o *InlineObject3) SetString(v string) {
 
 // GetPatternWithoutDelimiter returns the PatternWithoutDelimiter field value
 func (o *InlineObject3) GetPatternWithoutDelimiter() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
 
 	return o.PatternWithoutDelimiter
-}
-
-// GetPatternWithoutDelimiterOk returns a tuple with the PatternWithoutDelimiter field value
-// and a boolean to check if the value has been set.
-func (o *InlineObject3) GetPatternWithoutDelimiterOk() (*string, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return &o.PatternWithoutDelimiter, true
 }
 
 // SetPatternWithoutDelimiter sets field value
@@ -302,21 +260,12 @@ func (o *InlineObject3) SetPatternWithoutDelimiter(v string) {
 
 // GetByte returns the Byte field value
 func (o *InlineObject3) GetByte() string {
-	if o == nil  {
+	if o == nil {
 		var ret string
 		return ret
 	}
 
 	return o.Byte
-}
-
-// GetByteOk returns a tuple with the Byte field value
-// and a boolean to check if the value has been set.
-func (o *InlineObject3) GetByteOk() (*string, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return &o.Byte, true
 }
 
 // SetByte sets field value
@@ -333,13 +282,14 @@ func (o *InlineObject3) GetBinary() *os.File {
 	return *o.Binary
 }
 
-// GetBinaryOk returns a tuple with the Binary field value if set, nil otherwise
+// GetBinaryOk returns a tuple with the Binary field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetBinaryOk() (**os.File, bool) {
+func (o *InlineObject3) GetBinaryOk() (*os.File, bool) {
 	if o == nil || o.Binary == nil {
-		return nil, false
+		var ret *os.File
+		return ret, false
 	}
-	return o.Binary, true
+	return *o.Binary, true
 }
 
 // HasBinary returns a boolean if a field has been set.
@@ -365,13 +315,14 @@ func (o *InlineObject3) GetDate() string {
 	return *o.Date
 }
 
-// GetDateOk returns a tuple with the Date field value if set, nil otherwise
+// GetDateOk returns a tuple with the Date field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetDateOk() (*string, bool) {
+func (o *InlineObject3) GetDateOk() (string, bool) {
 	if o == nil || o.Date == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Date, true
+	return *o.Date, true
 }
 
 // HasDate returns a boolean if a field has been set.
@@ -397,13 +348,14 @@ func (o *InlineObject3) GetDateTime() time.Time {
 	return *o.DateTime
 }
 
-// GetDateTimeOk returns a tuple with the DateTime field value if set, nil otherwise
+// GetDateTimeOk returns a tuple with the DateTime field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetDateTimeOk() (*time.Time, bool) {
+func (o *InlineObject3) GetDateTimeOk() (time.Time, bool) {
 	if o == nil || o.DateTime == nil {
-		return nil, false
+		var ret time.Time
+		return ret, false
 	}
-	return o.DateTime, true
+	return *o.DateTime, true
 }
 
 // HasDateTime returns a boolean if a field has been set.
@@ -429,13 +381,14 @@ func (o *InlineObject3) GetPassword() string {
 	return *o.Password
 }
 
-// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
+// GetPasswordOk returns a tuple with the Password field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetPasswordOk() (*string, bool) {
+func (o *InlineObject3) GetPasswordOk() (string, bool) {
 	if o == nil || o.Password == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Password, true
+	return *o.Password, true
 }
 
 // HasPassword returns a boolean if a field has been set.
@@ -461,13 +414,14 @@ func (o *InlineObject3) GetCallback() string {
 	return *o.Callback
 }
 
-// GetCallbackOk returns a tuple with the Callback field value if set, nil otherwise
+// GetCallbackOk returns a tuple with the Callback field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject3) GetCallbackOk() (*string, bool) {
+func (o *InlineObject3) GetCallbackOk() (string, bool) {
 	if o == nil || o.Callback == nil {
-		return nil, false
+		var ret string
+		return ret, false
 	}
-	return o.Callback, true
+	return *o.Callback, true
 }
 
 // HasCallback returns a boolean if a field has been set.
@@ -484,85 +438,25 @@ func (o *InlineObject3) SetCallback(v string) {
 	o.Callback = &v
 }
 
-func (o InlineObject3) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Integer != nil {
-		toSerialize["integer"] = o.Integer
-	}
-	if o.Int32 != nil {
-		toSerialize["int32"] = o.Int32
-	}
-	if o.Int64 != nil {
-		toSerialize["int64"] = o.Int64
-	}
-	if true {
-		toSerialize["number"] = o.Number
-	}
-	if o.Float != nil {
-		toSerialize["float"] = o.Float
-	}
-	if true {
-		toSerialize["double"] = o.Double
-	}
-	if o.String != nil {
-		toSerialize["string"] = o.String
-	}
-	if true {
-		toSerialize["pattern_without_delimiter"] = o.PatternWithoutDelimiter
-	}
-	if true {
-		toSerialize["byte"] = o.Byte
-	}
-	if o.Binary != nil {
-		toSerialize["binary"] = o.Binary
-	}
-	if o.Date != nil {
-		toSerialize["date"] = o.Date
-	}
-	if o.DateTime != nil {
-		toSerialize["dateTime"] = o.DateTime
-	}
-	if o.Password != nil {
-		toSerialize["password"] = o.Password
-	}
-	if o.Callback != nil {
-		toSerialize["callback"] = o.Callback
-	}
-	return json.Marshal(toSerialize)
-}
-
 type NullableInlineObject3 struct {
-	value *InlineObject3
-	isSet bool
-}
-
-func (v NullableInlineObject3) Get() *InlineObject3 {
-	return v.value
-}
-
-func (v *NullableInlineObject3) Set(val *InlineObject3) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableInlineObject3) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableInlineObject3) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableInlineObject3(val *InlineObject3) *NullableInlineObject3 {
-	return &NullableInlineObject3{value: val, isSet: true}
+	Value InlineObject3
+	ExplicitNull bool
 }
 
 func (v NullableInlineObject3) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
 }
 
 func (v *NullableInlineObject3) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
 }

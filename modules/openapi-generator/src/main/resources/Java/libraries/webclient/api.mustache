@@ -4,13 +4,11 @@ import {{invokerPackage}}.ApiClient;
 
 {{#imports}}import {{import}};
 {{/imports}}
-{{^fullJavaUtil}}
 
-import java.util.HashMap;
+{{^fullJavaUtil}}import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-{{/fullJavaUtil}}
+import java.util.Map;{{/fullJavaUtil}}
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
@@ -64,68 +62,49 @@ public class {{classname}} {
      */
     public {{#returnType}}{{#isListContainer}}Flux<{{{returnBaseType}}}>{{/isListContainer}}{{^isListContainer}}Mono<{{{returnType}}}>{{/isListContainer}} {{/returnType}}{{^returnType}}Mono<Void> {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws RestClientException {
         Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-        {{#allParams}}
-        {{#required}}
+        {{#allParams}}{{#required}}
         // verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
         }
-        {{/required}}
-        {{/allParams}}
+        {{/required}}{{/allParams}}
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
-        {{#hasPathParams}}
+        final Map<String, Object> pathParams = new HashMap<String, Object>();{{#hasPathParams}}{{#pathParams}}
+        pathParams.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), {{/collectionFormat}}{{{paramName}}}{{#collectionFormat}}){{/collectionFormat}});{{/pathParams}}{{/hasPathParams}}
 
-        {{#pathParams}}
-        pathParams.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), {{/collectionFormat}}{{{paramName}}}{{#collectionFormat}}){{/collectionFormat}});
-        {{/pathParams}}
-        {{/hasPathParams}}
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-        {{#hasQueryParams}}
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();{{#hasQueryParams}}
 
-        {{#queryParams}}
-        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
-        {{/queryParams}}
-        {{/hasQueryParams}}
-        {{#hasHeaderParams}}
+        {{#queryParams}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{#hasMore}}
+        {{/hasMore}}{{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
 
-        {{#headerParams}}
-        if ({{paramName}} != null)
+        {{#headerParams}}if ({{paramName}} != null)
         headerParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{#hasMore}}
-        {{/hasMore}}
-        {{/headerParams}}
-        {{/hasHeaderParams}}
-        {{#hasCookieParams}}
+        {{/hasMore}}{{/headerParams}}{{/hasHeaderParams}}{{#hasCookieParams}}
 
-        {{#cookieParams}}
-        cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
-        {{/cookieParams}}
-        {{/hasCookieParams}}
-        {{#hasFormParams}}
+        {{#cookieParams}}cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{#hasMore}}
+        {{/hasMore}}{{/cookieParams}}{{/hasCookieParams}}{{#hasFormParams}}
 
-        {{#formParams}}
-        if ({{paramName}} != null)
-            formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});
-        {{/formParams}}
-        {{/hasFormParams}}
+        {{#formParams}}if ({{paramName}} != null)
+            formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
+        {{/hasMore}}{{/formParams}}{{/hasFormParams}}
 
-        final String[] localVarAccepts = { {{#hasProduces}}
+        final String[] accepts = { {{#hasProduces}}
             {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
         {{/hasProduces}}};
-        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { {{#hasConsumes}}
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { {{#hasConsumes}}
             {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
         {{/hasConsumes}}};
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
 
-        String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+        String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
-        {{#returnType}}ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}> localVarReturnType = new ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
-        return apiClient.{{#isListContainer}}invokeFluxAPI{{/isListContainer}}{{^isListContainer}}invokeAPI{{/isListContainer}}("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        {{#returnType}}ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}> returnType = new ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        return apiClient.{{#isListContainer}}invokeFluxAPI{{/isListContainer}}{{^isListContainer}}invokeAPI{{/isListContainer}}("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     {{/operation}}
 }

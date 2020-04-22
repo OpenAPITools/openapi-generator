@@ -13,7 +13,7 @@ sidebar_label: go
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
-|withGoCodegenComment|whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs| |false|
+|withGoCodegenComment|whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
@@ -30,8 +30,7 @@ sidebar_label: go
 
 ## LANGUAGE PRIMITIVES
 
-<ul class="column-ul">
-<li>bool</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>bool</li>
 <li>byte</li>
 <li>complex128</li>
 <li>complex64</li>
@@ -40,8 +39,6 @@ sidebar_label: go
 <li>int</li>
 <li>int32</li>
 <li>int64</li>
-<li>interface{}</li>
-<li>map[string]interface{}</li>
 <li>rune</li>
 <li>string</li>
 <li>uint</li>
@@ -51,8 +48,7 @@ sidebar_label: go
 
 ## RESERVED WORDS
 
-<ul class="column-ul">
-<li>bool</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>bool</li>
 <li>break</li>
 <li>byte</li>
 <li>case</li>
@@ -164,7 +160,7 @@ sidebar_label: go
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✓|OAS3
+|ParameterizedServer|✗|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3

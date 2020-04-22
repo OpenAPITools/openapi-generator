@@ -16,8 +16,8 @@ void StoreApiTests::placeOrderTest() {
         qDebug() << order.getShipDate();
         loop.quit();
     });
-    connect(&api, &PFXStoreApi::placeOrderSignalE, [&](PFXOrder, QNetworkReply::NetworkError, QString error_str) {
-        qDebug() << "Error happened while issuing request : " << error_str;
+    connect(&api, &PFXStoreApi::placeOrderSignalE, [&]() {
+        QFAIL("shouldn't trigger error");
         loop.quit();
     });
 
@@ -46,10 +46,6 @@ void StoreApiTests::getOrderByIdTest() {
         qDebug() << order.getShipDate();
         loop.quit();
     });
-    connect(&api, &PFXStoreApi::getOrderByIdSignalE, [&](PFXOrder, QNetworkReply::NetworkError, QString error_str) {
-        qDebug() << "Error happened while issuing request : " << error_str;
-        loop.quit();
-    });
 
     api.getOrderById(500);
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
@@ -67,10 +63,6 @@ void StoreApiTests::getInventoryTest() {
         for (const auto &key : status.keys()) {
             qDebug() << (key) << " Quantities " << status.value(key);
         }
-        loop.quit();
-    });
-    connect(&api, &PFXStoreApi::getInventorySignalE, [&](QMap<QString, qint32>, QNetworkReply::NetworkError, QString error_str) {
-        qDebug() << "Error happened while issuing request : " << error_str;
         loop.quit();
     });
 

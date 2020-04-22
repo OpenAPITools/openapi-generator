@@ -1,42 +1,22 @@
 package {{configPackage}};
 
-{{#authMethods}}
-{{#isBasic}}
+import feign.Logger;
 import feign.auth.BasicAuthRequestInterceptor;
-{{/isBasic}}
-{{#-first}}
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-{{/-first}}
-{{#isOAuth}}
 import org.springframework.boot.context.properties.ConfigurationProperties;
-{{/isOAuth}}
-{{/authMethods}}
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-{{#authMethods}}
-{{#-first}}
 import org.springframework.context.annotation.Bean;
-{{/-first}}
-{{/authMethods}}
 import org.springframework.context.annotation.Configuration;
-{{#authMethods}}
-{{#isOAuth}}
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
-{{#isApplication}}
+import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
-{{/isApplication}}
-{{#isCode}}
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
-{{/isCode}}
-{{#isImplicit}}
 import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails;
-{{/isImplicit}}
-{{#isPassword}}
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
-{{/isPassword}}
-{{/isOAuth}}
-{{/authMethods}}
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 @Configuration
 @EnableConfigurationProperties

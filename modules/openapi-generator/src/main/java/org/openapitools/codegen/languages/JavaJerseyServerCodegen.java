@@ -41,7 +41,9 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public JavaJerseyServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         outputFolder = "generated-code/JavaJaxRS-Jersey";
 

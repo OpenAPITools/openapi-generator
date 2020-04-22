@@ -2,7 +2,6 @@ package org.openapitools.codegen.asciidoc;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Map;
 
 import org.mockito.MockitoAnnotations;
@@ -24,10 +23,10 @@ public class IncludeMarkupFilterTest extends LambdaTest {
     public void testIncludeMarkupFilterDoesNotIncludeMissingFile() {
 
         final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();
-        final Map<String, Object> ctx = context("specinclude", generator.new IncludeMarkupLambda("specDir","DOES_NOT_EXIST"));
+        final Map<String, Object> ctx = context("specinclude", generator.new IncludeMarkupLambda("DOES_NOT_EXIST"));
 
         final String result = execute("{{#specinclude}}not.an.existing.file.adoc{{/specinclude}}", ctx);
-        Assert.assertTrue(result.contains("// markup not found, no include::{specDir}not.an.existing.file.adoc[opts=optional]"),
+        Assert.assertTrue(result.contains("// markup not found, no include ::not.an.existing.file.adoc["),
                 "unexpected filtered " + result);
     }
 
@@ -39,28 +38,11 @@ public class IncludeMarkupFilterTest extends LambdaTest {
 
         final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();
         final Map<String, Object> ctx = context("snippetinclude",
-                generator.new IncludeMarkupLambda("specDir",tempFile.getParent()));
+                generator.new IncludeMarkupLambda(tempFile.getParent()));
 
         final String result = execute("{{#snippetinclude}}" + tempFile.getName() + "{{/snippetinclude}}", ctx);
-        Assert.assertTrue(result.contains("include::{specDir}"+tempFile.getName()+"[opts=optional]"), "unexpected filtered: " + result);
-    }
-
-    @Test
-    public void testIncludeMarkupFilterEscapeCurlyBracketsInOrderToBeParsedByAsciidoc() throws IOException {
-        String temporaryPath = Files.createTempDirectory(null).toFile().getAbsolutePath();
-        String pathWithCurlyBrackets = temporaryPath + "/{parameter1}/{parameter2}";
-        File folderWithCurlyBrackets = new File(pathWithCurlyBrackets);
-        folderWithCurlyBrackets.mkdirs();
-
-        File tempFile =  File.createTempFile("curly", "-adoc", folderWithCurlyBrackets);
-        tempFile.deleteOnExit();
-
-        final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();
-        final Map<String, Object> ctx = context("snippetinclude",
-                generator.new IncludeMarkupLambda("specDir",temporaryPath));
-
-        final String result = execute("{{#snippetinclude}}" + "/{parameter1}/{parameter2}/"+tempFile.getName() + "{{/snippetinclude}}", ctx);
-        Assert.assertEquals(result,"\ninclude::{specDir}"+ "\\{parameter1\\}/\\{parameter2\\}/" + tempFile.getName()+"[opts=optional]\n");
+        Assert.assertTrue(result.contains("include::"), "unexpected filtered: " + result);
+        Assert.assertTrue(result.contains(tempFile.getName()), "unexpected filtered: " + result);
     }
 
 }

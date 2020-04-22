@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Client
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return Convert.ChangeType(response.Content, type);
+                return ClientUtils.ConvertType(response.Content, type);
             }
 
             // at this point, it must be a model (json)
@@ -404,11 +404,6 @@ namespace Org.OpenAPITools.Client
                 client.UserAgent = configuration.UserAgent;
             }
 
-            if (configuration.ClientCertificates != null)
-            {
-                client.ClientCertificates = configuration.ClientCertificates;
-            }
-
             InterceptRequest(req);
 
             var response = client.Execute<T>(req);
@@ -472,11 +467,6 @@ namespace Org.OpenAPITools.Client
             if (configuration.UserAgent != null)
             {
                 client.UserAgent = configuration.UserAgent;
-            }
-
-            if (configuration.ClientCertificates != null)
-            {
-                client.ClientCertificates = configuration.ClientCertificates;
             }
 
             InterceptRequest(req);

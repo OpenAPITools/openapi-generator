@@ -61,7 +61,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         super();
 
         // TODO: Android client maintainer review.
-        modifyFeatureSet(features -> features
+        featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(
                         WireFormatFeature.PROTOBUF
@@ -87,7 +87,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(ClientModificationFeature.BasePath)
-        );
+                .build();
 
         outputFolder = "generated-code/android";
         modelTemplateFiles.put("model.mustache", ".java");

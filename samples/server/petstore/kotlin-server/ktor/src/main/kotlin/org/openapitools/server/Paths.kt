@@ -22,7 +22,7 @@ object Paths {
      * @param apiKey  (optional)
      */
     @KtorExperimentalLocationsAPI
-    @Location("/pet/{petId}") class deletePet(val petId: kotlin.Long, val apiKey: kotlin.String? = null)
+    @Location("/pet/{petId}") class deletePet(val petId: kotlin.Long, val apiKey: kotlin.String)
 
     /**
      * Finds Pets by status

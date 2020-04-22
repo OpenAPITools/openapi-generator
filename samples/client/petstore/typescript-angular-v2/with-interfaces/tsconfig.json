@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "noLib": false,
+        "declaration": true,
+        "lib": [ "es6", "dom" ]
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ],
+    "filesGlob": [
+        "./model/*.ts",
+        "./api/*.ts"
+    ],
+    "angularCompilerOptions": {
+       "genDir": "dist",
+       "skipTemplateCodegen": true
+    }
+}

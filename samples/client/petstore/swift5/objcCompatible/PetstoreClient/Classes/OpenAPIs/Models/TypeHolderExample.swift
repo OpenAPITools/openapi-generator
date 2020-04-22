@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class TypeHolderExample: NSObject, Codable {
+public struct TypeHolderExample: Codable {
 
     public var stringItem: String
     public var numberItem: Double

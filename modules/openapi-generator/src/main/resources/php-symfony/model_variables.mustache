@@ -3,7 +3,7 @@
      * {{description}}
      *
     {{/description}}
-     * @var {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}}
+     * @var {{{vendorExtensions.x-commentType}}}{{^required}}|null{{/required}}
      * @SerializedName("{{baseName}}")
 {{#required}}
      * @Assert\NotNull()
@@ -26,16 +26,9 @@
      *   @Assert\Type("{{dataType}}")
     {{/items}}
      * })
-     {{#isMapContainer}}
-     {{#items}}
-     * @Type("array<string, {{dataType}}>")
-     {{/items}}
-     {{/isMapContainer}}
-     {{^isMapContainer}}
      {{#items}}
      * @Type("array<{{dataType}}>")
      {{/items}}
-     {{/isMapContainer}}
 {{/isContainer}}
 {{^isContainer}}
     {{#isDate}}

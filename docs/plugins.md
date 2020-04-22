@@ -41,28 +41,6 @@ mvn clean compile
 
 For full details of all options, see the [plugin README](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin).
 
-### Dependencies
-
-The generated models use commonly use Swagger v2 annotations like `@ApiModelProperty`. A user may add Swagger v3 annotations:
-
-```xml
-<dependency>
-    <groupId>io.swagger.core.v3</groupId>
-    <artifactId>swagger-annotations</artifactId>
-</dependency>
-```
-
-But this will not work. This dependency is not binary compatible with Swagger v2 annotations. The resulting code will fail to compile.
-
-As alternative instead use the following dependency:
-
-```xml
-<dependency>
-    <groupId>io.swagger.parser.v3</groupId>
-    <artifactId>swagger-parser</artifactId>
-</dependency>
-```
-
 ## Gradle
 
 This gradle plugin offers a declarative DSL via extensions (these are Gradle project extensions). These map almost fully 1:1 with the options you’d pass to the CLI or Maven plugin. The plugin maps the extensions to a task of the same name to provide a clean API. If you’re interested in the extension/task mapping concept from a high-level, you can check out [Gradle’s docs](https://docs.gradle.org/current/userguide/custom_plugins.html#sec:mapping_extension_properties_to_task_properties).

@@ -29,7 +29,7 @@ public class AsciidocGeneratorTest {
 
     @Test
     public void testPingSpecTitle() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/ping.yaml");
 
         AsciidocDocumentationCodegen codeGen = new AsciidocDocumentationCodegen();
         codeGen.preprocessOpenAPI(openAPI);
@@ -61,7 +61,7 @@ public class AsciidocGeneratorTest {
         output.mkdirs();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/ping.yaml");
         CodegenConfig codegenConfig = new AsciidocDocumentationCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
         ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(codegenConfig);

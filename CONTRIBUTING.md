@@ -91,12 +91,7 @@ To test the templates, please perform the following:
   (`git add -A` if added files with new test cases)
 - For new test cases, please add to the [Fake Petstore spec](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml)
 
-To start the CI tests, you can:
-- Run `mvn verify -Psamples`, assuming you have all the required tools installed to run tests for different languages.
-- Leverage http://travis-ci.org to run the CI tests by adding your own openapi-generator repository.
-- Run some of the CI tests in your local workspace.
-
-See [OpenAPI Tools wiki](https://github.com/OpenAPITools/openapi-generator/wiki/Integration-Tests) for more information about the integration tests.
+To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all the required tools installed to run tests for different languages) or you can leverage http://travis-ci.org to run the CI tests by adding your own openapi-generator repository.
 
 ### Tips
 - Smaller changes are easier to review

@@ -1275,7 +1275,7 @@ public class JavaModelTest {
         config.setHideGenerationTimestamp(true);
         config.setOutputDir(output.getAbsolutePath());
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec(inputSpec);
+        final OpenAPI openAPI = TestUtils.parseSpec(inputSpec);
 
         final ClientOptInput opts = new ClientOptInput();
         opts.setConfig(config);
