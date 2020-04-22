@@ -43,7 +43,7 @@ export class HttpException extends Error {
  */
 export class RequestContext {
     private headers: { [key: string]: string } = {};
-    private body: string | FormData = "";
+    private body?: string | FormData = undefined;
 	private url: URLParse;
 	
 	/**
@@ -101,7 +101,7 @@ export class RequestContext {
     	return this.headers;
     }
     
-    public getBody(): string | FormData { 
+    public getBody(): string | FormData | undefined{
     	return this.body;
     }
 

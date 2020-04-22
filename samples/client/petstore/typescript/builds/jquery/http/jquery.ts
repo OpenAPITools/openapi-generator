@@ -37,7 +37,7 @@ export class JQueryHttpLibrary implements HttpLibrary {
             throw new HttpException("Setting the \"Cookie\"-Header field is blocked by every major browser when using jquery.ajax requests. Please switch to another library like fetch to enable this option");
         }
 
-        if (body.constructor.name == "FormData") {
+        if (body && body.constructor.name == "FormData") {
             requestOptions.contentType = false;
         }
         const sentRequest = $.ajax(requestOptions);

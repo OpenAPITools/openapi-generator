@@ -12,7 +12,7 @@ describe("Security Authentication", () => {
     
             expect(ctx.getUrl()).to.equal("http://google.com");
             expect(ctx.getHeaders()).to.deep.equal({});
-            expect(ctx.getBody()).to.equal("");
+            expect(ctx.getBody()).to.equal(undefined);
         });    
     })
 
@@ -26,7 +26,7 @@ describe("Security Authentication", () => {
             expect(ctx.getUrl()).to.equal("http://google.com");
             expect(ctx.getHeaders()).to.have.property("paramName");
             expect(ctx.getHeaders()["paramName"]).to.equal("apiKey");
-            expect(ctx.getBody()).to.equal("");
+            expect(ctx.getBody()).to.equal(undefined);
         });    
 
         it("Query API Key", () => {
@@ -36,7 +36,7 @@ describe("Security Authentication", () => {
     
             expect(ctx.getUrl()).to.contain("paramName=apiKey");
             expect(ctx.getHeaders()).to.deep.equal({});
-            expect(ctx.getBody()).to.equal("");
+            expect(ctx.getBody()).to.equal(undefined);
         });    
 
         it("Cookie API Key", () => {
@@ -47,7 +47,7 @@ describe("Security Authentication", () => {
             expect(ctx.getUrl()).to.equal("http://google.com");
             expect(ctx.getHeaders()).to.have.property("Cookie");
             expect(ctx.getHeaders()["Cookie"]).to.contain("paramName=apiKey; ");
-            expect(ctx.getBody()).to.equal("");
+            expect(ctx.getBody()).to.equal(undefined);
         });    
 
     })
