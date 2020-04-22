@@ -30,7 +30,6 @@ from petstore_api.model_utils import (
     int,
     model_to_dict,
     str,
-    bytes,
 )
 
 from petstore_api.rest import RESTResponse
