@@ -39,9 +39,15 @@ namespace Example
             {{#hasAuthMethods}}
             {{#authMethods}}
             {{#isBasic}}
+            {{#isBasicBasic}}
             // Configure HTTP basic authorization: {{{name}}}
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // Configure HTTP bearer authorization: {{{name}}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            {{/isBasicBearer}}
             {{/isBasic}}
             {{#isApiKey}}
             // Configure API key authorization: {{{name}}}

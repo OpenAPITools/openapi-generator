@@ -9,6 +9,11 @@
   infoLink: "https://www.agoda.com/"
   pinned: false
 -
+  caption: "Allianz"
+  image: "img/companies/allianz.png"
+  infoLink: "https://www.allianz.com"
+  pinned: false
+-
   caption: "Angular.Schule"
   image: "img/companies/angular-schule.svg"
   infoLink: "https://angular.schule/"
@@ -122,6 +127,11 @@
   caption: "Element AI"
   image: "img/companies/element_ai.png"
   infoLink: "https://www.elementai.com/"
+  pinned: false
+-
+  caption: "emineo"
+  image: "img/companies/emineo.png"
+  infoLink: "https://www.emineo.ch/"
   pinned: false
 -
   caption: "freee"
@@ -367,6 +377,11 @@
   caption: Yahoo! Japan
   image: "img/companies/yahoo_japan.png"
   infoLink: "https://www.yahoo.co.jp"
+  pinned: false
+-
+  caption: YITU Technology
+  image: "img/companies/yitu.jpeg"
+  infoLink: "https://www.yitutech.com/"
   pinned: false
 -
   caption: Yelp 
