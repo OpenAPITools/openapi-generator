@@ -1,0 +1,28 @@
+# {{packageName}} - ASP.NET Core {{aspnetCoreVersion}} Server
+
+{{#appDescriptionWithNewLines}}
+{{{appDescriptionWithNewLines}}}
+{{/appDescriptionWithNewLines}}
+
+## Run
+
+Linux/OS X:
+
+```
+sh build.sh
+```
+
+Windows:
+
+```
+build.bat
+```
+{{^isLibrary}}
+## Run in Docker
+
+```
+cd {{sourceFolder}}/{{packageName}}
+docker build -t {{dockerTag}} .
+docker run -p 5000:8080 {{dockerTag}}
+```
+{{/isLibrary}}
