@@ -27,7 +27,6 @@ from petstore_api.model_utils import (  # noqa: F401
     int,
     none_type,
     str,
-    bytes,
     validate_get_composed_info,
 )
 try:
