@@ -327,6 +327,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.reservedWords.add("VoidApiResponse");
         this.reservedWords.add("BlobApiResponse");
         this.reservedWords.add("TextApiResponse");
+        // "Index" would create a file "Index.ts" which on case insensitive filesystems
+        // would override our "index.js" file
+        this.reservedWords.add("Index");
     }
 
     private boolean getUseSingleRequestParameter() {
