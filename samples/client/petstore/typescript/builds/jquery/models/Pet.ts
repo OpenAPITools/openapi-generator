@@ -12,6 +12,7 @@
 
 import { Category } from './Category';
 import { Tag } from './Tag';
+import { HttpFile } from '../http/http';
 
 /**
 * A pet for sale in the pet store

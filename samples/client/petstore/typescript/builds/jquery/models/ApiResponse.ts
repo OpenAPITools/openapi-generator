@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { HttpFile } from '../http/http';
 
 /**
 * Describes the result of uploading an image resource

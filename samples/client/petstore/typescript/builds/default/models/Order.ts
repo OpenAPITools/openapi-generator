@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { HttpFile } from '../http/http';
 
 /**
 * An order for a pets from the pet store
