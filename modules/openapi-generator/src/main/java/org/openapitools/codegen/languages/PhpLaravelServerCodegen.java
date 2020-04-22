@@ -66,7 +66,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     public PhpLaravelServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -79,7 +79,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-                .build();
+        );
 
         embeddedTemplateDir = templateDir = "php-laravel";
         variableNamingConvention = "camelCase";

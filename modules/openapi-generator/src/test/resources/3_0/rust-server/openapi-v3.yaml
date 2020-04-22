@@ -134,12 +134,16 @@ paths:
     post:
       requestBody:
         content:
-          application/xml:
+          text/xml:
             schema:
               $ref: '#/components/schemas/anotherXmlObject'
       responses:
         '201':
           description: 'OK'
+          content:
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
         '400':
           description: Bad Request
     put:
@@ -337,15 +341,6 @@ paths:
       responses:
         "204":
           description: Success.
-  /merge-patch-json:
-    get:
-      responses:
-        200:
-          description: merge-patch+json-encoded response
-          content:
-            application/merge-patch+json:
-              schema:
-                $ref: "#/components/schemas/anotherXmlObject"
   /complex-query-param:
     get:
       parameters:

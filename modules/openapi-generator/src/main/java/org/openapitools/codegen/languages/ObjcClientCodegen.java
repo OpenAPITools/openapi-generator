@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -65,7 +66,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public ObjcClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(
@@ -86,7 +87,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "objc";
@@ -652,12 +653,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
                 if (!operation.allParams.isEmpty()) {
                     String firstParamName = operation.allParams.get(0).paramName;
-                    operation.vendorExtensions.put("firstParamAltName", camelize(firstParamName));
+                    operation.vendorExtensions.put("firstParamAltName", camelize(firstParamName)); // TODO: 5.0 Remove
+                    operation.vendorExtensions.put("x-first-param-alt-name", camelize(firstParamName));
                 }
             }
         }
@@ -667,7 +673,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty schema) {
         super.postProcessModelProperty(model, schema);
-        schema.vendorExtensions.put("x-uppercaseName", camelize(schema.name));
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
+        schema.vendorExtensions.put("x-uppercaseName", camelize(schema.name)); // TODO: 5.0 Remove
+        schema.vendorExtensions.put("x-uppercase-name", camelize(schema.name));
     }
 
     /**

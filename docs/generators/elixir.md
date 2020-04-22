@@ -44,7 +44,8 @@ sidebar_label: elixir
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Atom</li>
+<ul class="column-ul">
+<li>Atom</li>
 <li>Boolean</li>
 <li>DateTime</li>
 <li>Float</li>
@@ -58,7 +59,8 @@ sidebar_label: elixir
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>__CALLER__</li>
+<ul class="column-ul">
+<li>__CALLER__</li>
 <li>__DIR__</li>
 <li>__ENV__</li>
 <li>__FILE__</li>

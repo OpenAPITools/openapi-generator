@@ -16,23 +16,15 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlim4ServerCodegen.class);
@@ -113,6 +105,9 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         additionalProperties.put("interfacesSrcPath", "./" + toSrcPath(interfacesPackage, srcBasePath));
         additionalProperties.put("interfacesTestPath", "./" + toSrcPath(interfacesPackage, testBasePath));
 
+        // external docs folder
+        additionalProperties.put("docsBasePath", "./" + docsBasePath);
+
         if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
         }
@@ -150,6 +145,9 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         supportingFiles.add(new SupportingFile("openapi_data_mocker_interface.mustache", toSrcPath(mockPackage, srcBasePath), toInterfaceName("OpenApiDataMocker") + ".php"));
         supportingFiles.add(new SupportingFile("openapi_data_mocker.mustache", toSrcPath(mockPackage, srcBasePath), "OpenApiDataMocker.php"));
         supportingFiles.add(new SupportingFile("openapi_data_mocker_test.mustache", toSrcPath(mockPackage, testBasePath), "OpenApiDataMockerTest.php"));
+        supportingFiles.add(new SupportingFile("openapi_data_mocker_middleware.mustache", toSrcPath(mockPackage, srcBasePath), "OpenApiDataMockerMiddleware.php"));
+        supportingFiles.add(new SupportingFile("openapi_data_mocker_middleware_test.mustache", toSrcPath(mockPackage, testBasePath), "OpenApiDataMockerMiddlewareTest.php"));
+        supportingFiles.add(new SupportingFile("mock_server.mustache", docsBasePath, "MockServer.md"));
 
         // traits of ported utils
         supportingFiles.add(new SupportingFile("string_utils_trait.mustache", toSrcPath(utilsPackage, srcBasePath), toTraitName("StringUtils") + ".php"));

@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/elm.yaml -g elm -t modules/openapi-generator/src/main/resources/elm -o samples/openapi3/client/elm $@"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/elm.yaml -g elm -t modules/openapi-generator/src/main/resources/elm -o samples/openapi3/client/elm --skip-validate-spec $@"
 
 java $JAVA_OPTS -jar $executable $ags

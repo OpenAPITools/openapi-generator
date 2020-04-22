@@ -1261,8 +1261,19 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 XmlOtherPostResponse::OK
+                                                    (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("text/xml")
+                                                            .expect("Unable to create Content-Type header for XML_OTHER_POST_OK"));
+                                                    let mut namespaces = std::collections::BTreeMap::new();
+
+                                                    // An empty string is used to indicate a global namespace in xmltree.
+                                                    namespaces.insert("".to_string(), models::AnotherXmlObject::NAMESPACE.to_string());
+                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 XmlOtherPostResponse::BadRequest
                                                 => {
@@ -1300,13 +1311,13 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<models::AnotherXmlArray> = if !body.is_empty() {
+                                let param_another_xml_array: Option<models::AnotherXmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_string) => param_string,
+                                        Ok(param_another_xml_array) => param_another_xml_array,
                                         Err(_) => None,
                                     }
                                 } else {
@@ -1315,7 +1326,7 @@ where
 
                                 Box::new(
                                     api_impl.xml_other_put(
-                                            param_string,
+                                            param_another_xml_array,
                                         &context
                                     ).then(move |result| {
                                         let mut response = Response::new(Body::empty());
@@ -1356,8 +1367,8 @@ where
                             },
                             Err(e) => Box::new(future::ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter string: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter string"))),
+                                                .body(Body::from(format!("Couldn't read body parameter AnotherXmlArray: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter AnotherXmlArray"))),
                         }
                     })
                 ) as Self::Future
@@ -1373,13 +1384,13 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<models::XmlArray> = if !body.is_empty() {
+                                let param_xml_array: Option<models::XmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_string) => param_string,
+                                        Ok(param_xml_array) => param_xml_array,
                                         Err(_) => None,
                                     }
                                 } else {
@@ -1388,7 +1399,7 @@ where
 
                                 Box::new(
                                     api_impl.xml_post(
-                                            param_string,
+                                            param_xml_array,
                                         &context
                                     ).then(move |result| {
                                         let mut response = Response::new(Body::empty());
@@ -1429,8 +1440,8 @@ where
                             },
                             Err(e) => Box::new(future::ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter string: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter string"))),
+                                                .body(Body::from(format!("Couldn't read body parameter XmlArray: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter XmlArray"))),
                         }
                     })
                 ) as Self::Future

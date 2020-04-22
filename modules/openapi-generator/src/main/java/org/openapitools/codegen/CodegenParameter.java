@@ -19,6 +19,11 @@ package org.openapitools.codegen;
 
 import java.util.*;
 
+/**
+ * Describes a single operation parameter in the OAS specification.
+ * A unique parameter is defined by a combination of a name and location.
+ * Parameters may be located in a path, query, header or cookie.
+ */
 public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,

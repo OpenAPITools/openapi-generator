@@ -4,14 +4,14 @@
 #include "pet.h"
 
 
-    char* statuspet_ToString(status_e status){
-    char *statusArray[] =  { "available","pending","sold" };
-        return statusArray[status];
-    }
+char* statuspet_ToString(openapi_petstore_pet_STATUS_e status) {
+    char* statusArray[] =  { "NULL", "available", "pending", "sold" };
+	return statusArray[status];
+}
 
-    status_e statuspet_FromString(char* status){
+openapi_petstore_pet_STATUS_e statuspet_FromString(char* status){
     int stringToReturn = 0;
-    char *statusArray[] =  { "available","pending","sold" };
+    char *statusArray[] =  { "NULL", "available", "pending", "sold" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp(status, statusArray[stringToReturn]) == 0) {
@@ -20,15 +20,15 @@
         stringToReturn++;
     }
     return 0;
-    }
+}
 
 pet_t *pet_create(
     long id,
     category_t *category,
     char *name,
-    list_t *photoUrls,
+    list_t *photo_urls,
     list_t *tags,
-    status_e status
+    openapi_petstore_pet_STATUS_e status
     ) {
     pet_t *pet_local_var = malloc(sizeof(pet_t));
     if (!pet_local_var) {
@@ -37,7 +37,7 @@ pet_t *pet_create(
     pet_local_var->id = id;
     pet_local_var->category = category;
     pet_local_var->name = name;
-    pet_local_var->photoUrls = photoUrls;
+    pet_local_var->photo_urls = photo_urls;
     pet_local_var->tags = tags;
     pet_local_var->status = status;
 
@@ -46,13 +46,16 @@ pet_t *pet_create(
 
 
 void pet_free(pet_t *pet) {
+    if(NULL == pet){
+        return ;
+    }
     listEntry_t *listEntry;
     category_free(pet->category);
     free(pet->name);
-    list_ForEach(listEntry, pet->photoUrls) {
+    list_ForEach(listEntry, pet->photo_urls) {
         free(listEntry->data);
     }
-    list_free(pet->photoUrls);
+    list_free(pet->photo_urls);
     list_ForEach(listEntry, pet->tags) {
         tag_free(listEntry->data);
     }
@@ -94,8 +97,8 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     }
 
 
-    // pet->photoUrls
-    if (!pet->photoUrls) {
+    // pet->photo_urls
+    if (!pet->photo_urls) {
         goto fail;
     }
     
@@ -105,7 +108,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     }
 
     listEntry_t *photo_urlsListEntry;
-    list_ForEach(photo_urlsListEntry, pet->photoUrls) {
+    list_ForEach(photo_urlsListEntry, pet->photo_urls) {
     if(cJSON_AddStringToObject(photo_urls, "", (char*)photo_urlsListEntry->data) == NULL)
     {
         goto fail;
@@ -181,21 +184,21 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     goto end; //String
     }
 
-    // pet->photoUrls
-    cJSON *photoUrls = cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
-    if (!photoUrls) {
+    // pet->photo_urls
+    cJSON *photo_urls = cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
+    if (!photo_urls) {
         goto end;
     }
 
     list_t *photo_urlsList;
     
     cJSON *photo_urls_local;
-    if(!cJSON_IsArray(photoUrls)) {
+    if(!cJSON_IsArray(photo_urls)) {
         goto end;//primitive container
     }
     photo_urlsList = list_create();
 
-    cJSON_ArrayForEach(photo_urls_local, photoUrls)
+    cJSON_ArrayForEach(photo_urls_local, photo_urls)
     {
         if(!cJSON_IsString(photo_urls_local))
         {
@@ -228,7 +231,7 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     // pet->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
-    status_e statusVariable;
+    openapi_petstore_pet_STATUS_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
     {
