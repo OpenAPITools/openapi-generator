@@ -46,7 +46,7 @@ export class Configuration {
     }
 
     get apiKey(): ((name: string) => string) | undefined {
-        const apiKey = this.configuration.apiKey;
+        const { apiKey } = this.configuration;
         if (!apiKey) {
             return undefined;
         }
@@ -54,7 +54,7 @@ export class Configuration {
     }
 
     get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
-        const accessToken = this.configuration.accessToken;
+        const { accessToken } = this.configuration;
         if (!accessToken) {
             return undefined;
         }
