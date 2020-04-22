@@ -35,6 +35,8 @@ public:
 {{^isEnum}}{{#vars}}
     {{{dataType}}} {{getter}}() const;
     void {{setter}}(const {{{dataType}}} &{{name}});
+    bool is_{{name}}_Set() const;
+    bool is_{{name}}_Valid() const;
 {{/vars}}{{/isEnum}}{{#isEnum}}
 {{#allowableValues}}
     enum class e{{classname}} {{#enumVars}}{{#-first}}{{^isString}}: int {{/isString}}{{/-first}}{{/enumVars}}{
