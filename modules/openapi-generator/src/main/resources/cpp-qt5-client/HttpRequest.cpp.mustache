@@ -45,7 +45,7 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 }
 
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false) {
+    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
     qsrand(QDateTime::currentDateTime().toTime_t());
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();
@@ -108,6 +108,10 @@ void {{prefix}}HttpRequestWorker::setResponseCompressionEnabled(bool enable) {
 
 void {{prefix}}HttpRequestWorker::setRequestCompressionEnabled(bool enable) {
     isRequestCompressionEnabled = enable;
+}
+
+int  {{prefix}}HttpRequestWorker::getHttpResponseCode() const{
+    return httpResponseCode;
 }
 
 QString {{prefix}}HttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -360,6 +364,7 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
 }
 
 void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+    bool codeSts = false;
     if(timeOutTimer.isActive()) {
         QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
         timeOutTimer.stop();
@@ -370,6 +375,12 @@ void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
         for (const auto &item : reply->rawHeaderPairs()) {
             headers.insert(item.first, item.second);
         }
+    }
+    auto rescode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&codeSts);
+    if(codeSts){
+        httpResponseCode = rescode;
+    } else{
+        httpResponseCode = -1;
     }
     process_response(reply);
     reply->deleteLater();
