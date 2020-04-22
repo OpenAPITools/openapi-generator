@@ -72,7 +72,7 @@ export class BaseAPI {
         this.middleware = configuration.middleware;
     }
 
-    withMiddleware = (middlewares: Middleware[]) => {
+    withMiddleware = (middlewares: Middleware[]): this => {
         const next = this.clone();
         next.middleware = next.middleware.concat(middlewares);
         return next;
@@ -132,7 +132,7 @@ export class BaseAPI {
      * Create a shallow clone of `this` by constructing a new instance
      * and then shallow cloning data members.
      */
-    private clone = (): BaseAPI =>
+    private clone = (): this =>
         Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 }
 
