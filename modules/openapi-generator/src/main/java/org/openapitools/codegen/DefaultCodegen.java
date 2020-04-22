@@ -2134,6 +2134,10 @@ public class DefaultCodegen implements CodegenConfig {
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.discriminator = createDiscriminator(name, schema);
 
+        if (schema.getDeprecated() != null) {
+            m.isDeprecated = schema.getDeprecated();
+        }
+
         if (schema.getXml() != null) {
             m.xmlPrefix = schema.getXml().getPrefix();
             m.xmlNamespace = schema.getXml().getNamespace();
@@ -5539,11 +5543,18 @@ public class DefaultCodegen implements CodegenConfig {
             setParameterNullable(codegenParameter, codegenProperty);
         }
 
+        addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
+
         // set the parameter's example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
 
         return codegenParameter;
+    }
+
+    private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body){
+        if(codegenParameter.jsonSchema == null)
+            codegenParameter.jsonSchema = Json.pretty(body);
     }
 
     protected void addOption(String key, String description, String defaultValue) {
