@@ -76,6 +76,7 @@ sidebar_label: typescript-fetch
 <li>HTTPHeaders</li>
 <li>HTTPMethod</li>
 <li>HTTPQuery</li>
+<li>Index</li>
 <li>JSONApiResponse</li>
 <li>Middleware</li>
 <li>ModelPropertyNaming</li>
