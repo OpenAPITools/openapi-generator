@@ -30,4 +30,16 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return schemaType;
     }
 
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#oneOf}}
+        if (instance instanceof {{{.}}}) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        {{/oneOf}}
+        throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
+    }
+
 }
