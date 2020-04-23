@@ -170,6 +170,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
+
+        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
+        // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
+        // and the discriminator mapping schemas in the OAS document.
+        this.setDiscriminatorExplicitMappingVerbose(true);
     }
 
     @Override
@@ -197,10 +202,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
-        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
-        // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
-        // and the discriminator mapping schemas in the OAS document.
-        this.setDiscriminatorExplicitMappingVerbose(true);
         if ((WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
         } else if (MICROPROFILE.equals(getLibrary())) {
