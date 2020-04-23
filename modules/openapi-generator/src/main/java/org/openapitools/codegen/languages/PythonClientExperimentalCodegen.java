@@ -111,7 +111,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     public void processOpts() {
-        this.setDiscriminatorExplicitMappingVerbose(true);
+        this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
 
