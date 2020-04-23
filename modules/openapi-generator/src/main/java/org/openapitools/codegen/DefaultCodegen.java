@@ -2186,9 +2186,33 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces = new ArrayList<String>();
 
                 for (Schema interfaceSchema : interfaces) {
+                    interfaceSchema = ModelUtils.unaliasSchema(this.openAPI, interfaceSchema, importMapping);
+
                     if (StringUtils.isBlank(interfaceSchema.get$ref())) {
+                        // primitive type
+                        String languageType = getTypeDeclaration(interfaceSchema);
+
+                        if (composed.getAnyOf() != null) {
+                            if (m.anyOf.contains(languageType)) {
+                                LOGGER.warn("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
+                            } else {
+                                m.anyOf.add(languageType);
+                            }
+                        } else if (composed.getOneOf() != null) {
+                            if (m.oneOf.contains(languageType)) {
+                                LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
+                            } else {
+                                m.oneOf.add(languageType);
+                            }
+                        } else if (composed.getAllOf() != null) {
+                            m.allOf.add(languageType);
+                        } else {
+                            LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
+                        }
                         continue;
                     }
+
+                    // the rest of the section is for model
                     Schema refSchema = null;
                     String ref = ModelUtils.getSimpleRef(interfaceSchema.get$ref());
                     if (allDefinitions != null) {
