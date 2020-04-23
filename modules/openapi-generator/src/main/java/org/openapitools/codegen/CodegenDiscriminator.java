@@ -108,9 +108,6 @@ public class CodegenDiscriminator {
         private String modelName;
 
         public MappedModel(String mappingName, String modelName) {
-            if (mappingName == null) {
-                throw new RuntimeException("Discriminator mapping name cannot be null for model '" + modelName + "'");
-            }
             this.mappingName = mappingName;
             this.modelName = modelName;
         }
