@@ -246,6 +246,13 @@ class Configuration(object):
         result.debug = self.debug
         return result
 
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+        if name == "signing_info" and value is not None:
+            # Ensure the host paramater from signing info is the same as
+            # Configuration.host.
+            value.host = self.host
+
     @classmethod
     def set_default(cls, default):
         """Set default instance of configuration.
