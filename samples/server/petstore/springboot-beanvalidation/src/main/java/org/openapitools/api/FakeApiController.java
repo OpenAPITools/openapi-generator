@@ -8,7 +8,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -120,7 +120,7 @@ public class FakeApiController implements FakeApi {
      * @return OutputFileData (status code 200)
      * @see FakeApi#fileResponseTest
      */
-    public ResponseEntity<Resource> fileResponseTest() {
+    public ResponseEntity<org.springframework.core.io.Resource> fileResponseTest() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -131,7 +131,7 @@ public class FakeApiController implements FakeApi {
      * @return Resource data (status code 200)
      * @see FakeApi#resourceNamedResourceTest
      */
-    public ResponseEntity<org.springframework.core.io.Resource> resourceNamedResourceTest() {
+    public ResponseEntity<Resource> resourceNamedResourceTest() {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"sourceURI\" : \"sourceURI\" }";

@@ -86,6 +86,15 @@ describe 'FakeApi' do
     end
   end
 
+  # unit tests for resource_named_resource_test
+  # @param [Hash] opts the optional parameters
+  # @return [Resource]
+  describe 'resource_named_resource_test test' do
+    it 'should work' do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
   # unit tests for test_body_with_file_schema
   # For this test, the body for this request much reference a schema named &#x60;File&#x60;.
   # @param file_schema_test_class 

@@ -69,6 +69,18 @@ public class FakeApiServiceImpl implements FakeApi {
         return null;
     }
     
+    public File fileResponseTest() {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
+    public Resource resourceNamedResourceTest() {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
     public void testBodyWithFileSchema(FileSchemaTestClass body) {
         // TODO: Implement...
         
@@ -80,19 +92,7 @@ public class FakeApiServiceImpl implements FakeApi {
         
         
     }
-   
-    public File fileResponseTest() {
-        // TODO: Implement...
-
-        return null;
-    }
-
-    public Resource resourceNamedResourceTest() {
-        // TODO: Implement...
-
-        return null;
-    }
-
+    
     /**
      * To test \&quot;client\&quot; model
      *

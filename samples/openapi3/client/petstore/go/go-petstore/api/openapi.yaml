@@ -1169,6 +1169,18 @@ paths:
       summary: Health check endpoint
       tags:
       - fake
+  /fake/resource-named-resource-test:
+    get:
+      operationId: resourceNamedResourceTest
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+          description: Resource data
+      tags:
+      - fake
 components:
   requestBodies:
     UserArray:
@@ -1882,6 +1894,15 @@ components:
             nullable: true
             type: object
           type: object
+      type: object
+    Resource:
+      description: Must be named `Resource` for test.
+      example:
+        sourceURI: sourceURI
+      properties:
+        sourceURI:
+          description: Test resource
+          type: string
       type: object
     inline_response_default:
       example:

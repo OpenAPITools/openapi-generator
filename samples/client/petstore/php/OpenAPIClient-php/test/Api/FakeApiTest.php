@@ -123,6 +123,26 @@ class FakeApiTest extends TestCase
     }
 
     /**
+     * Test case for fileResponseTest
+     *
+     * .
+     *
+     */
+    public function testFileResponseTest()
+    {
+    }
+
+    /**
+     * Test case for resourceNamedResourceTest
+     *
+     * .
+     *
+     */
+    public function testResourceNamedResourceTest()
+    {
+    }
+
+    /**
      * Test case for testBodyWithFileSchema
      *
      * .

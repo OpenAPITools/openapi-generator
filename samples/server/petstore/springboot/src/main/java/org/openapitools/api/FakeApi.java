@@ -13,7 +13,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -155,13 +155,13 @@ public interface FakeApi {
      *
      * @return OutputFileData (status code 200)
      */
-    @ApiOperation(value = "", nickname = "fileResponseTest", notes = "", response = Resource.class, tags={ "fake", })
+    @ApiOperation(value = "", nickname = "fileResponseTest", notes = "", response = org.springframework.core.io.Resource.class, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OutputFileData", response = Resource.class) })
+        @ApiResponse(code = 200, message = "OutputFileData", response = org.springframework.core.io.Resource.class) })
     @RequestMapping(value = "/fake/fileResponseTest",
         produces = { "application/octet-stream" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Resource> fileResponseTest() {
+    default ResponseEntity<org.springframework.core.io.Resource> fileResponseTest() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -172,13 +172,13 @@ public interface FakeApi {
      *
      * @return Resource data (status code 200)
      */
-    @ApiOperation(value = "", nickname = "resourceNamedResourceTest", notes = "", response = org.springframework.core.io.Resource.class, tags={ "fake", })
+    @ApiOperation(value = "", nickname = "resourceNamedResourceTest", notes = "", response = Resource.class, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Resource data", response = org.springframework.core.io.Resource.class) })
+        @ApiResponse(code = 200, message = "Resource data", response = Resource.class) })
     @RequestMapping(value = "/fake/resource-named-resource-test",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<org.springframework.core.io.Resource> resourceNamedResourceTest() {
+    default ResponseEntity<Resource> resourceNamedResourceTest() {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

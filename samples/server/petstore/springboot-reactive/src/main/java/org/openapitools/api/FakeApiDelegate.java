@@ -8,7 +8,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -129,7 +129,7 @@ public interface FakeApiDelegate {
      * @return OutputFileData (status code 200)
      * @see FakeApi#fileResponseTest
      */
-    default Mono<ResponseEntity<Resource>> fileResponseTest(ServerWebExchange exchange) {
+    default Mono<ResponseEntity<org.springframework.core.io.Resource>> fileResponseTest(ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());
@@ -142,7 +142,7 @@ public interface FakeApiDelegate {
      * @return Resource data (status code 200)
      * @see FakeApi#resourceNamedResourceTest
      */
-    default Mono<ResponseEntity<org.springframework.core.io.Resource>> resourceNamedResourceTest(ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Resource>> resourceNamedResourceTest(ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {

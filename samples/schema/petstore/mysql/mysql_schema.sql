@@ -246,13 +246,6 @@ CREATE TABLE IF NOT EXISTS `EnumArrays` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `EnumClass` generated from model 'EnumClass'
---
-
-CREATE TABLE IF NOT EXISTS `EnumClass` (
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
 -- Table structure for table `Enum_Test` generated from model 'EnumUnderscoreTest'
 --
 
@@ -382,13 +375,6 @@ CREATE TABLE IF NOT EXISTS `OuterComposite` (
   `my_number` DECIMAL(20, 9) DEFAULT NULL,
   `my_string` TEXT DEFAULT NULL,
   `my_boolean` TINYINT(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `OuterEnum` generated from model 'OuterEnum'
---
-
-CREATE TABLE IF NOT EXISTS `OuterEnum` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

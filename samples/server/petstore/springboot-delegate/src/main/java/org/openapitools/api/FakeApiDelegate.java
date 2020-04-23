@@ -8,7 +8,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -81,7 +81,7 @@ public interface FakeApiDelegate {
      * @return OutputFileData (status code 200)
      * @see FakeApi#fileResponseTest
      */
-    ResponseEntity<Resource> fileResponseTest();
+    ResponseEntity<org.springframework.core.io.Resource> fileResponseTest();
 
     /**
      * GET /fake/resource-named-resource-test
@@ -89,7 +89,7 @@ public interface FakeApiDelegate {
      * @return Resource data (status code 200)
      * @see FakeApi#resourceNamedResourceTest
      */
-    ResponseEntity<org.springframework.core.io.Resource> resourceNamedResourceTest();
+    ResponseEntity<Resource> resourceNamedResourceTest();
 
     /**
      * PUT /fake/body-with-file-schema

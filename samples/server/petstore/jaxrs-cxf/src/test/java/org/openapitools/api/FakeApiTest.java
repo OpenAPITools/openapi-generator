@@ -33,6 +33,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import org.junit.Test;
@@ -148,6 +149,32 @@ public class FakeApiTest {
     public void fakeOuterStringSerializeTest() {
         String body = null;
         //String response = api.fakeOuterStringSerialize(body);
+        //assertNotNull(response);
+        // TODO: test validations
+        
+        
+    }
+    
+    /**
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void fileResponseTestTest() {
+        //File response = api.fileResponseTest();
+        //assertNotNull(response);
+        // TODO: test validations
+        
+        
+    }
+    
+    /**
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void resourceNamedResourceTestTest() {
+        //Resource response = api.resourceNamedResourceTest();
         //assertNotNull(response);
         // TODO: test validations
         

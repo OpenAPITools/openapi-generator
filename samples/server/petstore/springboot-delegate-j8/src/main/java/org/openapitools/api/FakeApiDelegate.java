@@ -8,7 +8,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
+import org.openapitools.model.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -113,7 +113,7 @@ public interface FakeApiDelegate {
      * @return OutputFileData (status code 200)
      * @see FakeApi#fileResponseTest
      */
-    default ResponseEntity<Resource> fileResponseTest() {
+    default ResponseEntity<org.springframework.core.io.Resource> fileResponseTest() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -124,7 +124,7 @@ public interface FakeApiDelegate {
      * @return Resource data (status code 200)
      * @see FakeApi#resourceNamedResourceTest
      */
-    default ResponseEntity<org.springframework.core.io.Resource> resourceNamedResourceTest() {
+    default ResponseEntity<Resource> resourceNamedResourceTest() {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
