@@ -157,9 +157,6 @@ public class ApiClient {
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{/authMethods}}
-
-        // Prevent the authentications from being modified.
-        authentications = Collections.unmodifiableMap(authentications);
     }
 
     {{/-first}}
@@ -366,7 +363,7 @@ public class ApiClient {
      * @return Map of authentication objects
      */
     public Map<String, Authentication> getAuthentications() {
-        return authentications;
+        return Collections.unmodifiableMap(authentications);
     }
 
     /**
@@ -378,6 +375,16 @@ public class ApiClient {
     public Authentication getAuthentication(String authName) {
         return authentications.get(authName);
     }
+
+    /**
+    * Set default authentication.
+    *
+    * @param auth The authentication
+    */
+    public void setDefaultAuthentication(Authentication auth) {
+      authentications.put("default", auth);
+    }
+
 
     /**
      * Helper method to set username for the first HTTP basic authentication.
@@ -1294,6 +1301,10 @@ public class ApiClient {
                 throw new RuntimeException("Authentication undefined: " + authName);
             }
             auth.applyToParams(queryParams, headerParams, cookieParams);
+        }
+
+        if (authentications.containsKey("default")) {
+          authentications.get("default").applyToParams(queryParams, headerParams, cookieParams);
         }
     }
 
