@@ -1,8 +1,6 @@
 ```python
 from __future__ import print_function
-{{#apiInfo}}{{#apis}}{{#hasHttpSignatureMethods}}
-import datetime
-{{/hasHttpSignatureMethods}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{^hasMore}}{{#hasHttpSignatureMethods}}import datetime{{/hasHttpSignatureMethods}}{{/hasMore}}{{/apis}}{{/apiInfo}}
 import time
 import {{{packageName}}}
 from {{{packageName}}}.rest import ApiException
