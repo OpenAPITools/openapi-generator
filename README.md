@@ -567,6 +567,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [Agoda](https://www.agoda.com/)
+- [Allianz](https://www.allianz.com)
 - [Angular.Schule](https://angular.schule/)
 - [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [ASKUL](https://www.askul.co.jp)
@@ -642,6 +643,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Vouchery.io](https://vouchery.io)
 - [Xero](https://www.xero.com/)
 - [Yahoo Japan](https://www.yahoo.co.jp/)
+- [YITU Technology](https://www.yitutech.com/)
 - [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
 

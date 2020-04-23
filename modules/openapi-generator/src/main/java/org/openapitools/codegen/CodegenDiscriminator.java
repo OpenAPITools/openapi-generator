@@ -117,6 +117,13 @@ public class CodegenDiscriminator {
 
         @Override
         public int compareTo(MappedModel other) {
+            if (getMappingName() == null && other.getMappingName() == null) {
+                return 0;
+            } else if (getMappingName() == null) {
+                return 1;
+            } else if (other.getMappingName() == null) {
+                return -1;
+            }
             return getMappingName().compareTo(other.getMappingName());
         }
 
