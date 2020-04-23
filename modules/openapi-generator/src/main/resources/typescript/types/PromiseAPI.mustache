@@ -4,7 +4,7 @@ import { Configuration} from '../configuration'
 
 {{#models}}
 {{#model}}
-import { {{name}} } from '../models/{{name}}';
+import { {{{ classname }}} } from '../models/{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
