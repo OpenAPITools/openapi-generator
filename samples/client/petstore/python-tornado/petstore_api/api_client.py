@@ -195,13 +195,12 @@ class ApiClient(object):
             if not _preload_content:
                 raise tornado.gen.Return(return_data)
 
-            if six.PY3:
-                if response_type not in ["file", "bytes"]:
-                    match = None
-                    if content_type is not None:
-                        match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
-                    encoding = match.group(1) if match else "utf-8"
-                    response_data.data = response_data.data.decode(encoding)
+            if six.PY3 and response_type not in ["file", "bytes"]:
+                match = None
+                if content_type is not None:
+                    match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+                encoding = match.group(1) if match else "utf-8"
+                response_data.data = response_data.data.decode(encoding)
 
             # deserialize response data
             if response_type:
