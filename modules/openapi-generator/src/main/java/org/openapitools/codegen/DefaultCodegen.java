@@ -215,8 +215,8 @@ public class DefaultCodegen implements CodegenConfig {
     // flag to indicate whether enum value prefixes are removed
     protected boolean removeEnumValuePrefix = true;
 
-    // flag to turn on explicit discriminators with verbose mappings
-    protected boolean discriminatorExplicitMappingVerbose = false;
+    // Support legacy logic for evaluating discriminators
+    protected boolean legacyDiscriminatorBehavior = true;
 
     // make openapi available to all methods
     protected OpenAPI openAPI;
@@ -310,9 +310,9 @@ public class DefaultCodegen implements CodegenConfig {
                     .get(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX).toString()));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE)) {
-            this.setDiscriminatorExplicitMappingVerbose(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE).toString()));
+        if (additionalProperties.containsKey(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR)) {
+            this.setLegacyDiscriminatorBehavior(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR).toString()));
         }
     }
 
@@ -1118,12 +1118,12 @@ public class DefaultCodegen implements CodegenConfig {
         this.ensureUniqueParams = ensureUniqueParams;
     }
 
-    public Boolean getDiscriminatorExplicitMappingVerbose() {
-        return discriminatorExplicitMappingVerbose;
+    public Boolean getLegacyDiscriminatorBehavior() {
+        return legacyDiscriminatorBehavior;
     }
 
-    public void setDiscriminatorExplicitMappingVerbose(boolean val){
-        this.discriminatorExplicitMappingVerbose = val;
+    public void setLegacyDiscriminatorBehavior(boolean val){
+        this.legacyDiscriminatorBehavior = val;
     }
 
     public Boolean getAllowUnicodeIdentifiers() {
@@ -1440,8 +1440,8 @@ public class DefaultCodegen implements CodegenConfig {
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC).defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE,
-                CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE_DESC).defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR,
+                CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString()));
 
 
         // initialize special character mapping
@@ -2140,9 +2140,9 @@ public class DefaultCodegen implements CodegenConfig {
             m.getVendorExtensions().putAll(schema.getExtensions());
         }
         m.isAlias = (typeAliases.containsKey(name)
-                        || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
+                || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.discriminator = createDiscriminator(name, schema, this.openAPI);
-        if (this.getDiscriminatorExplicitMappingVerbose()) {
+        if (!this.getLegacyDiscriminatorBehavior()) {
             m.addDiscriminatorMappedModelsImports();
         }
 
@@ -2191,7 +2191,7 @@ public class DefaultCodegen implements CodegenConfig {
                         if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
                             m.discriminator = createDiscriminator(name, innerSchema, this.openAPI);
-                            if (this.getDiscriminatorExplicitMappingVerbose()) {
+                            if (!this.getLegacyDiscriminatorBehavior()) {
                                 m.addDiscriminatorMappedModelsImports();
                             }
                             modelDiscriminators++;
@@ -2482,7 +2482,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (foundDisc != null) {
             return foundDisc;
         }
-        if (!this.getDiscriminatorExplicitMappingVerbose()) {
+        if (!!this.getLegacyDiscriminatorBehavior()) {
             return null;
         }
         Discriminator disc = new Discriminator();
@@ -2708,8 +2708,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        boolean legacyUseCase = (!this.getDiscriminatorExplicitMappingVerbose() && uniqueDescendants.isEmpty());
-        if (this.getDiscriminatorExplicitMappingVerbose() || legacyUseCase) {
+        boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
+        if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
             List<MappedModel> otherDescendants = getAllOfDescendants(schemaName, openAPI);
             for (MappedModel otherDescendant: otherDescendants) {
@@ -2719,7 +2719,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
-        if (ModelUtils.isComposedSchema(schema) && this.getDiscriminatorExplicitMappingVerbose()) {
+        if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
             List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema, openAPI);
             for (MappedModel otherDescendant: otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {
@@ -2727,7 +2727,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-        if (this.getDiscriminatorExplicitMappingVerbose()) {
+        if (!this.getLegacyDiscriminatorBehavior()) {
             Collections.sort(uniqueDescendants);
         }
         discriminator.getMappedModels().addAll(uniqueDescendants);
@@ -6176,7 +6176,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenModel cm = new CodegenModel();
 
         cm.discriminator = createDiscriminator("", (Schema) cs, openAPI);
-        if (this.getDiscriminatorExplicitMappingVerbose()) {
+        if (!this.getLegacyDiscriminatorBehavior()) {
             cm.addDiscriminatorMappedModelsImports();
         }
         for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {

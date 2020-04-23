@@ -571,7 +571,7 @@ public class DefaultCodegenTest {
     public void testDiscriminatorWithCustomMapping() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setOpenAPI(openAPI);
 
         String path = "/person/display/{personId}";
@@ -608,11 +608,42 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfSingleAndDoubleRefWithOwnPropsNoDiscriminator() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
+        final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
+
+        codegen.setOpenAPI(openAPI);
+
+        Schema supermanSchema = openAPI.getComponents().getSchemas().get("SuperMan");
+        CodegenModel supermanModel = codegen.fromModel("SuperMan", supermanSchema);
+        Assert.assertEquals(supermanModel.parent, null);
+        Assert.assertEquals(supermanModel.allParents, null);
+
+        Schema superboySchema = openAPI.getComponents().getSchemas().get("SuperBoy");
+        CodegenModel superboyModel = codegen.fromModel("SuperBoy", superboySchema);
+        Assert.assertEquals(superboyModel.parent, null);
+        Assert.assertEquals(superboyModel.allParents, null);
+    }
+
+    @Test
+    public void testAllParents() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml");
+        final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
+
+        codegen.setOpenAPI(openAPI);
+
+        Schema adultSchema = openAPI.getComponents().getSchemas().get("Adult");
+        CodegenModel adultModel = codegen.fromModel("Adult", adultSchema);
+        Assert.assertEquals(adultModel.parent, "Person");
+        Assert.assertEquals(adultModel.allParents, Collections.singletonList("Person"));
+    }
+
+    @Test
     public void testComposedSchemaAllOfDiscriminatorMap() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
-        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
         Schema sc;
         String modelName;
 
@@ -808,7 +839,7 @@ public class DefaultCodegenTest {
     public void testComposedSchemaOneOfDiscriminatorsInvalid() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setOpenAPI(openAPI);
 
         HashMap<String, String> hm = new HashMap<>();
@@ -840,7 +871,7 @@ public class DefaultCodegenTest {
     public void testComposedSchemaAnyOfDiscriminatorsInvalid() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOfDiscriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setOpenAPI(openAPI);
 
         HashMap<String, String> hm = new HashMap<>();
@@ -872,7 +903,7 @@ public class DefaultCodegenTest {
     public void testComposedSchemaAnyOfDiscriminatorMap() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOfDiscriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setOpenAPI(openAPI);
 
         String modelName;
@@ -957,7 +988,7 @@ public class DefaultCodegenTest {
     public void testComposedSchemaOneOfDiscriminatorMap() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setOpenAPI(openAPI);
 
         String modelName;
@@ -1043,7 +1074,7 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
 
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setOpenAPI(openAPI);
 
         String path = "/mypets";
@@ -1062,7 +1093,7 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
 
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setDiscriminatorExplicitMappingVerbose(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setOpenAPI(openAPI);
 
         Schema pet = openAPI.getComponents().getSchemas().get("Lizard");
