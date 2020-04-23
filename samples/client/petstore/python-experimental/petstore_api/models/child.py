@@ -84,9 +84,9 @@ class Child(ModelComposed):
                 and the value is attribute type.
         """
         return {
-            'inter_net': (bool,),  # noqa: E501
             'radio_waves': (bool,),  # noqa: E501
             'tele_vision': (bool,),  # noqa: E501
+            'inter_net': (bool,),  # noqa: E501
         }
 
     @staticmethod
@@ -94,9 +94,9 @@ class Child(ModelComposed):
         return None
 
     attribute_map = {
-        'inter_net': 'interNet',  # noqa: E501
         'radio_waves': 'radioWaves',  # noqa: E501
         'tele_vision': 'teleVision',  # noqa: E501
+        'inter_net': 'interNet',  # noqa: E501
     }
 
     required_properties = set([
@@ -127,9 +127,9 @@ class Child(ModelComposed):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            inter_net (bool): [optional]  # noqa: E501
             radio_waves (bool): [optional]  # noqa: E501
             tele_vision (bool): [optional]  # noqa: E501
+            inter_net (bool): [optional]  # noqa: E501
         """
 
         self._data_store = {}

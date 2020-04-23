@@ -63,8 +63,21 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $file = Get-Item "./plus.gif"
             #$Result = Invoke-PSUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
 
+            # modify and update
+            #
+            $NewPet = $Result["response"]
+
+            $NewPet."id" = $NewPet."id" + 1
+            $NewPet."name" = $NewPet."name" + "PowerShell Modify"
+
+            $Result = Update-PSPet -Pet $NewPet
+            $Result = Get-PSPetById -petId $NewPet."id" -WithHttpInfo
+            $Result["Response"]."id" | Should Be $NewPet."id"
+            $Result["Response"]."name" | Should Be $NewPet."name"
+
             # Delete
             $Result = Remove-Pet -petId $Id
+            $Result = Remove-Pet -petId $NewPet."id"
 
         }
 

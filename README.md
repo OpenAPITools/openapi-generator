@@ -567,6 +567,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [Agoda](https://www.agoda.com/)
+- [Allianz](https://www.allianz.com)
 - [Angular.Schule](https://angular.schule/)
 - [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [ASKUL](https://www.askul.co.jp)
@@ -591,6 +592,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Edge Impulse](https://www.edgeimpulse.com/)
 - [Element AI](https://www.elementai.com/)
 - [Embotics](https://www.embotics.com/)
+- [emineo](https://www.emineo.ch)
 - [Fenergo](https://www.fenergo.com/)
 - [freee](https://corp.freee.co.jp/en/)
 - [FreshCells](https://www.freshcells.de/)
@@ -641,6 +643,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Vouchery.io](https://vouchery.io)
 - [Xero](https://www.xero.com/)
 - [Yahoo Japan](https://www.yahoo.co.jp/)
+- [YITU Technology](https://www.yitutech.com/)
 - [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
 
@@ -745,6 +748,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-03-02 - [OpenAPI Generator + TypeScript で始める自動生成の型に守られた豊かなクライアント生活](https://gift-tech.co.jp/articles/openapi-generator-typescript) by [五百蔵 直樹](https://gift-tech.co.jp/members/naokiioroi) at [GiFT株式会社](https://gift-tech.co.jp/)
 - 2020-03-10 - [OpenAPI Generator Meetup #1](https://speakerdeck.com/akihito_nakano/openapi-generator-meetup-number-1) by [中野暁人](https://github.com/ackintosh) at [OpenAPI Generator Meetup #1](https://openapi-generator-meetup.connpass.com/event/168187/)
 - 2020-03-15 - [Load Testing Your API with Swagger/OpenAPI and k6](https://k6.io/blog/load-testing-your-api-with-swagger-openapi-and-k6)
+- 2020-04-13 - [俺的【OAS】との向き合い方 (爆速でOpenAPIと友達になろう)](https://tech-blog.optim.co.jp/entry/2020/04/13/100000) in [OPTim Blog](https://tech-blog.optim.co.jp/)
 
 ## [6 - About Us](#table-of-contents)
 
