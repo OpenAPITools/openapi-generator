@@ -403,9 +403,9 @@ class DeserializationTests(unittest.TestCase):
 
         mock_response = RESTResponse(http_response)
 
-        binary = self.deserialize(mock_response, response_types_mixed, True)
-        self.assertEqual(isinstance(binary, str), True)
-        self.assertEqual(binary, data)
+        result = self.deserialize(mock_response, response_types_mixed, True)
+        self.assertEqual(isinstance(result, str), True)
+        self.assertEqual(result, data)
 
     def test_deserialize_string_boolean_map(self):
         """
