@@ -11,18 +11,18 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Org.OpenAPITools.Filters;
 using Org.OpenAPITools.Authentication;
-using Microsoft.AspNetCore.Authorization;
+using Org.OpenAPITools.Filters;
+using Org.OpenAPITools.OpenApi;
 
 namespace Org.OpenAPITools
 {
@@ -34,14 +34,20 @@ namespace Org.OpenAPITools
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="configuration"></param>
-        public Startup(IConfiguration configuration)
+        /// <param name="env"></param>
+        public Startup(IHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         /// <summary>
-            /// The application configuration.
+        /// The application configuration.
         /// </summary>
         public IConfiguration Configuration { get; }
 
@@ -54,39 +60,46 @@ namespace Org.OpenAPITools
             services.AddTransient<IAuthorizationHandler, ApiKeyRequirementHandler>();
             services.AddAuthorization(authConfig =>
             {
-                authConfig.AddPolicy("api_key",
-                    policyBuilder => policyBuilder
-                        .AddRequirements(new ApiKeyRequirement(new[] { "my-secret-key" },"api_key")));
+                authConfig.AddPolicy("api_key", policyBuilder =>
+                {
+                    policyBuilder
+                        .AddRequirements(new ApiKeyRequirement(new[] { "my-secret-key" },"api_key"));
+                });
             });
 
             // Add framework services.
             services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(opts =>
+                // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
+                .AddControllers()
+                .AddNewtonsoftJson(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter
                     {
-                        CamelCaseText = true
+                        NamingStrategy = new CamelCaseNamingStrategy()
                     });
                 });
 
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("1.0.0", new Info
+                    c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
-                        Version = "1.0.0",
                         Title = "OpenAPI Petstore",
-                        Description = "OpenAPI Petstore (ASP.NET Core 2.2)",
-                        Contact = new Contact()
+                        Description = "OpenAPI Petstore (ASP.NET Core 3.0)",
+                        TermsOfService = new Uri("https://github.com/openapitools/openapi-generator"),
+                        Contact = new OpenApiContact
                         {
-                           Name = "OpenAPI-Generator Contributors",
-                           Url = "https://github.com/openapitools/openapi-generator",
-                           Email = ""
+                            Name = "OpenAPI-Generator Contributors",
+                            Url = new Uri("https://github.com/openapitools/openapi-generator"),
+                            Email = ""
                         },
-                        TermsOfService = ""
+                        License = new OpenApiLicense
+                        {
+                            Name = "NoLicense",
+                            Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+                        },
+                        Version = "1.0.0",
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
                     c.DescribeAllEnumsAsStrings();
@@ -98,17 +111,30 @@ namespace Org.OpenAPITools
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
                 });
+                services
+                    .AddSwaggerGenNewtonsoftSupport();
         }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        /// <param name="env"></param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
             app.UseHttpsRedirection();
             app
-                .UseMvc()
+                // TODO: Renable if you need MVC views as well as just the API
+                //.UseMvc()
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseSwagger(c =>
@@ -123,15 +149,11 @@ namespace Org.OpenAPITools
                     //TODO: Or alternatively use the original Swagger contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "OpenAPI Petstore Original");
                 });
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+	            {
+	    	        endpoints.MapControllers();
+	            });
         }
     }
 }
