@@ -81,7 +81,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(TypeScriptAngularClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
-                .put(CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE, "false")
+                .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .build();
     }
 

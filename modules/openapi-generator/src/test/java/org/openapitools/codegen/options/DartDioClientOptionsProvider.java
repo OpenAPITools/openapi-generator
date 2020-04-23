@@ -67,7 +67,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.SUPPORT_DART2, "false")
                 .put(DartDioClientCodegen.DATE_LIBRARY, DATE_LIBRARY)
                 .put(DartDioClientCodegen.NULLABLE_FIELDS, NULLABLE_FIELDS)
-                .put(CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE, "false")
+                .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .build();
     }
 
