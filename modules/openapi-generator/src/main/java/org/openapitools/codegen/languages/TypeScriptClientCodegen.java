@@ -316,7 +316,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         boolean firstReturnType = true;
         boolean atLeastOneSuccess = false;
         boolean addVoid = false;
-        System.out.println(responses);
         for (CodegenResponse response: responses) {
             // TODO: we should probably catch an exception here
             if (response.isSuccessCode) {
@@ -338,7 +337,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             returnType.append(" | void");
         }
         
-        System.out.println("Return Type: " + returnType);
         return returnType.toString();
     }
     
