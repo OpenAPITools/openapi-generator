@@ -203,6 +203,9 @@ conf = petstore_api.Configuration(
         result.debug = self.debug
         return result
 
+    def __setattr__(self, name, value):
+        object.__setattr__(self, name, value)
+
     @classmethod
     def set_default(cls, default):
         """Set default instance of configuration.

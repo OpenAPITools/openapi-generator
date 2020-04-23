@@ -204,7 +204,7 @@ conf = petstore_api.Configuration(
         return result
 
     def __setattr__(self, name, value):
-        self.__dict__[name] = value
+        object.__setattr__(self, name, value)
 
     @classmethod
     def set_default(cls, default):
