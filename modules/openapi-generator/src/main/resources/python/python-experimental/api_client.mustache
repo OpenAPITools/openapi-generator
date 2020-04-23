@@ -183,32 +183,32 @@ class ApiClient(object):
                 post_params=post_params, body=body,
                 _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
-
-            self.last_response = response_data
-
-            return_data = response_data
-
-            if not _preload_content:
-                {{^tornado}}
-                return (return_data)
-                {{/tornado}}
-                {{#tornado}}
-                raise tornado.gen.Return(return_data)
-                {{/tornado}}
-                return return_data
-
-            # deserialize response data
-            if response_type:
-                return_data = self.deserialize(
-                    response_data,
-                    response_type,
-                    _check_type
-                )
-            else:
-                return_data = None
         except ApiException as e:
             e.body = e.body.decode('utf-8') if six.PY3 else e.body
             raise e
+
+        self.last_response = response_data
+
+        return_data = response_data
+
+        if not _preload_content:
+            {{^tornado}}
+            return (return_data)
+            {{/tornado}}
+            {{#tornado}}
+            raise tornado.gen.Return(return_data)
+            {{/tornado}}
+            return return_data
+
+        # deserialize response data
+        if response_type:
+            return_data = self.deserialize(
+                response_data,
+                response_type,
+                _check_type
+            )
+        else:
+            return_data = None
 
 {{^tornado}}
         if _return_http_data_only:
