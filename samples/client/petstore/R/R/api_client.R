@@ -32,7 +32,7 @@
 #' @field accessToken
 #' @field timeout Default timeout in seconds
 #' @field retryStatusCodes vector of status codes to retry
-#' @field maxRetryAttemps maximum number of retries for the status codes
+#' @field maxRetryAttempts maximum number of retries for the status codes
 #' @importFrom httr add_headers accept timeout content
 #' @export
 ApiClient  <- R6::R6Class(
@@ -97,7 +97,7 @@ ApiClient  <- R6::R6Class(
       if (!is.null(retryStatusCodes)) {
         self$retryStatusCodes <- retryStatusCodes
       }
-	  
+
       if (!is.null(maxRetryAttempts)) {
         self$maxRetryAttempts <- maxRetryAttempts
       }
@@ -108,25 +108,24 @@ ApiClient  <- R6::R6Class(
       resp <- self$Execute(url, method, queryParams, headerParams, body, ...)
       statusCode <- httr::status_code(resp)
 
-      if(is.null(self$maxRetryAttempts)){
+      if (is.null(self$maxRetryAttempts)) {
         self$maxRetryAttempts = 3
       }
       
-	  if(!is.null(self$retryStatusCodes)){
+      if (!is.null(self$retryStatusCodes)) {
 
-        for(i in 1: self$maxRetryAttempts){
-          if(statusCode %in% self$retryStatusCodes){
+        for (i in 1 : self$maxRetryAttempts) {
+          if (statusCode %in% self$retryStatusCodes) {
             Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
             resp <- self$Execute(url, method, queryParams, headerParams, body, ...)
             statusCode <- httr::status_code(resp)
-          }
-          else{
+          } else {
             break;
           }
-        }	  
-	  }
+        }  
+      }
 
-	  resp
+      resp
     },
 
     Execute = function(url, method, queryParams, headerParams, body, ...){
