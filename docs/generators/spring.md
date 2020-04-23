@@ -35,6 +35,7 @@ sidebar_label: spring
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
 |java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64. Use java8 default interface when a responseWrapper is used</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|false|
+|keepDiscriminatorProperty|if false the discriminator properties are deleted from model, even if they are defined - this option set `visible` into `@JsonTypeInfo`| |true|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application using the SpringFox integration.</dd><dt>**spring-mvc**</dt><dd>Spring-MVC Server application using the SpringFox integration.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd></dl>|spring-boot|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
