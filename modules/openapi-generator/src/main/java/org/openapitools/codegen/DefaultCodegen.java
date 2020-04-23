@@ -2389,8 +2389,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema instanceof ComposedSchema) {
             ComposedSchema composedSchema = (ComposedSchema) schema;
 
-            for (Schema component : composedSchema.getAllOf()) {
-                addProperties(properties, required, component);
+            if (composedSchema.getAllOf() != null) {
+                for (Schema component : composedSchema.getAllOf()) {
+                    addProperties(properties, required, component);
+                }
             }
 
             if (schema.getRequired() != null) {
