@@ -247,7 +247,7 @@ class Configuration(object):
         return result
 
     def __setattr__(self, name, value):
-        self.__dict__[name] = value
+        object.__setattr__(self, name, value)
         if name == "signing_info" and value is not None:
             # Ensure the host paramater from signing info is the same as
             # Configuration.host.
