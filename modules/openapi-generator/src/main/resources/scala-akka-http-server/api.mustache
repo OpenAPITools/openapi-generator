@@ -2,6 +2,7 @@ package {{package}}
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.model.StatusCodes
 {{^pathMatcherPatterns.isEmpty}}import akka.http.scaladsl.server.{PathMatcher, PathMatcher1}
 {{/pathMatcherPatterns.isEmpty}}
 {{#hasMarshalling}}import akka.http.scaladsl.marshalling.ToEntityMarshaller
@@ -63,8 +64,9 @@ object {{classname}}Patterns {
 trait {{classname}}Service {
 
 {{#operation}}
-{{#responses}}  def {{operationId}}{{#vendorExtensions.x-is-default}}Default{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}{{#baseType}}({{#vendorExtensions.x-is-default}}statusCode: Int, {{/vendorExtensions.x-is-default}}response{{baseType}}{{containerType}}: {{dataType}}){{^isPrimitiveType}}(implicit toEntityMarshaller{{baseType}}{{containerType}}: ToEntityMarshaller[{{dataType}}]){{/isPrimitiveType}}{{/baseType}}{{^baseType}}{{#vendorExtensions.x-is-default}}(statusCode: Int){{/vendorExtensions.x-is-default}}{{/baseType}}: Route =
-    complete(({{#vendorExtensions.x-is-default}}statusCode{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}, {{#baseType}}response{{baseType}}{{containerType}}{{/baseType}}{{^baseType}}"{{message}}"{{/baseType}}))
+{{#responses}}  def {{operationId}}{{#vendorExtensions.x-is-default}}Default{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}{{#baseType}}({{#vendorExtensions.x-is-default}}statusCode: Int, {{/vendorExtensions.x-is-default}}response{{baseType}}{{containerType}}: {{dataType}}){{^isPrimitiveType}}(implicit toEntityMarshaller{{baseType}}{{containerType}}: ToEntityMarshaller[{{dataType}}]){{/isPrimitiveType}}{{/baseType}}{{^baseType}}{{#vendorExtensions.x-is-default}}(statusCode: Int){{/vendorExtensions.x-is-default}}{{/baseType}}: Route ={{#vendorExtensions.x-empty-response}}
+    complete({{#vendorExtensions.x-is-default}}statusCode{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}StatusCodes.getForKey({{code}}){{/vendorExtensions.x-is-default}}){{/vendorExtensions.x-empty-response}}{{^vendorExtensions.x-empty-response}}
+    complete(({{#vendorExtensions.x-is-default}}statusCode{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}, {{#baseType}}response{{baseType}}{{containerType}}{{/baseType}}{{^baseType}}"{{message}}"{{/baseType}})){{/vendorExtensions.x-empty-response}}
 {{/responses}}
   /**
 {{#responses}}   * {{#code}}Code: {{.}}{{/code}}{{#message}}, Message: {{.}}{{/message}}{{#dataType}}, DataType: {{.}}{{/dataType}}

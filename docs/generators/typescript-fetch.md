@@ -86,6 +86,7 @@ Note to developers supporting a language generator in OpenAPITools: to fully sup
 <li>HTTPHeaders</li>
 <li>HTTPMethod</li>
 <li>HTTPQuery</li>
+<li>Index</li>
 <li>JSONApiResponse</li>
 <li>Middleware</li>
 <li>ModelPropertyNaming</li>
