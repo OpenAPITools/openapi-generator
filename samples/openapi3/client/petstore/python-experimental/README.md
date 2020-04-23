@@ -46,13 +46,19 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 from __future__ import print_function
+import datetime
 import time
 import petstore_api
 from pprint import pprint
 
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
 
-# Defining host is optional and default to http://petstore.swagger.io:80/v2
-configuration.host = "http://petstore.swagger.io:80/v2"
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
