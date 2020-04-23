@@ -346,7 +346,6 @@ COERCION_INDEX_BY_TYPE = {
     date: 10,
     str: 11,
     file_type: 12,   # 'file_type' is an alias for the built-in 'file' or 'io.IOBase' type.
-    object: 13,      # Any type, i.e. the OAS 'type' attribute is not specified in a schema in a OAS document.
 }
 
 # these are used to limit what type conversions we try to do
@@ -397,12 +396,7 @@ COERCIBLE_TYPE_PAIRS = {
         (str, date),
         # (int, str),
         # (float, str),
-        (str, file_type),
-        (dict, object),
-        (list, object),
-        (str, object),
-        (int, object),
-        (float, object),
+        (str, file_type)
     ),
 }
 
@@ -962,8 +956,6 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
                                          configuration, from_server)
             elif valid_class == file_type:
                 return deserialize_file(input_value, configuration)
-            elif valid_class == object:
-                return input_value
             return deserialize_primitive(input_value, valid_class,
                                          path_to_item)
         except (ApiTypeError, ApiValueError, ApiKeyError) as conversion_exc:
