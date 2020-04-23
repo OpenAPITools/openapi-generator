@@ -85,18 +85,18 @@ class FormatTest(ModelNormal):
         },
         ('string',): {
             'regex': {
-                'pattern': br'[a-z]',  # noqa: E501
+                'pattern': r'[a-z]',  # noqa: E501
                 'flags': (re.IGNORECASE)
             },
         },
         ('pattern_with_digits',): {
             'regex': {
-                'pattern': br'^\d{10}$',  # noqa: E501
+                'pattern': r'^\d{10}$',  # noqa: E501
             },
         },
         ('pattern_with_digits_and_delimiter',): {
             'regex': {
-                'pattern': br'^image_\d{1,3}$',  # noqa: E501
+                'pattern': r'^image_\d{1,3}$',  # noqa: E501
                 'flags': (re.IGNORECASE)
             },
         },

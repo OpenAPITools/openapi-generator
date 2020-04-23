@@ -90,7 +90,7 @@ class FormatTest(ModelNormal):
         },
         ('string',): {
             'regex': {
-                'pattern': br'^[a-z]+$',  # noqa: E501
+                'pattern': r'^[a-z]+$',  # noqa: E501
                 'flags': (re.IGNORECASE)
             },
         },
