@@ -63,8 +63,21 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $file = Get-Item "./plus.gif"
             #$Result = Invoke-PSUploadFile -petId $Id -additionalMetadata "Additional data" -File $file
 
+            # modify and update
+            #
+            $NewPet = $Result["response"]
+
+            $NewPet."id" = $NewPet."id" + 1
+            $NewPet."name" = $NewPet."name" + "PowerShell Modify"
+
+            $Result = Update-PSPet -Pet $NewPet
+            $Result = Get-PSPetById -petId $NewPet."id" -WithHttpInfo
+            $Result["Response"]."id" | Should Be $NewPet."id"
+            $Result["Response"]."name" | Should Be $NewPet."name"
+
             # Delete
             $Result = Remove-Pet -petId $Id
+            $Result = Remove-Pet -petId $NewPet."id"
 
         }
 
@@ -133,8 +146,8 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             Get-PSUrlFromHostSetting -Index 0 | Should Be "http://petstore.swagger.io:80/v2"
             Get-PSUrlFromHostSetting -Index 0 -Variables @{ "port" = "8080" } | Should Be "http://petstore.swagger.io:8080/v2" 
             #Get-PSUrlFromHostSetting -Index 2 | Should -Throw -ExceptionType ([RuntimeException]) 
-            #Get-PSUrlFromHostSetting -Index 2 | Should -Throw # "Invalid index 2 when selecting the host. Must be less than 2"
-            #Get-PSUrlFromHostSetting -Index 0 -Variables @{ "port" = "1234" } | Should Throw "The variable 'port' in the host URL has invalid value 1234. Must be 80,8080"
+            #Get-PSUrlFromHostSetting -Index 2 -ErrorAction Stop | Should -Throw "RuntimeException: Invalid index 2 when selecting the host. Must be less than 2"
+            #Get-PSUrlFromHostSetting -Index 0 -Variables @{ "port" = "1234" } -ErrorAction Stop | Should -Throw "RuntimeException: The variable 'port' in the host URL has invalid value 1234. Must be 80,8080"
 
         }
 

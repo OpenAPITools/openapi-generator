@@ -119,9 +119,15 @@ namespace Example
             {{#hasAuthMethods}}
             {{#authMethods}}
             {{#isBasic}}
+            {{#isBasicBasic}}
             // Configure HTTP basic authorization: {{{name}}}
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // Configure HTTP bearer authorization: {{{name}}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            {{/isBasicBearer}}
             {{/isBasic}}
             {{#isApiKey}}
             // Configure API key authorization: {{{name}}}
@@ -205,8 +211,14 @@ Authentication schemes defined for the API:
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
 {{#isBasic}}
+{{#isBasicBasic}}
 
 - **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+
+- **Type**: HTTP bearer authentication
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
 

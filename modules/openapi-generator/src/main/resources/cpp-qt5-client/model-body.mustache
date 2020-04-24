@@ -120,6 +120,14 @@ void {{classname}}::{{setter}}(const {{{dataType}}} &{{name}}) {
     this->m_{{name}}_isSet = true;
 }
 
+bool {{classname}}::is_{{name}}_Set() const{
+    return m_{{name}}_isSet;
+}
+
+bool {{classname}}::is_{{name}}_Valid() const{
+    return m_{{name}}_isValid;
+}
+
 {{/vars}}{{/isEnum}}{{#isEnum}}
 {{classname}}::e{{classname}} {{classname}}::getValue() const {
     return m_value;

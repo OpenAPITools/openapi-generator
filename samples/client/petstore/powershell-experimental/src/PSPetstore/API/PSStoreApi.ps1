@@ -153,6 +153,10 @@ No description available.
 .PARAMETER OrderId
 ID of pet that needs to be fetched
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -167,6 +171,9 @@ function Get-PSOrderById {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [Int64]
         ${OrderId},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -187,6 +194,11 @@ function Get-PSOrderById {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/store/order/{orderId}'
         if (!$OrderId) {
@@ -225,6 +237,10 @@ No description available.
 .PARAMETER Order
 order placed for purchasing the pet
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -239,6 +255,9 @@ function Invoke-PSPlaceOrder {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [PSCustomObject]
         ${Order},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -259,6 +278,11 @@ function Invoke-PSPlaceOrder {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         # HTTP header 'Content-Type'
         $LocalVarContentTypes = @('application/json')

@@ -251,7 +251,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
             param.dataType = "String";
         }
         if (!param.required) {
-            param.vendorExtensions.put("hasDefaultValue", param.defaultValue != null);
+            param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
             // Escaping default string values
             if (param.defaultValue != null && param.dataType.equals("String")) {
                 param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
@@ -324,7 +324,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         }
         pathMatchers.getLast().hasMore = false;
 
-        codegenOperation.vendorExtensions.put("paths", pathMatchers);
+        codegenOperation.vendorExtensions.put("x-paths", pathMatchers);
     }
 
     public static String PATH_MATCHER_PATTERNS_KEY = "pathMatcherPatterns";
@@ -409,11 +409,12 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         entityMarshallerTypes.add(marshaller);
                         operationSpecificMarshallers.add(marshaller);
                     }
-                    response.vendorExtensions.put("isDefault", response.code.equals("0"));
+                    response.vendorExtensions.put("x-empty-response", response.baseType == null && response.message == null);
+                    response.vendorExtensions.put("x-is-default", response.code.equals("0"));
                 }
-                op.vendorExtensions.put("specificMarshallers", operationSpecificMarshallers);
-                op.vendorExtensions.put("fileParams", fileParams);
-                op.vendorExtensions.put("nonFileParams", nonFileParams);
+                op.vendorExtensions.put("x-specific-marshallers", operationSpecificMarshallers);
+                op.vendorExtensions.put("x-file-params", fileParams);
+                op.vendorExtensions.put("x-non-file-params", nonFileParams);
             }
         }
 

@@ -102,7 +102,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         return modifiedRequest
     }
 
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let urlSessionId:String = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
@@ -180,7 +180,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
     }
     
-    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
 
         if let error = error {
             completion(.failure(ErrorResponse.error(-1, data, error)))
@@ -312,7 +312,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class URLSessionDecodableRequestBuilder<T:Decodable>: URLSessionRequestBuilder<T> {
-    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
 
         if let error = error {
             completion(.failure(ErrorResponse.error(-1, data, error)))
