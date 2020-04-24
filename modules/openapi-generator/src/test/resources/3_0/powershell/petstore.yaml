@@ -689,6 +689,7 @@ components:
           type: string
         password:
           type: string
+          pattern: '["A-Z]+-[0-9][0-9]'
         phone:
           type: string
         userStatus:

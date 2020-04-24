@@ -43,7 +43,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <version>3.0.0-M3</version>
                 <executions>
                     <execution>
                         <id>enforce-maven</id>
@@ -53,7 +53,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>2.2.0</version>
+                                    <version>3.0.5</version>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
@@ -63,7 +63,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12</version>
+                <version>2.22.2</version>
                 <configuration>
                     <systemProperties>
                         <property>
@@ -71,9 +71,8 @@
                             <value>conf/log4j.properties</value>
                         </property>
                     </systemProperties>
-                    <argLine>-Xms512m -Xmx1500m</argLine>
-                    <parallel>methods</parallel>
-                    <forkMode>pertest</forkMode>
+                    <reuseForks>false</reuseForks>
+                    <forkCount>1C</forkCount>
                 </configuration>
             </plugin>
             <plugin>
@@ -111,6 +110,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>add_sources</id>
@@ -141,7 +141,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -150,7 +150,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.2.0</version>
                 <configuration>
                     <doclint>none</doclint>
                 </configuration>
@@ -166,7 +166,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -187,7 +187,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -203,6 +203,20 @@
         </profile>
     </profiles>
 
+    {{#jackson}}
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    {{/jackson}}
+
     <dependencies>
         <dependency>
             <groupId>io.swagger</groupId>
@@ -215,6 +229,14 @@
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
+        {{^hideGenerationTimestamp}}
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+            <scope>provided</scope>
+        </dependency>
+        {{/hideGenerationTimestamp}}
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -253,17 +275,14 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -274,21 +293,18 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
-            <version>${jackson-version}</version>
         </dependency>
         {{/withXml}}
         {{#joda}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
-            <version>${jackson-version}</version>
         </dependency>
         {{/joda}}
         {{#java8}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson-version}</version>
         </dependency>
         {{/java8}}
         {{#threetenbp}}
@@ -304,6 +320,23 @@
             <artifactId>okio</artifactId>
             <version>${okio-version}</version>
         </dependency>
+        {{#useBeanValidation}}
+        <!-- Bean Validation API support -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        {{/useBeanValidation}}
+        {{#performBeanValidation}}
+        <!-- Bean Validation Impl. used to perform BeanValidation -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.19.Final</version>
+        </dependency>
+        {{/performBeanValidation}}
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -315,25 +348,23 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <rest-assured.version>4.0.0</rest-assured.version>
-        <gson-version>2.8.5</gson-version>
-        <gson-fire-version>1.8.3</gson-fire-version>
-        <maven-plugin-version>1.0.0</maven-plugin-version>
+        <rest-assured.version>4.3.0</rest-assured.version>
+        <gson-version>2.8.6</gson-version>
+        <gson-fire-version>1.8.4</gson-fire-version>
         {{#joda}}
-        <jodatime-version>2.9.9</jodatime-version>
+        <jodatime-version>2.10.5</jodatime-version>
         {{/joda}}
         {{#threetenbp}}
-        <threetenbp-version>1.4.0</threetenbp-version>
+        <threetenbp-version>1.4.3</threetenbp-version>
         {{/threetenbp}}
         {{#jackson}}
-        <jackson-version>2.10.1</jackson-version>
-        <jackson-databind-version>2.9.10</jackson-databind-version>
+        <jackson-version>2.10.3</jackson-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         {{#threetenbp}}
-        <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
+        <jackson-threetenbp-version>2.10.0</jackson-threetenbp-version>
         {{/threetenbp}}
         {{/jackson}}
-        <okio-version>1.13.0</okio-version>
+        <okio-version>1.17.5</okio-version>
         <junit-version>4.13</junit-version>
     </properties>
 </project>

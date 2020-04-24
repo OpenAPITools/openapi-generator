@@ -10,11 +10,11 @@
 
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
-{{#vars}}
+{{#allVars}}
 .PARAMETER {{{name}}}
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
-{{/vars}}
+{{/allVars}}
 .OUTPUTS
 
 {{{classname}}}<PSCustomObject>
@@ -23,24 +23,80 @@
 function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     [CmdletBinding()]
     Param (
-{{#vars}}
-        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
+{{#allVars}}
+        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true)]
+        {{#pattern}}
+        [ValidatePattern("{{{.}}}")]
+        {{/pattern}}
+        {{#isEnum}}
+        {{#allowableValues}}
+        [ValidateSet({{#values}}"{{{.}}}"{{^-last}}, {{/-last}}{{/values}})]
+        {{/allowableValues}}
+        {{/isEnum}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%^-last%>,<%/-last%>
         <%={{ }}=%>
-{{/vars}}
+{{/allVars}}
     )
 
     Process {
         'Creating PSCustomObject: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+        {{#vars}}
+        {{^isNullable}}
+        {{#required}}
+        if (!${{{name}}}) {
+            throw "invalid value for '{{{name}}}', '{{{name}}}' cannot be null."
+        }
+
+        {{/required}}
+        {{/isNullable}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -gt {{{maxLength}}}) {
+            throw "invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}."
+        }
+
+        {{/maxLength}}
+        {{#minLength}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -lt {{{minLength}}}) {
+            throw "invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}."
+        }
+
+        {{/minLength}}
+        {{#maximum}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
+          throw "invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}."
+        }
+
+        {{/maximum}}
+        {{#minimum}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
+          throw "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
+        }
+
+        {{/minimum}}
+        {{#maxItems}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -gt {{{maxItems}}}) {
+            throw "invalid value for '{{{name}}}', number of items must be less than or equal to {{{maxItems}}}."
+        }
+
+        {{/maxItems}}
+        {{#minItems}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -lt {{{minItems}}}) {
+            throw "invalid value for '{{{name}}}', number of items must be greater than or equal to {{{minItems}}}."
+        }
+
+        {{/minItems}}
+        {{/hasValidation}}
+        {{/vars}}
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
-            <<#vars>>
+            <<#allVars>>
             "<<baseName>>" = ${<<name>>}
-            <</vars>>
+            <</allVars>>
             <<={{ }}=>>
         }
 

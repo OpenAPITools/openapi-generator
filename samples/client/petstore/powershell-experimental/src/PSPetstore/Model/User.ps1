@@ -62,6 +62,7 @@ function Initialize-PSUser {
         [String]
         ${Email},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
+        [ValidatePattern("[""A-Z]+-[0-9][0-9]")]
         [String]
         ${Password},
         [Parameter(Position = 6, ValueFromPipelineByPropertyName = $true)]
