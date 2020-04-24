@@ -1,12 +1,12 @@
 ```python
 from __future__ import print_function
+{{#apiInfo}}{{#apis}}{{^hasMore}}{{#hasHttpSignatureMethods}}import datetime{{/hasHttpSignatureMethods}}{{/hasMore}}{{/apis}}{{/apiInfo}}
 import time
 import {{{packageName}}}
 from pprint import pprint
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 {{> python_doc_auth_partial}}
-# Defining host is optional and default to {{{basePath}}}
-configuration.host = "{{{basePath}}}"
+
 # Enter a context with an instance of the API client
 with {{{packageName}}}.ApiClient(configuration) as api_client:
     # Create an instance of the API class
