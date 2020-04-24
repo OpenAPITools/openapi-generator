@@ -44,6 +44,7 @@ class TestFormatTest(unittest.TestCase):
                 double = 67.8,
                 string = 'a',
                 byte = 'YQ==',
+                binary = 'bytes',
                 date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
                 date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 uuid = '72f98069-206d-4f12-9f12-3d1e525a8e84',
