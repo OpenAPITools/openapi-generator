@@ -37,6 +37,7 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * Describes the result of uploading an image resource
  **/
+
 public class ModelApiResponse  {
   
   private Integer code;

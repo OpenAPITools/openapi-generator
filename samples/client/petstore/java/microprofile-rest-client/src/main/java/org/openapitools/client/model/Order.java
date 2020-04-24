@@ -38,6 +38,7 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * An order for a pets from the pet store
  **/
+
 public class Order  {
   
   private Long id;

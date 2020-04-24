@@ -37,6 +37,7 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * A category for a pet
  **/
+
 public class Category  {
   
   private Long id;

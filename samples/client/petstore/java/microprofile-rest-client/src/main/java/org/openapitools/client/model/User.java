@@ -37,6 +37,7 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * A User who is purchasing from the pet store
  **/
+
 public class User  {
   
   private Long id;
