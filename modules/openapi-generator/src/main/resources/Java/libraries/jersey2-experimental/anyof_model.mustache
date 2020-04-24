@@ -1,0 +1,28 @@
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+
+    // store a list of schema names defined in anyOf
+    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+
+    public {{classname}}() {
+        super("anyOf");
+    }
+
+    static {
+        {{#anyOf}}
+        schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
+        });
+        {{/anyOf}}
+    }
+
+    @Override
+    public Map<String, GenericType> getSchemas() {
+        return {{classname}}.schemas;
+    }
+}
