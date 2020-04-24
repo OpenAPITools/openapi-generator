@@ -9,16 +9,6 @@ sidebar_label: bash
 |apiKeyAuthEnvironmentVariable|Name of environment variable where API key can be defined (e.g. PETSTORE_APIKEY='kjhasdGASDa5asdASD')| |false|
 |basicAuthEnvironmentVariable|Name of environment variable where username and password can be defined (e.g. PETSTORE_CREDS='username:password')| |null|
 |curlOptions|Default cURL options| |null|
-|discriminatorExplicitMappingVerbose|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName.
-
-When this flag is set to true:
-
-- The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document.
-- Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.
-When this flag is set to false:
-
-- The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.
-Note to developers supporting a language generator in OpenAPITools: to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |generateBashCompletion|Whether to generate the Bash completion script| |false|
 |generateZshCompletion|Whether to generate the Zsh completion script| |false|
