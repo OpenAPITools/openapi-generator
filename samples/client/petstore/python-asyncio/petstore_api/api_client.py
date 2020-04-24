@@ -184,7 +184,7 @@ class ApiClient(object):
                 post_params=post_params, body=body,
                 _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
-        catch ApiException as e:
+        except ApiException as e:
             e.body = e.body.decode('utf-8') if six.PY3 else e.body
             raise e
 
