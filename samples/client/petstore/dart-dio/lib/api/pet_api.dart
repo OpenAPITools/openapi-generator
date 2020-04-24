@@ -121,7 +121,7 @@ class PetApi {
             ).then((response) {
 
                 final FullType type = const FullType(BuiltList, const [const FullType(Pet)]);
-                BuiltList<Pet> dataList = _serializers.deserialize(jsonDecode(response.data), specifiedType: type);
+                BuiltList<Pet> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
                 var data = dataList.toList();
 
             return Response<List<Pet>>(
@@ -170,7 +170,7 @@ class PetApi {
             ).then((response) {
 
                 final FullType type = const FullType(BuiltList, const [const FullType(Pet)]);
-                BuiltList<Pet> dataList = _serializers.deserialize(jsonDecode(response.data), specifiedType: type);
+                BuiltList<Pet> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
                 var data = dataList.toList();
 
             return Response<List<Pet>>(
@@ -218,7 +218,7 @@ class PetApi {
             ).then((response) {
 
         var serializer = _serializers.serializerForType(Pet);
-        var data = _serializers.deserializeWith<Pet>(serializer, jsonDecode(response.data));
+        var data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<Pet>(
                 data: data,
@@ -344,7 +344,7 @@ class PetApi {
             ).then((response) {
 
         var serializer = _serializers.serializerForType(ApiResponse);
-        var data = _serializers.deserializeWith<ApiResponse>(serializer, jsonDecode(response.data));
+        var data = _serializers.deserializeWith<ApiResponse>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<ApiResponse>(
                 data: data,

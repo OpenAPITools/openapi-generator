@@ -80,7 +80,7 @@ class StoreApi {
             ).then((response) {
 
         var serializer = _serializers.serializerForType(Map<String, int>);
-        var data = _serializers.deserializeWith<Map<String, int>>(serializer, jsonDecode(response.data));
+        var data = _serializers.deserializeWith<Map<String, int>>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<Map<String, int>>(
                 data: data,
@@ -127,7 +127,7 @@ class StoreApi {
             ).then((response) {
 
         var serializer = _serializers.serializerForType(Order);
-        var data = _serializers.deserializeWith<Order>(serializer, jsonDecode(response.data));
+        var data = _serializers.deserializeWith<Order>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<Order>(
                 data: data,
@@ -177,7 +177,7 @@ class StoreApi {
             ).then((response) {
 
         var serializer = _serializers.serializerForType(Order);
-        var data = _serializers.deserializeWith<Order>(serializer, jsonDecode(response.data));
+        var data = _serializers.deserializeWith<Order>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<Order>(
                 data: data,

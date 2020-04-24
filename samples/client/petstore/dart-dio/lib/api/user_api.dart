@@ -190,7 +190,7 @@ class UserApi {
             ).then((response) {
 
         var serializer = _serializers.serializerForType(User);
-        var data = _serializers.deserializeWith<User>(serializer, jsonDecode(response.data));
+        var data = _serializers.deserializeWith<User>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<User>(
                 data: data,
@@ -239,7 +239,7 @@ class UserApi {
             ).then((response) {
 
         var serializer = _serializers.serializerForType(String);
-        var data = _serializers.deserializeWith<String>(serializer, jsonDecode(response.data));
+        var data = _serializers.deserializeWith<String>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<String>(
                 data: data,

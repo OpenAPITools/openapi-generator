@@ -88,12 +88,12 @@ class {{classname}} {
 
         {{#isListContainer}}
                 final FullType type = const FullType(BuiltList, const [const FullType({{returnBaseType}})]);
-                BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(jsonDecode(response.data), specifiedType: type);
+                BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
                 var data = dataList.toList();
         {{/isListContainer}}
         {{^isListContainer}}
         var serializer = _serializers.serializerForType({{{returnType}}});
-        var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, jsonDecode(response.data));
+        var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
         {{/isListContainer}}
 
             return Response<{{{returnType}}}>(
