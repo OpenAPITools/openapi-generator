@@ -111,6 +111,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
+
         super.processOpts();
 
         supportingFiles.remove(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));

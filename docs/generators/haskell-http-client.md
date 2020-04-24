@@ -24,6 +24,16 @@ sidebar_label: haskell-http-client
 |generateModelConstructors|Generate smart constructors (only supply required fields) for models| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |inlineMimeTypes|Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option| |true|
+|legacyDiscriminatorBehavior|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName.
+
+When this flag is set to false:
+
+- The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document.
+- Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.
+When this flag is set to true:
+
+- The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.
+Note to developers supporting a language generator in OpenAPITools: to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.| |true|
 |modelDeriving|Additional classes to include in the deriving() clause of Models| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |requestType|Set the name of the type used to generate requests| |null|
