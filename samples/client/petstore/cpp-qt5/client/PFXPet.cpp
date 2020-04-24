@@ -118,12 +118,28 @@ void PFXPet::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool PFXPet::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool PFXPet::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 PFXCategory PFXPet::getCategory() const {
     return category;
 }
 void PFXPet::setCategory(const PFXCategory &category) {
     this->category = category;
     this->m_category_isSet = true;
+}
+
+bool PFXPet::is_category_Set() const{
+    return m_category_isSet;
+}
+
+bool PFXPet::is_category_Valid() const{
+    return m_category_isValid;
 }
 
 QString PFXPet::getName() const {
@@ -134,12 +150,28 @@ void PFXPet::setName(const QString &name) {
     this->m_name_isSet = true;
 }
 
+bool PFXPet::is_name_Set() const{
+    return m_name_isSet;
+}
+
+bool PFXPet::is_name_Valid() const{
+    return m_name_isValid;
+}
+
 QList<QString> PFXPet::getPhotoUrls() const {
     return photo_urls;
 }
 void PFXPet::setPhotoUrls(const QList<QString> &photo_urls) {
     this->photo_urls = photo_urls;
     this->m_photo_urls_isSet = true;
+}
+
+bool PFXPet::is_photo_urls_Set() const{
+    return m_photo_urls_isSet;
+}
+
+bool PFXPet::is_photo_urls_Valid() const{
+    return m_photo_urls_isValid;
 }
 
 QList<PFXTag> PFXPet::getTags() const {
@@ -150,12 +182,28 @@ void PFXPet::setTags(const QList<PFXTag> &tags) {
     this->m_tags_isSet = true;
 }
 
+bool PFXPet::is_tags_Set() const{
+    return m_tags_isSet;
+}
+
+bool PFXPet::is_tags_Valid() const{
+    return m_tags_isValid;
+}
+
 QString PFXPet::getStatus() const {
     return status;
 }
 void PFXPet::setStatus(const QString &status) {
     this->status = status;
     this->m_status_isSet = true;
+}
+
+bool PFXPet::is_status_Set() const{
+    return m_status_isSet;
+}
+
+bool PFXPet::is_status_Valid() const{
+    return m_status_isValid;
 }
 
 bool PFXPet::isSet() const {

@@ -82,12 +82,28 @@ void PFXTag::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool PFXTag::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool PFXTag::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 QString PFXTag::getName() const {
     return name;
 }
 void PFXTag::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
+}
+
+bool PFXTag::is_name_Set() const{
+    return m_name_isSet;
+}
+
+bool PFXTag::is_name_Valid() const{
+    return m_name_isValid;
 }
 
 bool PFXTag::isSet() const {

@@ -64,10 +64,12 @@ class Configuration(object):
             name: JSESSIONID  # cookie name
 
     You can programmatically set the cookie:
-      conf = petstore_api.Configuration(
-        api_key={'cookieAuth': 'abc123'}
-        api_key_prefix={'cookieAuth': 'JSESSIONID'}
-      )
+
+conf = petstore_api.Configuration(
+    api_key={'cookieAuth': 'abc123'}
+    api_key_prefix={'cookieAuth': 'JSESSIONID'}
+)
+
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
 
@@ -80,10 +82,12 @@ class Configuration(object):
             scheme: basic
 
     Configure API client with HTTP basic authentication:
-      conf = petstore_api.Configuration(
-          username='the-user',
-          password='the-password',
-      )
+
+conf = petstore_api.Configuration(
+    username='the-user',
+    password='the-password',
+)
+
 
     HTTP Signature Authentication Example.
     Given the following security scheme in the OpenAPI specification:
@@ -105,24 +109,24 @@ class Configuration(object):
     load balancers may add/modify/remove headers. Include the HTTP headers that you know
     are not going to be modified in transit.
 
-      conf = petstore_api.Configuration(
-        signing_info = petstore_api.signing.HttpSigningConfiguration(
-            key_id =                 'my-key-id',
-            private_key_path =       'rsa.pem',
-            signing_scheme =         signing.SCHEME_HS2019,
-            signing_algorithm =      signing.ALGORITHM_RSASSA_PSS,
-            signed_headers =         [signing.HEADER_REQUEST_TARGET,
-                                      signing.HEADER_CREATED,
-                                      signing.HEADER_EXPIRES,
-                                      signing.HEADER_HOST,
-                                      signing.HEADER_DATE,
-                                      signing.HEADER_DIGEST,
-                                      'Content-Type',
-                                      'User-Agent'
-                                     ],
-            signature_max_validity = datetime.timedelta(minutes=5)
-        )
-      )
+conf = petstore_api.Configuration(
+    signing_info = petstore_api.signing.HttpSigningConfiguration(
+        key_id =                 'my-key-id',
+        private_key_path =       'rsa.pem',
+        signing_scheme =         petstore_api.signing.SCHEME_HS2019,
+        signing_algorithm =      petstore_api.signing.ALGORITHM_RSASSA_PSS,
+        signed_headers =         [petstore_api.signing.HEADER_REQUEST_TARGET,
+                                    petstore_api.signing.HEADER_CREATED,
+                                    petstore_api.signing.HEADER_EXPIRES,
+                                    petstore_api.signing.HEADER_HOST,
+                                    petstore_api.signing.HEADER_DATE,
+                                    petstore_api.signing.HEADER_DIGEST,
+                                    'Content-Type',
+                                    'User-Agent'
+                                    ],
+        signature_max_validity = datetime.timedelta(minutes=5)
+    )
+)
     """
 
     _default = None
@@ -245,6 +249,13 @@ class Configuration(object):
         result.logger_file = self.logger_file
         result.debug = self.debug
         return result
+
+    def __setattr__(self, name, value):
+        object.__setattr__(self, name, value)
+        if name == "signing_info" and value is not None:
+            # Ensure the host paramater from signing info is the same as
+            # Configuration.host.
+            value.host = self.host
 
     @classmethod
     def set_default(cls, default):

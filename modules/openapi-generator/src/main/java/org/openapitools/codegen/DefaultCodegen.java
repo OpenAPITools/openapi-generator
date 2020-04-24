@@ -215,8 +215,8 @@ public class DefaultCodegen implements CodegenConfig {
     // flag to indicate whether enum value prefixes are removed
     protected boolean removeEnumValuePrefix = true;
 
-    // flag to turn on explicit discriminators with verbose mappings
-    protected boolean discriminatorExplicitMappingVerbose = false;
+    // Support legacy logic for evaluating discriminators
+    protected boolean legacyDiscriminatorBehavior = true;
 
     // make openapi available to all methods
     protected OpenAPI openAPI;
@@ -310,9 +310,9 @@ public class DefaultCodegen implements CodegenConfig {
                     .get(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX).toString()));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE)) {
-            this.setDiscriminatorExplicitMappingVerbose(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE).toString()));
+        if (additionalProperties.containsKey(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR)) {
+            this.setLegacyDiscriminatorBehavior(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR).toString()));
         }
     }
 
@@ -1118,12 +1118,12 @@ public class DefaultCodegen implements CodegenConfig {
         this.ensureUniqueParams = ensureUniqueParams;
     }
 
-    public Boolean getDiscriminatorExplicitMappingVerbose() {
-        return discriminatorExplicitMappingVerbose;
+    public Boolean getLegacyDiscriminatorBehavior() {
+        return legacyDiscriminatorBehavior;
     }
 
-    public void setDiscriminatorExplicitMappingVerbose(boolean val){
-        this.discriminatorExplicitMappingVerbose = val;
+    public void setLegacyDiscriminatorBehavior(boolean val){
+        this.legacyDiscriminatorBehavior = val;
     }
 
     public Boolean getAllowUnicodeIdentifiers() {
@@ -1440,8 +1440,8 @@ public class DefaultCodegen implements CodegenConfig {
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC).defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE,
-                CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE_DESC).defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR,
+                CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString()));
 
 
         // initialize special character mapping
@@ -1857,7 +1857,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the name of the oneOf schema
+     * Return the name of the oneOf schema.
+     *
+     * This name is used to set the value of CodegenProperty.openApiType.
+     *
+     * If the 'x-one-of-name' extension is specified in the OAS document, return that value.
+     * Otherwise, a name is constructed by creating a comma-separated list of all the names
+     * of the oneOf schemas.
      *
      * @param names          List of names
      * @param composedSchema composed schema
@@ -1866,8 +1872,8 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
         Map<String, Object> exts = composedSchema.getExtensions();
-        if (exts != null && exts.containsKey("x-oneOf-name")) {
-            return (String) exts.get("x-oneOf-name");
+        if (exts != null && exts.containsKey("x-one-of-name")) {
+            return (String) exts.get("x-one-of-name");
         }
         return "oneOf<" + String.join(",", names) + ">";
     }
@@ -2136,7 +2142,7 @@ public class DefaultCodegen implements CodegenConfig {
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.discriminator = createDiscriminator(name, schema, this.openAPI);
-        if (this.getDiscriminatorExplicitMappingVerbose()) {
+        if (!this.getLegacyDiscriminatorBehavior()) {
             m.addDiscriminatorMappedModelsImports();
         }
 
@@ -2185,7 +2191,7 @@ public class DefaultCodegen implements CodegenConfig {
                         if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
                             m.discriminator = createDiscriminator(name, innerSchema, this.openAPI);
-                            if (this.getDiscriminatorExplicitMappingVerbose()) {
+                            if (!this.getLegacyDiscriminatorBehavior()) {
                                 m.addDiscriminatorMappedModelsImports();
                             }
                             modelDiscriminators++;
@@ -2216,9 +2222,33 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces = new ArrayList<String>();
 
                 for (Schema interfaceSchema : interfaces) {
+                    interfaceSchema = ModelUtils.unaliasSchema(this.openAPI, interfaceSchema, importMapping);
+
                     if (StringUtils.isBlank(interfaceSchema.get$ref())) {
+                        // primitive type
+                        String languageType = getTypeDeclaration(interfaceSchema);
+
+                        if (composed.getAnyOf() != null) {
+                            if (m.anyOf.contains(languageType)) {
+                                LOGGER.warn("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
+                            } else {
+                                m.anyOf.add(languageType);
+                            }
+                        } else if (composed.getOneOf() != null) {
+                            if (m.oneOf.contains(languageType)) {
+                                LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
+                            } else {
+                                m.oneOf.add(languageType);
+                            }
+                        } else if (composed.getAllOf() != null) {
+                            // no need to add primitive type to allOf, which should comprise of schemas (models) only
+                        } else {
+                            LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
+                        }
                         continue;
                     }
+
+                    // the rest of the section is for model
                     Schema refSchema = null;
                     String ref = ModelUtils.getSimpleRef(interfaceSchema.get$ref());
                     if (allDefinitions != null) {
@@ -2476,7 +2506,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (foundDisc != null) {
             return foundDisc;
         }
-        if (!this.getDiscriminatorExplicitMappingVerbose()) {
+        if (!!this.getLegacyDiscriminatorBehavior()) {
             return null;
         }
         Discriminator disc = new Discriminator();
@@ -2702,8 +2732,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        boolean legacyUseCase = (!this.getDiscriminatorExplicitMappingVerbose() && uniqueDescendants.isEmpty());
-        if (this.getDiscriminatorExplicitMappingVerbose() || legacyUseCase) {
+        boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
+        if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
             List<MappedModel> otherDescendants = getAllOfDescendants(schemaName, openAPI);
             for (MappedModel otherDescendant: otherDescendants) {
@@ -2713,7 +2743,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
-        if (ModelUtils.isComposedSchema(schema) && this.getDiscriminatorExplicitMappingVerbose()) {
+        if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
             List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema, openAPI);
             for (MappedModel otherDescendant: otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {
@@ -2721,7 +2751,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-        if (this.getDiscriminatorExplicitMappingVerbose()) {
+        if (!this.getLegacyDiscriminatorBehavior()) {
             Collections.sort(uniqueDescendants);
         }
         discriminator.getMappedModels().addAll(uniqueDescendants);
@@ -6144,14 +6174,14 @@ public class DefaultCodegen implements CodegenConfig {
     //// Following methods are related to the "useOneOfInterfaces" feature
 
     /**
-     * Add "x-oneOf-name" extension to a given oneOf schema (assuming it has at least 1 oneOf elements)
+     * Add "x-one-of-name" extension to a given oneOf schema (assuming it has at least 1 oneOf elements)
      *
      * @param s    schema to add the extension to
      * @param name name of the parent oneOf schema
      */
     public void addOneOfNameExtension(ComposedSchema s, String name) {
         if (s.getOneOf() != null && s.getOneOf().size() > 0) {
-            s.addExtension("x-oneOf-name", name);
+            s.addExtension("x-one-of-name", name);
         }
     }
 
@@ -6170,7 +6200,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenModel cm = new CodegenModel();
 
         cm.discriminator = createDiscriminator("", (Schema) cs, openAPI);
-        if (this.getDiscriminatorExplicitMappingVerbose()) {
+        if (!this.getLegacyDiscriminatorBehavior()) {
             cm.addDiscriminatorMappedModelsImports();
         }
         for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {

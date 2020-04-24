@@ -62,10 +62,12 @@ class Configuration(object):
             name: JSESSIONID  # cookie name
 
     You can programmatically set the cookie:
-      conf = petstore_api.Configuration(
-        api_key={'cookieAuth': 'abc123'}
-        api_key_prefix={'cookieAuth': 'JSESSIONID'}
-      )
+
+conf = petstore_api.Configuration(
+    api_key={'cookieAuth': 'abc123'}
+    api_key_prefix={'cookieAuth': 'JSESSIONID'}
+)
+
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
 
@@ -78,10 +80,12 @@ class Configuration(object):
             scheme: basic
 
     Configure API client with HTTP basic authentication:
-      conf = petstore_api.Configuration(
-          username='the-user',
-          password='the-password',
-      )
+
+conf = petstore_api.Configuration(
+    username='the-user',
+    password='the-password',
+)
+
     """
 
     _default = None
@@ -198,6 +202,9 @@ class Configuration(object):
         result.logger_file = self.logger_file
         result.debug = self.debug
         return result
+
+    def __setattr__(self, name, value):
+        object.__setattr__(self, name, value)
 
     @classmethod
     def set_default(cls, default):
