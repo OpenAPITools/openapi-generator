@@ -30,11 +30,6 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
-    from petstore_api.models import bool, date, datetime, dict, float, int, list, str
-except ImportError:
-    bool, date, datetime, dict, float, int, list, str = sys.modules[
-        'petstore_api.models.bool, date, datetime, dict, float, int, list, str']
-try:
     from petstore_api.models import child_cat
 except ImportError:
     child_cat = sys.modules[
@@ -203,7 +198,6 @@ class ParentPet(ModelComposed):
           'anyOf': [
           ],
           'allOf': [
-              bool, date, datetime, dict, float, int, list, str,
               grandparent_animal.GrandparentAnimal,
           ],
           'oneOf': [

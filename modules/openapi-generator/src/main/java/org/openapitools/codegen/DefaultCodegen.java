@@ -2205,7 +2205,7 @@ public class DefaultCodegen implements CodegenConfig {
                                 m.oneOf.add(languageType);
                             }
                         } else if (composed.getAllOf() != null) {
-                            m.allOf.add(languageType);
+                            // no need to add primitive type to allOf, which should comprise of schemas (models) only
                         } else {
                             LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
                         }
