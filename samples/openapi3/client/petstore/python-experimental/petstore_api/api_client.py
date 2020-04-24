@@ -15,6 +15,7 @@ import atexit
 import mimetypes
 from multiprocessing.pool import ThreadPool
 import os
+import re
 
 # python 2 and python 3 compatibility library
 import six
