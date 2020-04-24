@@ -303,8 +303,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = ECAB17FF35111B5E14DAAC08 /* Build configuration list for PBXProject "PetstoreClient" */;
 			compatibilityVersion = "Xcode 10.0";
