@@ -209,7 +209,6 @@ class ApiClient(object):
         else:
             return_data = None
 
-
         if _return_http_data_only:
             return (return_data)
         else:

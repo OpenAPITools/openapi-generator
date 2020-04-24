@@ -211,7 +211,6 @@ class ApiClient(object):
         else:
             return_data = None
 
-
         if _return_http_data_only:
             raise tornado.gen.Return(return_data)
         else:
