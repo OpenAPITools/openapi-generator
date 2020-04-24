@@ -41,6 +41,9 @@ class UserApi {
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -75,6 +78,9 @@ class UserApi {
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -109,6 +115,9 @@ class UserApi {
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -139,6 +148,9 @@ class UserApi {
             options: Options(
             method: 'delete'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -169,13 +181,16 @@ class UserApi {
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
             ).then((response) {
 
         var serializer = _serializers.serializerForType(User);
-        var data = _serializers.deserializeWith<User>(serializer, response.data);
+        var data = _serializers.deserializeWith<User>(serializer, jsonDecode(response.data));
 
             return Response<User>(
                 data: data,
@@ -215,13 +230,16 @@ class UserApi {
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
             ).then((response) {
 
         var serializer = _serializers.serializerForType(String);
-        var data = _serializers.deserializeWith<String>(serializer, response.data);
+        var data = _serializers.deserializeWith<String>(serializer, jsonDecode(response.data));
 
             return Response<String>(
                 data: data,
@@ -259,6 +277,9 @@ class UserApi {
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -292,6 +313,9 @@ class UserApi {
             options: Options(
             method: 'put'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
