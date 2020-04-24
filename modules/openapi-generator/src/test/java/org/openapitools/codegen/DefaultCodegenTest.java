@@ -611,15 +611,23 @@ public class DefaultCodegenTest {
 
         codegen.setOpenAPI(openAPI);
 
+        // to test allOf with double refs
         Schema supermanSchema = openAPI.getComponents().getSchemas().get("SuperMan");
         CodegenModel supermanModel = codegen.fromModel("SuperMan", supermanSchema);
         Assert.assertEquals(supermanModel.parent, null);
         Assert.assertEquals(supermanModel.allParents, null);
 
+        // to test allOf with single ref
         Schema superboySchema = openAPI.getComponents().getSchemas().get("SuperBoy");
         CodegenModel superboyModel = codegen.fromModel("SuperBoy", superboySchema);
         Assert.assertEquals(superboyModel.parent, null);
         Assert.assertEquals(superboyModel.allParents, null);
+
+        // to test allOf with single ref and no "type: object" in the (last) inline schema
+        Schema superbabySchema = openAPI.getComponents().getSchemas().get("SuperBaby");
+        CodegenModel superbabyModel = codegen.fromModel("SuperBaby", superbabySchema);
+        Assert.assertEquals(superbabyModel.parent, null);
+        Assert.assertEquals(superbabyModel.allParents, null);
     }
 
     @Test
