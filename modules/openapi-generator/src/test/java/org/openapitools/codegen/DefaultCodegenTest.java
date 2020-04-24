@@ -620,6 +620,11 @@ public class DefaultCodegenTest {
         CodegenModel superboyModel = codegen.fromModel("SuperBoy", superboySchema);
         Assert.assertEquals(superboyModel.parent, null);
         Assert.assertEquals(superboyModel.allParents, null);
+
+        Schema superbabySchema = openAPI.getComponents().getSchemas().get("SuperBaby");
+        CodegenModel superbabyModel = codegen.fromModel("SuperBaby", superbabySchema);
+        Assert.assertEquals(superbabyModel.parent, null);
+        Assert.assertEquals(superbabyModel.allParents, null);
     }
 
     @Test
