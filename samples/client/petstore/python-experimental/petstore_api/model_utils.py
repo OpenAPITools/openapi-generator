@@ -829,6 +829,43 @@ def fix_model_input_data(model_data, model_class):
             )
     return fixed_model_data
 
+def get_discriminator_class(model_class, from_server, model_data, cls_visited):
+    """Returns the child class specified by the discriminator.
+
+    Args:
+        model_class (OpenApiModel): the model class
+        from_server (bool): True if the model_data is from the server
+            False if the data is from the client
+        model_data (list/dict): data to instantiate the model.
+        cls_visited (set): list of model classes that have been visited.
+            Used to determine the discriminator class without
+            visiting circular references indefinitely.
+
+    Returns:
+        A tuple containing the child class specified by the discriminator,
+        the name of the discriminator property, and the discriminator value
+        in the input data.
+    """
+
+    cls_visited.add(model_class)
+    discriminator = model_class.discriminator()
+    discr_propertyname_py = list(discriminator.keys())[0]
+    discr_propertyname_js = model_class.attribute_map[discr_propertyname_py]
+    if from_server:
+        discr_value = model_data[discr_propertyname_js]
+    else:
+        discr_value = model_data[discr_propertyname_py]
+    class_name_to_discr_class = discriminator[discr_propertyname_py]
+    used_model_class = class_name_to_discr_class.get(discr_value)
+    if used_model_class is None:
+        for mapping, cls in class_name_to_discr_class.items():
+            # Check if the schema has inherited discriminators.
+            if cls not in cls_visited and cls.discriminator() is not None:
+                mc, dn, dv = get_discriminator_class(
+                    cls, from_server, model_data, cls_visited)
+                if mc is not None:
+                    return (mc, dn, dv)
+    return (used_model_class, discr_propertyname_js, discr_value)
 
 def deserialize_model(model_data, model_class, path_to_item, check_type,
                       configuration, from_server):
@@ -860,8 +897,15 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
 
     used_model_class = model_class
     if model_class.discriminator() is not None:
-        used_model_class = model_class.get_discriminator_class(
-            from_server, model_data)
+        used_model_class, disc_prop_name, disc_prop_value = get_discriminator_class(
+            model_class, from_server, model_data, set())
+        if used_model_class is None:
+            raise ApiValueError(
+                "Cannot deserialize input data due to invalid discriminator value. "
+                "The OpenAPI document has no mapping for discriminator property "
+                "'%s'='%s' at path: %s." %
+                (disc_prop_name, disc_prop_value, path_to_item)
+                )
 
     if issubclass(used_model_class, ModelSimple):
         instance = used_model_class(value=model_data, **kw_args)
