@@ -1159,7 +1159,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // defined.
             if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
                 codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
-            } else {
+            } else if (!codegenParameter.required) {
+                //mandatory parameter use the example in the yaml. if no example, it is also null.
                 codegenParameter.example = null;
             }
         }
@@ -1650,7 +1651,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             param.vendorExtensions.put("formatString", "{:?}"); // TODO: 5.0 Remove
             param.vendorExtensions.put("x-format-string", "{:?}");
             if (param.example != null) {
-                example = "serde_json::from_str::<" + param.dataType + ">(\"" + param.example + "\").expect(\"Failed to parse JSON example\")";
+                example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
             }
         }
 

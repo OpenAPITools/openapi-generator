@@ -371,6 +371,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StringObject"
+  /repos:
+    post:
+      tags: [Repo]
+      operationId: CreateRepo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObjectParam"
+            example:
+              # Properties of a referenced object
+              requiredParam: true
+      responses:
+        '200':
+          description: Success
 
 components:
   securitySchemes:
