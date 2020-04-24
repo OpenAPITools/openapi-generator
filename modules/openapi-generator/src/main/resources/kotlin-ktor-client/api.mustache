@@ -108,6 +108,8 @@ import {{import}}
             )
         } catch (exception: ResponseException) {
             when(exception.response.status.value) {
+                {{#responses}}{{^dataType}}{{^isDefault}}{{{code}}} -> throw exception.toErrorWrapper<Unit>(){{^-last}}
+                {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
                 {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw exception.toErrorWrapper<{{{baseType}}}>(){{^-last}}
                 {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
                 else -> throw exception
