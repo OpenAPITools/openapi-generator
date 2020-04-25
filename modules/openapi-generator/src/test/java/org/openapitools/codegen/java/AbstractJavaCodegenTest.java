@@ -26,6 +26,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
@@ -510,6 +511,55 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void nullDefaultValueForModelWithDynamicProperties() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithAdditionalProperties");
+        CodegenModel cm = codegen.fromModel("ModelWithAdditionalProperties", schema);
+        Assert.assertEquals(cm.vars.size(), 1, "Expected single declared var");
+        Assert.assertEquals(cm.vars.get(0).name, "id");
+        Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
+
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertNull(defaultValue);
+    }
+
+    @Test
+    public void maplikeDefaultValueForModelWithStringToStringMapping() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithStringToStringMapping");
+        CodegenModel cm = codegen.fromModel("ModelWithAdditionalProperties", schema);
+        Assert.assertEquals(cm.vars.size(), 0, "Expected no declared vars");
+        Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
+
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, String>()", "Expected string-string map aliased model to default to new HashMap<String, String>()");
+    }
+
+    @Test
+    public void maplikeDefaultValueForModelWithStringToModelMapping() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithStringToModelMapping");
+        CodegenModel cm = codegen.fromModel("ModelWithStringToModelMapping", schema);
+        Assert.assertEquals(cm.vars.size(), 0, "Expected no declared vars");
+        Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
+
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, ComplexModel>()", "Expected string-ref map aliased model to default to new HashMap<String, ComplexModel>()");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

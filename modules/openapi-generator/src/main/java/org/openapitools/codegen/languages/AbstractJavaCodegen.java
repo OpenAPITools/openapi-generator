@@ -792,6 +792,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(schema)) {
+            if (schema.getProperties() != null && schema.getProperties().size() > 0) {
+                // object is complex object with free-form additional properties
+                if (schema.getDefault() != null) {
+                    return super.toDefaultValue(schema);
+                }
+                return null;
+            }
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.HashMap<%s>()";
