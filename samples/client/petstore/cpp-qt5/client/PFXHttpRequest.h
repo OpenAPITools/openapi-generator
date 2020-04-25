@@ -58,7 +58,7 @@ class PFXHttpRequestWorker : public QObject {
     Q_OBJECT
 
 public:
-    explicit PFXHttpRequestWorker(QObject *parent = nullptr);
+    explicit PFXHttpRequestWorker(QObject *parent = nullptr, QNetworkAccessManager *manager = nullptr);
     virtual ~PFXHttpRequestWorker();
 
     QByteArray response;

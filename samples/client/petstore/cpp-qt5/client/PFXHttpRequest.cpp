@@ -51,12 +51,13 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
     files.append(file);
 }
 
-PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
+PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
+    : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
     qsrand(QDateTime::currentDateTime().toTime_t());
-    manager = new QNetworkAccessManager(this);
+    if (manager == nullptr) {
+        manager = new QNetworkAccessManager(this);
+    }
     workingDirectory = QDir::currentPath();
-    connect(manager, &QNetworkAccessManager::finished, this, &PFXHttpRequestWorker::on_manager_finished);
     timeOutTimer.setSingleShot(true);
 }
 
@@ -354,7 +355,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         reply = manager->deleteResource(request);
     } else {
 #if (QT_VERSION >= 0x050800)
-        manager->sendCustomRequest(request, input->http_method.toLatin1(), request_content);
+        reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), request_content);
 #else
         QBuffer *buffer = new QBuffer;
         buffer->setData(request_content);
@@ -363,6 +364,12 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), buffer);
         buffer->setParent(reply);
 #endif
+    }
+    if (reply != nullptr) {
+        reply->setParent(this);
+        connect(reply, &QNetworkReply::finished, [this, reply] {
+            on_manager_finished(reply);
+        });
     }
     if (timeOutTimer.interval() > 0) {
         QObject::connect(&timeOutTimer, &QTimer::timeout, [=]() { on_manager_timeout(reply); });
