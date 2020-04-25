@@ -56,6 +56,7 @@ import java.util.regex.Pattern;
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
+import {{invokerPackage}}.auth.HttpSignatureAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 import {{invokerPackage}}.model.AbstractOpenApiSchema;
 
@@ -948,8 +949,12 @@ public class ApiClient {
     }
 
     Entity<?> entity = serialize(body, formParams, contentType);
+
+    Map<String, String> allHeaderParams = new HashMap<>();
+    allHeaderParams.putAll(defaultHeaderMap);
+    allHeaderParams.putAll(headerParams);
     
-    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams, method, path);
+    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, method, target.getUri().toString());
 
     Response response = null;
 

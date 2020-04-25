@@ -50,6 +50,7 @@ import java.util.regex.Pattern;
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
+import org.openapitools.client.auth.HttpSignatureAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.model.AbstractOpenApiSchema;
 
@@ -927,8 +928,12 @@ public class ApiClient {
     }
 
     Entity<?> entity = serialize(body, formParams, contentType);
+
+    Map<String, String> allHeaderParams = new HashMap<>();
+    allHeaderParams.putAll(defaultHeaderMap);
+    allHeaderParams.putAll(headerParams);
     
-    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams, method, path);
+    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, method, target.getUri().toString());
 
     Response response = null;
 
