@@ -165,7 +165,7 @@ public class ApiClient {
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     authentications.put("http_basic_test", new HttpBasicAuth());
-    authentications.put("http_signature", new HttpBearerAuth("scheme"));
+    authentications.put("http_signature_test", new HttpSignatureAuth("http_signature_test"));
     authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);

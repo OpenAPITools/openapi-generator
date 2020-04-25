@@ -16,6 +16,7 @@ import org.openapitools.client.model.HealthCheckResult;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -101,6 +102,77 @@ public class FakeApi {
     return apiClient.invokeAPI("FakeApi.fakeHealthGet", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
                                localVarAuthNames, localVarReturnType, null);
+  }
+  /**
+   * test http signature authentication
+   * 
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> The instance started successfully </td><td>  -  </td></tr>
+     </table>
+   */
+  public void fakeHttpSignatureTest(Pet pet, String query1, String header1) throws ApiException {
+    fakeHttpSignatureTestWithHttpInfo(pet, query1, header1);
+  }
+
+  /**
+   * test http signature authentication
+   * 
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   * @return ApiResponse&lt;Void&gt;
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> The instance started successfully </td><td>  -  </td></tr>
+     </table>
+   */
+  public ApiResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, String query1, String header1) throws ApiException {
+    Object localVarPostBody = pet;
+    
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling fakeHttpSignatureTest");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/http-signature-test";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "query_1", query1));
+
+    if (header1 != null)
+      localVarHeaderParams.put("header_1", apiClient.parameterToString(header1));
+
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json", "application/xml"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    return apiClient.invokeAPI("FakeApi.fakeHttpSignatureTest", localVarPath, "GET", localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+                               localVarAuthNames, null, null);
   }
   /**
    * 

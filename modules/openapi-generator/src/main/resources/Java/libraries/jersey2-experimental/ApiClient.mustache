@@ -165,9 +165,9 @@ public class ApiClient {
     {{#isBasicBasic}}
     authentications.put("{{name}}", new HttpBasicAuth());
     {{/isBasicBasic}}
-    {{^isBasicBasic}}
+    {{#isBasicBearer}}
     authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));
-    {{/isBasicBasic}}
+    {{/isBasicBearer}}
     {{#isHttpSignature}}
     authentications.put("{{name}}", new HttpSignatureAuth("{{name}}"));
     {{/isHttpSignature}}
