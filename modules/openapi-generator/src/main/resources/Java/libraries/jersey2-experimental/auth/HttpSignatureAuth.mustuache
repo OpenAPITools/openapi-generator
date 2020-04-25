@@ -24,21 +24,19 @@ public class HttpSignatureAuth implements Authentication {
 
   private String name;
 
-  public HttpSignatureAuth(String name, PrivateKey privateKey, Algorithm algorithm, String... sign) {
+  public HttpSignatureAuth(String name) {
+    this.name = name;
+  }
+
+  public setup(PrivateKey privateKey, Algorithm algorithm, String... sign) {
     if (algorithm == null) {
-      this.algorithm = Algorithm.RSA_SHA512;
+      this.algorithm = Algorithm.RSA_SHA512; // default using RSA-SHA512
     } else {
       this.algorithm = algorithm;
     }
 
-    if (name == null) {
-      this.name = "OpenApiDefault";
-    } else {
-      this.name = name;
-    }
-
     if (privateKey == null) {
-      throw new ApiExcpetion("privateKey cannot be null when creating HttpSignatureAuth");
+      throw new ApiException("privateKey (java.security.PrivateKey) cannot be null");
     } else {
       this.privateKey = privateKey;
     }
@@ -50,12 +48,12 @@ public class HttpSignatureAuth implements Authentication {
     return signer;
   }
 
-  public void setSigner(String signer) {
-    this.signer = signer;
-  }
-
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String method, String uri) throws ApiException {
+    if (signer == null) {
+      throw new ApiException("Signer cannot be null. Please run the method `setup` to set it up correctly");
+    }
+
     try {
       headerParams.put("Authorization", signer.sign(method, uri, headers).toString());
     } catch (Exception ex) {
