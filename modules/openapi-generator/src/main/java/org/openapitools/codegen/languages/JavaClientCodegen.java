@@ -373,6 +373,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             if (JERSEY2_EXPERIMENTAL.equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("HttpSignatureAuth.mustache", authFolder, "HttpSignatureAuth.java"));
                 supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
             }
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);

@@ -62,9 +62,7 @@ paths:
         '405':
           description: Validation exception
       security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+        - http_signature
       requestBody:
         $ref: '#/components/requestBodies/Pet'
   /pet/findByStatus:
@@ -1168,6 +1166,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    http_signature:
+      type: http
+      scheme: scheme 
   schemas:
     Foo:
       type: object

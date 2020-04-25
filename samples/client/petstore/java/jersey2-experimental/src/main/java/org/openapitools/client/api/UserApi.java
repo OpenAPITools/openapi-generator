@@ -37,7 +37,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param user Created user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -45,14 +45,14 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUser(User body) throws ApiException {
-    createUserWithHttpInfo(body);
+  public void createUser(User user) throws ApiException {
+    createUserWithHttpInfo(user);
   }
 
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param user Created user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -61,12 +61,12 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> createUserWithHttpInfo(User user) throws ApiException {
+    Object localVarPostBody = user;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
     }
     
     // create path and map variables
@@ -88,7 +88,7 @@ public class UserApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -101,7 +101,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -109,14 +109,14 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUsersWithArrayInput(List<User> body) throws ApiException {
-    createUsersWithArrayInputWithHttpInfo(body);
+  public void createUsersWithArrayInput(List<User> user) throws ApiException {
+    createUsersWithArrayInputWithHttpInfo(user);
   }
 
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -125,12 +125,12 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws ApiException {
+    Object localVarPostBody = user;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
     }
     
     // create path and map variables
@@ -152,7 +152,7 @@ public class UserApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -165,7 +165,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -173,14 +173,14 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUsersWithListInput(List<User> body) throws ApiException {
-    createUsersWithListInputWithHttpInfo(body);
+  public void createUsersWithListInput(List<User> user) throws ApiException {
+    createUsersWithListInputWithHttpInfo(user);
   }
 
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -189,12 +189,12 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws ApiException {
+    Object localVarPostBody = user;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
     }
     
     // create path and map variables
@@ -216,7 +216,7 @@ public class UserApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -504,7 +504,7 @@ public class UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param user Updated user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -513,15 +513,15 @@ public class UserApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public void updateUser(String username, User body) throws ApiException {
-    updateUserWithHttpInfo(username, body);
+  public void updateUser(String username, User user) throws ApiException {
+    updateUserWithHttpInfo(username, user);
   }
 
   /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param user Updated user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -531,17 +531,17 @@ public class UserApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> updateUserWithHttpInfo(String username, User user) throws ApiException {
+    Object localVarPostBody = user;
     
     // verify the required parameter 'username' is set
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
     }
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser");
     }
     
     // create path and map variables
@@ -564,7 +564,7 @@ public class UserApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 

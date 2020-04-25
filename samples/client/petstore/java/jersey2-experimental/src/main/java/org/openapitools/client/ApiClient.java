@@ -62,14 +62,78 @@ public class ApiClient {
   protected String basePath = "http://petstore.swagger.io:80/v2";
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "http://petstore.swagger.io:80/v2",
-      "No description provided",
-      new HashMap<String, ServerVariable>()
+      "http://{server}.swagger.io:{port}/v2",
+      "petstore server",
+      new HashMap<String, ServerVariable>() {{
+        put("server", new ServerVariable(
+          "No description provided",
+          "petstore",
+          new HashSet<String>(
+            Arrays.asList(
+              "petstore",
+              "qa-petstore",
+              "dev-petstore"
+            )
+          )
+        ));
+        put("port", new ServerVariable(
+          "No description provided",
+          "80",
+          new HashSet<String>(
+            Arrays.asList(
+              "80",
+              "8080"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://localhost:8080/{version}",
+      "The local server",
+      new HashMap<String, ServerVariable>() {{
+        put("version", new ServerVariable(
+          "No description provided",
+          "v2",
+          new HashSet<String>(
+            Arrays.asList(
+              "v1",
+              "v2"
+            )
+          )
+        ));
+      }}
     )
   ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
   protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
+    put("PetApi.addPet", new ArrayList<ServerConfiguration>(Arrays.asList(
+      new ServerConfiguration(
+        "http://petstore.swagger.io/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      ),
+
+      new ServerConfiguration(
+        "http://path-server-test.petstore.local/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      )
+    )));
+    put("PetApi.updatePet", new ArrayList<ServerConfiguration>(Arrays.asList(
+      new ServerConfiguration(
+        "http://petstore.swagger.io/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      ),
+
+      new ServerConfiguration(
+        "http://path-server-test.petstore.local/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      )
+    )));
   }};
   protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
   protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
@@ -99,7 +163,9 @@ public class ApiClient {
     authentications = new HashMap<String, Authentication>();
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("http_signature", new HttpBearerAuth("scheme"));
     authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
