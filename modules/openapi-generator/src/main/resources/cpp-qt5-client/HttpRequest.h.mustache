@@ -50,7 +50,7 @@ class {{prefix}}HttpRequestWorker : public QObject {
     Q_OBJECT
 
 public:
-    explicit {{prefix}}HttpRequestWorker(QObject *parent = nullptr);
+    explicit {{prefix}}HttpRequestWorker(QObject *parent = nullptr, QNetworkAccessManager *manager = nullptr);
     virtual ~{{prefix}}HttpRequestWorker();
 
     QByteArray response;
