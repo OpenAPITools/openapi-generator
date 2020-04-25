@@ -17,6 +17,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.model.User;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,6 @@ import java.util.Map;
 /**
  * API tests for UserApi
  */
-@Ignore
 public class UserApiTest {
 
     private final UserApi api = new UserApi();
@@ -42,8 +42,8 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() throws ApiException {
-        User body = null;
-        api.createUser(body);
+        //User user = null;
+        //api.createUser(user);
         // TODO: test validations
     }
     
@@ -57,8 +57,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest() throws ApiException {
-        List<User> body = null;
-        api.createUsersWithArrayInput(body);
+        //List<User> user = null;
+        //api.createUsersWithArrayInput(user);
         // TODO: test validations
     }
     
@@ -72,8 +72,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest() throws ApiException {
-        List<User> body = null;
-        api.createUsersWithListInput(body);
+        //List<User> user = null;
+        //api.createUsersWithListInput(user);
         // TODO: test validations
     }
     
@@ -87,8 +87,8 @@ public class UserApiTest {
      */
     @Test
     public void deleteUserTest() throws ApiException {
-        String username = null;
-        api.deleteUser(username);
+        //String username = null;
+        //api.deleteUser(username);
         // TODO: test validations
     }
     
@@ -102,8 +102,8 @@ public class UserApiTest {
      */
     @Test
     public void getUserByNameTest() throws ApiException {
-        String username = null;
-        User response = api.getUserByName(username);
+        //String username = null;
+        //User response = api.getUserByName(username);
         // TODO: test validations
     }
     
@@ -117,9 +117,9 @@ public class UserApiTest {
      */
     @Test
     public void loginUserTest() throws ApiException {
-        String username = null;
-        String password = null;
-        String response = api.loginUser(username, password);
+        //String username = null;
+        //String password = null;
+        //String response = api.loginUser(username, password);
         // TODO: test validations
     }
     
@@ -133,7 +133,7 @@ public class UserApiTest {
      */
     @Test
     public void logoutUserTest() throws ApiException {
-        api.logoutUser();
+        //api.logoutUser();
         // TODO: test validations
     }
     
@@ -147,9 +147,9 @@ public class UserApiTest {
      */
     @Test
     public void updateUserTest() throws ApiException {
-        String username = null;
-        User body = null;
-        api.updateUser(username, body);
+        //String username = null;
+        //User user = null;
+        //api.updateUser(username, user);
         // TODO: test validations
     }
     

@@ -19,57 +19,34 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.BigCatAllOf;
-import org.openapitools.client.model.Cat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.util.NoSuchElementException;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
 /**
- * Model tests for BigCat
+ * Model tests for HealthCheckResult
  */
-public class BigCatTest {
-    private final BigCat model = new BigCat();
+public class HealthCheckResultTest {
+    private final HealthCheckResult model = new HealthCheckResult();
 
     /**
-     * Model tests for BigCat
+     * Model tests for HealthCheckResult
      */
     @Test
-    public void testBigCat() {
-        // TODO: test BigCat
+    public void testHealthCheckResult() {
+        // TODO: test HealthCheckResult
     }
 
     /**
-     * Test the property 'className'
+     * Test the property 'nullableMessage'
      */
     @Test
-    public void classNameTest() {
-        // TODO: test className
-    }
-
-    /**
-     * Test the property 'color'
-     */
-    @Test
-    public void colorTest() {
-        // TODO: test color
-    }
-
-    /**
-     * Test the property 'declawed'
-     */
-    @Test
-    public void declawedTest() {
-        // TODO: test declawed
-    }
-
-    /**
-     * Test the property 'kind'
-     */
-    @Test
-    public void kindTest() {
-        // TODO: test kind
+    public void nullableMessageTest() {
+        // TODO: test nullableMessage
     }
 
 }

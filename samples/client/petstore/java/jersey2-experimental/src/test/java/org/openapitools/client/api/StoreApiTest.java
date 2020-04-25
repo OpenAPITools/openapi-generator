@@ -17,6 +17,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Order;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,6 @@ import java.util.Map;
 /**
  * API tests for StoreApi
  */
-@Ignore
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
@@ -42,8 +42,8 @@ public class StoreApiTest {
      */
     @Test
     public void deleteOrderTest() throws ApiException {
-        String orderId = null;
-        api.deleteOrder(orderId);
+        //String orderId = null;
+        //api.deleteOrder(orderId);
         // TODO: test validations
     }
     
@@ -57,7 +57,7 @@ public class StoreApiTest {
      */
     @Test
     public void getInventoryTest() throws ApiException {
-        Map<String, Integer> response = api.getInventory();
+        //Map<String, Integer> response = api.getInventory();
         // TODO: test validations
     }
     
@@ -71,8 +71,8 @@ public class StoreApiTest {
      */
     @Test
     public void getOrderByIdTest() throws ApiException {
-        Long orderId = null;
-        Order response = api.getOrderById(orderId);
+        //Long orderId = null;
+        //Order response = api.getOrderById(orderId);
         // TODO: test validations
     }
     
@@ -86,8 +86,8 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() throws ApiException {
-        Order body = null;
-        Order response = api.placeOrder(body);
+        //Order order = null;
+        //Order response = api.placeOrder(order);
         // TODO: test validations
     }
     

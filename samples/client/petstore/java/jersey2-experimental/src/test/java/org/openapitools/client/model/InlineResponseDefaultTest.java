@@ -19,33 +19,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
+import org.openapitools.client.model.Foo;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
 /**
- * Model tests for AdditionalPropertiesInteger
+ * Model tests for InlineResponseDefault
  */
-public class AdditionalPropertiesIntegerTest {
-    private final AdditionalPropertiesInteger model = new AdditionalPropertiesInteger();
+public class InlineResponseDefaultTest {
+    private final InlineResponseDefault model = new InlineResponseDefault();
 
     /**
-     * Model tests for AdditionalPropertiesInteger
+     * Model tests for InlineResponseDefault
      */
     @Test
-    public void testAdditionalPropertiesInteger() {
-        // TODO: test AdditionalPropertiesInteger
+    public void testInlineResponseDefault() {
+        // TODO: test InlineResponseDefault
     }
 
     /**
-     * Test the property 'name'
+     * Test the property 'string'
      */
     @Test
-    public void nameTest() {
-        // TODO: test name
+    public void stringTest() {
+        // TODO: test string
     }
 
 }

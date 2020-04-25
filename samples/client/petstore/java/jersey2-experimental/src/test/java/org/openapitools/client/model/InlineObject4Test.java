@@ -25,25 +25,33 @@ import org.junit.Test;
 
 
 /**
- * Model tests for BigCatAllOf
+ * Model tests for InlineObject4
  */
-public class BigCatAllOfTest {
-    private final BigCatAllOf model = new BigCatAllOf();
+public class InlineObject4Test {
+    private final InlineObject4 model = new InlineObject4();
 
     /**
-     * Model tests for BigCatAllOf
+     * Model tests for InlineObject4
      */
     @Test
-    public void testBigCatAllOf() {
-        // TODO: test BigCatAllOf
+    public void testInlineObject4() {
+        // TODO: test InlineObject4
     }
 
     /**
-     * Test the property 'kind'
+     * Test the property 'param'
      */
     @Test
-    public void kindTest() {
-        // TODO: test kind
+    public void paramTest() {
+        // TODO: test param
+    }
+
+    /**
+     * Test the property 'param2'
+     */
+    @Test
+    public void param2Test() {
+        // TODO: test param2
     }
 
 }

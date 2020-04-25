@@ -19,33 +19,40 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
 /**
- * Model tests for AdditionalPropertiesBoolean
+ * Model tests for InlineObject5
  */
-public class AdditionalPropertiesBooleanTest {
-    private final AdditionalPropertiesBoolean model = new AdditionalPropertiesBoolean();
+public class InlineObject5Test {
+    private final InlineObject5 model = new InlineObject5();
 
     /**
-     * Model tests for AdditionalPropertiesBoolean
+     * Model tests for InlineObject5
      */
     @Test
-    public void testAdditionalPropertiesBoolean() {
-        // TODO: test AdditionalPropertiesBoolean
+    public void testInlineObject5() {
+        // TODO: test InlineObject5
     }
 
     /**
-     * Test the property 'name'
+     * Test the property 'additionalMetadata'
      */
     @Test
-    public void nameTest() {
-        // TODO: test name
+    public void additionalMetadataTest() {
+        // TODO: test additionalMetadata
+    }
+
+    /**
+     * Test the property 'requiredFile'
+     */
+    @Test
+    public void requiredFileTest() {
+        // TODO: test requiredFile
     }
 
 }

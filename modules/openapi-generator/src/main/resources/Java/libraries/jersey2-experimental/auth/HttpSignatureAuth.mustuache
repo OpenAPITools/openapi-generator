@@ -1,0 +1,66 @@
+{{>licenseInfo}}
+  
+package {{invokerPackage}}.auth;
+
+import {{invokerPackage}}.Pair;
+import {{invokerPackage}}.ApiException;
+
+import java.io.ByteArrayInputStream;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
+import org.tomitribe.auth.signatures.*;
+
+public class HttpSignatureAuth implements Authentication {
+
+  private final PrivateKey privateKey;
+
+  private Signer signer;
+
+  private Algorithm algorithm;
+
+  private String name;
+
+  public HttpSignatureAuth(String name, PrivateKey privateKey, Algorithm algorithm, String... sign) {
+    if (algorithm == null) {
+      this.algorithm = Algorithm.RSA_SHA512;
+    } else {
+      this.algorithm = algorithm;
+    }
+
+    if (name == null) {
+      this.name = "OpenApiDefault";
+    } else {
+      this.name = name;
+    }
+
+    if (privateKey == null) {
+      throw new ApiExcpetion("privateKey cannot be null when creating HttpSignatureAuth");
+    } else {
+      this.privateKey = privateKey;
+    }
+
+    signer = new Signer(this.privateKey, new Signature(this.name, this.algorithm, null, sign);
+  }
+
+  public String getSigner() {
+    return signer;
+  }
+
+  public void setSigner(String signer) {
+    this.signer = signer;
+  }
+
+  @Override
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String method, String uri) throws ApiException {
+    try {
+      headerParams.put("Authorization", signer.sign(method, uri, headers).toString());
+    } catch (Exception ex) {
+      throw new ApiException("Failed to create signature in the HTTP request header: " + ex.toString());
+    }
+  }
+}
+

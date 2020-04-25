@@ -21,7 +21,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.junit.Assert;
@@ -30,17 +29,17 @@ import org.junit.Test;
 
 
 /**
- * Model tests for FormatTest
+ * Model tests for InlineObject3
  */
-public class FormatTestTest {
-    private final FormatTest model = new FormatTest();
+public class InlineObject3Test {
+    private final InlineObject3 model = new InlineObject3();
 
     /**
-     * Model tests for FormatTest
+     * Model tests for InlineObject3
      */
     @Test
-    public void testFormatTest() {
-        // TODO: test FormatTest
+    public void testInlineObject3() {
+        // TODO: test InlineObject3
     }
 
     /**
@@ -100,6 +99,14 @@ public class FormatTestTest {
     }
 
     /**
+     * Test the property 'patternWithoutDelimiter'
+     */
+    @Test
+    public void patternWithoutDelimiterTest() {
+        // TODO: test patternWithoutDelimiter
+    }
+
+    /**
      * Test the property '_byte'
      */
     @Test
@@ -132,14 +139,6 @@ public class FormatTestTest {
     }
 
     /**
-     * Test the property 'uuid'
-     */
-    @Test
-    public void uuidTest() {
-        // TODO: test uuid
-    }
-
-    /**
      * Test the property 'password'
      */
     @Test
@@ -148,19 +147,11 @@ public class FormatTestTest {
     }
 
     /**
-     * Test the property 'patternWithDigits'
+     * Test the property 'callback'
      */
     @Test
-    public void patternWithDigitsTest() {
-        // TODO: test patternWithDigits
-    }
-
-    /**
-     * Test the property 'patternWithDigitsAndDelimiter'
-     */
-    @Test
-    public void patternWithDigitsAndDelimiterTest() {
-        // TODO: test patternWithDigitsAndDelimiter
+    public void callbackTest() {
+        // TODO: test callback
     }
 
 }

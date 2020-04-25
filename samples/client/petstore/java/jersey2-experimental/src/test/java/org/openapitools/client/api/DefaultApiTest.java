@@ -14,7 +14,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.openapitools.client.model.Client;
+import org.openapitools.client.model.InlineResponseDefault;
 import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.Assert;
@@ -25,25 +25,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * API tests for FakeClassnameTags123Api
+ * API tests for DefaultApi
  */
-public class FakeClassnameTags123ApiTest {
+public class DefaultApiTest {
 
-    private final FakeClassnameTags123Api api = new FakeClassnameTags123Api();
+    private final DefaultApi api = new DefaultApi();
 
     
     /**
-     * To test class name in snake case
+     * 
      *
-     * To test class name in snake case
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void testClassnameTest() throws ApiException {
-        //Client client = null;
-        //Client response = api.testClassname(client);
+    public void fooGetTest() throws ApiException {
+        //InlineResponseDefault response = api.fooGet();
         // TODO: test validations
     }
     

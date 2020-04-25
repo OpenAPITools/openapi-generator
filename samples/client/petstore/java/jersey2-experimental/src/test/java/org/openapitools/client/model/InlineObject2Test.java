@@ -19,34 +19,41 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
 /**
- * Model tests for AdditionalPropertiesNumber
+ * Model tests for InlineObject2
  */
-public class AdditionalPropertiesNumberTest {
-    private final AdditionalPropertiesNumber model = new AdditionalPropertiesNumber();
+public class InlineObject2Test {
+    private final InlineObject2 model = new InlineObject2();
 
     /**
-     * Model tests for AdditionalPropertiesNumber
+     * Model tests for InlineObject2
      */
     @Test
-    public void testAdditionalPropertiesNumber() {
-        // TODO: test AdditionalPropertiesNumber
+    public void testInlineObject2() {
+        // TODO: test InlineObject2
     }
 
     /**
-     * Test the property 'name'
+     * Test the property 'enumFormStringArray'
      */
     @Test
-    public void nameTest() {
-        // TODO: test name
+    public void enumFormStringArrayTest() {
+        // TODO: test enumFormStringArray
+    }
+
+    /**
+     * Test the property 'enumFormString'
+     */
+    @Test
+    public void enumFormStringTest() {
+        // TODO: test enumFormString
     }
 
 }
