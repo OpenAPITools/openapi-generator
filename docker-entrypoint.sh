@@ -2,6 +2,21 @@
 
 set -euo pipefail
 
+if [ $UID -eq 0 ]; then
+    USER_NAME=generator
+    echo "creating user $USER_NAME"
+    groupadd --force --gid $GEN_GID $USER_NAME
+    useradd --non-unique --no-create-home --shell $SHELL --uid $GEN_UID --gid $GEN_GID $USER_NAME
+
+    if [[ $(stat -c "%u:%g" $MAVEN_CONFIG/repository) != $GEN_UID:$GEN_GID ]]; then
+        echo "getting the ownership of maven config dir (on volume creation)"
+        chown -R $GEN_UID:$GEN_GID $MAVEN_CONFIG/repository
+    fi
+
+    echo "dropping root privileges"
+    exec su $USER_NAME $0 -- $@
+fi
+
 # GEN_DIR allows to share the entrypoint between Dockerfile and run-in-docker.sh (backward compatible)
 GEN_DIR=${GEN_DIR:-/opt/openapi-generator}
 JAVA_OPTS=${JAVA_OPTS:-"-Xmx1024M -DloggerPath=conf/log4j.properties"}

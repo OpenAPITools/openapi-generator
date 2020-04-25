@@ -16,3 +16,21 @@ services:
       - ./website/sidebars.json:/app/website/sidebars.json
       - ./website/siteConfig.js:/app/website/siteConfig.js
     working_dir: /app/website
+
+  generator:
+    image: maven:3-jdk-8
+    environment:
+        - GEN_UID=1000
+        - GEN_GID=1000
+        - GEN_DIR=/openapi-generator
+        - MAVEN_CONFIG=/var/maven/.m2
+        - 'MAVEN_OPTS=-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=/var/maven/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true'
+    volumes:
+      - .:/openapi-generator
+      - ./CI/run-in-docker-settings.xml:/var/maven/.m2/settings.xml
+      - mvndata:/var/maven/.m2/repository/
+    entrypoint: /openapi-generator/docker-entrypoint.sh
+    working_dir: /openapi-generator
+
+volumes:
+  mvndata:
