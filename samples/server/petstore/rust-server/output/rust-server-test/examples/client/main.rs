@@ -4,7 +4,7 @@
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
-use rust_server_test::{Api, ApiNoContext, Client, ContextWrapperExt,
+use rust_server_test::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       ApiError,
                       AllOfGetResponse,
                       DummyGetResponse,

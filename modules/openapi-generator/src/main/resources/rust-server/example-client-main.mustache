@@ -7,7 +7,7 @@ mod server;
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
-use {{{externCrateName}}}::{Api, ApiNoContext, Client, ContextWrapperExt,
+use {{{externCrateName}}}::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       ApiError{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
                       {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
                      };

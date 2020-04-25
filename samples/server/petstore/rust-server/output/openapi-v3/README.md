@@ -81,6 +81,7 @@ cargo run --example client XmlOtherPost
 cargo run --example client XmlOtherPut
 cargo run --example client XmlPost
 cargo run --example client XmlPut
+cargo run --example client CreateRepo
 cargo run --example client GetRepoInfo
 ```
 
@@ -136,6 +137,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **PUT** /xml_other | 
 [****](docs/default_api.md#) | **POST** /xml | Post an array
 [****](docs/default_api.md#) | **PUT** /xml | 
+[**CreateRepo**](docs/repo_api.md#CreateRepo) | **POST** /repos | 
 [**GetRepoInfo**](docs/repo_api.md#GetRepoInfo) | **GET** /repos/{repoId} | 
 
 

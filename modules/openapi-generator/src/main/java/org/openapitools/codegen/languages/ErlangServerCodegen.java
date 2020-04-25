@@ -43,7 +43,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     public ErlangServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(
@@ -62,7 +62,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         // set the output folder here
         outputFolder = "generated-code/erlang-server";

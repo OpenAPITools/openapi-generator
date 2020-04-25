@@ -96,36 +96,51 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.21"
-    rest_assured_version = "4.0.0"
+    rest_assured_version = "4.3.0"
     junit_version = "4.13"
 {{#jackson}}
-    jackson_version = "2.10.1"
-    jackson_databind_version = "2.9.10"
-    jackson_databind_nullable_version = 0.2.1
+    jackson_version = "2.10.3"
+    jackson_databind_version = "2.10.3"
+    jackson_databind_nullable_version = "0.2.1"
+    {{#threetenbp}}
+    jackson_threetenbp_version = "2.10.0"
+    {{/threetenbp}}
 {{/jackson}}
 {{#gson}}
-    gson_version = "2.8.5"
-    gson_fire_version = "1.8.3"
+    gson_version = "2.8.6"
+    gson_fire_version = "1.8.4"
 {{/gson}}
 {{#joda}}
-    jodatime_version = "2.9.9"
+    jodatime_version = "2.10.5"
 {{/joda}}
 {{#threetenbp}}
-    threetenbp_version = "1.4.0"
+    threetenbp_version = "1.4.3"
 {{/threetenbp}}
-    okio_version = "1.13.0"
+    okio_version = "1.17.5"
 }
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile "io.rest-assured:scala-support:$rest_assured_version"
+    compile "io.rest-assured:rest-assured:$rest_assured_version"
 {{#jackson}}
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{#withXml}}
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
+    {{/withXml}}
+    {{#joda}}
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    {{/joda}}
+    {{#java8}}
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    {{/java8}}
+    {{#threetenbp}}
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
+    {{/threetenbp}}
 {{/jackson}}
 {{#gson}}
     compile "io.gsonfire:gson-fire:$gson_fire_version"
@@ -138,5 +153,11 @@ dependencies {
     compile "org.threeten:threetenbp:$threetenbp_version"
 {{/threetenbp}}
     compile "com.squareup.okio:okio:$okio_version"
+{{#useBeanValidation}}
+    compile "javax.validation:validation-api:2.0.1.Final"
+{{/useBeanValidation}}
+{{#performBeanValidation}}
+    compile "org.hibernate:hibernate-validator:6.0.19.Final"
+{{/performBeanValidation}}
     testCompile "junit:junit:$junit_version"
 }

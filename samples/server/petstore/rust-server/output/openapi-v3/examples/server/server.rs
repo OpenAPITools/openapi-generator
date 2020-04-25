@@ -127,6 +127,7 @@ use openapi_v3::{
     XmlOtherPutResponse,
     XmlPostResponse,
     XmlPutResponse,
+    CreateRepoResponse,
     GetRepoInfoResponse,
 };
 use openapi_v3::server::MakeService;
@@ -310,22 +311,22 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn xml_other_put(
         &self,
-        string: Option<models::AnotherXmlArray>,
+        another_xml_array: Option<models::AnotherXmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
-        info!("xml_other_put({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        info!("xml_other_put({:?}) - X-Span-ID: {:?}", another_xml_array, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 
     /// Post an array
     fn xml_post(
         &self,
-        string: Option<models::XmlArray>,
+        xml_array: Option<models::XmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>
     {
         let context = context.clone();
-        info!("xml_post({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        info!("xml_post({:?}) - X-Span-ID: {:?}", xml_array, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 
@@ -336,6 +337,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     {
         let context = context.clone();
         info!("xml_put({:?}) - X-Span-ID: {:?}", xml_object, context.get().0.clone());
+        Box::new(future::err("Generic failure".into()))
+    }
+
+    fn create_repo(
+        &self,
+        object_param: models::ObjectParam,
+        context: &C) -> Box<dyn Future<Item=CreateRepoResponse, Error=ApiError> + Send>
+    {
+        let context = context.clone();
+        info!("create_repo({:?}) - X-Span-ID: {:?}", object_param, context.get().0.clone());
         Box::new(future::err("Generic failure".into()))
     }
 

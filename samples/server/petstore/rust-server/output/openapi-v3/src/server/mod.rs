@@ -44,6 +44,7 @@ use crate::{Api,
      XmlOtherPutResponse,
      XmlPostResponse,
      XmlPutResponse,
+     CreateRepoResponse,
      GetRepoInfoResponse
 };
 
@@ -65,6 +66,7 @@ mod paths {
             r"^/paramget$",
             r"^/readonly_auth_scheme$",
             r"^/register-callback$",
+            r"^/repos$",
             r"^/repos/(?P<repoId>[^/?#]*)$",
             r"^/required_octet_stream$",
             r"^/responses_with_headers$",
@@ -93,20 +95,21 @@ mod paths {
     pub(crate) static ID_PARAMGET: usize = 8;
     pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 9;
     pub(crate) static ID_REGISTER_CALLBACK: usize = 10;
-    pub(crate) static ID_REPOS_REPOID: usize = 11;
+    pub(crate) static ID_REPOS: usize = 11;
+    pub(crate) static ID_REPOS_REPOID: usize = 12;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
-    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 12;
-    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 13;
-    pub(crate) static ID_RFC7807: usize = 14;
-    pub(crate) static ID_UNTYPED_PROPERTY: usize = 15;
-    pub(crate) static ID_UUID: usize = 16;
-    pub(crate) static ID_XML: usize = 17;
-    pub(crate) static ID_XML_EXTRA: usize = 18;
-    pub(crate) static ID_XML_OTHER: usize = 19;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 13;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 14;
+    pub(crate) static ID_RFC7807: usize = 15;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 16;
+    pub(crate) static ID_UUID: usize = 17;
+    pub(crate) static ID_XML: usize = 18;
+    pub(crate) static ID_XML_EXTRA: usize = 19;
+    pub(crate) static ID_XML_OTHER: usize = 20;
 }
 
 pub struct MakeService<T, RC> {
@@ -1262,8 +1265,19 @@ where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 XmlOtherPostResponse::OK
+                                                    (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("text/xml")
+                                                            .expect("Unable to create Content-Type header for XML_OTHER_POST_OK"));
+                                                    let mut namespaces = std::collections::BTreeMap::new();
+
+                                                    // An empty string is used to indicate a global namespace in xmltree.
+                                                    namespaces.insert("".to_string(), models::AnotherXmlObject::NAMESPACE.to_string());
+                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 XmlOtherPostResponse::BadRequest
                                                 => {
@@ -1301,13 +1315,13 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<models::AnotherXmlArray> = if !body.is_empty() {
+                                let param_another_xml_array: Option<models::AnotherXmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_string) => param_string,
+                                        Ok(param_another_xml_array) => param_another_xml_array,
                                         Err(_) => None,
                                     }
                                 } else {
@@ -1316,7 +1330,7 @@ where
 
                                 Box::new(
                                     api_impl.xml_other_put(
-                                            param_string,
+                                            param_another_xml_array,
                                         &context
                                     ).then(move |result| {
                                         let mut response = Response::new(Body::empty());
@@ -1357,8 +1371,8 @@ where
                             },
                             Err(e) => Box::new(future::ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter string: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter string"))),
+                                                .body(Body::from(format!("Couldn't read body parameter AnotherXmlArray: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter AnotherXmlArray"))),
                         }
                     })
                 ) as Self::Future
@@ -1374,13 +1388,13 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<models::XmlArray> = if !body.is_empty() {
+                                let param_xml_array: Option<models::XmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_string) => param_string,
+                                        Ok(param_xml_array) => param_xml_array,
                                         Err(_) => None,
                                     }
                                 } else {
@@ -1389,7 +1403,7 @@ where
 
                                 Box::new(
                                     api_impl.xml_post(
-                                            param_string,
+                                            param_xml_array,
                                         &context
                                     ).then(move |result| {
                                         let mut response = Response::new(Body::empty());
@@ -1430,8 +1444,8 @@ where
                             },
                             Err(e) => Box::new(future::ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter string: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter string"))),
+                                                .body(Body::from(format!("Couldn't read body parameter XmlArray: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter XmlArray"))),
                         }
                     })
                 ) as Self::Future
@@ -1505,6 +1519,85 @@ where
                                                 .status(StatusCode::BAD_REQUEST)
                                                 .body(Body::from(format!("Couldn't read body parameter XmlObject: {}", e)))
                                                 .expect("Unable to create Bad Request response due to unable to read body parameter XmlObject"))),
+                        }
+                    })
+                ) as Self::Future
+            },
+
+            // CreateRepo - POST /repos
+            &hyper::Method::POST if path.matched(paths::ID_REPOS) => {
+                // Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Self::Future {
+                        match result {
+                            Ok(body) => {
+                                let mut unused_elements = Vec::new();
+                                let param_object_param: Option<models::ObjectParam> = if !body.is_empty() {
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
+                                        Ok(param_object_param) => param_object_param,
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter ObjectParam - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter ObjectParam due to schema"))),
+                                    }
+                                } else {
+                                    None
+                                };
+                                let param_object_param = match param_object_param {
+                                    Some(param_object_param) => param_object_param,
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter ObjectParam"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter ObjectParam"))),
+                                };
+
+                                Box::new(
+                                    api_impl.create_repo(
+                                            param_object_param,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        if !unused_elements.is_empty() {
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
+                                        }
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                CreateRepoResponse::Success
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                            },
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter ObjectParam: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter ObjectParam"))),
                         }
                     })
                 ) as Self::Future
@@ -1588,6 +1681,7 @@ where
             _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
             _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
             _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
+            _ if path.matched(paths::ID_REPOS) => method_not_allowed(),
             _ if path.matched(paths::ID_REPOS_REPOID) => method_not_allowed(),
             _ if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => method_not_allowed(),
             _ if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => method_not_allowed(),
@@ -1664,6 +1758,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::POST if path.matched(paths::ID_XML) => Ok("XmlPost"),
             // XmlPut - PUT /xml
             &hyper::Method::PUT if path.matched(paths::ID_XML) => Ok("XmlPut"),
+            // CreateRepo - POST /repos
+            &hyper::Method::POST if path.matched(paths::ID_REPOS) => Ok("CreateRepo"),
             // GetRepoInfo - GET /repos/{repoId}
             &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Ok("GetRepoInfo"),
             _ => Err(()),

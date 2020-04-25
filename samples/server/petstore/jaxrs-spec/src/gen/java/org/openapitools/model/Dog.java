@@ -28,15 +28,17 @@ public class Dog extends Animal implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }
+
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -76,5 +78,7 @@ public class Dog extends Animal implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

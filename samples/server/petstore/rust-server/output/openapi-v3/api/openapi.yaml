@@ -116,11 +116,15 @@ paths:
     post:
       requestBody:
         content:
-          application/xml:
+          text/xml:
             schema:
               $ref: '#/components/schemas/anotherXmlObject'
       responses:
         "201":
+          content:
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
           description: OK
         "400":
           description: Bad Request
@@ -380,6 +384,23 @@ paths:
           description: OK
       tags:
       - Repo
+      - Info
+  /repos:
+    post:
+      operationId: CreateRepo
+      requestBody:
+        content:
+          application/json:
+            example:
+              requiredParam: true
+            schema:
+              $ref: '#/components/schemas/ObjectParam'
+        required: true
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Repo
 components:
   schemas:
     EnumWithStarObject:
@@ -490,6 +511,9 @@ components:
       - required_untyped_nullable
       type: object
     ObjectParam:
+      example:
+        requiredParam: true
+        optionalParam: 0
       properties:
         requiredParam:
           type: boolean

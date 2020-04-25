@@ -24,7 +24,8 @@ sidebar_label: rust-server
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>String</li>
+<ul class="column-ul">
+<li>String</li>
 <li>bool</li>
 <li>char</li>
 <li>f32</li>
@@ -44,7 +45,8 @@ sidebar_label: rust-server
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>alignof</li>
 <li>as</li>
 <li>become</li>

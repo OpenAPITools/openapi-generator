@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g csharp-dotnet2 -o samples/client/petstore/csharp-dotnet2/SwaggerClientTest/Lib/SwaggerClient --additional-properties hideGenerationTimestamp=true
+set ags=generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g csharp-dotnet2 -t modules/openapi-generator/src/main/resources/csharp-dotnet2 -o samples/client/petstore/csharp-dotnet2/OpenApiClientTest/Lib/OpenApiClient --additional-properties hideGenerationTimestamp=true
 
 java %JAVA_OPTS% -jar %executable% %ags%

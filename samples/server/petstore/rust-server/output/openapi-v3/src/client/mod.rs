@@ -56,6 +56,7 @@ use crate::{Api,
      XmlOtherPutResponse,
      XmlPostResponse,
      XmlPutResponse,
+     CreateRepoResponse,
      GetRepoInfoResponse
      };
 
@@ -1887,7 +1888,7 @@ impl<C, F> Api<C> for Client<F> where
                 *request.body_mut() = Body::from(body);
         }
 
-        let header = "application/xml";
+        let header = "text/xml";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
@@ -1905,9 +1906,23 @@ impl<C, F> Api<C> for Client<F> where
                 201 => {
                     let body = response.into_body();
                     Box::new(
-                        future::ok(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                        str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                                 serde_xml_rs::from_str::<models::AnotherXmlObject>(body)
+                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
+                                 )
+                        .map(move |body| {
                             XmlOtherPostResponse::OK
-                        )
+                            (body)
+                        })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
                 },
                 400 => {
@@ -1943,7 +1958,7 @@ impl<C, F> Api<C> for Client<F> where
 
     fn xml_other_put(
         &self,
-        param_string: Option<models::AnotherXmlArray>,
+        param_another_xml_array: Option<models::AnotherXmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>
     {
         let mut uri = format!(
@@ -1972,7 +1987,7 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-        let body = param_string.map(|ref body| {
+        let body = param_another_xml_array.map(|ref body| {
             body.to_xml()
         });
         if let Some(body) = body {
@@ -2035,7 +2050,7 @@ impl<C, F> Api<C> for Client<F> where
 
     fn xml_post(
         &self,
-        param_string: Option<models::XmlArray>,
+        param_xml_array: Option<models::XmlArray>,
         context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>
     {
         let mut uri = format!(
@@ -2064,7 +2079,7 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-        let body = param_string.map(|ref body| {
+        let body = param_xml_array.map(|ref body| {
             body.to_xml()
         });
         if let Some(body) = body {
@@ -2193,6 +2208,87 @@ impl<C, F> Api<C> for Client<F> where
                     Box::new(
                         future::ok(
                             XmlPutResponse::BadRequest
+                        )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.into_body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                }
+            }
+        }))
+    }
+
+    fn create_repo(
+        &self,
+        param_object_param: models::ObjectParam,
+        context: &C) -> Box<dyn Future<Item=CreateRepoResponse, Error=ApiError> + Send>
+    {
+        let mut uri = format!(
+            "{}/repos",
+            self.base_path
+        );
+
+        // Query parameters
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build URI: {}", err)))),
+        };
+
+        let mut request = match hyper::Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
+        };
+
+        // Body parameter
+        let body = serde_json::to_string(&param_object_param).expect("impossible to fail to serialize");
+                *request.body_mut() = Body::from(body);
+
+        let header = "application/json";
+        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
+        });
+        let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
+        });
+
+        Box::new(self.client_service.request(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.into_body();
+                    Box::new(
+                        future::ok(
+                            CreateRepoResponse::Success
                         )
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
                 },

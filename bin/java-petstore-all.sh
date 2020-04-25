@@ -12,6 +12,7 @@
 ./bin/java-petstore-okhttp-gson-parcelable.sh
 ./bin/java-petstore-okhttp-gson.sh
 ./bin/java-petstore-rest-assured.sh
+./bin/java-petstore-rest-assured-jackson.sh
 ./bin/java-petstore-resteasy.sh
 ./bin/java-petstore-resttemplate-withxml.sh
 ./bin/java-petstore-resttemplate.sh

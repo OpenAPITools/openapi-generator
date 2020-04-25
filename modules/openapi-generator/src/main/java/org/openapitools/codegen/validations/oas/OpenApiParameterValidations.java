@@ -12,7 +12,7 @@ import java.util.Locale;
 /**
  * A standalone instance for evaluating rules and recommendations related to OAS {@link Parameter}
  */
-class OpenApiParameterValidations extends GenericValidator<Parameter> {
+class OpenApiParameterValidations extends GenericValidator<ParameterWrapper> {
     OpenApiParameterValidations(RuleConfiguration ruleConfiguration) {
         super(new ArrayList<>());
         if (ruleConfiguration.isEnableRecommendations()) {
@@ -32,7 +32,8 @@ class OpenApiParameterValidations extends GenericValidator<Parameter> {
      * @param parameter Any spec doc parameter. The method will handle {@link HeaderParameter} evaluation.
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail} with details "[key] contains an underscore."
      */
-    private static ValidationRule.Result apacheNginxHeaderCheck(Parameter parameter) {
+    private static ValidationRule.Result apacheNginxHeaderCheck(ParameterWrapper parameterWrapper) {
+        Parameter parameter = parameterWrapper.getParameter();
         if (parameter == null || !parameter.getIn().equals("header")) return ValidationRule.Pass.empty();
         ValidationRule.Result result = ValidationRule.Pass.empty();
 

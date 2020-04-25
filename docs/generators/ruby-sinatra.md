@@ -36,7 +36,8 @@ sidebar_label: ruby-sinatra
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
+<ul class="column-ul">
+<li>Array</li>
 <li>Boolean</li>
 <li>Date</li>
 <li>DateTime</li>
@@ -50,7 +51,8 @@ sidebar_label: ruby-sinatra
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>__file__</li>
+<ul class="column-ul">
+<li>__file__</li>
 <li>__line__</li>
 <li>alias</li>
 <li>and</li>

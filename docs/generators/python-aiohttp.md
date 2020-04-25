@@ -12,6 +12,7 @@ sidebar_label: python-aiohttp
 |packageName|python package name (convention: snake_case).| |openapi_server|
 |packageVersion|python package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|pythonSrcRoot|put python sources in this subdirectory of output folder (defaults to &quot;&quot; for). Use this for src/ layout.| ||
 |serverPort|TCP port to listen to in app.run| |8080|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -48,7 +49,8 @@ sidebar_label: python-aiohttp
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Dict</li>
+<ul class="column-ul">
+<li>Dict</li>
 <li>List</li>
 <li>bool</li>
 <li>byte</li>
@@ -64,7 +66,8 @@ sidebar_label: python-aiohttp
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>and</li>
+<ul class="column-ul">
+<li>and</li>
 <li>as</li>
 <li>assert</li>
 <li>break</li>

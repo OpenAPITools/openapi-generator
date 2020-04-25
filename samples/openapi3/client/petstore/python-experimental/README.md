@@ -117,11 +117,16 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [address.Address](docs/Address.md)
  - [animal.Animal](docs/Animal.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
+ - [apple.Apple](docs/Apple.md)
+ - [apple_req.AppleReq](docs/AppleReq.md)
  - [array_of_array_of_number_only.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [array_of_number_only.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [array_test.ArrayTest](docs/ArrayTest.md)
+ - [banana.Banana](docs/Banana.md)
+ - [banana_req.BananaReq](docs/BananaReq.md)
  - [capitalization.Capitalization](docs/Capitalization.md)
  - [cat.Cat](docs/Cat.md)
  - [cat_all_of.CatAllOf](docs/CatAllOf.md)
@@ -137,6 +142,9 @@ Class | Method | HTTP request | Description
  - [file_schema_test_class.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [foo.Foo](docs/Foo.md)
  - [format_test.FormatTest](docs/FormatTest.md)
+ - [fruit.Fruit](docs/Fruit.md)
+ - [fruit_req.FruitReq](docs/FruitReq.md)
+ - [gm_fruit.GmFruit](docs/GmFruit.md)
  - [has_only_read_only.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [health_check_result.HealthCheckResult](docs/HealthCheckResult.md)
  - [inline_object.InlineObject](docs/InlineObject.md)
@@ -147,6 +155,7 @@ Class | Method | HTTP request | Description
  - [inline_object5.InlineObject5](docs/InlineObject5.md)
  - [inline_response_default.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [list.List](docs/List.md)
+ - [mammal.Mammal](docs/Mammal.md)
  - [map_test.MapTest](docs/MapTest.md)
  - [mixed_properties_and_additional_properties_class.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [model200_response.Model200Response](docs/Model200Response.md)
@@ -166,6 +175,8 @@ Class | Method | HTTP request | Description
  - [string_boolean_map.StringBooleanMap](docs/StringBooleanMap.md)
  - [tag.Tag](docs/Tag.md)
  - [user.User](docs/User.md)
+ - [whale.Whale](docs/Whale.md)
+ - [zebra.Zebra](docs/Zebra.md)
 
 
 ## Documentation For Authorization

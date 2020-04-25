@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -25,6 +24,31 @@ type User struct {
 	Phone *string `json:"phone,omitempty"`
 	// User Status
 	UserStatus *int32 `json:"userStatus,omitempty"`
+	// test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.
+	ArbitraryObject *map[string]interface{} `json:"arbitraryObject,omitempty"`
+	// test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
+	ArbitraryNullableObject map[string]interface{} `json:"arbitraryNullableObject,omitempty"`
+	// test code generation for any type Value can be any type - string, number, boolean, array or object.
+	ArbitraryTypeValue *interface{} `json:"arbitraryTypeValue,omitempty"`
+	// test code generation for any type Value can be any type - string, number, boolean, array, object or the 'null' value.
+	ArbitraryNullableTypeValue interface{} `json:"arbitraryNullableTypeValue,omitempty"`
+}
+
+// NewUser instantiates a new User object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewUser() *User {
+	this := User{}
+	return &this
+}
+
+// NewUserWithDefaults instantiates a new User object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewUserWithDefaults() *User {
+	this := User{}
+	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -36,14 +60,13 @@ func (o *User) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetIdOk() (int64, bool) {
+func (o *User) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
-		var ret int64
-		return ret, false
+		return nil, false
 	}
-	return *o.Id, true
+	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -69,14 +92,13 @@ func (o *User) GetUsername() string {
 	return *o.Username
 }
 
-// GetUsernameOk returns a tuple with the Username field value if set, zero value otherwise
+// GetUsernameOk returns a tuple with the Username field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetUsernameOk() (string, bool) {
+func (o *User) GetUsernameOk() (*string, bool) {
 	if o == nil || o.Username == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Username, true
+	return o.Username, true
 }
 
 // HasUsername returns a boolean if a field has been set.
@@ -102,14 +124,13 @@ func (o *User) GetFirstName() string {
 	return *o.FirstName
 }
 
-// GetFirstNameOk returns a tuple with the FirstName field value if set, zero value otherwise
+// GetFirstNameOk returns a tuple with the FirstName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetFirstNameOk() (string, bool) {
+func (o *User) GetFirstNameOk() (*string, bool) {
 	if o == nil || o.FirstName == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.FirstName, true
+	return o.FirstName, true
 }
 
 // HasFirstName returns a boolean if a field has been set.
@@ -135,14 +156,13 @@ func (o *User) GetLastName() string {
 	return *o.LastName
 }
 
-// GetLastNameOk returns a tuple with the LastName field value if set, zero value otherwise
+// GetLastNameOk returns a tuple with the LastName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetLastNameOk() (string, bool) {
+func (o *User) GetLastNameOk() (*string, bool) {
 	if o == nil || o.LastName == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.LastName, true
+	return o.LastName, true
 }
 
 // HasLastName returns a boolean if a field has been set.
@@ -168,14 +188,13 @@ func (o *User) GetEmail() string {
 	return *o.Email
 }
 
-// GetEmailOk returns a tuple with the Email field value if set, zero value otherwise
+// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetEmailOk() (string, bool) {
+func (o *User) GetEmailOk() (*string, bool) {
 	if o == nil || o.Email == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Email, true
+	return o.Email, true
 }
 
 // HasEmail returns a boolean if a field has been set.
@@ -201,14 +220,13 @@ func (o *User) GetPassword() string {
 	return *o.Password
 }
 
-// GetPasswordOk returns a tuple with the Password field value if set, zero value otherwise
+// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetPasswordOk() (string, bool) {
+func (o *User) GetPasswordOk() (*string, bool) {
 	if o == nil || o.Password == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Password, true
+	return o.Password, true
 }
 
 // HasPassword returns a boolean if a field has been set.
@@ -234,14 +252,13 @@ func (o *User) GetPhone() string {
 	return *o.Phone
 }
 
-// GetPhoneOk returns a tuple with the Phone field value if set, zero value otherwise
+// GetPhoneOk returns a tuple with the Phone field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetPhoneOk() (string, bool) {
+func (o *User) GetPhoneOk() (*string, bool) {
 	if o == nil || o.Phone == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Phone, true
+	return o.Phone, true
 }
 
 // HasPhone returns a boolean if a field has been set.
@@ -267,14 +284,13 @@ func (o *User) GetUserStatus() int32 {
 	return *o.UserStatus
 }
 
-// GetUserStatusOk returns a tuple with the UserStatus field value if set, zero value otherwise
+// GetUserStatusOk returns a tuple with the UserStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetUserStatusOk() (int32, bool) {
+func (o *User) GetUserStatusOk() (*int32, bool) {
 	if o == nil || o.UserStatus == nil {
-		var ret int32
-		return ret, false
+		return nil, false
 	}
-	return *o.UserStatus, true
+	return o.UserStatus, true
 }
 
 // HasUserStatus returns a boolean if a field has been set.
@@ -291,25 +307,209 @@ func (o *User) SetUserStatus(v int32) {
 	o.UserStatus = &v
 }
 
+// GetArbitraryObject returns the ArbitraryObject field value if set, zero value otherwise.
+func (o *User) GetArbitraryObject() map[string]interface{} {
+	if o == nil || o.ArbitraryObject == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return *o.ArbitraryObject
+}
+
+// GetArbitraryObjectOk returns a tuple with the ArbitraryObject field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *User) GetArbitraryObjectOk() (*map[string]interface{}, bool) {
+	if o == nil || o.ArbitraryObject == nil {
+		return nil, false
+	}
+	return o.ArbitraryObject, true
+}
+
+// HasArbitraryObject returns a boolean if a field has been set.
+func (o *User) HasArbitraryObject() bool {
+	if o != nil && o.ArbitraryObject != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetArbitraryObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryObject field.
+func (o *User) SetArbitraryObject(v map[string]interface{}) {
+	o.ArbitraryObject = &v
+}
+
+// GetArbitraryNullableObject returns the ArbitraryNullableObject field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *User) GetArbitraryNullableObject() map[string]interface{} {
+	if o == nil  {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.ArbitraryNullableObject
+}
+
+// GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *User) GetArbitraryNullableObjectOk() (*map[string]interface{}, bool) {
+	if o == nil || o.ArbitraryNullableObject == nil {
+		return nil, false
+	}
+	return &o.ArbitraryNullableObject, true
+}
+
+// HasArbitraryNullableObject returns a boolean if a field has been set.
+func (o *User) HasArbitraryNullableObject() bool {
+	if o != nil && o.ArbitraryNullableObject != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetArbitraryNullableObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryNullableObject field.
+func (o *User) SetArbitraryNullableObject(v map[string]interface{}) {
+	o.ArbitraryNullableObject = v
+}
+
+// GetArbitraryTypeValue returns the ArbitraryTypeValue field value if set, zero value otherwise.
+func (o *User) GetArbitraryTypeValue() interface{} {
+	if o == nil || o.ArbitraryTypeValue == nil {
+		var ret interface{}
+		return ret
+	}
+	return *o.ArbitraryTypeValue
+}
+
+// GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool) {
+	if o == nil || o.ArbitraryTypeValue == nil {
+		return nil, false
+	}
+	return o.ArbitraryTypeValue, true
+}
+
+// HasArbitraryTypeValue returns a boolean if a field has been set.
+func (o *User) HasArbitraryTypeValue() bool {
+	if o != nil && o.ArbitraryTypeValue != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetArbitraryTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryTypeValue field.
+func (o *User) SetArbitraryTypeValue(v interface{}) {
+	o.ArbitraryTypeValue = &v
+}
+
+// GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *User) GetArbitraryNullableTypeValue() interface{} {
+	if o == nil  {
+		var ret interface{}
+		return ret
+	}
+	return o.ArbitraryNullableTypeValue
+}
+
+// GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool) {
+	if o == nil || o.ArbitraryNullableTypeValue == nil {
+		return nil, false
+	}
+	return &o.ArbitraryNullableTypeValue, true
+}
+
+// HasArbitraryNullableTypeValue returns a boolean if a field has been set.
+func (o *User) HasArbitraryNullableTypeValue() bool {
+	if o != nil && o.ArbitraryNullableTypeValue != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetArbitraryNullableTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryNullableTypeValue field.
+func (o *User) SetArbitraryNullableTypeValue(v interface{}) {
+	o.ArbitraryNullableTypeValue = v
+}
+
+func (o User) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
+	if o.Username != nil {
+		toSerialize["username"] = o.Username
+	}
+	if o.FirstName != nil {
+		toSerialize["firstName"] = o.FirstName
+	}
+	if o.LastName != nil {
+		toSerialize["lastName"] = o.LastName
+	}
+	if o.Email != nil {
+		toSerialize["email"] = o.Email
+	}
+	if o.Password != nil {
+		toSerialize["password"] = o.Password
+	}
+	if o.Phone != nil {
+		toSerialize["phone"] = o.Phone
+	}
+	if o.UserStatus != nil {
+		toSerialize["userStatus"] = o.UserStatus
+	}
+	if o.ArbitraryObject != nil {
+		toSerialize["arbitraryObject"] = o.ArbitraryObject
+	}
+	if o.ArbitraryNullableObject != nil {
+		toSerialize["arbitraryNullableObject"] = o.ArbitraryNullableObject
+	}
+	if o.ArbitraryTypeValue != nil {
+		toSerialize["arbitraryTypeValue"] = o.ArbitraryTypeValue
+	}
+	if o.ArbitraryNullableTypeValue != nil {
+		toSerialize["arbitraryNullableTypeValue"] = o.ArbitraryNullableTypeValue
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableUser struct {
-	Value User
-	ExplicitNull bool
+	value *User
+	isSet bool
+}
+
+func (v NullableUser) Get() *User {
+	return v.value
+}
+
+func (v *NullableUser) Set(val *User) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableUser) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableUser) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableUser(val *User) *NullableUser {
+	return &NullableUser{value: val, isSet: true}
 }
 
 func (v NullableUser) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableUser) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

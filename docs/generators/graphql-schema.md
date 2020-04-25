@@ -39,7 +39,8 @@ sidebar_label: graphql-schema
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Boolean</li>
+<ul class="column-ul">
+<li>Boolean</li>
 <li>Float</li>
 <li>ID</li>
 <li>Int</li>
@@ -49,7 +50,8 @@ sidebar_label: graphql-schema
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>boolean</li>
+<ul class="column-ul">
+<li>boolean</li>
 <li>float</li>
 <li>id</li>
 <li>implements</li>
