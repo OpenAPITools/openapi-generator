@@ -1886,7 +1886,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     private String getSingleSchemaType(Schema schema) {
         Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
-
+        if (unaliasSchema == null) {
+            throw new RuntimeException("Schema '" + schema.getName() + "' is invalid");
+        }
         if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
             // get the schema/model name from $ref
             String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
@@ -2100,6 +2102,33 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
     }
 
+    // Returns a model that encapsulates the JSON schema "any type". Its value
+    // can be one of null, integer, boolean, number, string, array or map.
+    // "Any type" is a schema that does not have the "type" attribute
+    // specified in the OpenAPI schema. That means the value can be any valid
+    // payload, i.e. the null value, boolean, string, integer, number,
+    // array or map.
+    // Map any schema to a 'oneOf' composed schema that has all possible types.
+    public CodegenModel getAnyTypeModel(String name, Schema schema) {
+        if (!ModelUtils.isAnyTypeSchema(schema)) {
+            throw new RuntimeException("Schema '" + name + "' is not 'any type'");
+        }
+        ComposedSchema s = (ComposedSchema) new ComposedSchema()
+            .addOneOfItem(new ObjectSchema().type("null"))
+            .addOneOfItem(new BooleanSchema())
+            .addOneOfItem(new StringSchema())
+            .addOneOfItem(new IntegerSchema())
+            .addOneOfItem(new NumberSchema())
+            .addOneOfItem(new ArraySchema())
+            .addOneOfItem(new MapSchema())
+            .name(name);
+        if (schema != null) {
+            s.setTitle(schema.getTitle());
+            s.setDescription(schema.getDescription());
+        }
+        return fromModel(name, s);
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object
      *
@@ -2119,6 +2148,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema == null) {
             LOGGER.warn("Schema {} not found", name);
             return null;
+        }
+
+        if (ModelUtils.isAnyTypeSchema(schema)) {
+            LOGGER.warn("Schema is any type: {}", name);
+            return getAnyTypeModel(name, schema);
         }
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
@@ -2155,7 +2189,6 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
