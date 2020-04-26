@@ -23,6 +23,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.net.URI;
 {{^supportJava6}}
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -170,7 +171,7 @@ public class ApiClient {
     authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));
     {{/isBasicBearer}}
     {{#isHttpSignature}}
-    authentications.put("{{name}}", new HttpSignatureAuth("{{name}}"));
+    authentications.put("{{name}}", new HttpSignatureAuth("{{name}}", null, null));
     {{/isHttpSignature}}
     {{/isBasic}}
     {{#isApiKey}}
@@ -950,11 +951,13 @@ public class ApiClient {
 
     Entity<?> entity = serialize(body, formParams, contentType);
 
+    // put all headers in one place
     Map<String, String> allHeaderParams = new HashMap<>();
     allHeaderParams.putAll(defaultHeaderMap);
     allHeaderParams.putAll(headerParams);
-    
-    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, method, target.getUri().toString());
+   
+    // update different parameters (e.g. headers) for authentication
+    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, entity.toString(), method, target.getUri());
 
     Response response = null;
 
@@ -1085,11 +1088,13 @@ public class ApiClient {
    * @param method HTTP method (e.g. POST)
    * @param uri HTTP URI
    */
-  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String method, String uri) throws ApiException {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
-      if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-      auth.applyToParams(queryParams, headerParams, cookieParams, method, uri);
+      if (auth == null) {
+        throw new RuntimeException("Authentication undefined: " + authName);
+      }
+      auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
     }
   }
 }

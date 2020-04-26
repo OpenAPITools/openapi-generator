@@ -23,6 +23,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -166,7 +167,7 @@ public class ApiClient {
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     authentications.put("http_basic_test", new HttpBasicAuth());
-    authentications.put("http_signature_test", new HttpSignatureAuth("http_signature_test"));
+    authentications.put("http_signature_test", new HttpSignatureAuth("http_signature_test", null, null));
     authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
@@ -929,11 +930,13 @@ public class ApiClient {
 
     Entity<?> entity = serialize(body, formParams, contentType);
 
+    // put all headers in one place
     Map<String, String> allHeaderParams = new HashMap<>();
     allHeaderParams.putAll(defaultHeaderMap);
     allHeaderParams.putAll(headerParams);
-    
-    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, method, target.getUri().toString());
+   
+    // update different parameters (e.g. headers) for authentication
+    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, entity.toString(), method, target.getUri());
 
     Response response = null;
 
@@ -1059,11 +1062,13 @@ public class ApiClient {
    * @param method HTTP method (e.g. POST)
    * @param uri HTTP URI
    */
-  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String method, String uri) throws ApiException {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
-      if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-      auth.applyToParams(queryParams, headerParams, cookieParams, method, uri);
+      if (auth == null) {
+        throw new RuntimeException("Authentication undefined: " + authName);
+      }
+      auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
     }
   }
 }

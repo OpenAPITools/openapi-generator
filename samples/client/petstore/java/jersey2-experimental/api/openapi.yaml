@@ -1252,7 +1252,8 @@ paths:
       responses:
         "200":
           description: The instance started successfully
-      security: []
+      security:
+      - http_signature_test: []
       summary: test http signature authentication
       tags:
       - fake

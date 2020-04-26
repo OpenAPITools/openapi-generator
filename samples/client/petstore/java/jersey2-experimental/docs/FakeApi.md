@@ -94,6 +94,7 @@ test http signature authentication
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -101,6 +102,7 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -134,7 +136,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 

@@ -16,6 +16,7 @@ package org.openapitools.client.auth;
 import org.openapitools.client.Pair;
 import org.openapitools.client.ApiException;
 
+import java.net.URI;
 import java.util.Map;
 import java.util.List;
 
@@ -27,6 +28,6 @@ public interface Authentication {
      * @param headerParams Map of header parameters
      * @param cookieParams Map of cookie parameters
      */
-    void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String method, String uri) throws ApiException;
+    void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException;
 
 }

@@ -1111,7 +1111,7 @@ paths:
           schema:
             type: string
       security:
-        - http_signature_test
+        - http_signature_test: []
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:

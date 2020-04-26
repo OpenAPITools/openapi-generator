@@ -17,59 +17,96 @@ import org.openapitools.client.Pair;
 import org.openapitools.client.ApiException;
 
 import java.io.ByteArrayInputStream;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.net.URI;
+import java.security.MessageDigest;
+import java.security.Key;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.tomitribe.auth.signatures.*;
 
 public class HttpSignatureAuth implements Authentication {
 
-  private PrivateKey privateKey;
-
   private Signer signer;
-
-  private Algorithm algorithm;
 
   private String name;
 
-  public HttpSignatureAuth(String name) {
+  private Algorithm algorithm;
+
+  private List<String> headers;
+
+  public HttpSignatureAuth(String name, Algorithm algorithm, List<String> headers) {
+    this.name = name;
+    this.algorithm = algorithm;
+    this.headers = headers;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
     this.name = name;
   }
 
-  public void setup(PrivateKey privateKey, Algorithm algorithm, String... sign) throws ApiException {
-    if (algorithm == null) {
-      this.algorithm = Algorithm.RSA_SHA512; // default using RSA-SHA512
-    } else {
-      this.algorithm = algorithm;
-    }
+  public Algorithm getAlgorithm() {
+    return algorithm;
+  }
 
-    if (privateKey == null) {
-      throw new ApiException("privateKey (java.security.PrivateKey) cannot be null");
-    } else {
-      this.privateKey = privateKey;
-    }
+  public void setAlgorithm(Algorithm algorithm) {
+    this.algorithm = algorithm;
+  }
 
-    signer = new Signer(this.privateKey, new Signature(this.name, this.algorithm, null, sign));
+  public List<String> getHeaders() {
+    return headers;
+  }
+
+  public void setHeaders(List<String> headers) {
+    this.headers = headers;
   }
 
   public Signer getSigner() {
     return signer;
   }
 
+  public void setSigner(Signer signer) {
+    this.signer = signer;
+  }
+
+  public void setup(Key key) throws ApiException {
+    if (key == null) {
+      throw new ApiException("key (java.security.Key) cannot be null");
+    }
+
+    signer = new Signer(key, new Signature(name, algorithm, null, headers));
+  }
+
   @Override
-  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String method, String uri) throws ApiException {
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
+
+    System.out.println(queryParams);
+    System.out.println(headerParams);
+    System.out.println(method);
+    System.out.println(uri);
+    System.out.println(payload);
+
     if (signer == null) {
       throw new ApiException("Signer cannot be null. Please run the method `setup` to set it up correctly");
     }
 
     try {
-      headerParams.put("Authorization", signer.sign(method, uri, headerParams).toString());
+      headerParams.put("Authorization", signer.sign(method, uri.getPath(), headerParams).toString());
+      if (payload != null) {
+        final byte[] digest = MessageDigest.getInstance("SHA-256").digest(payload.getBytes());
+        headerParams.put("digest", "SHA-256=" + new String(Base64.getEncoder().encode(digest)));
+      }
     } catch (Exception ex) {
       throw new ApiException("Failed to create signature in the HTTP request header: " + ex.toString());
     }
+
   }
 }
 
