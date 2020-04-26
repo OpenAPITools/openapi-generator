@@ -368,16 +368,18 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
     if (reply != nullptr) {
         reply->setParent(this);
         connect(reply, &QNetworkReply::finished, [this, reply] {
-            on_manager_finished(reply);
+            on_reply_finished(reply);
         });
     }
     if (timeOutTimer.interval() > 0) {
-        QObject::connect(&timeOutTimer, &QTimer::timeout, [=]() { on_manager_timeout(reply); });
+        QObject::connect(&timeOutTimer, &QTimer::timeout, [this, reply] {
+            on_reply_timeout(reply);
+        });
         timeOutTimer.start();
     }
 }
 
-void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+void PFXHttpRequestWorker::on_reply_finished(QNetworkReply *reply) {
     bool codeSts = false;
     if(timeOutTimer.isActive()) {
         QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
@@ -401,11 +403,11 @@ void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     emit on_execution_finished(this);
 }
 
-void PFXHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
+void PFXHttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
     error_type = QNetworkReply::TimeoutError;
     response = "";
     error_str = "Timed out waiting for response";
-    disconnect(manager, nullptr, nullptr, nullptr);
+    disconnect(reply, nullptr, nullptr, nullptr);
     reply->abort();
     reply->deleteLater();
     emit on_execution_finished(this);
