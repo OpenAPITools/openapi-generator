@@ -51,7 +51,6 @@ public class FakeApiTest {
      *
      * @throws Exception if the Api call fails
      */
-    @Ignore
     @Test
     public void fakeHttpSignatureTestTest() throws Exception {
 
