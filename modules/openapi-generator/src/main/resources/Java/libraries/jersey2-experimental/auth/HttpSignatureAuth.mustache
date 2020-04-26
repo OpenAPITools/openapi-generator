@@ -9,10 +9,13 @@ import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.security.MessageDigest;
 import java.security.Key;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
+import java.util.Locale;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.tomitribe.auth.signatures.*;
@@ -75,23 +78,24 @@ public class HttpSignatureAuth implements Authentication {
 
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
-
-    System.out.println(queryParams);
-    System.out.println(headerParams);
-    System.out.println(method);
-    System.out.println(uri);
-    System.out.println(payload);
-
-    if (signer == null) {
-      throw new ApiException("Signer cannot be null. Please run the method `setup` to set it up correctly");
-    }
-
     try {
-      headerParams.put("Authorization", signer.sign(method, uri.getPath(), headerParams).toString());
-      if (payload != null) {
-        final byte[] digest = MessageDigest.getInstance("SHA-256").digest(payload.getBytes());
-        headerParams.put("digest", "SHA-256=" + new String(Base64.getEncoder().encode(digest)));
+      if (headers.contains("host")) {
+        headerParams.put("host", uri.getHost());
       }
+
+      if (headers.contains("date")) {
+        headerParams.put("date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US).format(new Date()));
+      }
+
+      if (headers.contains("digest")) {
+        headerParams.put("digest", "SHA-256=" + new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-256").digest(payload.getBytes()))));
+      }
+
+      if (signer == null) {
+        throw new ApiException("Signer cannot be null. Please run the method `setup` to set it up correctly");
+      }
+
+      headerParams.put("Authorization", signer.sign(method, uri.getPath(), headerParams).toString());
     } catch (Exception ex) {
       throw new ApiException("Failed to create signature in the HTTP request header: " + ex.toString());
     }

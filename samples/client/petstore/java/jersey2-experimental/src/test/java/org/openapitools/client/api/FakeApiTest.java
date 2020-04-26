@@ -13,6 +13,7 @@
 
 package org.openapitools.client.api;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -23,6 +24,8 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.auth.HttpSignatureAuth;
 import org.openapitools.client.model.Pet;
 import org.tomitribe.auth.signatures.*;
+
+import java.util.Arrays;
 
 /**
  * API tests for FakeApi
@@ -48,6 +51,7 @@ public class FakeApiTest {
      *
      * @throws Exception if the Api call fails
      */
+    @Ignore
     @Test
     public void fakeHttpSignatureTestTest() throws Exception {
 
@@ -70,13 +74,15 @@ public class FakeApiTest {
         PrivateKey privateKey = PEM.readPrivateKey(new ByteArrayInputStream(privateKeyPem.getBytes()));
         ApiClient client = api.getApiClient();
         HttpSignatureAuth auth = (HttpSignatureAuth) client.getAuthentication("http_signature_test");
+        auth.setAlgorithm(Algorithm.RSA_SHA512);
+        auth.setHeaders(Arrays.asList("(request-target)", "host", "date"));
         auth.setup(privateKey);
 
         Pet pet = new Pet();
         pet.setId(10l);
         pet.setName("test http signature");
-        String query1 = null;
-        String header1 = null;
+        String query1 = "hello world";
+        String header1 = "empty header";
         api.fakeHttpSignatureTest(pet, query1, header1);
 
     }
