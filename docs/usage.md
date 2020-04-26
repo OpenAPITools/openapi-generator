@@ -260,14 +260,14 @@ SYNOPSIS
                 [(-a <authorization> | --auth <authorization>)]
                 [--api-name-suffix <api name suffix>] [--api-package <api package>]
                 [--artifact-id <artifact id>] [--artifact-version <artifact version>]
-                [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...] [--dry-run]
+                [(-c <configuration file> | --config <configuration file>)] [--dry-run]
                 [(-e <templating engine> | --engine <templating engine>)]
                 [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
                 [--generate-alias-as-model] [--git-host <git host>]
                 [--git-repo-id <git repo id>] [--git-user-id <git user id>]
-                [--group-id <group id>] [--http-user-agent <http user agent>]
+                [--global-property <global properties>...] [--group-id <group id>]
+                [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
@@ -323,10 +323,6 @@ OPTIONS
             different for each language. Run config-help -g {generator name}
             command for language-specific config options.
 
-        -D <system properties>
-            sets specified system properties in the format of
-            name=value,name=value (or multiple options, each with name=value)
-
         --dry-run
             Try things out and report on potential changes (without actually
             making changes).
@@ -342,11 +338,11 @@ OPTIONS
 
         --generate-alias-as-model
             Generate model implementation for aliases to map and array schemas.
-            An 'alias' is an array, map, or list which is defined inline in a 
-            OpenAPI document and becomes a model in the generated code.
-            A 'map' schema is an object that can have undeclared properties,
-            i.e. the 'additionalproperties' attribute is set on that object.
-            An 'array' schema is a list of sub schemas in a OAS document.
+            An 'alias' is an array, map, or list which is defined inline in a
+            OpenAPI document and becomes a model in the generated code. A 'map'
+            schema is an object that can have undeclared properties, i.e. the
+            'additionalproperties' attribute is set on that object. An 'array'
+            schema is a list of sub schemas in a OAS document
 
         --git-host <git host>
             Git host, e.g. gitlab.com.
@@ -356,6 +352,11 @@ OPTIONS
 
         --git-user-id <git user id>
             Git user ID, e.g. openapitools.
+
+        --global-property <global properties>
+            sets specified global properties (previously called 'system
+            properties') in the format of name=value,name=value (or multiple
+            options, each with name=value)
 
         --group-id <group id>
             groupId in generated pom.xml

@@ -90,7 +90,8 @@ You can use this as additional dependency of the `openapi-generator-maven-plugin
 If you publish your artifact to a distant maven repository, do not forget to add this repository as `pluginRepository` for your project.
 
 ## Selective generation
-You may not want to generate *all* models in your project.  Likewise you may want just one or two apis to be written.  If that's the case, you can use system properties to control the output:
+
+You may not want to generate *all* models in your project. Likewise, you may want just one or two apis to be written.  If that's the case, you can use system properties or [global properties](./global-properties.md) to control the output.
 
 The default is generate *everything* supported by the specific library.  Once you enable a feature, it will restrict the contents generated:
 
