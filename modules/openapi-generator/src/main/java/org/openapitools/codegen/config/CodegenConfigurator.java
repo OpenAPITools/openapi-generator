@@ -61,7 +61,7 @@ public class CodegenConfigurator {
     private String generatorName;
     private String inputSpec;
     private String templatingEngineName;
-    private Map<String, String> systemProperties = new HashMap<>();
+    private Map<String, String> globalProperties = new HashMap<>();
     private Map<String, String> instantiationTypes = new HashMap<>();
     private Map<String, String> typeMappings = new HashMap<>();
     private Map<String, Object> additionalProperties = new HashMap<>();
@@ -91,8 +91,8 @@ public class CodegenConfigurator {
             configurator.generatorName = generatorSettings.getGeneratorName();
             configurator.inputSpec = workflowSettings.getInputSpec();
             configurator.templatingEngineName = workflowSettings.getTemplatingEngineName();
-            if (workflowSettings.getSystemProperties() != null) {
-                configurator.systemProperties.putAll(workflowSettings.getSystemProperties());
+            if (workflowSettings.getGlobalProperties() != null) {
+                configurator.globalProperties.putAll(workflowSettings.getGlobalProperties());
             }
             if(generatorSettings.getInstantiationTypes() != null) {
                 configurator.instantiationTypes.putAll(generatorSettings.getInstantiationTypes());
@@ -183,10 +183,9 @@ public class CodegenConfigurator {
         return this;
     }
 
-    // TODO: rename this and other references to "global property" rather than "system property"
-    public CodegenConfigurator addSystemProperty(String key, String value) {
-        this.systemProperties.put(key, value);
-        workflowSettingsBuilder.withSystemProperty(key, value);
+    public CodegenConfigurator addGlobalProperty(String key, String value) {
+        this.globalProperties.put(key, value);
+        workflowSettingsBuilder.withGlobalProperty(key, value);
         return this;
     }
 
@@ -385,9 +384,9 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator setSystemProperties(Map<String, String> systemProperties) {
-        this.systemProperties = systemProperties;
-        workflowSettingsBuilder.withSystemProperties(systemProperties);
+    public CodegenConfigurator setGlobalProperties(Map<String, String> globalProperties) {
+        this.globalProperties = globalProperties;
+        workflowSettingsBuilder.withGlobalProperties(globalProperties);
         return this;
     }
 
@@ -450,7 +449,7 @@ public class CodegenConfigurator {
             GlobalSettings.setProperty("verbose", "false");
         }
 
-        for (Map.Entry<String, String> entry : workflowSettings.getSystemProperties().entrySet()) {
+        for (Map.Entry<String, String> entry : workflowSettings.getGlobalProperties().entrySet()) {
             GlobalSettings.setProperty(entry.getKey(), entry.getValue());
         }
 

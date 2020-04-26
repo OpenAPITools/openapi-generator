@@ -50,19 +50,19 @@ public class WorkflowSettingsTest {
     }
 
     @Test
-    public void newBuilderFromCopyShouldMutateSystemProperties(){
+    public void newBuilderFromCopyShouldMutateGlobalProperties(){
         WorkflowSettings original = WorkflowSettings.newBuilder()
                 .withOutputDir("output")
                 .withVerbose(true)
                 .withSkipOverwrite(false)
-                .withSystemProperty("first", "1st")
+                .withGlobalProperty("first", "1st")
                 .build();
 
         WorkflowSettings modified = WorkflowSettings.newBuilder(original)
-                .withSystemProperty("second", "2nd")
+                .withGlobalProperty("second", "2nd")
                 .build();
 
-        Map<String, String> properties = modified.getSystemProperties();
+        Map<String, String> properties = modified.getGlobalProperties();
         assertEquals(properties.size(), 2, "System Properties map should allow mutation when invoked via copy constructor");
         assertEquals(properties.getOrDefault("first", ""), "1st");
         assertEquals(properties.getOrDefault("second", ""), "2nd");
