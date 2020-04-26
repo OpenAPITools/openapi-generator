@@ -682,7 +682,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
+                    // wrap using double quotes to avoid the need to escape any embedded single quotes
+                    return "\"" + p.getDefault() + "\"";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -726,7 +727,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
             if (ModelUtils.isStringSchema(schema)) {
-                example = "'" + example + "'";
+                // wrap using double quotes to avoid the need to escape any embedded single quotes
+                example = "\"" + example + "\"";
             }
             return example;
         }
