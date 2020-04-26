@@ -4236,11 +4236,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             CodegenSecurity cs = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
             cs.name = key;
-            if (securityScheme.getType() != null) {
-                cs.type = securityScheme.getType().toString();
-            } else {
-                throw new RuntimeException("Security schema type cannot be null: " + securityScheme);
-            }
+            cs.type = securityScheme.getType().toString();
             cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
             cs.isHttpSignature = false;
             cs.isBasicBasic = cs.isBasicBearer = false;
