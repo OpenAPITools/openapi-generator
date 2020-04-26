@@ -8,16 +8,35 @@ use crate::header;
 // Methods for converting between header::IntoHeaderValue<AnotherXmlArray> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<AnotherXmlArray>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<AnotherXmlArray>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlArray>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AnotherXmlArray>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for AnotherXmlArray - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlArray> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<AnotherXmlArray as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlArray> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <AnotherXmlArray as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into AnotherXmlArray - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -187,16 +206,35 @@ impl AnotherXmlInner {
 // Methods for converting between header::IntoHeaderValue<AnotherXmlObject> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<AnotherXmlObject>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<AnotherXmlObject>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AnotherXmlObject>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for AnotherXmlObject - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlObject> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<AnotherXmlObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <AnotherXmlObject as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into AnotherXmlObject - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -301,16 +339,35 @@ impl AnotherXmlObject {
 // Methods for converting between header::IntoHeaderValue<DuplicateXmlObject> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<DuplicateXmlObject>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<DuplicateXmlObject>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<DuplicateXmlObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<DuplicateXmlObject>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for DuplicateXmlObject - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<DuplicateXmlObject> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<DuplicateXmlObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DuplicateXmlObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <DuplicateXmlObject as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into DuplicateXmlObject - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -577,16 +634,35 @@ impl Error {
 // Methods for converting between header::IntoHeaderValue<InlineResponse201> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<InlineResponse201>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<InlineResponse201>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<InlineResponse201>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<InlineResponse201>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for InlineResponse201 - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineResponse201> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<InlineResponse201 as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineResponse201> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <InlineResponse201 as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into InlineResponse201 - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -720,16 +796,35 @@ impl MyId {
 // Methods for converting between header::IntoHeaderValue<MyIdList> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<MyIdList>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<MyIdList>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<MyIdList>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<MyIdList>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for MyIdList - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MyIdList> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<MyIdList as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MyIdList> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <MyIdList as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into MyIdList - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -835,16 +930,35 @@ impl MyIdList {
 // Methods for converting between header::IntoHeaderValue<NullableTest> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<NullableTest>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<NullableTest>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<NullableTest>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<NullableTest>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for NullableTest - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<NullableTest> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<NullableTest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<NullableTest> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <NullableTest as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into NullableTest - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -999,16 +1113,35 @@ impl NullableTest {
 // Methods for converting between header::IntoHeaderValue<ObjectHeader> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<ObjectHeader>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<ObjectHeader>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectHeader>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectHeader>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for ObjectHeader - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectHeader> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<ObjectHeader as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectHeader> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <ObjectHeader as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into ObjectHeader - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -1113,16 +1246,35 @@ impl ObjectHeader {
 // Methods for converting between header::IntoHeaderValue<ObjectParam> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<ObjectParam>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<ObjectParam>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectParam>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectParam>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for ObjectParam - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectParam> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<ObjectParam as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectParam> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <ObjectParam as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into ObjectParam - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -1227,16 +1379,35 @@ impl ObjectParam {
 // Methods for converting between header::IntoHeaderValue<ObjectUntypedProps> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<ObjectUntypedProps>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<ObjectUntypedProps>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectUntypedProps>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectUntypedProps>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for ObjectUntypedProps - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectUntypedProps> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<ObjectUntypedProps as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectUntypedProps> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <ObjectUntypedProps as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into ObjectUntypedProps - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -1354,16 +1525,35 @@ impl ObjectUntypedProps {
 // Methods for converting between header::IntoHeaderValue<ObjectWithArrayOfObjects> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<ObjectWithArrayOfObjects>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<ObjectWithArrayOfObjects>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectWithArrayOfObjects>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectWithArrayOfObjects>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for ObjectWithArrayOfObjects - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectWithArrayOfObjects> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<ObjectWithArrayOfObjects as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectWithArrayOfObjects> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <ObjectWithArrayOfObjects as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into ObjectWithArrayOfObjects - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -1778,16 +1968,35 @@ impl UuidObject {
 // Methods for converting between header::IntoHeaderValue<XmlArray> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<XmlArray>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<XmlArray>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<XmlArray>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<XmlArray>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for XmlArray - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlArray> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<XmlArray as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlArray> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <XmlArray as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into XmlArray - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -1957,16 +2166,35 @@ impl XmlInner {
 // Methods for converting between header::IntoHeaderValue<XmlObject> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<XmlObject>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<XmlObject>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<XmlObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<XmlObject>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for XmlObject - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlObject> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<XmlObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <XmlObject as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into XmlObject - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 

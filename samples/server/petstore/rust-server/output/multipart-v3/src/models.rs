@@ -8,16 +8,35 @@ use crate::header;
 // Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<InlineObject>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<InlineObject>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for InlineObject - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<InlineObject as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <InlineObject as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into InlineObject - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -111,16 +130,35 @@ impl std::str::FromStr for InlineObject {
 // Methods for converting between header::IntoHeaderValue<MultipartRelatedRequest> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<MultipartRelatedRequest>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<MultipartRelatedRequest>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRelatedRequest>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRelatedRequest>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for MultipartRelatedRequest - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelatedRequest> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<MultipartRelatedRequest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelatedRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <MultipartRelatedRequest as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into MultipartRelatedRequest - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -223,16 +261,35 @@ impl std::str::FromStr for MultipartRelatedRequest {
 // Methods for converting between header::IntoHeaderValue<MultipartRequest> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<MultipartRequest>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<MultipartRequest>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRequest>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRequest>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for MultipartRequest - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequest> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<MultipartRequest as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <MultipartRequest as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into MultipartRequest - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
@@ -349,16 +406,35 @@ impl std::str::FromStr for MultipartRequest {
 // Methods for converting between header::IntoHeaderValue<MultipartRequestObjectField> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<MultipartRequestObjectField>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<MultipartRequestObjectField>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<MultipartRequestObjectField>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<MultipartRequestObjectField>) -> Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             Ok(value) => Ok(value),
+             Err(e) => Err(format!("Invalid header value for MultipartRequestObjectField - value: {} is invalid {}",
+                 hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequestObjectField> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<MultipartRequestObjectField as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRequestObjectField> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             Ok(value) => {
+                    match <MultipartRequestObjectField as std::str::FromStr>::from_str(value) {
+                        Ok(value) => Ok(header::IntoHeaderValue(value)),
+                        Err(err) => Err(format!("Unable to convert header value '{}' into MultipartRequestObjectField - {}",
+                            value, err))
+                    }
+             },
+             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
+                 hdr_value, e))
+        }
     }
 }
 
