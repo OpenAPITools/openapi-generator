@@ -1,8 +1,8 @@
 #![allow(unused_qualifications)]
 
-use models;
+use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
-use header;
+use crate::header;
 
 
 // Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
@@ -22,8 +22,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> 
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct InlineObject {
     #[serde(rename = "binary1")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -125,8 +125,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartRelat
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -237,8 +237,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartReque
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRequest {
     #[serde(rename = "string_field")]
     pub string_field: String,
@@ -363,8 +363,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<MultipartReque
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRequestObjectField {
     #[serde(rename = "field_a")]
     pub field_a: String,

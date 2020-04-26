@@ -3,9 +3,10 @@ use futures::{Future, future, Stream, stream};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use url::form_urlencoded;
+use log::warn;
 use serde_json;
 use std::io;
+use url::form_urlencoded;
 #[allow(unused_imports)]
 use swagger;
 use swagger::{ApiError, XSpanIdString, Has, RequestParser};
@@ -18,12 +19,12 @@ use multipart::server::save::SaveResult;
 use serde_xml_rs;
 
 #[allow(unused_imports)]
-use models;
-use header;
+use crate::models;
+use crate::header;
 
 pub use crate::context;
 
-use {Api,
+use crate::{Api,
      TestSpecialTagsResponse,
      Call123exampleResponse,
      FakeOuterBooleanSerializeResponse,
@@ -62,7 +63,7 @@ use {Api,
 };
 
 mod paths {
-    extern crate regex;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
@@ -96,53 +97,53 @@ mod paths {
         ])
         .expect("Unable to create global regex set");
     }
-    pub static ID_ANOTHER_FAKE_DUMMY: usize = 0;
-    pub static ID_FAKE: usize = 1;
-    pub static ID_FAKE_BODY_WITH_QUERY_PARAMS: usize = 2;
-    pub static ID_FAKE_HYPHENPARAM_HYPHEN_PARAM: usize = 3;
+    pub(crate) static ID_ANOTHER_FAKE_DUMMY: usize = 0;
+    pub(crate) static ID_FAKE: usize = 1;
+    pub(crate) static ID_FAKE_BODY_WITH_QUERY_PARAMS: usize = 2;
+    pub(crate) static ID_FAKE_HYPHENPARAM_HYPHEN_PARAM: usize = 3;
     lazy_static! {
         pub static ref REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM: regex::Regex =
             regex::Regex::new(r"^/v2/fake/hyphenParam/(?P<hyphen-param>[^/?#]*)$")
                 .expect("Unable to create regex for FAKE_HYPHENPARAM_HYPHEN_PARAM");
     }
-    pub static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 4;
-    pub static ID_FAKE_JSONFORMDATA: usize = 5;
-    pub static ID_FAKE_OPERATION_WITH_NUMERIC_ID: usize = 6;
-    pub static ID_FAKE_OUTER_BOOLEAN: usize = 7;
-    pub static ID_FAKE_OUTER_COMPOSITE: usize = 8;
-    pub static ID_FAKE_OUTER_NUMBER: usize = 9;
-    pub static ID_FAKE_OUTER_STRING: usize = 10;
-    pub static ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION: usize = 11;
-    pub static ID_FAKE_CLASSNAME_TEST: usize = 12;
-    pub static ID_PET: usize = 13;
-    pub static ID_PET_FINDBYSTATUS: usize = 14;
-    pub static ID_PET_FINDBYTAGS: usize = 15;
-    pub static ID_PET_PETID: usize = 16;
+    pub(crate) static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 4;
+    pub(crate) static ID_FAKE_JSONFORMDATA: usize = 5;
+    pub(crate) static ID_FAKE_OPERATION_WITH_NUMERIC_ID: usize = 6;
+    pub(crate) static ID_FAKE_OUTER_BOOLEAN: usize = 7;
+    pub(crate) static ID_FAKE_OUTER_COMPOSITE: usize = 8;
+    pub(crate) static ID_FAKE_OUTER_NUMBER: usize = 9;
+    pub(crate) static ID_FAKE_OUTER_STRING: usize = 10;
+    pub(crate) static ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION: usize = 11;
+    pub(crate) static ID_FAKE_CLASSNAME_TEST: usize = 12;
+    pub(crate) static ID_PET: usize = 13;
+    pub(crate) static ID_PET_FINDBYSTATUS: usize = 14;
+    pub(crate) static ID_PET_FINDBYTAGS: usize = 15;
+    pub(crate) static ID_PET_PETID: usize = 16;
     lazy_static! {
         pub static ref REGEX_PET_PETID: regex::Regex =
             regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)$")
                 .expect("Unable to create regex for PET_PETID");
     }
-    pub static ID_PET_PETID_UPLOADIMAGE: usize = 17;
+    pub(crate) static ID_PET_PETID_UPLOADIMAGE: usize = 17;
     lazy_static! {
         pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex =
             regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$")
                 .expect("Unable to create regex for PET_PETID_UPLOADIMAGE");
     }
-    pub static ID_STORE_INVENTORY: usize = 18;
-    pub static ID_STORE_ORDER: usize = 19;
-    pub static ID_STORE_ORDER_ORDER_ID: usize = 20;
+    pub(crate) static ID_STORE_INVENTORY: usize = 18;
+    pub(crate) static ID_STORE_ORDER: usize = 19;
+    pub(crate) static ID_STORE_ORDER_ORDER_ID: usize = 20;
     lazy_static! {
         pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex =
             regex::Regex::new(r"^/v2/store/order/(?P<order_id>[^/?#]*)$")
                 .expect("Unable to create regex for STORE_ORDER_ORDER_ID");
     }
-    pub static ID_USER: usize = 21;
-    pub static ID_USER_CREATEWITHARRAY: usize = 22;
-    pub static ID_USER_CREATEWITHLIST: usize = 23;
-    pub static ID_USER_LOGIN: usize = 24;
-    pub static ID_USER_LOGOUT: usize = 25;
-    pub static ID_USER_USERNAME: usize = 26;
+    pub(crate) static ID_USER: usize = 21;
+    pub(crate) static ID_USER_CREATEWITHARRAY: usize = 22;
+    pub(crate) static ID_USER_CREATEWITHLIST: usize = 23;
+    pub(crate) static ID_USER_LOGIN: usize = 24;
+    pub(crate) static ID_USER_LOGOUT: usize = 25;
+    pub(crate) static ID_USER_USERNAME: usize = 26;
     lazy_static! {
         pub static ref REGEX_USER_USERNAME: regex::Regex =
             regex::Regex::new(r"^/v2/user/(?P<username>[^/?#]*)$")

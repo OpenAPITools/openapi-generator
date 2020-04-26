@@ -179,7 +179,7 @@
                 headers: {
                     let mut h = Headers::new();
                     h.set(ContentType("{{{contentType}}}".parse().unwrap()));
-                    h.set(ContentId("{{{baseName}}}".parse().unwrap()));
+                    h.set_raw("Content-ID", vec![b"{{{baseName}}}".to_vec()]);
                     h
                 },
                 {{#isBinary}}

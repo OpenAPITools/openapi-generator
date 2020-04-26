@@ -2,31 +2,6 @@
 
 #![allow(missing_docs)]
 
-// Imports required by this file.
-// extern crate <name of this crate>;
-extern crate petstore_with_fake_endpoints_models_for_testing;
-extern crate clap;
-extern crate env_logger;
-extern crate hyper;
-#[macro_use]
-extern crate log;
-extern crate swagger;
-
-// Imports required by server library.
-// extern crate petstore_with_fake_endpoints_models_for_testing;
-extern crate chrono;
-#[macro_use]
-extern crate error_chain;
-extern crate futures;
-// extern crate swagger;
-extern crate tokio;
-extern crate uuid;
-
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-extern crate openssl;
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-extern crate tokio_openssl;
-
 use clap::{App, Arg};
 
 mod server;

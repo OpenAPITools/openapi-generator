@@ -3,9 +3,10 @@ use futures::{Future, future, Stream, stream};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use url::form_urlencoded;
+use log::warn;
 use serde_json;
 use std::io;
+use url::form_urlencoded;
 #[allow(unused_imports)]
 use swagger;
 use swagger::{ApiError, XSpanIdString, Has, RequestParser};
@@ -14,12 +15,12 @@ use swagger::auth::Scopes;
 use swagger::context::ContextualPayload;
 
 #[allow(unused_imports)]
-use models;
-use header;
+use crate::models;
+use crate::header;
 
 pub use crate::context;
 
-use {Api,
+use crate::{Api,
      AllOfGetResponse,
      DummyGetResponse,
      DummyPutResponse,
@@ -32,7 +33,7 @@ use {Api,
 };
 
 mod paths {
-    extern crate regex;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
@@ -47,14 +48,14 @@ mod paths {
         ])
         .expect("Unable to create global regex set");
     }
-    pub static ID_ALLOF: usize = 0;
-    pub static ID_DUMMY: usize = 1;
-    pub static ID_FILE_RESPONSE: usize = 2;
-    pub static ID_GET_STRUCTURED_YAML: usize = 3;
-    pub static ID_HTML: usize = 4;
-    pub static ID_POST_YAML: usize = 5;
-    pub static ID_RAW_JSON: usize = 6;
-    pub static ID_SOLO_OBJECT: usize = 7;
+    pub(crate) static ID_ALLOF: usize = 0;
+    pub(crate) static ID_DUMMY: usize = 1;
+    pub(crate) static ID_FILE_RESPONSE: usize = 2;
+    pub(crate) static ID_GET_STRUCTURED_YAML: usize = 3;
+    pub(crate) static ID_HTML: usize = 4;
+    pub(crate) static ID_POST_YAML: usize = 5;
+    pub(crate) static ID_RAW_JSON: usize = 6;
+    pub(crate) static ID_SOLO_OBJECT: usize = 7;
 }
 
 pub struct MakeService<T, RC> {

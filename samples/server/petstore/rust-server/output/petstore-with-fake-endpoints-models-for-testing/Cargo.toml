@@ -4,6 +4,7 @@ version = "1.0.0"
 authors = []
 description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
 license = "Unlicense"
+edition = "2018"
 
 [features]
 default = ["client", "server"]
@@ -32,11 +33,10 @@ openssl = {version = "0.10", optional = true }
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.1"
 swagger = "4.0"
-log = "0.3.0"
+log = "0.4.0"
 mime = "0.3"
 
-serde = "1.0"
-serde_derive = "1.0"
+serde = { version = "1.0", features = ["derive"]}
 serde_json = "1.0"
 
 # Crates included if required by the API definition

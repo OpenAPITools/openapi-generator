@@ -1,8 +1,8 @@
 #![allow(unused_qualifications)]
 
-use models;
+use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
-use header;
+use crate::header;
 {{! Don't "use" structs here - they can conflict with the names of models, and mean that the code won't compile }}
 
 {{#models}}{{#model}}
@@ -12,8 +12,8 @@ use header;
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]{{#xmlName}}
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]{{#xmlName}}
 #[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
 pub enum {{{classname}}} { {{#allowableValues}}{{#enumVars}}
     #[serde(rename = {{{value}}})]
@@ -21,7 +21,7 @@ pub enum {{{classname}}} { {{#allowableValues}}{{#enumVars}}
 }
 
 impl std::fmt::Display for {{{classname}}} {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self { {{#allowableValues}}{{#enumVars}}
             {{{classname}}}::{{{name}}} => write!(f, "{}", {{{value}}}),{{/enumVars}}{{/allowableValues}}
         }
@@ -46,12 +46,12 @@ impl std::str::FromStr for {{{classname}}} {
 {{^isEnum}}
 {{#dataType}}
 {{#isMapModel}}
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 {{/isMapModel}}
 {{^isMapModel}}
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 {{/isMapModel}}
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{xmlName}}}")]
 {{/xmlName}}
@@ -146,9 +146,19 @@ where
     serde_xml_rs::wrap_primitives(item, serializer, "{{{itemXmlName}}}")
 }
 
-{{/itemXmlName}}{{/vendorExtensions}}{{! vec}}#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-pub struct {{{classname}}}({{#vendorExtensions}}{{#itemXmlName}}#[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]{{/itemXmlName}}{{/vendorExtensions}}Vec<{{{arrayModelType}}}>);
+{{/itemXmlName}}
+{{/vendorExtensions}}
+{{! vec}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct {{{classname}}}(
+{{#vendorExtensions}}
+{{#itemXmlName}}
+    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]
+{{/itemXmlName}}
+{{/vendorExtensions}}
+    Vec<{{{arrayModelType}}}>
+);
 
 impl std::convert::From<Vec<{{{arrayModelType}}}>> for {{{classname}}} {
     fn from(x: Vec<{{{arrayModelType}}}>) -> Self {
@@ -234,20 +244,29 @@ impl std::str::FromStr for {{{classname}}} {
 }
 
 {{/arrayModelType}}{{^arrayModelType}}{{! general struct}}
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{xmlName}}}")]
 {{/xmlName}}
 pub struct {{{classname}}} {
 {{#vars}}{{#description}}    /// {{{description}}}
 {{/description}}{{#isEnum}}    // Note: inline enums are not fully supported by openapi-generator
-{{/isEnum}}    #[serde(rename = "{{{baseName}}}")]{{#vendorExtensions}}{{#itemXmlName}}
-    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]{{/itemXmlName}}{{/vendorExtensions}}{{#required}}
+{{/isEnum}}
+    #[serde(rename = "{{{baseName}}}")]
+{{#vendorExtensions}}
+{{#itemXmlName}}
+    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]
+{{/itemXmlName}}
+{{/vendorExtensions}}
+{{#required}}
     pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
-{{/required}}{{^required}}{{#isNullable}}
+{{/required}}
+{{^required}}
+{{#isNullable}}
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
-    #[serde(default = "swagger::nullable_format::default_optional_nullable")]{{/isNullable}}
+    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+{{/isNullable}}
     #[serde(skip_serializing_if="Option::is_none")]
     pub {{{name}}}: Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
 {{/required}}

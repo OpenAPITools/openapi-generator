@@ -1,5 +1,5 @@
 {{>server-imports}}
-use CallbackApi as Api;
+use crate::CallbackApi as Api;
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
@@ -7,7 +7,7 @@ use CallbackApi as Api;
         {{#callbacks}}
           {{#urls}}
             {{#requests}}
-use {{{operationId}}}Response;
+use crate::{{{operationId}}}Response;
             {{/requests}}
           {{/urls}}
         {{/callbacks}}

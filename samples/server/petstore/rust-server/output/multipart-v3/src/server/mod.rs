@@ -3,9 +3,10 @@ use futures::{Future, future, Stream, stream};
 use hyper;
 use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use url::form_urlencoded;
+use log::warn;
 use serde_json;
 use std::io;
+use url::form_urlencoded;
 #[allow(unused_imports)]
 use swagger;
 use swagger::{ApiError, XSpanIdString, Has, RequestParser};
@@ -13,26 +14,25 @@ pub use swagger::auth::Authorization;
 use swagger::auth::Scopes;
 use swagger::context::ContextualPayload;
 use hyper_0_10::header::{Headers, ContentType};
-header! { (ContentId, "Content-ID") => [String] }
 use mime_0_2::{TopLevel, SubLevel, Mime as Mime2};
 use mime_multipart::{read_multipart_body, Node, Part};
 use multipart::server::Multipart;
 use multipart::server::save::SaveResult;
 
 #[allow(unused_imports)]
-use models;
-use header;
+use crate::models;
+use crate::header;
 
 pub use crate::context;
 
-use {Api,
+use crate::{Api,
      MultipartRelatedRequestPostResponse,
      MultipartRequestPostResponse,
      MultipleIdenticalMimeTypesPostResponse
 };
 
 mod paths {
-    extern crate regex;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
@@ -42,9 +42,9 @@ mod paths {
         ])
         .expect("Unable to create global regex set");
     }
-    pub static ID_MULTIPART_RELATED_REQUEST: usize = 0;
-    pub static ID_MULTIPART_REQUEST: usize = 1;
-    pub static ID_MULTIPLE_IDENTICAL_MIME_TYPES: usize = 2;
+    pub(crate) static ID_MULTIPART_RELATED_REQUEST: usize = 0;
+    pub(crate) static ID_MULTIPART_REQUEST: usize = 1;
+    pub(crate) static ID_MULTIPLE_IDENTICAL_MIME_TYPES: usize = 2;
 }
 
 pub struct MakeService<T, RC> {

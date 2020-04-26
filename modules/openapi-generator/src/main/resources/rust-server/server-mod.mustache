@@ -1,5 +1,5 @@
 {{>server-imports}}
-use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
+use crate::{Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
      {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 };
 

@@ -23,10 +23,10 @@ use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_
 use uuid;
 use serde_xml_rs;
 
-use models;
-use header;
+use crate::models;
+use crate::header;
 
-define_encode_set! {
+url::define_encode_set! {
     /// This encode set is used for object IDs
     ///
     /// Aside from the special characters defined in the `PATH_SEGMENT_ENCODE_SET`,
@@ -34,9 +34,9 @@ define_encode_set! {
     pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
 }
 
-use CallbackApi;
-use CallbackCallbackWithHeaderPostResponse;
-use CallbackCallbackPostResponse;
+use crate::CallbackApi;
+use crate::CallbackCallbackWithHeaderPostResponse;
+use crate::CallbackCallbackPostResponse;
 
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<F>
@@ -47,7 +47,7 @@ pub struct Client<F>
 
 impl<F> fmt::Debug for Client<F>
 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Client")
     }
 }

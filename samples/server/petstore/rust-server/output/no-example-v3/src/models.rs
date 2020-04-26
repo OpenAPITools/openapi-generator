@@ -1,8 +1,8 @@
 #![allow(unused_qualifications)]
 
-use models;
+use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
-use header;
+use crate::header;
 
 
 // Methods for converting between header::IntoHeaderValue<InlineObject> and hyper::header::HeaderValue
@@ -22,8 +22,8 @@ impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> 
 }
 
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct InlineObject {
     #[serde(rename = "propery")]
     #[serde(skip_serializing_if="Option::is_none")]
