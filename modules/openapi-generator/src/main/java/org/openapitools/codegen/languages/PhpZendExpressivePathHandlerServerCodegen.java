@@ -36,6 +36,7 @@ import java.util.*;
 public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpZendExpressivePathHandlerServerCodegen.class);
 
+    // TODO: Rename to x- prefixed vendor extensions, per specification.
     public static final String VEN_FROM_QUERY = "internal.ze-ph.fromQuery";
     public static final String VEN_COLLECTION_FORMAT = "internal.ze-ph.collectionFormat";
     public static final String VEN_QUERY_DATA_TYPE = "internal.ze-ph.queryDataType";

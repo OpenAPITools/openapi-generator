@@ -702,7 +702,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 hasPathParams = true;
             }
 
-            op.vendorExtensions.put("callbackParams", params);
+            op.vendorExtensions.put("x-callback-params", params);
         }
 
         // Save off the regular expression and path details in the relevant
@@ -991,7 +991,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         additionalProperties.put("apiUsesMultipartFormData", true);
                         additionalProperties.put("apiUsesMultipart", true);
                     } else if (isMimetypeMultipartRelated(mediaType)) {
-                        op.vendorExtensions.put("consumesMultipartRelated", true);
+                        op.vendorExtensions.put("x-consumes-multipart-related", true);
                         additionalProperties.put("apiUsesMultipartRelated", true);
                         additionalProperties.put("apiUsesMultipart", true);
                     }
@@ -1574,9 +1574,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
-            param.vendorExtensions.put("formatString", "{:?}");
+            param.vendorExtensions.put("x-format-string", "{:?}");
             example = null;
         } else if (param.isString) {
+            param.vendorExtensions.put("x-format-string", "\\\"{}\\\"");
             example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
         } else if (param.isPrimitiveType) {
             if ((param.isByteArray) || (param.isBinary)) {

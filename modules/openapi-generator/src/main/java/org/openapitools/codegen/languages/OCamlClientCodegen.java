@@ -45,7 +45,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
 
-    static final String X_MODEL_MODULE = "x-modelModule";
+    static final String X_MODEL_MODULE = "x-model-module";
 
     public static final String CO_HTTP = "cohttp";
 
