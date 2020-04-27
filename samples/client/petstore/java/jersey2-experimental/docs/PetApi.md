@@ -381,6 +381,7 @@ Update an existing pet
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
@@ -388,6 +389,10 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
         Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -417,7 +422,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 

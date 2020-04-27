@@ -77,7 +77,10 @@ paths:
           description: Pet not found
         "405":
           description: Validation exception
-      security: []
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
       summary: Update an existing pet
       tags:
       - pet

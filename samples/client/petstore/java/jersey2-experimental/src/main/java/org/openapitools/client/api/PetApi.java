@@ -468,7 +468,7 @@ public class PetApi {
     final String[] localVarContentTypes = {"application/json", "application/xml"};
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {};
+    String[] localVarAuthNames = new String[] {"petstore_auth"};
 
     return apiClient.invokeAPI(
         "PetApi.updatePet",
