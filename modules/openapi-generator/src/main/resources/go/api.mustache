@@ -320,6 +320,8 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		}
 		{{#responses}}
 		{{#dataType}}
+		{{^is1xx}}
+		{{^is2xx}}
 		{{^wildcard}}
 		if localVarHTTPResponse.StatusCode == {{{code}}} {
 		{{/wildcard}}
@@ -336,6 +338,8 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		{{^wildcard}}
 		}
 		{{/wildcard}}
+		{{/is2xx}}
+		{{/is1xx}}
 		{{/dataType}}
 		{{/responses}}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr

@@ -1299,9 +1299,13 @@ components:
         lastName: lastName
         password: password
         userStatus: 6
+        arbitraryTypeValue: ""
+        arbitraryNullableTypeValue: ""
         phone: phone
         id: 0
+        arbitraryObject: '{}'
         email: email
+        arbitraryNullableObject: '{}'
         username: username
       properties:
         id:
@@ -1324,6 +1328,22 @@ components:
           description: User Status
           format: int32
           type: integer
+        arbitraryObject:
+          description: test code generation for objects Value must be a map of strings
+            to values. It cannot be the 'null' value.
+          type: object
+        arbitraryNullableObject:
+          description: test code generation for nullable objects. Value must be a
+            map of strings to values or the 'null' value.
+          nullable: true
+          type: object
+        arbitraryTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array or object.
+        arbitraryNullableTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array, object or the 'null' value.
+          nullable: true
       type: object
       xml:
         name: User
@@ -1899,7 +1919,7 @@ components:
       properties:
         color:
           type: string
-      x-oneOf-name: Fruit
+      x-one-of-name: Fruit
     apple:
       properties:
         cultivar:
@@ -1919,7 +1939,7 @@ components:
       oneOf:
       - $ref: '#/components/schemas/whale'
       - $ref: '#/components/schemas/zebra'
-      x-oneOf-name: Mammal
+      x-one-of-name: Mammal
     whale:
       properties:
         hasBaleen:
@@ -1955,7 +1975,7 @@ components:
       oneOf:
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
-      x-oneOf-name: FruitReq
+      x-one-of-name: FruitReq
     appleReq:
       properties:
         cultivar:

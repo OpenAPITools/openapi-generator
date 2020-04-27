@@ -55,11 +55,11 @@ public class JSON {
                 .registerTypeSelector(Animal.class, new TypeSelector() {
                     @Override
                     public Class getClassForElement(JsonElement readElement) {
-                        Map classByDiscriminatorValue = new HashMap();
-                        classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
-                        classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
-                        classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
-                        classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Dog", Dog.class);
+                        classByDiscriminatorValue.put("Cat", Cat.class);
+                        classByDiscriminatorValue.put("BigCat", BigCat.class);
+                        classByDiscriminatorValue.put("Animal", Animal.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
@@ -77,8 +77,15 @@ public class JSON {
         return element.getAsString();
     }
 
+    /**
+     * Returns the Java class that implements the OpenAPI schema for the specified discriminator value.
+     *
+     * @param classByDiscriminatorValue The map of discriminator values to Java classes.
+     * @param discriminatorValue The value of the OpenAPI discriminator in the input data.
+     * @return The Java class that implements the OpenAPI schema
+     */
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(Locale.ROOT));
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue);
         if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }

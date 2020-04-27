@@ -74,7 +74,7 @@ COERCION_INDEX_BY_TYPE = {
     ModelComposed: 0,
     ModelNormal: 1,
     ModelSimple: 2,
-    none_type: 3,
+    none_type: 3,    # The type of 'None'.
     list: 4,
     dict: 5,
     float: 6,
@@ -83,7 +83,7 @@ COERCION_INDEX_BY_TYPE = {
     datetime: 9,
     date: 10,
     str: 11,
-    file_type: 12,
+    file_type: 12,   # 'file_type' is an alias for the built-in 'file' or 'io.IOBase' type.
 }
 
 # these are used to limit what type conversions we try to do
@@ -352,11 +352,11 @@ def order_response_types(required_types):
 
     Args:
         required_types (list/tuple): collection of classes or instance of
-            list or dict with classs information inside it
+            list or dict with class information inside it.
 
     Returns:
         (list): coercion order sorted collection of classes or instance
-            of list or dict with classs information inside it
+            of list or dict with class information inside it.
     """
 
     def index_getter(class_or_instance):
@@ -373,7 +373,9 @@ def order_response_types(required_types):
         elif (inspect.isclass(class_or_instance)
                 and issubclass(class_or_instance, ModelSimple)):
             return COERCION_INDEX_BY_TYPE[ModelSimple]
-        return COERCION_INDEX_BY_TYPE[class_or_instance]
+        elif class_or_instance in COERCION_INDEX_BY_TYPE:
+            return COERCION_INDEX_BY_TYPE[class_or_instance]
+        raise ApiValueError("Unsupported type: %s" % class_or_instance)
 
     sorted_types = sorted(
         required_types,
@@ -391,7 +393,7 @@ def remove_uncoercible(required_types_classes, current_item, from_server,
                           these should be ordered by COERCION_INDEX_BY_TYPE
         from_server (bool): a boolean of whether the data is from the server
                           if false, the data is from the client
-        current_item (any): the current item to be converted
+        current_item (any): the current item (input data) to be converted
 
     Keyword Args:
         must_convert (bool): if True the item to convert is of the wrong
@@ -464,7 +466,11 @@ def get_required_type_classes(required_types_mixed):
 def change_keys_js_to_python(input_dict, model_class):
     """
     Converts from javascript_key keys in the input_dict to python_keys in
-    the output dict using the mapping in model_class
+    the output dict using the mapping in model_class.
+    If the input_dict contains a key which does not declared in the model_class,
+    the key is added to the output dict as is. The assumption is the model_class
+    may have undeclared properties (additionalProperties attribute in the OAS
+    document).
     """
 
     output_dict = {}
@@ -936,19 +942,39 @@ def get_allof_instances(self, model_args, constant_args):
 
         # and use it to make the instance
         kwargs.update(constant_args)
-        allof_instance = allof_class(**kwargs)
-        composed_instances.append(allof_instance)
+        try:
+            allof_instance = allof_class(**kwargs)
+            composed_instances.append(allof_instance)
+        except Exception as ex:
+            raise ApiValueError(
+                "Invalid inputs given to generate an instance of '%s'. The "
+                "input data was invalid for the allOf schema '%s' in the composed "
+                "schema '%s'. Error=%s" % (
+                    allof_class.__class__.__name__,
+                    allof_class.__class__.__name__,
+                    self.__class__.__name__,
+                    str(ex)
+                )
+            )
     return composed_instances
 
 
 def get_oneof_instance(self, model_args, constant_args):
     """
+    Find the oneOf schema that matches the input data (e.g. payload).
+    If exactly one schema matches the input data, an instance of that schema
+    is returned.
+    If zero or more than one schema match the input data, an exception is raised.
+    In OAS 3.x, the payload MUST, by validation, match exactly one of the
+    schemas described by oneOf.
     Args:
         self: the class we are handling
         model_args (dict): var_name to var_value
-            used to make instances
+            The input data, e.g. the payload that must match a oneOf schema
+            in the OpenAPI document.
         constant_args (dict): var_name to var_value
-            used to make instances
+            args that every model requires, including configuration, server
+            and path to item.
 
     Returns
         oneof_instance (instance/None)
@@ -957,12 +983,17 @@ def get_oneof_instance(self, model_args, constant_args):
         return None
 
     oneof_instances = []
+    # Iterate over each oneOf schema and determine if the input data
+    # matches the oneOf schemas.
     for oneof_class in self._composed_schemas()['oneOf']:
-        # transform js keys to python keys in fixed_model_args
+        # transform js keys from input data to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
             model_args, oneof_class)
 
-        # extract a dict of only required keys from fixed_model_args
+        # Extract a dict with the properties that are declared in the oneOf schema.
+        # Undeclared properties (e.g. properties that are allowed because of the
+        # additionalProperties attribute in the OAS document) are not added to
+        # the dict.
         kwargs = {}
         var_names = set(oneof_class.openapi_types().keys())
         for var_name in var_names:
@@ -982,14 +1013,14 @@ def get_oneof_instance(self, model_args, constant_args):
             pass
     if len(oneof_instances) == 0:
         raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. Unable to "
-            "make any instances of the classes in oneOf definition." %
+            "Invalid inputs given to generate an instance of %s. None "
+            "of the oneOf schemas matched the input data." %
             self.__class__.__name__
         )
     elif len(oneof_instances) > 1:
         raise ApiValueError(
             "Invalid inputs given to generate an instance of %s. Multiple "
-            "oneOf instances were generated when a max of one is allowed." %
+            "oneOf schemas matched the inputs, but a max of one is allowed." %
             self.__class__.__name__
         )
     return oneof_instances[0]
@@ -1035,8 +1066,8 @@ def get_anyof_instances(self, model_args, constant_args):
             pass
     if len(anyof_instances) == 0:
         raise ApiValueError(
-            "Invalid inputs given to generate an instance of %s. Unable to "
-            "make any instances of the classes in anyOf definition." %
+            "Invalid inputs given to generate an instance of %s. None of the "
+            "anyOf schemas matched the inputs." %
             self.__class__.__name__
         )
     return anyof_instances
@@ -1087,10 +1118,18 @@ def get_unused_args(self, composed_instances, model_args):
 
 def validate_get_composed_info(constant_args, model_args, self):
     """
-    For composed schemas/classes, validates the classes to make sure that
-    they do not share any of the same parameters. If there is no collision
-    then composed model instances are created and returned tot the calling
-    self model
+    For composed schemas, generate schema instances for
+    all schemas in the oneOf/anyOf/allOf definition. If additional
+    properties are allowed, also assign those properties on
+    all matched schemas that contain additionalProperties.
+    Openapi schemas are python classes.
+
+    Exceptions are raised if:
+    - no oneOf schema matches the model_args input data
+    - > 1 oneOf schema matches the model_args input data
+    - > 1 oneOf schema matches the model_args input data
+    - no anyOf schema matches the model_args input data
+    - any of the allOf schemas do not match the model_args input data
 
     Args:
         constant_args (dict): these are the args that every model requires

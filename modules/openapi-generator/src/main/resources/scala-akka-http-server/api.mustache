@@ -1,0 +1,97 @@
+package {{package}}
+
+import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.model.StatusCodes
+{{^pathMatcherPatterns.isEmpty}}import akka.http.scaladsl.server.{PathMatcher, PathMatcher1}
+{{/pathMatcherPatterns.isEmpty}}
+{{#hasMarshalling}}import akka.http.scaladsl.marshalling.ToEntityMarshaller
+import akka.http.scaladsl.unmarshalling.FromEntityUnmarshaller
+import akka.http.scaladsl.unmarshalling.FromStringUnmarshaller
+{{/hasMarshalling}}
+{{#hasCookieParams}}import akka.http.scaladsl.model.headers.HttpCookiePair
+{{/hasCookieParams}}
+import {{invokerPackage}}.AkkaHttpHelper._
+{{#hasMultipart}}import {{invokerPackage}}.StringDirectives
+import {{invokerPackage}}.MultipartDirectives
+import {{invokerPackage}}.FileField
+import {{invokerPackage}}.PartsAndFiles
+{{/hasMultipart}}
+{{#imports}}import {{import}}
+{{/imports}}
+{{#hasMultipart}}import scala.util.Try
+import akka.http.scaladsl.server.MalformedRequestContentRejection
+import akka.http.scaladsl.server.directives.FileInfo
+{{/hasMultipart}}
+
+
+{{#operations}}
+class {{classname}}(
+    {{classVarName}}Service: {{classname}}Service{{#hasMarshalling}},
+    {{classVarName}}Marshaller: {{classname}}Marshaller{{/hasMarshalling}}
+) {{#hasMultipart}} extends MultipartDirectives with StringDirectives {{/hasMultipart}}{
+
+  {{#pathMatcherPatterns}}import {{classname}}Patterns.{{pathMatcherVarName}}
+  {{/pathMatcherPatterns}}
+
+  {{#hasMarshalling}}import {{classVarName}}Marshaller._
+  {{/hasMarshalling}}
+
+  lazy val route: Route =
+  {{#operation}}
+    path({{#vendorExtensions.x-paths}}{{#isText}}"{{/isText}}{{value}}{{#isText}}"{{/isText}}{{#hasMore}} / {{/hasMore}}{{/vendorExtensions.x-paths}}) { {{^pathParams.isEmpty}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) => {{/pathParams.isEmpty}}
+      {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} { {{^queryParams.isEmpty}}
+        parameters({{#queryParams}}"{{baseName}}".as[{{dataType}}]{{^required}}.?{{#vendorExtensions.x-has-default-value}}({{{defaultValue}}}){{/vendorExtensions.x-has-default-value}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) { ({{#queryParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) =>{{/queryParams.isEmpty}} {{^headerParams.isEmpty}}
+          {{#headerParams}}{{#required}}headerValueByName{{/required}}{{^required}}optionalHeaderValueByName{{/required}}("{{baseName}}") { {{paramName}} => {{/headerParams}}{{/headerParams.isEmpty}}{{^cookieParams.isEmpty}}
+            {{#cookieParams}}{{#required}}cookie({{/required}}{{^required}}optionalCookie({{/required}}"{{baseName}}"){ {{paramName}} => {{/cookieParams}}{{/cookieParams.isEmpty}}{{#isMultipart}}
+{{> multipart}}{{/isMultipart}}{{^isMultipart}}{{> noMultipart}}{{/isMultipart}}{{^cookieParams.isEmpty}}
+            }{{/cookieParams.isEmpty}}{{^headerParams.isEmpty}}
+          }{{/headerParams.isEmpty}}{{^queryParams.isEmpty}}
+        }{{/queryParams.isEmpty}}
+      }
+    }{{^-last}} ~{{/-last}}
+  {{/operation}}
+}
+
+{{^pathMatcherPatterns.isEmpty}}
+object {{classname}}Patterns {
+
+    {{#pathMatcherPatterns}}val {{pathMatcherVarName}}: PathMatcher1[String] = PathMatcher("{{pattern}}".r)
+    {{/pathMatcherPatterns}}
+}
+{{/pathMatcherPatterns.isEmpty}}
+
+trait {{classname}}Service {
+
+{{#operation}}
+{{#responses}}  def {{operationId}}{{#vendorExtensions.x-is-default}}Default{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}{{#baseType}}({{#vendorExtensions.x-is-default}}statusCode: Int, {{/vendorExtensions.x-is-default}}response{{baseType}}{{containerType}}: {{dataType}}){{^isPrimitiveType}}(implicit toEntityMarshaller{{baseType}}{{containerType}}: ToEntityMarshaller[{{dataType}}]){{/isPrimitiveType}}{{/baseType}}{{^baseType}}{{#vendorExtensions.x-is-default}}(statusCode: Int){{/vendorExtensions.x-is-default}}{{/baseType}}: Route ={{#vendorExtensions.x-empty-response}}
+    complete({{#vendorExtensions.x-is-default}}statusCode{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}StatusCodes.getForKey({{code}}){{/vendorExtensions.x-is-default}}){{/vendorExtensions.x-empty-response}}{{^vendorExtensions.x-empty-response}}
+    complete(({{#vendorExtensions.x-is-default}}statusCode{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}, {{#baseType}}response{{baseType}}{{containerType}}{{/baseType}}{{^baseType}}"{{message}}"{{/baseType}})){{/vendorExtensions.x-empty-response}}
+{{/responses}}
+  /**
+{{#responses}}   * {{#code}}Code: {{.}}{{/code}}{{#message}}, Message: {{.}}{{/message}}{{#dataType}}, DataType: {{.}}{{/dataType}}
+   {{/responses}}
+   */
+  def {{operationId}}({{> operationParam}}){{^vendorExtensions.x-specific-marshallers.isEmpty}}
+      (implicit {{#vendorExtensions.x-specific-marshallers}}toEntityMarshaller{{varName}}: ToEntityMarshaller[{{dataType}}]{{^-last}}, {{/-last}}{{/vendorExtensions.x-specific-marshallers}}){{/vendorExtensions.x-specific-marshallers.isEmpty}}: Route
+
+{{/operation}}
+}
+
+{{#hasMarshalling}}
+trait {{classname}}Marshaller {
+{{#entityUnmarshallers}}  implicit def fromEntityUnmarshaller{{varName}}: FromEntityUnmarshaller[{{dataType}}]
+
+{{/entityUnmarshallers}}
+
+{{#stringUnmarshallers}}  implicit def fromStringUnmarshaller{{varName}}: FromStringUnmarshaller[{{dataType}}]
+
+{{/stringUnmarshallers}}
+
+{{#entityMarshallers}}  implicit def toEntityMarshaller{{varName}}: ToEntityMarshaller[{{dataType}}]
+
+{{/entityMarshallers}}
+}
+{{/hasMarshalling}}
+
+{{/operations}}

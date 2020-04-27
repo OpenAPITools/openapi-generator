@@ -97,12 +97,13 @@ class Mammal(ModelComposed):
 
     @staticmethod
     def discriminator():
-        return {
-            'class_name': {
-                'whale': whale.Whale,
-                'zebra': zebra.Zebra,
-            },
+        val = {
+            'whale': whale.Whale,
+            'zebra': zebra.Zebra,
         }
+        if not val:
+            return None
+        return {'class_name': val}
 
     attribute_map = {
         'class_name': 'className',  # noqa: E501

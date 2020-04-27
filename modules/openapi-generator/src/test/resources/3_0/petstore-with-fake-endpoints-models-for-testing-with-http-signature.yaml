@@ -1250,6 +1250,23 @@ components:
           type: integer
           format: int32
           description: User Status
+        arbitraryObject:
+          type: object
+          description: test code generation for objects
+            Value must be a map of strings to values. It cannot be the 'null' value.
+        arbitraryNullableObject:
+          type: object
+          description: test code generation for nullable objects.
+            Value must be a map of strings to values or the 'null' value.
+          nullable: true
+        arbitraryTypeValue:
+          description: test code generation for any type
+            Value can be any type - string, number, boolean, array or object.
+        arbitraryNullableTypeValue:
+          description: test code generation for any type
+            Value can be any type - string, number, boolean, array, object or
+            the 'null' value.
+          nullable: true
       xml:
         name: User
     Tag:

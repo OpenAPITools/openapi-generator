@@ -235,7 +235,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.updateOperationParameterEnumInformation(operations);
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
+        this.escapeOperationIds(operations);
         return operations;
+    }
+
+    private void escapeOperationIds(Map<String, Object> operations) {
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            String param = op.operationIdCamelCase + "Request";
+            if (op.imports.contains(param)) {
+                // we import a model with the same name as the generated operation, escape it
+                op.operationIdCamelCase += "Operation";
+                op.operationIdLowerCase += "operation";
+                op.operationIdSnakeCase += "_operation";
+            }
+        }
     }
 
     private void addOperationModelImportInfomation(Map<String, Object> operations) {
@@ -312,6 +327,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.reservedWords.add("VoidApiResponse");
         this.reservedWords.add("BlobApiResponse");
         this.reservedWords.add("TextApiResponse");
+        // "Index" would create a file "Index.ts" which on case insensitive filesystems
+        // would override our "index.js" file
+        this.reservedWords.add("Index");
     }
 
     private boolean getUseSingleRequestParameter() {

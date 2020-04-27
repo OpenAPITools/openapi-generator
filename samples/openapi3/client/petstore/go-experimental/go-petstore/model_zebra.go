@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -25,17 +24,17 @@ type Zebra struct {
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewZebra(className string, ) *Zebra {
-    this := Zebra{}
-    this.ClassName = className
-    return &this
+	this := Zebra{}
+	this.ClassName = className
+	return &this
 }
 
 // NewZebraWithDefaults instantiates a new Zebra object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewZebraWithDefaults() *Zebra {
-    this := Zebra{}
-    return &this
+	this := Zebra{}
+	return &this
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
@@ -47,14 +46,13 @@ func (o *Zebra) GetType() string {
 	return *o.Type
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, zero value otherwise
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Zebra) GetTypeOk() (string, bool) {
+func (o *Zebra) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Type, true
+	return o.Type, true
 }
 
 // HasType returns a boolean if a field has been set.
@@ -73,7 +71,7 @@ func (o *Zebra) SetType(v string) {
 
 // GetClassName returns the ClassName field value
 func (o *Zebra) GetClassName() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
@@ -81,34 +79,67 @@ func (o *Zebra) GetClassName() string {
 	return o.ClassName
 }
 
+// GetClassNameOk returns a tuple with the ClassName field value
+// and a boolean to check if the value has been set.
+func (o *Zebra) GetClassNameOk() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.ClassName, true
+}
+
 // SetClassName sets field value
 func (o *Zebra) SetClassName(v string) {
 	o.ClassName = v
 }
 
+func (o Zebra) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Type != nil {
+		toSerialize["type"] = o.Type
+	}
+	if true {
+		toSerialize["className"] = o.ClassName
+	}
+	return json.Marshal(toSerialize)
+}
+
 // AsMammal wraps this instance of Zebra in Mammal
 func (s *Zebra) AsMammal() Mammal {
-    return Mammal{ MammalInterface: s }
+	return Mammal{ MammalInterface: s }
 }
 type NullableZebra struct {
-	Value Zebra
-	ExplicitNull bool
+	value *Zebra
+	isSet bool
+}
+
+func (v NullableZebra) Get() *Zebra {
+	return v.value
+}
+
+func (v *NullableZebra) Set(val *Zebra) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableZebra) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableZebra) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableZebra(val *Zebra) *NullableZebra {
+	return &NullableZebra{value: val, isSet: true}
 }
 
 func (v NullableZebra) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableZebra) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

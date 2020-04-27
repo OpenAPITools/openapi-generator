@@ -27,15 +27,13 @@ class PetApi(baseUrl: String) {
   
   /**
    * Expected answers:
-   *   code 200 : Pet (successful operation)
    *   code 405 :  (Invalid input)
    * 
-   * @param pet Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store
    */
-  def addPet(pet: Pet): ApiRequest[Pet] =
-    ApiRequest[Pet](ApiMethods.POST, baseUrl, "/pet", "application/json")
-      .withBody(pet)
-      .withSuccessResponse[Pet](200)
+  def addPet(body: Pet): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.POST, baseUrl, "/pet", "application/json")
+      .withBody(body)
       .withErrorResponse[Unit](405)
       
 
@@ -109,17 +107,15 @@ class PetApi(baseUrl: String) {
 
   /**
    * Expected answers:
-   *   code 200 : Pet (successful operation)
    *   code 400 :  (Invalid ID supplied)
    *   code 404 :  (Pet not found)
    *   code 405 :  (Validation exception)
    * 
-   * @param pet Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store
    */
-  def updatePet(pet: Pet): ApiRequest[Pet] =
-    ApiRequest[Pet](ApiMethods.PUT, baseUrl, "/pet", "application/json")
-      .withBody(pet)
-      .withSuccessResponse[Pet](200)
+  def updatePet(body: Pet): ApiRequest[Unit] =
+    ApiRequest[Unit](ApiMethods.PUT, baseUrl, "/pet", "application/json")
+      .withBody(body)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](405)
