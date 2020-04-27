@@ -61,7 +61,7 @@ class UserController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = [];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
+        $inputFormat = $request->headers->has('Content-Type')?explode(";",$request->headers->get('Content-Type'))[0]:$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
@@ -138,7 +138,7 @@ class UserController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = [];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
+        $inputFormat = $request->headers->has('Content-Type')?explode(";",$request->headers->get('Content-Type'))[0]:$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
@@ -217,7 +217,7 @@ class UserController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = [];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
+        $inputFormat = $request->headers->has('Content-Type')?explode(";",$request->headers->get('Content-Type'))[0]:$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
@@ -592,7 +592,7 @@ class UserController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = [];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
+        $inputFormat = $request->headers->has('Content-Type')?explode(";",$request->headers->get('Content-Type'))[0]:$consumes[0];
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
