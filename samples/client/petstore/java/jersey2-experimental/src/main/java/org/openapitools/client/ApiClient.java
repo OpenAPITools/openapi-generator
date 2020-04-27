@@ -710,24 +710,28 @@ public class ApiClient {
    * @param formParams Form parameters
    * @param contentType Context type
    * @return String
-   * @throws Exception exception
+   * @throws ApiException API exception
    */
-  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws Exception {
-    if (contentType.startsWith("multipart/form-data")) {
-      throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
-    } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
-      String formString = "";
-      for (Entry<String, Object> param: formParams.entrySet()) {
-        formString = param.getKey() + "=" + URLEncoder.encode(parameterToString(param.getValue()), "UTF-8") + "&";
-      }
+  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+    try {
+      if (contentType.startsWith("multipart/form-data")) {
+        throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
+      } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+        String formString = "";
+        for (Entry<String, Object> param : formParams.entrySet()) {
+          formString = param.getKey() + "=" + URLEncoder.encode(parameterToString(param.getValue()), "UTF-8") + "&";
+        }
 
-      if (formString.length() == 0) { // empty string
-        return formString;
+        if (formString.length() == 0) { // empty string
+          return formString;
+        } else {
+          return formString.substring(0, formString.length() - 1);
+        }
       } else {
-        return formString.substring(0, formString.length() - 1);
+        return json.getMapper().writeValueAsString(obj);
       }
-    } else {
-      return json.getMapper().writeValueAsString(obj);
+    } catch (Exception ex) {
+      throw new ApiException("Failed to perform serializeToString: " + ex.toString());
     }
   }
 
@@ -964,7 +968,7 @@ public class ApiClient {
     allHeaderParams.putAll(headerParams);
    
     // update different parameters (e.g. headers) for authentication
-    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, entity.toString(), method, target.getUri());
+    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, serializeToString(body, formParams, contentType), method, target.getUri());
 
     Response response = null;
 
@@ -1090,7 +1094,8 @@ public class ApiClient {
    * @param method HTTP method (e.g. POST)
    * @param uri HTTP URI
    */
-  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
+                                     Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) {
