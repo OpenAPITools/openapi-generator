@@ -16,7 +16,7 @@ sidebar_label: aspnetcore
 |licenseName|The name of the license| |NoLicense|
 |licenseUrl|The URL of the license| |http://localhost|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
-|newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| 3.0.0|
+|newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
 |operationIsAsync|Set methods to async or sync (default).| |false|
 |operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
@@ -29,10 +29,10 @@ sidebar_label: aspnetcore
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|swashbuckleVersion|Swashbucke version: 3.0.0, 4.0.0, 5.0.0| |3.0.0|
+|swashbuckleVersion|Swashbuckle version: 3.0.0, 4.0.0, 5.0.0| |3.0.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
-|useDefaultRouting|Use default routing for the  ASP.NET Core version.| |true|
+|useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|
 |useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
