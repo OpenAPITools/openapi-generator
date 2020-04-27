@@ -5517,8 +5517,11 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            Map<String, Schema> properties = schema.getProperties();
+        List<String> allRequired = new ArrayList<String>();
+        Map<String, Schema> properties = new LinkedHashMap<>();
+        addProperties(properties, allRequired, schema);
+
+        if (!properties.isEmpty()) {
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
                 CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
                 // key => property name
