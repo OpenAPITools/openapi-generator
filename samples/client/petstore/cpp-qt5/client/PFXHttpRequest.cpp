@@ -52,14 +52,17 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 }
 
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), _timeOut(0) {
+    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
     qsrand(QDateTime::currentDateTime().toTime_t());
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();
     connect(manager, &QNetworkAccessManager::finished, this, &PFXHttpRequestWorker::on_manager_finished);
+    timeOutTimer.setSingleShot(true);
 }
 
 PFXHttpRequestWorker::~PFXHttpRequestWorker() {
+    QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+    timeOutTimer.stop();
     for (const auto &item : multiPartFields) {
         if (item != nullptr) {
             delete item;
@@ -93,8 +96,11 @@ QByteArray *PFXHttpRequestWorker::getMultiPartField(const QString &fieldname) {
     return nullptr;
 }
 
-void PFXHttpRequestWorker::setTimeOut(int timeOut) {
-    _timeOut = timeOut;
+void PFXHttpRequestWorker::setTimeOut(int timeOutMs) {
+    timeOutTimer.setInterval(timeOutMs);
+    if(timeOutTimer.interval() == 0) {
+        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+    }
 }
 
 void PFXHttpRequestWorker::setWorkingDirectory(const QString &path) {
@@ -109,6 +115,10 @@ void PFXHttpRequestWorker::setResponseCompressionEnabled(bool enable) {
 
 void PFXHttpRequestWorker::setRequestCompressionEnabled(bool enable) {
     isRequestCompressionEnabled = enable;
+}
+
+int  PFXHttpRequestWorker::getHttpResponseCode() const{
+    return httpResponseCode;
 }
 
 QString PFXHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -354,18 +364,30 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if (_timeOut > 0) {
-        QTimer::singleShot(_timeOut, [=]() { on_manager_timeout(reply); });
+    if (timeOutTimer.interval() > 0) {
+        QObject::connect(&timeOutTimer, &QTimer::timeout, [=]() { on_manager_timeout(reply); });
+        timeOutTimer.start();
     }
 }
 
 void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+    bool codeSts = false;
+    if(timeOutTimer.isActive()) {
+        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+        timeOutTimer.stop();
+    }
     error_type = reply->error();
     error_str = reply->errorString();
     if (reply->rawHeaderPairs().count() > 0) {
         for (const auto &item : reply->rawHeaderPairs()) {
             headers.insert(item.first, item.second);
         }
+    }
+    auto rescode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&codeSts);
+    if(codeSts){
+        httpResponseCode = rescode;
+    } else{
+        httpResponseCode = -1;
     }
     process_response(reply);
     reply->deleteLater();

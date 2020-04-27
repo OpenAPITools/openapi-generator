@@ -34,22 +34,22 @@ GetCultivar returns the Cultivar field if non-nil, zero value otherwise.
 
 ### GetCultivarOk
 
-`func (o *Apple) GetCultivarOk() (string, bool)`
+`func (o *Apple) GetCultivarOk() (*string, bool)`
 
 GetCultivarOk returns a tuple with the Cultivar field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetCultivar
+
+`func (o *Apple) SetCultivar(v string)`
+
+SetCultivar sets Cultivar field to given value.
 
 ### HasCultivar
 
 `func (o *Apple) HasCultivar() bool`
 
 HasCultivar returns a boolean if a field has been set.
-
-### SetCultivar
-
-`func (o *Apple) SetCultivar(v string)`
-
-SetCultivar gets a reference to the given string and assigns it to the Cultivar field.
 
 ### GetColor
 
@@ -59,22 +59,22 @@ GetColor returns the Color field if non-nil, zero value otherwise.
 
 ### GetColorOk
 
-`func (o *Apple) GetColorOk() (string, bool)`
+`func (o *Apple) GetColorOk() (*string, bool)`
 
 GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetColor
+
+`func (o *Apple) SetColor(v string)`
+
+SetColor sets Color field to given value.
 
 ### HasColor
 
 `func (o *Apple) HasColor() bool`
 
 HasColor returns a boolean if a field has been set.
-
-### SetColor
-
-`func (o *Apple) SetColor(v string)`
-
-SetColor gets a reference to the given string and assigns it to the Color field.
 
 
 ### AsFruit

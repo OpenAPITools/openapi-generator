@@ -10,19 +10,18 @@ Name | Type | Description | Notes
 
 ## Examples
 
-- Create a new object
+- Prepare the resource
 ```powershell
-New-{{{packageName}}}{{{classname}}} {{#vars}} -{{name}} {{example}}{{#hasMore}} `
+Initialize-{{{packageName}}}{{{classname}}} {{#vars}} -{{name}} {{example}}{{#hasMore}} `
         {{/hasMore}}
 {{/vars}}
 
 ```
 
-- Convert the object to JSON
+- Convert the resource to JSON
 ```powershell
 ${{className}} | Convert-ToJSON
 ```
-
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

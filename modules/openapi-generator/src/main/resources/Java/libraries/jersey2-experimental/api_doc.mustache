@@ -1,0 +1,121 @@
+# {{classname}}{{#description}}
+
+{{description}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+
+## {{operationId}}
+
+{{^vendorExtensions.x-group-parameters}}
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+{{/vendorExtensions.x-group-parameters}}
+{{#vendorExtensions.x-group-parameters}}
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}.{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}.execute();
+{{/vendorExtensions.x-group-parameters}}
+
+{{summary}}{{#notes}}
+
+{{{unescapedNotes}}}{{/notes}}
+
+### Example
+
+```java
+// Import classes:
+import {{{invokerPackage}}}.ApiClient;
+import {{{invokerPackage}}}.ApiException;
+import {{{invokerPackage}}}.Configuration;{{#hasAuthMethods}}
+import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
+import {{{invokerPackage}}}.models.*;
+import {{{package}}}.{{{classname}}};
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("{{{basePath}}}");
+        {{#hasAuthMethods}}
+        {{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        // Configure HTTP basic authorization: {{{name}}}
+        HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setUsername("YOUR USERNAME");
+        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasicBasic}}{{#isBasicBearer}}
+        // Configure HTTP bearer authorization: {{{name}}}
+        HttpBearerAuth {{{name}}} = (HttpBearerAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
+        // Configure API key authorization: {{{name}}}
+        ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //{{{name}}}.setApiKeyPrefix("Token");{{/isApiKey}}{{#isOAuth}}
+        // Configure OAuth2 access token for authorization: {{{name}}}
+        OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+
+        {{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
+        {{#allParams}}
+        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{/allParams}}
+        try {
+            {{^vendorExtensions.x-group-parameters}}
+            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            {{/vendorExtensions.x-group-parameters}}
+            {{#vendorExtensions.x-group-parameters}}
+            {{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}
+                .{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}
+                .execute();
+            {{/vendorExtensions.x-group-parameters}}
+            {{#returnType}}
+            System.out.println(result);
+            {{/returnType}}
+        } catch (ApiException e) {
+            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{^isContainer}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}null (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{name}}](../README.md#{{name}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+| **{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
+
+{{/operation}}
+{{/operations}}

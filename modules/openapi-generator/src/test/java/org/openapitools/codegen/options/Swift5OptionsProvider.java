@@ -80,6 +80,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.API_NAME_PREFIX, "")
                 .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
+                .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .build();
     }
 

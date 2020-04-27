@@ -46,7 +46,13 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();
 
-    public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
+    public String name;
+    // The language-specific name of the class that implements this schema.
+    // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
+    public String classname;
+    // The value of the 'title' attribute in the OpenAPI document.
+    public String title;
+    public String description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
     public String classFilename; // store the class file name, mainly used for import
     public String unescapedDescription;
     public CodegenDiscriminator discriminator;
@@ -68,7 +74,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel, isDeprecated;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -537,6 +543,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isArrayModel == that.isArrayModel &&
                 hasChildren == that.hasChildren &&
                 isMapModel == that.isMapModel &&
+                isDeprecated == that.isDeprecated &&
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
@@ -603,7 +610,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
-                hasChildren, isMapModel, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
+                hasChildren, isMapModel, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf());
@@ -667,6 +674,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isArrayModel=").append(isArrayModel);
         sb.append(", hasChildren=").append(hasChildren);
         sb.append(", isMapModel=").append(isMapModel);
+        sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", hasOnlyReadOnly=").append(hasOnlyReadOnly);
         sb.append(", externalDocumentation=").append(externalDocumentation);
         sb.append(", vendorExtensions=").append(vendorExtensions);
@@ -686,6 +694,17 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    public void addDiscriminatorMappedModelsImports(){
+        if (discriminator == null || discriminator.getMappedModels() == null) {
+            return;
+        }
+        for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
+            if (!"".equals(mm.getModelName())) {
+                imports.add(mm.getModelName());
+            }
+        }
     }
 
     public boolean isEmptyVars() {

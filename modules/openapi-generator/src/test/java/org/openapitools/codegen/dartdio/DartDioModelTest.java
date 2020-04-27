@@ -366,7 +366,7 @@ public class DartDioModelTest {
             {"sample_name", "SampleName"},
             {"sample__name", "SampleName"},
             {"/sample", "Sample"},
-            {"\\sample", "\\Sample"},
+            {"\\sample", "Sample"},
             {"sample.name", "SampleName"},
             {"_sample", "Sample"},
         };

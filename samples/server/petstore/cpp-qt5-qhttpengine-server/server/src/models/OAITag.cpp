@@ -82,12 +82,28 @@ void OAITag::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool OAITag::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool OAITag::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 QString OAITag::getName() const {
     return name;
 }
 void OAITag::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
+}
+
+bool OAITag::is_name_Set() const{
+    return m_name_isSet;
+}
+
+bool OAITag::is_name_Valid() const{
+    return m_name_isValid;
 }
 
 bool OAITag::isSet() const {

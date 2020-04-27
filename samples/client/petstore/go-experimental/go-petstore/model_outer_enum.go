@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -31,24 +30,37 @@ func (v OuterEnum) Ptr() *OuterEnum {
 
 
 type NullableOuterEnum struct {
-	Value OuterEnum
-	ExplicitNull bool
+	value *OuterEnum
+	isSet bool
+}
+
+func (v NullableOuterEnum) Get() *OuterEnum {
+	return v.value
+}
+
+func (v *NullableOuterEnum) Set(val *OuterEnum) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableOuterEnum) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableOuterEnum) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableOuterEnum(val *OuterEnum) *NullableOuterEnum {
+	return &NullableOuterEnum{value: val, isSet: true}
 }
 
 func (v NullableOuterEnum) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableOuterEnum) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

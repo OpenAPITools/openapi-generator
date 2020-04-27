@@ -205,6 +205,9 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
 
 
 void {{classname}}_free({{classname}}_t *{{classname}}) {
+    if(NULL == {{classname}}){
+        return ;
+    }
     listEntry_t *listEntry;
     {{#vars}}
     {{^isContainer}}
@@ -531,19 +534,16 @@ fail:
     }
     {{/isByteArray}}
     {{#isBinary}}
-    binary_t* decoded_str_{{{name}}};
+    binary_t* decoded_str_{{{name}}} = malloc(sizeof(struct binary_t));
     {{^required}}if ({{{name}}}) { {{/required}}
     if(!cJSON_IsString({{{name}}}))
     {
     goto end; //Binary
     }
-    char* decoded = base64decode({{{name}}}->valuestring, strlen({{{name}}}->valuestring));
-    decoded_str_{{{name}}}->data = malloc(strlen(decoded) - 1);
+    decoded_str_{{{name}}}->data = base64decode({{{name}}}->valuestring, strlen({{{name}}}->valuestring), &decoded_str_{{{name}}}->len);
     if (!decoded_str_{{{name}}}->data) {
         goto end;
     }
-    memcpy(decoded_str_{{{name}}}->data,decoded,(strlen(decoded)-1));
-    decoded_str_{{{name}}}->len = strlen(decoded) - 1;
     {{/isBinary}}
     {{#isDate}}
     {{^required}}if ({{{name}}}) { {{/required}}

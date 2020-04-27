@@ -636,7 +636,7 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a model with at least one properties
+     * Check to see if the schema is a model with at least one property.
      *
      * @param schema potentially containing a '$ref'
      * @return true if it's a model with at least one properties
@@ -658,6 +658,42 @@ public class ModelUtils {
     }
 
     /**
+     * Return true if the schema value can be any type, i.e. it can be
+     * the null value, integer, number, string, object or array.
+     * One use case is when the "type" attribute in the OAS schema is unspecified.
+     * 
+     * Examples:
+     *
+     *     arbitraryTypeValue:
+     *       description: This is an arbitrary type schema.
+     *         It is not a free-form object.
+     *         The value can be any type except the 'null' value.
+     *     arbitraryTypeNullableValue:
+     *       description: This is an arbitrary type schema.
+     *         It is not a free-form object.
+     *         The value can be any type, including the 'null' value.
+     *       nullable: true
+     *
+     * @param schema the OAS schema.
+     * @return true if the schema value can be an arbitrary type. 
+     */
+    public static boolean isAnyTypeSchema(Schema schema) {
+        if (schema == null) {
+            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
+            return false;
+        }
+        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
+                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                schema.getAdditionalProperties() == null && schema.getNot() == null &&
+                schema.getEnum() == null) {
+            return true;
+            // If and when type arrays are supported in a future OAS specification,
+            // we could return true if the type array includes all possible JSON schema types.
+        }
+        return false;
+    }
+
+    /**
      * Check to see if the schema is a free form object.
      *
      * A free form object is an object (i.e. 'type: object' in a OAS document) that:
@@ -665,6 +701,25 @@ public class ModelUtils {
      * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
      * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
      *
+     * Examples:
+     * 
+     * components:
+     *   schemas:
+     *     arbitraryObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value cannot be 'null'.
+     *         It cannot be array, string, integer, number.
+     *     arbitraryNullableObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value can be 'null',
+     *         It cannot be array, string, integer, number.
+     *       nullable: true
+     *     arbitraryTypeValue:
+     *       description: This is NOT a free-form object.
+     *         The value can be any type except the 'null' value.
+     * 
      * @param schema potentially containing a '$ref'
      * @return true if it's a free-form object
      */
@@ -930,7 +985,7 @@ public class ModelUtils {
         if (content.size() > 1) {
             // Other content types are currently ignored by codegen. If you see this warning,
             // reorder the OAS spec to put the desired content type first.
-            LOGGER.warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
+            once(LOGGER).warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
                 entry.getKey());
         }
         return entry.getValue().getSchema();
@@ -1049,9 +1104,9 @@ public class ModelUtils {
     public static Map<String, List<String>> getChildrenMap(OpenAPI openAPI) {
         Map<String, Schema> allSchemas = getSchemas(openAPI);
 
-        // FIXME: The collect here will throw NPE if a spec document has only a single oneOf hierarchy.
         Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
             .filter(entry -> isComposedSchema(entry.getValue()))
+                .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)!=null)
             .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
 
         return groupedByParent.entrySet().stream()
@@ -1110,14 +1165,6 @@ public class ModelUtils {
         int nullSchemaChildrenCount = 0;
         boolean hasAmbiguousParents = false;
         List<String> refedWithoutDiscriminator = new ArrayList<>();
-        String schemaName = "";
-        for (String thisSchemaName : allSchemas.keySet()) {
-            Schema sc = allSchemas.get(thisSchemaName);
-            if (isComposedSchema(sc) && (ComposedSchema) sc == composedSchema) {
-                schemaName = thisSchemaName;
-                break;
-            }
-        }
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -1134,10 +1181,7 @@ public class ModelUtils {
                     } else {
                         // not a parent since discriminator.propertyName is not set
                         hasAmbiguousParents = true;
-                        boolean isNotExtractedInlineSchema = !parentName.equals(schemaName+"_allOf");
-                        if (isNotExtractedInlineSchema) {
-                            refedWithoutDiscriminator.add(parentName);
-                        }
+                        refedWithoutDiscriminator.add(parentName);
                     }
                 } else {
                     // not a ref, doing nothing, except counting the number of times the 'null' type
@@ -1181,7 +1225,6 @@ public class ModelUtils {
     public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
-        List<String> refedWithoutDiscriminator = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -1200,7 +1243,6 @@ public class ModelUtils {
                         }
                     } else {
                         // not a parent since discriminator.propertyName is not set
-                        refedWithoutDiscriminator.add(parentName);
                     }
                 } else {
                     // not a ref, doing nothing
@@ -1208,10 +1250,11 @@ public class ModelUtils {
             }
         }
 
-        if (names.size() == 0 && refedWithoutDiscriminator.size() == 1) {
-            LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                    "and will be removed in a future release. Generating model for {}. Title: {}", composedSchema.getName(), composedSchema.getTitle());
-            return refedWithoutDiscriminator;
+        // ensure `allParents` always includes `parent`
+        // this is more robust than keeping logic in getParentName() and getAllParentsName() in sync
+        String parentName = getParentName(composedSchema, allSchemas);
+        if (parentName != null && !names.contains(parentName)) {
+            names.add(parentName);
         }
 
         return names;

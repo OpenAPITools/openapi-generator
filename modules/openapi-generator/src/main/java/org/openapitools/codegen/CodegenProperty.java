@@ -20,12 +20,43 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
-    public String openApiType, baseName, complexType, getter, setter, description, dataType,
-            datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
-            baseType, containerType, title;
+    /**
+     * The value of the 'type' attribute in the OpenAPI schema.
+     * The per-language codegen logic may change to a language-specific type.
+     */
+    public String openApiType;
+    public String baseName;
+    public String complexType;
+    public String getter;
+    public String setter;
+    /**
+     * The value of the 'description' attribute in the OpenAPI schema.
+     */
+    public String description;
+    /**
+     * The language-specific data type for this property. For example, the OpenAPI type 'integer'
+     * may be represented as 'int', 'int32', 'Integer', etc, depending on the programming language.
+     */
+    public String dataType;
+    public String datatypeWithEnum;
+    public String dataFormat;
+    /**
+     * The name of this property in the OpenAPI schema.
+     */
+    public String name;
+    public String min; // TODO: is this really used?
+    public String max; // TODO: is this really used?
+    public String defaultValue;
+    public String defaultValueWithParam;
+    public String baseType;
+    public String containerType;
+    /**
+     * The value of the 'title' attribute in the OpenAPI schema.
+     */
+    public String title;
 
     /**
-     * The 'description' string without escape charcters needed by some programming languages/targets
+     * The 'description' string without escape characters needed by some programming languages/targets
      */
     public String unescapedDescription;
 
@@ -47,10 +78,30 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String example;
 
     public String jsonSchema;
+    /**
+     * The value of the 'minimum' attribute in the OpenAPI schema.
+     * The value of "minimum" MUST be a number, representing an inclusive lower limit for a numeric instance.
+     */
     public String minimum;
+    /**
+     * The value of the 'maximum' attribute in the OpenAPI schema.
+     * The value of "maximum" MUST be a number, representing an inclusive upper limit for a numeric instance.
+     */
     public String maximum;
+    /**
+     * The value of the 'multipleOf' attribute in the OpenAPI schema.
+     * The value of "multipleOf" MUST be a number, strictly greater than 0.
+     */
     public Number multipleOf;
+    /**
+     * The value of the 'exclusiveMinimum' attribute in the OpenAPI schema.
+     * The value of "exclusiveMinimum" MUST be number, representing an exclusive lower limit for a numeric instance.
+     */
     public boolean exclusiveMinimum;
+    /**
+     * The value of the 'exclusiveMaximum' attribute in the OpenAPI schema.
+     * The value of "exclusiveMaximum" MUST be number, representing an exclusive upper limit for a numeric instance.
+     */
     public boolean exclusiveMaximum;
     public boolean hasMore;
     public boolean required;
@@ -59,6 +110,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
+    /**
+     * True if this property is an array of items or a map container.
+     * See:
+     * - ModelUtils.isArraySchema()
+     * - ModelUtils.isMapSchema()
+     */
     public boolean isContainer;
     public boolean isString;
     public boolean isNumeric;
@@ -76,7 +133,15 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isUuid;
     public boolean isUri;
     public boolean isEmail;
+    /**
+     * The type is a free-form object, i.e. it is a map of string to values with no declared properties
+     */
     public boolean isFreeFormObject;
+    /**
+     * The 'type' in the OAS schema is unspecified (i.e. not set). The value can be number, integer, string, object or array.
+     * If the nullable attribute is set to true, the 'null' value is valid.
+     */
+    public boolean isAnyType;
     public boolean isListContainer;
     public boolean isMapContainer;
     public boolean isEnum;
@@ -85,6 +150,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isNullable;
     public boolean isSelfReference;
     public boolean isCircularReference;
+    public boolean isDiscriminator;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
@@ -586,6 +652,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isNullable=").append(isNullable);
         sb.append(", isSelfReference=").append(isSelfReference);
         sb.append(", isCircularReference=").append(isCircularReference);
+        sb.append(", isDiscriminator=").append(isDiscriminator);
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
@@ -621,7 +688,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 exclusiveMaximum == that.exclusiveMaximum &&
                 hasMore == that.hasMore &&
                 required == that.required &&
-                deprecated == this.deprecated &&
+                deprecated == that.deprecated &&
                 secondaryParam == that.secondaryParam &&
                 hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
@@ -652,6 +719,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isNullable == that.isNullable &&
                 isSelfReference == that.isSelfReference &&
                 isCircularReference == that.isCircularReference &&
+                isDiscriminator == that.isDiscriminator &&
                 hasValidation == that.hasValidation &&
                 isInherited == that.isInherited &&
                 isXmlAttribute == that.isXmlAttribute &&
@@ -710,7 +778,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
                 isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
-                isSelfReference, isCircularReference, _enum, allowableValues, items, mostInnerItems,
+                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues, items, mostInnerItems,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped);
