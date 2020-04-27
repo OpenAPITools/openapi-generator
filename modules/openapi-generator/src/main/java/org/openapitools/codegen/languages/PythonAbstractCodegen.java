@@ -61,6 +61,7 @@ public class PythonAbstractCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.add("date");
         languageSpecificPrimitives.add("file");
         languageSpecificPrimitives.add("object");
+        languageSpecificPrimitives.add("file");
         languageSpecificPrimitives.add("byte");
         languageSpecificPrimitives.add("bytearray");
 
