@@ -1995,4 +1995,73 @@ public class DefaultCodegenTest {
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
         Assert.assertEquals(items.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaOneOf");
     }
+
+    @Test
+    public void testFormComposedSchema() {
+        OpenAPI openAPI = TestUtils.parseContent("openapi: 3.0.1\n" +
+            "info:\n" +
+            "  version: '1.0.0'\n" +
+            "  title: the title\n" +
+            "\n" +
+            "paths:\n" +
+            "  '/users/me':\n" +
+            "    post:\n" +
+            "      description: Change user password.\n" +
+            "      operationId: changeCurrentUserPassword\n" +
+            "      requestBody:\n" +
+            "        required: true\n" +
+            "        content:\n" +
+            "          multipart/form-data:\n" +
+            "            schema:\n" +
+            "              $ref: '#/components/schemas/ChangePasswordRequest'\n" +
+            "      responses:\n" +
+            "        '200':\n" +
+            "          description: Successful operation\n" +
+            "          content: {}\n" +
+            "\n" +
+            "components:\n" +
+            "  schemas:\n" +
+            "    CommonPasswordRequest:\n" +
+            "      type: object\n" +
+            "      required: [ password, passwordConfirmation ]\n" +
+            "      properties:\n" +
+            "        password:\n" +
+            "          type: string\n" +
+            "          format: password\n" +
+            "        passwordConfirmation:\n" +
+            "          type: string\n" +
+            "          format: password\n" +
+            "\n" +
+            "    ChangePasswordRequest:\n" +
+            "      type: object\n" +
+            "      allOf:\n" +
+            "        - $ref: '#/components/schemas/CommonPasswordRequest'\n" +
+            "        - type: object\n" +
+            "          required: [ oldPassword ]\n" +
+            "          properties:\n" +
+            "            oldPassword:\n" +
+            "              type: string\n" +
+            "              format: password\n");
+
+        final DefaultCodegen cg = new DefaultCodegen();
+        cg.setOpenAPI(openAPI);
+        cg.setUseOneOfInterfaces(true);
+        cg.preprocessOpenAPI(openAPI);
+
+        final PathItem path = openAPI.getPaths().get("/users/me");
+        final CodegenOperation operation = cg.fromOperation(
+            "/users/me",
+            "post",
+            path.getPost(),
+            path.getServers());
+        assertEquals(operation.formParams.size(), 3,
+            "The list of parameters should include inherited type");
+
+        final List<String> names = operation.formParams.stream()
+            .map(param -> param.paramName)
+            .collect(Collectors.toList());
+        assertTrue(names.contains("password"));
+        assertTrue(names.contains("passwordConfirmation"));
+        assertTrue(names.contains("oldPassword"));
+    }
 }
