@@ -2103,24 +2103,25 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     // Returns a model that encapsulates the JSON schema "any type". Its value
-    // can be one of null, integer, boolean, number, string, array or map.
+    // can be any of null, integer, boolean, number, string, array or map.
     // "Any type" is a schema that does not have the "type" attribute
     // specified in the OpenAPI schema. That means the value can be any valid
     // payload, i.e. the null value, boolean, string, integer, number,
     // array or map.
-    // Map any schema to a 'oneOf' composed schema that has all possible types.
+    // Numerical payloads may match more than one type, for example "2" may
+    // match integer and number. Hence the use of 'anyOf'.
     public CodegenModel getAnyTypeModel(String name, Schema schema) {
         if (!ModelUtils.isAnyTypeSchema(schema)) {
             throw new RuntimeException("Schema '" + name + "' is not 'any type'");
         }
         ComposedSchema s = (ComposedSchema) new ComposedSchema()
-            .addOneOfItem(new ObjectSchema().type("null"))
-            .addOneOfItem(new BooleanSchema())
-            .addOneOfItem(new StringSchema())
-            .addOneOfItem(new IntegerSchema())
-            .addOneOfItem(new NumberSchema())
-            .addOneOfItem(new ArraySchema())
-            .addOneOfItem(new MapSchema())
+            .addAnyOfItem(new ObjectSchema().type("null"))
+            .addAnyOfItem(new BooleanSchema())
+            .addAnyOfItem(new StringSchema())
+            .addAnyOfItem(new IntegerSchema())
+            .addAnyOfItem(new NumberSchema())
+            .addAnyOfItem(new ArraySchema())
+            .addAnyOfItem(new MapSchema())
             .name(name);
         if (schema != null) {
             s.setTitle(schema.getTitle());
