@@ -34,6 +34,8 @@ rm -rf samples/client/petstore/java/jersey2-experimental/src/main
 find samples/client/petstore/java/jersey2-experimental -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
 java $JAVA_OPTS -jar $executable $ags
 
+mvn com.coveo:fmt-maven-plugin:format -f samples/client/petstore/java/jersey2-experimental/pom.xml
+
 # copy additional manually written unit-tests
 #mkdir samples/client/petstore/java/jersey2/src/test/java/org/openapitools/client
 #mkdir samples/client/petstore/java/jersey2/src/test/java/org/openapitools/client/auth
