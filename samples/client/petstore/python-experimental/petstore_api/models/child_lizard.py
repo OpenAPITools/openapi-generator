@@ -196,4 +196,3 @@ class ChildLizard(ModelComposed):
           ],
         }
 
-

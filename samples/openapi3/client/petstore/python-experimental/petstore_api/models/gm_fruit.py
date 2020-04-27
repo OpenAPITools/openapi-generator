@@ -192,4 +192,3 @@ class GmFruit(ModelComposed):
           ],
         }
 
-

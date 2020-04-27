@@ -199,4 +199,3 @@ class Dog(ModelComposed):
           ],
         }
 
-

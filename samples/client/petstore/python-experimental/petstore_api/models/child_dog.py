@@ -196,4 +196,3 @@ class ChildDog(ModelComposed):
           ],
         }
 
-

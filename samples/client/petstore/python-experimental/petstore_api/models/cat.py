@@ -199,4 +199,3 @@ class Cat(ModelComposed):
           ],
         }
 
-

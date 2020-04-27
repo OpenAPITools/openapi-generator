@@ -567,6 +567,7 @@ def fix_model_input_data(model_data, model_class):
             )
     return fixed_model_data
 
+
 def get_discriminator_class(model_class, from_server, model_data, cls_visited):
     """Returns the child class specified by the discriminator.
 
@@ -580,9 +581,14 @@ def get_discriminator_class(model_class, from_server, model_data, cls_visited):
             visiting circular references indefinitely.
 
     Returns:
-        A tuple containing the child class specified by the discriminator,
-        the name of the discriminator property, and the discriminator value
-        in the input data.
+        A tuple containing (used_model_class, discr_propertyname_js, discr_value).
+        used_model_class (class/None): the chosen child class that will be used
+            to deserialize the data, for example dog.Dog.
+            If a class is not found, None is returned.
+        discr_propertyname_js (string): the discriminator.propertyName
+            from the OpenAPI document.
+        discr_value (string): the class name in model_data which is the key used
+            to return used_model_class from the discriminator, for example 'Dog'.
     """
 
     cls_visited.add(model_class)
@@ -604,6 +610,7 @@ def get_discriminator_class(model_class, from_server, model_data, cls_visited):
                 if mc is not None:
                     return (mc, dn, dv)
     return (used_model_class, discr_propertyname_js, discr_value)
+
 
 def deserialize_model(model_data, model_class, path_to_item, check_type,
                       configuration, from_server):

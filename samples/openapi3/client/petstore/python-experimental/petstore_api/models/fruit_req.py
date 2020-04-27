@@ -199,4 +199,3 @@ class FruitReq(ModelComposed):
           ],
         }
 
-

@@ -192,4 +192,3 @@ class Fruit(ModelComposed):
           ],
         }
 
-

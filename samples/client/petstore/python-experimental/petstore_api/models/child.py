@@ -192,4 +192,3 @@ class Child(ModelComposed):
           ],
         }
 
-

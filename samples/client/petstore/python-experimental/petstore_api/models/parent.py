@@ -189,4 +189,3 @@ class Parent(ModelComposed):
           ],
         }
 
-

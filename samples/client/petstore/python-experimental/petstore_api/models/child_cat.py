@@ -196,4 +196,3 @@ class ChildCat(ModelComposed):
           ],
         }
 
-
