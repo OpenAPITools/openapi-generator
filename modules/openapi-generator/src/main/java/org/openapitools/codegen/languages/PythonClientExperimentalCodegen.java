@@ -286,10 +286,19 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     public String toModelImport(String name) {
-        // name looks like cat.Cat
-        String moduleName = name.split("\\.")[0];
-        // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        return "from " + modelPackage() + " import "+ moduleName;
+        String modelImport;
+        if (StringUtils.startsWithAny(name, "import", "from", "try:")) {
+            modelImport = name;
+        } else {
+            String[] moduleStruct = name.split("\\.");
+            // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
+            modelImport = "    from " + modelPackage() + " import " + moduleStruct[0];
+            modelImport = 	"try:\n" +
+            					modelImport +
+            				"\nexcept ImportError:\n    " +
+            				moduleStruct[0] + " = sys.modules[\n        '" + modelPackage() + "." + moduleStruct[0] + "']";
+        }
+        return modelImport;
     }
 
     private String robustImport(String name) {
@@ -392,8 +401,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     }
                 }
 
-                // fix the imports that each model has, change them to absolute
-                fixModelImports(cm.imports);
+                /*
+                 * Moved this functionality into toModelImport.
+                 * 
+                 * Now the imports are one level higher, so the template has also been altered.
+                 */
+                //// fix the imports that each model has, change them to absolute
+                //fixModelImports(cm.imports);
 
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
