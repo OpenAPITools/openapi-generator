@@ -703,6 +703,34 @@ public class ApiClient {
     return entity;
   }
 
+  /**
+   * Serialize the given Java object into string according the given
+   * Content-Type (only JSON, HTTP form is supported for now).
+   * @param obj Object
+   * @param formParams Form parameters
+   * @param contentType Context type
+   * @return String
+   * @throws Exception exception
+   */
+  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws Exception {
+    if (contentType.startsWith("multipart/form-data")) {
+      throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
+    } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+      String formString = "";
+      for (Entry<String, Object> param: formParams.entrySet()) {
+        formString = param.getKey() + "=" + URLEncoder.encode(parameterToString(param.getValue()), "UTF-8") + "&";
+      }
+
+      if (formString.length() == 0) { // empty string
+        return formString;
+      } else {
+        return formString.substring(0, formString.length() - 1);
+      }
+    } else {
+      return json.getMapper().writeValueAsString(obj);
+    }
+  }
+
   public AbstractOpenApiSchema deserializeSchemas(Response response, AbstractOpenApiSchema schema) throws ApiException{
 
     Object result = null;

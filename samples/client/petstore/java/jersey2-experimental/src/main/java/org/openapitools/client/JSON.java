@@ -44,4 +44,6 @@ public class JSON implements ContextResolver<ObjectMapper> {
   public ObjectMapper getContext(Class<?> type) {
     return mapper;
   }
+
+  public ObjectMapper getMapper() { return mapper; }
 }
