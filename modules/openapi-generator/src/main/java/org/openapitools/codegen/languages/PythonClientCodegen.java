@@ -119,6 +119,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         languageSpecificPrimitives.add("object");
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
+        languageSpecificPrimitives.add("bytes");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -828,7 +829,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (schema.getDiscriminator()!=null) {
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
-            
+
             example = packageName + ".models." + underscore(schema.getTitle())+"."+schema.getTitle()+"(";
 
             // if required only:
