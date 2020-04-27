@@ -1047,7 +1047,7 @@ public class ApiClient {
           return new ApiResponse<>(statusCode, responseHeaders, deserialize(response, returnType));
         } else { // oneOf/anyOf
           return new ApiResponse<>(
-              statusCode, responseHeaders, (T) deserializeSchemas(response, schema));
+              statusCode, responseHeaders, (AbstractOpenApiSchema) deserializeSchemas(response, schema));
         }
       } else {
         String message = "error";
