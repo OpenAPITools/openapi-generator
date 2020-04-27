@@ -408,7 +408,7 @@ public interface FakeApi {
   
   @PUT("/fake/test-query-paramters")
   Void testQueryParameterCollectionFormat(
-    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SPACEParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context
+    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SSVParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context
   );
 
   /**
@@ -424,6 +424,6 @@ public interface FakeApi {
   
   @PUT("/fake/test-query-paramters")
   void testQueryParameterCollectionFormat(
-    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SPACEParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context, Callback<Void> cb
+    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SSVParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context, Callback<Void> cb
   );
 }

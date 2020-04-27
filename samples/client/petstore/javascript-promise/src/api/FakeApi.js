@@ -831,7 +831,7 @@
         },
         'http': {
           value: http,
-          collectionFormat: 'space'
+          collectionFormat: 'ssv'
         },
         'url': {
           value: url,

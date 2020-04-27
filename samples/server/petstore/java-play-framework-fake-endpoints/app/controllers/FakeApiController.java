@@ -475,7 +475,7 @@ public class FakeApiController extends Controller {
         if (httpArray == null) {
             throw new IllegalArgumentException("'http' parameter is required");
         }
-        List<String> httpList = OpenAPIUtils.parametersToList("space", httpArray);
+        List<String> httpList = OpenAPIUtils.parametersToList("ssv", httpArray);
         List<String> http = new ArrayList<String>();
         for (String curParam : httpList) {
             if (!curParam.isEmpty()) {
