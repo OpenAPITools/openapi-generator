@@ -191,4 +191,3 @@ class GmFruit(ModelComposed):
           'oneOf': [
           ],
         }
-

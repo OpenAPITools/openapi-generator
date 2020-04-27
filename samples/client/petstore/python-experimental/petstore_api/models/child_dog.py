@@ -195,4 +195,3 @@ class ChildDog(ModelComposed):
           'oneOf': [
           ],
         }
-

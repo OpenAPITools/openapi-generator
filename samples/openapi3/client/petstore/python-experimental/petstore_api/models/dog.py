@@ -198,4 +198,3 @@ class Dog(ModelComposed):
           'oneOf': [
           ],
         }
-

@@ -188,4 +188,3 @@ class Parent(ModelComposed):
           'oneOf': [
           ],
         }
-

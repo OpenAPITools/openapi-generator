@@ -198,4 +198,3 @@ class Cat(ModelComposed):
           'oneOf': [
           ],
         }
-

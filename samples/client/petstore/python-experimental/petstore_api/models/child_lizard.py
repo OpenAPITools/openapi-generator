@@ -195,4 +195,3 @@ class ChildLizard(ModelComposed):
           'oneOf': [
           ],
         }
-

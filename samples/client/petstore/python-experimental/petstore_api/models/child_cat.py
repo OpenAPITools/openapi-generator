@@ -195,4 +195,3 @@ class ChildCat(ModelComposed):
           'oneOf': [
           ],
         }
-

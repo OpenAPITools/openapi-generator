@@ -198,4 +198,3 @@ class FruitReq(ModelComposed):
               banana_req.BananaReq,
           ],
         }
-
