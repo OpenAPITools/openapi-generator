@@ -136,7 +136,7 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property2.dataType, "[str]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
-        Assert.assertEquals(property2.baseType, "list");
+        Assert.assertEquals(property2.baseType, "List");
         Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
@@ -165,7 +165,7 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.dataType, "{str: (str,)}");
         Assert.assertEquals(property1.name, "translations");
-        Assert.assertEquals(property1.baseType, "dict");
+        Assert.assertEquals(property1.baseType, "Dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -217,7 +217,7 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.dataType, "[children.Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "list");
+        Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -245,7 +245,7 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.dataType, "{str: (children.Children,)}");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "dict");
+        Assert.assertEquals(property1.baseType, "Dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -269,8 +269,8 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(cm.classVarName, "sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "list");
-        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(cm.parent, "List");
+        Assert.assertEquals(cm.imports.size(), 2);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
     }
 
@@ -289,8 +289,8 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "dict");
-        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(cm.parent, "Dict");
+        Assert.assertEquals(cm.imports.size(), 2);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
     }
 

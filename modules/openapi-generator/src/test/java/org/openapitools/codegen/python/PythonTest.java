@@ -134,10 +134,10 @@ public class PythonTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.dataType, "list[str]");
+        Assert.assertEquals(property2.dataType, "List[str]");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
-        Assert.assertEquals(property2.baseType, "list");
+        Assert.assertEquals(property2.baseType, "List");
         Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
@@ -164,9 +164,9 @@ public class PythonTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.dataType, "dict(str, str)");
+        Assert.assertEquals(property1.dataType, "Dict[str, str]");
         Assert.assertEquals(property1.name, "translations");
-        Assert.assertEquals(property1.baseType, "dict");
+        Assert.assertEquals(property1.baseType, "Dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -216,9 +216,9 @@ public class PythonTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "list[Children]");
+        Assert.assertEquals(property1.dataType, "List[Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "list");
+        Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -244,9 +244,9 @@ public class PythonTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "dict(str, Children)");
+        Assert.assertEquals(property1.dataType, "Dict[str, Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "dict");
+        Assert.assertEquals(property1.baseType, "Dict");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -270,7 +270,7 @@ public class PythonTest {
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "null<Children>");
-        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(cm.imports.size(), 2);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
@@ -290,7 +290,7 @@ public class PythonTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "null<String, Children>");
-        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(cm.imports.size(), 2);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
