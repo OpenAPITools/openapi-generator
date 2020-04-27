@@ -244,6 +244,11 @@
   infoLink: "https://www.metaswitch.com/"
   pinned: true
 -
+  caption: MoonVision
+  image: "img/companies/moonvision.png"
+  infoLink: "https://www.moonvision.io/"
+  pinned: false
+-
   caption: Myworkout
   image: "img/companies/myworkout.png"
   infoLink: "https://myworkout.com/"
