@@ -2126,9 +2126,9 @@ public class DefaultCodegen implements CodegenConfig {
             .addAnyOfItem(new NumberSchema())
             .name(name);
         // The map keys must be strings and the values can be anything.
-        cs.addAnyOfItem(new MapSchema().additionalProperties(cs));
+        cs.addAnyOfItem(new MapSchema().additionalProperties(true));
         // The array items can be anything.
-        cs.addAnyOfItem(new ArraySchema().items(cs));
+        cs.addAnyOfItem(new ArraySchema());
         if (schema != null) {
             cs.setTitle(schema.getTitle());
             cs.setDescription(schema.getDescription());

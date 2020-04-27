@@ -910,7 +910,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
+            if (inner == null) {
+                // Per JSON schema specification, the array "items" attribute is optional.
+                // When "items" is not specified, the elements of the array
+                // may be anything at all.
+                return prefix + "[bool, date, datetime, dict, float, int, list, str, none_type]" + fullSuffix;
+            } else {
+                return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
+            }
         }
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
