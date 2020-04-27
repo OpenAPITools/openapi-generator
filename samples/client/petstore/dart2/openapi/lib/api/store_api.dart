@@ -28,10 +28,10 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -46,7 +46,7 @@ class StoreApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -82,10 +82,10 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -100,7 +100,7 @@ class StoreApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -141,10 +141,10 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -159,7 +159,7 @@ class StoreApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -199,10 +199,10 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -217,7 +217,7 @@ class StoreApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }

@@ -849,7 +849,7 @@ public class FakeApi {
     List<Pair> localVarQueryParams = new ArrayList<>();
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "pipe", pipe));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "ioutil", ioutil));
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("ssv", "http", http));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("space", "http", http));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "url", url));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "context", context));
 

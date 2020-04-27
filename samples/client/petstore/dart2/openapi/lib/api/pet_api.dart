@@ -28,10 +28,10 @@ class PetApi {
 
     List<String> contentTypes = ["application/json","application/xml"];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -46,7 +46,7 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -86,10 +86,10 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -104,7 +104,7 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -144,10 +144,10 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -162,7 +162,7 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -203,10 +203,10 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -221,7 +221,7 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -261,10 +261,10 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -279,7 +279,7 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -319,10 +319,10 @@ class PetApi {
 
     List<String> contentTypes = ["application/json","application/xml"];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -337,7 +337,7 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -376,10 +376,10 @@ class PetApi {
 
     List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if (name != null) {
@@ -406,7 +406,7 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -445,10 +445,10 @@ class PetApi {
 
     List<String> contentTypes = ["multipart/form-data"];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
@@ -474,7 +474,7 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }

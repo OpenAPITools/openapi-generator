@@ -2697,7 +2697,7 @@ namespace Org.OpenAPITools.Api
             }
             if (http != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("ssv", "http", http));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("space", "http", http));
             }
             if (url != null)
             {
@@ -2795,7 +2795,7 @@ namespace Org.OpenAPITools.Api
             }
             if (http != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("ssv", "http", http));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("space", "http", http));
             }
             if (url != null)
             {

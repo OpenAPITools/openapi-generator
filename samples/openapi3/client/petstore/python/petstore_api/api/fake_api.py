@@ -1931,7 +1931,7 @@ class FakeApi(object):
             collection_formats['ioutil'] = 'csv'  # noqa: E501
         if 'http' in local_var_params and local_var_params['http'] is not None:  # noqa: E501
             query_params.append(('http', local_var_params['http']))  # noqa: E501
-            collection_formats['http'] = 'ssv'  # noqa: E501
+            collection_formats['http'] = 'space'  # noqa: E501
         if 'url' in local_var_params and local_var_params['url'] is not None:  # noqa: E501
             query_params.append(('url', local_var_params['url']))  # noqa: E501
             collection_formats['url'] = 'csv'  # noqa: E501

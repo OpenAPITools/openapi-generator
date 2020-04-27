@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * TypeHolderDefault
@@ -63,6 +66,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public String getStringItem() {
@@ -85,6 +89,8 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
+  @NotNull
+  @Valid
   @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumberItem() {
@@ -107,6 +113,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public Integer getIntegerItem() {
@@ -129,6 +136,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public Boolean isBoolItem() {
@@ -156,6 +164,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public List<Integer> getArrayItem() {
