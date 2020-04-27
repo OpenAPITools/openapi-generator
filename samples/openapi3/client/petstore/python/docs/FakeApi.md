@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
+[**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -68,6 +69,69 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The instance started successfully |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_http_signature_test**
+> fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
+
+test http signature authentication
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+query_1 = 'query_1_example' # str | query parameter (optional)
+header_1 = 'header_1_example' # str | header parameter (optional)
+
+    try:
+        # test http signature authentication
+        api_instance.fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
+    except ApiException as e:
+        print("Exception when calling FakeApi->fake_http_signature_test: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **query_1** | **str**| query parameter | [optional] 
+ **header_1** | **str**| header parameter | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
