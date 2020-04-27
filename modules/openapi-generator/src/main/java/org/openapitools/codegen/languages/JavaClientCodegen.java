@@ -199,7 +199,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void processOpts() {
         if ((WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
-        } else if (MICROPROFILE.equals(getLibrary())) {
+        } else if (MICROPROFILE.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) {
             dateLibrary = "legacy";
         }
 
@@ -421,7 +421,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
-            importMapping.put("LocalDate", "org.joda.time.LocalDate");
             serializationLibrary = "none";
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
