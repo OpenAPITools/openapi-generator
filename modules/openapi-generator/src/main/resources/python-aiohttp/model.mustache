@@ -2,17 +2,11 @@
 
 from datetime import date, datetime
 
-from typing import List, Dict, Type
-
 from {{modelPackage}}.base_model_ import Model
-{{#models}}
-{{#model}}
-{{#pyImports}}
+{{#imports}}
 {{import}}
-{{/pyImports}}
-{{/model}}
-{{/models}}
-from {{packageName}} import util
+{{/imports}}
+{from {{packageName}} import util
 
 
 {{#models}}

@@ -21,11 +21,11 @@ from {{packageName}}.model_utils import (  # noqa: F401
     str,
     validate_get_composed_info,
 )
+{{#imports}}
+{{{import}}}
+{{/imports}}
 {{#models}}
 {{#model}}
-{{#imports}}
-{{{.}}}
-{{/imports}}
 
 
 {{^interfaces}}
