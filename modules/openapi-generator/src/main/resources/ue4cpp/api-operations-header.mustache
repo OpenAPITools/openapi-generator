@@ -1,0 +1,64 @@
+{{>licenseInfo}}
+#pragma once
+
+#include "{{modelNamePrefix}}BaseModel.h"
+#include "{{classname}}.h"
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} 
+{
+{{/cppNamespaceDeclarations}}
+
+{{#operations}}
+{{#operation}}
+/* {{summary}}
+{{#notes}} *
+ * {{notes}}{{/notes}}
+*/
+class {{dllapi}} {{classname}}::{{operationIdCamelCase}}Request : public Request
+{
+public:
+    virtual ~{{operationIdCamelCase}}Request() {}
+	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	FString ComputePath() const final;
+    
+	{{#allParams}}
+	{{#isEnum}}
+	{{#allowableValues}}
+	enum class {{{enumName}}}
+	{
+		{{#enumVars}}
+		{{name}},
+		{{/enumVars}}
+  	};
+	{{/allowableValues}}
+	{{#description}}/* {{{description}}} */
+	{{/description}}{{^required}}TOptional<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{paramName}}{{#required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}};
+	{{/isEnum}}
+	{{^isEnum}}
+	{{#description}}/* {{{description}}} */
+	{{/description}}{{^required}}TOptional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}};
+	{{/isEnum}}
+    {{/allParams}}
+};
+
+class {{dllapi}} {{classname}}::{{operationIdCamelCase}}Response : public Response
+{
+public:
+    virtual ~{{operationIdCamelCase}}Response() {}
+	{{#responses.0}}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	{{/responses.0}}
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+    
+    {{#returnType}}{{{returnType}}} Content;{{/returnType}}
+};
+
+{{/operation}}
+{{/operations}}
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

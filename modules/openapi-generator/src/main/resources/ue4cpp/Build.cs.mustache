@@ -1,0 +1,19 @@
+{{>licenseInfo}}
+using System;
+using System.IO;
+using UnrealBuildTool;
+
+public class {{unrealModuleName}} : ModuleRules
+{
+    public {{unrealModuleName}}(ReadOnlyTargetRules Target) : base(Target)
+    {
+        PublicDependencyModuleNames.AddRange(
+            new string[]
+            {
+                "Core",
+                "Http",
+                "Json",
+            }
+        );
+    }
+}
