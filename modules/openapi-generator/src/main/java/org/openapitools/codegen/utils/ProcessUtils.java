@@ -76,7 +76,7 @@ public class ProcessUtils {
      * @param objs Map of operations
      * @return True if at least one operation has OAuth security schema defined
      */
-    public static boolean hasTokenAuthMethods(Map<String, Object> objs) {
+    public static boolean hasApiKeyAuthMethods(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");

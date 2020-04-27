@@ -57,9 +57,9 @@ import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
 {{/hasBasicAuthMethods}}
-{{#hasTokenAuthMethods}}
+{{#hasApiKeyAuthMethods}}
 import {{invokerPackage}}.auth.ApiKeyAuth;
-{{/hasTokenAuthMethods}}
+{{/hasApiKeyAuthMethods}}
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
@@ -140,8 +140,8 @@ public class ApiClient {
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#hasBasicAuthMethods}}{{#isBasic}}{{#isBasicBasic}}
     authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{/hasBasicAuthMethods}}{{#hasTokenAuthMethods}}{{#isApiKey}}
-    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{/hasTokenAuthMethods}}{{#hasOAuthMethods}}{{#isOAuth}}
+    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{/hasBasicAuthMethods}}{{#hasApiKeyAuthMethods}}{{#isApiKey}}
+    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{/hasApiKeyAuthMethods}}{{#hasOAuthMethods}}{{#isOAuth}}
     authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/hasOAuthMethods}}{{/authMethods}}
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
@@ -316,7 +316,7 @@ public class ApiClient {
 
   {{/hasBasicAuthMethods}}
 
-  {{#hasTokenAuthMethods}}
+  {{#hasApiKeyAuthMethods}}
   /**
    * Helper method to set API key value for the first API key authentication.
    * @param apiKey the API key
@@ -345,7 +345,7 @@ public class ApiClient {
     throw new RuntimeException("No API key authentication configured!");
   }
 
-  {{/hasTokenAuthMethods}}
+  {{/hasApiKeyAuthMethods}}
 
   {{#hasOAuthMethods}}
   /**

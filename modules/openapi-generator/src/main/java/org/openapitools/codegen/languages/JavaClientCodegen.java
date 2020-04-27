@@ -582,7 +582,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
                 supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.mustache", authFolder, "HttpBearerAuth.java"));
             }
-            if (ProcessUtils.hasTokenAuthMethods(objs)) {
+            if (ProcessUtils.hasApiKeyAuthMethods(objs)) {
                 supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
             }
             if (ProcessUtils.hasOAuthMethods(objs)) {
