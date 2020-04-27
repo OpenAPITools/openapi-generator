@@ -85,10 +85,13 @@ test http signature authentication
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
+    new GuzzleHttp\Client(),
+    $config
 );
 $pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 $query_1 = 'query_1_example'; // string | query parameter
@@ -117,7 +120,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[http_signature_test](../../README.md#http_signature_test)
 
 ### HTTP request headers
 

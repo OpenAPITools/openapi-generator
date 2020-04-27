@@ -1,0 +1,115 @@
+{{>licenseInfo}}
+  
+package {{invokerPackage}}.auth;
+
+import {{invokerPackage}}.Pair;
+import {{invokerPackage}}.ApiException;
+
+import java.net.URI;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.Key;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+import java.util.List;
+
+import org.tomitribe.auth.signatures.*;
+
+public class HttpSignatureAuth implements Authentication {
+
+  private Signer signer;
+
+  private String name;
+
+  private Algorithm algorithm;
+
+  private List<String> headers;
+
+  public HttpSignatureAuth(String name, Algorithm algorithm, List<String> headers) {
+    this.name = name;
+    this.algorithm = algorithm;
+    this.headers = headers;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Algorithm getAlgorithm() {
+    return algorithm;
+  }
+
+  public void setAlgorithm(Algorithm algorithm) {
+    this.algorithm = algorithm;
+  }
+
+  public List<String> getHeaders() {
+    return headers;
+  }
+
+  public void setHeaders(List<String> headers) {
+    this.headers = headers;
+  }
+
+  public Signer getSigner() {
+    return signer;
+  }
+
+  public void setSigner(Signer signer) {
+    this.signer = signer;
+  }
+
+  public void setup(Key key) throws ApiException {
+    if (key == null) {
+      throw new ApiException("key (java.security.Key) cannot be null");
+    }
+
+    signer = new Signer(key, new Signature(name, algorithm, null, headers));
+  }
+
+  @Override
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams,
+                            String payload, String method, URI uri) throws ApiException {
+    try {
+      if (headers.contains("host")) {
+        headerParams.put("host", uri.getHost());
+      }
+
+      if (headers.contains("date")) {
+        headerParams.put("date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US).format(new Date()));
+      }
+
+      if (headers.contains("digest")) {
+        headerParams.put("digest", "SHA-256=" + new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-256").digest(payload.getBytes()))));
+      }
+
+      if (signer == null) {
+        throw new ApiException("Signer cannot be null. Please run the method `setup` to set it up correctly");
+      }
+
+      // construct the path with the URL query string
+      String path = uri.getPath();
+
+      List<String> urlQueries = new ArrayList<String>();
+      for (Pair queryParam : queryParams) {
+        urlQueries.add(queryParam.getName() + "=" + URLEncoder.encode(queryParam.getValue(), "utf8").replaceAll("\\+", "%20"));
+      }
+
+      if (!urlQueries.isEmpty()) {
+        path = path + "?" + String.join("&", urlQueries);
+      }
+
+      headerParams.put("Authorization", signer.sign(method, path, headerParams).toString());
+    } catch (Exception ex) {
+      throw new ApiException("Failed to create signature in the HTTP request header: " + ex.toString());
+    }
+  }
+}
