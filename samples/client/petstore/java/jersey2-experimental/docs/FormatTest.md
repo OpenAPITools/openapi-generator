@@ -19,7 +19,8 @@ Name | Type | Description | Notes
 **dateTime** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
 **uuid** | [**UUID**](UUID.md) |  |  [optional]
 **password** | **String** |  | 
-**bigDecimal** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
+**patternWithDigits** | **String** | A string that is a 10 digit number. Can have leading zeros. |  [optional]
+**patternWithDigitsAndDelimiter** | **String** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. |  [optional]
 
 
 
