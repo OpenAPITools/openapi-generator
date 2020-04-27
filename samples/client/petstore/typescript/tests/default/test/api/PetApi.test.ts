@@ -120,7 +120,7 @@ describe("PetApi", () =>{
 
     it("uploadFile", (done) => {
         const image = fs.readFileSync(__dirname + "/pet.png")
-        petApi.uploadFile(pet.id, "Metadata", Object.assign(image, { name: "pet.png" })).then((response: any) => {
+        petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image}).then((response: any) => {
             expect(response.code).to.be.gte(200).and.lt(300);
             expect(response.message).to.contain("pet.png");
             done();
