@@ -1774,6 +1774,10 @@ public class DefaultCodegen implements CodegenConfig {
      **/
     @SuppressWarnings("static-method")
     public String getSchemaType(Schema schema) {
+        if (schema == null) {
+            // This is indicative of a bug in codegen.
+            throw new RuntimeException("getSchemaType schema argument is null");
+        }
         if (schema instanceof ComposedSchema) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
             // Get the interfaces, i.e. the set of elements under 'allOf', 'anyOf' or 'oneOf'.
@@ -2012,7 +2016,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the type declaration of the property
+     * Output the language-specific type declaration of the property.
      *
      * @param schema property schema
      * @return a string presentation of the property type
@@ -2114,20 +2118,22 @@ public class DefaultCodegen implements CodegenConfig {
         if (!ModelUtils.isAnyTypeSchema(schema)) {
             throw new RuntimeException("Schema '" + name + "' is not 'any type'");
         }
-        ComposedSchema s = (ComposedSchema) new ComposedSchema()
+        ComposedSchema cs = (ComposedSchema) new ComposedSchema()
             .addAnyOfItem(new ObjectSchema().type("null"))
             .addAnyOfItem(new BooleanSchema())
             .addAnyOfItem(new StringSchema())
             .addAnyOfItem(new IntegerSchema())
             .addAnyOfItem(new NumberSchema())
-            .addAnyOfItem(new ArraySchema())
-            .addAnyOfItem(new MapSchema())
             .name(name);
+        // The map keys must be strings and the values can be anything.
+        cs.addAnyOfItem(new MapSchema().additionalProperties(cs));
+        // The array items can be anything.
+        cs.addAnyOfItem(new ArraySchema().items(cs));
         if (schema != null) {
-            s.setTitle(schema.getTitle());
-            s.setDescription(schema.getDescription());
+            cs.setTitle(schema.getTitle());
+            cs.setDescription(schema.getDescription());
         }
-        return fromModel(name, s);
+        return fromModel(name, cs);
     }
 
     /**
