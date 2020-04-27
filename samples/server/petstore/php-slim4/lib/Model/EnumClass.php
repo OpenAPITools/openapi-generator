@@ -30,8 +30,8 @@ class EnumClass implements ModelInterface
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
   "type" : "string",
-  "default" : "-efg",
-  "enum" : [ "_abc", "-efg", "(xyz)" ]
+  "enum" : [ "_abc", "-efg", "(xyz)" ],
+  "default" : "-efg"
 }
 SCHEMA;
 
