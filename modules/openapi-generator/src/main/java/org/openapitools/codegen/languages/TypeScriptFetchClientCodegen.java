@@ -17,11 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -132,6 +135,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (additionalProperties.containsKey(TYPESCRIPT_THREE_PLUS)) {
             this.setTypescriptThreePlus(convertPropertyToBoolean(TYPESCRIPT_THREE_PLUS));
         }
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        ImmutableMap.Builder<String, Mustache.Lambda> lambdas = super.addMustacheLambdas();
+        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* "));
+        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* "));
+        return lambdas;
     }
 
     @Override

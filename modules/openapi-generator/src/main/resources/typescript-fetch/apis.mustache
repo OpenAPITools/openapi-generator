@@ -28,8 +28,8 @@ export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterIn
 {{#withInterfaces}}
 {{#operations}}
 /**
- * {{classname}} - interface{{#description}}
- * {{&description}}{{/description}}
+ * {{classname}} - interface
+ * {{#lambda.indented_1}}{{{unescapedDescription}}}{{/lambda.indented_1}}
  * @export
  * @interface {{classname}}Interface
  */
@@ -71,7 +71,7 @@ export interface {{classname}}Interface {
 {{/withInterfaces}}
 {{#operations}}
 /**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
  */
 {{#withInterfaces}}
 export class {{classname}} extends runtime.BaseAPI implements {{classname}}Interface {
