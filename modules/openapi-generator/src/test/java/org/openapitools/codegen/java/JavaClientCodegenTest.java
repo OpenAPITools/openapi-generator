@@ -646,7 +646,6 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(property1.baseName, "any_value");
         Assert.assertEquals(property1.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(property1.hasMore);
-        Assert.assertTrue(property1.required);
         Assert.assertFalse(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
 
@@ -654,7 +653,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(property2.baseName, "any_value_with_desc");
         Assert.assertEquals(property2.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(property2.hasMore);
-        Assert.assertTrue(property2.required);
+        Assert.assertFalse(property2.required);
         Assert.assertFalse(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
 
@@ -662,7 +661,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(property3.baseName, "any_value_nullable");
         Assert.assertEquals(property3.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(property3.hasMore);
-        Assert.assertTrue(property3.required);
+        Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isPrimitiveType);
         Assert.assertFalse(property3.isContainer);
 

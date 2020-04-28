@@ -682,6 +682,12 @@ public class ModelUtils {
             once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
             return false;
         }
+
+        if (isFreeFormObject(schema)) {
+            // to cover `additionalProperties: {}`
+            return false;
+        }
+
         if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
                 (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
                 schema.getAdditionalProperties() == null && schema.getNot() == null &&

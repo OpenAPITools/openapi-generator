@@ -2637,7 +2637,6 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected List<MappedModel> getAllOfDescendants(String thisSchemaName, OpenAPI openAPI) {
         ArrayList<String> queue = new ArrayList();
-        ;
         List<MappedModel> descendentSchemas = new ArrayList();
         Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
         String currentSchemaName = thisSchemaName;
