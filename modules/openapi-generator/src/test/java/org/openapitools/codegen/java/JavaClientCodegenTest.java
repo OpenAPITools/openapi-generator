@@ -642,7 +642,7 @@ public class JavaClientCodegenTest {
         CodegenModel cm1 = codegen.fromModel("AnyValueModel", test1);
         Assert.assertEquals(cm1.getClassname(), "AnyValueModel");
 
-        final CodegenProperty property1 = cm1.vars.get(0);
+        final CodegenProperty property1 = cm1.allVars.get(0);
         Assert.assertEquals(property1.baseName, "any_value");
         Assert.assertEquals(property1.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(property1.hasMore);
@@ -651,7 +651,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(property1.isFreeFormObject);
         Assert.assertTrue(property1.isAnyType);
 
-        final CodegenProperty property2 = cm1.vars.get(1);
+        final CodegenProperty property2 = cm1.allVars.get(1);
         Assert.assertEquals(property2.baseName, "any_value_with_desc");
         Assert.assertEquals(property2.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(property2.hasMore);
@@ -661,7 +661,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(property2.isFreeFormObject);
         Assert.assertTrue(property2.isAnyType);
 
-        final CodegenProperty property3 = cm1.vars.get(2);
+        final CodegenProperty property3 = cm1.allVars.get(2);
         Assert.assertEquals(property3.baseName, "any_value_nullable");
         Assert.assertEquals(property3.dataType, "oas_any_type_not_mapped");
         Assert.assertFalse(property3.hasMore);
@@ -676,7 +676,7 @@ public class JavaClientCodegenTest {
         CodegenModel cm2 = codegen.fromModel("AnyValueModelInline", test2);
         Assert.assertEquals(cm2.getClassname(), "AnyValueModelInline");
 
-        final CodegenProperty cp1 = cm1.vars.get(0);
+        final CodegenProperty cp1 = cm1.allVars.get(0);
         Assert.assertEquals(cp1.baseName, "any_value");
         Assert.assertEquals(cp1.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(cp1.hasMore);
@@ -686,7 +686,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp1.isFreeFormObject);
         Assert.assertTrue(cp1.isAnyType);
 
-        final CodegenProperty cp2 = cm1.vars.get(1);
+        final CodegenProperty cp2 = cm1.allVars.get(1);
         Assert.assertEquals(cp2.baseName, "any_value_with_desc");
         Assert.assertEquals(cp2.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(cp2.hasMore);
@@ -696,7 +696,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp2.isFreeFormObject);
         Assert.assertTrue(cp2.isAnyType);
 
-        final CodegenProperty cp3 = cm1.vars.get(2);
+        final CodegenProperty cp3 = cm1.allVars.get(2);
         Assert.assertEquals(cp3.baseName, "any_value_nullable");
         Assert.assertEquals(cp3.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(cp3.hasMore);
@@ -707,7 +707,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp3.isAnyType);
 
         // map
-        final CodegenProperty cp4 = cm1.vars.get(3);
+        final CodegenProperty cp4 = cm1.allVars.get(3);
         Assert.assertEquals(cp4.baseName, "map_any_value");
         Assert.assertEquals(cp4.dataType, "Map<String, oas_any_type_not_mapped>");
         Assert.assertTrue(cp4.hasMore);
@@ -718,7 +718,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp4.isFreeFormObject);
         Assert.assertTrue(cp4.isAnyType);
 
-        final CodegenProperty cp5 = cm1.vars.get(4);
+        final CodegenProperty cp5 = cm1.allVars.get(4);
         Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
         Assert.assertEquals(cp5.dataType, "Map<String, oas_any_type_not_mapped>");
         Assert.assertTrue(cp5.hasMore);
@@ -729,7 +729,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp5.isFreeFormObject);
         Assert.assertTrue(cp5.isAnyType);
 
-        final CodegenProperty cp6 = cm1.vars.get(5);
+        final CodegenProperty cp6 = cm1.allVars.get(5);
         Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
         Assert.assertEquals(cp6.dataType, "Map<String, oas_any_type_not_mapped>");
         Assert.assertTrue(cp6.hasMore);
@@ -741,7 +741,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp6.isAnyType);
 
         // array
-        final CodegenProperty cp7 = cm1.vars.get(6);
+        final CodegenProperty cp7 = cm1.allVars.get(6);
         Assert.assertEquals(cp7.baseName, "array_any_value");
         Assert.assertEquals(cp7.dataType, "List<oas_any_type_not_mapped>");
         Assert.assertTrue(cp7.hasMore);
@@ -752,7 +752,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp7.isFreeFormObject);
         Assert.assertTrue(cp7.isAnyType);
 
-        final CodegenProperty cp8 = cm1.vars.get(7);
+        final CodegenProperty cp8 = cm1.allVars.get(7);
         Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
         Assert.assertEquals(cp8.dataType, "List<oas_any_type_not_mapped>");
         Assert.assertTrue(cp8.hasMore);
@@ -763,7 +763,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp8.isFreeFormObject);
         Assert.assertTrue(cp8.isAnyType);
 
-        final CodegenProperty cp9 = cm1.vars.get(8);
+        final CodegenProperty cp9 = cm1.allVars.get(8);
         Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
         Assert.assertEquals(cp9.dataType, "List<oas_any_type_not_mapped>");
         Assert.assertFalse(cp9.hasMore);
