@@ -178,9 +178,9 @@ export const throwIfRequired = (params: {[key: string]: any}, key: string, nickn
     }
 };
 
-export const throwIfNullOrUndefined = (value: any, nickname?: string) => {
+export const throwIfNullOrUndefined = (value: any, pramName: string, nickname: string) => {
     if (value == null) {
-        throw new Error(`Parameter "${value}" was null or undefined when calling "${nickname}".`);
+        throw new Error(`Parameter "${paramName}" was null or undefined when calling "${nickname}".`);
     }
 };
 

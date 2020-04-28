@@ -64,7 +64,7 @@ export class PetApi extends BaseAPI {
      * Add a new pet to the store
      */
     addPet = ({ body }: AddPetRequest): Observable<void> => {
-        throwIfNullOrUndefined(body, 'addPet');
+        throwIfNullOrUndefined(body, 'body', 'addPet');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export class PetApi extends BaseAPI {
      * Deletes a pet
      */
     deletePet = ({ petId, apiKey }: DeletePetRequest): Observable<void> => {
-        throwIfNullOrUndefined(petId, 'deletePet');
+        throwIfNullOrUndefined(petId, 'petId', 'deletePet');
 
         const headers: HttpHeaders = {
             ...(apiKey != null ? { 'api_key': String(apiKey) } : undefined),
@@ -114,7 +114,7 @@ export class PetApi extends BaseAPI {
      * Finds Pets by status
      */
     findPetsByStatus = ({ status }: FindPetsByStatusRequest): Observable<Array<Pet>> => {
-        throwIfNullOrUndefined(status, 'findPetsByStatus');
+        throwIfNullOrUndefined(status, 'status', 'findPetsByStatus');
 
         const headers: HttpHeaders = {
             // oauth required
@@ -143,7 +143,7 @@ export class PetApi extends BaseAPI {
      * Finds Pets by tags
      */
     findPetsByTags = ({ tags }: FindPetsByTagsRequest): Observable<Array<Pet>> => {
-        throwIfNullOrUndefined(tags, 'findPetsByTags');
+        throwIfNullOrUndefined(tags, 'tags', 'findPetsByTags');
 
         const headers: HttpHeaders = {
             // oauth required
@@ -172,7 +172,7 @@ export class PetApi extends BaseAPI {
      * Find pet by ID
      */
     getPetById = ({ petId }: GetPetByIdRequest): Observable<Pet> => {
-        throwIfNullOrUndefined(petId, 'getPetById');
+        throwIfNullOrUndefined(petId, 'petId', 'getPetById');
 
         const headers: HttpHeaders = {
             ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
@@ -189,7 +189,7 @@ export class PetApi extends BaseAPI {
      * Update an existing pet
      */
     updatePet = ({ body }: UpdatePetRequest): Observable<void> => {
-        throwIfNullOrUndefined(body, 'updatePet');
+        throwIfNullOrUndefined(body, 'body', 'updatePet');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -214,7 +214,7 @@ export class PetApi extends BaseAPI {
      * Updates a pet in the store with form data
      */
     updatePetWithForm = ({ petId, name, status }: UpdatePetWithFormRequest): Observable<void> => {
-        throwIfNullOrUndefined(petId, 'updatePetWithForm');
+        throwIfNullOrUndefined(petId, 'petId', 'updatePetWithForm');
 
         const headers: HttpHeaders = {
             // oauth required
@@ -242,7 +242,7 @@ export class PetApi extends BaseAPI {
      * uploads an image
      */
     uploadFile = ({ petId, additionalMetadata, file }: UploadFileRequest): Observable<ApiResponse> => {
-        throwIfNullOrUndefined(petId, 'uploadFile');
+        throwIfNullOrUndefined(petId, 'petId', 'uploadFile');
 
         const headers: HttpHeaders = {
             // oauth required
