@@ -118,7 +118,7 @@ public class ModelUtils {
      * @return schemas a list of unused schemas
      */
     public static List<String> getUnusedSchemas(OpenAPI openAPI) {
-        final  Map<String, List<String>> childrenMap;
+        final Map<String, List<String>> childrenMap;
         Map<String, List<String>> tmpChildrenMap;
         try {
             tmpChildrenMap = getChildrenMap(openAPI);
@@ -661,7 +661,7 @@ public class ModelUtils {
      * Return true if the schema value can be any type, i.e. it can be
      * the null value, integer, number, string, object or array.
      * One use case is when the "type" attribute in the OAS schema is unspecified.
-     * 
+     *
      * Examples:
      *
      *     arbitraryTypeValue:
@@ -675,7 +675,7 @@ public class ModelUtils {
      *       nullable: true
      *
      * @param schema the OAS schema.
-     * @return true if the schema value can be an arbitrary type. 
+     * @return true if the schema value can be an arbitrary type.
      */
     public static boolean isAnyTypeSchema(Schema schema) {
         if (schema == null) {
@@ -702,7 +702,7 @@ public class ModelUtils {
      * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
      *
      * Examples:
-     * 
+     *
      * components:
      *   schemas:
      *     arbitraryObject:
@@ -719,7 +719,7 @@ public class ModelUtils {
      *     arbitraryTypeValue:
      *       description: This is NOT a free-form object.
      *         The value can be any type except the 'null' value.
-     * 
+     *
      * @param schema potentially containing a '$ref'
      * @return true if it's a free-form object
      */
@@ -986,7 +986,7 @@ public class ModelUtils {
             // Other content types are currently ignored by codegen. If you see this warning,
             // reorder the OAS spec to put the desired content type first.
             once(LOGGER).warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
-                entry.getKey());
+                    entry.getKey());
         }
         return entry.getValue().getSchema();
     }
@@ -1105,9 +1105,9 @@ public class ModelUtils {
         Map<String, Schema> allSchemas = getSchemas(openAPI);
 
         Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
-            .filter(entry -> isComposedSchema(entry.getValue()))
+                .filter(entry -> isComposedSchema(entry.getValue()))
                 .filter(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)!=null)
-            .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
+                .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
 
         return groupedByParent.entrySet().stream()
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue().stream().map(e -> e.getKey()).collect(Collectors.toList())));
@@ -1205,8 +1205,8 @@ public class ModelUtils {
         if (refedWithoutDiscriminator.size() == 1) {
             if (hasAmbiguousParents) {
                 LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                    "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
-                    composedSchema.getName(), composedSchema.getTitle());
+                                "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
+                        composedSchema.getName(), composedSchema.getTitle());
             }
             return refedWithoutDiscriminator.get(0);
         }
@@ -1269,12 +1269,10 @@ public class ModelUtils {
             Schema s = allSchemas.get(parentName);
             if (s != null) {
                 return hasOrInheritsDiscriminator(s, allSchemas);
-            }
-            else {
+            } else {
                 LOGGER.error("Failed to obtain schema from {}", parentName);
             }
-        }
-        else if (schema instanceof ComposedSchema) {
+        } else if (schema instanceof ComposedSchema) {
             final ComposedSchema composed = (ComposedSchema) schema;
             final List<Schema> interfaces = getInterfaces(composed);
             for (Schema i : interfaces) {
@@ -1376,7 +1374,7 @@ public class ModelUtils {
         return false;
     }
 
-    public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target){
+    public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
         if (schema != null && target != null) {
             target.setPattern(schema.getPattern());
             BigDecimal minimum = schema.getMinimum();
