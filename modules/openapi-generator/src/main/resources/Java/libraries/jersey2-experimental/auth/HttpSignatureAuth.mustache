@@ -35,6 +35,9 @@ public class HttpSignatureAuth implements Authentication {
   // The list of HTTP headers that should be included in the HTTP signature.
   private List<String> headers;
 
+  // The digest algorithm which is used to calculate a cryptographic digest of the HTTP request body.
+  private String digestAlgorithm;
+
   /**
    * Construct a new HTTP signature auth configuration object.
    *
@@ -46,6 +49,7 @@ public class HttpSignatureAuth implements Authentication {
     this.keyId = keyId;
     this.algorithm = algorithm;
     this.headers = headers;
+    this.digestAlgorithm = "SHA-256";
   }
 
   /**
@@ -80,6 +84,31 @@ public class HttpSignatureAuth implements Authentication {
    */
   public void setAlgorithm(Algorithm algorithm) {
     this.algorithm = algorithm;
+  }
+
+  /**
+   * Returns the digest algorithm which is used to calculate a cryptographic digest of the HTTP request body.
+   *
+   * @see java.security.MessageDigest
+   */
+  public String getDigestAlgorithm() {
+    return digestAlgorithm;
+  }
+
+  /**
+   * Sets the digest algorithm which is used to calculate a cryptographic digest of the HTTP request body.
+   *
+   * The exact list of supported digest algorithms depends on the installed security providers.
+   * Every implementation of the Java platform is required to support "MD5", "SHA-1" and "SHA-256".
+   * Do not use "MD5" and "SHA-1", they are vulnerable to multiple known attacks.
+   * By default, "SHA-256" is used.
+   *
+   * @param digestAlgorithm The digest algorithm.
+   *
+   * @see java.security.MessageDigest
+   */
+  public void setDigestAlgorithm(String digestAlgorithm) {
+    this.digestAlgorithm = digestAlgorithm;
   }
 
   /**
@@ -132,7 +161,9 @@ public class HttpSignatureAuth implements Authentication {
       }
 
       if (headers.contains("digest")) {
-        headerParams.put("digest", "SHA-256=" + new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-256").digest(payload.getBytes()))));
+        headerParams.put("digest",
+          this.digestAlgorithm + "=" +
+            new String(Base64.getEncoder().encode(MessageDigest.getInstance(this.digestAlgorithm).digest(payload.getBytes()))));
       }
 
       if (signer == null) {
