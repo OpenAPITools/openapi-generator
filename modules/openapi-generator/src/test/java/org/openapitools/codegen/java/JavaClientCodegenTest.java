@@ -648,6 +648,8 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertFalse(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
+        Assert.assertFalse(property1.isFreeFormObject);
+        Assert.assertTrue(property1.isAnyType);
 
         final CodegenProperty property2 = cm1.vars.get(1);
         Assert.assertEquals(property2.baseName, "any_value_with_desc");
@@ -656,14 +658,18 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(property2.required);
         Assert.assertFalse(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
+        Assert.assertFalse(property2.isFreeFormObject);
+        Assert.assertTrue(property2.isAnyType);
 
         final CodegenProperty property3 = cm1.vars.get(2);
         Assert.assertEquals(property3.baseName, "any_value_nullable");
         Assert.assertEquals(property3.dataType, "oas_any_type_not_mapped");
-        Assert.assertTrue(property3.hasMore);
+        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isPrimitiveType);
         Assert.assertFalse(property3.isContainer);
+        Assert.assertFalse(property3.isFreeFormObject);
+        Assert.assertTrue(property3.isAnyType);
 
         Schema test2 = openAPI.getComponents().getSchemas().get("AnyValueModelInline");
         codegen.setOpenAPI(openAPI);
@@ -677,6 +683,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp1.required);
         Assert.assertFalse(cp1.isPrimitiveType);
         Assert.assertFalse(cp1.isContainer);
+        Assert.assertFalse(cp1.isFreeFormObject);
+        Assert.assertTrue(cp1.isAnyType);
 
         final CodegenProperty cp2 = cm1.vars.get(1);
         Assert.assertEquals(cp2.baseName, "any_value_with_desc");
@@ -685,6 +693,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp2.required);
         Assert.assertFalse(cp2.isPrimitiveType);
         Assert.assertFalse(cp2.isContainer);
+        Assert.assertFalse(cp2.isFreeFormObject);
+        Assert.assertTrue(cp2.isAnyType);
 
         final CodegenProperty cp3 = cm1.vars.get(2);
         Assert.assertEquals(cp3.baseName, "any_value_nullable");
@@ -693,6 +703,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp3.required);
         Assert.assertFalse(cp3.isPrimitiveType);
         Assert.assertFalse(cp3.isContainer);
+        Assert.assertFalse(cp3.isFreeFormObject);
+        Assert.assertTrue(cp3.isAnyType);
 
         // map
         final CodegenProperty cp4 = cm1.vars.get(3);
@@ -703,7 +715,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp4.isPrimitiveType);
         Assert.assertTrue(cp4.isContainer);
         Assert.assertTrue(cp4.isMapContainer);
-
+        Assert.assertFalse(cp4.isFreeFormObject);
+        Assert.assertTrue(cp4.isAnyType);
 
         final CodegenProperty cp5 = cm1.vars.get(4);
         Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
@@ -713,6 +726,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp5.isPrimitiveType);
         Assert.assertTrue(cp5.isContainer);
         Assert.assertTrue(cp5.isMapContainer);
+        Assert.assertFalse(cp5.isFreeFormObject);
+        Assert.assertTrue(cp5.isAnyType);
 
         final CodegenProperty cp6 = cm1.vars.get(5);
         Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
@@ -722,6 +737,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp6.isPrimitiveType);
         Assert.assertTrue(cp6.isContainer);
         Assert.assertTrue(cp6.isMapContainer);
+        Assert.assertFalse(cp6.isFreeFormObject);
+        Assert.assertTrue(cp6.isAnyType);
 
         // array
         final CodegenProperty cp7 = cm1.vars.get(6);
@@ -732,6 +749,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp7.isPrimitiveType);
         Assert.assertTrue(cp7.isContainer);
         Assert.assertTrue(cp7.isListContainer);
+        Assert.assertFalse(cp7.isFreeFormObject);
+        Assert.assertTrue(cp7.isAnyType);
 
         final CodegenProperty cp8 = cm1.vars.get(7);
         Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
@@ -741,6 +760,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp8.isPrimitiveType);
         Assert.assertTrue(cp8.isContainer);
         Assert.assertTrue(cp8.isListContainer);
+        Assert.assertFalse(cp8.isFreeFormObject);
+        Assert.assertTrue(cp8.isAnyType);
 
         final CodegenProperty cp9 = cm1.vars.get(8);
         Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
@@ -750,5 +771,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp9.isPrimitiveType);
         Assert.assertTrue(cp9.isContainer);
         Assert.assertTrue(cp9.isListContainer);
+        Assert.assertFalse(cp9.isFreeFormObject);
+        Assert.assertTrue(cp9.isAnyType);
     }
 }

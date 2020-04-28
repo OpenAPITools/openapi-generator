@@ -439,6 +439,12 @@ public class ModelUtils {
      * @return true if the specified schema is a Map schema.
      */
     public static boolean isMapSchema(Schema schema) {
+        // make sure it's not free form object first
+        if (isFreeFormObject(schema)) {
+            // to cover `additionalProperties: {}`
+            return false;
+        }
+
         if (schema instanceof MapSchema) {
             return true;
         }
@@ -684,7 +690,7 @@ public class ModelUtils {
         }
 
         if (isFreeFormObject(schema)) {
-            // to cover `additionalProperties: {}`
+            // make sure it's not free form object
             return false;
         }
 
@@ -758,6 +764,11 @@ public class ModelUtils {
                         ObjectSchema objSchema = (ObjectSchema) addlProps;
                         // additionalProperties defined as {}
                         if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
+                            return true;
+                        }
+                    } else if (addlProps instanceof Schema) {
+                        // additionalProperties defined as {}
+                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
                             return true;
                         }
                     }

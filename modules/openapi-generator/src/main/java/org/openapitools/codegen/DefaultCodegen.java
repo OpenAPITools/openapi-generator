@@ -2815,7 +2815,7 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
-        LOGGER.debug("debugging fromProperty for " + name + " : " + p);
+        LOGGER.info("debugging fromProperty for " + name + " : " + p);
 
         // unalias schema
         p = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
@@ -2968,8 +2968,10 @@ public class DefaultCodegen implements CodegenConfig {
                 property.hasValidation = true;
 
         } else if (ModelUtils.isFreeFormObject(p)) {
+            LOGGER.info("debugging free form schema: " + p);
             property.isFreeFormObject = true;
         } else if (ModelUtils.isAnyTypeSchema(p)) {
+            LOGGER.info("debugging any of schema: " + p);
             property.isAnyType = true;
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
@@ -5619,7 +5621,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.dataType = getTypeDeclaration(codegenModelName);
                 codegenParameter.description = codegenProperty.getDescription();
             } else {
-                if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
+                if (ModelUtils.isMapSchema(schema)) {// http body is map
                     LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
                 } else if (codegenProperty != null) {
                     String codegenModelName, codegenModelDescription;
