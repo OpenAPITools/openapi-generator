@@ -62,10 +62,16 @@ class PetController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = ['application/json', 'application/xml'];
-        $inputFormat = $request->headers->has('Content-Type')?explode(";",$request->headers->get('Content-Type'))[0]:$consumes[0];
-        if (!in_array($inputFormat, $consumes)) {
-            // We can't consume the content that the client is sending us
-            return new Response('', 415);
+        if (sizeof($consumes) > 0) {
+            if ($request->headers->has('Content-Type')) {
+                $inputFormat = explode(";", $request->headers->get('Content-Type'))[0];
+            } else {
+                $inputFormat = $consumes[0];
+            }
+            if (!in_array($inputFormat, $consumes)) {
+                // We can't consume the content that the client is sending us
+                return new Response('', 415);
+            }
         }
 
         // Handle authentication
@@ -491,10 +497,16 @@ class PetController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = ['application/json', 'application/xml'];
-        $inputFormat = $request->headers->has('Content-Type')?explode(";",$request->headers->get('Content-Type'))[0]:$consumes[0];
-        if (!in_array($inputFormat, $consumes)) {
-            // We can't consume the content that the client is sending us
-            return new Response('', 415);
+        if (sizeof($consumes) > 0) {
+            if ($request->headers->has('Content-Type')) {
+                $inputFormat = explode(";", $request->headers->get('Content-Type'))[0];
+            } else {
+                $inputFormat = $consumes[0];
+            }
+            if (!in_array($inputFormat, $consumes)) {
+                // We can't consume the content that the client is sending us
+                return new Response('', 415);
+            }
         }
 
         // Handle authentication
