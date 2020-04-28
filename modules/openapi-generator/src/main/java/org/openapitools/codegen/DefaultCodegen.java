@@ -2844,6 +2844,14 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (p.getDeprecated() != null) {
             property.deprecated = p.getDeprecated();
+        } else if (p.get$ref() != null) {
+            String ref = ModelUtils.getSimpleRef(p.get$ref());
+            if (ref != null) {
+                Schema referencedSchema = ModelUtils.getSchemas(this.openAPI).get(ref);
+                if (referencedSchema != null && referencedSchema.getDeprecated() != null) {
+                    property.deprecated = referencedSchema.getDeprecated();
+                }
+            }
         }
         if (p.getReadOnly() != null) {
             property.isReadOnly = p.getReadOnly();
