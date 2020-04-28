@@ -631,4 +631,125 @@ public class JavaClientCodegenTest {
         assertEquals("_int", codegen.toApiVarName("int"));
         assertEquals("pony", codegen.toApiVarName("pony"));
     }
+
+    @Test
+    public void testAnyType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/any_type.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("AnyValueModel");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel cm1 = codegen.fromModel("AnyValueModel", test1);
+        Assert.assertEquals(cm1.getClassname(), "AnyValueModel");
+
+        final CodegenProperty property1 = cm1.vars.get(0);
+        Assert.assertEquals(property1.baseName, "any_type");
+        Assert.assertEquals(property1.dataType, "oas_any_type_not_mapped");
+        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertFalse(property1.isContainer);
+
+        final CodegenProperty property2 = cm1.vars.get(1);
+        Assert.assertEquals(property2.baseName, "any_value_with_desc");
+        Assert.assertEquals(property2.dataType, "oas_any_type_not_mapped");
+        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertFalse(property2.isContainer);
+
+        final CodegenProperty property3 = cm1.vars.get(2);
+        Assert.assertEquals(property2.baseName, "any_value_nullable");
+        Assert.assertEquals(property2.dataType, "oas_any_type_not_mapped");
+        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertFalse(property2.isContainer);
+
+        Schema test2 = openAPI.getComponents().getSchemas().get("AnyValueModelInline");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel cm2 = codegen.fromModel("AnyValueModelInline", test2);
+        Assert.assertEquals(cm2.getClassname(), "AnyValueModelInline");
+
+        final CodegenProperty cp1 = cm1.vars.get(0);
+        Assert.assertEquals(cp1.baseName, "any_type");
+        Assert.assertEquals(cp1.dataType, "oas_any_type_not_mapped");
+        Assert.assertTrue(cp1.hasMore);
+        Assert.assertTrue(cp1.required);
+        Assert.assertTrue(cp1.isPrimitiveType);
+        Assert.assertFalse(cp1.isContainer);
+
+        final CodegenProperty cp2 = cm1.vars.get(1);
+        Assert.assertEquals(cp2.baseName, "any_value_with_desc");
+        Assert.assertEquals(cp2.dataType, "oas_any_type_not_mapped");
+        Assert.assertTrue(cp2.hasMore);
+        Assert.assertTrue(cp2.required);
+        Assert.assertTrue(cp2.isPrimitiveType);
+        Assert.assertFalse(cp2.isContainer);
+
+        final CodegenProperty cp3 = cm1.vars.get(2);
+        Assert.assertEquals(cp3.baseName, "any_value_nullable");
+        Assert.assertEquals(cp3.dataType, "oas_any_type_not_mapped");
+        Assert.assertTrue(cp3.hasMore);
+        Assert.assertTrue(cp3.required);
+        Assert.assertTrue(cp3.isPrimitiveType);
+        Assert.assertFalse(cp3.isContainer);
+
+        // map
+        final CodegenProperty cp4 = cm1.vars.get(3);
+        Assert.assertEquals(cp4.baseName, "map_any_value");
+        Assert.assertEquals(cp4.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertTrue(cp4.hasMore);
+        Assert.assertFalse(cp4.required);
+        Assert.assertFalse(cp4.isPrimitiveType);
+        Assert.assertTrue(cp4.isContainer);
+        Assert.assertTrue(cp4.isMapContainer);
+
+
+        final CodegenProperty cp5 = cm1.vars.get(4);
+        Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
+        Assert.assertEquals(cp5.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertTrue(cp5.hasMore);
+        Assert.assertFalse(cp5.required);
+        Assert.assertFalse(cp5.isPrimitiveType);
+        Assert.assertTrue(cp5.isContainer);
+        Assert.assertTrue(cp5.isMapContainer);
+
+        final CodegenProperty cp6 = cm1.vars.get(5);
+        Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
+        Assert.assertEquals(cp6.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertTrue(cp6.hasMore);
+        Assert.assertFalse(cp6.required);
+        Assert.assertFalse(cp6.isPrimitiveType);
+        Assert.assertTrue(cp6.isContainer);
+        Assert.assertTrue(cp6.isMapContainer);
+
+        // array
+        final CodegenProperty cp7 = cm1.vars.get(6);
+        Assert.assertEquals(cp7.baseName, "array_any_value");
+        Assert.assertEquals(cp7.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertTrue(cp7.hasMore);
+        Assert.assertFalse(cp7.required);
+        Assert.assertFalse(cp7.isPrimitiveType);
+        Assert.assertTrue(cp7.isContainer);
+        Assert.assertTrue(cp7.isListContainer);
+
+        final CodegenProperty cp8 = cm1.vars.get(7);
+        Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
+        Assert.assertEquals(cp8.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertTrue(cp8.hasMore);
+        Assert.assertFalse(cp8.required);
+        Assert.assertFalse(cp8.isPrimitiveType);
+        Assert.assertTrue(cp8.isContainer);
+        Assert.assertTrue(cp8.isListContainer);
+
+        final CodegenProperty cp9 = cm1.vars.get(8);
+        Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
+        Assert.assertEquals(cp9.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertTrue(cp9.hasMore);
+        Assert.assertFalse(cp9.required);
+        Assert.assertFalse(cp9.isPrimitiveType);
+        Assert.assertTrue(cp9.isContainer);
+        Assert.assertTrue(cp9.isListContainer);
+    }
 }
