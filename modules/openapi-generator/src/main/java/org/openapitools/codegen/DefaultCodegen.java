@@ -2023,8 +2023,8 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String getTypeDeclaration(Schema schema) {
         if (schema == null) {
-            LOGGER.warn("Null schema found. Default type to `NULL_SCHMEA_ERR`");
-            return "NULL_SCHMEA_ERR";
+            LOGGER.warn("Null schema found. Default type to `NULL_SCHEMA_ERR`");
+            return "NULL_SCHEMA_ERR";
         }
 
         String oasType = getSchemaType(schema);
@@ -2118,13 +2118,15 @@ public class DefaultCodegen implements CodegenConfig {
         if (!ModelUtils.isAnyTypeSchema(schema)) {
             throw new RuntimeException("Schema '" + name + "' is not 'any type'");
         }
+        // TODO: what is a good name for this expanded type? There could be collisions.
+        String anyTypeName = name + ".AnyType";
         ComposedSchema cs = (ComposedSchema) new ComposedSchema()
             .addAnyOfItem(new ObjectSchema().type("null"))
             .addAnyOfItem(new BooleanSchema())
             .addAnyOfItem(new StringSchema())
             .addAnyOfItem(new IntegerSchema())
             .addAnyOfItem(new NumberSchema())
-            .name(name);
+            .name(anyTypeName);
         // The map keys must be strings and the values can be anything.
         cs.addAnyOfItem(new MapSchema().additionalProperties(true));
         // The array items can be anything.
@@ -2133,7 +2135,7 @@ public class DefaultCodegen implements CodegenConfig {
             cs.setTitle(schema.getTitle());
             cs.setDescription(schema.getDescription());
         }
-        return fromModel(name, cs);
+        return fromModel(anyTypeName, cs);
     }
 
     /**
@@ -2158,7 +2160,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (ModelUtils.isAnyTypeSchema(schema)) {
-            LOGGER.warn("Schema is any type: {}", name);
+            // "Any type" means the payload can be any type, e.g. integer, number, object, array...
             return getAnyTypeModel(name, schema);
         }
 
