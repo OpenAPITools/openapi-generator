@@ -2106,6 +2106,58 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
     }
 
+    /**
+     * Returns a composed model that encapsulates the JSON schema "any type".
+     * Its value can be any of null, integer, boolean, number, string, array or map.
+     */
+    protected Schema getAnyTypeSchema(String name, Schema schema) {
+        if (!ModelUtils.isAnyTypeSchema(schema)) {
+            throw new RuntimeException("Schema '" + name + "' is not 'any type'");
+        }
+        ComposedSchema cs = (ComposedSchema) new ComposedSchema()
+            .addAnyOfItem(new ObjectSchema().type("null"))
+            .addAnyOfItem(new BooleanSchema())
+            .addAnyOfItem(new StringSchema()
+                    .minLength(schema.getMinLength())
+                    .maxLength(schema.getMaxLength())
+                    .pattern(schema.getPattern())
+                )
+            .addAnyOfItem(new IntegerSchema()
+                    .minimum(schema.getMinimum())
+                    .maximum(schema.getMaximum())
+                    .exclusiveMinimum(schema.getExclusiveMinimum())
+                    .exclusiveMaximum(schema.getExclusiveMaximum())
+                    .multipleOf(schema.getMultipleOf())
+                )
+            .addAnyOfItem(new NumberSchema()
+                    .minimum(schema.getMinimum())
+                    .maximum(schema.getMaximum())
+                    .exclusiveMinimum(schema.getExclusiveMinimum())
+                    .exclusiveMaximum(schema.getExclusiveMaximum())
+                    .multipleOf(schema.getMultipleOf())
+                )
+            .name(name);
+            
+        // The map keys must be strings and the values can be anything.
+        cs.addAnyOfItem(new MapSchema()
+            .additionalProperties(true)
+            .minProperties(schema.getMinProperties())
+            .maxProperties(schema.getMaxProperties())
+            .required(schema.getRequired())
+        );
+        // The array items can be anything.
+        cs.addAnyOfItem(new ArraySchema()
+                .minItems(schema.getMinItems())
+                .maxItems(schema.getMaxItems())
+                .uniqueItems(schema.getUniqueItems())
+            );
+        if (schema != null) {
+            cs.setTitle(schema.getTitle());
+            cs.setDescription(schema.getDescription());
+        }
+        return cs;
+    }
+
     // Returns a model that encapsulates the JSON schema "any type". Its value
     // can be any of null, integer, boolean, number, string, array or map.
     // "Any type" is a schema that does not have the "type" attribute
@@ -2115,27 +2167,7 @@ public class DefaultCodegen implements CodegenConfig {
     // Numerical payloads may match more than one type, for example "2" may
     // match integer and number. Hence the use of 'anyOf'.
     public CodegenModel getAnyTypeModel(String name, Schema schema) {
-        if (!ModelUtils.isAnyTypeSchema(schema)) {
-            throw new RuntimeException("Schema '" + name + "' is not 'any type'");
-        }
-        // TODO: what is a good name for this expanded type? There could be collisions.
-        String anyTypeName = name + ".AnyType";
-        ComposedSchema cs = (ComposedSchema) new ComposedSchema()
-            .addAnyOfItem(new ObjectSchema().type("null"))
-            .addAnyOfItem(new BooleanSchema())
-            .addAnyOfItem(new StringSchema())
-            .addAnyOfItem(new IntegerSchema())
-            .addAnyOfItem(new NumberSchema())
-            .name(anyTypeName);
-        // The map keys must be strings and the values can be anything.
-        cs.addAnyOfItem(new MapSchema().additionalProperties(true));
-        // The array items can be anything.
-        cs.addAnyOfItem(new ArraySchema());
-        if (schema != null) {
-            cs.setTitle(schema.getTitle());
-            cs.setDescription(schema.getDescription());
-        }
-        return fromModel(anyTypeName, cs);
+        return fromModel(name, getAnyTypeSchema(name, schema));
     }
 
     /**
@@ -2843,7 +2875,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Convert OAS Property object to Codegen Property object
      *
      * @param name name of the property
-     * @param p    OAS property object
+     * @param p    OAS property schema
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p) {
@@ -2856,6 +2888,9 @@ public class DefaultCodegen implements CodegenConfig {
         // unalias schema
         p = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
 
+        if (ModelUtils.isAnyTypeSchema(p)) {
+            p = getAnyTypeSchema(name, p);
+        }
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
 
         ModelUtils.syncValidationProperties(p, property);

@@ -289,8 +289,8 @@ public class JavaModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
         // 
-        Assert.assertEquals(cm.name, "sample.AnyType");
-        Assert.assertEquals(cm.classname, "SampleAnyType");
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
     }
 
