@@ -715,8 +715,8 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp4.isPrimitiveType);
         Assert.assertTrue(cp4.isContainer);
         Assert.assertTrue(cp4.isMapContainer);
-        Assert.assertFalse(cp4.isFreeFormObject);
-        Assert.assertTrue(cp4.isAnyType);
+        Assert.assertTrue(cp4.isFreeFormObject);
+        Assert.assertFalse(cp4.isAnyType);
 
         final CodegenProperty cp5 = cm2.vars.get(4);
         Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
