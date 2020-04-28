@@ -1995,4 +1995,54 @@ public class DefaultCodegenTest {
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
         Assert.assertEquals(items.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaOneOf");
     }
+
+    @Test
+    public void testVerifyMultipartRequestBody() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/multipart-encoding.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation operation = openAPI.getPaths().get("/multipart").getPost();
+        CodegenOperation co = codegen.fromOperation("/multipart", "post", operation, null);
+
+        Assert.assertTrue(co.hasRequiredRequestBody);
+        Assert.assertTrue(co.isMultipart);
+        Assert.assertTrue(co.getHasBodyParam());
+        Assert.assertTrue(co.getHasFormParams());
+
+        Assert.assertEquals(co.consumes.size(), 2);
+        Assert.assertEquals(co.consumes.get(0).get("mediaType"), "application/json");
+        Assert.assertEquals(co.consumes.get(0).get("isBody"), "true");
+        Assert.assertEquals(co.consumes.get(1).get("mediaType"), "multipart/related");
+        Assert.assertEquals(co.consumes.get(1).get("isForm"), "true");
+
+        Assert.assertTrue(co.bodyParam.isBodyParam);
+        Assert.assertTrue(co.bodyParam.required);
+
+        CodegenParameter cp = co.formParams.get(0);
+        Assert.assertTrue(cp.isMultipartParam);
+        Assert.assertTrue(cp.isFormParam);
+        Assert.assertEquals(cp.encoding.contentType, "application/json");
+        Assert.assertEquals(cp.encoding.style, "form");
+    }
+
+    @Test
+    public void testVerifyMultipartResponse() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/multipart-encoding.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation operation = openAPI.getPaths().get("/multipart").getPost();
+        CodegenOperation co = codegen.fromOperation("/multipart", "post", operation, null);
+
+        Assert.assertEquals(co.produces.size(), 2);
+        Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
+        Assert.assertEquals(co.produces.get(0).get("isBody"), "true");
+        Assert.assertEquals(co.produces.get(1).get("mediaType"), "multipart/related");
+        Assert.assertEquals(co.produces.get(1).get("isForm"), "true");
+
+        Assert.assertTrue(co.responses.get(0).hasBodyParam);
+        Assert.assertTrue(co.responses.get(0).hasFormParam);
+    }
+
 }

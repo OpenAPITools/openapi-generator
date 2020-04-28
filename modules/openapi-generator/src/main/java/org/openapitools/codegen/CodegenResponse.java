@@ -72,6 +72,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private String maximum;
     public String pattern;
     public Number multipleOf;
+    public boolean hasBodyParam;
+    public boolean hasFormParam;
+    public CodegenParameter bodyParam;
+    public final List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
+
 
     @Override
     public int hashCode() {
@@ -80,7 +85,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isDefault, simpleType, primitiveType,
                 isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
-                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
+                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(), hasBodyParam, hasFormParam, bodyParam, formParams);
     }
 
     @Override
@@ -134,7 +139,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 Objects.equals(getMinimum(), that.getMinimum()) &&
                 Objects.equals(getMaximum(), that.getMaximum()) &&
                 Objects.equals(getPattern(), that.getPattern()) &&
-                Objects.equals(getMultipleOf(), that.getMultipleOf());
+                Objects.equals(getMultipleOf(), that.getMultipleOf()) &&
+                hasBodyParam == that.hasBodyParam &&
+                hasFormParam == that.hasFormParam &&
+                Objects.equals(bodyParam, that.bodyParam) &&
+                Objects.equals(formParams, that.formParams);
 
     }
 
@@ -318,6 +327,10 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
+        sb.append(", hasBodyParams=").append(hasBodyParam);
+        sb.append(", hasFormParams=").append(hasFormParam);
+        sb.append(", bodyParam=").append(bodyParam);
+        sb.append(", formParams=").append(formParams);
         sb.append('}');
         return sb.toString();
     }
