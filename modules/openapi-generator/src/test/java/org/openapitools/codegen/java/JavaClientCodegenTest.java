@@ -643,7 +643,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cm1.getClassname(), "AnyValueModel");
 
         final CodegenProperty property1 = cm1.vars.get(0);
-        Assert.assertEquals(property1.baseName, "any_type");
+        Assert.assertEquals(property1.baseName, "any_value");
         Assert.assertEquals(property1.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
@@ -672,7 +672,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cm2.getClassname(), "AnyValueModelInline");
 
         final CodegenProperty cp1 = cm1.vars.get(0);
-        Assert.assertEquals(cp1.baseName, "any_type");
+        Assert.assertEquals(cp1.baseName, "any_value");
         Assert.assertEquals(cp1.dataType, "oas_any_type_not_mapped");
         Assert.assertTrue(cp1.hasMore);
         Assert.assertTrue(cp1.required);
