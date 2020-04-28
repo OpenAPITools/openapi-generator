@@ -614,6 +614,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [MailSlurp](https://www.mailslurp.com)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
+- [MoonVision](https://www.moonvision.io/)
 - [Myworkout](https://myworkout.com)
 - [NamSor](https://www.namsor.com/)
 - [Openet](https://www.openet.com/)
@@ -749,6 +750,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-03-10 - [OpenAPI Generator Meetup #1](https://speakerdeck.com/akihito_nakano/openapi-generator-meetup-number-1) by [中野暁人](https://github.com/ackintosh) at [OpenAPI Generator Meetup #1](https://openapi-generator-meetup.connpass.com/event/168187/)
 - 2020-03-15 - [Load Testing Your API with Swagger/OpenAPI and k6](https://k6.io/blog/load-testing-your-api-with-swagger-openapi-and-k6)
 - 2020-04-13 - [俺的【OAS】との向き合い方 (爆速でOpenAPIと友達になろう)](https://tech-blog.optim.co.jp/entry/2020/04/13/100000) in [OPTim Blog](https://tech-blog.optim.co.jp/)
+- 2020-04-22 - [Introduction to OpenAPI Generator](https://nordicapis.com/introduction-to-openapi-generator/) by [Kristopher Sandoval](https://nordicapis.com/author/sandovaleffect/) in [Nordic APIs](https://nordicapis.com/)
 
 ## [6 - About Us](#table-of-contents)
 

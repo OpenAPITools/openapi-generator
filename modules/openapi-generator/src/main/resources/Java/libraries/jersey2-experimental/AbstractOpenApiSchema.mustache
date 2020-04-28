@@ -1,0 +1,30 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}}.model;
+
+import org.openapitools.client.ApiException;
+import java.lang.reflect.Type;
+import java.util.Map;
+import javax.ws.rs.core.GenericType;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}
+public abstract class AbstractOpenApiSchema {
+
+    private Object instance;
+
+    public final String schemaType;
+
+    public AbstractOpenApiSchema(String schemaType) {
+        this.schemaType = schemaType;
+    }
+
+    public abstract Map<String, GenericType> getSchemas();
+
+    public Object getActualInstance() {return instance;}
+
+    public void setActualInstance(Object instance) {this.instance = instance;}
+
+    public String getSchemaType() {
+        return schemaType;
+    }
+}

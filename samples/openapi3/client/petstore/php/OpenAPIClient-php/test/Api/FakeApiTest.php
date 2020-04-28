@@ -83,6 +83,16 @@ class FakeApiTest extends TestCase
     }
 
     /**
+     * Test case for fakeHttpSignatureTest
+     *
+     * test http signature authentication.
+     *
+     */
+    public function testFakeHttpSignatureTest()
+    {
+    }
+
+    /**
      * Test case for fakeOuterBooleanSerialize
      *
      * .

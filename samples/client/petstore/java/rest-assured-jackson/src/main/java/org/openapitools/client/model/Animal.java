@@ -45,7 +45,7 @@ import org.hibernate.validator.constraints.*;
 
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  private String className;
+  protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
   private String color = "red";

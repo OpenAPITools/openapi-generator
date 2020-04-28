@@ -42,6 +42,19 @@ describe 'FakeApi' do
     end
   end
 
+  # unit tests for fake_http_signature_test
+  # test http signature authentication
+  # @param pet Pet object that needs to be added to the store
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :query_1 query parameter
+  # @option opts [String] :header_1 header parameter
+  # @return [nil]
+  describe 'fake_http_signature_test test' do
+    it 'should work' do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
   # unit tests for fake_outer_boolean_serialize
   # Test serialization of outer boolean types
   # @param [Hash] opts the optional parameters

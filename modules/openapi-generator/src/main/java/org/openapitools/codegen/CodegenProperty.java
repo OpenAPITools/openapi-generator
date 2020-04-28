@@ -150,6 +150,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isNullable;
     public boolean isSelfReference;
     public boolean isCircularReference;
+    public boolean isDiscriminator;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
@@ -660,6 +661,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isNullable=").append(isNullable);
         sb.append(", isSelfReference=").append(isSelfReference);
         sb.append(", isCircularReference=").append(isCircularReference);
+        sb.append(", isDiscriminator=").append(isDiscriminator);
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
@@ -726,6 +728,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isNullable == that.isNullable &&
                 isSelfReference == that.isSelfReference &&
                 isCircularReference == that.isCircularReference &&
+                isDiscriminator == that.isDiscriminator &&
                 hasValidation == that.hasValidation &&
                 isInherited == that.isInherited &&
                 isXmlAttribute == that.isXmlAttribute &&
@@ -784,7 +787,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
                 isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
-                isSelfReference, isCircularReference, _enum, allowableValues, items, mostInnerItems,
+                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues, items, mostInnerItems,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped);

@@ -156,7 +156,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return defaultValue;
     }
 
-    private void configureGeneratorProperties() {
+    void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
         generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
@@ -394,7 +394,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     @SuppressWarnings("unchecked")
-    private void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
+    void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
             LOGGER.info("Skipping generation of models.");
