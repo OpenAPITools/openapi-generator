@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -375,7 +376,7 @@ public class DartDioModelTest {
     @Test(dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        final Schema model = new Schema();
+        final Schema model = new ObjectSchema();
         final DefaultCodegen codegen = new DartDioClientCodegen();
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, model);

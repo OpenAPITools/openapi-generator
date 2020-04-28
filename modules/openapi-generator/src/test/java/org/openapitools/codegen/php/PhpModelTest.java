@@ -290,7 +290,7 @@ public class PhpModelTest {
 
     @Test(dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
-        final Schema model = new Schema();
+        final Schema model = new ObjectSchema();
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, model);
         codegen.setOpenAPI(openAPI);

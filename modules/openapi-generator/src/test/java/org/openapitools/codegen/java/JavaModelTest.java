@@ -281,11 +281,13 @@ public class JavaModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
+        System.out.println("complexMapPropertyTest");
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
+        System.out.println("complexMapPropertyTest 2");
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -307,10 +309,12 @@ public class JavaModelTest {
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
+        System.out.println("complexMapPropertyTest 3");
     }
 
     @Test(description = "convert a model with complex map property")
     public void complexMapPropertyTest() {
+        System.out.println("complexMapPropertyTest");
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new MapSchema()
@@ -713,7 +717,7 @@ public class JavaModelTest {
 
     @Test(dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
-        final Schema schema = new Schema();
+        final Schema schema = new ObjectSchema();
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, schema);
         codegen.setOpenAPI(openAPI);

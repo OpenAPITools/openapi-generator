@@ -287,7 +287,7 @@ public class DartModelTest {
     @Test(dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        final Schema model = new Schema();
+        final Schema model = new ObjectSchema();
         final DefaultCodegen codegen = new DartClientCodegen();
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, model);

@@ -2,6 +2,7 @@ package org.openapitools.codegen.kotlin;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.*;
@@ -55,7 +56,7 @@ public class KotlinReservedWordsTest {
     @Test(dataProvider = "reservedWords")
     public void testReservedWordsAsModels(String reservedWord) {
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final Schema schema = new Schema();
+        final Schema schema = new ObjectSchema();
         final String escaped = "`" + reservedWord + "`";
         final String titleCased = StringUtils.camelize(reservedWord, false);
 

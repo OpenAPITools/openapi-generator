@@ -398,7 +398,7 @@ public class ScalaAkkaClientCodegenTest {
 
     @Test(description = "strip model name")
     public void stripModelNameTest() throws Exception {
-        final Schema model = new Schema()
+        final Schema model = new ObjectSchema()
                 .description("a map model");
         final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
