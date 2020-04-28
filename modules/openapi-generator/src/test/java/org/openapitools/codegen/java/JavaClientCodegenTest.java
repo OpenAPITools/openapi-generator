@@ -750,7 +750,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp7.isContainer);
         Assert.assertTrue(cp7.isListContainer);
         Assert.assertFalse(cp7.isFreeFormObject);
-        Assert.assertTrue(cp7.isAnyType);
+        Assert.assertFalse(cp7.isAnyType);
 
         final CodegenProperty cp8 = cm2.vars.get(7);
         Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
@@ -761,7 +761,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp8.isContainer);
         Assert.assertTrue(cp8.isListContainer);
         Assert.assertFalse(cp8.isFreeFormObject);
-        Assert.assertTrue(cp8.isAnyType);
+        Assert.assertFalse(cp8.isAnyType);
 
         final CodegenProperty cp9 = cm2.vars.get(8);
         Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
@@ -772,6 +772,6 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp9.isContainer);
         Assert.assertTrue(cp9.isListContainer);
         Assert.assertFalse(cp9.isFreeFormObject);
-        Assert.assertTrue(cp9.isAnyType);
+        Assert.assertFalse(cp9.isAnyType);
     }
 }
