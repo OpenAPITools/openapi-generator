@@ -143,12 +143,10 @@ namespace {{packageName}}
             }
 
             app.UseHttpsRedirection();
-            app
-                // TODO: Renable if you need MVC views as well as just the API
-                //.UseMvc()
-                .UseDefaultFiles()
-                .UseStaticFiles(){{#useSwashbuckle}}
-                .UseSwagger(c =>
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+{{#useSwashbuckle}}
+            app.UseSwagger(c =>
                 {
                     c.RouteTemplate = "swagger/{documentName}/openapi.json";
                 })
