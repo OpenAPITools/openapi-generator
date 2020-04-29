@@ -6,12 +6,11 @@ import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.tags.Tag;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.validation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A validator which evaluates an OpenAPI 3.x specification document
@@ -100,6 +99,27 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
             ParameterWrapper wrapper = new ParameterWrapper(specification, parameter);
             validationResult.consume(parameterValidations.validate(wrapper));
         });
+
+        List<Tag> tags = specification.getTags();
+        if (tags != null && tags.size() > 1) {
+            Set<String> distinct = new HashSet<>();
+            Set<String> duplicated = new HashSet<>();
+            tags.forEach(tag -> {
+                // add returns false if it already exists…
+                if (!distinct.add(tag.getName())) {
+                    duplicated.add(tag.getName());
+                }
+            });
+            if (duplicated.size() > 0) {
+                // From https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#fixed-fields
+                // A list of tags used by the specification with additional metadata. The order of the tags can be used
+                // to reflect on their order by the parsing tools. Not all tags that are used by the Operation Object
+                // must be declared. The tags that are not declared MAY be organized randomly or based on the tools'
+                // logic. Each tag name in the list MUST be unique.
+                ValidationRule rule = ValidationRule.warn("Duplicate tags", "The specification requires that tag names are unique.", s -> ValidationRule.Fail.empty());
+                validationResult.addResult(Validated.invalid(rule, "Duplicated tag(s): " + String.join(",", duplicated)));
+            }
+        }
 
         return validationResult;
     }

@@ -27,12 +27,14 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java -c bin/java-petstore-jersey2-experimental.json -o samples/client/petstore/java/jersey2-experimental -t modules/openapi-generator/src/main/resources/Java  --additional-properties hideGenerationTimestamp=true $@"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java -c bin/java-petstore-jersey2-experimental.json -o samples/client/petstore/java/jersey2-experimental -t modules/openapi-generator/src/main/resources/Java/libraries/jersey2-experimental  --additional-properties hideGenerationTimestamp=true $@"
 
 echo "Removing files and folders under samples/client/petstore/java/jersey2-experimental/src/main"
 rm -rf samples/client/petstore/java/jersey2-experimental/src/main
 find samples/client/petstore/java/jersey2-experimental -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
 java $JAVA_OPTS -jar $executable $ags
+
+#mvn com.coveo:fmt-maven-plugin:format -f samples/client/petstore/java/jersey2-experimental/pom.xml
 
 # copy additional manually written unit-tests
 #mkdir samples/client/petstore/java/jersey2/src/test/java/org/openapitools/client
