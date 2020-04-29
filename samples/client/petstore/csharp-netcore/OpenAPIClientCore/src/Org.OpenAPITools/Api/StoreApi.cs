@@ -358,8 +358,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (orderId != null)
-                localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
@@ -414,8 +413,7 @@ namespace Org.OpenAPITools.Api
             foreach (var _accept in _accepts)
                 localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            if (orderId != null)
-                localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
