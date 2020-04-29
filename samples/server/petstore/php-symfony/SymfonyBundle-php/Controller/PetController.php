@@ -62,16 +62,9 @@ class PetController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = ['application/json', 'application/xml'];
-        if (sizeof($consumes) > 0) {
-            if ($request->headers->has('Content-Type')) {
-                $inputFormat = explode(";", $request->headers->get('Content-Type'))[0];
-            } else {
-                $inputFormat = $consumes[0];
-            }
-            if (!in_array($inputFormat, $consumes)) {
-                // We can't consume the content that the client is sending us
-                return new Response('', 415);
-            }
+        if (!static::isContentTypeAllowed($request, $consumes)) {
+            // We can't consume the content that the client is sending us
+            return new Response('', 415);
         }
 
         // Handle authentication
@@ -86,6 +79,7 @@ class PetController extends Controller
 
         // Deserialize the input values that needs it
         try {
+            $inputFormat = $request->getMimeType($request->getContentType());
             $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
@@ -497,16 +491,9 @@ class PetController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = ['application/json', 'application/xml'];
-        if (sizeof($consumes) > 0) {
-            if ($request->headers->has('Content-Type')) {
-                $inputFormat = explode(";", $request->headers->get('Content-Type'))[0];
-            } else {
-                $inputFormat = $consumes[0];
-            }
-            if (!in_array($inputFormat, $consumes)) {
-                // We can't consume the content that the client is sending us
-                return new Response('', 415);
-            }
+        if (!static::isContentTypeAllowed($request, $consumes)) {
+            // We can't consume the content that the client is sending us
+            return new Response('', 415);
         }
 
         // Handle authentication
@@ -521,6 +508,7 @@ class PetController extends Controller
 
         // Deserialize the input values that needs it
         try {
+            $inputFormat = $request->getMimeType($request->getContentType());
             $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
