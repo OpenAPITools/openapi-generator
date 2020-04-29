@@ -701,10 +701,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     } else {
                         // Effectively mark enum models as enums
                         updateCodegenParametersEnum(operation.allParams, allModels);
-                        updateCodegenParametersEnum(operation.pathParams, allModels);
-                        updateCodegenParametersEnum(operation.queryParams, allModels);
-                        updateCodegenParametersEnum(operation.headerParams, allModels);
-                        updateCodegenParametersEnum(operation.formParams, allModels);
                     }
 
                     processOperation(operation);
