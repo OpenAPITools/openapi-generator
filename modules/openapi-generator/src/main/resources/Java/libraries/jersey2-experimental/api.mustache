@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
+{{/fullJavaUtil}}
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
@@ -31,13 +31,24 @@ public class {{classname}} {
     this.apiClient = apiClient;
   }
 
+  /**
+   * Get the API cilent
+   *
+   * @return API client
+   */
   public ApiClient getApiClient() {
     return apiClient;
   }
 
+  /**
+   * Set the API cilent
+   *
+   * @param apiClient an instance of API client
+   */
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
+
   {{#operation}}
   {{^vendorExtensions.x-group-parameters}}
   /**
@@ -170,7 +181,8 @@ public class {{classname}} {
       this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
       {{/pathParams}}
     }
-    {{#allParams}}{{^isPathParam}}
+    {{#allParams}}
+    {{^isPathParam}}
 
     /**
      * Set {{paramName}}
@@ -181,7 +193,8 @@ public class {{classname}} {
       this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
       return this;
     }
-    {{/isPathParam}}{{/allParams}}
+    {{/isPathParam}}
+    {{/allParams}}
 
     /**
      * Execute {{operationId}} request
@@ -216,9 +229,12 @@ public class {{classname}} {
          {{/responses}}
        </table>
      {{/responses.0}}
-     {{#isDeprecated}}* @deprecated{{/isDeprecated}}
+     {{#isDeprecated}}
+     * @deprecated{{/isDeprecated}}
      */
-    {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     public ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> executeWithHttpInfo() throws ApiException {
       return {{operationId}}WithHttpInfo({{#allParams}}{{localVariablePrefix}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     }
@@ -234,7 +250,9 @@ public class {{classname}} {
    {{#externalDocs}}* {{description}}
    * @see <a href="{{url}}">{{summary}} Documentation</a>{{/externalDocs}}
    */
-  {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
   public API{{operationId}}Request {{operationId}}({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) throws ApiException {
     return new API{{operationId}}Request({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}});
   }

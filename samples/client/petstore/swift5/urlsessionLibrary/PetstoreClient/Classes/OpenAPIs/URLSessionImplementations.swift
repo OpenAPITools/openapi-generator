@@ -489,7 +489,7 @@ private class FileUploadEncoding: ParameterEncoding {
 
         var body = urlRequest.httpBody.orEmpty
 
-        body.append("--\(boundary)--")
+        body.append("\r\n--\(boundary)--\r\n")
 
         urlRequest.httpBody = body
 
@@ -508,14 +508,23 @@ private class FileUploadEncoding: ParameterEncoding {
 
         let fileName = fileURL.lastPathComponent
 
+        // If we already added something then we need an additional newline.
+        if body.count > 0 {
+            body.append("\r\n")
+        }
+
+        // Value boundary.
         body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n\r\n")
 
-        body.append("Content-Type: \(mimetype)\r\n\r\n")
+        // Value headers.
+        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n")
+        body.append("Content-Type: \(mimetype)\r\n")
 
+        // Separate headers and body.
+        body.append("\r\n")
+
+        // The value data.
         body.append(fileData)
-
-        body.append("\r\n\r\n")
 
         urlRequest.httpBody = body
 
@@ -528,12 +537,22 @@ private class FileUploadEncoding: ParameterEncoding {
 
         var body = urlRequest.httpBody.orEmpty
 
+        // If we already added something then we need an additional newline.
+        if body.count > 0 {
+            body.append("\r\n")
+        }
+
+        // Value boundary.
         body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
 
+        // Value headers.
+        body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+
+        // Separate headers and body.
+        body.append("\r\n")
+
+        // The value data.
         body.append(data)
-
-        body.append("\r\n\r\n")
 
         urlRequest.httpBody = body
 

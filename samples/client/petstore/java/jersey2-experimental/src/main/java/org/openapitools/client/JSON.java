@@ -1,15 +1,12 @@
 package org.openapitools.client;
 
-import org.threeten.bp.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
-import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-
 import java.text.DateFormat;
-
 import javax.ws.rs.ext.ContextResolver;
-
+import org.openapitools.jackson.nullable.JsonNullableModule;
+import org.threeten.bp.*;
 
 public class JSON implements ContextResolver<ObjectMapper> {
   private ObjectMapper mapper;
@@ -34,6 +31,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
 
   /**
    * Set the date format for JSON (de)serialization with Date properties.
+   *
    * @param dateFormat Date format
    */
   public void setDateFormat(DateFormat dateFormat) {
@@ -42,6 +40,15 @@ public class JSON implements ContextResolver<ObjectMapper> {
 
   @Override
   public ObjectMapper getContext(Class<?> type) {
+    return mapper;
+  }
+
+  /**
+   * Get the object mapper
+   *
+   * @return object mapper
+   */
+  public ObjectMapper getMapper() {
     return mapper;
   }
 }

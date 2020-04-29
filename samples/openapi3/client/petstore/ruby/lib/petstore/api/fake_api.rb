@@ -73,6 +73,72 @@ module Petstore
       return data, status_code, headers
     end
 
+    # test http signature authentication
+    # @param pet [Pet] Pet object that needs to be added to the store
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :query_1 query parameter
+    # @option opts [String] :header_1 header parameter
+    # @return [nil]
+    def fake_http_signature_test(pet, opts = {})
+      fake_http_signature_test_with_http_info(pet, opts)
+      nil
+    end
+
+    # test http signature authentication
+    # @param pet [Pet] Pet object that needs to be added to the store
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :query_1 query parameter
+    # @option opts [String] :header_1 header parameter
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    def fake_http_signature_test_with_http_info(pet, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FakeApi.fake_http_signature_test ...'
+      end
+      # verify the required parameter 'pet' is set
+      if @api_client.config.client_side_validation && pet.nil?
+        fail ArgumentError, "Missing the required parameter 'pet' when calling FakeApi.fake_http_signature_test"
+      end
+      # resource path
+      local_var_path = '/fake/http-signature-test'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'query_1'] = opts[:'query_1'] if !opts[:'query_1'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/xml'])
+      header_params[:'header_1'] = opts[:'header_1'] if !opts[:'header_1'].nil?
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
+
+      # return_type
+      return_type = opts[:return_type] 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['http_signature_test']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#fake_http_signature_test\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
     # @option opts [Boolean] :body Input boolean as post body

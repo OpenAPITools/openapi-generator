@@ -50,11 +50,12 @@ class {{prefix}}HttpRequestWorker : public QObject {
     Q_OBJECT
 
 public:
+    explicit {{prefix}}HttpRequestWorker(QObject *parent = nullptr);
+    virtual ~{{prefix}}HttpRequestWorker();
+
     QByteArray response;
     QNetworkReply::NetworkError error_type;
     QString error_str;
-    explicit {{prefix}}HttpRequestWorker(QObject *parent = nullptr);
-    virtual ~{{prefix}}HttpRequestWorker();
 
     QMap<QString, QString> getResponseHeaders() const;
     QString http_attribute_encode(QString attribute_name, QString input);
@@ -66,6 +67,8 @@ public:
     QByteArray *getMultiPartField(const QString &fieldname = QString());
     void setResponseCompressionEnabled(bool enable);
     void setRequestCompressionEnabled(bool enable);
+    int  getHttpResponseCode() const;
+
 signals:
     void on_execution_finished({{prefix}}HttpRequestWorker *worker);
 
@@ -82,10 +85,13 @@ private:
     QTimer timeOutTimer;
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;
+    int  httpResponseCode;
+
     void on_manager_timeout(QNetworkReply *reply);
     void process_response(QNetworkReply *reply);
     QByteArray decompress(const QByteArray& data);
-    QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionType compressType); 
+    QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionType compressType);
+ 
 private slots:
     void on_manager_finished(QNetworkReply *reply);
 };

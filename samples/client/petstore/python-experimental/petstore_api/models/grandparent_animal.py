@@ -29,6 +29,26 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_get_composed_info,
 )
+try:
+    from petstore_api.models import child_cat
+except ImportError:
+    child_cat = sys.modules[
+        'petstore_api.models.child_cat']
+try:
+    from petstore_api.models import child_dog
+except ImportError:
+    child_dog = sys.modules[
+        'petstore_api.models.child_dog']
+try:
+    from petstore_api.models import child_lizard
+except ImportError:
+    child_lizard = sys.modules[
+        'petstore_api.models.child_lizard']
+try:
+    from petstore_api.models import parent_pet
+except ImportError:
+    parent_pet = sys.modules[
+        'petstore_api.models.parent_pet']
 
 
 class GrandparentAnimal(ModelNormal):
@@ -79,7 +99,15 @@ class GrandparentAnimal(ModelNormal):
 
     @staticmethod
     def discriminator():
-        return None
+        val = {
+            'ChildCat': child_cat.ChildCat,
+            'ChildDog': child_dog.ChildDog,
+            'ChildLizard': child_lizard.ChildLizard,
+            'ParentPet': parent_pet.ParentPet,
+        }
+        if not val:
+            return None
+        return {'pet_type': val}
 
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501
@@ -134,3 +162,16 @@ class GrandparentAnimal(ModelNormal):
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
+
+    @classmethod
+    def get_discriminator_class(cls, from_server, data):
+        """Returns the child class specified by the discriminator"""
+        discriminator = cls.discriminator()
+        discr_propertyname_py = list(discriminator.keys())[0]
+        discr_propertyname_js = cls.attribute_map[discr_propertyname_py]
+        if from_server:
+            class_name = data[discr_propertyname_js]
+        else:
+            class_name = data[discr_propertyname_py]
+        class_name_to_discr_class = discriminator[discr_propertyname_py]
+        return class_name_to_discr_class.get(class_name)
