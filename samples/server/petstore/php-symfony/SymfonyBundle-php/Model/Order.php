@@ -125,7 +125,7 @@ class Order
      *
      * @return $this
      */
-    public function setId($id = null)
+    public function setId($id = null): self
     {
         $this->id = $id;
 
@@ -149,7 +149,7 @@ class Order
      *
      * @return $this
      */
-    public function setPetId($petId = null)
+    public function setPetId($petId = null): self
     {
         $this->petId = $petId;
 
@@ -173,7 +173,7 @@ class Order
      *
      * @return $this
      */
-    public function setQuantity($quantity = null)
+    public function setQuantity($quantity = null): self
     {
         $this->quantity = $quantity;
 
@@ -197,7 +197,7 @@ class Order
      *
      * @return $this
      */
-    public function setShipDate(\DateTime $shipDate = null)
+    public function setShipDate(\DateTime $shipDate = null): self
     {
         $this->shipDate = $shipDate;
 
@@ -221,7 +221,7 @@ class Order
      *
      * @return $this
      */
-    public function setStatus($status = null)
+    public function setStatus($status = null): self
     {
         $this->status = $status;
 
@@ -245,7 +245,7 @@ class Order
      *
      * @return $this
      */
-    public function setComplete($complete = null)
+    public function setComplete($complete = null): self
     {
         $this->complete = $complete;
 

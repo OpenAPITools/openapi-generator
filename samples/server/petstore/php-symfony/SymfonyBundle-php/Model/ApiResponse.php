@@ -95,7 +95,7 @@ class ApiResponse
      *
      * @return $this
      */
-    public function setCode($code = null)
+    public function setCode($code = null): self
     {
         $this->code = $code;
 
@@ -119,7 +119,7 @@ class ApiResponse
      *
      * @return $this
      */
-    public function setType($type = null)
+    public function setType($type = null): self
     {
         $this->type = $type;
 
@@ -143,7 +143,7 @@ class ApiResponse
      *
      * @return $this
      */
-    public function setMessage($message = null)
+    public function setMessage($message = null): self
     {
         $this->message = $message;
 

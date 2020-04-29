@@ -86,7 +86,7 @@ class Category
      *
      * @return $this
      */
-    public function setId($id = null)
+    public function setId($id = null): self
     {
         $this->id = $id;
 
@@ -110,7 +110,7 @@ class Category
      *
      * @return $this
      */
-    public function setName($name = null)
+    public function setName($name = null): self
     {
         $this->name = $name;
 
