@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "_byte" is required (not null)
             if (_byte == null)
             {
-                throw new InvalidDataException("_byte is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
             }
             else
             {
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "password" is required (not null)
             if (password == null)
             {
-                throw new InvalidDataException("password is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
             else
             {

@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "name" is required (not null)
             if (name == null)
             {
-                throw new InvalidDataException("name is a required property for Category and cannot be null");
+                throw new ArgumentNullException("name is a required property for Category and cannot be null");
             }
             else
             {

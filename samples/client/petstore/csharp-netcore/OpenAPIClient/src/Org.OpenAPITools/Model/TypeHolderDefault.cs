@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "stringItem" is required (not null)
             if (stringItem == null)
             {
-                throw new InvalidDataException("stringItem is a required property for TypeHolderDefault and cannot be null");
+                throw new ArgumentNullException("stringItem is a required property for TypeHolderDefault and cannot be null");
             }
             else
             {
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "arrayItem" is required (not null)
             if (arrayItem == null)
             {
-                throw new InvalidDataException("arrayItem is a required property for TypeHolderDefault and cannot be null");
+                throw new ArgumentNullException("arrayItem is a required property for TypeHolderDefault and cannot be null");
             }
             else
             {

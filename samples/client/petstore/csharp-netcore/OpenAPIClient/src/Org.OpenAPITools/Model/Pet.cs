@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "name" is required (not null)
             if (name == null)
             {
-                throw new InvalidDataException("name is a required property for Pet and cannot be null");
+                throw new ArgumentNullException("name is a required property for Pet and cannot be null");
             }
             else
             {
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
-                throw new InvalidDataException("photoUrls is a required property for Pet and cannot be null");
+                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
             }
             else
             {

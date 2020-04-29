@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "className" is required (not null)
             if (className == null)
             {
-                throw new InvalidDataException("className is a required property for Animal and cannot be null");
+                throw new ArgumentNullException("className is a required property for Animal and cannot be null");
             }
             else
             {
