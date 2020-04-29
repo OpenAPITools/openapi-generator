@@ -26,10 +26,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return {{classname}}.schemas;
     }
 
-    public String getSchemaType() {
-        return schemaType;
-    }
-
     @Override
     public void setActualInstance(Object instance) {
         {{#oneOf}}
