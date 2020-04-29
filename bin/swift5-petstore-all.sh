@@ -9,4 +9,4 @@
 ./bin/swift5-petstore-urlsession.sh
 ./bin/swift5-petstore-alamofire.sh
 ./bin/swift5-petstore-combine.sh
- 
+./bin/swift5-petstore-readonlyProperties.sh
