@@ -2,6 +2,7 @@ package org.openapitools.codegen.cmd;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.DateTimeException;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -82,7 +83,13 @@ public class BuildInfo {
         StringBuilder sb = new StringBuilder(CLI_NAME);
         sb.append(" ").append(this.getVersion()).append(System.lineSeparator());
         sb.append("  commit : ").append(this.getSha()).append(System.lineSeparator());
-        sb.append("  built  : ").append(this.getBuildTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)).append(System.lineSeparator());
+        sb.append("  built  : ");
+        try {
+            sb.append(this.getBuildTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        } catch (DateTimeException e) {
+            sb.append(UNKNOWN);
+        }
+        sb.append(System.lineSeparator());
         sb.append("  source : ").append(GIT_REPO).append(System.lineSeparator());
         sb.append("  docs   : ").append(SITE).append(System.lineSeparator());
         return sb.toString();
