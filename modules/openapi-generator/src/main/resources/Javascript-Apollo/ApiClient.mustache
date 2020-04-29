@@ -130,6 +130,7 @@ class ApiClient extends RESTDataSource {
      * @ignore
      */
     async callApi(path, httpMethod, pathParams, queryParams, headerParams, formParams, bodyParam, fetchOptions, returnType) {
+        fetchOptions = fetchOptions || {}
         const finalFetchOptions = Object.assign({}, fetchOptions, {
             headers: Object.assign({}, headerParams, fetchOptions.headers || {}),
         })
@@ -180,6 +181,9 @@ class ApiClient extends RESTDataSource {
     static convertToType(data, type) {
         if (data === null || data === undefined)
             return data
+
+        if (type === null || type === undefined)
+            return null
 
         switch (type) {
             case 'Boolean':

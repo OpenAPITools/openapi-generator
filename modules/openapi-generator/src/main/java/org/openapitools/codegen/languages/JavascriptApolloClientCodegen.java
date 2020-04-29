@@ -945,6 +945,8 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
                     argList.add("opts");
                 }
 
+                argList.add("fetchOptions");
+
                 String joinedArgList = StringUtils.join(argList, ", ");
                 operation.vendorExtensions.put("x-codegen-argList", joinedArgList); // TODO: 5.0 Remove
                 operation.vendorExtensions.put("x-codegen-arg-list", joinedArgList);
