@@ -329,14 +329,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 export class UserApiResponseProcessor {
-	
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to createUser
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public createUser(response: ResponseContext):   void  {      
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
@@ -350,13 +350,13 @@ export class UserApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to createUsersWithArrayInput
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public createUsersWithArrayInput(response: ResponseContext):   void  {      
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
@@ -370,13 +370,13 @@ export class UserApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to createUsersWithListInput
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public createUsersWithListInput(response: ResponseContext):   void  {      
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
@@ -390,13 +390,13 @@ export class UserApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to deleteUser
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public deleteUser(response: ResponseContext):   void  {      
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid username supplied");
@@ -413,13 +413,13 @@ export class UserApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to getUserByName
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public getUserByName(response: ResponseContext):  User  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
@@ -443,13 +443,13 @@ export class UserApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to loginUser
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public loginUser(response: ResponseContext):  string  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
@@ -470,13 +470,13 @@ export class UserApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to logoutUser
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public logoutUser(response: ResponseContext):   void  {      
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
@@ -490,13 +490,13 @@ export class UserApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to updateUser
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public updateUser(response: ResponseContext):   void  {      
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid user supplied");
