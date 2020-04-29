@@ -43,6 +43,11 @@ public class JSON implements ContextResolver<ObjectMapper> {
     return mapper;
   }
 
+  /**
+   * Get the object mapper
+   *
+   * @return object mapper
+   */
   public ObjectMapper getMapper() {
     return mapper;
   }

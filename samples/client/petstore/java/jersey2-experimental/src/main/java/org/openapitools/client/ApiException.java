@@ -15,6 +15,7 @@ package org.openapitools.client;
 import java.util.List;
 import java.util.Map;
 
+/** API Exception */
 public class ApiException extends Exception {
   private int code = 0;
   private Map<String, List<String>> responseHeaders = null;

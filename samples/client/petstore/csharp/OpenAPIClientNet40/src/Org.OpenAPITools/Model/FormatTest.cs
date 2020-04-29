@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
-        [DataMember(Name="number", EmitDefaultValue=false)]
+        [DataMember(Name="number", EmitDefaultValue=true)]
         public decimal Number { get; set; }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name="byte", EmitDefaultValue=false)]
+        [DataMember(Name="byte", EmitDefaultValue=true)]
         public byte[] Byte { get; set; }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        [DataMember(Name="date", EmitDefaultValue=false)]
+        [DataMember(Name="date", EmitDefaultValue=true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
@@ -182,7 +182,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
+        [DataMember(Name="password", EmitDefaultValue=true)]
         public string Password { get; set; }
 
         /// <summary>
@@ -367,8 +367,6 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-
-            
             // Integer (int) maximum
             if(this.Integer > (int)100)
             {
@@ -381,8 +379,6 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
-
-            
             // Int32 (int) maximum
             if(this.Int32 > (int)200)
             {
@@ -395,8 +391,6 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
-
-            
             // Number (decimal) maximum
             if(this.Number > (decimal)543.2)
             {
@@ -409,8 +403,6 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
-
-            
             // Float (float) maximum
             if(this.Float > (float)987.6)
             {
@@ -423,8 +415,6 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
-
-            
             // Double (double) maximum
             if(this.Double > (double)123.4)
             {
@@ -437,8 +427,6 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
 
-
-            
             // String (string) pattern
             Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexString.Match(this.String).Success)
@@ -446,8 +434,6 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
             }
 
-
-            
             // Password (string) maxLength
             if(this.Password != null && this.Password.Length > 64)
             {
@@ -459,7 +445,7 @@ namespace Org.OpenAPITools.Model
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
-            
+
             yield break;
         }
     }

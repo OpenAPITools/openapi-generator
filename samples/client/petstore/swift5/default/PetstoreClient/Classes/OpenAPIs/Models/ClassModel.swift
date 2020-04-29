@@ -8,8 +8,7 @@
 import Foundation
 
 /** Model for testing model with \&quot;_class\&quot; property */
-public struct ClassModel: Codable { 
-
+public struct ClassModel: Codable {
 
     public var _class: String?
 

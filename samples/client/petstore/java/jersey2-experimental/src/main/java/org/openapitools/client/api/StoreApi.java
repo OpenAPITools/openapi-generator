@@ -23,13 +23,24 @@ public class StoreApi {
     this.apiClient = apiClient;
   }
 
+  /**
+   * Get the API cilent
+   *
+   * @return API client
+   */
   public ApiClient getApiClient() {
     return apiClient;
   }
 
+  /**
+   * Set the API cilent
+   *
+   * @param apiClient an instance of API client
+   */
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
+
   /**
    * Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything
    * above 1000 or nonintegers will generate API errors
