@@ -2815,7 +2815,7 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
-        LOGGER.info("debugging fromProperty for " + name + " : " + p);
+        LOGGER.debug("debugging fromProperty for " + name + " : " + p);
 
         // unalias schema
         p = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
@@ -2968,10 +2968,8 @@ public class DefaultCodegen implements CodegenConfig {
                 property.hasValidation = true;
 
         } else if (ModelUtils.isFreeFormObject(p)) {
-            LOGGER.info("debugging free form schema: " + p);
             property.isFreeFormObject = true;
         } else if (ModelUtils.isAnyTypeSchema(p)) {
-            LOGGER.info("debugging any of schema: " + p);
             property.isAnyType = true;
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
