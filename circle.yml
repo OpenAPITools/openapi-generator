@@ -7,4 +7,4 @@ jobs:
     parallelism: 1
     shell: /bin/bash --login
     steps:
-    - run: "To avoid build failure due to missing circle.yml"
+    - run: echo "To avoid build failure due to missing circle.yml"
