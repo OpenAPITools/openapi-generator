@@ -41,7 +41,7 @@ null (empty response body)
 
 <a name="deletePet"></a>
 # **deletePet**
-> deletePet(petId, apiKey)
+> deletePet(petId, api\_key)
 
 Deletes a pet
 
@@ -50,7 +50,7 @@ Deletes a pet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| Pet id to delete | [default to null]
- **apiKey** | **String**|  | [optional] [default to null]
+ **api\_key** | **String**|  | [optional] [default to null]
 
 ### Return type
 
