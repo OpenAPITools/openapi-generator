@@ -32,7 +32,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -79,7 +79,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -120,7 +120,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
         if (status !== undefined) {
@@ -163,7 +163,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
         if (tags !== undefined) {
@@ -207,7 +207,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -246,7 +246,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -295,7 +295,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -349,7 +349,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	

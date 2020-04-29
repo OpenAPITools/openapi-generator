@@ -33,7 +33,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -61,7 +61,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -102,7 +102,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -136,7 +136,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
