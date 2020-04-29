@@ -30,7 +30,7 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
-
+    
 public class PythonAbstractCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonAbstractCodegen.class);
 
@@ -400,39 +400,39 @@ public class PythonAbstractCodegen extends DefaultCodegen implements CodegenConf
             return;
         }
         // loops through imports and converts them all from 'module.Class' to 'import models.module as module'
-    	Set<String> imports = cm.imports;
+        Set<String> imports = cm.imports;
         if (imports.size() == 0) {
             return;
         }
         Set<String> importSet = new TreeSet<>();
         for (String nextImport : imports) {
-        	importSet.add(nextImport);
+            importSet.add(nextImport);
         }
         List<Map<String, String>> pyImport = new ArrayList<>();
         for (String nextImport : importSet) {
-        	/*
-        	 * The priority for the mapping translation is:
-        	 * 	1. importMapping
-        	 * 	2. Model import mapping
-        	 * 	3. instantiationTypes
-        	 */
+            /*
+             * The priority for the mapping translation is:
+             *     1. importMapping
+             *     2. Model import mapping
+             *     3. instantiationTypes
+             */
             String mapping = importMapping().get(nextImport);
             if (mapping == null) {
                 mapping = toModelImport(nextImport);
                 if (mapping == null) {
-                	mapping = instantiationTypes().get(nextImport);
+                    mapping = instantiationTypes().get(nextImport);
                 }
             }
             /*
              * If the mapping is made make the substitution.
              */
-        	if (null != mapping ) {
-            	imports.remove(nextImport);
-        		imports.add(mapping);
+            if (null != mapping ) {
+                imports.remove(nextImport);
+                imports.add(mapping);
                 HashMap<String, String> item = new HashMap<>();
                 item.put("import", mapping);
                 pyImport.add(item);
-        	}
+            }
         }
         mo.put("imports", pyImport);
     }
@@ -449,6 +449,6 @@ public class PythonAbstractCodegen extends DefaultCodegen implements CodegenConf
                 _fixTypeImports(mo);
             }
         }
-    	return super.postProcessAllModels(objs);
+        return super.postProcessAllModels(objs);
     }
 }

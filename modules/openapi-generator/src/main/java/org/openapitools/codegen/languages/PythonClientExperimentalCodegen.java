@@ -293,10 +293,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             String[] moduleStruct = name.split("\\.");
             // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
             modelImport = "    from " + modelPackage() + " import " + moduleStruct[0];
-            modelImport = 	"try:\n" +
-            					modelImport +
-            				"\nexcept ImportError:\n    " +
-            				moduleStruct[0] + " = sys.modules[\n        '" + modelPackage() + "." + moduleStruct[0] + "']";
+            modelImport = "try:\n" +
+                                modelImport +
+                          "\nexcept ImportError:\n    " +
+                                moduleStruct[0] + " = sys.modules[\n        '" + modelPackage() + "." + moduleStruct[0] + "']";
         }
         return modelImport;
     }
