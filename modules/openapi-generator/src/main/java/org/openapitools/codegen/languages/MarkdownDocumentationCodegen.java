@@ -58,9 +58,9 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
         specialCharReplacements.put("[", "\\[");
         specialCharReplacements.put("]", "\\]");
 
-        // todo Current markdown api and model mustache templates display properties and parameters in tables. It can be
-        // commonly escaped with a backslash (e.g. GFM supports this). However, in some cases it may be necessary to
-        // choose a different approach.
+        // todo Current markdown api and model mustache templates display properties and parameters in tables. Pipe
+        //  symbol in a table can be commonly escaped with a backslash (e.g. GFM supports this). However, in some cases
+        //  it may be necessary to choose a different approach.
         specialCharReplacements.put("|", "\\|");
     }
 
