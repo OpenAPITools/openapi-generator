@@ -110,12 +110,10 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
 	    {{#bodyParam}}
-        {{^consumes}}
-        requestContext.setHeaderParam("Content-Type", "application/json");
-        {{/consumes}}
-        {{#consumes.0}}
-        requestContext.setHeaderParam("Content-Type", "{{{mediaType}}}");
-        {{/consumes.0}}
+        const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
+            "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
+        {{/consumes}}]);
+        requestContext.setHeaderParam("Content-Type", contentType);
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"{{dataType}}" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
         const serializedBody = needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}} || "").toString(); // TODO: `toString` call is unnecessary
