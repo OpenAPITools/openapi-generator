@@ -69,7 +69,7 @@ createUsersWithListInput model =
 deleteUser : String -> Http.Request ()
 deleteUser username =
     { method = "DELETE"
-    , url = basePath ++ "/user/" ++ username
+    , url = basePath ++ "/user/" ++   username
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectStringResponse (\_ -> Ok ())
@@ -82,7 +82,7 @@ deleteUser username =
 getUserByName : String -> Http.Request User
 getUserByName username =
     { method = "GET"
-    , url = basePath ++ "/user/" ++ username
+    , url = basePath ++ "/user/" ++   username
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectJson User.decoder
@@ -123,7 +123,7 @@ logoutUser =
 updateUser : String -> User -> Http.Request ()
 updateUser username model =
     { method = "PUT"
-    , url = basePath ++ "/user/" ++ username
+    , url = basePath ++ "/user/" ++   username
     , headers = []
     , body = Http.jsonBody <| User.encode model
     , expect = Http.expectStringResponse (\_ -> Ok ())

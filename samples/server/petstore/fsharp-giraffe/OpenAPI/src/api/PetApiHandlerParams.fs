@@ -14,11 +14,16 @@ module PetApiHandlerParams =
     //#endregion
 
     
+    type AddPetDefaultStatusCodeResponse = {
+      content:Pet;
+      
+    }
+    
     type AddPetStatusCode405Response = {
       content:string;
       
     }
-    type AddPetResult = AddPetStatusCode405 of AddPetStatusCode405Response
+    type AddPetResult = AddPetDefaultStatusCode of AddPetDefaultStatusCodeResponse|AddPetStatusCode405 of AddPetStatusCode405Response
 
     type AddPetArgs = {
       bodyParams:AddPetBodyParams
@@ -130,6 +135,11 @@ module PetApiHandlerParams =
     //#endregion
 
     
+    type UpdatePetDefaultStatusCodeResponse = {
+      content:Pet;
+      
+    }
+    
     type UpdatePetStatusCode400Response = {
       content:string;
       
@@ -144,7 +154,7 @@ module PetApiHandlerParams =
       content:string;
       
     }
-    type UpdatePetResult = UpdatePetStatusCode400 of UpdatePetStatusCode400Response|UpdatePetStatusCode404 of UpdatePetStatusCode404Response|UpdatePetStatusCode405 of UpdatePetStatusCode405Response
+    type UpdatePetResult = UpdatePetDefaultStatusCode of UpdatePetDefaultStatusCodeResponse|UpdatePetStatusCode400 of UpdatePetStatusCode400Response|UpdatePetStatusCode404 of UpdatePetStatusCode404Response|UpdatePetStatusCode405 of UpdatePetStatusCode405Response
 
     type UpdatePetArgs = {
       bodyParams:UpdatePetBodyParams

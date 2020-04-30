@@ -7,7 +7,9 @@
 
 import Foundation
 
-@objc public class Cat: NSObject, Codable {
+
+
+@objc public class Cat: NSObject, Codable { 
 
     public var _className: String
     public var color: String? = "red"
@@ -24,7 +26,7 @@ import Foundation
         self.declawed = declawed
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case _className = "className"
         case color
         case declawed

@@ -13,7 +13,7 @@
 
 
 export interface ConfigurationParameters {
-    apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
+    apiKey?: string | ((name: string) => string);
     username?: string;
     password?: string;
     accessToken?: string | ((name?: string, scopes?: string[]) => string);
@@ -27,7 +27,7 @@ export class Configuration {
      * @param name security name
      * @memberof Configuration
      */
-    apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
+    apiKey?: string | ((name: string) => string);
     /**
      * parameter for basic security
      * 

@@ -16,13 +16,13 @@
   "Create user
   This can only be done by the logged in user."
   ([] (create-user-with-http-info nil))
-  ([{:keys [user]} (s/map-of keyword? any?)]
+  ([{:keys [body]} (s/map-of keyword? any?)]
    (call-api "/user" :post
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    user
+              :body-param    body
               :content-types []
               :accepts       []
               :auth-names    []})))
@@ -41,13 +41,13 @@
 (defn-spec create-users-with-array-input-with-http-info any?
   "Creates list of users with given input array"
   ([] (create-users-with-array-input-with-http-info nil))
-  ([{:keys [user]} (s/map-of keyword? any?)]
+  ([{:keys [body]} (s/map-of keyword? any?)]
    (call-api "/user/createWithArray" :post
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    user
+              :body-param    body
               :content-types []
               :accepts       []
               :auth-names    []})))
@@ -65,13 +65,13 @@
 (defn-spec create-users-with-list-input-with-http-info any?
   "Creates list of users with given input array"
   ([] (create-users-with-list-input-with-http-info nil))
-  ([{:keys [user]} (s/map-of keyword? any?)]
+  ([{:keys [body]} (s/map-of keyword? any?)]
    (call-api "/user/createWithList" :post
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    user
+              :body-param    body
               :content-types []
               :accepts       []
               :auth-names    []})))
@@ -180,14 +180,14 @@
   "Updated user
   This can only be done by the logged in user."
   ([username string?, ] (update-user-with-http-info username nil))
-  ([username string?, {:keys [user]} (s/map-of keyword? any?)]
+  ([username string?, {:keys [body]} (s/map-of keyword? any?)]
    (check-required-params username)
    (call-api "/user/{username}" :put
              {:path-params   {"username" username }
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    user
+              :body-param    body
               :content-types []
               :accepts       []
               :auth-names    []})))

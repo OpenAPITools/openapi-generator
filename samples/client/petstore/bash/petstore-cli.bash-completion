@@ -69,8 +69,7 @@ _petstore-cli()
     # It's modelled as an associative array for efficient key lookup
     declare -A operations
     operations["call123TestSpecialTags"]=1
-    operations["fooGet"]=1
-    operations["fakeHealthGet"]=1
+    operations["createXmlItem"]=1
     operations["fakeOuterBooleanSerialize"]=1
     operations["fakeOuterCompositeSerialize"]=1
     operations["fakeOuterNumberSerialize"]=1
@@ -111,8 +110,7 @@ _petstore-cli()
     # Only include path, query and header parameters
     declare -A operation_parameters
     operation_parameters["call123TestSpecialTags"]=""
-    operation_parameters["fooGet"]=""
-    operation_parameters["fakeHealthGet"]=""
+    operation_parameters["createXmlItem"]=""
     operation_parameters["fakeOuterBooleanSerialize"]=""
     operation_parameters["fakeOuterCompositeSerialize"]=""
     operation_parameters["fakeOuterNumberSerialize"]=""

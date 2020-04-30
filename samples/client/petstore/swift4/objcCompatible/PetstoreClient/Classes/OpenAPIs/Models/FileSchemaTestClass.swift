@@ -7,7 +7,9 @@
 
 import Foundation
 
-@objc public class FileSchemaTestClass: NSObject, Codable {
+
+
+@objc public class FileSchemaTestClass: NSObject, Codable { 
 
     public var file: File?
     public var files: [File]?

@@ -52,7 +52,6 @@ export interface UpdateUserRequest {
 
 /**
  * UserApi - interface
- * 
  * @export
  * @interface UserApiInterface
  */
@@ -184,7 +183,7 @@ export interface UserApiInterface {
 }
 
 /**
- * 
+ * no description
  */
 export class UserApi extends runtime.BaseAPI implements UserApiInterface {
 

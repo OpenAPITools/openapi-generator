@@ -91,8 +91,8 @@ class Animal(ModelNormal):
     @staticmethod
     def discriminator():
         val = {
-            'Cat': cat.Cat,
             'Dog': dog.Dog,
+            'Cat': cat.Cat,
         }
         if not val:
             return None

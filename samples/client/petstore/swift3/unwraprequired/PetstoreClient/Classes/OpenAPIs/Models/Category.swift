@@ -11,10 +11,10 @@ import Foundation
 open class Category: JSONEncodable {
 
     public var id: Int64?
-    public var name: String?
+    public var name: String
 
 
-    public init(id: Int64?=nil, name: String?=nil) {
+    public init(id: Int64?=nil, name: String) {
         self.id = id
         self.name = name
     }

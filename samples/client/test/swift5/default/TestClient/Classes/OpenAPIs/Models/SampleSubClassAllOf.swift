@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct SampleSubClassAllOf: Codable {
+
+public struct SampleSubClassAllOf: Codable { 
+
 
     public var subClassStringProp: String?
     public var subClassIntegerProp: Int?

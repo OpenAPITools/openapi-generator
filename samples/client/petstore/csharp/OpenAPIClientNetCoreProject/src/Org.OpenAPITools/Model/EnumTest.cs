@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
-        [DataMember(Name="enum_string_required", EmitDefaultValue=true)]
+        [DataMember(Name="enum_string_required", EmitDefaultValue=false)]
         public EnumStringRequiredEnum EnumStringRequired { get; set; }
         /// <summary>
         /// Defines EnumInteger
@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="enumInteger">enumInteger.</param>
         /// <param name="enumNumber">enumNumber.</param>
         /// <param name="outerEnum">outerEnum.</param>
-        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?))
+        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum outerEnum = default(OuterEnum))
         {
             // to ensure "enumStringRequired" is required (not null)
             if (enumStringRequired == null)

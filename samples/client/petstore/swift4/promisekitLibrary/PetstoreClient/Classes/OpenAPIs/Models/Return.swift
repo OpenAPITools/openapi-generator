@@ -8,7 +8,8 @@
 import Foundation
 
 /** Model for testing reserved words */
-public struct Return: Codable {
+public struct Return: Codable { 
+
 
     public var _return: Int?
 
@@ -16,7 +17,7 @@ public struct Return: Codable {
         self._return = _return
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case _return = "return"
     }
 

@@ -240,11 +240,11 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 ///
 /// Place an order for a pet
 /// 
-///  @param order order placed for purchasing the pet (optional)
+///  @param body order placed for purchasing the pet (optional)
 ///
 ///  @returns SWGOrder*
 ///
--(NSURLSessionTask*) placeOrderWithOrder: (SWGOrder*) order
+-(NSURLSessionTask*) placeOrderWithBody: (SWGOrder*) body
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/order"];
 
@@ -271,7 +271,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = order;
+    bodyParam = body;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"

@@ -7,7 +7,9 @@
 
 import Foundation
 
-@objc public class NumberOnly: NSObject, Codable {
+
+
+@objc public class NumberOnly: NSObject, Codable { 
 
     public var justNumber: Double?
 
@@ -15,7 +17,7 @@ import Foundation
         self.justNumber = justNumber
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case justNumber = "JustNumber"
     }
 
