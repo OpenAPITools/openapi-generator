@@ -54,24 +54,26 @@ import org.openapitools.client.auth.ApiKeyAuth;
 
 import org.openapitools.client.auth.OAuth;
 
-
 public class ApiClient {
-  protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
+  protected Map<String, String> defaultHeaderMap =
+      new HashMap<String, String>();
+  protected Map<String, String> defaultCookieMap =
+      new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
-  protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
-    new ServerConfiguration(
-      "http://petstore.swagger.io:80/v2",
-      "No description provided",
-      new HashMap<String, ServerVariable>()
-    )
-  ));
+  protected List<ServerConfiguration> servers =
+      new ArrayList<ServerConfiguration>(Arrays.asList(new ServerConfiguration(
+          "http://petstore.swagger.io:80/v2", "No description provided",
+          new HashMap<String, ServerVariable>())));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
-  protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
-  }};
-  protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
-  protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
+  protected Map<String, List<ServerConfiguration>> operationServers =
+      new HashMap<String, List<ServerConfiguration>>() {
+        {}
+      };
+  protected Map<String, Integer> operationServerIndex =
+      new HashMap<String, Integer>();
+  protected Map<String, Map<String, String>> operationServerVariables =
+      new HashMap<String, Map<String, String>>();
   protected boolean debugging = false;
   protected int connectionTimeout = 0;
   private int readTimeout = 0;
@@ -97,13 +99,15 @@ public class ApiClient {
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-    authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+    authentications.put("api_key_query",
+                        new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
     authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
-    // Setup authentication lookup (key: authentication alias, value: authentication name)
+    // Setup authentication lookup (key: authentication alias, value:
+    // authentication name)
     authenticationLookup = new HashMap<String, String>();
   }
 
@@ -111,49 +115,37 @@ public class ApiClient {
    * Gets the JSON instance to do JSON serialization and deserialization.
    * @return JSON
    */
-  public JSON getJSON() {
-    return json;
-  }
+  public JSON getJSON() { return json; }
 
-  public Client getHttpClient() {
-    return httpClient;
-  }
+  public Client getHttpClient() { return httpClient; }
 
   public ApiClient setHttpClient(Client httpClient) {
     this.httpClient = httpClient;
     return this;
   }
 
-  public String getBasePath() {
-    return basePath;
-  }
+  public String getBasePath() { return basePath; }
 
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
     return this;
   }
 
-  public List<ServerConfiguration> getServers() {
-    return servers;
-  }
+  public List<ServerConfiguration> getServers() { return servers; }
 
   public ApiClient setServers(List<ServerConfiguration> servers) {
     this.servers = servers;
     return this;
   }
 
-  public Integer getServerIndex() {
-    return serverIndex;
-  }
+  public Integer getServerIndex() { return serverIndex; }
 
   public ApiClient setServerIndex(Integer serverIndex) {
     this.serverIndex = serverIndex;
     return this;
   }
 
-  public Map<String, String> getServerVariables() {
-    return serverVariables;
-  }
+  public Map<String, String> getServerVariables() { return serverVariables; }
 
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
     this.serverVariables = serverVariables;
@@ -185,7 +177,7 @@ public class ApiClient {
   public void setUsername(String username) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBasicAuth) {
-        ((HttpBasicAuth) auth).setUsername(username);
+        ((HttpBasicAuth)auth).setUsername(username);
         return;
       }
     }
@@ -199,7 +191,7 @@ public class ApiClient {
   public void setPassword(String password) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBasicAuth) {
-        ((HttpBasicAuth) auth).setPassword(password);
+        ((HttpBasicAuth)auth).setPassword(password);
         return;
       }
     }
@@ -213,7 +205,7 @@ public class ApiClient {
   public void setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
-        ((ApiKeyAuth) auth).setApiKey(apiKey);
+        ((ApiKeyAuth)auth).setApiKey(apiKey);
         return;
       }
     }
@@ -221,19 +213,21 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to configure authentications which respects aliases of API keys.
+   * Helper method to configure authentications which respects aliases of API
+   * keys.
    *
    * @param secrets Hash map from authentication name to its secret.
    */
   public void configureApiKeys(HashMap<String, String> secrets) {
-    for (Map.Entry<String, Authentication> authEntry : authentications.entrySet()) {
+    for (Map.Entry<String, Authentication> authEntry :
+         authentications.entrySet()) {
       Authentication auth = authEntry.getValue();
       if (auth instanceof ApiKeyAuth) {
         String name = authEntry.getKey();
         // respect x-auth-id-alias property
         name = authenticationLookup.getOrDefault(name, name);
         if (secrets.containsKey(name)) {
-          ((ApiKeyAuth) auth).setApiKey(secrets.get(name));
+          ((ApiKeyAuth)auth).setApiKey(secrets.get(name));
         }
       }
     }
@@ -246,7 +240,7 @@ public class ApiClient {
   public void setApiKeyPrefix(String apiKeyPrefix) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
-        ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
+        ((ApiKeyAuth)auth).setApiKeyPrefix(apiKeyPrefix);
         return;
       }
     }
@@ -260,7 +254,7 @@ public class ApiClient {
   public void setBearerToken(String bearerToken) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+        ((HttpBearerAuth)auth).setBearerToken(bearerToken);
         return;
       }
     }
@@ -274,7 +268,7 @@ public class ApiClient {
   public void setAccessToken(String accessToken) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
-        ((OAuth) auth).setAccessToken(accessToken);
+        ((OAuth)auth).setAccessToken(accessToken);
         return;
       }
     }
@@ -319,9 +313,7 @@ public class ApiClient {
    * Check that whether debugging is enabled for this API client.
    * @return True if debugging is switched on
    */
-  public boolean isDebugging() {
-    return debugging;
-  }
+  public boolean isDebugging() { return debugging; }
 
   /**
    * Enable/disable debugging for this API client.
@@ -343,9 +335,7 @@ public class ApiClient {
    *
    * @return Temp folder path
    */
-  public String getTempFolderPath() {
-    return tempFolderPath;
-  }
+  public String getTempFolderPath() { return tempFolderPath; }
 
   /**
    * Set temp folder path
@@ -361,9 +351,7 @@ public class ApiClient {
    * Connect timeout (in milliseconds).
    * @return Connection timeout
    */
-  public int getConnectTimeout() {
-    return connectionTimeout;
-  }
+  public int getConnectTimeout() { return connectionTimeout; }
 
   /**
    * Set the connect timeout (in milliseconds).
@@ -382,9 +370,7 @@ public class ApiClient {
    * read timeout (in milliseconds).
    * @return Read timeout
    */
-  public int getReadTimeout() {
-    return readTimeout;
-  }
+  public int getReadTimeout() { return readTimeout; }
 
   /**
    * Set the read timeout (in milliseconds).
@@ -403,9 +389,7 @@ public class ApiClient {
    * Get the date format used to parse/format date parameters.
    * @return Date format
    */
-  public DateFormat getDateFormat() {
-    return dateFormat;
-  }
+  public DateFormat getDateFormat() { return dateFormat; }
 
   /**
    * Set the date format used to parse/format date parameters.
@@ -415,7 +399,7 @@ public class ApiClient {
   public ApiClient setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
     // also set the date format for model (de)serialization with Date properties
-    this.json.setDateFormat((DateFormat) dateFormat.clone());
+    this.json.setDateFormat((DateFormat)dateFormat.clone());
     return this;
   }
 
@@ -437,9 +421,7 @@ public class ApiClient {
    * @param date Date
    * @return Date in string format
    */
-  public String formatDate(Date date) {
-    return dateFormat.format(date);
-  }
+  public String formatDate(Date date) { return dateFormat.format(date); }
 
   /**
    * Format the given parameter object into string.
@@ -450,11 +432,11 @@ public class ApiClient {
     if (param == null) {
       return "";
     } else if (param instanceof Date) {
-      return formatDate((Date) param);
+      return formatDate((Date)param);
     } else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
-      for(Object o : (Collection)param) {
-        if(b.length() > 0) {
+      for (Object o : (Collection)param) {
+        if (b.length() > 0) {
           b.append(',');
         }
         b.append(String.valueOf(o));
@@ -472,26 +454,30 @@ public class ApiClient {
    * @param value Value
    * @return List of pairs
    */
-  public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
+  public List<Pair> parameterToPairs(String collectionFormat, String name,
+                                     Object value) {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null) return params;
+    if (name == null || name.isEmpty() || value == null)
+      return params;
 
     Collection valueCollection;
     if (value instanceof Collection) {
-      valueCollection = (Collection) value;
+      valueCollection = (Collection)value;
     } else {
       params.add(new Pair(name, parameterToString(value)));
       return params;
     }
 
-    if (valueCollection.isEmpty()){
+    if (valueCollection.isEmpty()) {
       return params;
     }
 
     // get the collection format (default: csv)
-    String format = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat);
+    String format = (collectionFormat == null || collectionFormat.isEmpty()
+                         ? "csv"
+                         : collectionFormat);
 
     // create the params based on the collection format
     if ("multi".equals(format)) {
@@ -514,7 +500,7 @@ public class ApiClient {
       delimiter = "|";
     }
 
-    StringBuilder sb = new StringBuilder() ;
+    StringBuilder sb = new StringBuilder();
     for (Object item : valueCollection) {
       sb.append(delimiter);
       sb.append(parameterToString(item));
@@ -537,7 +523,8 @@ public class ApiClient {
    * @return True if the MIME type is JSON
    */
   public boolean isJsonMime(String mime) {
-    String jsonMime = "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$";
+    String jsonMime =
+        "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$";
     return mime != null && (mime.matches(jsonMime) || mime.equals("*/*"));
   }
 
@@ -605,25 +592,32 @@ public class ApiClient {
    * @return Entity
    * @throws ApiException API exception
    */
-  public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+  public Entity<?> serialize(Object obj, Map<String, Object> formParams,
+                             String contentType) throws ApiException {
     Entity<?> entity;
     if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
-      for (Entry<String, Object> param: formParams.entrySet()) {
+      for (Entry<String, Object> param : formParams.entrySet()) {
         if (param.getValue() instanceof File) {
-          File file = (File) param.getValue();
-          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey())
-              .fileName(file.getName()).size(file.length()).build();
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+          File file = (File)param.getValue();
+          FormDataContentDisposition contentDisp =
+              FormDataContentDisposition.name(param.getKey())
+                  .fileName(file.getName())
+                  .size(file.length())
+                  .build();
+          multiPart.bodyPart(new FormDataBodyPart(
+              contentDisp, file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
         } else {
-          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(param.getValue())));
+          FormDataContentDisposition contentDisp =
+              FormDataContentDisposition.name(param.getKey()).build();
+          multiPart.bodyPart(new FormDataBodyPart(
+              contentDisp, parameterToString(param.getValue())));
         }
       }
       entity = Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE);
     } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
       Form form = new Form();
-      for (Entry<String, Object> param: formParams.entrySet()) {
+      for (Entry<String, Object> param : formParams.entrySet()) {
         form.param(param.getKey(), parameterToString(param.getValue()));
       }
       entity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
@@ -643,17 +637,18 @@ public class ApiClient {
    * @throws ApiException API exception
    */
   @SuppressWarnings("unchecked")
-  public <T> T deserialize(Response response, GenericType<T> returnType) throws ApiException {
+  public <T> T deserialize(Response response, GenericType<T> returnType)
+      throws ApiException {
     if (response == null || returnType == null) {
       return null;
     }
 
     if ("byte[]".equals(returnType.toString())) {
       // Handle binary response (byte array).
-      return (T) response.readEntity(byte[].class);
+      return (T)response.readEntity(byte[].class);
     } else if (returnType.getRawType() == File.class) {
       // Handle file downloading.
-      T file = (T) downloadFileFromResponse(response);
+      T file = (T)downloadFileFromResponse(response);
       return file;
     }
 
@@ -669,12 +664,14 @@ public class ApiClient {
    * Download file from the given response.
    * @param response Response
    * @return File
-   * @throws ApiException If fail to read file content from response and write to disk
+   * @throws ApiException If fail to read file content from response and write
+   *     to disk
    */
   public File downloadFileFromResponse(Response response) throws ApiException {
     try {
       File file = prepareDownloadFile(response);
-      Files.copy(response.readEntity(InputStream.class), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      Files.copy(response.readEntity(InputStream.class), file.toPath(),
+                 StandardCopyOption.REPLACE_EXISTING);
       return file;
     } catch (IOException e) {
       throw new ApiException(e);
@@ -683,7 +680,8 @@ public class ApiClient {
 
   public File prepareDownloadFile(Response response) throws IOException {
     String filename = null;
-    String contentDisposition = (String) response.getHeaders().getFirst("Content-Disposition");
+    String contentDisposition =
+        (String)response.getHeaders().getFirst("Content-Disposition");
     if (contentDisposition != null && !"".equals(contentDisposition)) {
       // Get filename from the Content-Disposition header.
       Pattern pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
@@ -705,7 +703,8 @@ public class ApiClient {
         prefix = filename.substring(0, pos) + "-";
         suffix = filename.substring(pos);
       }
-      // File.createTempFile requires the prefix to be at least three characters long
+      // File.createTempFile requires the prefix to be at least three characters
+      // long
       if (prefix.length() < 3)
         prefix = "download-";
     }
@@ -722,7 +721,8 @@ public class ApiClient {
    * @param <T> Type
    * @param operation The qualified name of the operation
    * @param path The sub-path of the HTTP URL
-   * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and "DELETE"
+   * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and
+   *     "DELETE"
    * @param queryParams The query parameters
    * @param body The request body object
    * @param headerParams The header parameters
@@ -735,7 +735,12 @@ public class ApiClient {
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+  public <T> ApiResponse<T>
+  invokeAPI(String operation, String path, String method,
+            List<Pair> queryParams, Object body,
+            Map<String, String> headerParams, Map<String, String> cookieParams,
+            Map<String, Object> formParams, String accept, String contentType,
+            String[] authNames, GenericType<T> returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(targetURL).path(path)` below,
@@ -748,7 +753,8 @@ public class ApiClient {
 
       if (operationServers.containsKey(operation)) {
         index = operationServerIndex.getOrDefault(operation, serverIndex);
-        variables = operationServerVariables.getOrDefault(operation, serverVariables);
+        variables =
+            operationServerVariables.getOrDefault(operation, serverVariables);
         serverConfigurations = operationServers.get(operation);
       } else {
         index = serverIndex;
@@ -757,8 +763,8 @@ public class ApiClient {
       }
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(String.format(
-          "Invalid index %d when selecting the host settings. Must be less than %d", index, serverConfigurations.size()
-        ));
+            "Invalid index %d when selecting the host settings. Must be less than %d",
+            index, serverConfigurations.size()));
       }
       targetURL = serverConfigurations.get(index).URL(variables) + path;
     } else {
@@ -769,7 +775,8 @@ public class ApiClient {
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {
         if (queryParam.getValue() != null) {
-          target = target.queryParam(queryParam.getName(), escapeString(queryParam.getValue()));
+          target = target.queryParam(queryParam.getName(),
+                                     escapeString(queryParam.getValue()));
         }
       }
     }
@@ -833,15 +840,18 @@ public class ApiClient {
       }
 
       int statusCode = response.getStatusInfo().getStatusCode();
-      Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
+      Map<String, List<String>> responseHeaders =
+          buildResponseHeaders(response);
 
       if (response.getStatus() == Status.NO_CONTENT.getStatusCode()) {
         return new ApiResponse<>(statusCode, responseHeaders);
-      } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
+      } else if (response.getStatusInfo().getFamily() ==
+                 Status.Family.SUCCESSFUL) {
         if (returnType == null)
           return new ApiResponse<>(statusCode, responseHeaders);
         else
-          return new ApiResponse<>(statusCode, responseHeaders, deserialize(response, returnType));
+          return new ApiResponse<>(statusCode, responseHeaders,
+                                   deserialize(response, returnType));
       } else {
         String message = "error";
         String respBody = null;
@@ -853,17 +863,15 @@ public class ApiClient {
             // e.printStackTrace();
           }
         }
-        throw new ApiException(
-          response.getStatus(),
-          message,
-          buildResponseHeaders(response),
-          respBody);
+        throw new ApiException(response.getStatus(), message,
+                               buildResponseHeaders(response), respBody);
       }
     } finally {
       try {
         response.close();
       } catch (Exception e) {
-        // it's not critical, since the response object is local in method invokeAPI; that's fine, just continue
+        // it's not critical, since the response object is local in method
+        // invokeAPI; that's fine, just continue
       }
     }
   }
@@ -872,8 +880,14 @@ public class ApiClient {
    * @deprecated Add qualified name of the operation as a first parameter.
    */
   @Deprecated
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
-    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+  public <T> ApiResponse<T>
+  invokeAPI(String path, String method, List<Pair> queryParams, Object body,
+            Map<String, String> headerParams, Map<String, String> cookieParams,
+            Map<String, Object> formParams, String accept, String contentType,
+            String[] authNames, GenericType<T> returnType) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams,
+                     cookieParams, formParams, accept, contentType, authNames,
+                     returnType);
   }
 
   /**
@@ -887,28 +901,39 @@ public class ApiClient {
     clientConfig.register(json);
     clientConfig.register(JacksonFeature.class);
     clientConfig.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
-    // turn off compliance validation to be able to send payloads with DELETE calls
-    clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
+    // turn off compliance validation to be able to send payloads with DELETE
+    // calls
+    clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION,
+                          true);
     if (debugging) {
-      clientConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 1024*50 /* Log payloads up to 50K */));
-      clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
+      clientConfig.register(new LoggingFeature(
+          java.util.logging.Logger.getLogger(
+              LoggingFeature.DEFAULT_LOGGER_NAME),
+          java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY,
+          1024 * 50 /* Log payloads up to 50K */));
+      clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY,
+                            LoggingFeature.Verbosity.PAYLOAD_ANY);
       // Set logger to ALL
-      java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME).setLevel(java.util.logging.Level.ALL);
+      java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME)
+          .setLevel(java.util.logging.Level.ALL);
     } else {
       // suppress warnings for payloads with DELETE calls:
-      java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);
+      java.util.logging.Logger.getLogger("org.glassfish.jersey.client")
+          .setLevel(java.util.logging.Level.SEVERE);
     }
     performAdditionalClientConfiguration(clientConfig);
     return ClientBuilder.newClient(clientConfig);
   }
 
-  protected void performAdditionalClientConfiguration(ClientConfig clientConfig) {
+  protected void
+  performAdditionalClientConfiguration(ClientConfig clientConfig) {
     // No-op extension point
   }
 
   protected Map<String, List<String>> buildResponseHeaders(Response response) {
-    Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
-    for (Entry<String, List<Object>> entry: response.getHeaders().entrySet()) {
+    Map<String, List<String>> responseHeaders =
+        new HashMap<String, List<String>>();
+    for (Entry<String, List<Object>> entry : response.getHeaders().entrySet()) {
       List<Object> values = entry.getValue();
       List<String> headers = new ArrayList<String>();
       for (Object o : values) {
@@ -927,10 +952,13 @@ public class ApiClient {
    * @param headerParams Map of header parameters
    * @param cookieParams Map of cookie parameters
    */
-  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams,
+                                     Map<String, String> headerParams,
+                                     Map<String, String> cookieParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
-      if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
+      if (auth == null)
+        throw new RuntimeException("Authentication undefined: " + authName);
       auth.applyToParams(queryParams, headerParams, cookieParams);
     }
   }

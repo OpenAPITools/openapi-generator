@@ -21,11 +21,9 @@ public interface FakeClassnameTags123Api {
    * @param body client model (required)
    * @return Client
    */
-  
+
   @PATCH("/fake_classname_test")
-  Client testClassname(
-    @retrofit.http.Body Client body
-  );
+  Client testClassname(@retrofit.http.Body Client body);
 
   /**
    * To test class name in snake case
@@ -33,9 +31,7 @@ public interface FakeClassnameTags123Api {
    * @param body client model (required)
    * @param cb callback method
    */
-  
+
   @PATCH("/fake_classname_test")
-  void testClassname(
-    @retrofit.http.Body Client body, Callback<Client> cb
-  );
+  void testClassname(@retrofit.http.Body Client body, Callback<Client> cb);
 }

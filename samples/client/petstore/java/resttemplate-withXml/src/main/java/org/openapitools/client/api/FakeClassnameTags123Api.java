@@ -26,75 +26,76 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-
 @Component("org.openapitools.client.api.FakeClassnameTags123Api")
 public class FakeClassnameTags123Api {
-    private ApiClient apiClient;
+  private ApiClient apiClient;
 
-    public FakeClassnameTags123Api() {
-        this(new ApiClient());
+  public FakeClassnameTags123Api() { this(new ApiClient()); }
+
+  @Autowired
+  public FakeClassnameTags123Api(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  public ApiClient getApiClient() { return apiClient; }
+
+  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * <p><b>200</b> - successful operation
+   * @param body client model (required)
+   * @return Client
+   * @throws RestClientException if an error occurs while attempting to invoke
+   *     the API
+   */
+  public Client testClassname(Client body) throws RestClientException {
+    return testClassnameWithHttpInfo(body).getBody();
+  }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * <p><b>200</b> - successful operation
+   * @param body client model (required)
+   * @return ResponseEntity&lt;Client&gt;
+   * @throws RestClientException if an error occurs while attempting to invoke
+   *     the API
+   */
+  public ResponseEntity<Client> testClassnameWithHttpInfo(Client body)
+      throws RestClientException {
+    Object postBody = body;
+
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new HttpClientErrorException(
+          HttpStatus.BAD_REQUEST,
+          "Missing the required parameter 'body' when calling testClassname");
     }
 
-    @Autowired
-    public FakeClassnameTags123Api(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
+    String path = apiClient.expandPath("/fake_classname_test",
+                                       Collections.<String, Object>emptyMap());
 
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
+    final MultiValueMap<String, String> queryParams =
+        new LinkedMultiValueMap<String, String>();
+    final HttpHeaders headerParams = new HttpHeaders();
+    final MultiValueMap<String, String> cookieParams =
+        new LinkedMultiValueMap<String, String>();
+    final MultiValueMap formParams = new LinkedMultiValueMap();
 
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
+    final String[] accepts = {"application/json"};
+    final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+    final String[] contentTypes = {"application/json"};
+    final MediaType contentType =
+        apiClient.selectHeaderContentType(contentTypes);
 
-    /**
-     * To test class name in snake case
-     * To test class name in snake case
-     * <p><b>200</b> - successful operation
-     * @param body client model (required)
-     * @return Client
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public Client testClassname(Client body) throws RestClientException {
-        return testClassnameWithHttpInfo(body).getBody();
-    }
+    String[] authNames = new String[] {"api_key_query"};
 
-    /**
-     * To test class name in snake case
-     * To test class name in snake case
-     * <p><b>200</b> - successful operation
-     * @param body client model (required)
-     * @return ResponseEntity&lt;Client&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<Client> testClassnameWithHttpInfo(Client body) throws RestClientException {
-        Object postBody = body;
-        
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClassname");
-        }
-        
-        String path = apiClient.expandPath("/fake_classname_test", Collections.<String, Object>emptyMap());
-
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap formParams = new LinkedMultiValueMap();
-
-        final String[] accepts = { 
-            "application/json"
-        };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { 
-            "application/json"
-        };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
-
-        String[] authNames = new String[] { "api_key_query" };
-
-        ParameterizedTypeReference<Client> returnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
-    }
+    ParameterizedTypeReference<Client> returnType =
+        new ParameterizedTypeReference<Client>() {};
+    return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody,
+                               headerParams, cookieParams, formParams, accept,
+                               contentType, authNames, returnType);
+  }
 }

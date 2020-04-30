@@ -24,61 +24,62 @@ import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-
 public class FakeClassnameTags123Api {
-    private ApiClient apiClient;
+  private ApiClient apiClient;
 
-    public FakeClassnameTags123Api() {
-        this(new ApiClient());
+  public FakeClassnameTags123Api() { this(new ApiClient()); }
+
+  @Autowired
+  public FakeClassnameTags123Api(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  public ApiClient getApiClient() { return apiClient; }
+
+  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * <p><b>200</b> - successful operation
+   * @param body client model
+   * @return Client
+   * @throws RestClientException if an error occurs while attempting to invoke
+   *     the API
+   */
+  public Mono<Client> testClassname(Client body) throws RestClientException {
+    Object postBody = body;
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new HttpClientErrorException(
+          HttpStatus.BAD_REQUEST,
+          "Missing the required parameter 'body' when calling testClassname");
     }
+    // create path and map variables
+    final Map<String, Object> pathParams = new HashMap<String, Object>();
 
-    @Autowired
-    public FakeClassnameTags123Api(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
+    final MultiValueMap<String, String> queryParams =
+        new LinkedMultiValueMap<String, String>();
+    final HttpHeaders headerParams = new HttpHeaders();
+    final MultiValueMap<String, String> cookieParams =
+        new LinkedMultiValueMap<String, String>();
+    final MultiValueMap<String, Object> formParams =
+        new LinkedMultiValueMap<String, Object>();
 
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
+    final String[] localVarAccepts = {"application/json"};
+    final List<MediaType> localVarAccept =
+        apiClient.selectHeaderAccept(localVarAccepts);
+    final String[] localVarContentTypes = {"application/json"};
+    final MediaType localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
 
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
+    String[] localVarAuthNames = new String[] {"api_key_query"};
 
-    /**
-     * To test class name in snake case
-     * To test class name in snake case
-     * <p><b>200</b> - successful operation
-     * @param body client model
-     * @return Client
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public Mono<Client> testClassname(Client body) throws RestClientException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClassname");
-        }
-        // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
-
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-
-        final String[] localVarAccepts = { 
-            "application/json"
-        };
-        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = { 
-            "application/json"
-        };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[] { "api_key_query" };
-
-        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    }
+    ParameterizedTypeReference<Client> localVarReturnType =
+        new ParameterizedTypeReference<Client>() {};
+    return apiClient.invokeAPI(
+        "/fake_classname_test", HttpMethod.PATCH, pathParams, queryParams,
+        postBody, headerParams, cookieParams, formParams, localVarAccept,
+        localVarContentType, localVarAuthNames, localVarReturnType);
+  }
 }

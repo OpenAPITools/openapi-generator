@@ -16,62 +16,64 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-
 public class FakeClassnameTags123ApiImpl implements FakeClassnameTags123Api {
 
-    private ApiClient apiClient;
+  private ApiClient apiClient;
 
-    public FakeClassnameTags123ApiImpl() {
-        this(null);
+  public FakeClassnameTags123ApiImpl() { this(null); }
+
+  public FakeClassnameTags123ApiImpl(ApiClient apiClient) {
+    this.apiClient =
+        apiClient != null ? apiClient : Configuration.getDefaultApiClient();
+  }
+
+  public ApiClient getApiClient() { return apiClient; }
+
+  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * @param body client model (required)
+   * @param resultHandler Asynchronous result handler
+   */
+  public void testClassname(Client body,
+                            Handler<AsyncResult<Client>> resultHandler) {
+    Object localVarBody = body;
+
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      resultHandler.handle(ApiException.fail(
+          400,
+          "Missing the required parameter 'body' when calling testClassname"));
+      return;
     }
 
-    public FakeClassnameTags123ApiImpl(ApiClient apiClient) {
-        this.apiClient = apiClient != null ? apiClient : Configuration.getDefaultApiClient();
-    }
+    // create path and map variables
+    String localVarPath = "/fake_classname_test";
 
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<>();
 
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
+    // header params
+    MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
 
-    /**
-     * To test class name in snake case
-     * To test class name in snake case
-     * @param body client model (required)
-     * @param resultHandler Asynchronous result handler
-     */
-    public void testClassname(Client body, Handler<AsyncResult<Client>> resultHandler) {
-        Object localVarBody = body;
-        
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testClassname"));
-            return;
-        }
-        
-        // create path and map variables
-        String localVarPath = "/fake_classname_test";
+    // cookie params
+    MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
 
-        // query params
-        List<Pair> localVarQueryParams = new ArrayList<>();
+    // form params
+    // TODO: sending files within multipart/form-data is not supported yet
+    // (because of vertx web-client)
+    Map<String, Object> localVarFormParams = new HashMap<>();
 
-        // header params
-        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
-        
-        // cookie params
-        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
-        
-        // form params
-        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
-        Map<String, Object> localVarFormParams = new HashMap<>();
-        
-        String[] localVarAccepts = { "application/json" };
-        String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] { "api_key_query" };
-        TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
-        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
-    }
+    String[] localVarAccepts = {"application/json"};
+    String[] localVarContentTypes = {"application/json"};
+    String[] localVarAuthNames = new String[] {"api_key_query"};
+    TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
+    apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams,
+                        localVarBody, localVarHeaderParams,
+                        localVarCookieParams, localVarFormParams,
+                        localVarAccepts, localVarContentTypes,
+                        localVarAuthNames, localVarReturnType, resultHandler);
+  }
 }

@@ -23,12 +23,7 @@ public interface AnotherFakeApi {
    * @param body client model (required)
    * @return Call&lt;Client&gt;
    */
-  @Headers({
-    "Content-Type:application/json"
-  })
+  @Headers({"Content-Type:application/json"})
   @PATCH("another-fake/dummy")
-  Call<Client> call123testSpecialTags(
-    @retrofit2.http.Body Client body
-  );
-
+  Call<Client> call123testSpecialTags(@retrofit2.http.Body Client body);
 }

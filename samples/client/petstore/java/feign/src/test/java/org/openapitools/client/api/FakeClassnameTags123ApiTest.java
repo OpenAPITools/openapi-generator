@@ -15,26 +15,23 @@ import java.util.Map;
  */
 public class FakeClassnameTags123ApiTest {
 
-    private FakeClassnameTags123Api api;
+  private FakeClassnameTags123Api api;
 
-    @Before
-    public void setup() {
-        api = new ApiClient().buildClient(FakeClassnameTags123Api.class);
-    }
+  @Before
+  public void setup() {
+    api = new ApiClient().buildClient(FakeClassnameTags123Api.class);
+  }
 
-    
-    /**
-     * To test class name in snake case
-     *
-     * To test class name in snake case
-     */
-    @Test
-    public void testClassnameTest() {
-        Client body = null;
-        // Client response = api.testClassname(body);
+  /**
+   * To test class name in snake case
+   *
+   * To test class name in snake case
+   */
+  @Test
+  public void testClassnameTest() {
+    Client body = null;
+    // Client response = api.testClassname(body);
 
-        // TODO: test validations
-    }
-
-    
+    // TODO: test validations
+  }
 }

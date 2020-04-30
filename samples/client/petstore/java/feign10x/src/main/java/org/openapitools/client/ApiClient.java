@@ -23,7 +23,6 @@ import feign.slf4j.Slf4jLogger;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.auth.OAuth.AccessTokenListener;
 
-
 public class ApiClient {
   public interface Api {}
 
@@ -35,15 +34,16 @@ public class ApiClient {
   public ApiClient() {
     objectMapper = createObjectMapper();
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
-    feignBuilder = Feign.builder()
-                .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonDecoder(objectMapper))
-                .logger(new Slf4jLogger());
+    feignBuilder =
+        Feign.builder()
+            .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
+            .decoder(new JacksonDecoder(objectMapper))
+            .logger(new Slf4jLogger());
   }
 
   public ApiClient(String[] authNames) {
     this();
-    for(String authName : authNames) {
+    for (String authName : authNames) {
       RequestInterceptor auth;
       if ("api_key".equals(authName)) {
         auth = new ApiKeyAuth("header", "api_key");
@@ -52,9 +52,12 @@ public class ApiClient {
       } else if ("http_basic_test".equals(authName)) {
         auth = new HttpBasicAuth();
       } else if ("petstore_auth".equals(authName)) {
-        auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+        auth = new OAuth(OAuthFlow.implicit,
+                         "http://petstore.swagger.io/api/oauth/dialog", "",
+                         "write:pets, read:pets");
       } else {
-        throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+        throw new RuntimeException("auth name \"" + authName +
+                                   "\" not found in available auth names");
       }
       addAuthorization(authName, auth);
     }
@@ -64,9 +67,7 @@ public class ApiClient {
    * Basic constructor for single auth name
    * @param authName
    */
-  public ApiClient(String authName) {
-    this(new String[]{authName});
-  }
+  public ApiClient(String authName) { this(new String[] {authName}); }
 
   /**
    * Helper constructor for single api key
@@ -86,7 +87,7 @@ public class ApiClient {
    */
   public ApiClient(String authName, String username, String password) {
     this(authName);
-    this.setCredentials(username,  password);
+    this.setCredentials(username, password);
   }
 
   /**
@@ -97,18 +98,17 @@ public class ApiClient {
    * @param username
    * @param password
    */
-  public ApiClient(String authName, String clientId, String secret, String username, String password) {
+  public ApiClient(String authName, String clientId, String secret,
+                   String username, String password) {
     this(authName);
     this.getTokenEndPoint()
-           .setClientId(clientId)
-           .setClientSecret(secret)
-           .setUsername(username)
-           .setPassword(password);
+        .setClientId(clientId)
+        .setClientSecret(secret)
+        .setUsername(username)
+        .setPassword(password);
   }
 
-  public String getBasePath() {
-    return basePath;
-  }
+  public String getBasePath() { return basePath; }
 
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
@@ -119,13 +119,12 @@ public class ApiClient {
     return apiAuthorizations;
   }
 
-  public void setApiAuthorizations(Map<String, RequestInterceptor> apiAuthorizations) {
+  public void
+  setApiAuthorizations(Map<String, RequestInterceptor> apiAuthorizations) {
     this.apiAuthorizations = apiAuthorizations;
   }
 
-  public Feign.Builder getFeignBuilder() {
-    return feignBuilder;
-  }
+  public Feign.Builder getFeignBuilder() { return feignBuilder; }
 
   public ApiClient setFeignBuilder(Feign.Builder feignBuilder) {
     this.feignBuilder = feignBuilder;
@@ -142,17 +141,17 @@ public class ApiClient {
     objectMapper.setDateFormat(new RFC3339DateFormat());
     ThreeTenModule module = new ThreeTenModule();
     module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
+    module.addDeserializer(OffsetDateTime.class,
+                           CustomInstantDeserializer.OFFSET_DATE_TIME);
+    module.addDeserializer(ZonedDateTime.class,
+                           CustomInstantDeserializer.ZONED_DATE_TIME);
     objectMapper.registerModule(module);
     JsonNullableModule jnm = new JsonNullableModule();
     objectMapper.registerModule(jnm);
     return objectMapper;
   }
 
-  public ObjectMapper getObjectMapper(){
-    return objectMapper;
-  }
+  public ObjectMapper getObjectMapper() { return objectMapper; }
 
   /**
    * Creates a feign client for given API interface.
@@ -180,8 +179,10 @@ public class ApiClient {
    *   null will be returned (not to set the Accept header explicitly).
    */
   public String selectHeaderAccept(String[] accepts) {
-    if (accepts.length == 0) return null;
-    if (StringUtil.containsIgnoreCase(accepts, "application/json")) return "application/json";
+    if (accepts.length == 0)
+      return null;
+    if (StringUtil.containsIgnoreCase(accepts, "application/json"))
+      return "application/json";
     return StringUtil.join(accepts, ",");
   }
 
@@ -195,20 +196,21 @@ public class ApiClient {
    *   JSON will be used.
    */
   public String selectHeaderContentType(String[] contentTypes) {
-    if (contentTypes.length == 0) return "application/json";
-    if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
+    if (contentTypes.length == 0)
+      return "application/json";
+    if (StringUtil.containsIgnoreCase(contentTypes, "application/json"))
+      return "application/json";
     return contentTypes[0];
   }
-
 
   /**
    * Helper method to configure the bearer token.
    * @param bearerToken the bearer token.
    */
   public void setBearerToken(String bearerToken) {
-    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+    for (RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
       if (apiAuthorization instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
+        ((HttpBearerAuth)apiAuthorization).setBearerToken(bearerToken);
         return;
       }
     }
@@ -220,31 +222,33 @@ public class ApiClient {
    * @param apiKey API key
    */
   public void setApiKey(String apiKey) {
-    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+    for (RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
       if (apiAuthorization instanceof ApiKeyAuth) {
-        ApiKeyAuth keyAuth = (ApiKeyAuth) apiAuthorization;
+        ApiKeyAuth keyAuth = (ApiKeyAuth)apiAuthorization;
         keyAuth.setApiKey(apiKey);
-        return ;
+        return;
       }
     }
     throw new RuntimeException("No API key authentication configured!");
   }
 
   /**
-   * Helper method to configure the username/password for basic auth or password OAuth
+   * Helper method to configure the username/password for basic auth or password
+   * OAuth
    * @param username Username
    * @param password Password
    */
   public void setCredentials(String username, String password) {
-    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+    for (RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
       if (apiAuthorization instanceof HttpBasicAuth) {
-        HttpBasicAuth basicAuth = (HttpBasicAuth) apiAuthorization;
+        HttpBasicAuth basicAuth = (HttpBasicAuth)apiAuthorization;
         basicAuth.setCredentials(username, password);
         return;
       }
       if (apiAuthorization instanceof OAuth) {
-        OAuth oauth = (OAuth) apiAuthorization;
-        oauth.getTokenRequestBuilder().setUsername(username).setPassword(password);
+        OAuth oauth = (OAuth)apiAuthorization;
+        oauth.getTokenRequestBuilder().setUsername(username).setPassword(
+            password);
         return;
       }
     }
@@ -252,13 +256,14 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+   * Helper method to configure the token endpoint of the first oauth found in
+   * the apiAuthorizations (there should be only one)
    * @return Token request builder
    */
   public TokenRequestBuilder getTokenEndPoint() {
-    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+    for (RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
       if (apiAuthorization instanceof OAuth) {
-        OAuth oauth = (OAuth) apiAuthorization;
+        OAuth oauth = (OAuth)apiAuthorization;
         return oauth.getTokenRequestBuilder();
       }
     }
@@ -266,13 +271,14 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+   * Helper method to configure authorization endpoint of the first oauth found
+   * in the apiAuthorizations (there should be only one)
    * @return Authentication request builder
    */
   public AuthenticationRequestBuilder getAuthorizationEndPoint() {
-    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+    for (RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
       if (apiAuthorization instanceof OAuth) {
-        OAuth oauth = (OAuth) apiAuthorization;
+        OAuth oauth = (OAuth)apiAuthorization;
         return oauth.getAuthenticationRequestBuilder();
       }
     }
@@ -280,14 +286,15 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+   * Helper method to pre-set the oauth access token of the first oauth found in
+   * the apiAuthorizations (there should be only one)
    * @param accessToken Access Token
    * @param expiresIn Validity period in seconds
    */
   public void setAccessToken(String accessToken, Long expiresIn) {
-    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+    for (RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
       if (apiAuthorization instanceof OAuth) {
-        OAuth oauth = (OAuth) apiAuthorization;
+        OAuth oauth = (OAuth)apiAuthorization;
         oauth.setAccessToken(accessToken, expiresIn);
         return;
       }
@@ -300,30 +307,33 @@ public class ApiClient {
    * @param clientSecret Client secret
    * @param redirectURI Redirect URI
    */
-  public void configureAuthorizationFlow(String clientId, String clientSecret, String redirectURI) {
-    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+  public void configureAuthorizationFlow(String clientId, String clientSecret,
+                                         String redirectURI) {
+    for (RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
       if (apiAuthorization instanceof OAuth) {
-        OAuth oauth = (OAuth) apiAuthorization;
+        OAuth oauth = (OAuth)apiAuthorization;
         oauth.getTokenRequestBuilder()
-                .setClientId(clientId)
-                .setClientSecret(clientSecret)
-                .setRedirectURI(redirectURI);
+            .setClientId(clientId)
+            .setClientSecret(clientSecret)
+            .setRedirectURI(redirectURI);
         oauth.getAuthenticationRequestBuilder()
-                .setClientId(clientId)
-                .setRedirectURI(redirectURI);
+            .setClientId(clientId)
+            .setRedirectURI(redirectURI);
         return;
       }
     }
   }
 
   /**
-   * Configures a listener which is notified when a new access token is received.
+   * Configures a listener which is notified when a new access token is
+   * received.
    * @param accessTokenListener Acesss token listener
    */
-  public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
-    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+  public void
+  registerAccessTokenListener(AccessTokenListener accessTokenListener) {
+    for (RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
       if (apiAuthorization instanceof OAuth) {
-        OAuth oauth = (OAuth) apiAuthorization;
+        OAuth oauth = (OAuth)apiAuthorization;
         oauth.registerAccessTokenListener(accessTokenListener);
         return;
       }
@@ -344,12 +354,13 @@ public class ApiClient {
    * @param authName Authentication name
    * @param authorization Request interceptor
    */
-  public void addAuthorization(String authName, RequestInterceptor authorization) {
+  public void addAuthorization(String authName,
+                               RequestInterceptor authorization) {
     if (apiAuthorizations.containsKey(authName)) {
-      throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
+      throw new RuntimeException("auth name \"" + authName +
+                                 "\" already in api authorizations");
     }
     apiAuthorizations.put(authName, authorization);
     feignBuilder.requestInterceptor(authorization);
   }
-
 }

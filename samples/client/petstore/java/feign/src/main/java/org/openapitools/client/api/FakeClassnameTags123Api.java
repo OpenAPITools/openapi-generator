@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-
 public interface FakeClassnameTags123Api extends ApiClient.Api {
-
 
   /**
    * To test class name in snake case
@@ -23,8 +21,9 @@ public interface FakeClassnameTags123Api extends ApiClient.Api {
    */
   @RequestLine("PATCH /fake_classname_test")
   @Headers({
-    "Content-Type: application/json",
-    "Accept: application/json",
+      "Content-Type: application/json",
+      "Accept: application/json",
   })
-  Client testClassname(Client body);
+  Client
+  testClassname(Client body);
 }

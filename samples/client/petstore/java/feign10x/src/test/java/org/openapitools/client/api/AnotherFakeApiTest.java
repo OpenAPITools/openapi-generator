@@ -15,26 +15,23 @@ import java.util.Map;
  */
 public class AnotherFakeApiTest {
 
-    private AnotherFakeApi api;
+  private AnotherFakeApi api;
 
-    @Before
-    public void setup() {
-        api = new ApiClient().buildClient(AnotherFakeApi.class);
-    }
+  @Before
+  public void setup() {
+    api = new ApiClient().buildClient(AnotherFakeApi.class);
+  }
 
-    
-    /**
-     * To test special tags
-     *
-     * To test special tags and operation ID starting with number
-     */
-    @Test
-    public void call123testSpecialTagsTest() {
-        Client client = null;
-        // Client response = api.call123testSpecialTags(client);
+  /**
+   * To test special tags
+   *
+   * To test special tags and operation ID starting with number
+   */
+  @Test
+  public void call123testSpecialTagsTest() {
+    Client client = null;
+    // Client response = api.call123testSpecialTags(client);
 
-        // TODO: test validations
-    }
-
-    
+    // TODO: test validations
+  }
 }

@@ -15,45 +15,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class DefaultApi {
   private ApiClient apiClient;
 
-  public DefaultApi() {
-    this(Configuration.getDefaultApiClient());
-  }
+  public DefaultApi() { this(Configuration.getDefaultApiClient()); }
 
-  public DefaultApi(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
+  public DefaultApi(ApiClient apiClient) { this.apiClient = apiClient; }
 
   /**
    * Get the API cilent
    *
    * @return API client
    */
-  public ApiClient getApiClient() {
-    return apiClient;
-  }
+  public ApiClient getApiClient() { return apiClient; }
 
   /**
    * Set the API cilent
    *
    * @param apiClient an instance of API client
    */
-  public void setApiClient(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
+  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
 
   /**
-   * 
-   * 
+   *
+   *
    * @return InlineResponseDefault
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
    */
   public InlineResponseDefault fooGet() throws ApiException {
@@ -61,19 +52,20 @@ public class DefaultApi {
   }
 
   /**
-   * 
-   * 
+   *
+   *
    * @return ApiResponse&lt;InlineResponseDefault&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
+  public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo()
+      throws ApiException {
     Object localVarPostBody = null;
-    
+
     // create path and map variables
     String localVarPath = "/foo";
 
@@ -83,26 +75,24 @@ public class DefaultApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/json"
-    };
+    final String[] localVarAccepts = {"application/json"};
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+
     };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] {};
 
-    GenericType<InlineResponseDefault> localVarReturnType = new GenericType<InlineResponseDefault>() {};
+    GenericType<InlineResponseDefault> localVarReturnType =
+        new GenericType<InlineResponseDefault>() {};
 
-    return apiClient.invokeAPI("DefaultApi.fooGet", localVarPath, "GET", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+    return apiClient.invokeAPI(
+        "DefaultApi.fooGet", localVarPath, "GET", localVarQueryParams,
+        localVarPostBody, localVarHeaderParams, localVarCookieParams,
+        localVarFormParams, localVarAccept, localVarContentType,
+        localVarAuthNames, localVarReturnType, null);
   }
 }

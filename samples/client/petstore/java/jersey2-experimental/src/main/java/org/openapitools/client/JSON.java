@@ -10,7 +10,6 @@ import java.text.DateFormat;
 
 import javax.ws.rs.ext.ContextResolver;
 
-
 public class JSON implements ContextResolver<ObjectMapper> {
   private ObjectMapper mapper;
 
@@ -25,8 +24,10 @@ public class JSON implements ContextResolver<ObjectMapper> {
     mapper.setDateFormat(new RFC3339DateFormat());
     ThreeTenModule module = new ThreeTenModule();
     module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
+    module.addDeserializer(OffsetDateTime.class,
+                           CustomInstantDeserializer.OFFSET_DATE_TIME);
+    module.addDeserializer(ZonedDateTime.class,
+                           CustomInstantDeserializer.ZONED_DATE_TIME);
     mapper.registerModule(module);
     JsonNullableModule jnm = new JsonNullableModule();
     mapper.registerModule(jnm);

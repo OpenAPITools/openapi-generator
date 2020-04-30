@@ -15,25 +15,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class UserApi {
   private ApiClient apiClient;
 
-  public UserApi() {
-    this(Configuration.getDefaultApiClient());
-  }
+  public UserApi() { this(Configuration.getDefaultApiClient()); }
 
-  public UserApi(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
+  public UserApi(ApiClient apiClient) { this.apiClient = apiClient; }
 
-  public ApiClient getApiClient() {
-    return apiClient;
-  }
+  public ApiClient getApiClient() { return apiClient; }
 
-  public void setApiClient(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
+  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
   /**
    * Create user
    * This can only be done by the logged in user.
@@ -41,8 +32,8 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public void createUser(User body) throws ApiException {
@@ -57,18 +48,20 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
+  public ApiResponse<Void> createUserWithHttpInfo(User body)
+      throws ApiException {
     Object localVarPostBody = body;
-    
+
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
+      throw new ApiException(
+          400, "Missing the required parameter 'body' when calling createUser");
     }
-    
+
     // create path and map variables
     String localVarPath = "/user";
 
@@ -78,34 +71,34 @@ public class UserApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
-    
-    
-    
     final String[] localVarAccepts = {
-      
+
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+
     };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] {};
 
-    
-    return apiClient.invokeAPI("UserApi.createUser", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("UserApi.createUser", localVarPath, "POST",
+                               localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams,
+                               localVarFormParams, localVarAccept,
+                               localVarContentType, localVarAuthNames, null);
   }
   /**
    * Creates list of users with given input array
-   * 
+   *
    * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
@@ -114,24 +107,27 @@ public class UserApi {
 
   /**
    * Creates list of users with given input array
-   * 
+   *
    * @param body List of user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
+  public ApiResponse<Void>
+  createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
     Object localVarPostBody = body;
-    
+
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
+      throw new ApiException(
+          400,
+          "Missing the required parameter 'body' when calling createUsersWithArrayInput");
     }
-    
+
     // create path and map variables
     String localVarPath = "/user/createWithArray";
 
@@ -141,34 +137,34 @@ public class UserApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
-    
-    
-    
     final String[] localVarAccepts = {
-      
+
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+
     };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] {};
 
-    
-    return apiClient.invokeAPI("UserApi.createUsersWithArrayInput", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI(
+        "UserApi.createUsersWithArrayInput", localVarPath, "POST",
+        localVarQueryParams, localVarPostBody, localVarHeaderParams,
+        localVarCookieParams, localVarFormParams, localVarAccept,
+        localVarContentType, localVarAuthNames, null);
   }
   /**
    * Creates list of users with given input array
-   * 
+   *
    * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
@@ -177,24 +173,27 @@ public class UserApi {
 
   /**
    * Creates list of users with given input array
-   * 
+   *
    * @param body List of user object (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
+  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body)
+      throws ApiException {
     Object localVarPostBody = body;
-    
+
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
+      throw new ApiException(
+          400,
+          "Missing the required parameter 'body' when calling createUsersWithListInput");
     }
-    
+
     // create path and map variables
     String localVarPath = "/user/createWithList";
 
@@ -204,24 +203,24 @@ public class UserApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
-    
-    
-    
     final String[] localVarAccepts = {
-      
+
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+
     };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] {};
 
-    
-    return apiClient.invokeAPI("UserApi.createUsersWithListInput", localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("UserApi.createUsersWithListInput", localVarPath,
+                               "POST", localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams,
+                               localVarFormParams, localVarAccept,
+                               localVarContentType, localVarAuthNames, null);
   }
   /**
    * Delete user
@@ -230,9 +229,9 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
-       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 400 </td><td> Invalid username supplied </td><td>  -
+   </td></tr> <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public void deleteUser(String username) throws ApiException {
@@ -247,22 +246,28 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
-       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 400 </td><td> Invalid username supplied </td><td>  -
+   </td></tr> <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
+  public ApiResponse<Void> deleteUserWithHttpInfo(String username)
+      throws ApiException {
     Object localVarPostBody = null;
-    
+
     // verify the required parameter 'username' is set
     if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
+      throw new ApiException(
+          400,
+          "Missing the required parameter 'username' when calling deleteUser");
     }
-    
+
     // create path and map variables
-    String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+    String localVarPath = "/user/{username}".replaceAll(
+        "\\{"
+            + "username"
+            + "\\}",
+        apiClient.escapeString(username.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -270,37 +275,38 @@ public class UserApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
-    
-    
-    
     final String[] localVarAccepts = {
-      
+
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+
     };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] {};
 
-    
-    return apiClient.invokeAPI("UserApi.deleteUser", localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("UserApi.deleteUser", localVarPath, "DELETE",
+                               localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams,
+                               localVarFormParams, localVarAccept,
+                               localVarContentType, localVarAuthNames, null);
   }
   /**
    * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   *
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   (required)
    * @return User
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-       <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
-       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 200 </td><td> successful operation </td><td>  -
+   </td></tr> <tr><td> 400 </td><td> Invalid username supplied </td><td>  -
+   </td></tr> <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public User getUserByName(String username) throws ApiException {
@@ -309,29 +315,36 @@ public class UserApi {
 
   /**
    * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   *
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   (required)
    * @return ApiResponse&lt;User&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-       <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
-       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 200 </td><td> successful operation </td><td>  -
+   </td></tr> <tr><td> 400 </td><td> Invalid username supplied </td><td>  -
+   </td></tr> <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
+  public ApiResponse<User> getUserByNameWithHttpInfo(String username)
+      throws ApiException {
     Object localVarPostBody = null;
-    
+
     // verify the required parameter 'username' is set
     if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
+      throw new ApiException(
+          400,
+          "Missing the required parameter 'username' when calling getUserByName");
     }
-    
+
     // create path and map variables
-    String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+    String localVarPath = "/user/{username}".replaceAll(
+        "\\{"
+            + "username"
+            + "\\}",
+        apiClient.escapeString(username.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -339,70 +352,80 @@ public class UserApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/xml", "application/json"
-    };
+    final String[] localVarAccepts = {"application/xml", "application/json"};
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    };
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {};
 
     GenericType<User> localVarReturnType = new GenericType<User>() {};
-    return apiClient.invokeAPI("UserApi.getUserByName", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(
+        "UserApi.getUserByName", localVarPath, "GET", localVarQueryParams,
+        localVarPostBody, localVarHeaderParams, localVarCookieParams,
+        localVarFormParams, localVarAccept, localVarContentType,
+        localVarAuthNames, localVarReturnType);
   }
   /**
    * Logs user into the system
-   * 
+   *
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
    * @return String
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  </td></tr>
-       <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 200 </td><td> successful operation </td><td>  *
+   X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After -
+   date in UTC when token expires <br>  </td></tr> <tr><td> 400 </td><td>
+   Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
    */
-  public String loginUser(String username, String password) throws ApiException {
+  public String loginUser(String username, String password)
+      throws ApiException {
     return loginUserWithHttpInfo(username, password).getData();
   }
 
   /**
    * Logs user into the system
-   * 
+   *
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  </td></tr>
-       <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 200 </td><td> successful operation </td><td>  *
+   X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After -
+   date in UTC when token expires <br>  </td></tr> <tr><td> 400 </td><td>
+   Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
+  public ApiResponse<String> loginUserWithHttpInfo(String username,
+                                                   String password)
+      throws ApiException {
     Object localVarPostBody = null;
-    
+
     // verify the required parameter 'username' is set
     if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling loginUser");
+      throw new ApiException(
+          400,
+          "Missing the required parameter 'username' when calling loginUser");
     }
-    
+
     // verify the required parameter 'password' is set
     if (password == null) {
-      throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser");
+      throw new ApiException(
+          400,
+          "Missing the required parameter 'password' when calling loginUser");
     }
-    
+
     // create path and map variables
     String localVarPath = "/user/login";
 
@@ -412,55 +435,55 @@ public class UserApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    localVarQueryParams.addAll(apiClient.parameterToPairs("", "username", username));
-    localVarQueryParams.addAll(apiClient.parameterToPairs("", "password", password));
+    localVarQueryParams.addAll(
+        apiClient.parameterToPairs("", "username", username));
+    localVarQueryParams.addAll(
+        apiClient.parameterToPairs("", "password", password));
 
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/xml", "application/json"
-    };
+    final String[] localVarAccepts = {"application/xml", "application/json"};
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    };
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {};
 
     GenericType<String> localVarReturnType = new GenericType<String>() {};
-    return apiClient.invokeAPI("UserApi.loginUser", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI(
+        "UserApi.loginUser", localVarPath, "GET", localVarQueryParams,
+        localVarPostBody, localVarHeaderParams, localVarCookieParams,
+        localVarFormParams, localVarAccept, localVarContentType,
+        localVarAuthNames, localVarReturnType);
   }
   /**
    * Logs out current logged in user session
-   * 
+   *
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void logoutUser() throws ApiException {
-    logoutUserWithHttpInfo();
-  }
+  public void logoutUser() throws ApiException { logoutUserWithHttpInfo(); }
 
   /**
    * Logs out current logged in user session
-   * 
+   *
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
-    
+
     // create path and map variables
     String localVarPath = "/user/logout";
 
@@ -470,24 +493,24 @@ public class UserApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
-    
-    
-    
     final String[] localVarAccepts = {
-      
+
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+
     };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] {};
 
-    
-    return apiClient.invokeAPI("UserApi.logoutUser", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("UserApi.logoutUser", localVarPath, "GET",
+                               localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams,
+                               localVarFormParams, localVarAccept,
+                               localVarContentType, localVarAuthNames, null);
   }
   /**
    * Updated user
@@ -497,9 +520,9 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 400 </td><td> Invalid user supplied </td><td>  -  </td></tr>
-       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 400 </td><td> Invalid user supplied </td><td>  -
+   </td></tr> <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public void updateUser(String username, User body) throws ApiException {
@@ -515,27 +538,34 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 400 </td><td> Invalid user supplied </td><td>  -  </td></tr>
-       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers
+   </td></tr> <tr><td> 400 </td><td> Invalid user supplied </td><td>  -
+   </td></tr> <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
+  public ApiResponse<Void> updateUserWithHttpInfo(String username, User body)
+      throws ApiException {
     Object localVarPostBody = body;
-    
+
     // verify the required parameter 'username' is set
     if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
+      throw new ApiException(
+          400,
+          "Missing the required parameter 'username' when calling updateUser");
     }
-    
+
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
+      throw new ApiException(
+          400, "Missing the required parameter 'body' when calling updateUser");
     }
-    
+
     // create path and map variables
-    String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+    String localVarPath = "/user/{username}".replaceAll(
+        "\\{"
+            + "username"
+            + "\\}",
+        apiClient.escapeString(username.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -543,23 +573,23 @@ public class UserApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
-    
-    
-    
     final String[] localVarAccepts = {
-      
+
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+
     };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String localVarContentType =
+        apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] {};
 
-    
-    return apiClient.invokeAPI("UserApi.updateUser", localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    return apiClient.invokeAPI("UserApi.updateUser", localVarPath, "PUT",
+                               localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams,
+                               localVarFormParams, localVarAccept,
+                               localVarContentType, localVarAuthNames, null);
   }
 }

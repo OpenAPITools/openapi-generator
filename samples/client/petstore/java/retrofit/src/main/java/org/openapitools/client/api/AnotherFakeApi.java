@@ -21,11 +21,9 @@ public interface AnotherFakeApi {
    * @param body client model (required)
    * @return Client
    */
-  
+
   @PATCH("/another-fake/dummy")
-  Client call123testSpecialTags(
-    @retrofit.http.Body Client body
-  );
+  Client call123testSpecialTags(@retrofit.http.Body Client body);
 
   /**
    * To test special tags
@@ -33,9 +31,8 @@ public interface AnotherFakeApi {
    * @param body client model (required)
    * @param cb callback method
    */
-  
+
   @PATCH("/another-fake/dummy")
-  void call123testSpecialTags(
-    @retrofit.http.Body Client body, Callback<Client> cb
-  );
+  void call123testSpecialTags(@retrofit.http.Body Client body,
+                              Callback<Client> cb);
 }
