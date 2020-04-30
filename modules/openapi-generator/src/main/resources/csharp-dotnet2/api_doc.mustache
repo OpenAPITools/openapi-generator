@@ -32,18 +32,32 @@ namespace Example
     {
         public void main()
         {
-            {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+            {{#hasAuthMethods}}
+            {{#authMethods}}
+            {{#isBasic}}
+            {{#isBasicBasic}}
             // Configure HTTP basic authorization: {{{name}}}
             Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";{{/isBasic}}{{#isApiKey}}
+            Configuration.Default.Password = "YOUR_PASSWORD";
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // Configure Bearer access token: {{{name}}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            {{/isBasicBearer}}
+            {{/isBasic}}
+            {{#isApiKey}}
             // Configure API key authorization: {{{name}}}
             Configuration.Default.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");{{/isApiKey}}{{#isOAuth}}
+            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");
+            {{/isApiKey}}
+            {{#isOAuth}}
             // Configure OAuth2 access token for authorization: {{{name}}}
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";{{/isOAuth}}{{/authMethods}}
-            {{/hasAuthMethods}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            {{/isOAuth}}
+            {{/authMethods}}
 
+            {{/hasAuthMethods}}
             var apiInstance = new {{classname}}();
             {{#allParams}}
             {{#isPrimitiveType}}
