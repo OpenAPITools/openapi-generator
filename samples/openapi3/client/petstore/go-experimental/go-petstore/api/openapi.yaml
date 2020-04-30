@@ -1973,6 +1973,7 @@ components:
           type: string
     fruitReq:
       oneOf:
+      - type: "null"
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
       x-one-of-name: FruitReq
