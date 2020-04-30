@@ -1875,3 +1875,55 @@ components:
           type: boolean
       required:
         - lengthCm
+    Shapes:
+      oneOf:
+        - $ref: '#/components/schemas/Triangle'
+        - $ref: '#/components/schemas/Quadrilateral'
+      discriminator:
+        propertyName: shapeType
+    TriangleInterface:
+      properties:
+        shapeType:
+          type: string
+        triangleType:
+          type: string
+      required:
+        - shapeType
+        - triangleType
+    Triangle:
+      oneOf:
+        - $ref: '#/components/schemas/EquilateralTriangle'
+        - $ref: '#/components/schemas/IsoscelesTriangle'
+        - $ref: '#/components/schemas/ScaleneTriangle'
+      discriminator:
+        propertyName: triangleType
+    EquilateralTriangle:
+      allOf:
+        - $ref: '#/components/schemas/TriangleInterface'
+    IsoscelesTriangle:
+      allOf:
+        - $ref: '#/components/schemas/TriangleInterface'
+    ScaleneTriangle:
+      allOf:
+        - $ref: '#/components/schemas/TriangleInterface'
+    QuadrilateralInterface:
+      properties:
+        shapeType:
+          type: string
+        quadrilateralType:
+          type: string
+      required:
+        - shapeType
+        - quadrilateralType
+    Quadrilateral:
+      oneOf:
+        - $ref: '#/components/schemas/SimpleQuadrilateral'
+        - $ref: '#/components/schemas/ComplexQuadrilateral'
+      discriminator:
+        propertyName: quadrilateralType
+    SimpleQuadrilateral:
+      allOf:
+        - $ref: '#/components/schemas/QuadrilateralInterface'
+    ComplexQuadrilateral:
+      allOf:
+        - $ref: '#/components/schemas/QuadrilateralInterface'
