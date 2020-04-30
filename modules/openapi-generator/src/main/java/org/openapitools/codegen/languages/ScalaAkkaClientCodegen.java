@@ -33,9 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.*;
 
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
