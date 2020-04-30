@@ -346,14 +346,16 @@ export class UserApiResponseProcessor {
      * @throws ApiException if the response code was not in [200, 299]
      */
     public createUser(response: ResponseContext):   void  {      
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
-        
+
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -366,14 +368,16 @@ export class UserApiResponseProcessor {
      * @throws ApiException if the response code was not in [200, 299]
      */
     public createUsersWithArrayInput(response: ResponseContext):   void  {      
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
-        
+
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -386,14 +390,16 @@ export class UserApiResponseProcessor {
      * @throws ApiException if the response code was not in [200, 299]
      */
     public createUsersWithListInput(response: ResponseContext):   void  {      
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
-        
+
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -406,17 +412,19 @@ export class UserApiResponseProcessor {
      * @throws ApiException if the response code was not in [200, 299]
      */
     public deleteUser(response: ResponseContext):   void  {      
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid username supplied");
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "User not found");
         }
-        
+
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -429,9 +437,12 @@ export class UserApiResponseProcessor {
      * @throws ApiException if the response code was not in [200, 299]
      */
     public getUserByName(response: ResponseContext):  User  {      
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const jsonBody = JSON.parse(response.body);
-            const body: User = ObjectSerializer.deserialize(jsonBody, "User", "") as User;            
+            const body: User = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(response.body, contentType),
+                "User", ""
+            ) as User;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -440,13 +451,16 @@ export class UserApiResponseProcessor {
         if (isCodeInRange("404", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "User not found");
         }
-        
+
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const jsonBody = JSON.parse(response.body);
-            const body: User = ObjectSerializer.deserialize(jsonBody, "User", "") as User;            
-			return body;        		
+            const body: User = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(response.body, contentType),
+                "User", ""
+            ) as User;
+            return body;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -459,21 +473,27 @@ export class UserApiResponseProcessor {
      * @throws ApiException if the response code was not in [200, 299]
      */
     public loginUser(response: ResponseContext):  string  {      
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const jsonBody = JSON.parse(response.body);
-            const body: string = ObjectSerializer.deserialize(jsonBody, "string", "") as string;            
+            const body: string = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(response.body, contentType),
+                "string", ""
+            ) as string;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid username/password supplied");
         }
-        
+
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const jsonBody = JSON.parse(response.body);
-            const body: string = ObjectSerializer.deserialize(jsonBody, "string", "") as string;            
-			return body;        		
+            const body: string = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(response.body, contentType),
+                "string", ""
+            ) as string;
+            return body;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -486,14 +506,16 @@ export class UserApiResponseProcessor {
      * @throws ApiException if the response code was not in [200, 299]
      */
     public logoutUser(response: ResponseContext):   void  {      
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
-        
+
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -506,17 +528,19 @@ export class UserApiResponseProcessor {
      * @throws ApiException if the response code was not in [200, 299]
      */
     public updateUser(response: ResponseContext):   void  {      
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid user supplied");
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "User not found");
         }
-        
+
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }

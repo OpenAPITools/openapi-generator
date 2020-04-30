@@ -170,7 +170,10 @@ export class ObjectSerializer {
      * We currently do not handle any media types attributes, i.e. anything
      * after a semicolon. All content is assumed to be UTF-8 compatible.
      */
-    public static normalizeMediaType(mediaType: string): string {
+    public static normalizeMediaType(mediaType: string | undefined): string | undefined {
+        if (mediaType === undefined) {
+            return undefined;
+        }
         return mediaType.split(";")[0].trim().toLowerCase();
     }
 
@@ -190,9 +193,9 @@ export class ObjectSerializer {
         let selectedMediaType: string | undefined = undefined;
         let selectedRank: number = -Infinity;
         for (const mediaType of normalMediaTypes) {
-            if (supportedMediaTypes[mediaType] > selectedRank) {
+            if (supportedMediaTypes[mediaType!] > selectedRank) {
                 selectedMediaType = mediaType;
-                selectedRank = supportedMediaTypes[mediaType];
+                selectedRank = supportedMediaTypes[mediaType!];
             }
         }
 
@@ -217,7 +220,11 @@ export class ObjectSerializer {
     /**
      * Parse data from a string according to the given media type
      */
-    public static parse(rawData: string, mediaType: string) {
+    public static parse(rawData: string, mediaType: string | undefined) {
+        if (mediaType === undefined) {
+            throw new Error("Cannot parse content. No Content-Type defined.");
+        }
+
         if (mediaType === "application/json") {
             return JSON.parse(rawData);
         }
