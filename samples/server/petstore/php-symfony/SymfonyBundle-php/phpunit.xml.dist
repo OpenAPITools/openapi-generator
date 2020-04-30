@@ -9,12 +9,14 @@
         <testsuite>
             <directory>./Tests/Api</directory>
             <directory>./Tests/Model</directory>
+            <directory>./Tests/Controller</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">././Api</directory>
             <directory suffix=".php">././Model</directory>
+            <directory suffix=".php">././Controller</directory>
         </whitelist>
     </filter>
     <php>
