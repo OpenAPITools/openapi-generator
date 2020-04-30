@@ -131,7 +131,7 @@ class Pet
      *
      * @return $this
      */
-    public function setId($id = null): self
+    public function setId($id = null)
     {
         $this->id = $id;
 
@@ -155,7 +155,7 @@ class Pet
      *
      * @return $this
      */
-    public function setCategory(Category $category = null): self
+    public function setCategory(Category $category = null)
     {
         $this->category = $category;
 
@@ -179,7 +179,7 @@ class Pet
      *
      * @return $this
      */
-    public function setName($name): self
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -203,7 +203,7 @@ class Pet
      *
      * @return $this
      */
-    public function setPhotoUrls(array $photoUrls): self
+    public function setPhotoUrls(array $photoUrls)
     {
         $this->photoUrls = $photoUrls;
 
@@ -227,7 +227,7 @@ class Pet
      *
      * @return $this
      */
-    public function setTags(array $tags = null): self
+    public function setTags(array $tags = null)
     {
         $this->tags = $tags;
 
@@ -251,7 +251,7 @@ class Pet
      *
      * @return $this
      */
-    public function setStatus($status = null): self
+    public function setStatus($status = null)
     {
         $this->status = $status;
 

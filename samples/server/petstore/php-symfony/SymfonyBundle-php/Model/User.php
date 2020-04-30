@@ -142,7 +142,7 @@ class User
      *
      * @return $this
      */
-    public function setId($id = null): self
+    public function setId($id = null)
     {
         $this->id = $id;
 
@@ -166,7 +166,7 @@ class User
      *
      * @return $this
      */
-    public function setUsername($username = null): self
+    public function setUsername($username = null)
     {
         $this->username = $username;
 
@@ -190,7 +190,7 @@ class User
      *
      * @return $this
      */
-    public function setFirstName($firstName = null): self
+    public function setFirstName($firstName = null)
     {
         $this->firstName = $firstName;
 
@@ -214,7 +214,7 @@ class User
      *
      * @return $this
      */
-    public function setLastName($lastName = null): self
+    public function setLastName($lastName = null)
     {
         $this->lastName = $lastName;
 
@@ -238,7 +238,7 @@ class User
      *
      * @return $this
      */
-    public function setEmail($email = null): self
+    public function setEmail($email = null)
     {
         $this->email = $email;
 
@@ -262,7 +262,7 @@ class User
      *
      * @return $this
      */
-    public function setPassword($password = null): self
+    public function setPassword($password = null)
     {
         $this->password = $password;
 
@@ -286,7 +286,7 @@ class User
      *
      * @return $this
      */
-    public function setPhone($phone = null): self
+    public function setPhone($phone = null)
     {
         $this->phone = $phone;
 
@@ -310,7 +310,7 @@ class User
      *
      * @return $this
      */
-    public function setUserStatus($userStatus = null): self
+    public function setUserStatus($userStatus = null)
     {
         $this->userStatus = $userStatus;
 
