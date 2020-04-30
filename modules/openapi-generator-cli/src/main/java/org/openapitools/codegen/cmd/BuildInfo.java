@@ -24,15 +24,19 @@ public class BuildInfo {
 
     static {
         try (InputStream is = BuildInfo.class.getResourceAsStream("/version.properties")) {
-            Properties versionProps = new Properties();
-            versionProps.load(is);
-            properties.putAll(versionProps);
+            if (is != null) {
+                Properties versionProps = new Properties();
+                versionProps.load(is);
+                properties.putAll(versionProps);
+            }
         } catch (IOException ignored) {
         }
         try (InputStream is = BuildInfo.class.getResourceAsStream("/openapi-generator-git.properties")) {
-            Properties gitProps = new Properties();
-            gitProps.load(is);
-            properties.putAll(gitProps);
+            if (is != null) {
+                Properties gitProps = new Properties();
+                gitProps.load(is);
+                properties.putAll(gitProps);
+            }
         } catch (IOException ignored) {
         }
     }
