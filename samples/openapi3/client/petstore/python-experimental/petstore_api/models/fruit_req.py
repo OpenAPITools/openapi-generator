@@ -39,11 +39,6 @@ try:
 except ImportError:
     banana_req = sys.modules[
         'petstore_api.models.banana_req']
-try:
-    from petstore_api.models import none_type
-except ImportError:
-    none_type = sys.modules[
-        'petstore_api.models.none_type']
 
 
 class FruitReq(ModelComposed):
