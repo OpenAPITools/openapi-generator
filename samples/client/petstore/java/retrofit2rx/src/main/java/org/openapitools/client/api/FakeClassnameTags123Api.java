@@ -23,7 +23,12 @@ public interface FakeClassnameTags123Api {
    * @param body client model (required)
    * @return Observable&lt;Client&gt;
    */
-  @Headers({"Content-Type:application/json"})
+  @Headers({
+    "Content-Type:application/json"
+  })
   @PATCH("fake_classname_test")
-  Observable<Client> testClassname(@retrofit2.http.Body Client body);
+  Observable<Client> testClassname(
+    @retrofit2.http.Body Client body
+  );
+
 }

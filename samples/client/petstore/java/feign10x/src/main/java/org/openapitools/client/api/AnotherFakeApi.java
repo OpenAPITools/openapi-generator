@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
+
 public interface AnotherFakeApi extends ApiClient.Api {
+
 
   /**
    * To test special tags
@@ -21,9 +23,8 @@ public interface AnotherFakeApi extends ApiClient.Api {
    */
   @RequestLine("PATCH /another-fake/dummy")
   @Headers({
-      "Content-Type: application/json",
-      "Accept: application/json",
+    "Content-Type: application/json",
+    "Accept: application/json",
   })
-  Client
-  call123testSpecialTags(Client body);
+  Client call123testSpecialTags(Client body);
 }

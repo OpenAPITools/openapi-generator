@@ -24,25 +24,32 @@ public interface UserApi {
    * @param body Created user object (required)
    * @return Completable
    */
-  @POST("user") Completable createUser(@retrofit2.http.Body User body);
+  @POST("user")
+  Completable createUser(
+    @retrofit2.http.Body User body
+  );
 
   /**
    * Creates list of users with given input array
-   *
+   * 
    * @param body List of user object (required)
    * @return Completable
    */
   @POST("user/createWithArray")
-  Completable createUsersWithArrayInput(@retrofit2.http.Body List<User> body);
+  Completable createUsersWithArrayInput(
+    @retrofit2.http.Body List<User> body
+  );
 
   /**
    * Creates list of users with given input array
-   *
+   * 
    * @param body List of user object (required)
    * @return Completable
    */
   @POST("user/createWithList")
-  Completable createUsersWithListInput(@retrofit2.http.Body List<User> body);
+  Completable createUsersWithListInput(
+    @retrofit2.http.Body List<User> body
+  );
 
   /**
    * Delete user
@@ -51,37 +58,41 @@ public interface UserApi {
    * @return Completable
    */
   @DELETE("user/{username}")
-  Completable deleteUser(@retrofit2.http.Path("username") String username);
+  Completable deleteUser(
+    @retrofit2.http.Path("username") String username
+  );
 
   /**
    * Get user by user name
-   *
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   *     (required)
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return Observable&lt;User&gt;
    */
   @GET("user/{username}")
-  Observable<User>
-  getUserByName(@retrofit2.http.Path("username") String username);
+  Observable<User> getUserByName(
+    @retrofit2.http.Path("username") String username
+  );
 
   /**
    * Logs user into the system
-   *
+   * 
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
    * @return Observable&lt;String&gt;
    */
   @GET("user/login")
-  Observable<String>
-  loginUser(@retrofit2.http.Query("username") String username,
-            @retrofit2.http.Query("password") String password);
+  Observable<String> loginUser(
+    @retrofit2.http.Query("username") String username, @retrofit2.http.Query("password") String password
+  );
 
   /**
    * Logs out current logged in user session
-   *
+   * 
    * @return Completable
    */
-  @GET("user/logout") Completable logoutUser();
+  @GET("user/logout")
+  Completable logoutUser();
+    
 
   /**
    * Updated user
@@ -91,6 +102,8 @@ public interface UserApi {
    * @return Completable
    */
   @PUT("user/{username}")
-  Completable updateUser(@retrofit2.http.Path("username") String username,
-                         @retrofit2.http.Body User body);
+  Completable updateUser(
+    @retrofit2.http.Path("username") String username, @retrofit2.http.Body User body
+  );
+
 }

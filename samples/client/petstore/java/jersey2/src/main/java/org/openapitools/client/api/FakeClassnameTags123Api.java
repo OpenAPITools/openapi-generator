@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class FakeClassnameTags123Api {
   private ApiClient apiClient;
 
@@ -26,9 +27,13 @@ public class FakeClassnameTags123Api {
     this.apiClient = apiClient;
   }
 
-  public ApiClient getApiClient() { return apiClient; }
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
 
-  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
   /**
    * To test class name in snake case
    * To test class name in snake case
@@ -37,9 +42,8 @@ public class FakeClassnameTags123Api {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers
-   </td></tr> <tr><td> 200 </td><td> successful operation </td><td>  -
-   </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public Client testClassname(Client body) throws ApiException {
@@ -54,22 +58,18 @@ public class FakeClassnameTags123Api {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers
-   </td></tr> <tr><td> 200 </td><td> successful operation </td><td>  -
-   </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> testClassnameWithHttpInfo(Client body)
-      throws ApiException {
+  public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
     Object localVarPostBody = body;
-
+    
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(
-          400,
-          "Missing the required parameter 'body' when calling testClassname");
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testClassname");
     }
-
+    
     // create path and map variables
     String localVarPath = "/fake_classname_test";
 
@@ -79,20 +79,23 @@ public class FakeClassnameTags123Api {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] localVarAccepts = {"application/json"};
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-    final String[] localVarContentTypes = {"application/json"};
-    final String localVarContentType =
-        apiClient.selectHeaderContentType(localVarContentTypes);
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {"api_key_query"};
+    String[] localVarAuthNames = new String[] { "api_key_query" };
 
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
-    return apiClient.invokeAPI(
-        "FakeClassnameTags123Api.testClassname", localVarPath, "PATCH",
-        localVarQueryParams, localVarPostBody, localVarHeaderParams,
-        localVarCookieParams, localVarFormParams, localVarAccept,
-        localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("FakeClassnameTags123Api.testClassname", localVarPath, "PATCH", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
   }
 }

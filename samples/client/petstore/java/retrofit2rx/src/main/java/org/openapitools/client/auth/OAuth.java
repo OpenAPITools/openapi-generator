@@ -25,175 +25,161 @@ import okhttp3.Response;
 
 public class OAuth implements Interceptor {
 
-  public interface AccessTokenListener {
-    public void notify(BasicOAuthToken token);
-  }
-
-  private volatile String accessToken;
-  private OAuthClient oauthClient;
-
-  private TokenRequestBuilder tokenRequestBuilder;
-  private AuthenticationRequestBuilder authenticationRequestBuilder;
-
-  private AccessTokenListener accessTokenListener;
-
-  public OAuth(OkHttpClient client, TokenRequestBuilder requestBuilder) {
-    this.oauthClient = new OAuthClient(new OAuthOkHttpClient(client));
-    this.tokenRequestBuilder = requestBuilder;
-  }
-
-  public OAuth(TokenRequestBuilder requestBuilder) {
-    this(new OkHttpClient(), requestBuilder);
-  }
-
-  public OAuth(OAuthFlow flow, String authorizationUrl, String tokenUrl,
-               String scopes) {
-    this(OAuthClientRequest.tokenLocation(tokenUrl).setScope(scopes));
-    setFlow(flow);
-    authenticationRequestBuilder =
-        OAuthClientRequest.authorizationLocation(authorizationUrl);
-  }
-
-  public void setFlow(OAuthFlow flow) {
-    switch (flow) {
-    case accessCode:
-    case implicit:
-      tokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE);
-      break;
-    case password:
-      tokenRequestBuilder.setGrantType(GrantType.PASSWORD);
-      break;
-    case application:
-      tokenRequestBuilder.setGrantType(GrantType.CLIENT_CREDENTIALS);
-      break;
-    default:
-      break;
-    }
-  }
-
-  @Override
-  public Response intercept(Chain chain) throws IOException {
-
-    return retryingIntercept(chain, true);
-  }
-
-  private Response
-  retryingIntercept(Chain chain,
-                    boolean updateTokenAndRetryOnAuthorizationFailure)
-      throws IOException {
-    Request request = chain.request();
-
-    // If the request already have an authorization (eg. Basic auth), do nothing
-    if (request.header("Authorization") != null) {
-      return chain.proceed(request);
+    public interface AccessTokenListener {
+        public void notify(BasicOAuthToken token);
     }
 
-    // If first time, get the token
-    OAuthClientRequest oAuthRequest;
-    if (getAccessToken() == null) {
-      updateAccessToken(null);
+    private volatile String accessToken;
+    private OAuthClient oauthClient;
+
+    private TokenRequestBuilder tokenRequestBuilder;
+    private AuthenticationRequestBuilder authenticationRequestBuilder;
+
+    private AccessTokenListener accessTokenListener;
+
+    public OAuth( OkHttpClient client, TokenRequestBuilder requestBuilder ) {
+        this.oauthClient = new OAuthClient(new OAuthOkHttpClient(client));
+        this.tokenRequestBuilder = requestBuilder;
     }
 
-    if (getAccessToken() != null) {
-      // Build the request
-      Builder rb = request.newBuilder();
+    public OAuth(TokenRequestBuilder requestBuilder ) {
+        this(new OkHttpClient(), requestBuilder);
+    }
 
-      String requestAccessToken = new String(getAccessToken());
-      try {
-        oAuthRequest = new OAuthBearerClientRequest(request.url().toString())
-                           .setAccessToken(requestAccessToken)
-                           .buildHeaderMessage();
-      } catch (OAuthSystemException e) {
-        throw new IOException(e);
-      }
+    public OAuth(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
+        this(OAuthClientRequest.tokenLocation(tokenUrl).setScope(scopes));
+        setFlow(flow);
+        authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl);
+    }
 
-      for (Map.Entry<String, String> header :
-           oAuthRequest.getHeaders().entrySet()) {
-        rb.addHeader(header.getKey(), header.getValue());
-      }
-      rb.url(oAuthRequest.getLocationUri());
+    public void setFlow(OAuthFlow flow) {
+        switch(flow) {
+        case accessCode:
+        case implicit:
+            tokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE);
+            break;
+        case password:
+            tokenRequestBuilder.setGrantType(GrantType.PASSWORD);
+            break;
+        case application:
+            tokenRequestBuilder.setGrantType(GrantType.CLIENT_CREDENTIALS);
+            break;
+        default:
+            break;
+        }            
+    }
 
-      // Execute the request
-      Response response = chain.proceed(rb.build());
+    @Override
+    public Response intercept(Chain chain)
+            throws IOException {
 
-      // 401/403 most likely indicates that access token has expired. Unless it
-      // happens two times in a row.
-      if (response != null &&
-          (response.code() == HTTP_UNAUTHORIZED ||
-           response.code() == HTTP_FORBIDDEN) &&
-          updateTokenAndRetryOnAuthorizationFailure) {
-        try {
-          if (updateAccessToken(requestAccessToken)) {
-            response.body().close();
-            return retryingIntercept(chain, false);
-          }
-        } catch (Exception e) {
-          response.body().close();
-          throw e;
+        return retryingIntercept(chain, true);
+    }
+
+    private Response retryingIntercept(Chain chain, boolean updateTokenAndRetryOnAuthorizationFailure) throws IOException {
+        Request request = chain.request();
+
+        // If the request already have an authorization (eg. Basic auth), do nothing
+        if (request.header("Authorization") != null) {
+            return chain.proceed(request);
         }
-      }
-      return response;
-    } else {
-      return chain.proceed(chain.request());
-    }
-  }
 
-  /*
-   * Returns true if the access token has been updated
-   */
-  public synchronized boolean updateAccessToken(String requestAccessToken)
-      throws IOException {
-    if (getAccessToken() == null ||
-        getAccessToken().equals(requestAccessToken)) {
-      try {
-        OAuthJSONAccessTokenResponse accessTokenResponse =
-            oauthClient.accessToken(
-                this.tokenRequestBuilder.buildBodyMessage());
-        if (accessTokenResponse != null &&
-            accessTokenResponse.getAccessToken() != null) {
-          setAccessToken(accessTokenResponse.getAccessToken());
-          if (accessTokenListener != null) {
-            accessTokenListener.notify(
-                (BasicOAuthToken)accessTokenResponse.getOAuthToken());
-          }
-          return !getAccessToken().equals(requestAccessToken);
+        // If first time, get the token
+        OAuthClientRequest oAuthRequest;
+        if (getAccessToken() == null) {
+            updateAccessToken(null);
+        }
+
+        if (getAccessToken() != null) {
+            // Build the request
+            Builder rb = request.newBuilder();
+
+            String requestAccessToken = new String(getAccessToken());
+            try {
+                oAuthRequest = new OAuthBearerClientRequest(request.url().toString())
+                        .setAccessToken(requestAccessToken)
+                        .buildHeaderMessage();
+            } catch (OAuthSystemException e) {
+                throw new IOException(e);
+            }
+
+            for ( Map.Entry<String, String> header : oAuthRequest.getHeaders().entrySet() ) {
+                rb.addHeader(header.getKey(), header.getValue());
+            }
+            rb.url( oAuthRequest.getLocationUri());
+
+            //Execute the request
+            Response response = chain.proceed(rb.build());
+
+            // 401/403 most likely indicates that access token has expired. Unless it happens two times in a row.
+            if ( response != null && (response.code() == HTTP_UNAUTHORIZED || response.code() == HTTP_FORBIDDEN) && updateTokenAndRetryOnAuthorizationFailure ) {
+                try {
+                    if (updateAccessToken(requestAccessToken)) {
+                        response.body().close();
+                        return retryingIntercept( chain, false );
+                    }
+                } catch (Exception e) {
+                    response.body().close();
+                    throw e;
+                }
+            }
+            return response;
         } else {
-          return false;
+            return chain.proceed(chain.request());
         }
-      } catch (OAuthSystemException e) {
-        throw new IOException(e);
-      } catch (OAuthProblemException e) {
-        throw new IOException(e);
-      }
     }
-    return true;
-  }
 
-  public void
-  registerAccessTokenListener(AccessTokenListener accessTokenListener) {
-    this.accessTokenListener = accessTokenListener;
-  }
+    /*
+     * Returns true if the access token has been updated
+     */
+    public synchronized boolean updateAccessToken(String requestAccessToken) throws IOException {
+        if (getAccessToken() == null || getAccessToken().equals(requestAccessToken)) {    
+            try {
+                OAuthJSONAccessTokenResponse accessTokenResponse = oauthClient.accessToken(this.tokenRequestBuilder.buildBodyMessage());
+                if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {
+                    setAccessToken(accessTokenResponse.getAccessToken());
+                    if (accessTokenListener != null) {
+                        accessTokenListener.notify((BasicOAuthToken) accessTokenResponse.getOAuthToken());
+                    }
+                    return !getAccessToken().equals(requestAccessToken);
+                } else {
+                    return false;
+                }
+            } catch (OAuthSystemException e) {
+                throw new IOException(e);
+            } catch (OAuthProblemException e) {
+                throw new IOException(e);
+            }
+        }
+        return true;
+    }
 
-  public synchronized String getAccessToken() { return accessToken; }
+    public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
+        this.accessTokenListener = accessTokenListener;
+    }
 
-  public synchronized void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
+    public synchronized String getAccessToken() {
+        return accessToken;
+    }
 
-  public TokenRequestBuilder getTokenRequestBuilder() {
-    return tokenRequestBuilder;
-  }
+    public synchronized void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
-  public void setTokenRequestBuilder(TokenRequestBuilder tokenRequestBuilder) {
-    this.tokenRequestBuilder = tokenRequestBuilder;
-  }
+    public TokenRequestBuilder getTokenRequestBuilder() {
+        return tokenRequestBuilder;
+    }
 
-  public AuthenticationRequestBuilder getAuthenticationRequestBuilder() {
-    return authenticationRequestBuilder;
-  }
+    public void setTokenRequestBuilder(TokenRequestBuilder tokenRequestBuilder) {
+        this.tokenRequestBuilder = tokenRequestBuilder;
+    }
 
-  public void setAuthenticationRequestBuilder(
-      AuthenticationRequestBuilder authenticationRequestBuilder) {
-    this.authenticationRequestBuilder = authenticationRequestBuilder;
-  }
+    public AuthenticationRequestBuilder getAuthenticationRequestBuilder() {
+        return authenticationRequestBuilder;
+    }
+
+    public void setAuthenticationRequestBuilder(AuthenticationRequestBuilder authenticationRequestBuilder) {
+        this.authenticationRequestBuilder = authenticationRequestBuilder;
+    }
+
 }

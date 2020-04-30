@@ -17,88 +17,98 @@ import com.google.api.client.json.Json;
 import java.io.IOException;
 import java.io.OutputStream;
 
+
 public class ApiClient {
-  private final String basePath;
-  private final HttpRequestFactory httpRequestFactory;
-  private final ObjectMapper objectMapper;
+    private final String basePath;
+    private final HttpRequestFactory httpRequestFactory;
+    private final ObjectMapper objectMapper;
 
-  private static final String defaultBasePath =
-      "http://petstore.swagger.io:80/v2";
+    private static final String defaultBasePath = "http://petstore.swagger.io:80/v2";
 
-  // A reasonable default object mapper. Client can pass in a chosen
-  // ObjectMapper anyway, this is just for reasonable defaults.
-  private static ObjectMapper createDefaultObjectMapper() {
-    ObjectMapper objectMapper =
-        new ObjectMapper()
+    // A reasonable default object mapper. Client can pass in a chosen ObjectMapper anyway, this is just for reasonable defaults.
+    private static ObjectMapper createDefaultObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .setDateFormat(new RFC3339DateFormat());
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class,
-                           CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class,
-                           CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
-    JsonNullableModule jnm = new JsonNullableModule();
-    objectMapper.registerModule(jnm);
-    return objectMapper;
-  }
-
-  public ApiClient() { this(null, null, null, null); }
-
-  public ApiClient(String basePath, HttpTransport httpTransport,
-                   HttpRequestInitializer initializer,
-                   ObjectMapper objectMapper) {
-    this.basePath = basePath == null
-                        ? defaultBasePath
-                        : (basePath.endsWith("/")
-                               ? basePath.substring(0, basePath.length() - 1)
-                               : basePath);
-    this.httpRequestFactory =
-        (httpTransport == null ? Utils.getDefaultTransport() : httpTransport)
-            .createRequestFactory(initializer);
-    this.objectMapper =
-        (objectMapper == null ? createDefaultObjectMapper() : objectMapper);
-  }
-
-  public HttpRequestFactory getHttpRequestFactory() {
-    return httpRequestFactory;
-  }
-
-  public String getBasePath() { return basePath; }
-
-  public ObjectMapper getObjectMapper() { return objectMapper; }
-
-  public class JacksonJsonHttpContent extends AbstractHttpContent {
-    /* A POJO that can be serialized with a com.fasterxml Jackson ObjectMapper
-     */
-    private final Object data;
-
-    public JacksonJsonHttpContent(Object data) {
-      super(Json.MEDIA_TYPE);
-      this.data = data;
+        ThreeTenModule module = new ThreeTenModule();
+        module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
+        module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
+        module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
+        objectMapper.registerModule(module);
+        JsonNullableModule jnm = new JsonNullableModule();
+        objectMapper.registerModule(jnm);
+        return objectMapper;
     }
 
-    @Override
-    public void writeTo(OutputStream out) throws IOException {
-      objectMapper.writeValue(out, data);
+    public ApiClient() {
+        this(null, null, null, null);
     }
-  }
 
-  // Builder pattern to get API instances for this client.
+    public ApiClient(
+        String basePath,
+        HttpTransport httpTransport,
+        HttpRequestInitializer initializer,
+        ObjectMapper objectMapper
+    ) {
+        this.basePath = basePath == null ? defaultBasePath : (
+            basePath.endsWith("/") ? basePath.substring(0, basePath.length() - 1) : basePath
+        );
+        this.httpRequestFactory = (httpTransport == null ? Utils.getDefaultTransport() : httpTransport).createRequestFactory(initializer);
+        this.objectMapper = (objectMapper == null ? createDefaultObjectMapper() : objectMapper);
+    }
 
-  public AnotherFakeApi anotherFakeApi() { return new AnotherFakeApi(this); }
+    public HttpRequestFactory getHttpRequestFactory() {
+        return httpRequestFactory;
+    }
 
-  public FakeApi fakeApi() { return new FakeApi(this); }
+    public String getBasePath() {
+        return basePath;
+    }
 
-  public FakeClassnameTags123Api fakeClassnameTags123Api() {
-    return new FakeClassnameTags123Api(this);
-  }
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
 
-  public PetApi petApi() { return new PetApi(this); }
+    public class JacksonJsonHttpContent extends AbstractHttpContent {
+        /* A POJO that can be serialized with a com.fasterxml Jackson ObjectMapper */
+        private final Object data;
 
-  public StoreApi storeApi() { return new StoreApi(this); }
+        public JacksonJsonHttpContent(Object data) {
+            super(Json.MEDIA_TYPE);
+            this.data = data;
+        }
 
-  public UserApi userApi() { return new UserApi(this); }
+        @Override
+        public void writeTo(OutputStream out) throws IOException {
+            objectMapper.writeValue(out, data);
+        }
+    }
+
+    // Builder pattern to get API instances for this client.
+    
+    public AnotherFakeApi anotherFakeApi() {
+        return new AnotherFakeApi(this);
+    }
+    
+    public FakeApi fakeApi() {
+        return new FakeApi(this);
+    }
+    
+    public FakeClassnameTags123Api fakeClassnameTags123Api() {
+        return new FakeClassnameTags123Api(this);
+    }
+    
+    public PetApi petApi() {
+        return new PetApi(this);
+    }
+    
+    public StoreApi storeApi() {
+        return new StoreApi(this);
+    }
+    
+    public UserApi userApi() {
+        return new UserApi(this);
+    }
+    
 }

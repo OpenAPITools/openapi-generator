@@ -26,76 +26,75 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+
 @Component("org.openapitools.client.api.AnotherFakeApi")
 public class AnotherFakeApi {
-  private ApiClient apiClient;
+    private ApiClient apiClient;
 
-  public AnotherFakeApi() { this(new ApiClient()); }
-
-  @Autowired
-  public AnotherFakeApi(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
-
-  public ApiClient getApiClient() { return apiClient; }
-
-  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
-
-  /**
-   * To test special tags
-   * To test special tags and operation ID starting with number
-   * <p><b>200</b> - successful operation
-   * @param body client model (required)
-   * @return Client
-   * @throws RestClientException if an error occurs while attempting to invoke
-   *     the API
-   */
-  public Client call123testSpecialTags(Client body) throws RestClientException {
-    return call123testSpecialTagsWithHttpInfo(body).getBody();
-  }
-
-  /**
-   * To test special tags
-   * To test special tags and operation ID starting with number
-   * <p><b>200</b> - successful operation
-   * @param body client model (required)
-   * @return ResponseEntity&lt;Client&gt;
-   * @throws RestClientException if an error occurs while attempting to invoke
-   *     the API
-   */
-  public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(Client body)
-      throws RestClientException {
-    Object postBody = body;
-
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new HttpClientErrorException(
-          HttpStatus.BAD_REQUEST,
-          "Missing the required parameter 'body' when calling call123testSpecialTags");
+    public AnotherFakeApi() {
+        this(new ApiClient());
     }
 
-    String path = apiClient.expandPath("/another-fake/dummy",
-                                       Collections.<String, Object>emptyMap());
+    @Autowired
+    public AnotherFakeApi(ApiClient apiClient) {
+        this.apiClient = apiClient;
+    }
 
-    final MultiValueMap<String, String> queryParams =
-        new LinkedMultiValueMap<String, String>();
-    final HttpHeaders headerParams = new HttpHeaders();
-    final MultiValueMap<String, String> cookieParams =
-        new LinkedMultiValueMap<String, String>();
-    final MultiValueMap formParams = new LinkedMultiValueMap();
+    public ApiClient getApiClient() {
+        return apiClient;
+    }
 
-    final String[] accepts = {"application/json"};
-    final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-    final String[] contentTypes = {"application/json"};
-    final MediaType contentType =
-        apiClient.selectHeaderContentType(contentTypes);
+    public void setApiClient(ApiClient apiClient) {
+        this.apiClient = apiClient;
+    }
 
-    String[] authNames = new String[] {};
+    /**
+     * To test special tags
+     * To test special tags and operation ID starting with number
+     * <p><b>200</b> - successful operation
+     * @param body client model (required)
+     * @return Client
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public Client call123testSpecialTags(Client body) throws RestClientException {
+        return call123testSpecialTagsWithHttpInfo(body).getBody();
+    }
 
-    ParameterizedTypeReference<Client> returnType =
-        new ParameterizedTypeReference<Client>() {};
-    return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody,
-                               headerParams, cookieParams, formParams, accept,
-                               contentType, authNames, returnType);
-  }
+    /**
+     * To test special tags
+     * To test special tags and operation ID starting with number
+     * <p><b>200</b> - successful operation
+     * @param body client model (required)
+     * @return ResponseEntity&lt;Client&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(Client body) throws RestClientException {
+        Object postBody = body;
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling call123testSpecialTags");
+        }
+        
+        String path = apiClient.expandPath("/another-fake/dummy", Collections.<String, Object>emptyMap());
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
+
+        final String[] accepts = { 
+            "application/json"
+        };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { 
+            "application/json"
+        };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Client> returnType = new ParameterizedTypeReference<Client>() {};
+        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+    }
 }

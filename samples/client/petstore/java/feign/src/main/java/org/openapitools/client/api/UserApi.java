@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
+
 public interface UserApi extends ApiClient.Api {
+
 
   /**
    * Create user
@@ -20,37 +22,34 @@ public interface UserApi extends ApiClient.Api {
    */
   @RequestLine("POST /user")
   @Headers({
-      "Content-Type: */*",
-      "Accept: application/json",
+    "Content-Type: */*",
+    "Accept: application/json",
   })
-  void
-  createUser(User body);
+  void createUser(User body);
 
   /**
    * Creates list of users with given input array
-   *
+   * 
    * @param body List of user object (required)
    */
   @RequestLine("POST /user/createWithArray")
   @Headers({
-      "Content-Type: */*",
-      "Accept: application/json",
+    "Content-Type: */*",
+    "Accept: application/json",
   })
-  void
-  createUsersWithArrayInput(List<User> body);
+  void createUsersWithArrayInput(List<User> body);
 
   /**
    * Creates list of users with given input array
-   *
+   * 
    * @param body List of user object (required)
    */
   @RequestLine("POST /user/createWithList")
   @Headers({
-      "Content-Type: */*",
-      "Accept: application/json",
+    "Content-Type: */*",
+    "Accept: application/json",
   })
-  void
-  createUsersWithListInput(List<User> body);
+  void createUsersWithListInput(List<User> body);
 
   /**
    * Delete user
@@ -59,43 +58,38 @@ public interface UserApi extends ApiClient.Api {
    */
   @RequestLine("DELETE /user/{username}")
   @Headers({
-      "Accept: application/json",
+    "Accept: application/json",
   })
-  void
-  deleteUser(@Param("username") String username);
+  void deleteUser(@Param("username") String username);
 
   /**
    * Get user by user name
-   *
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   *     (required)
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    */
   @RequestLine("GET /user/{username}")
   @Headers({
-      "Accept: application/json",
+    "Accept: application/json",
   })
-  User
-  getUserByName(@Param("username") String username);
+  User getUserByName(@Param("username") String username);
 
   /**
    * Logs user into the system
-   *
+   * 
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
    * @return String
    */
   @RequestLine("GET /user/login?username={username}&password={password}")
   @Headers({
-      "Accept: application/json",
+    "Accept: application/json",
   })
-  String
-  loginUser(@Param("username") String username,
-            @Param("password") String password);
+  String loginUser(@Param("username") String username, @Param("password") String password);
 
   /**
    * Logs user into the system
-   *
+   * 
    * Note, this is equivalent to the other <code>loginUser</code> method,
    * but with the query parameters collected into a single Map parameter. This
    * is convenient for services with optional query parameters, especially when
@@ -111,10 +105,9 @@ public interface UserApi extends ApiClient.Api {
    */
   @RequestLine("GET /user/login?username={username}&password={password}")
   @Headers({
-      "Accept: application/json",
+  "Accept: application/json",
   })
-  String
-  loginUser(@QueryMap(encoded = true) Map<String, Object> queryParams);
+  String loginUser(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -133,14 +126,13 @@ public interface UserApi extends ApiClient.Api {
 
   /**
    * Logs out current logged in user session
-   *
+   * 
    */
   @RequestLine("GET /user/logout")
   @Headers({
-      "Accept: application/json",
+    "Accept: application/json",
   })
-  void
-  logoutUser();
+  void logoutUser();
 
   /**
    * Updated user
@@ -150,9 +142,8 @@ public interface UserApi extends ApiClient.Api {
    */
   @RequestLine("PUT /user/{username}")
   @Headers({
-      "Content-Type: */*",
-      "Accept: application/json",
+    "Content-Type: */*",
+    "Accept: application/json",
   })
-  void
-  updateUser(@Param("username") String username, User body);
+  void updateUser(@Param("username") String username, User body);
 }

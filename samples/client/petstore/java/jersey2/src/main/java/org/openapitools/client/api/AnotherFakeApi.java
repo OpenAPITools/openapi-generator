@@ -15,16 +15,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class AnotherFakeApi {
   private ApiClient apiClient;
 
-  public AnotherFakeApi() { this(Configuration.getDefaultApiClient()); }
+  public AnotherFakeApi() {
+    this(Configuration.getDefaultApiClient());
+  }
 
-  public AnotherFakeApi(ApiClient apiClient) { this.apiClient = apiClient; }
+  public AnotherFakeApi(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
 
-  public ApiClient getApiClient() { return apiClient; }
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
 
-  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
@@ -33,9 +42,8 @@ public class AnotherFakeApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers
-   </td></tr> <tr><td> 200 </td><td> successful operation </td><td>  -
-   </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public Client call123testSpecialTags(Client body) throws ApiException {
@@ -50,22 +58,18 @@ public class AnotherFakeApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers
-   </td></tr> <tr><td> 200 </td><td> successful operation </td><td>  -
-   </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body)
-      throws ApiException {
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
     Object localVarPostBody = body;
-
+    
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(
-          400,
-          "Missing the required parameter 'body' when calling call123testSpecialTags");
+      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
     }
-
+    
     // create path and map variables
     String localVarPath = "/another-fake/dummy";
 
@@ -75,20 +79,23 @@ public class AnotherFakeApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] localVarAccepts = {"application/json"};
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-    final String[] localVarContentTypes = {"application/json"};
-    final String localVarContentType =
-        apiClient.selectHeaderContentType(localVarContentTypes);
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {};
+    String[] localVarAuthNames = new String[] {  };
 
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
-    return apiClient.invokeAPI(
-        "AnotherFakeApi.call123testSpecialTags", localVarPath, "PATCH",
-        localVarQueryParams, localVarPostBody, localVarHeaderParams,
-        localVarCookieParams, localVarFormParams, localVarAccept,
-        localVarContentType, localVarAuthNames, localVarReturnType);
+    return apiClient.invokeAPI("AnotherFakeApi.call123testSpecialTags", localVarPath, "PATCH", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
   }
 }

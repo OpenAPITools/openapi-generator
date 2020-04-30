@@ -14,16 +14,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class AnotherFakeApi {
   private ApiClient apiClient;
 
-  public AnotherFakeApi() { this(Configuration.getDefaultApiClient()); }
+  public AnotherFakeApi() {
+    this(Configuration.getDefaultApiClient());
+  }
 
-  public AnotherFakeApi(ApiClient apiClient) { this.apiClient = apiClient; }
+  public AnotherFakeApi(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
 
-  public ApiClient getApiClient() { return apiClient; }
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
 
-  public void setApiClient(ApiClient apiClient) { this.apiClient = apiClient; }
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
 
   /**
    * To test special tags
@@ -34,17 +43,14 @@ public class AnotherFakeApi {
    */
   public Client call123testSpecialTags(Client body) throws ApiException {
     Object localVarPostBody = body;
-
+    
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(
-          400,
-          "Missing the required parameter 'body' when calling call123testSpecialTags");
+      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
     }
-
+    
     // create path and map variables
-    String localVarPath =
-        "/another-fake/dummy".replaceAll("\\{format\\}", "json");
+    String localVarPath = "/another-fake/dummy".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -52,20 +58,23 @@ public class AnotherFakeApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] localVarAccepts = {"application/json"};
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-    final String[] localVarContentTypes = {"application/json"};
-    final String localVarContentType =
-        apiClient.selectHeaderContentType(localVarContentTypes);
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {};
+    String[] localVarAuthNames = new String[] {  };
 
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
-    return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams,
-                               localVarPostBody, localVarHeaderParams,
-                               localVarCookieParams, localVarFormParams,
-                               localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
-  }
+    return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
 }

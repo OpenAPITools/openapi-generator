@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Utilities to support Swagger encoding formats in Feign.
- */
+* Utilities to support Swagger encoding formats in Feign.
+*/
 public final class EncodingUtils {
 
   /**
@@ -30,13 +30,12 @@ public final class EncodingUtils {
    *                   not be changed.
    * @param collectionFormat The Swagger collection format (eg, "csv", "tsv",
    *                         "pipes"). See the
-   *                         <a
-   * href="http://swagger.io/specification/#parameter-object-44"> OpenAPI
-   * Spec</a> for more details.
+   *                         <a href="http://swagger.io/specification/#parameter-object-44">
+   *                         OpenAPI Spec</a> for more details.
    * @return An object that will be correctly formatted by Feign.
    */
   public static Object encodeCollection(Collection<?> parameters,
-                                        String collectionFormat) {
+                                     String collectionFormat) {
     if (parameters == null) {
       return parameters;
     }
@@ -54,15 +53,15 @@ public final class EncodingUtils {
     // Otherwise return a formatted String
     String[] stringArray = stringValues.toArray(new String[0]);
     switch (collectionFormat) {
-    case "csv":
-    default:
-      return StringUtil.join(stringArray, ",");
-    case "ssv":
-      return StringUtil.join(stringArray, " ");
-    case "tsv":
-      return StringUtil.join(stringArray, "\t");
-    case "pipes":
-      return StringUtil.join(stringArray, "|");
+      case "csv":
+      default:
+        return StringUtil.join(stringArray, ",");
+      case "ssv":
+        return StringUtil.join(stringArray, " ");
+      case "tsv":
+        return StringUtil.join(stringArray, "\t");
+      case "pipes":
+        return StringUtil.join(stringArray, "|");
     }
   }
 
@@ -78,8 +77,7 @@ public final class EncodingUtils {
       return null;
     }
     try {
-      return URLEncoder.encode(parameter.toString(), "UTF-8")
-          .replaceAll("\\+", "%20");
+      return URLEncoder.encode(parameter.toString(), "UTF-8").replaceAll("\\+", "%20");
     } catch (UnsupportedEncodingException e) {
       // Should never happen, UTF-8 is always supported
       throw new RuntimeException(e);

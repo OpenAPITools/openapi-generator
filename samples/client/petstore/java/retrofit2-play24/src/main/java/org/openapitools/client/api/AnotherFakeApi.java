@@ -2,6 +2,8 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.CollectionFormats.*;
 
+
+
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -26,8 +28,12 @@ public interface AnotherFakeApi {
    * @param body client model (required)
    * @return Call&lt;Client&gt;
    */
-  @Headers({"Content-Type:application/json"})
+  @Headers({
+    "Content-Type:application/json"
+  })
   @PATCH("another-fake/dummy")
-  F.Promise<Response<Client>>
-  call123testSpecialTags(@retrofit2.http.Body Client body);
+  F.Promise<Response<Client>> call123testSpecialTags(
+    @retrofit2.http.Body Client body
+  );
+
 }
