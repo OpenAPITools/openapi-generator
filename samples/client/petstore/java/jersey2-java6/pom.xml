@@ -287,7 +287,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <swagger-annotations-version>1.6.1</swagger-annotations-version>
         <jersey-version>2.6</jersey-version>
         <commons_io_version>2.5</commons_io_version>
         <commons_lang3_version>3.6</commons_lang3_version>

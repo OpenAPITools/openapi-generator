@@ -12,6 +12,7 @@ apiClient_t *apiClient_create() {
     apiClient->basePath = strdup("http://petstore.swagger.io/v2");
     apiClient->sslConfig = NULL;
     apiClient->dataReceived = NULL;
+    apiClient->dataReceivedLen = 0;
     apiClient->response_code = 0;
     apiClient->apiKeys_api_key = NULL;
     apiClient->accessToken = NULL;
@@ -38,6 +39,7 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     }
 
     apiClient->dataReceived = NULL;
+    apiClient->dataReceivedLen = 0;
     apiClient->response_code = 0;
     if(apiKeys_api_key!= NULL) {
         apiClient->apiKeys_api_key = list_create();
@@ -414,7 +416,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
                          writeDataCallback);
         curl_easy_setopt(handle,
                          CURLOPT_WRITEDATA,
-                         &apiClient->dataReceived);
+                         apiClient);
         curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(handle, CURLOPT_VERBOSE, 0); // to get curl debug msg 0: to disable, 1L:to enable
 
@@ -462,9 +464,12 @@ void apiClient_invoke(apiClient_t    *apiClient,
 }
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp) {
-    *(char **) userp = strdup(buffer);
-
-    return size * nmemb;
+    size_t size_this_time = nmemb * size;
+    apiClient_t *apiClient = (apiClient_t *)userp;
+    apiClient->dataReceived = (char *)realloc( apiClient->dataReceived, apiClient->dataReceivedLen + size_this_time + 1);
+    memcpy(apiClient->dataReceived + apiClient->dataReceivedLen, buffer, size_this_time);
+    apiClient->dataReceivedLen += size_this_time;
+    return size_this_time;
 }
 
 char *strReplace(char *orig, char *rep, char *with) {

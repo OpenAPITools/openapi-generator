@@ -1306,6 +1306,7 @@
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
+                <module>samples/client/petstore/java/jersey2-experimental</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
@@ -1320,6 +1321,7 @@
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/java/rest-assured</module>
+                <module>samples/client/petstore/java/rest-assured-jackson</module>
                 <module>samples/client/petstore/groovy</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
@@ -1398,6 +1400,7 @@
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2</module>
+                <module>samples/client/petstore/java/jersey2-experimental</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>

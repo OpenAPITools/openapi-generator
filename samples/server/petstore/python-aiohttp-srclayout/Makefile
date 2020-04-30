@@ -10,7 +10,7 @@ clean:
 		rm -rf .coverage
 		find . -name "*.py[oc]" -delete
 		find . -name "__pycache__" -delete
-	
+
 venv:
 		python -m venv $(VENV)
 

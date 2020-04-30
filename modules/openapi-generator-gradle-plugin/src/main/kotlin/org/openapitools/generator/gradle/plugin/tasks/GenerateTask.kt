@@ -21,6 +21,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.options.Option
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.listProperty
@@ -37,7 +38,7 @@ import org.openapitools.codegen.config.GlobalSettings
  *
  * Example (CLI):
  *
- * ./gradlew -q openApiGenerate
+ * ./gradlew -q openApiGenerate --input=/path/to/file
  *
  * @author Jim Schubert
  */
@@ -68,6 +69,14 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val outputDir = project.objects.property<String>()
 
+    @Suppress("unused")
+    @get:Internal
+    @set:Option(option = "input", description = "The input specification.")
+    var input: String? = null
+        set(value) {
+            inputSpec.set(value)
+        }
+    
     /**
      * The Open API 2.0/3.x specification location.
      */
@@ -640,7 +649,7 @@ open class GenerateTask : DefaultTask() {
 
                 DefaultGenerator().opts(clientOptInput).generate()
 
-                out.println("Successfully generated code to $outputDir")
+                out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {
                 throw GradleException("Code generation failed.", e)
             }
