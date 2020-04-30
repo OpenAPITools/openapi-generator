@@ -205,27 +205,23 @@ export class ObjectSerializer {
 
     /**
      * Convert data to a string according the given media type
-     *
-     * TODO: Add support for
-     *    - json
-     *    - binary fallback
-     *    - xml (togglable in generator config)
-     *    - yaml (togglable in generator config)
      */
     public static stringify(data: any, mediaType: string): string {
-        return "";
+        if (mediaType === "application/json") {
+            return JSON.stringify(data);
+        }
+
+        throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.stringify.");
     }
 
     /**
      * Parse data from a string according to the given media type
-     *
-     * TODO: Add support for
-     *    - json
-     *    - binary fallback
-     *    - xml (togglable in generator config)
-     *    - yaml (togglable in generator config)
-     *    - multipart (togglabel in generator config)
      */
     public static parse(rawData: string, mediaType: string) {
+        if (mediaType === "application/json") {
+            return JSON.parse(rawData);
+        }
+
+        throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.parse.");
     }
 }

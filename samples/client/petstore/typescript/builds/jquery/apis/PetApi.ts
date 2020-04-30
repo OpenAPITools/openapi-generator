@@ -48,9 +48,10 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             "application/xml"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
-		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
-        const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body || "").toString(); // TODO: `toString` call is unnecessary
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(body, "Pet", ""),
+            contentType
+        );
         requestContext.setBody(serializedBody);
 		
 		let authMethod = null;
@@ -267,9 +268,10 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             "application/xml"
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
-		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
-        const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body || "").toString(); // TODO: `toString` call is unnecessary
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(body, "Pet", ""),
+            contentType
+        );
         requestContext.setBody(serializedBody);
 		
 		let authMethod = null;

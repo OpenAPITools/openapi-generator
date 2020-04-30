@@ -114,9 +114,10 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
         {{/consumes}}]);
         requestContext.setHeaderParam("Content-Type", contentType);
-		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
-        const needsSerialization = (<any>"{{dataType}}" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}} || "").toString(); // TODO: `toString` call is unnecessary
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"),
+            contentType
+        );
         requestContext.setBody(serializedBody);
 	    {{/bodyParam}}
 		
