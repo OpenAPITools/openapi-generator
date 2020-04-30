@@ -60,8 +60,7 @@ class {{controllerName}} extends Controller
         {{#bodyParams}}
         // Make sure that the client is providing something that we can consume
         $consumes = [{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
-        if (!in_array($inputFormat, $consumes)) {
+        if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
         }
@@ -146,6 +145,7 @@ class {{controllerName}} extends Controller
             {{#allParams}}
             {{^isFile}}
             {{#isBodyParam}}
+            $inputFormat = $request->getMimeType($request->getContentType());
             ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', $inputFormat);
             {{/isBodyParam}}
             {{^isBodyParam}}
