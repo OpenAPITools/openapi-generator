@@ -37,6 +37,11 @@ try:
 except ImportError:
     shape_interface = sys.modules[
         'petstore_api.models.shape_interface']
+try:
+    from petstore_api.models import triangle_interface
+except ImportError:
+    triangle_interface = sys.modules[
+        'petstore_api.models.triangle_interface']
 
 
 class IsoscelesTriangle(ModelComposed):
@@ -64,9 +69,6 @@ class IsoscelesTriangle(ModelComposed):
     """
 
     allowed_values = {
-        ('triangle_type',): {
-            'ISOSCELESTRIANGLE': "IsoscelesTriangle",
-        },
     }
 
     validations = {
@@ -85,8 +87,8 @@ class IsoscelesTriangle(ModelComposed):
                 and the value is attribute type.
         """
         return {
-            'triangle_type': (str,),  # noqa: E501
             'shape_type': (str,),  # noqa: E501
+            'triangle_type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -94,8 +96,8 @@ class IsoscelesTriangle(ModelComposed):
         return None
 
     attribute_map = {
-        'triangle_type': 'triangleType',  # noqa: E501
         'shape_type': 'shapeType',  # noqa: E501
+        'triangle_type': 'triangleType',  # noqa: E501
     }
 
     required_properties = set([
@@ -111,14 +113,14 @@ class IsoscelesTriangle(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, shape_type, triangle_type='IsoscelesTriangle', _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, shape_type, triangle_type, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """isosceles_triangle.IsoscelesTriangle - a model defined in OpenAPI
 
         Args:
             shape_type (str):
+            triangle_type (str):
 
         Keyword Args:
-            triangle_type (str): defaults to 'IsoscelesTriangle', must be one of ["IsoscelesTriangle", ]  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -164,8 +166,8 @@ class IsoscelesTriangle(ModelComposed):
             '_visited_composed_classes': _visited_composed_classes,
         }
         required_args = {
-            'triangle_type': triangle_type,
             'shape_type': shape_type,
+            'triangle_type': triangle_type,
         }
         # remove args whose value is Null because they are unset
         required_arg_names = list(required_args.keys())
@@ -207,6 +209,7 @@ class IsoscelesTriangle(ModelComposed):
           ],
           'allOf': [
               shape_interface.ShapeInterface,
+              triangle_interface.TriangleInterface,
           ],
           'oneOf': [
           ],

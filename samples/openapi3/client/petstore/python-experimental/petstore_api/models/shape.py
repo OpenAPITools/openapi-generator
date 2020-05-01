@@ -89,6 +89,7 @@ class Shape(ModelComposed):
         return {
             'shape_type': (str,),  # noqa: E501
             'quadrilateral_type': (str,),  # noqa: E501
+            'triangle_type': (str,),  # noqa: E501
             'shape_type': (str,),  # noqa: E501
         }
 
@@ -105,6 +106,7 @@ class Shape(ModelComposed):
     attribute_map = {
         'shape_type': 'shapeType',  # noqa: E501
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501
+        'triangle_type': 'triangleType',  # noqa: E501
         'shape_type': 'shapeType',  # noqa: E501
     }
 
@@ -121,12 +123,13 @@ class Shape(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, shape_type, quadrilateral_type, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, shape_type, quadrilateral_type, triangle_type, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """shape.Shape - a model defined in OpenAPI
 
         Args:
             shape_type (str):
             quadrilateral_type (str):
+            triangle_type (str):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -177,6 +180,7 @@ class Shape(ModelComposed):
         required_args = {
             'shape_type': shape_type,
             'quadrilateral_type': quadrilateral_type,
+            'triangle_type': triangle_type,
         }
         # remove args whose value is Null because they are unset
         required_arg_names = list(required_args.keys())

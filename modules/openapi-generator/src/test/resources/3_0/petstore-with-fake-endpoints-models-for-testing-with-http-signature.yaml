@@ -1890,10 +1890,13 @@ components:
           type: string
       required:
         - shapeType
-    Triangle:
+    TriangleInterface:
       properties:
         triangleType:
           type: string
+      required:
+        - triangleType
+    Triangle:
       oneOf:
         - $ref: '#/components/schemas/EquilateralTriangle'
         - $ref: '#/components/schemas/IsoscelesTriangle'
@@ -1901,43 +1904,22 @@ components:
       discriminator:
         propertyName: triangleType
     EquilateralTriangle:
-      properties:
-        triangleType:
-          type: string
-          enum:
-            - EquilateralTriangle
-      required:
-        - triangleType
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
+        - $ref: '#/components/schemas/TriangleInterface'
     IsoscelesTriangle:
-      properties:
-        triangleType:
-          type: string
-          enum:
-            - IsoscelesTriangle
-      required:
-        - triangleType
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
+        - $ref: '#/components/schemas/TriangleInterface'
     ScaleneTriangle:
-      properties:
-        triangleType:
-          type: string
-          enum:
-            - ScaleneTriangle
-      required:
-        - triangleType
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
+        - $ref: '#/components/schemas/TriangleInterface'
     QuadrilateralInterface:
       properties:
-        shapeType:
-          type: string
         quadrilateralType:
           type: string
       required:
-        - shapeType
         - quadrilateralType
     Quadrilateral:
       oneOf:
@@ -1947,7 +1929,9 @@ components:
         propertyName: quadrilateralType
     SimpleQuadrilateral:
       allOf:
+        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
     ComplexQuadrilateral:
       allOf:
+        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'

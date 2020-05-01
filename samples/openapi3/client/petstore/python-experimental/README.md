@@ -190,6 +190,7 @@ Class | Method | HTTP request | Description
  - [string_boolean_map.StringBooleanMap](docs/StringBooleanMap.md)
  - [tag.Tag](docs/Tag.md)
  - [triangle.Triangle](docs/Triangle.md)
+ - [triangle_interface.TriangleInterface](docs/TriangleInterface.md)
  - [user.User](docs/User.md)
  - [whale.Whale](docs/Whale.md)
  - [zebra.Zebra](docs/Zebra.md)

@@ -37,6 +37,11 @@ try:
 except ImportError:
     quadrilateral_interface = sys.modules[
         'petstore_api.models.quadrilateral_interface']
+try:
+    from petstore_api.models import shape_interface
+except ImportError:
+    shape_interface = sys.modules[
+        'petstore_api.models.shape_interface']
 
 
 class ComplexQuadrilateral(ModelComposed):
@@ -204,6 +209,7 @@ class ComplexQuadrilateral(ModelComposed):
           ],
           'allOf': [
               quadrilateral_interface.QuadrilateralInterface,
+              shape_interface.ShapeInterface,
           ],
           'oneOf': [
           ],

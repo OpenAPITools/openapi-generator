@@ -77,7 +77,6 @@ class TriangleInterface(ModelNormal):
                 and the value is attribute type.
         """
         return {
-            'shape_type': (str,),  # noqa: E501
             'triangle_type': (str,),  # noqa: E501
         }
 
@@ -86,7 +85,6 @@ class TriangleInterface(ModelNormal):
         return None
 
     attribute_map = {
-        'shape_type': 'shapeType',  # noqa: E501
         'triangle_type': 'triangleType',  # noqa: E501
     }
 
@@ -102,11 +100,10 @@ class TriangleInterface(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, shape_type, triangle_type, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, triangle_type, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """triangle_interface.TriangleInterface - a model defined in OpenAPI
 
         Args:
-            shape_type (str):
             triangle_type (str):
 
         Keyword Args:
@@ -147,7 +144,6 @@ class TriangleInterface(ModelNormal):
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes
 
-        self.shape_type = shape_type
         self.triangle_type = triangle_type
         for var_name, var_value in six.iteritems(kwargs):
             if var_name not in self.attribute_map and \

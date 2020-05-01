@@ -108,6 +108,7 @@ from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.string_boolean_map import StringBooleanMap
 from petstore_api.models.tag import Tag
 from petstore_api.models.triangle import Triangle
+from petstore_api.models.triangle_interface import TriangleInterface
 from petstore_api.models.user import User
 from petstore_api.models.whale import Whale
 from petstore_api.models.zebra import Zebra
