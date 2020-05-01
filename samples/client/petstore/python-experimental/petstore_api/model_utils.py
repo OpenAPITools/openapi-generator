@@ -143,7 +143,6 @@ class OpenApiModel(object):
             # we don't have a discriminator
             # or we have already visited this class before and are sure that we
             # want to instantiate it this time
-
             return super(OpenApiModel, cls).__new__(cls)
 
         oneof_anyof_classes = []
@@ -162,12 +161,13 @@ class OpenApiModel(object):
                 "property '%s'='%s' at path: %s" %
                 (disc_prop_name_js, disc_prop_value, path_to_item)
             )
-        oneof_anyof_child = new_cls in oneof_anyof_classes
 
-        new_visited_composed_classes = [cls]
-        new_visited_composed_classes.extend(
-            visited_composed_classes)
-        kwargs['_visited_composed_classes'] = new_visited_composed_classes
+        if new_cls in visited_composed_classes:
+            # if we are coming from the chosen new_cls use cls instead
+            return super(OpenApiModel, cls).__new__(cls)
+
+        oneof_anyof_child = new_cls in oneof_anyof_classes
+        kwargs['_visited_composed_classes'] = visited_composed_classes + (cls,)
 
         if cls._composed_schemas.get('allOf') and oneof_anyof_child:
             # validate that we can make self because when we make the

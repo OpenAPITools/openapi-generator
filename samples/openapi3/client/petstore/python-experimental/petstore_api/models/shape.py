@@ -165,14 +165,14 @@ class Shape(ModelComposed):
         self._from_server = _from_server
         self._path_to_item = _path_to_item
         self._configuration = _configuration
-        self._visited_composed_classes = _visited_composed_classes
+        self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         constant_args = {
             '_check_type': _check_type,
             '_path_to_item': _path_to_item,
             '_from_server': _from_server,
             '_configuration': _configuration,
-            '_visited_composed_classes': _visited_composed_classes,
+            '_visited_composed_classes': self._visited_composed_classes,
         }
         required_args = {
             'shape_type': shape_type,

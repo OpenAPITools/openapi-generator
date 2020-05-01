@@ -145,7 +145,7 @@ class InlineObject4(ModelNormal):
         self._from_server = _from_server
         self._path_to_item = _path_to_item
         self._configuration = _configuration
-        self._visited_composed_classes = _visited_composed_classes
+        self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.param = param
         self.param2 = param2

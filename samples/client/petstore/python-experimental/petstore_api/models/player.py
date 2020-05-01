@@ -145,7 +145,7 @@ class Player(ModelNormal):
         self._from_server = _from_server
         self._path_to_item = _path_to_item
         self._configuration = _configuration
-        self._visited_composed_classes = _visited_composed_classes
+        self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.name = name
         for var_name, var_value in six.iteritems(kwargs):
