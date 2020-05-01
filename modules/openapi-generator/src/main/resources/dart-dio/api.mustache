@@ -55,6 +55,9 @@ class {{classname}} {
                 }
             {{/isFile}}
         {{/isMultipart}}
+        {{^isMultipart}}
+            formData['{{baseName}}'] = parameterToString(_serializers, {{paramName}});
+        {{/isMultipart}}
         {{/formParams}}
         bodyData = FormData.fromMap(formData);
         {{/hasFormParams}}

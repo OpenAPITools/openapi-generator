@@ -16,6 +16,33 @@ To test special tags
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    client := openapiclient.Client{Client: "Client_example"} // Client | client model
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.AnotherFakeApi.Call123TestSpecialTags(context.Background(), client).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeApi.Call123TestSpecialTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `Call123TestSpecialTags`: Client
+    fmt.Fprintf(os.Stdout, "Response from `AnotherFakeApi.Call123TestSpecialTags`: %v\n", resp)
+}
+```
+
 ### Path Parameters
 
 

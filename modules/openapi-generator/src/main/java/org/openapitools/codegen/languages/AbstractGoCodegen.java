@@ -130,6 +130,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
         typeMapping.put("interface{}", "interface{}");
+        typeMapping.put("AnyType", "interface{}");
 
         numberTypes = new HashSet<String>(
                 Arrays.asList(
