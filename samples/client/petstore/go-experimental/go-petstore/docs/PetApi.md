@@ -22,6 +22,31 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := openapiclient.Pet{Id: int64(123), Category: openapiclient.Category{Id: int64(123), Name: "Name_example"}, Name: "Name_example", PhotoUrls: []string{"PhotoUrls_example"), Tags: []Tag{openapiclient.Tag{Id: int64(123), Name: "Name_example"}), Status: "Status_example"} // Pet | Pet object that needs to be added to the store
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.AddPet(context.Background(), body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.AddPet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
 ### Path Parameters
 
 
@@ -58,6 +83,32 @@ Name | Type | Description  | Notes
 > DeletePet(ctx, petId).ApiKey(apiKey).Execute()
 
 Deletes a pet
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    petId := 987 // int64 | Pet id to delete
+    apiKey := "apiKey_example" // string |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.DeletePet(context.Background(), petId).ApiKey(apiKey).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.DeletePet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
 
 ### Path Parameters
 
@@ -103,6 +154,33 @@ Finds Pets by status
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    status := []string{"Status_example"} // []string | Status values that need to be considered for filter
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.FindPetsByStatus(context.Background(), status).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.FindPetsByStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FindPetsByStatus`: []Pet
+    fmt.Fprintf(os.Stdout, "Response from `PetApi.FindPetsByStatus`: %v\n", resp)
+}
+```
+
 ### Path Parameters
 
 
@@ -142,6 +220,33 @@ Finds Pets by tags
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    tags := []string{"Inner_example"} // []string | Tags to filter by
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.FindPetsByTags(context.Background(), tags).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.FindPetsByTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FindPetsByTags`: []Pet
+    fmt.Fprintf(os.Stdout, "Response from `PetApi.FindPetsByTags`: %v\n", resp)
+}
+```
+
 ### Path Parameters
 
 
@@ -180,6 +285,33 @@ Name | Type | Description  | Notes
 Find pet by ID
 
 
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    petId := 987 // int64 | ID of pet to return
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.GetPetById(context.Background(), petId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.GetPetById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetPetById`: Pet
+    fmt.Fprintf(os.Stdout, "Response from `PetApi.GetPetById`: %v\n", resp)
+}
+```
 
 ### Path Parameters
 
@@ -222,6 +354,31 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := openapiclient.Pet{Id: int64(123), Category: openapiclient.Category{Id: int64(123), Name: "Name_example"}, Name: "Name_example", PhotoUrls: []string{"PhotoUrls_example"), Tags: []Tag{openapiclient.Tag{Id: int64(123), Name: "Name_example"}), Status: "Status_example"} // Pet | Pet object that needs to be added to the store
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.UpdatePet(context.Background(), body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UpdatePet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
 ### Path Parameters
 
 
@@ -258,6 +415,33 @@ Name | Type | Description  | Notes
 > UpdatePetWithForm(ctx, petId).Name(name).Status(status).Execute()
 
 Updates a pet in the store with form data
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    petId := 987 // int64 | ID of pet that needs to be updated
+    name := "name_example" // string | Updated name of the pet (optional)
+    status := "status_example" // string | Updated status of the pet (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.UpdatePetWithForm(context.Background(), petId).Name(name).Status(status).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UpdatePetWithForm``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
 
 ### Path Parameters
 
@@ -302,6 +486,35 @@ Name | Type | Description  | Notes
 
 uploads an image
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    petId := 987 // int64 | ID of pet to update
+    additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
+    file := 987 // *os.File | file to upload (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.UploadFile(context.Background(), petId).AdditionalMetadata(additionalMetadata).File(file).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UploadFile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UploadFile`: ApiResponse
+    fmt.Fprintf(os.Stdout, "Response from `PetApi.UploadFile`: %v\n", resp)
+}
+```
+
 ### Path Parameters
 
 
@@ -344,6 +557,35 @@ Name | Type | Description  | Notes
 > ApiResponse UploadFileWithRequiredFile(ctx, petId).RequiredFile(requiredFile).AdditionalMetadata(additionalMetadata).Execute()
 
 uploads an image (required)
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    petId := 987 // int64 | ID of pet to update
+    requiredFile := 987 // *os.File | file to upload
+    additionalMetadata := "additionalMetadata_example" // string | Additional data to pass to server (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.PetApi.UploadFileWithRequiredFile(context.Background(), petId, requiredFile).AdditionalMetadata(additionalMetadata).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UploadFileWithRequiredFile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UploadFileWithRequiredFile`: ApiResponse
+    fmt.Fprintf(os.Stdout, "Response from `PetApi.UploadFileWithRequiredFile`: %v\n", resp)
+}
+```
 
 ### Path Parameters
 
