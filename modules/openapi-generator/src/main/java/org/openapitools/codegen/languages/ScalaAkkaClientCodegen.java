@@ -99,7 +99,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                         "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
-        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
