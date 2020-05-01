@@ -17,9 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.annotations.VisibleForTesting;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -34,6 +36,8 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
+    public static final String USE_TAGS = "useTags";
+
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
      * Mustache template for the JAX-RS Codegen.
@@ -43,7 +47,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected String testResourcesFolder = "src/test/resources";
     protected String title = "OpenAPI Server";
     protected String serverPort = "8080";
+
     protected boolean useBeanValidation = true;
+    protected boolean useTags = false;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
@@ -96,8 +102,45 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
 
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            useTags = Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString());
+        }
 
+        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (useTags) {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            co.subresourceOperation = !co.path.isEmpty();
+        } else {
+            addOperationToGroupByPath(tag, resourcePath, operation, co, operations);
+        }
+    }
+
+    protected void addOperationToGroupByPath(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        String basePath = resourcePath;
+        if (basePath.startsWith("/")) {
+            basePath = basePath.substring(1);
+        }
+        int pos = basePath.indexOf("/");
+        if (pos > 0) {
+            basePath = basePath.substring(0, pos);
+        }
+
+        if (StringUtils.isEmpty(basePath)) {
+            basePath = "default";
+        } else {
+            co.subresourceOperation = !co.path.isEmpty();
+        }
+        List<CodegenOperation> opList = operations.get(basePath);
+        if (opList == null || opList.isEmpty()) {
+            opList = new ArrayList<CodegenOperation>();
+            operations.put(basePath, opList);
+        }
+        opList.add(co);
+        co.baseName = basePath;
     }
 
     @Override
@@ -219,7 +262,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 } else if ("map".equals(operation.returnContainer)) {
                     operation.returnContainer = "Map";
                 }
-                
+
                 if(commonBaseName == null) {
                     commonBaseName = operation.baseName;
                 } else if(!commonBaseName.equals(operation.baseName)) {
@@ -277,5 +320,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         this.useBeanValidation = useBeanValidation;
     }
 
-
+    @VisibleForTesting
+    public void setUseTags(boolean useTags) {
+        this.useTags = useTags;
+    }
 }

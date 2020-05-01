@@ -72,6 +72,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         super();
 
         supportsInheritance = true;
+        useTags = true;
 
         artifactId = "openapi-cxf-server";
 
@@ -121,6 +122,8 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         cliOptions.add(CliOption.newBoolean(USE_ANNOTATED_BASE_PATH, "Use @Path annotations for basePath"));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_NON_SPRING_APPLICATION, "Generate non-Spring application"));
+        cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
+
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
 
     }
@@ -224,12 +227,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     @Override
     public String getName() {
         return "jaxrs-cxf";
-    }
-
-    @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-        co.subresourceOperation = !co.path.isEmpty();
     }
 
     @Override

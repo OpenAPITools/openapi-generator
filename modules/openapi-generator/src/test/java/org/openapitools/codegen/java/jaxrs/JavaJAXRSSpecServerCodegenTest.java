@@ -18,12 +18,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit-Test for {@link org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen}.

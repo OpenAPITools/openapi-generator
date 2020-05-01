@@ -114,34 +114,6 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        String basePath = resourcePath;
-        if (basePath.startsWith("/")) {
-            basePath = basePath.substring(1);
-        }
-        int pos = basePath.indexOf("/");
-        if (pos > 0) {
-            basePath = basePath.substring(0, pos);
-        }
-
-        if (StringUtils.isEmpty(basePath)) {
-            basePath = "default";
-        } else {
-            if (co.path.startsWith("/" + basePath)) {
-                co.path = co.path.substring(("/" + basePath).length());
-            }
-            co.subresourceOperation = !co.path.isEmpty();
-        }
-        List<CodegenOperation> opList = operations.get(basePath);
-        if (opList == null || opList.isEmpty()) {
-            opList = new ArrayList<CodegenOperation>();
-            operations.put(basePath, opList);
-        }
-        opList.add(co);
-        co.baseName = basePath;
-    }
-
-    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         return super.postProcessOperationsWithModels(objs, allModels);
     }

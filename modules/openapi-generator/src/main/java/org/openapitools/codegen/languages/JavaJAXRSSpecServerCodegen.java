@@ -222,7 +222,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+    protected void addOperationToGroupByPath(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         String basePath = resourcePath;
         if (basePath.startsWith("/")) {
             basePath = basePath.substring(1);
@@ -242,14 +242,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             operationKey = "";
             co.subresourceOperation = true;
         } else {
-            if (co.path.startsWith("/" + basePath)) {
-                co.path = co.path.substring(("/" + basePath).length());
-            }
             co.subresourceOperation = !co.path.isEmpty();
         }
         List<CodegenOperation> opList = operations.get(operationKey);
         if (opList == null || opList.isEmpty()) {
-            opList = new ArrayList<CodegenOperation>();
+            opList = new ArrayList<>();
             operations.put(operationKey, opList);
         }
         opList.add(co);
