@@ -84,3 +84,15 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized, petstore_api.Zebra))
         self.assertEqual(deserialized.type, zebra_type)
         self.assertEqual(deserialized.class_name, class_name)
+
+    def test_deserialize_fruit(self):
+        """
+        deserialize fruit
+        fruitReq is a oneOf composed schema model with discriminator, including 'null' type.
+        """
+
+        # Unmarshal 'null' value
+        data = None
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.FruitReq, type(None)), True)
+        self.assertEqual(type(deserialized), type(None))
