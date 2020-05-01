@@ -987,6 +987,8 @@ def get_oneof_instance(self, model_args, constant_args):
     # matches the oneOf schemas.
     for oneof_class in self._composed_schemas()['oneOf']:
         if oneof_class is none_type:
+            # The only way the input data can match the 'None' type
+            # is if the input data is the 'null' value.
             if model_args is None:
                 # The input data matches the 'None' type.
                 oneof_instances.append(model_args)
@@ -1049,6 +1051,8 @@ def get_anyof_instances(self, model_args, constant_args):
 
     for anyof_class in self._composed_schemas()['anyOf']:
         if anyof_class is none_type:
+            # The only way the input data can match the 'None' type
+            # is if the input data is the 'null' value.
             if model_args is None:
                 # The input data matches the 'None' type.
                 oneof_instances.append(model_args)
