@@ -1994,6 +1994,66 @@ components:
       required:
       - lengthCm
       type: object
+    Shape:
+      discriminator:
+        propertyName: shapeType
+      oneOf:
+      - $ref: '#/components/schemas/Triangle'
+      - $ref: '#/components/schemas/Quadrilateral'
+      x-one-of-name: Shape
+    ShapeInterface:
+      properties:
+        shapeType:
+          type: string
+      required:
+      - shapeType
+    TriangleInterface:
+      properties:
+        triangleType:
+          type: string
+      required:
+      - triangleType
+    Triangle:
+      discriminator:
+        propertyName: triangleType
+      oneOf:
+      - $ref: '#/components/schemas/EquilateralTriangle'
+      - $ref: '#/components/schemas/IsoscelesTriangle'
+      - $ref: '#/components/schemas/ScaleneTriangle'
+      x-one-of-name: Triangle
+    EquilateralTriangle:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/TriangleInterface'
+    IsoscelesTriangle:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/TriangleInterface'
+    ScaleneTriangle:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/TriangleInterface'
+    QuadrilateralInterface:
+      properties:
+        quadrilateralType:
+          type: string
+      required:
+      - quadrilateralType
+    Quadrilateral:
+      discriminator:
+        propertyName: quadrilateralType
+      oneOf:
+      - $ref: '#/components/schemas/SimpleQuadrilateral'
+      - $ref: '#/components/schemas/ComplexQuadrilateral'
+      x-one-of-name: Quadrilateral
+    SimpleQuadrilateral:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/QuadrilateralInterface'
+    ComplexQuadrilateral:
+      allOf:
+      - $ref: '#/components/schemas/ShapeInterface'
+      - $ref: '#/components/schemas/QuadrilateralInterface'
     inline_response_default:
       example:
         string:

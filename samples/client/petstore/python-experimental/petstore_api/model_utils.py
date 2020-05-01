@@ -135,16 +135,12 @@ class OpenApiModel(object):
         # pick a new schema/class to instantiate because a discriminator
         # propertyName value was passed in
 
-        from_server = kwargs.get('_from_server', False)
         visited_composed_classes = kwargs.get('_visited_composed_classes', ())
         if (
             cls.discriminator is None or
-            from_server is False or
             cls in visited_composed_classes
         ):
             # we don't have a discriminator
-            # from_server is false which means that we are building this model
-            # on the client side
             # or we have already visited this class before and are sure that we
             # want to instantiate it this time
 
@@ -154,6 +150,18 @@ class OpenApiModel(object):
         oneof_anyof_classes.extend(cls._composed_schemas.get('oneOf', ()))
         oneof_anyof_classes.extend(cls._composed_schemas.get('anyOf', ()))
         new_cls = cls.get_discriminator_class(kwargs)
+        if new_cls is None:
+            disc_prop_name_py = list(cls.discriminator.keys())[0]
+            disc_prop_name_js = cls.attribute_map[disc_prop_name_py]
+            path_to_item = kwargs.get('_path_to_item', ())
+            disc_prop_value = kwargs.get(
+                disc_prop_name_js, kwargs.get(disc_prop_name_py))
+            raise ApiValueError(
+                "Cannot deserialize input data due to invalid discriminator "
+                "value. The OpenAPI document has no mapping for discriminator "
+                "property '%s'='%s' at path: %s" %
+                (disc_prop_name_js, disc_prop_value, path_to_item)
+            )
         oneof_anyof_child = new_cls in oneof_anyof_classes
 
         new_visited_composed_classes = [cls]

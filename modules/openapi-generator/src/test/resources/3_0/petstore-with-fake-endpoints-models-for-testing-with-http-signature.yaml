@@ -1876,9 +1876,6 @@ components:
       required:
         - lengthCm
     Shape:
-      properties:
-        shapeType:
-          type: string
       oneOf:
         - $ref: '#/components/schemas/Triangle'
         - $ref: '#/components/schemas/Quadrilateral'

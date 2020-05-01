@@ -90,7 +90,6 @@ class Shape(ModelComposed):
             'shape_type': (str,),  # noqa: E501
             'quadrilateral_type': (str,),  # noqa: E501
             'triangle_type': (str,),  # noqa: E501
-            'shape_type': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -107,7 +106,6 @@ class Shape(ModelComposed):
         'shape_type': 'shapeType',  # noqa: E501
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501
         'triangle_type': 'triangleType',  # noqa: E501
-        'shape_type': 'shapeType',  # noqa: E501
     }
 
     required_properties = set([
@@ -123,15 +121,15 @@ class Shape(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, shape_type, quadrilateral_type, triangle_type, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, shape_type, quadrilateral_type=nulltype.Null, triangle_type=nulltype.Null, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """shape.Shape - a model defined in OpenAPI
 
         Args:
             shape_type (str):
-            quadrilateral_type (str):
-            triangle_type (str):
 
         Keyword Args:
+            quadrilateral_type (str): defaults to nulltype.Null  # noqa: E501
+            triangle_type (str): defaults to nulltype.Null  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -160,7 +158,6 @@ class Shape(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            shape_type (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
