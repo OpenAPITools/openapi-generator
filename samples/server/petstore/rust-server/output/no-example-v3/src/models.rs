@@ -11,12 +11,13 @@ use crate::header;
 impl std::convert::TryFrom<header::IntoHeaderValue<InlineObject>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<InlineObject>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<InlineObject>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for InlineObject - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for InlineObject - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -25,17 +26,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<InlineObject>> for hyper::hea
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineObject> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <InlineObject as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into InlineObject - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into InlineObject - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }

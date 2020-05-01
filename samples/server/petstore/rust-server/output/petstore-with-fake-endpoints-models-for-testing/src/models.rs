@@ -11,12 +11,13 @@ use crate::header;
 impl std::convert::TryFrom<header::IntoHeaderValue<AdditionalPropertiesClass>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<AdditionalPropertiesClass>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<AdditionalPropertiesClass>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for AdditionalPropertiesClass - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AdditionalPropertiesClass - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -25,17 +26,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<AdditionalPropertiesClass>> f
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AdditionalPropertiesClass> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <AdditionalPropertiesClass as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into AdditionalPropertiesClass - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AdditionalPropertiesClass - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -140,12 +143,13 @@ impl AdditionalPropertiesClass {
 impl std::convert::TryFrom<header::IntoHeaderValue<Animal>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Animal>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Animal>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Animal - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Animal - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -154,17 +158,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Animal>> for hyper::header::H
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Animal> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Animal as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Animal - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Animal - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -273,12 +279,13 @@ impl Animal {
 impl std::convert::TryFrom<header::IntoHeaderValue<AnimalFarm>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<AnimalFarm>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<AnimalFarm>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for AnimalFarm - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AnimalFarm - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -287,17 +294,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<AnimalFarm>> for hyper::heade
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnimalFarm> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <AnimalFarm as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into AnimalFarm - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AnimalFarm - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -407,12 +416,13 @@ impl AnimalFarm {
 impl std::convert::TryFrom<header::IntoHeaderValue<ApiResponse>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ApiResponse>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ApiResponse>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for ApiResponse - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ApiResponse - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -421,17 +431,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ApiResponse>> for hyper::head
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ApiResponse> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <ApiResponse as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into ApiResponse - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ApiResponse - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -557,12 +569,13 @@ impl ApiResponse {
 impl std::convert::TryFrom<header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for ArrayOfArrayOfNumberOnly - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ArrayOfArrayOfNumberOnly - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -571,17 +584,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>> fo
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayOfArrayOfNumberOnly> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <ArrayOfArrayOfNumberOnly as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into ArrayOfArrayOfNumberOnly - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ArrayOfArrayOfNumberOnly - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -675,12 +690,13 @@ impl ArrayOfArrayOfNumberOnly {
 impl std::convert::TryFrom<header::IntoHeaderValue<ArrayOfNumberOnly>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ArrayOfNumberOnly>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ArrayOfNumberOnly>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for ArrayOfNumberOnly - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ArrayOfNumberOnly - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -689,17 +705,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ArrayOfNumberOnly>> for hyper
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayOfNumberOnly> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <ArrayOfNumberOnly as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into ArrayOfNumberOnly - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ArrayOfNumberOnly - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -797,12 +815,13 @@ impl ArrayOfNumberOnly {
 impl std::convert::TryFrom<header::IntoHeaderValue<ArrayTest>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ArrayTest>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ArrayTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for ArrayTest - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ArrayTest - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -811,17 +830,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ArrayTest>> for hyper::header
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ArrayTest> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <ArrayTest as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into ArrayTest - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ArrayTest - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -954,12 +975,13 @@ impl ArrayTest {
 impl std::convert::TryFrom<header::IntoHeaderValue<Capitalization>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Capitalization>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Capitalization>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Capitalization - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Capitalization - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -968,17 +990,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Capitalization>> for hyper::h
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Capitalization> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Capitalization as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Capitalization - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Capitalization - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1147,12 +1171,13 @@ impl Capitalization {
 impl std::convert::TryFrom<header::IntoHeaderValue<Cat>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Cat>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Cat>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Cat - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Cat - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1161,17 +1186,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Cat>> for hyper::header::Head
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Cat> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Cat as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Cat - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Cat - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1294,12 +1321,13 @@ impl Cat {
 impl std::convert::TryFrom<header::IntoHeaderValue<CatAllOf>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<CatAllOf>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<CatAllOf>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for CatAllOf - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for CatAllOf - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1308,17 +1336,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<CatAllOf>> for hyper::header:
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<CatAllOf> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <CatAllOf as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into CatAllOf - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into CatAllOf - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1416,12 +1446,13 @@ impl CatAllOf {
 impl std::convert::TryFrom<header::IntoHeaderValue<Category>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Category>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Category>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Category - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Category - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1430,17 +1461,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Category>> for hyper::header:
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Category> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Category as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Category - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Category - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1554,12 +1587,13 @@ impl Category {
 impl std::convert::TryFrom<header::IntoHeaderValue<ClassModel>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ClassModel>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ClassModel>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for ClassModel - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ClassModel - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1568,17 +1602,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ClassModel>> for hyper::heade
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ClassModel> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <ClassModel as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into ClassModel - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ClassModel - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1676,12 +1712,13 @@ impl ClassModel {
 impl std::convert::TryFrom<header::IntoHeaderValue<Client>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Client>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Client>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Client - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Client - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1690,17 +1727,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Client>> for hyper::header::H
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Client> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Client as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Client - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Client - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1798,12 +1837,13 @@ impl Client {
 impl std::convert::TryFrom<header::IntoHeaderValue<Dog>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Dog>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Dog>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Dog - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Dog - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1812,17 +1852,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Dog>> for hyper::header::Head
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Dog> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Dog as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Dog - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Dog - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1945,12 +1987,13 @@ impl Dog {
 impl std::convert::TryFrom<header::IntoHeaderValue<DogAllOf>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<DogAllOf>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<DogAllOf>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for DogAllOf - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for DogAllOf - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -1959,17 +2002,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<DogAllOf>> for hyper::header:
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DogAllOf> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <DogAllOf as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into DogAllOf - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into DogAllOf - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2067,12 +2112,13 @@ impl DogAllOf {
 impl std::convert::TryFrom<header::IntoHeaderValue<EnumArrays>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<EnumArrays>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<EnumArrays>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for EnumArrays - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for EnumArrays - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2081,17 +2127,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumArrays>> for hyper::heade
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<EnumArrays> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <EnumArrays as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into EnumArrays - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into EnumArrays - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2264,12 +2312,13 @@ impl EnumClass {
 impl std::convert::TryFrom<header::IntoHeaderValue<EnumTest>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<EnumTest>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<EnumTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for EnumTest - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for EnumTest - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2278,17 +2327,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumTest>> for hyper::header:
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<EnumTest> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <EnumTest as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into EnumTest - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into EnumTest - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2439,12 +2490,13 @@ impl EnumTest {
 impl std::convert::TryFrom<header::IntoHeaderValue<FormatTest>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<FormatTest>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<FormatTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for FormatTest - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for FormatTest - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2453,17 +2505,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<FormatTest>> for hyper::heade
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<FormatTest> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <FormatTest as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into FormatTest - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into FormatTest - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2703,12 +2757,13 @@ impl FormatTest {
 impl std::convert::TryFrom<header::IntoHeaderValue<HasOnlyReadOnly>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<HasOnlyReadOnly>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<HasOnlyReadOnly>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for HasOnlyReadOnly - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for HasOnlyReadOnly - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2717,17 +2772,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<HasOnlyReadOnly>> for hyper::
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<HasOnlyReadOnly> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <HasOnlyReadOnly as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into HasOnlyReadOnly - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into HasOnlyReadOnly - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2839,12 +2896,13 @@ impl HasOnlyReadOnly {
 impl std::convert::TryFrom<header::IntoHeaderValue<List>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<List>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<List>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for List - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for List - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2853,17 +2911,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<List>> for hyper::header::Hea
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<List> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <List as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into List - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into List - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2961,12 +3021,13 @@ impl List {
 impl std::convert::TryFrom<header::IntoHeaderValue<MapTest>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<MapTest>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<MapTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for MapTest - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for MapTest - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -2975,17 +3036,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MapTest>> for hyper::header::
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MapTest> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <MapTest as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into MapTest - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into MapTest - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3103,12 +3166,13 @@ impl MapTest {
 impl std::convert::TryFrom<header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for MixedPropertiesAndAdditionalPropertiesClass - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for MixedPropertiesAndAdditionalPropertiesClass - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3117,17 +3181,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MixedPropertiesAndAdditionalP
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <MixedPropertiesAndAdditionalPropertiesClass as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into MixedPropertiesAndAdditionalPropertiesClass - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into MixedPropertiesAndAdditionalPropertiesClass - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3243,12 +3309,13 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 impl std::convert::TryFrom<header::IntoHeaderValue<Model200Response>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Model200Response>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Model200Response>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Model200Response - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Model200Response - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3257,17 +3324,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Model200Response>> for hyper:
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Model200Response> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Model200Response as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Model200Response - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Model200Response - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3381,12 +3450,13 @@ impl Model200Response {
 impl std::convert::TryFrom<header::IntoHeaderValue<ModelReturn>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ModelReturn>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ModelReturn>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for ModelReturn - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ModelReturn - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3395,17 +3465,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ModelReturn>> for hyper::head
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ModelReturn> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <ModelReturn as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into ModelReturn - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ModelReturn - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3505,12 +3577,13 @@ impl ModelReturn {
 impl std::convert::TryFrom<header::IntoHeaderValue<Name>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Name>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Name>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Name - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Name - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3519,17 +3592,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Name>> for hyper::header::Hea
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Name> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Name as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Name - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Name - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3667,12 +3742,13 @@ impl Name {
 impl std::convert::TryFrom<header::IntoHeaderValue<NumberOnly>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<NumberOnly>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<NumberOnly>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for NumberOnly - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for NumberOnly - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3681,17 +3757,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<NumberOnly>> for hyper::heade
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<NumberOnly> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <NumberOnly as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into NumberOnly - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into NumberOnly - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3789,12 +3867,13 @@ impl NumberOnly {
 impl std::convert::TryFrom<header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for ObjectContainingObjectWithOnlyAdditionalProperties - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ObjectContainingObjectWithOnlyAdditionalProperties - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3803,17 +3882,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ObjectContainingObjectWithOnl
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <ObjectContainingObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into ObjectContainingObjectWithOnlyAdditionalProperties - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ObjectContainingObjectWithOnlyAdditionalProperties - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3967,12 +4048,13 @@ impl ObjectWithOnlyAdditionalProperties {
 impl std::convert::TryFrom<header::IntoHeaderValue<Order>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Order>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Order>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Order - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Order - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -3981,17 +4063,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Order>> for hyper::header::He
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Order> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Order as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Order - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Order - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4198,12 +4282,13 @@ impl OuterBoolean {
 impl std::convert::TryFrom<header::IntoHeaderValue<OuterComposite>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<OuterComposite>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<OuterComposite>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for OuterComposite - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for OuterComposite - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4212,17 +4297,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<OuterComposite>> for hyper::h
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<OuterComposite> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <OuterComposite as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into OuterComposite - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into OuterComposite - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4488,12 +4575,13 @@ impl OuterString {
 impl std::convert::TryFrom<header::IntoHeaderValue<Pet>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Pet>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Pet>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Pet - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Pet - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4502,17 +4590,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Pet>> for hyper::header::Head
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Pet> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Pet as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Pet - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Pet - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4669,12 +4759,13 @@ impl Pet {
 impl std::convert::TryFrom<header::IntoHeaderValue<ReadOnlyFirst>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ReadOnlyFirst>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ReadOnlyFirst>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for ReadOnlyFirst - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ReadOnlyFirst - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4683,17 +4774,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ReadOnlyFirst>> for hyper::he
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ReadOnlyFirst> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <ReadOnlyFirst as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into ReadOnlyFirst - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ReadOnlyFirst - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4805,12 +4898,13 @@ impl ReadOnlyFirst {
 impl std::convert::TryFrom<header::IntoHeaderValue<SpecialModelName>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<SpecialModelName>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<SpecialModelName>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for SpecialModelName - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for SpecialModelName - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4819,17 +4913,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<SpecialModelName>> for hyper:
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<SpecialModelName> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <SpecialModelName as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into SpecialModelName - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into SpecialModelName - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4928,12 +5024,13 @@ impl SpecialModelName {
 impl std::convert::TryFrom<header::IntoHeaderValue<Tag>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<Tag>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Tag>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for Tag - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Tag - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -4942,17 +5039,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Tag>> for hyper::header::Head
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Tag> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <Tag as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into Tag - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Tag - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
@@ -5065,12 +5164,13 @@ impl Tag {
 impl std::convert::TryFrom<header::IntoHeaderValue<User>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<User>) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<User>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
-             Ok(value) => Ok(value),
-             Err(e) => Err(format!("Invalid header value for User - value: {} is invalid {}",
-                 hdr_value, e))
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for User - value: {} is invalid {}",
+                     hdr_value, e))
         }
     }
 }
@@ -5079,17 +5179,19 @@ impl std::convert::TryFrom<header::IntoHeaderValue<User>> for hyper::header::Hea
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<User> {
     type Error = String;
 
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> Result<Self, Self::Error> {
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
-             Ok(value) => {
+             std::result::Result::Ok(value) => {
                     match <User as std::str::FromStr>::from_str(value) {
-                        Ok(value) => Ok(header::IntoHeaderValue(value)),
-                        Err(err) => Err(format!("Unable to convert header value '{}' into User - {}",
-                            value, err))
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into User - {}",
+                                value, err))
                     }
              },
-             Err(e) => Err(format!("Unable to convert header: {:?} to string: {}",
-                 hdr_value, e))
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
         }
     }
 }
