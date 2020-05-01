@@ -897,6 +897,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
+        if (ModelUtils.isAnyTypeSchema(schema)) {
+            return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + fullSufix;
+        }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
@@ -910,7 +913,15 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
+            if (inner == null) {
+                // In OAS 3.0.x, the array "items" attribute is required.
+                // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
+                // specification is aligned with the JSON schema specification.
+                // When "items" is not specified, the elements of the array may be anything at all.
+                return prefix + "[bool, date, datetime, dict, float, int, list, str, none_type]" + fullSuffix;
+            } else {
+                return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
+            }
         }
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
