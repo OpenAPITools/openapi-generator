@@ -274,11 +274,17 @@ class ModelComposed(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        values = set()
+        values = []
+        # A composed model stores child (oneof/anyOf/allOf) models under
+        # self._var_name_to_model_instances. A named property can exist in
+        # multiple child models. If the property is present in more than one
+        # child model, the value must be the same across all the child models.
         if model_instances:
             for model_instance in model_instances:
                 if name in model_instance._data_store:
-                    values.add(model_instance._data_store[name])
+                    v = model_instance._data_store[name]
+                    if v not in values:
+                        values.append(v)
         len_values = len(values)
         if len_values == 0:
             raise ApiKeyError(
@@ -286,10 +292,10 @@ class ModelComposed(OpenApiModel):
                 path_to_item
             )
         elif len_values == 1:
-            return list(values)[0]
+            return values[0]
         elif len_values > 1:
             raise ApiValueError(
-                "Values stored for property {0} in {1} difffer when looking "
+                "Values stored for property {0} in {1} differ when looking "
                 "at self and self's composed instances. All values must be "
                 "the same".format(name, type(self).__name__),
                 path_to_item
@@ -330,7 +336,7 @@ COERCION_INDEX_BY_TYPE = {
     ModelComposed: 0,
     ModelNormal: 1,
     ModelSimple: 2,
-    none_type: 3,
+    none_type: 3,    # The type of 'None'.
     list: 4,
     dict: 5,
     float: 6,
@@ -339,7 +345,7 @@ COERCION_INDEX_BY_TYPE = {
     datetime: 9,
     date: 10,
     str: 11,
-    file_type: 12,
+    file_type: 12,   # 'file_type' is an alias for the built-in 'file' or 'io.IOBase' type.
 }
 
 # these are used to limit what type conversions we try to do
@@ -608,11 +614,11 @@ def order_response_types(required_types):
 
     Args:
         required_types (list/tuple): collection of classes or instance of
-            list or dict with classs information inside it
+            list or dict with class information inside it.
 
     Returns:
         (list): coercion order sorted collection of classes or instance
-            of list or dict with classs information inside it
+            of list or dict with class information inside it.
     """
 
     def index_getter(class_or_instance):
@@ -629,7 +635,9 @@ def order_response_types(required_types):
         elif (inspect.isclass(class_or_instance)
                 and issubclass(class_or_instance, ModelSimple)):
             return COERCION_INDEX_BY_TYPE[ModelSimple]
-        return COERCION_INDEX_BY_TYPE[class_or_instance]
+        elif class_or_instance in COERCION_INDEX_BY_TYPE:
+            return COERCION_INDEX_BY_TYPE[class_or_instance]
+        raise ApiValueError("Unsupported type: %s" % class_or_instance)
 
     sorted_types = sorted(
         required_types,
@@ -647,7 +655,7 @@ def remove_uncoercible(required_types_classes, current_item, from_server,
                           these should be ordered by COERCION_INDEX_BY_TYPE
         from_server (bool): a boolean of whether the data is from the server
                           if false, the data is from the client
-        current_item (any): the current item to be converted
+        current_item (any): the current item (input data) to be converted
 
     Keyword Args:
         must_convert (bool): if True the item to convert is of the wrong

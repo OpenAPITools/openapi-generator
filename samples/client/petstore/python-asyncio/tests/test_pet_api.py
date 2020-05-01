@@ -192,6 +192,19 @@ class TestPetApiTests(unittest.TestCase):
         except ApiException as e:
             self.assertEqual(404, e.status)
 
+    @async_test
+    async def test_proxy(self):
+        config = Configuration()
+        # set not-existent proxy and catch an error to verify that
+        # the client library (aiohttp) tried to use it.
+        config.proxy = 'http://localhost:8080/proxy'
+        async with petstore_api.ApiClient(config) as client:
+            pet_api = petstore_api.PetApi(client)
+
+            with self.assertRaisesRegex(petstore_api.rest.aiohttp.client_exceptions.ClientProxyConnectionError,
+                                        'Cannot connect to host localhost:8080'):
+                await pet_api.get_pet_by_id(self.pet.id)
+
 
 if __name__ == '__main__':
     import logging

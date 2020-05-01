@@ -111,6 +111,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
+
         super.processOpts();
 
         supportingFiles.remove(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
@@ -369,7 +371,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
-                // make sure discrimonator models are included in imports
+                // make sure discriminator models are included in imports
                 CodegenDiscriminator discriminator = cm.discriminator;
                 if (discriminator != null) {
                     Set<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels();
@@ -882,8 +884,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Return a string representation of the Python types for the specified schema.
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
-     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types. 
-     * 
+     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
+     *
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.

@@ -35,17 +35,18 @@ public class Animal  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
   @NotNull
   public String getClassName() {
     return className;
   }
+
   public void setClassName(String className) {
     this.className = className;
-  }
-
-  /**
+  }/**
    **/
   public Animal color(String color) {
     this.color = color;
@@ -53,15 +54,17 @@ public class Animal  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("color")
   public String getColor() {
     return color;
   }
+
   public void setColor(String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -102,5 +105,7 @@ public class Animal  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

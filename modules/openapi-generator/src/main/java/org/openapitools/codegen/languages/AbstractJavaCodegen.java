@@ -59,6 +59,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+    public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -81,9 +82,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String licenseUrl = "http://unlicense.org";
     protected String projectFolder = "src/main";
     protected String projectTestFolder = "src/test";
-    protected String sourceFolder = projectFolder + "/java";
+    protected String sourceFolder = projectFolder + File.separator +"java";
     protected String testFolder = projectTestFolder + "/java";
     protected boolean fullJavaUtil;
+    protected boolean discriminatorCaseSensitive = true; // True if the discriminator value lookup should be case-sensitive.
     protected String javaUtilPrefix = "";
     protected Boolean serializableModel = false;
     protected boolean serializeBigDecimalAsString = false;
@@ -189,6 +191,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC, this.getSerializableModel()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING_DESC, serializeBigDecimalAsString));
         cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util. This option only works for Java API client", fullJavaUtil));
+        cliOptions.add(CliOption.newBoolean(DISCRIMINATOR_CASE_SENSITIVE, "Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client", discriminatorCaseSensitive));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
 
@@ -385,6 +388,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(FULL_JAVA_UTIL)) {
             this.setFullJavaUtil(Boolean.valueOf(additionalProperties.get(FULL_JAVA_UTIL).toString()));
         }
+        if (additionalProperties.containsKey(DISCRIMINATOR_CASE_SENSITIVE)) {
+            this.setDiscriminatorCaseSensitive(Boolean.valueOf(additionalProperties.get(DISCRIMINATOR_CASE_SENSITIVE).toString()));            
+        } else {
+            // By default, the discriminator lookup should be case sensitive. There is nothing in the OpenAPI specification
+            // that indicates the lookup should be case insensitive. However, some implementations perform
+            // a case-insensitive lookup.
+            this.setDiscriminatorCaseSensitive(Boolean.TRUE);            
+        }
+        additionalProperties.put(DISCRIMINATOR_CASE_SENSITIVE, this.discriminatorCaseSensitive);
 
         if (fullJavaUtil) {
             javaUtilPrefix = "java.util.";
@@ -1429,6 +1441,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setFullJavaUtil(boolean fullJavaUtil) {
         this.fullJavaUtil = fullJavaUtil;
+    }
+
+    /**
+     * Set whether discriminator value lookup is case-sensitive or not.
+     * 
+     * @param discriminatorCaseSensitive true if the discriminator value lookup should be case sensitive.
+     */
+    public void setDiscriminatorCaseSensitive(boolean discriminatorCaseSensitive) {
+        this.discriminatorCaseSensitive = discriminatorCaseSensitive;
     }
 
     public void setWithXml(boolean withXml) {

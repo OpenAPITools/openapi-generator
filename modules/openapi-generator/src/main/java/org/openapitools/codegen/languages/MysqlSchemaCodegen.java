@@ -20,10 +20,12 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.File;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -35,6 +37,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
     public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
+    public static final String NAMED_PARAMETERS_ENABLED = "namedParametersEnabled";
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
     public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
@@ -58,6 +61,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
     protected Boolean jsonDataTypeEnabled = true;
+    protected Boolean namedParametersEnabled = false;
     protected String identifierNamingConvention = "original";
 
     public MysqlSchemaCodegen() {
@@ -81,6 +85,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         // clear import mapping (from default generator) as mysql does not use import directives
         importMapping.clear();
 
+        setModelPackage("Model");
+        modelTemplateFiles.put("sql_query.mustache", ".sql");
         //modelTestTemplateFiles.put("model_test.mustache", ".php");
         // no doc files
         // modelDocTemplateFiles.clear();
@@ -179,6 +185,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         cliOptions.clear();
         addOption(DEFAULT_DATABASE_NAME, "Default database name for all MySQL queries", defaultDatabaseName);
         addSwitch(JSON_DATA_TYPE_ENABLED, "Use special JSON MySQL data type for complex model properties. Requires MySQL version 5.7.8. Generates TEXT data type when disabled", jsonDataTypeEnabled);
+        addSwitch(NAMED_PARAMETERS_ENABLED, "Generates model prepared SQLs with named parameters, eg. :petName. Question mark placeholder used when option disabled.", namedParametersEnabled);
 
         // we used to snake_case table/column names, let's add this option
         CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
@@ -226,9 +233,18 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             additionalProperties.put(JSON_DATA_TYPE_ENABLED, getJsonDataTypeEnabled());
         }
 
+        if (additionalProperties.containsKey(NAMED_PARAMETERS_ENABLED)) {
+            this.setNamedParametersEnabled(Boolean.valueOf(additionalProperties.get(NAMED_PARAMETERS_ENABLED).toString()));
+        }
+
+        additionalProperties.put(NAMED_PARAMETERS_ENABLED, getNamedParametersEnabled());
+
         if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
             this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
         }
+
+        // make model src path available in mustache template
+        additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage));
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("mysql_schema.mustache", "", "mysql_schema.sql"));
@@ -1159,6 +1175,24 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     /**
+     * Enables named parameters in prepared SQLs
+     *
+     * @param enabled true to enable, otherwise false
+     */
+    public void setNamedParametersEnabled(Boolean enabled) {
+        this.namedParametersEnabled = enabled;
+    }
+
+    /**
+     * Whether named parameters enabled or disabled in prepared SQLs
+     *
+     * @return true if enabled otherwise false
+     */
+    public Boolean getNamedParametersEnabled() {
+        return this.namedParametersEnabled;
+    }
+
+    /**
      * Sets identifier naming convention for table names and column names.
      * This is not related to database name which is defined by defaultDatabaseName option.
      *
@@ -1184,4 +1218,22 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         return this.identifierNamingConvention;
     }
 
+    /**
+     * Slightly modified version of AbstractPhpCodegen.toSrcPath method.
+     *
+     * @param packageName package name
+     *
+     * @return path
+     */
+    public String toSrcPath(String packageName) {
+        // Trim prefix file separators from package path
+        String packagePath = StringUtils.removeStart(
+            // Replace period, backslash, forward slash with file separator in package name
+            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+            File.separator
+        );
+
+        // Trim trailing file separators from the overall path
+        return StringUtils.removeEnd(packagePath, File.separator);
+    }
 }

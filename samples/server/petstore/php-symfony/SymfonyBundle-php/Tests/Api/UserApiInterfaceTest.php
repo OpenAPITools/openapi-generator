@@ -85,7 +85,7 @@ class UserApiInterfaceTest extends WebTestCase
 
         $path = '/user';
 
-        $crawler = $client->request('POST', $path);
+        $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     /**
@@ -100,7 +100,7 @@ class UserApiInterfaceTest extends WebTestCase
 
         $path = '/user/createWithArray';
 
-        $crawler = $client->request('POST', $path);
+        $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     /**
@@ -115,7 +115,7 @@ class UserApiInterfaceTest extends WebTestCase
 
         $path = '/user/createWithList';
 
-        $crawler = $client->request('POST', $path);
+        $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     /**
@@ -199,7 +199,7 @@ class UserApiInterfaceTest extends WebTestCase
         $data = $this->genTestData('[a-z0-9]+');
         $path = str_replace($pattern, $data, $path);
 
-        $crawler = $client->request('PUT', $path);
+        $crawler = $client->request('PUT', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     protected function genTestData($regexp)

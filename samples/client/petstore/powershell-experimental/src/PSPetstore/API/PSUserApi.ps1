@@ -328,6 +328,10 @@ No description available.
 .PARAMETER Username
 The name that needs to be fetched. Use user1 for testing.
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -342,6 +346,9 @@ function Get-PSUserByName {
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Username},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -362,6 +369,11 @@ function Get-PSUserByName {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/user/{username}'
         if (!$Username) {
@@ -403,6 +415,10 @@ The user name for login
 .PARAMETER Password
 The password for login in clear text
 
+.PARAMETER ReturnType
+
+Select the return type (optional): application/xml, application/json
+
 .PARAMETER WithHttpInfo
 
 A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
@@ -420,6 +436,9 @@ function Invoke-PSLoginUser {
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Password},
+        [String]
+        [ValidateSet("application/xml", "application/json")]
+        $ReturnType,
         [Switch]
         $WithHttpInfo
     )
@@ -440,6 +459,11 @@ function Invoke-PSLoginUser {
         $Configuration = Get-PSConfiguration
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/xml', 'application/json')
+
+        if ($ReturnType) {
+            # use the return type (MIME) provided by the user
+            $LocalVarAccepts = @($ReturnType)
+        }
 
         $LocalVarUri = '/user/login'
 

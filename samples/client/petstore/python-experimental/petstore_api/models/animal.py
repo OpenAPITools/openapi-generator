@@ -90,12 +90,13 @@ class Animal(ModelNormal):
 
     @staticmethod
     def discriminator():
-        return {
-            'class_name': {
-                'Cat': cat.Cat,
-                'Dog': dog.Dog,
-            },
+        val = {
+            'Cat': cat.Cat,
+            'Dog': dog.Dog,
         }
+        if not val:
+            return None
+        return {'class_name': val}
 
     attribute_map = {
         'class_name': 'className',  # noqa: E501

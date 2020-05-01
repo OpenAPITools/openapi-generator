@@ -74,7 +74,7 @@ COERCION_INDEX_BY_TYPE = {
     ModelComposed: 0,
     ModelNormal: 1,
     ModelSimple: 2,
-    none_type: 3,
+    none_type: 3,    # The type of 'None'.
     list: 4,
     dict: 5,
     float: 6,
@@ -83,7 +83,7 @@ COERCION_INDEX_BY_TYPE = {
     datetime: 9,
     date: 10,
     str: 11,
-    file_type: 12,
+    file_type: 12,   # 'file_type' is an alias for the built-in 'file' or 'io.IOBase' type.
 }
 
 # these are used to limit what type conversions we try to do
@@ -352,11 +352,11 @@ def order_response_types(required_types):
 
     Args:
         required_types (list/tuple): collection of classes or instance of
-            list or dict with classs information inside it
+            list or dict with class information inside it.
 
     Returns:
         (list): coercion order sorted collection of classes or instance
-            of list or dict with classs information inside it
+            of list or dict with class information inside it.
     """
 
     def index_getter(class_or_instance):
@@ -373,7 +373,9 @@ def order_response_types(required_types):
         elif (inspect.isclass(class_or_instance)
                 and issubclass(class_or_instance, ModelSimple)):
             return COERCION_INDEX_BY_TYPE[ModelSimple]
-        return COERCION_INDEX_BY_TYPE[class_or_instance]
+        elif class_or_instance in COERCION_INDEX_BY_TYPE:
+            return COERCION_INDEX_BY_TYPE[class_or_instance]
+        raise ApiValueError("Unsupported type: %s" % class_or_instance)
 
     sorted_types = sorted(
         required_types,
@@ -391,7 +393,7 @@ def remove_uncoercible(required_types_classes, current_item, from_server,
                           these should be ordered by COERCION_INDEX_BY_TYPE
         from_server (bool): a boolean of whether the data is from the server
                           if false, the data is from the client
-        current_item (any): the current item to be converted
+        current_item (any): the current item (input data) to be converted
 
     Keyword Args:
         must_convert (bool): if True the item to convert is of the wrong
