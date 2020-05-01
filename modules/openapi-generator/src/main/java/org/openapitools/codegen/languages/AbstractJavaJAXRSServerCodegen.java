@@ -195,8 +195,6 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         @SuppressWarnings("unchecked")
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
-            String commonBaseName = null;
-            boolean baseNameEquals = true;
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
@@ -262,23 +260,6 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 } else if ("map".equals(operation.returnContainer)) {
                     operation.returnContainer = "Map";
                 }
-
-                if(commonBaseName == null) {
-                    commonBaseName = operation.baseName;
-                } else if(!commonBaseName.equals(operation.baseName)) {
-                    baseNameEquals = false;
-                }
-            }
-            if(baseNameEquals) {
-                objs.put("commonPath", commonBaseName);
-            } else {
-                for (CodegenOperation operation : ops) {
-                    if(operation.baseName != null) {
-                        operation.path = "/" + operation.baseName + operation.path;
-                        operation.baseName = null;
-                    }
-                }
-                objs.put("commonPath", null);
             }
         }
         return objs;
