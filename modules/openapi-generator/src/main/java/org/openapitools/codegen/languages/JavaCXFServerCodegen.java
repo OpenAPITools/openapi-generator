@@ -80,6 +80,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         // clioOptions default redifinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(USE_TAGS, String.valueOf(true));
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
 
@@ -122,8 +123,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         cliOptions.add(CliOption.newBoolean(USE_ANNOTATED_BASE_PATH, "Use @Path annotations for basePath"));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_NON_SPRING_APPLICATION, "Generate non-Spring application"));
-        cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
-
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
 
     }

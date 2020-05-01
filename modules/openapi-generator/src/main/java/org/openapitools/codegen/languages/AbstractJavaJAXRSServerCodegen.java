@@ -76,6 +76,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
         cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started").defaultValue(serverPort));
+        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
     }
 
 
@@ -97,11 +98,11 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+            setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
 
         if (additionalProperties.containsKey(USE_TAGS)) {
-            useTags = Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString());
+            setUseTags(convertPropertyToBoolean(USE_TAGS));
         }
 
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
