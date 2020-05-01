@@ -70,6 +70,7 @@ class TestFruitReq(unittest.TestCase):
                 'oneOf': [
                     petstore_api.AppleReq,
                     petstore_api.BananaReq,
+                    type(None),
                 ],
             }
         )

@@ -1248,6 +1248,11 @@ def get_oneof_instance(self, model_args, constant_args):
     # Iterate over each oneOf schema and determine if the input data
     # matches the oneOf schemas.
     for oneof_class in self._composed_schemas()['oneOf']:
+        if oneof_class is none_type:
+            if model_args is None:
+                # The input data matches the 'None' type.
+                oneof_instances.append(model_args)
+            continue
         # transform js keys from input data to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
             model_args, oneof_class)
@@ -1305,6 +1310,11 @@ def get_anyof_instances(self, model_args, constant_args):
         return anyof_instances
 
     for anyof_class in self._composed_schemas()['anyOf']:
+        if anyof_class is none_type:
+            if model_args is None:
+                # The input data matches the 'None' type.
+                oneof_instances.append(model_args)
+            continue
         # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
 
