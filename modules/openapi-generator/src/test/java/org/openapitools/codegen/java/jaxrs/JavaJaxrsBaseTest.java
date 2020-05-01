@@ -144,6 +144,13 @@ public abstract class JavaJaxrsBaseTest {
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
 
+        MockDefaultGenerator.WrittenTemplateBasedFile tag0File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Tag0Api.java");
+        Assert.assertEquals(tag0File.getTemplateData().get("baseName"), "Tag0");
+        List<CodegenOperation> tag0 = getOperationsList(tag0File.getTemplateData());
+        Assert.assertEquals(tag0.size(), 2);
+        assertOperation(tag0.get(0), "Tag0", "/", false);
+        assertOperation(tag0.get(1), "Tag0", "/{id}", true);
+
         MockDefaultGenerator.WrittenTemplateBasedFile tag1File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Tag1Api.java");
         Assert.assertEquals(tag1File.getTemplateData().get("baseName"), "Tag1");
         List<CodegenOperation> tag1 = getOperationsList(tag1File.getTemplateData());
@@ -189,6 +196,13 @@ public abstract class JavaJaxrsBaseTest {
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        MockDefaultGenerator.WrittenTemplateBasedFile tag0File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
+        Assert.assertEquals(tag0File.getTemplateData().get("baseName"), "default");
+        List<CodegenOperation> tag0 = getOperationsList(tag0File.getTemplateData());
+        Assert.assertEquals(tag0.size(), 2);
+        assertOperation(tag0.get(0), "default", "/", false);
+        assertOperation(tag0.get(1), "default", "/{id}", true);
 
         MockDefaultGenerator.WrittenTemplateBasedFile group1File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group1Api.java");
         Assert.assertEquals(group1File.getTemplateData().get("baseName"), "group1");

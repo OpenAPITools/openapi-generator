@@ -32,8 +32,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
     public static final String USE_TAGS = "useTags";
@@ -111,36 +109,20 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        String basePath = getBasePath(resourcePath);
+        if (!StringUtils.isEmpty(basePath)) {
+            co.subresourceOperation = !co.path.isEmpty();
+        }
         if (useTags) {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-            co.subresourceOperation = !co.path.isEmpty();
         } else {
-            addOperationToGroupByPath(tag, resourcePath, operation, co, operations);
+            if (StringUtils.isEmpty(basePath) || StringUtils.containsAny(basePath, "{", "}")) {
+                basePath = "default";
+            }
+            List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
+            opList.add(co);
+            co.baseName = basePath;
         }
-    }
-
-    protected void addOperationToGroupByPath(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        String basePath = resourcePath;
-        if (basePath.startsWith("/")) {
-            basePath = basePath.substring(1);
-        }
-        int pos = basePath.indexOf("/");
-        if (pos > 0) {
-            basePath = basePath.substring(0, pos);
-        }
-
-        if (StringUtils.isEmpty(basePath)) {
-            basePath = "default";
-        } else {
-            co.subresourceOperation = !co.path.isEmpty();
-        }
-        List<CodegenOperation> opList = operations.get(basePath);
-        if (opList == null || opList.isEmpty()) {
-            opList = new ArrayList<CodegenOperation>();
-            operations.put(basePath, opList);
-        }
-        opList.add(co);
-        co.baseName = basePath;
     }
 
     @Override
@@ -271,7 +253,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         if (computed.length() > 0) {
             computed = sanitizeName(computed);
         }
-         return super.toApiName(computed);
+        return super.toApiName(computed);
     }
 
     @Override
@@ -291,6 +273,15 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             result = result.substring(0, ix) + "Service.java";
         }
         return result;
+    }
+
+    private String getBasePath(String resourcePath) {
+        String basePath = StringUtils.removeStart(resourcePath, "/");
+        int pos = StringUtils.indexOf(basePath, "/");
+        if (pos >= 0) {
+            return basePath.substring(0, pos);
+        }
+        return basePath;
     }
 
     private String implFileFolder(String output) {

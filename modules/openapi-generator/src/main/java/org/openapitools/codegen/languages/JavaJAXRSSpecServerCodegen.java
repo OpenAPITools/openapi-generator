@@ -17,18 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -52,8 +47,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerAnnotations = true;
     private boolean useJackson = false;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
-
-    private String primaryResourceName;
 
     public JavaJAXRSSpecServerCodegen() {
         super();
@@ -222,38 +215,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
-    protected void addOperationToGroupByPath(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        String basePath = resourcePath;
-        if (basePath.startsWith("/")) {
-            basePath = basePath.substring(1);
-        }
-        int pos = basePath.indexOf("/");
-        if (pos > 0) {
-            basePath = basePath.substring(0, pos);
-        }
-
-        String operationKey = basePath;
-        if (StringUtils.isEmpty(basePath)) {
-            basePath = tag;
-            operationKey = "";
-            primaryResourceName = tag;
-        } else if (basePath.matches("\\{.*\\}")) {
-            basePath = tag;
-            operationKey = "";
-            co.subresourceOperation = true;
-        } else {
-            co.subresourceOperation = !co.path.isEmpty();
-        }
-        List<CodegenOperation> opList = operations.get(operationKey);
-        if (opList == null || opList.isEmpty()) {
-            opList = new ArrayList<>();
-            operations.put(operationKey, opList);
-        }
-        opList.add(co);
-        co.baseName = basePath;
-    }
-
-    @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
         if (!useSwaggerAnnotations) {
@@ -280,16 +241,4 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
     }
 
-    @Override
-    public String toApiName(final String name) {
-        String computed = name;
-        if (computed.length() == 0) {
-            if (primaryResourceName == null) {
-                return "DefaultApi";
-            }
-            return primaryResourceName + "Api";
-        }
-        computed = sanitizeName(computed);
-        return camelize(computed) + "Api";
-    }
 }
