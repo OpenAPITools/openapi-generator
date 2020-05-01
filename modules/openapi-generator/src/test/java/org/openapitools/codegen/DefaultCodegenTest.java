@@ -1410,6 +1410,19 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testDeprecatedRef() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/model-deprecated.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map requestProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("complex").getProperties());
+
+        Assert.assertTrue(codegen.fromProperty("deprecated", (Schema)requestProperties.get("deprecated")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("current", (Schema)requestProperties.get("current")).deprecated);
+    }
+
+    @Test
     public void integerSchemaPropertyAndModelTest() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema schema = new IntegerSchema().format("int32");
