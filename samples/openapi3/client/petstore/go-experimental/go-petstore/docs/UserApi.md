@@ -36,7 +36,7 @@ import (
 )
 
 func main() {
-    user := openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123, ArbitraryObject: "TODO", ArbitraryNullableObject: "TODO", ArbitraryTypeValue: 123, ArbitraryNullableTypeValue: 123} // User | Created user object
+    user := openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123, ArbitraryObject: "TODO", ArbitraryNullableObject: "TODO", ArbitraryTypeValue: "TODO", ArbitraryNullableTypeValue: "TODO"} // User | Created user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -98,7 +98,7 @@ import (
 )
 
 func main() {
-    user := []User{openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123, ArbitraryObject: "TODO", ArbitraryNullableObject: "TODO", ArbitraryTypeValue: 123, ArbitraryNullableTypeValue: 123}} // []User | List of user object
+    user := []User{openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123, ArbitraryObject: "TODO", ArbitraryNullableObject: "TODO", ArbitraryTypeValue: "TODO", ArbitraryNullableTypeValue: "TODO"}} // []User | List of user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
