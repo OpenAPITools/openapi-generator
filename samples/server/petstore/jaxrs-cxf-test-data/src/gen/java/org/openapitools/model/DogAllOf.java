@@ -1,8 +1,5 @@
 package org.openapitools.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.openapitools.model.Animal;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -18,13 +15,41 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class AnimalFarm extends ArrayList<Animal> {
+public class DogAllOf  {
   
+  @ApiModelProperty(value = "")
+  private String breed;
+ /**
+  * Get breed
+  * @return breed
+  */
+  @JsonProperty("breed")
+  public String getBreed() {
+    return breed;
+  }
+
+  /**
+   * Sets the <code>breed</code> property.
+   */
+  public void setBreed(String breed) {
+    this.breed = breed;
+  }
+
+  /**
+   * Sets the <code>breed</code> property.
+   */
+  public DogAllOf breed(String breed) {
+    this.breed = breed;
+    return this;
+  }
+
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AnimalFarm {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("class DogAllOf {\n");
+    
+    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("}");
     return sb.toString();
   }

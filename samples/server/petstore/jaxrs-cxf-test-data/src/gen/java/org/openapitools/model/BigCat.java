@@ -1,28 +1,32 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
-import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
-import java.util.Objects;
+import io.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 
-
-public class BigCat extends Cat implements Serializable {
+public class BigCat extends Cat {
   
-
+@XmlType(name="KindEnum")
+@XmlEnum(String.class)
 public enum KindEnum {
 
-    LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(String.valueOf("leopards")), JAGUARS(String.valueOf("jaguars"));
-
+    @XmlEnumValue("lions") @JsonProperty("lions") LIONS(String.valueOf("lions")), 
+    @XmlEnumValue("tigers") @JsonProperty("tigers") TIGERS(String.valueOf("tigers")), 
+    @XmlEnumValue("leopards") @JsonProperty("leopards") LEOPARDS(String.valueOf("leopards")), 
+    @XmlEnumValue("jaguars") @JsonProperty("jaguars") JAGUARS(String.valueOf("jaguars"));
 
     private String value;
 
@@ -35,12 +39,10 @@ public enum KindEnum {
     }
 
     @Override
-    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
-    @JsonCreator
     public static KindEnum fromValue(String value) {
         for (KindEnum b : KindEnum.values()) {
             if (b.value.equals(value)) {
@@ -51,45 +53,32 @@ public enum KindEnum {
     }
 }
 
-  private @Valid KindEnum kind;
+  @ApiModelProperty(value = "")
+  private KindEnum kind;
+ /**
+  * Get kind
+  * @return kind
+  */
+  @JsonProperty("kind")
+  public String getKind() {
+    return kind == null ? null : kind.value();
+  }
 
   /**
-   **/
+   * Sets the <code>kind</code> property.
+   */
+  public void setKind(KindEnum kind) {
+    this.kind = kind;
+  }
+
+  /**
+   * Sets the <code>kind</code> property.
+   */
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
     return this;
   }
 
-  
-
-  
-  @ApiModelProperty(value = "")
-  @JsonProperty("kind")
-  public KindEnum getKind() {
-    return kind;
-  }
-
-  public void setKind(KindEnum kind) {
-    this.kind = kind;
-  }
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    BigCat bigCat = (BigCat) o;
-    return Objects.equals(this.kind, bigCat.kind) &&
-        super.equals(o);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(kind, super.hashCode());
-  }
 
   @Override
   public String toString() {
@@ -105,13 +94,11 @@ public enum KindEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
 }
 
