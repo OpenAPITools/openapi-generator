@@ -1320,8 +1320,7 @@ def get_anyof_instances(self, model_args, constant_args):
             # The only way the input data can match the 'None' type
             # is if the input data is the 'null' value.
             if model_args is None:
-                # The input data matches the 'None' type.
-                anyof_instances.append(model_args)
+                return None
             continue
         # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
