@@ -150,10 +150,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         if (additionalProperties.containsKey("mainPackage")) {
             setMainPackage((String) additionalProperties.get("mainPackage"));
             additionalProperties.replace("configKeyPath", this.configKeyPath);
-            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
-                invokerPackage = mainPackage + ".core";
-                additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-            }
             if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
                 apiPackage = mainPackage + ".api";
                 additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
@@ -162,7 +158,11 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                 modelPackage = mainPackage + ".model";
                 additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
             }
+            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
+                invokerPackage = mainPackage + ".core";
+            }
         }
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
