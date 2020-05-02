@@ -10,7 +10,9 @@
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
 	"time"
 )
 
@@ -37,6 +39,45 @@ func PtrString(v string) *string { return &v }
 
 // PtrTime is helper routine that returns a pointer to given Time value.
 func PtrTime(v time.Time) *time.Time { return &v }
+
+var nullLiteral []byte = []byte("null")
+
+// NullType is a type whose only value can be the JSON 'null' value.
+type NullType struct{
+	isSet bool
+}
+
+func NewNullType() *NullType {
+	return nil
+}
+
+func (v NullType) Get() interface{} {
+	return nil
+}
+
+func (v *NullType) Set() {
+	v.isSet = true
+}
+
+func (v NullType) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullType) Unset() {
+	v.isSet = false
+}
+
+func (v NullType) MarshalJSON() ([]byte, error) {
+	return nullLiteral, nil
+}
+
+func (v *NullType) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(bytes.TrimSpace(nullLiteral), src) {
+		v.isSet = true
+		return nil
+	}
+	return errors.New("Cannot unmarshal value into 'null' type")
+}
 
 type NullableBool struct {
 	value *bool
