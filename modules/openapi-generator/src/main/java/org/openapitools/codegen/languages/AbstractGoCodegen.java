@@ -92,8 +92,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "complex128",
                         "rune",
                         "byte",
-                        "map[string]interface{}",
-                        "interface{}"
+                        "ObjectType",
+                        "AnyType"
                         )
         );
 
@@ -128,9 +128,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // map[string]interface{}, whereas an arbitrary type is implemented
         // in golang as interface{}.
         // See issue #5387 for more details.
-        typeMapping.put("object", "map[string]interface{}");
-        typeMapping.put("interface{}", "interface{}");
-        typeMapping.put("AnyType", "interface{}");
+        typeMapping.put("object", "ObjectType");
+        // A schema that does not specify the 'type' attribute. The value
+        // can be anything.
+        typeMapping.put("AnyType", "AnyType");
         // Below is the entry to map the JSON 'null' type to golang.
         // Note there is no built-in 'null' type in golang, and it's not possible
         // to declare a variable whose only possible value is 'nil'.
@@ -383,7 +384,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             type = openAPIType;
         } else if ("object".equals(openAPIType) && ModelUtils.isAnyTypeSchema(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
-            type = "interface{}";
+            type = "AnyType";
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
