@@ -442,9 +442,9 @@ public class ScalaAkkaClientCodegenTest {
 
         Map<String, String> generatedFiles = generator.getFiles();
         Assert.assertEquals(generatedFiles.size(), 14);
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/model/SomeObj.scala"));
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/core/ApiSettings.scala"));
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/api/PingApi.scala"));
+        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/model/SomeObj.scala".replace("/", File.separator)));
+        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/core/ApiSettings.scala".replace("/", File.separator)));
+        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/api/PingApi.scala".replace("/", File.separator)));
     }
 
     @Test(description = "override api packages")
@@ -472,8 +472,8 @@ public class ScalaAkkaClientCodegenTest {
 
         Map<String, String> generatedFiles = generator.getFiles();
         Assert.assertEquals(generatedFiles.size(), 14);
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/model/package/SomeObj.scala"), "Model package is correct");
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala"), "Invoker package is correct");
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/api/package/PingApi.scala"), "Api package is correct");
+        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/model/package/SomeObj.scala".replace("/", File.separator)), "Model package is correct");
+        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala".replace("/", File.separator)), "Invoker package is correct");
+        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/api/package/PingApi.scala".replace("/", File.separator)), "Api package is correct");
     }
 }
