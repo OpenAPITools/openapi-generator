@@ -477,6 +477,10 @@ public class ScalaAkkaClientCodegenTest {
             System.out.println(entry.getKey());
         }
 
+        System.out.println("Expected: " + output + "/src/main/scala/hello/world/model/package/SomeObj.scala");
+        System.out.println("Expected: " + output + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala");
+        System.out.println("Expected: " + output + "/src/main/scala/hello/world/api/package/PingApi.scala");
+
         Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/model/package/SomeObj.scala".replace("/", File.separator)), "Model package is correct");
         Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala".replace("/", File.separator)), "Invoker package is correct");
         Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/api/package/PingApi.scala".replace("/", File.separator)), "Api package is correct");
