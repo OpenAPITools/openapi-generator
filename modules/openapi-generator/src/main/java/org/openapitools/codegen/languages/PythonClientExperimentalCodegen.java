@@ -897,8 +897,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
-        if (ModelUtils.isAnyTypeSchema(schema)) {
-            return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + fullSufix;
+        if (ModelUtils.isAnyTypeSchema(p)) {
+            return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
