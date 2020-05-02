@@ -23,7 +23,7 @@ import java.util.List;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
-@Path("/")
+@Path("{{commonPath}}")
 @RequestScoped
 
 @Api(description = "the {{{baseName}}} API")

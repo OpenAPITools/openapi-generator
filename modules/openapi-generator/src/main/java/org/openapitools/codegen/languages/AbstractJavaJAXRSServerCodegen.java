@@ -110,19 +110,19 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        String basePath = getBasePath(resourcePath);
+        final String basePath = StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"), "/");
         if (!StringUtils.isEmpty(basePath)) {
             co.subresourceOperation = !co.path.isEmpty();
         }
         if (useTags) {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         } else {
-            if (StringUtils.isEmpty(basePath) || StringUtils.containsAny(basePath, "{", "}")) {
-                basePath = "default";
-            }
-            List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
-            opList.add(co);
             co.baseName = basePath;
+            if (StringUtils.isEmpty(co.baseName) || StringUtils.containsAny(co.baseName, "{", "}")) {
+                co.baseName = "default";
+            }
+            final List<CodegenOperation> opList = operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
+            opList.add(co);
         }
     }
 
@@ -177,6 +177,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     static Map<String, Object> jaxrsPostProcessOperations(Map<String, Object> objs) {
         @SuppressWarnings("unchecked")
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        String commonPath = null;
         if (operations != null) {
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
@@ -243,7 +244,18 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 } else if ("map".equals(operation.returnContainer)) {
                     operation.returnContainer = "Map";
                 }
+
+                if (commonPath == null) {
+                    commonPath = operation.path;
+                } else {
+                    commonPath = getCommonPath(commonPath, operation.path);
+                }
             }
+            for (CodegenOperation co : ops) {
+                co.path = StringUtils.removeStart(co.path, commonPath);
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
         }
         return objs;
     }
@@ -276,13 +288,17 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         return result;
     }
 
-    private String getBasePath(String resourcePath) {
-        String basePath = StringUtils.removeStart(resourcePath, "/");
-        int pos = StringUtils.indexOf(basePath, "/");
-        if (pos >= 0) {
-            return basePath.substring(0, pos);
+    private static String getCommonPath(String path1, String path2) {
+        final String[] parts1 = StringUtils.split(path1, "/");
+        final String[] parts2 = StringUtils.split(path2, "/");
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < Math.min(parts1.length, parts2.length); i++) {
+            if (!parts1[i].equals(parts2[i])) {
+                break;
+            }
+            builder.append("/").append(parts1[i]);
         }
-        return basePath;
+        return builder.toString();
     }
 
     private String implFileFolder(String output) {

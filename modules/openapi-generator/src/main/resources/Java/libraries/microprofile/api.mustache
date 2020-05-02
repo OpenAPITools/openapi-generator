@@ -31,7 +31,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient
 @RegisterProvider(ApiExceptionMapper.class)
-@Path("{{^useAnnotatedBasePath}}/{{/useAnnotatedBasePath}}{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}")
+@Path("{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}{{commonPath}}")
 public interface {{classname}}  {
 {{#operations}}
 {{#operation}}

@@ -20,10 +20,13 @@ package org.openapitools.codegen.java.jaxrs;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.*;
 
 public class AbstractJavaJAXRSServerCodegenTest {
 
@@ -100,6 +103,76 @@ public class AbstractJavaJAXRSServerCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8088");
+    }
+
+    @Test
+    public void testCommonPath() {
+        final AbstractJavaJAXRSServerCodegen codegen = new P_AbstractJavaJAXRSServerCodegen();
+        Map<String, Object> objs = new HashMap<>();
+        Map<String, List<CodegenOperation>> opMap = new HashMap<>();
+        List<CodegenOperation> operations = new ArrayList<>();
+        objs.put("operations", opMap);
+        opMap.put("operation", operations);
+
+        operations.add(getCo("/"));
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+        Assert.assertEquals(objs.get("commonPath"), "");
+        Assert.assertEquals(operations.get(0).path, "");
+        Assert.assertFalse(operations.get(0).subresourceOperation);
+        operations.clear();
+
+        operations.add(getCo("/test"));
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+        Assert.assertEquals(objs.get("commonPath"), "/test");
+        Assert.assertEquals(operations.get(0).path, "");
+        Assert.assertFalse(operations.get(0).subresourceOperation);
+        operations.clear();
+
+        operations.add(getCo("/"));
+        operations.add(getCo("/op1"));
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+        Assert.assertEquals(objs.get("commonPath"), "");
+        Assert.assertEquals(operations.get(0).path, "/");
+        Assert.assertFalse(operations.get(0).subresourceOperation);
+        Assert.assertEquals(operations.get(1).path, "/op1");
+        Assert.assertTrue(operations.get(1).subresourceOperation);
+        operations.clear();
+
+        operations.add(getCo("/group1/subgroup1/op1"));
+        operations.add(getCo("/group1/subgroup1/op2"));
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+        Assert.assertEquals(objs.get("commonPath"), "/group1/subgroup1");
+        Assert.assertEquals(operations.get(0).path, "/op1");
+        Assert.assertTrue(operations.get(0).subresourceOperation);
+        Assert.assertEquals(operations.get(1).path, "/op2");
+        Assert.assertTrue(operations.get(1).subresourceOperation);
+        operations.clear();
+
+        operations.add(getCo("/op1"));
+        operations.add(getCo("/op2"));
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+        Assert.assertEquals(objs.get("commonPath"), "");
+        Assert.assertEquals(operations.get(0).path, "/op1");
+        Assert.assertTrue(operations.get(0).subresourceOperation);
+        Assert.assertEquals(operations.get(1).path, "/op2");
+        Assert.assertTrue(operations.get(1).subresourceOperation);
+        operations.clear();
+
+        operations.add(getCo("/group1"));
+        operations.add(getCo("/group1/op1"));
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
+        Assert.assertEquals(objs.get("commonPath"), "/group1");
+        Assert.assertEquals(operations.get(0).path, "");
+        Assert.assertFalse(operations.get(0).subresourceOperation);
+        Assert.assertEquals(operations.get(1).path, "/op1");
+        Assert.assertTrue(operations.get(1).subresourceOperation);
+        operations.clear();
+    }
+
+    private CodegenOperation getCo(final String path) {
+        final CodegenOperation co = new CodegenOperation();
+        co.path = path;
+        return co;
     }
 
     private static class P_AbstractJavaJAXRSServerCodegen extends AbstractJavaJAXRSServerCodegen {
