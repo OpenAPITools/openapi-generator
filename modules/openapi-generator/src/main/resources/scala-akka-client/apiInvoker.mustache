@@ -72,8 +72,8 @@ trait UnitJSONSupport {
 
 class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomContentTypes with Json4sSupport {
 
-  import {{{mainPackage}}}.core.ApiInvoker._
-  import {{{mainPackage}}}.core.ParametersMap._
+  import {{{invokerPackage}}}.ApiInvoker._
+  import {{{invokerPackage}}}.ParametersMap._
 
   implicit val ec: ExecutionContextExecutor = system.dispatcher
   implicit val jsonFormats: Formats = formats
