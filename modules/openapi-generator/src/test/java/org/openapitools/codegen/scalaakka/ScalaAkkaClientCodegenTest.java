@@ -473,16 +473,10 @@ public class ScalaAkkaClientCodegenTest {
         Map<String, String> generatedFiles = generator.getFiles();
         Assert.assertEquals(generatedFiles.size(), 14);
 
-        for (Map.Entry<String,String> entry : generatedFiles.entrySet()) {
-            System.out.println(entry.getKey());
-        }
+        String outputPath = output.getAbsolutePath().replace("\\", "/");
 
-        System.out.println("Expected: " + output + "/src/main/scala/hello/world/model/package/SomeObj.scala");
-        System.out.println("Expected: " + output + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala");
-        System.out.println("Expected: " + output + "/src/main/scala/hello/world/api/package/PingApi.scala");
-
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/model/package/SomeObj.scala".replace("/", File.separator)), "Model package is correct");
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala".replace("/", File.separator)), "Invoker package is correct");
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/api/package/PingApi.scala".replace("/", File.separator)), "Api package is correct");
+        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/model/package/SomeObj.scala"), "Model package is correct");
+        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala"), "Invoker package is correct");
+        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/api/package/PingApi.scala"), "Api package is correct");
     }
 }
