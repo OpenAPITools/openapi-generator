@@ -442,9 +442,12 @@ public class ScalaAkkaClientCodegenTest {
 
         Map<String, String> generatedFiles = generator.getFiles();
         Assert.assertEquals(generatedFiles.size(), 14);
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/model/SomeObj.scala".replace("/", File.separator)));
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/core/ApiSettings.scala".replace("/", File.separator)));
-        Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/api/PingApi.scala".replace("/", File.separator)));
+
+        String outputPath = output.getAbsolutePath().replace("\\", "/");
+
+        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/model/SomeObj.scala"));
+        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/core/ApiSettings.scala"));
+        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/api/PingApi.scala"));
     }
 
     @Test(description = "override api packages")
