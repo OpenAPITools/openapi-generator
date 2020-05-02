@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -58,6 +59,19 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private final Map<String, String> frameworkToHttpLibMap;
     
+    // NPM Options
+    private static final String SNAPSHOT = "snapshot";
+    @SuppressWarnings("squid:S5164")
+    protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
+    private static final String NPM_REPOSITORY = "npmRepository";
+    private static final String NPM_NAME = "npmName";
+    private static final String NPM_VERSION = "npmVersion";
+
+    // NPM Option Values
+    protected String npmRepository = null;
+    protected String snapshot = null;
+    protected String npmName = null;
+    protected String npmVersion = "1.0.0";
     protected String modelPropertyNaming = "camelCase";
     protected HashSet<String> languageGenericTypes;
 
@@ -137,6 +151,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("UUID", "string");
         typeMapping.put("Error", "Error");
                 
+
+        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
+                " Required to generate a full package"));
+        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
+        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
+        this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
+                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
+                false));
+
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE, TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
@@ -198,10 +221,58 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         this.apiTemplateFiles.put("api/api.mustache", ".ts");
     }
 
+    public String getNpmName() {
+        return npmName;
+    }
 
+    public void setNpmName(String npmName) {
+        this.npmName = npmName;
+    }
+
+    public String getNpmRepository() {
+        return npmRepository;
+    }
+
+    public void setNpmRepository(String npmRepository) {
+        this.npmRepository = npmRepository;
+    }
+
+    public String getNpmVersion() {
+        return npmVersion;
+    }
+
+    public void setNpmVersion(String npmVersion) {
+        this.npmVersion = npmVersion;
+    }
+    
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
+    }
+    
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+
+        if (additionalProperties.containsKey(NPM_NAME)) {
+
+            // If no npmVersion is provided in additional properties, version from API specification is used.
+            // If none of them is provided then fallbacks to default version
+            if (additionalProperties.containsKey(NPM_VERSION)) {
+                this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+            } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+                this.setNpmVersion(openAPI.getInfo().getVersion());
+            }
+
+            if (additionalProperties.containsKey(SNAPSHOT) && Boolean.parseBoolean(additionalProperties.get(SNAPSHOT).toString())) {
+                if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
+                } else {
+                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
+                }
+            }
+            additionalProperties.put(NPM_VERSION, npmVersion);
+
+        }
     }
     
     @Override
@@ -749,8 +820,25 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
           supportingFiles.add(new SupportingFile("rxjsStub.mustache", "", "rxjsStub.ts"));
         }
 
+        // NPM Settings
+        if (additionalProperties.containsKey(NPM_NAME)) {
+            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+        }
+
+        if (additionalProperties.containsKey(NPM_VERSION)) {
+            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+        }
+
+        if (additionalProperties.containsKey(NPM_REPOSITORY)) {
+            this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
+        }
+
+        
+        
+        
     }
 
+    
     private String getHttpLibForFramework(String object) {
         return this.frameworkToHttpLibMap.get(object);
     }
