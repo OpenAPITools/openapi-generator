@@ -472,6 +472,11 @@ public class ScalaAkkaClientCodegenTest {
 
         Map<String, String> generatedFiles = generator.getFiles();
         Assert.assertEquals(generatedFiles.size(), 14);
+
+        for (Map.Entry<String,String> entry : generatedFiles.entrySet()) {
+            System.out.println(entry.getKey());
+        }
+
         Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/model/package/SomeObj.scala".replace("/", File.separator)), "Model package is correct");
         Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala".replace("/", File.separator)), "Invoker package is correct");
         Assert.assertTrue(generatedFiles.containsKey(output + "/src/main/scala/hello/world/api/package/PingApi.scala".replace("/", File.separator)), "Api package is correct");
