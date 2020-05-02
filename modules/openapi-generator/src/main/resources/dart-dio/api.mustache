@@ -81,6 +81,9 @@ class {{classname}} {
             options: Options(
             method: '{{httpMethod}}'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -88,12 +91,12 @@ class {{classname}} {
 
         {{#isListContainer}}
                 final FullType type = const FullType(BuiltList, const [const FullType({{returnBaseType}})]);
-                BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data, specifiedType: type);
+                BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
                 var data = dataList.toList();
         {{/isListContainer}}
         {{^isListContainer}}
         var serializer = _serializers.serializerForType({{{returnType}}});
-        var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data);
+        var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
         {{/isListContainer}}
 
             return Response<{{{returnType}}}>(
