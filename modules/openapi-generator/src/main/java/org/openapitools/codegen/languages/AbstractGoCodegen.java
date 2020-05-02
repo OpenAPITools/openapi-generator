@@ -131,6 +131,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("object", "map[string]interface{}");
         typeMapping.put("interface{}", "interface{}");
         typeMapping.put("AnyType", "interface{}");
+        // Below is the entry to map the JSON 'null' type to golang.
+        // Note there is no built-in 'null' type in golang, and it's not possible
+        // to declare a variable whose only possible value is 'nil'.
+        // For example `a := nil` is not a valid go statement.
+        typeMapping.put("null", "NullType");
 
         numberTypes = new HashSet<String>(
                 Arrays.asList(

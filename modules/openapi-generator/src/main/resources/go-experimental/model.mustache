@@ -326,6 +326,7 @@ func (s *{{classname}}) UnmarshalJSON(src []byte) error {
 	{{/discriminator}}
 	{{^discriminator}}
 	{{#oneOf}}
+	{{! TODO: validate the payload against the JSON schema. Relying on golang JSON unmarshaling is not sufficient to determine the payload validates against the schema}}
 	var unmarshaled{{{.}}} *{{{.}}} = &{{{.}}}{}
 	err = json.Unmarshal(src, unmarshaled{{{.}}})
 	if err == nil {

@@ -2,6 +2,7 @@
 package {{packageName}}
 
 import (
+	"bytes"
 	"encoding/json"
 	"time"
 )
@@ -29,6 +30,26 @@ func PtrString(v string) *string { return &v }
 
 // PtrTime is helper routine that returns a pointer to given Time value.
 func PtrTime(v time.Time) *time.Time { return &v }
+
+// NullType is a type whose only value can be the golang nil value.
+// It is used to model the JSON 'null' value.
+// Note in golang there is no built-in type to represent the 'null' value.
+type NullType interface{}
+
+func NewNullType() *NullType {
+	return nil
+}
+
+func (v NullType) MarshalJSON() ([]byte, error) {
+	return "null", nil
+}
+
+func (v *NullType) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(bytes.TrimSpace([]byte("null")), src) {
+		*v = nil
+	}
+	return errors.New("Cannot unmarshal non-nil value into NullType")
+}
 
 type NullableBool struct {
 	value *bool
