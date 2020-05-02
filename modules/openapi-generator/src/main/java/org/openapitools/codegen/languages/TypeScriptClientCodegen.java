@@ -26,6 +26,8 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +68,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         this.frameworkToHttpLibMap.put("fetch-api", "isomorphic-fetch");
         this.frameworkToHttpLibMap.put("jquery", "jquery");
         
+        
+        this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
         
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -132,7 +136,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("Error", "Error");
-
+                
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE, TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
@@ -144,7 +148,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             frameworkOption.addEnum(option, option);
         }
         frameworkOption.defaultValue(FRAMEWORKS[0]);
-
+        
         cliOptions.add(new CliOption(TypeScriptClientCodegen.PLATFORM_SWITCH, TypeScriptClientCodegen.PLATFORM_SWITCH_DESC));
         CliOption platformOption = new CliOption(TypeScriptClientCodegen.PLATFORM_SWITCH, TypeScriptClientCodegen.PLATFORM_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.PLATFORMS) {
