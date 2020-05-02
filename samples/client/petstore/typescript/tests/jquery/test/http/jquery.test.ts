@@ -2,8 +2,8 @@ declare var QUnit: any;
 
 import * as petstore from "ts-petstore-client";
 
-let libs: { [key: string]: petstore.http.HttpLibrary } = {
-    "jquery": new petstore.http.JQueryHttpLibrary()
+let libs: { [key: string]: petstore.HttpLibrary } = {
+    "jquery": new petstore.JQueryHttpLibrary()
 }
 
 
@@ -12,10 +12,10 @@ for (let libName in libs) {
 
     QUnit.module(libName);
     QUnit.test("GET-Request", (assert: any) => {
-        let requestContext = new petstore.http.RequestContext("http://httpbin.org/get", petstore.http.HttpMethod.GET);
+        let requestContext = new petstore.RequestContext("http://httpbin.org/get", petstore.HttpMethod.GET);
         requestContext.setHeaderParam("X-Test-Token", "Test-Token");
         return new Promise((resolve, reject) => {
-            lib.send(requestContext).toPromise().then((resp: petstore.http.ResponseContext) => {
+            lib.send(requestContext).toPromise().then((resp: petstore.ResponseContext) => {
                 assert.ok(resp.httpStatusCode, 200, "Expected status code to be 200");
                 let body = JSON.parse(resp.body);
                 assert.ok(body["headers"]);
@@ -31,7 +31,7 @@ for (let libName in libs) {
     })
 
     QUnit.test("POST-Request", (assert: any) => {
-        let requestContext = new petstore.http.RequestContext("http://httpbin.org/post", petstore.http.HttpMethod.POST);
+        let requestContext = new petstore.RequestContext("http://httpbin.org/post", petstore.HttpMethod.POST);
         requestContext.setHeaderParam("X-Test-Token", "Test-Token");
         let formData: FormData = new FormData()
         formData.append("test", "test2");
@@ -42,7 +42,7 @@ for (let libName in libs) {
         requestContext.setBody(formData);
         return new Promise((resolve, reject) => {
             lib.send(requestContext).toPromise().then(
-                (resp: petstore.http.ResponseContext) => {
+                (resp: petstore.ResponseContext) => {
                 assert.ok(resp.httpStatusCode, 200, "Expected status code to be 200");
                 let body = JSON.parse(resp.body);
                 assert.ok(body["headers"]);
@@ -60,12 +60,12 @@ for (let libName in libs) {
     });
 
     QUnit.test("Cookie-Test", (assert: any) => {
-        let requestContext = new petstore.http.RequestContext("http://httpbin.org/post", petstore.http.HttpMethod.POST);
+        let requestContext = new petstore.RequestContext("http://httpbin.org/post", petstore.HttpMethod.POST);
         requestContext.addCookie("test", "test2");
         return new Promise((resolve, reject) => {
             try {
                 lib.send(requestContext).toPromise().then(
-                    (resp: petstore.http.ResponseContext) => {
+                    (resp: petstore.ResponseContext) => {
                     assert.ok(false, "Expected this request to fail!")
                     reject("Successful request with Cookie Header!")
                 },

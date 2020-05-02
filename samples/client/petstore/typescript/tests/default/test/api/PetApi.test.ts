@@ -4,13 +4,13 @@ import { expect, assert } from "chai";
 import * as fs from 'fs';
 
 const configuration = new petstore.Configuration()
-const petApi = new petstore.apis.PromisePetApi(configuration)
+const petApi = new petstore.PromisePetApi(configuration)
 
-const tag = new petstore.models.Tag();
+const tag = new petstore.Tag();
 tag.name = "tag1"
 tag.id = Math.floor(Math.random() * 100000)
 
-const pet = new petstore.models.Pet()
+const pet = new petstore.Pet()
 pet.id = Math.floor(Math.random() * 100000)
 pet.name = "PetName"
 pet.photoUrls = []
@@ -22,7 +22,7 @@ describe("PetApi", () =>{
     it("addPet", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.getPetById(pet.id)
-        }).then((createdPet: petstore.models.Pet) => {
+        }).then((createdPet: petstore.Pet) => {
             expect(createdPet).to.deep.equal(pet);
             done()
         }).catch((err) => {
@@ -35,7 +35,7 @@ describe("PetApi", () =>{
             return petApi.deletePet(pet.id)
         }).then(() => {
             return petApi.getPetById(pet.id)
-        }).then((pet: petstore.models.Pet) => {
+        }).then((pet: petstore.Pet) => {
             done("Pet with id " + pet.id + " was not deleted!");
         }).catch((err: any) => {
             if (err.code && err.code == 404) {
@@ -49,7 +49,7 @@ describe("PetApi", () =>{
     it("findPetsByStatus", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.findPetsByStatus(["available"])
-        }).then((pets: petstore.models.Pet[]) => {
+        }).then((pets: petstore.Pet[]) => {
             expect(pets.length).to.be.at.least(1);
             done();
         }).catch((err) => {
@@ -72,7 +72,7 @@ describe("PetApi", () =>{
     it("getPetById", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.getPetById(pet.id)
-        }).then((returnedPet: petstore.models.Pet) => {
+        }).then((returnedPet: petstore.Pet) => {
             expect(returnedPet).to.deep.equal(pet);
             done();
         }).catch((err) => {
@@ -93,7 +93,7 @@ describe("PetApi", () =>{
             });
         }).then(() => {
             return petApi.getPetById(pet.id);
-        }).then((returnedPet: petstore.models.Pet) => {
+        }).then((returnedPet: petstore.Pet) => {
             expect(returnedPet.id).to.equal(pet.id)
             expect(returnedPet.name).to.equal(updatedName);
             done();

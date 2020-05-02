@@ -3,13 +3,13 @@ declare var QUnit: any;
 import * as petstore from 'ts-petstore-client'
 
 const configuration = new petstore.Configuration()
-const petApi = new petstore.apis.PromisePetApi(configuration)
+const petApi = new petstore.PromisePetApi(configuration)
 
-const tag = new petstore.models.Tag();
+const tag = new petstore.Tag();
 tag.name = "tag1"
 tag.id = Math.floor(Math.random() * 100000)
 
-const pet = new petstore.models.Pet()
+const pet = new petstore.Pet()
 pet.id = Math.floor(Math.random() * 100000)
 pet.name = "PetName"
 pet.photoUrls = []
@@ -22,7 +22,7 @@ QUnit.module("PetApi")
 QUnit.test("addPet", (assert: any) => {
     return petApi.addPet(pet).then(() => {
         return petApi.getPetById(pet.id)
-    }).then((createdPet: petstore.models.Pet) => {
+    }).then((createdPet: petstore.Pet) => {
         assert.deepEqual(createdPet, pet);
     })
 })
@@ -32,7 +32,7 @@ QUnit.test("deletePet", (assert: any) => {
         return petApi.deletePet(pet.id)
     }).then(() => {
         return petApi.getPetById(pet.id)
-    }).then((pet: petstore.models.Pet) => {
+    }).then((pet: petstore.Pet) => {
         throw new Error("Pet with id " + pet.id + " was not deleted!");
     }).catch((err: any) => {
         // pet does not exist
@@ -48,7 +48,7 @@ QUnit.test("deletePet", (assert: any) => {
 QUnit.test("findPetsByStatus", (assert: any) => {
     return petApi.addPet(pet).then(() => {
         return petApi.findPetsByStatus(["available"])
-    }).then((pets: petstore.models.Pet[]) => {
+    }).then((pets: petstore.Pet[]) => {
         assert.ok(pets.length >= 1, "Found at least one pet.");
     })
 })
@@ -68,7 +68,7 @@ QUnit.test("findPetsByStatus", (assert: any) => {
 QUnit.test("getPetById", (assert: any) => {
     return petApi.addPet(pet).then(() => {
         return petApi.getPetById(pet.id)
-    }).then((returnedPet: petstore.models.Pet) => {
+    }).then((returnedPet: petstore.Pet) => {
         assert.deepEqual(returnedPet, pet);
     })
 })
@@ -80,13 +80,13 @@ QUnit.test("updatePet", (assert: any) => {
         pet.name = updatedName
         return petApi.updatePet(pet).then(() => {
             pet.name = oldName;
-        }).catch((err) => {
+        }).catch((err: any) => {
             pet.name = oldName
             throw err;
         });
     }).then(() => {
         return petApi.getPetById(pet.id);
-    }).then((returnedPet: petstore.models.Pet) => {
+    }).then((returnedPet: petstore.Pet) => {
         assert.equal(returnedPet.id, pet.id)
         assert.equal(returnedPet.name, updatedName);
     })

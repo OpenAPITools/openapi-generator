@@ -3,8 +3,8 @@ import * as petstore from "ts-petstore-client";
 import { expect} from "chai";
 import * as FormData from "form-data";
 
-let libs: { [key: string]: petstore.http.HttpLibrary } = {
-    "isomorphic-fetch": new petstore.http.IsomorphicFetchHttpLibrary()
+let libs: { [key: string]: petstore.HttpLibrary } = {
+    "isomorphic-fetch": new petstore.IsomorphicFetchHttpLibrary()
 }
 
 
@@ -13,10 +13,10 @@ for (let libName in libs) {
 
     describe("Isomorphic Fetch", () => {
         it("GET-Request", (done) => {
-            let requestContext = new petstore.http.RequestContext("http://httpbin.org/get", petstore.http.HttpMethod.GET);
+            let requestContext = new petstore.RequestContext("http://httpbin.org/get", petstore.HttpMethod.GET);
             requestContext.setHeaderParam("X-Test-Token", "Test-Token");
             requestContext.addCookie("test-cookie", "cookie-value");
-            lib.send(requestContext).toPromise().then((resp: petstore.http.ResponseContext) => {
+            lib.send(requestContext).toPromise().then((resp: petstore.ResponseContext) => {
                     expect(resp.httpStatusCode, "Expected status code to be 200").to.eq(200);
                     let body = JSON.parse(resp.body);
                     expect(body["headers"]).to.exist;
@@ -31,7 +31,7 @@ for (let libName in libs) {
         })
 
         it("POST-Request", (done) => {
-            let requestContext = new petstore.http.RequestContext("http://httpbin.org/post", petstore.http.HttpMethod.POST);
+            let requestContext = new petstore.RequestContext("http://httpbin.org/post", petstore.HttpMethod.POST);
             requestContext.setHeaderParam("X-Test-Token", "Test-Token");
             requestContext.addCookie("test-cookie", "cookie-value");
             let formData: FormData = new FormData()
@@ -40,7 +40,7 @@ for (let libName in libs) {
 
             requestContext.setBody(formData);
             lib.send(requestContext).toPromise().then(
-                    (resp: petstore.http.ResponseContext) => {
+                    (resp: petstore.ResponseContext) => {
                     expect(resp.httpStatusCode, "Expected status code to be 200").to.eq(200);
                     let body = JSON.parse(resp.body);
                     expect(body["headers"]).to.exist;
@@ -56,11 +56,11 @@ for (let libName in libs) {
         });
 
         it("Cookies-Request", (done) => {
-            let requestContext = new petstore.http.RequestContext("http://httpbin.org/cookies", petstore.http.HttpMethod.GET);
+            let requestContext = new petstore.RequestContext("http://httpbin.org/cookies", petstore.HttpMethod.GET);
             requestContext.addCookie("test-cookie", "cookie-value");
 
             lib.send(requestContext).toPromise().then(
-                (resp: petstore.http.ResponseContext) => {
+                (resp: petstore.ResponseContext) => {
                     expect(resp.httpStatusCode, "Expected status code to be 200").to.eq(200);
                     let body = JSON.parse(resp.body);
                     expect(body["cookies"]["test-cookie"]).to.equal("cookie-value");
