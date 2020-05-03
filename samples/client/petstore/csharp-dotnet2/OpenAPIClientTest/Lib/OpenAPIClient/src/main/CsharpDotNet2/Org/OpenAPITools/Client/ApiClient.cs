@@ -148,6 +148,8 @@ namespace Org.OpenAPITools.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return ((DateTime)obj).ToString (Configuration.DateTimeFormat);
+            else if (obj is bool)
+                return (bool)obj ? "true" : "false";
             else if (obj is List<string>)
                 return String.Join(",", (obj as List<string>).ToArray());
             else
@@ -259,11 +261,9 @@ namespace Org.OpenAPITools.Client
                 {
                     case "api_key":
                         headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
-                        
                         break;
                     case "petstore_auth":
-                        
-                        //TODO support oauth
+                        headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
                         break;
                     default:
                         //TODO show warning about security definition not found

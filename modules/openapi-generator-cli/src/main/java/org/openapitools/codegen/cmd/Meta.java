@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ import ch.lambdaj.function.convert.Converter;
 @Command(name = "meta", description = "MetaGenerator. Generator for creating a new template set "
         + "and configuration for Codegen.  The output will be based on the language you "
         + "specify, and includes default templates to include.")
-public class Meta implements Runnable {
+public class Meta extends OpenApiGeneratorCommand {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Meta.class);
 
@@ -79,7 +80,7 @@ public class Meta implements Runnable {
     private String language = "java";
 
     @Override
-    public void run() {
+    public void execute() {
         final File targetDir = new File(outputFolder);
         LOGGER.info("writing to folder [{}]", targetDir.getAbsolutePath());
 
@@ -109,7 +110,7 @@ public class Meta implements Runnable {
                         new SupportingFile("myFile.template", String.join(File.separator, "src", "main", "resources", name), "myFile.mustache"),
                         new SupportingFile("services.mustache", "src/main/resources/META-INF/services", CodegenConfig.class.getCanonicalName()));
 
-        String currentVersion = Version.readVersionFromResources();
+        String currentVersion = buildInfo.getVersion();
 
         Map<String, Object> data =
                 new ImmutableMap.Builder<String, Object>()
@@ -159,7 +160,7 @@ public class Meta implements Runnable {
                         LOGGER.info("copying file to {}", outputFile.getAbsolutePath());
                     }
 
-                    FileUtils.writeStringToFile(outputFile, formatted);
+                    FileUtils.writeStringToFile(outputFile, formatted, StandardCharsets.UTF_8);
                     return outputFile;
 
                 } catch (IOException e) {

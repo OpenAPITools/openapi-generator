@@ -16,8 +16,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 // NOTE: List can later have subcommands such as list languages, list types, list frameworks, etc.
+@SuppressWarnings({"java:S106"})
 @Command(name = "list", description = "Lists the available generators")
-public class ListGenerators implements Runnable {
+public class ListGenerators extends OpenApiGeneratorCommand {
 
     @Option(name = {"-s", "--short" }, description = "shortened output (suitable for scripting)")
     private Boolean shortened = false;
@@ -25,13 +26,16 @@ public class ListGenerators implements Runnable {
     @Option(name = {"-d", "--docsite" }, description = "format for docusaurus site output", hidden = true)
     private Boolean docusaurus = false;
 
+    @Option(name = {"--github-nested-index" }, description = "format for github index at docs/generators/README.md", hidden = true)
+    private Boolean  githubNestedIndex = false;
+
     @Option(name = {"-i", "--include" },
             description = "comma-separated list of stability indexes to include (value: all,beta,stable,experimental,deprecated). Excludes deprecated by default.",
             allowedValues = { "all", "beta", "stable", "experimental", "deprecated" })
     private String include = "stable,beta,experimental";
 
     @Override
-    public void run() {
+    public void execute() {
         List<CodegenConfig> generators = new ArrayList<>();
         List<Stability> stabilities = Arrays.asList(Stability.values());
 
@@ -85,7 +89,7 @@ public class ListGenerators implements Runnable {
                 .collect(Collectors.toList());
 
         if(!list.isEmpty()) {
-            if (docusaurus) {
+            if (docusaurus || githubNestedIndex) {
                 sb.append("## ").append(typeName).append(" generators");
             } else {
                 sb.append(typeName).append(" generators:");
@@ -94,9 +98,10 @@ public class ListGenerators implements Runnable {
 
             list.forEach(generator -> {
                 GeneratorMetadata meta = generator.getGeneratorMetadata();
-                if (docusaurus) {
+                if (docusaurus || githubNestedIndex) {
                     sb.append("* ");
-                    String id = "generators/" + generator.getName() + ".md";
+                    String idPrefix = docusaurus ? "generators/" : "";
+                    String id = idPrefix + generator.getName() + ".md";
                     sb.append("[").append(generator.getName());
 
                     if (meta != null && meta.getStability() != null && meta.getStability() != Stability.STABLE) {

@@ -163,7 +163,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -173,6 +173,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <doclint>none</doclint>
                     <tags>
                         <tag>
                             <name>http.response.details</name>
@@ -351,7 +352,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <swagger-annotations-version>1.6.1</swagger-annotations-version>
         {{^supportJava6}}
         <jersey-version>2.27</jersey-version>
         {{/supportJava6}}
@@ -360,13 +361,13 @@
         <commons_io_version>2.5</commons_io_version>
         <commons_lang3_version>3.6</commons_lang3_version>
         {{/supportJava6}}
-        <jackson-version>2.9.10</jackson-version>
-        <jackson-databind-version>2.9.10.1</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
+        <jackson-version>2.10.3</jackson-version>
+        <jackson-databind-version>2.10.3</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         {{#threetenbp}}
         <threetenbp-version>2.9.10</threetenbp-version>
         {{/threetenbp}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.12</junit-version>
+        <junit-version>4.13</junit-version>
     </properties>
 </project>

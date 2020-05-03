@@ -1,4 +1,4 @@
-# OuterEnum
+# outer_enum.OuterEnum
 
 ## Properties
 Name | Type | Description | Notes

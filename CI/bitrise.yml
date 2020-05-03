@@ -28,10 +28,10 @@ workflows:
 
             set -e
 
-            mvn package
+            mvn package -Dorg.slf4j.simpleLogger.defaultLogLevel=error
         title: Build openapi-generator
     - script@1.1.5:
-        title: Update Swift4 samples
+        title: Update Swift samples
         inputs:
         - content: |
             #!/usr/bin/env bash
@@ -39,13 +39,34 @@ workflows:
             set -e
 
             sh bin/swift4-all.sh
+            sh bin/swift5-all.sh
     - script@1.1.5:
+        title: Run Swift4 tests
         inputs:
         - content: |
             #!/usr/bin/env bash
 
             set -e
 
-            ./samples/client/petstore/swift4/swift4_test_all.sh && ./samples/client/test/swift4/swift4_test_all.sh && exit ${PIPESTATUS[0]}
-        title: Run Swift4 tests
+            ./samples/client/petstore/swift4/swift4_test_all.sh
+            ./samples/client/test/swift4/swift4_test_all.sh
+    - script@1.1.5:
+        title: Run Swift5 tests
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            ./samples/client/test/swift5/swift5_test_all.sh
+# comment out the following as it's causing timeout
+#    - script@1.1.5:
+#        title: Run all bin scripts
+#        inputs:
+#        - content: |-
+#            #!/usr/bin/env bash
+#
+#            set -e
+#
+#            ./bin/run-all-petstore
 

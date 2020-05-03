@@ -5,7 +5,7 @@ info:
     " \'
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
@@ -54,9 +54,10 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        405:
+        "405":
           description: Invalid input
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -68,13 +69,14 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
-        405:
+        "405":
           description: Validation exception
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -105,7 +107,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -118,9 +120,10 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid status value
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -145,7 +148,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -158,9 +161,10 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid tag value
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -188,7 +192,7 @@ paths:
           type: integer
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -211,7 +215,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -220,9 +224,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
       security:
       - api_key: []
@@ -255,7 +259,7 @@ paths:
                   type: string
               type: object
       responses:
-        405:
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -292,7 +296,7 @@ paths:
                   type: string
               type: object
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -310,7 +314,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getInventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -335,7 +339,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -344,7 +348,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid Order
       summary: Place an order for a pet
       tags:
@@ -364,9 +368,9 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -388,7 +392,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -397,9 +401,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -464,7 +468,7 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -488,7 +492,7 @@ paths:
                 format: date-time
                 type: string
               style: simple
-        400:
+        "400":
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -516,9 +520,9 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       summary: Delete user
       tags:
@@ -535,7 +539,7 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -544,9 +548,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       summary: Get user by user name
       tags:
@@ -571,9 +575,9 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           description: Invalid user supplied
-        404:
+        "404":
           description: User not found
       summary: Updated user
       tags:
@@ -585,7 +589,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Client'
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -652,7 +656,7 @@ paths:
           type: integer
         style: form
       responses:
-        400:
+        "400":
           description: Someting wrong
       security:
       - bearer_test: []
@@ -767,9 +771,9 @@ paths:
                   type: string
               type: object
       responses:
-        400:
+        "400":
           description: Invalid request
-        404:
+        "404":
           description: Not found
       summary: To test enum parameters
       tags:
@@ -780,7 +784,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Client'
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -873,9 +877,9 @@ paths:
               - pattern_without_delimiter
               type: object
       responses:
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       security:
       - http_basic_test: []
@@ -897,7 +901,7 @@ paths:
               $ref: '#/components/schemas/OuterNumber'
         description: Input number as post body
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:
@@ -916,7 +920,7 @@ paths:
               $ref: '#/components/schemas/OuterString'
         description: Input string as post body
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:
@@ -935,7 +939,7 @@ paths:
               $ref: '#/components/schemas/OuterBoolean'
         description: Input boolean as post body
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:
@@ -954,7 +958,7 @@ paths:
               $ref: '#/components/schemas/OuterComposite'
         description: Input composite as post body
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:
@@ -982,7 +986,7 @@ paths:
               - param2
               type: object
       responses:
-        200:
+        "200":
           description: successful operation
       summary: test json serialization of form data
       tags:
@@ -1000,7 +1004,7 @@ paths:
         description: request body
         required: true
       responses:
-        200:
+        "200":
           description: successful operation
       summary: test inline additionalProperties
       tags:
@@ -1023,7 +1027,7 @@ paths:
               $ref: '#/components/schemas/User'
         required: true
       responses:
-        200:
+        "200":
           description: Success
       tags:
       - fake
@@ -1034,7 +1038,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Client'
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -1055,7 +1059,7 @@ paths:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
       responses:
-        200:
+        "200":
           description: Success
       tags:
       - fake
@@ -1110,7 +1114,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           description: Success
       tags:
       - fake
@@ -1144,7 +1148,7 @@ paths:
               - requiredFile
               type: object
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -1160,7 +1164,7 @@ paths:
   /fake/health:
     get:
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -1295,9 +1299,13 @@ components:
         lastName: lastName
         password: password
         userStatus: 6
+        arbitraryTypeValue: ""
+        arbitraryNullableTypeValue: ""
         phone: phone
         id: 0
+        arbitraryObject: '{}'
         email: email
+        arbitraryNullableObject: '{}'
         username: username
       properties:
         id:
@@ -1320,6 +1328,22 @@ components:
           description: User Status
           format: int32
           type: integer
+        arbitraryObject:
+          description: test code generation for objects Value must be a map of strings
+            to values. It cannot be the 'null' value.
+          type: object
+        arbitraryNullableObject:
+          description: test code generation for nullable objects. Value must be a
+            map of strings to values or the 'null' value.
+          nullable: true
+          type: object
+        arbitraryTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array or object.
+        arbitraryNullableTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array, object or the 'null' value.
+          nullable: true
       type: object
       xml:
         name: User
@@ -1423,14 +1447,14 @@ components:
           type: integer
         property:
           type: string
-        123Number:
+        "123Number":
           readOnly: true
           type: integer
       required:
       - name
       xml:
         name: Name
-    200_response:
+    "200_response":
       description: Model for testing model name starting with number
       properties:
         name:
@@ -1452,7 +1476,12 @@ components:
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
+      - $ref: '#/components/schemas/Address'
       - $ref: '#/components/schemas/Cat_allOf'
+    Address:
+      additionalProperties:
+        type: integer
+      type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1608,7 +1637,7 @@ components:
       type: object
     List:
       properties:
-        123-list:
+        "123-list":
           type: string
       type: object
     Client:
@@ -1883,6 +1912,88 @@ components:
             type: object
           type: object
       type: object
+    fruit:
+      oneOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
+      properties:
+        color:
+          type: string
+      x-one-of-name: Fruit
+    apple:
+      properties:
+        cultivar:
+          type: string
+      type: object
+    banana:
+      properties:
+        lengthCm:
+          type: number
+      type: object
+    mammal:
+      discriminator:
+        mapping:
+          whale: '#/components/schemas/whale'
+          zebra: '#/components/schemas/zebra'
+        propertyName: className
+      oneOf:
+      - $ref: '#/components/schemas/whale'
+      - $ref: '#/components/schemas/zebra'
+      x-one-of-name: Mammal
+    whale:
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    zebra:
+      properties:
+        type:
+          enum:
+          - plains
+          - mountain
+          - grevys
+          type: string
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    gmFruit:
+      anyOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
+      properties:
+        color:
+          type: string
+    fruitReq:
+      oneOf:
+      - $ref: '#/components/schemas/appleReq'
+      - $ref: '#/components/schemas/bananaReq'
+      x-one-of-name: FruitReq
+    appleReq:
+      properties:
+        cultivar:
+          type: string
+        mealy:
+          type: boolean
+      required:
+      - cultivar
+      type: object
+    bananaReq:
+      properties:
+        lengthCm:
+          type: number
+        sweet:
+          type: boolean
+      required:
+      - lengthCm
+      type: object
     inline_response_default:
       example:
         string:
@@ -2056,4 +2167,7 @@ components:
     bearer_test:
       bearerFormat: JWT
       scheme: bearer
+      type: http
+    http_signature_test:
+      scheme: signature
       type: http

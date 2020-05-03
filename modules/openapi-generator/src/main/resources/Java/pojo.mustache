@@ -10,7 +10,7 @@
 })
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
-public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcelableModel}}implements Parcelable {{#serializableModel}}, Serializable {{/serializableModel}}{{/parcelableModel}}{{^parcelableModel}}{{#serializableModel}}implements Serializable {{/serializableModel}}{{/parcelableModel}}{
+public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 
@@ -56,22 +56,22 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{#gson}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
-  {{#vendorExtensions.isJacksonOptionalNullable}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
   {{/isContainer}}
   {{^isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
   {{/isContainer}}
-  {{/vendorExtensions.isJacksonOptionalNullable}}
-  {{^vendorExtensions.isJacksonOptionalNullable}}
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
   {{/isContainer}}
   {{^isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}private{{/isDiscriminator}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/isContainer}}
-  {{/vendorExtensions.isJacksonOptionalNullable}}
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
   {{#parcelableModel}}
@@ -99,14 +99,14 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
 
   {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
-    {{#vendorExtensions.isJacksonOptionalNullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.isJacksonOptionalNullable}}
-    {{^vendorExtensions.isJacksonOptionalNullable}}this.{{name}} = {{name}};{{/vendorExtensions.isJacksonOptionalNullable}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = {{name}};{{/vendorExtensions.x-is-jackson-optional-nullable}}
     return this;
   }
   {{#isListContainer}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{#vendorExtensions.isJacksonOptionalNullable}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
     }
@@ -116,8 +116,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
       // this can never happen, as we make sure above that the value is present
     }
     return this;
-    {{/vendorExtensions.isJacksonOptionalNullable}}
-    {{^vendorExtensions.isJacksonOptionalNullable}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     {{^required}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -125,13 +125,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
     {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
-    {{/vendorExtensions.isJacksonOptionalNullable}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
   {{/isListContainer}}
   {{#isMapContainer}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{#vendorExtensions.isJacksonOptionalNullable}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
     }
@@ -141,8 +141,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
       // this can never happen, as we make sure above that the value is present
     }
     return this;
-    {{/vendorExtensions.isJacksonOptionalNullable}}
-    {{^vendorExtensions.isJacksonOptionalNullable}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     {{^required}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
@@ -150,7 +150,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
     {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
-    {{/vendorExtensions.isJacksonOptionalNullable}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
   {{/isMapContainer}}
 
@@ -179,49 +179,49 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   @javax.annotation.Nullable
 {{/required}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
-{{#vendorExtensions.extraAnnotation}}
-  {{{vendorExtensions.extraAnnotation}}}
-{{/vendorExtensions.extraAnnotation}}
-{{#vendorExtensions.isJacksonOptionalNullable}}
+{{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+{{/vendorExtensions.x-extra-annotation}}
+{{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}
   @JsonIgnore
-{{/vendorExtensions.isJacksonOptionalNullable}}
-{{^vendorExtensions.isJacksonOptionalNullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.isJacksonOptionalNullable}}
+{{/vendorExtensions.x-is-jackson-optional-nullable}}
+{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}
   public {{{datatypeWithEnum}}} {{getter}}() {
-    {{#vendorExtensions.isJacksonOptionalNullable}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
     {{#isReadOnly}}{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}
     if ({{name}} == null) {
       {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
     }
     {{/isReadOnly}}
     return {{name}}.orElse(null);
-    {{/vendorExtensions.isJacksonOptionalNullable}}
-    {{^vendorExtensions.isJacksonOptionalNullable}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     return {{name}};
-    {{/vendorExtensions.isJacksonOptionalNullable}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
-  {{#vendorExtensions.isJacksonOptionalNullable}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
 {{> jackson_annotations}}
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
     return {{name}};
   }
-  {{/vendorExtensions.isJacksonOptionalNullable}}{{#vendorExtensions.isJacksonOptionalNullable}}
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}{{#vendorExtensions.x-is-jackson-optional-nullable}}
   @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
   {{#isReadOnly}}private{{/isReadOnly}}{{^isReadOnly}}public{{/isReadOnly}} void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
     {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}
     this.{{name}} = {{name}};
   }
-  {{/vendorExtensions.isJacksonOptionalNullable}}
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
-    {{#vendorExtensions.isJacksonOptionalNullable}}
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
-    {{/vendorExtensions.isJacksonOptionalNullable}}
-    {{^vendorExtensions.isJacksonOptionalNullable}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = {{name}};
-    {{/vendorExtensions.isJacksonOptionalNullable}}
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
   {{/isReadOnly}}
 

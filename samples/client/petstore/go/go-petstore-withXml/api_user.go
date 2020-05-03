@@ -15,7 +15,6 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"fmt"
 	"strings"
 )
 
@@ -44,7 +43,6 @@ func (a *UserApiService) CreateUser(ctx _context.Context, body User) (*_nethttp.
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -111,7 +109,6 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx _context.Context, body []
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/createWithArray"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -178,7 +175,6 @@ func (a *UserApiService) CreateUsersWithListInput(ctx _context.Context, body []U
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/createWithList"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -246,7 +242,7 @@ func (a *UserApiService) DeleteUser(ctx _context.Context, username string) (*_ne
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", username)), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -314,7 +310,7 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (U
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", username)), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -358,16 +354,6 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (U
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v User
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -402,7 +388,6 @@ func (a *UserApiService) LoginUser(ctx _context.Context, username string, passwo
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/login"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -447,16 +432,6 @@ func (a *UserApiService) LoginUser(ctx _context.Context, username string, passwo
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v string
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -487,7 +462,6 @@ func (a *UserApiService) LogoutUser(ctx _context.Context) (*_nethttp.Response, e
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/logout"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -554,7 +528,7 @@ func (a *UserApiService) UpdateUser(ctx _context.Context, username string, body 
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", username)), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

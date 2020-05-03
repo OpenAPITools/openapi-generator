@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
@@ -62,6 +63,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String packageAuthors = "OpenAPI";
 
     protected String interfacePrefix = "I";
+    protected String enumNameSuffix = "Enum";
+    protected String enumValueSuffix = "Enum";
 
     protected String sourceFolder = "src";
 
@@ -361,6 +364,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         }
 
+        if (additionalProperties().containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
+            setEnumNameSuffix(additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString());
+        }
+
+        if (additionalProperties().containsKey(CodegenConstants.ENUM_VALUE_SUFFIX)) {
+            setEnumValueSuffix(additionalProperties.get(CodegenConstants.ENUM_VALUE_SUFFIX).toString());
+        }
+
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
         additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
     }
@@ -406,6 +417,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         final Map<String, Object> processed = super.postProcessAllModels(objs);
         postProcessEnumRefs(processed);
         updateValueTypeProperty(processed);
+        updateNullableTypeProperty(processed);
         return processed;
     }
 
@@ -447,6 +459,32 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
                 for (CodegenProperty var : model.vars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+                        // while enums in many other languages are true objects.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.allowableValues = refModel.allowableValues;
+                        var.isEnum = true;
+
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.readWriteVars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+                        // while enums in many other languages are true objects.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.allowableValues = refModel.allowableValues;
+                        var.isEnum = true;
+
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.readOnlyVars) {
                     if (enumRefs.containsKey(var.dataType)) {
                         // Handle any enum properties referred to by $ref.
                         // This is different in C# than most other generators, because enums in C# are compiled to integral types,
@@ -552,12 +590,34 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * @param models list of all models
      */
     protected void updateValueTypeProperty(Map<String, Object> models) {
+        // TODO: 5.0: Remove the camelCased vendorExtension within the below loop and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             String openAPIName = entry.getKey();
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.vars) {
-                    var.vendorExtensions.put("isValueType", isValueType(var));
+                    var.vendorExtensions.put("isValueType", isValueType(var));  // TODO: 5.0 Remove
+                    var.vendorExtensions.put("x-is-value-type", isValueType(var));
+                }
+            }
+        }
+    }
+
+    /**
+     * Update property if it is a C# nullable type
+     *
+     * @param models list of all models
+     */
+    protected void updateNullableTypeProperty(Map<String, Object> models) {
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            if (model != null) {
+                for (CodegenProperty var : model.vars) {
+                    if (!var.isContainer && (nullableType.contains(var.dataType) || var.isEnum)) {
+                        var.vendorExtensions.put("x-csharp-value-type", true);
+                    }
                 }
             }
         }
@@ -638,6 +698,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                 }
                             }
                         }
+                    } else {
+                        // Effectively mark enum models as enums
+                        updateCodegenParametersEnum(operation.allParams, allModels);
                     }
 
                     processOperation(operation);
@@ -650,6 +713,37 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected void processOperation(CodegenOperation operation) {
         // default noop
+    }
+
+    private void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<Object> allModels) {
+        for (CodegenParameter parameter : parameters) {
+            CodegenModel model = null;
+            for (Object modelHashMap : allModels) {
+                CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
+                if (codegenModel.getClassname().equals(parameter.dataType)) {
+                    model = codegenModel;
+                    break;
+                }
+            }
+
+            if (model != null) {
+                // Effectively mark enum models as enums and non-nullable
+                if (model.isEnum) {
+                    parameter.isEnum = true;
+                    parameter.allowableValues = model.allowableValues;
+                    parameter.isPrimitiveType = true;
+                    parameter.vendorExtensions.put("x-csharp-value-type", true);
+                }
+            }
+
+            if (!parameter.isContainer && nullableType.contains(parameter.dataType)) {
+                parameter.vendorExtensions.put("x-csharp-value-type", true);
+            }
+
+            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+                parameter.dataType = parameter.dataType + "?";
+            }
+        }
     }
 
     @Override
@@ -1003,6 +1097,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.interfacePrefix = interfacePrefix;
     }
 
+    public void setEnumNameSuffix(final String enumNameSuffix) {
+        this.enumNameSuffix = enumNameSuffix;
+    }
+
+    public void setEnumValueSuffix(final String enumValueSuffix) {
+        this.enumValueSuffix = enumValueSuffix;
+    }
+
     public boolean isSupportNullable() {
         return supportNullable;
     }
@@ -1040,7 +1142,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = camelize(enumName) + "Enum";
+        enumName = camelize(enumName) + this.enumValueSuffix;
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -1051,7 +1153,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return sanitizeName(camelize(property.name)) + this.enumNameSuffix;
     }
 
     public String testPackageName() {

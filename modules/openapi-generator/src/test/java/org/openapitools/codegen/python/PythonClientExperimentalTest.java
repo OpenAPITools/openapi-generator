@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,26 +31,26 @@ public class PythonClientExperimentalTest {
 
     @Test(description = "convert a python model with dots")
     public void modelTest() {
-        final OpenAPI openAPI= TestUtils.parseSpec("src/test/resources/2_0/v1beta3.json");
+        final OpenAPI openAPI= TestUtils.parseFlattenSpec("src/test/resources/2_0/v1beta3.json");
         final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
         codegen.setOpenAPI(openAPI);
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel simpleName = codegen.fromModel("v1beta3.Binding", openAPI.getComponents().getSchemas().get("v1beta3.Binding"));
         Assert.assertEquals(simpleName.name, "v1beta3.Binding");
-        Assert.assertEquals(simpleName.classname, "V1beta3Binding");
+        Assert.assertEquals(simpleName.classname, "v1beta3_binding.V1beta3Binding");
         Assert.assertEquals(simpleName.classVarName, "v1beta3_binding");
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel compoundName = codegen.fromModel("v1beta3.ComponentStatus", openAPI.getComponents().getSchemas().get("v1beta3.ComponentStatus"));
         Assert.assertEquals(compoundName.name, "v1beta3.ComponentStatus");
-        Assert.assertEquals(compoundName.classname, "V1beta3ComponentStatus");
+        Assert.assertEquals(compoundName.classname, "v1beta3_component_status.V1beta3ComponentStatus");
         Assert.assertEquals(compoundName.classVarName, "v1beta3_component_status");
 
         final String path = "/api/v1beta3/namespaces/{namespaces}/bindings";
         final Operation operation = openAPI.getPaths().get(path).getPost();
         final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, null);
-        Assert.assertEquals(codegenOperation.returnType, "V1beta3Binding");
+        Assert.assertEquals(codegenOperation.returnType, "v1beta3_binding.V1beta3Binding");
         Assert.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
     }
 
@@ -69,7 +69,7 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
 
@@ -117,7 +117,7 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 2);
 
@@ -157,7 +157,7 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -183,15 +183,15 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.dataType, "Children");
+        Assert.assertEquals(property1.dataType, "children.Children");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "Children");
+        Assert.assertEquals(property1.baseType, "children.Children");
         Assert.assertFalse(property1.required);
         Assert.assertFalse(property1.isContainer);
     }
@@ -208,14 +208,14 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "[Children]");
+        Assert.assertEquals(property1.dataType, "[children.Children]");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "list");
         Assert.assertEquals(property1.containerType, "array");
@@ -235,15 +235,15 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "{str: (Children,)}");
+        Assert.assertEquals(property1.dataType, "{str: (children.Children,)}");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "dict");
         Assert.assertEquals(property1.containerType, "map");
@@ -265,12 +265,13 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "sample.Sample");
+        Assert.assertEquals(cm.classVarName, "sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "list");
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
     }
 
     // should not start with 'null'. need help from the community to investigate further
@@ -285,12 +286,12 @@ public class PythonClientExperimentalTest {
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "dict");
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
     }
 
 }

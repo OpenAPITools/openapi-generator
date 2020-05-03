@@ -1,10 +1,10 @@
 package main
 
 import (
+	"context"
 	"testing"
 
 	sw "./go-petstore"
-	"golang.org/x/net/context"
 )
 
 // TestPutBodyWithFileSchema ensures a model with the name 'File'
@@ -17,7 +17,7 @@ func TestPutBodyWithFileSchema(t *testing.T) {
 		File:  &sw.File{SourceURI: sw.PtrString("https://example.com/image.png")},
 		Files: &[]sw.File{{SourceURI: sw.PtrString("https://example.com/image.png")}}}
 
-	r, err := client.FakeApi.TestBodyWithFileSchema(context.Background(), schema)
+	r, err := client.FakeApi.TestBodyWithFileSchema(context.Background()).Body(schema).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)

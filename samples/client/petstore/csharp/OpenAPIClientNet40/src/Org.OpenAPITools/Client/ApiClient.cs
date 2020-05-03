@@ -227,6 +227,8 @@ namespace Org.OpenAPITools.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return ((DateTimeOffset)obj).ToString (Configuration.DateTimeFormat);
+            else if (obj is bool)
+                return (bool)obj ? "true" : "false";
             else if (obj is IList)
             {
                 var flattenedString = new StringBuilder();
@@ -471,6 +473,7 @@ namespace Org.OpenAPITools.Client
         /// Convert params to key/value pairs. 
         /// Use collectionFormat to properly format lists and collections.
         /// </summary>
+        /// <param name="collectionFormat">Collection format.</param>
         /// <param name="name">Key name.</param>
         /// <param name="value">Value object.</param>
         /// <returns>A list of KeyValuePairs</returns>

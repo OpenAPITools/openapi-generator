@@ -111,13 +111,13 @@ public class StoreApiVerticle extends AbstractVerticle {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
                 String serviceId = "placeOrder";
-                JsonObject orderParam = message.body().getJsonObject("Order");
-                if (orderParam == null) {
-                    manageError(message, new MainApiException(400, "Order is required"), serviceId);
+                JsonObject bodyParam = message.body().getJsonObject("body");
+                if (bodyParam == null) {
+                    manageError(message, new MainApiException(400, "body is required"), serviceId);
                     return;
                 }
-                Order order = Json.mapper.readValue(orderParam.encode(), Order.class);
-                service.placeOrder(order, result -> {
+                Order body = Json.mapper.readValue(bodyParam.encode(), Order.class);
+                service.placeOrder(body, result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {

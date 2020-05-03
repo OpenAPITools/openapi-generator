@@ -642,14 +642,20 @@ public class ApiClient {
         }
     }
 
+    /**
+     * Build cookie header. Keeps a single value per cookie (as per <a href="https://tools.ietf.org/html/rfc6265#section-5.3">
+     * RFC6265 section 5.3</a>).
+     *
+     * @param cookies map all cookies
+     * @return header string for cookies.
+     */
     private String buildCookieHeader(MultiValueMap<String, String> cookies) {
         final StringBuilder cookieValue = new StringBuilder();
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
-            for (String value : entry.getValue()) {
-                cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
-                delimiter = "; ";
-            }
+            final String value = entry.getValue().get(entry.getValue().size() - 1);
+            cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), value));
+            delimiter = "; ";
         }
         return cookieValue.toString();
     }
@@ -683,7 +689,7 @@ public class ApiClient {
      * @param queryParams The query parameters
      * @param headerParams The header parameters
      */
-    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
+    protected void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {

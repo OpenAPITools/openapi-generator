@@ -10,13 +10,29 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
 // DogAllOf struct for DogAllOf
 type DogAllOf struct {
 	Breed *string `json:"breed,omitempty"`
+}
+
+// NewDogAllOf instantiates a new DogAllOf object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewDogAllOf() *DogAllOf {
+	this := DogAllOf{}
+	return &this
+}
+
+// NewDogAllOfWithDefaults instantiates a new DogAllOf object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewDogAllOfWithDefaults() *DogAllOf {
+	this := DogAllOf{}
+	return &this
 }
 
 // GetBreed returns the Breed field value if set, zero value otherwise.
@@ -28,14 +44,13 @@ func (o *DogAllOf) GetBreed() string {
 	return *o.Breed
 }
 
-// GetBreedOk returns a tuple with the Breed field value if set, zero value otherwise
+// GetBreedOk returns a tuple with the Breed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DogAllOf) GetBreedOk() (string, bool) {
+func (o *DogAllOf) GetBreedOk() (*string, bool) {
 	if o == nil || o.Breed == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Breed, true
+	return o.Breed, true
 }
 
 // HasBreed returns a boolean if a field has been set.
@@ -52,26 +67,46 @@ func (o *DogAllOf) SetBreed(v string) {
 	o.Breed = &v
 }
 
+func (o DogAllOf) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Breed != nil {
+		toSerialize["breed"] = o.Breed
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableDogAllOf struct {
-	Value DogAllOf
-	ExplicitNull bool
+	value *DogAllOf
+	isSet bool
+}
+
+func (v NullableDogAllOf) Get() *DogAllOf {
+	return v.value
+}
+
+func (v *NullableDogAllOf) Set(val *DogAllOf) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableDogAllOf) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableDogAllOf) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableDogAllOf(val *DogAllOf) *NullableDogAllOf {
+	return &NullableDogAllOf{value: val, isSet: true}
 }
 
 func (v NullableDogAllOf) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}	
+	return json.Marshal(v.value)
 }
 
 func (v *NullableDogAllOf) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
-

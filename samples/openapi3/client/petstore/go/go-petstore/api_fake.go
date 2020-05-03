@@ -44,7 +44,6 @@ func (a *FakeApiService) FakeHealthGet(ctx _context.Context) (HealthCheckResult,
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/health"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -87,15 +86,6 @@ func (a *FakeApiService) FakeHealthGet(ctx _context.Context) (HealthCheckResult,
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v HealthCheckResult
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -109,6 +99,87 @@ func (a *FakeApiService) FakeHealthGet(ctx _context.Context) (HealthCheckResult,
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// FakeHttpSignatureTestOpts Optional parameters for the method 'FakeHttpSignatureTest'
+type FakeHttpSignatureTestOpts struct {
+    Query1 optional.String
+    Header1 optional.String
+}
+
+/*
+FakeHttpSignatureTest test http signature authentication
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param pet Pet object that needs to be added to the store
+ * @param optional nil or *FakeHttpSignatureTestOpts - Optional Parameters:
+ * @param "Query1" (optional.String) -  query parameter
+ * @param "Header1" (optional.String) -  header parameter
+*/
+func (a *FakeApiService) FakeHttpSignatureTest(ctx _context.Context, pet Pet, localVarOptionals *FakeHttpSignatureTestOpts) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/http-signature-test"
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if localVarOptionals != nil && localVarOptionals.Query1.IsSet() {
+		localVarQueryParams.Add("query_1", parameterToString(localVarOptionals.Query1.Value(), ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json", "application/xml"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if localVarOptionals != nil && localVarOptionals.Header1.IsSet() {
+		localVarHeaderParams["header_1"] = parameterToString(localVarOptionals.Header1.Value(), "")
+	}
+	// body params
+	localVarPostBody = &pet
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
 }
 
 // FakeOuterBooleanSerializeOpts Optional parameters for the method 'FakeOuterBooleanSerialize'
@@ -136,7 +207,6 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/boolean"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -184,15 +254,6 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v bool
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -233,7 +294,6 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/composite"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -285,15 +345,6 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v OuterComposite
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -334,7 +385,6 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/number"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -381,15 +431,6 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v float32
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -431,7 +472,6 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/string"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -479,15 +519,6 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v string
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -520,7 +551,6 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, fileSchema
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/body-with-file-schema"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -588,7 +618,6 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query str
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/body-with-query-params"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -659,7 +688,6 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, client Client) (C
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -703,15 +731,6 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, client Client) (C
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Client
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -773,7 +792,6 @@ func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number flo
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -917,7 +935,6 @@ func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOption
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1028,7 +1045,6 @@ func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStrin
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1105,7 +1121,6 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, re
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/inline-additionalProperties"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1173,7 +1188,6 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, pa
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/jsonFormData"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1245,31 +1259,34 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/test-query-paramters"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 
-	t:=pipe
-	if reflect.TypeOf(t).Kind() == reflect.Slice {
-		s := reflect.ValueOf(t)
-		for i := 0; i < s.Len(); i++ {
-			localVarQueryParams.Add("pipe", parameterToString(s.Index(i), "multi"))
+	{
+		t:=pipe
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("pipe", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("pipe", parameterToString(t, "multi"))
 		}
-	} else {
-		localVarQueryParams.Add("pipe", parameterToString(t, "multi"))
 	}
 	localVarQueryParams.Add("ioutil", parameterToString(ioutil, "csv"))
 	localVarQueryParams.Add("http", parameterToString(http, "space"))
 	localVarQueryParams.Add("url", parameterToString(url, "csv"))
-	t:=context
-	if reflect.TypeOf(t).Kind() == reflect.Slice {
-		s := reflect.ValueOf(t)
-		for i := 0; i < s.Len(); i++ {
-			localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+	{
+		t:=context
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("context", parameterToString(t, "multi"))
 		}
-	} else {
-		localVarQueryParams.Add("context", parameterToString(t, "multi"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

@@ -28,6 +28,7 @@ from petstore_api.exceptions import (
 from petstore_api.model_utils import (
     file_type,
     int,
+    model_to_dict,
     str,
 )
 
@@ -87,7 +88,7 @@ class DeserializationTests(unittest.TestCase):
                 "tags": [
                     {
                         "id": 0,
-                        "name": "string"
+                        "fullName": "string"
                     }
                 ],
                 "status": "available"
@@ -114,7 +115,25 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(response,
             ({str: (petstore_api.Animal,)},), True)
         self.assertTrue(isinstance(deserialized, dict))
-        self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
+        dog = deserialized['dog']
+        self.assertTrue(isinstance(dog, petstore_api.Dog))
+        self.assertEqual(dog.class_name, "Dog")
+        self.assertEqual(dog.color, "white")
+        self.assertEqual(dog.breed, "Jack Russel Terrier")
+
+    def test_deserialize_lizard(self):
+        """ deserialize ChildLizard, use discriminator"""
+        data = {
+            "pet_type": "ChildLizard",
+            "lovesRocks": True
+        }
+        response = MockResponse(data=json.dumps(data))
+
+        lizard = self.deserialize(response,
+            (petstore_api.ParentPet,), True)
+        self.assertTrue(isinstance(lizard, petstore_api.ChildLizard))
+        self.assertEqual(lizard.pet_type, "ChildLizard")
+        self.assertEqual(lizard.loves_rocks, True)
 
     def test_deserialize_dict_str_int(self):
         """ deserialize dict(str, int) """
@@ -166,7 +185,7 @@ class DeserializationTests(unittest.TestCase):
             "tags": [
                 {
                     "id": 0,
-                    "name": "string"
+                    "fullName": "string"
                 }
             ],
             "status": "available"
@@ -180,7 +199,7 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized.category, petstore_api.Category))
         self.assertEqual(deserialized.category.name, "string")
         self.assertTrue(isinstance(deserialized.tags, list))
-        self.assertEqual(deserialized.tags[0].name, "string")
+        self.assertEqual(deserialized.tags[0].full_name, "string")
 
     def test_deserialize_list_of_pet(self):
         """ deserialize list[Pet] """
@@ -198,7 +217,7 @@ class DeserializationTests(unittest.TestCase):
                 "tags": [
                     {
                         "id": 0,
-                        "name": "string"
+                        "fullName": "string"
                     }
                 ],
                 "status": "available"
@@ -216,7 +235,7 @@ class DeserializationTests(unittest.TestCase):
                 "tags": [
                     {
                         "id": 0,
-                        "name": "string"
+                        "fullName": "string"
                     }
                 ],
                 "status": "available"
@@ -357,6 +376,36 @@ class DeserializationTests(unittest.TestCase):
                 self.assertEqual(other_file_object.read(), file_data)
         finally:
             os.unlink(file_path)
+
+    def test_deserialize_binary_to_str(self):
+        """Ensures that bytes deserialization works"""
+        response_types_mixed = (str,)
+
+        # sample from http://www.jtricks.com/download-text
+        HTTPResponse = namedtuple(
+            'urllib3_response_HTTPResponse',
+            ['status', 'reason', 'data', 'getheaders', 'getheader']
+        )
+        headers = {}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        data = "str"
+
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=json.dumps(data).encode("utf-8") if six.PY3 else json.dumps(data),
+            getheaders=get_headers,
+            getheader=get_header
+        )
+
+        mock_response = RESTResponse(http_response)
+
+        result = self.deserialize(mock_response, response_types_mixed, True)
+        self.assertEqual(isinstance(result, str), True)
+        self.assertEqual(result, data)
 
     def test_deserialize_string_boolean_map(self):
         """

@@ -11,6 +11,7 @@ before_cache:
   - rm -fr $HOME/.m2/repository/org/openapitools/
 
 cache:
+  yarn: true
   directories:
   - $HOME/.m2
   - $HOME/.ivy2
@@ -56,6 +57,8 @@ addons:
     - petstore.swagger.io
 
 before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.0
+  - export PATH="$HOME/.yarn/bin:$PATH"
   # install rust
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
@@ -108,7 +111,7 @@ before_install:
       gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY ;
       gpg --check-trustdb ;
     fi;
-  - pushd .; cd website; npm install; popd
+  - pushd .; cd website; yarn install; popd
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -133,13 +136,13 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - mvn --quiet --batch-mode --show-version clean install
-  - mvn --quiet --batch-mode --show-version verify -Psamples
+  - mvn --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test maven plugin
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test gradle plugin
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
@@ -175,17 +178,41 @@ after_success:
       fi;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
-  - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
+  - if [ $DOCKER_HUB_USERNAME ]; then
+      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+      docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
+      if [ ! -z "$TRAVIS_TAG" ]; then
+          docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG;
+      fi;
+      if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
+          docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME";
+      fi;
+    fi;
   ## docker: build cli image and push to Docker Hub
-  - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && cp docker-entrypoint.sh ./modules/openapi-generator-cli && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME && echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME"; fi; fi
+  - if [ $DOCKER_HUB_USERNAME ]; then
+      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+      cp docker-entrypoint.sh ./modules/openapi-generator-cli;
+      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
+      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
+      docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+      if [ ! -z "$TRAVIS_TAG" ]; then
+          docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG;
+      fi;
+      if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
+          docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME;
+          echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
+      fi;
+    fi;
   ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       cd website;
       git config --global user.name "${GH_NAME}";
       git config --global user.email "${GH_EMAIL}";
       echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
-      npm install;
-      GIT_USER="${GH_NAME}" npm run-script publish-gh-pages;
+      yarn install;
+      GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
     fi;
 
 env:

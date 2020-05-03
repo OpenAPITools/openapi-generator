@@ -44,7 +44,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, bod
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake_classname_test"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -100,15 +99,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, bod
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Client
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

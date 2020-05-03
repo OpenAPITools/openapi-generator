@@ -10,13 +10,44 @@ Method | HTTP request | Description
 
 ## FooGet
 
-> InlineResponseDefault FooGet(ctx, )
+> InlineResponseDefault FooGet(ctx).Execute()
 
 
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.DefaultApi.FooGet(context.Background(), ).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.FooGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FooGet`: InlineResponseDefault
+    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.FooGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFooGetRequest struct via the builder pattern
+
 
 ### Return type
 

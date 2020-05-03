@@ -61,7 +61,7 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
-        const body = (context.body instanceof FormData || context.body instanceof URLSearchParams || isBlob(context.body))
+        const body = ((typeof FormData !== "undefined" && context.body instanceof FormData) || context.body instanceof URLSearchParams || isBlob(context.body))
 	    ? context.body
 	    : JSON.stringify(context.body);
 
@@ -144,7 +144,7 @@ export class Configuration {
     constructor(private configuration: ConfigurationParameters = {}) {}
 
     get basePath(): string {
-        return this.configuration.basePath || BASE_PATH;
+        return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
     }
 
     get fetchApi(): FetchAPI {
@@ -193,7 +193,7 @@ export class Configuration {
 }
 
 export type Json = any;
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
+export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;
@@ -286,7 +286,7 @@ export interface ResponseTransformer<T> {
 export class JSONApiResponse<T> {
     constructor(public raw: Response, private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {}
 
-    async value() {
+    async value(): Promise<T> {
         return this.transformer(await this.raw.json());
     }
 }
@@ -294,7 +294,7 @@ export class JSONApiResponse<T> {
 export class VoidApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<void> {
         return undefined;
     }
 }
@@ -302,7 +302,7 @@ export class VoidApiResponse {
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<Blob> {
         return await this.raw.blob();
     };
 }
@@ -310,7 +310,7 @@ export class BlobApiResponse {
 export class TextApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<string> {
         return await this.raw.text();
     };
 }

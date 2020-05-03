@@ -45,7 +45,6 @@ func (a *FakeApiService) CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/create_xml_item"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -121,7 +120,6 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/boolean"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -169,15 +167,6 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v bool
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -218,7 +207,6 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/composite"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -270,15 +258,6 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v OuterComposite
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -319,7 +298,6 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/number"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -366,15 +344,6 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v float32
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -416,7 +385,6 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/outer/string"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -464,15 +432,6 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v string
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -505,7 +464,6 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, body FileS
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/body-with-file-schema"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -573,7 +531,6 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query str
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/body-with-query-params"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -644,7 +601,6 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, body Client) (Cli
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -689,15 +645,6 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, body Client) (Cli
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Client
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -728,8 +675,8 @@ type TestEndpointParametersOpts struct {
 }
 
 /*
-TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+TestEndpointParameters Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param number None
  * @param double None
@@ -758,7 +705,6 @@ func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number flo
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -902,7 +848,6 @@ func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOption
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1005,7 +950,6 @@ func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStrin
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1082,7 +1026,6 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, pa
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/inline-additionalProperties"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1150,7 +1093,6 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, pa
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/jsonFormData"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1222,7 +1164,6 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/test-query-paramters"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -1231,14 +1172,16 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 	localVarQueryParams.Add("ioutil", parameterToString(ioutil, "csv"))
 	localVarQueryParams.Add("http", parameterToString(http, "space"))
 	localVarQueryParams.Add("url", parameterToString(url, "csv"))
-	t:=context
-	if reflect.TypeOf(t).Kind() == reflect.Slice {
-		s := reflect.ValueOf(t)
-		for i := 0; i < s.Len(); i++ {
-			localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+	{
+		t:=context
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("context", parameterToString(t, "multi"))
 		}
-	} else {
-		localVarQueryParams.Add("context", parameterToString(t, "multi"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

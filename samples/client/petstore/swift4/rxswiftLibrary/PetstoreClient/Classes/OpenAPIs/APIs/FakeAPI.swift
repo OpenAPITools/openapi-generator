@@ -285,7 +285,7 @@ open class FakeAPI {
     }
 
     /**
-     Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      
      - parameter number: (form) None 
      - parameter double: (form) None 
@@ -318,9 +318,9 @@ open class FakeAPI {
     }
 
     /**
-     Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      - POST /fake
-     - Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     - Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      - BASIC:
        - type: http
        - name: http_basic_test

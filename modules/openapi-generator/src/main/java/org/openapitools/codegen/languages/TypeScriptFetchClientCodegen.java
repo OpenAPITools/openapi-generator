@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -47,6 +51,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public TypeScriptFetchClientCodegen() {
         super();
 
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
@@ -58,6 +64,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
+        typeMapping.put("date", "Date");
+        typeMapping.put("DateTime", "Date");
+
+        supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
@@ -94,8 +104,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void processOpts() {
         super.processOpts();
-        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
-        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
+        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming() == CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
+        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming().name());
 
         String sourceDir = "";
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -128,22 +138,19 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        ImmutableMap.Builder<String, Mustache.Lambda> lambdas = super.addMustacheLambdas();
+        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* "));
+        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* "));
+        return lambdas;
+    }
+
+    @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+        if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
-        } else if (ModelUtils.isDateSchema(p)) {
-            return "Date";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "Date";
         }
         return super.getTypeDeclaration(p);
     }
@@ -239,7 +246,36 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.updateOperationParameterEnumInformation(operations);
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
+        this.escapeOperationIds(operations);
+        this.addDeepObjectVendorExtension(operations);
         return operations;
+    }
+
+    private void addDeepObjectVendorExtension(Map<String, Object> operations) {
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+
+        for (CodegenOperation op : operationList) {
+            for (CodegenParameter param : op.queryParams) {
+                if (param.style != null && param.style.equals("deepObject")) {
+                    param.vendorExtensions.put("x-codegen-isDeepObject", true);
+                }
+            }
+        }
+    }
+
+    private void escapeOperationIds(Map<String, Object> operations) {
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            String param = op.operationIdCamelCase + "Request";
+            if (op.imports.contains(param)) {
+                // we import a model with the same name as the generated operation, escape it
+                op.operationIdCamelCase += "Operation";
+                op.operationIdLowerCase += "operation";
+                op.operationIdSnakeCase += "_operation";
+            }
+        }
     }
 
     private void addOperationModelImportInfomation(Map<String, Object> operations) {
@@ -278,7 +314,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
-            if(op.returnType == "object") {
+            if("object".equals(op.returnType)) {
                 op.isMapContainer = true;
                 op.returnSimpleType = false;
             }
@@ -316,6 +352,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.reservedWords.add("VoidApiResponse");
         this.reservedWords.add("BlobApiResponse");
         this.reservedWords.add("TextApiResponse");
+        // "Index" would create a file "Index.ts" which on case insensitive filesystems
+        // would override our "index.js" file
+        this.reservedWords.add("Index");
     }
 
     private boolean getUseSingleRequestParameter() {

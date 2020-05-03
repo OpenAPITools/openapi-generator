@@ -11,9 +11,11 @@
 from __future__ import absolute_import
 
 import json
+import atexit
 import mimetypes
 from multiprocessing.pool import ThreadPool
 import os
+import re
 
 # python 2 and python 3 compatibility library
 import six
@@ -21,10 +23,11 @@ from six.moves.urllib.parse import quote
 
 from petstore_api import rest
 from petstore_api.configuration import Configuration
-from petstore_api.exceptions import ApiValueError
+from petstore_api.exceptions import ApiValueError, ApiException
 from petstore_api.model_utils import (
     ModelNormal,
     ModelSimple,
+    ModelComposed,
     date,
     datetime,
     deserialize_file,
@@ -79,11 +82,19 @@ class ApiClient(object):
         # Set default User-Agent.
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
+    def close(self):
         if self._pool:
             self._pool.close()
             self._pool.join()
             self._pool = None
+            if hasattr(atexit, 'unregister'):
+                atexit.unregister(self.close)
 
     @property
     def pool(self):
@@ -91,6 +102,7 @@ class ApiClient(object):
          avoids instantiating unused threadpool for blocking clients.
         """
         if self._pool is None:
+            atexit.register(self.close)
             self._pool = ThreadPool(self.pool_threads)
         return self._pool
 
@@ -152,12 +164,13 @@ class ApiClient(object):
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
 
-        # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings)
-
         # body
         if body:
             body = self.sanitize_for_serialization(body)
+
+        # auth setting
+        self.update_params_for_auth(header_params, query_params,
+                                    auth_settings, resource_path, method, body)
 
         # request url
         if _host is None:
@@ -166,26 +179,43 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
-        # perform request and return response
-        response_data = self.request(
-            method, url, query_params=query_params, headers=header_params,
-            post_params=post_params, body=body,
-            _preload_content=_preload_content,
-            _request_timeout=_request_timeout)
+        try:
+            # perform request and return response
+            response_data = self.request(
+                method, url, query_params=query_params, headers=header_params,
+                post_params=post_params, body=body,
+                _preload_content=_preload_content,
+                _request_timeout=_request_timeout)
+        except ApiException as e:
+            e.body = e.body.decode('utf-8') if six.PY3 else e.body
+            raise e
+
+        content_type = response_data.getheader('content-type')
 
         self.last_response = response_data
 
         return_data = response_data
-        if _preload_content:
-            # deserialize response data
-            if response_type:
-                return_data = self.deserialize(
-                    response_data,
-                    response_type,
-                    _check_type
-                )
-            else:
-                return_data = None
+
+        if not _preload_content:
+            return (return_data)
+            return return_data
+
+        if six.PY3 and response_type not in ["file", "bytes"]:
+            match = None
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+            encoding = match.group(1) if match else "utf-8"
+            response_data.data = response_data.data.decode(encoding)
+
+        # deserialize response data
+        if response_type:
+            return_data = self.deserialize(
+                response_data,
+                response_type,
+                _check_type
+            )
+        else:
+            return_data = None
 
         if _return_http_data_only:
             return (return_data)
@@ -222,7 +252,7 @@ class ApiClient(object):
 
         if isinstance(obj, dict):
             obj_dict = obj
-        elif isinstance(obj, ModelNormal):
+        elif isinstance(obj, ModelNormal) or isinstance(obj, ModelComposed):
             # Convert model obj to dict
             # Convert attribute name to json key in
             # model definition for request
@@ -510,12 +540,17 @@ class ApiClient(object):
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings):
+    def update_params_for_auth(self, headers, querys, auth_settings,
+                               resource_path, method, body):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
+        :resource_path: A string representation of the HTTP request resource path.
+        :method: A string representation of the HTTP request method.
+        :body: A object representing the body of the HTTP request.
+            The object type is the return value of sanitize_for_serialization().
         """
         if not auth_settings:
             return
@@ -523,12 +558,11 @@ class ApiClient(object):
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                if not auth_setting['value']:
-                    continue
-                elif auth_setting['in'] == 'cookie':
+                if auth_setting['in'] == 'cookie':
                     headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
-                    headers[auth_setting['key']] = auth_setting['value']
+                    if auth_setting['type'] != 'http-signature':
+                        headers[auth_setting['key']] = auth_setting['value']
                 elif auth_setting['in'] == 'query':
                     querys.append((auth_setting['key'], auth_setting['value']))
                 else:

@@ -15,7 +15,6 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"fmt"
 	"strings"
 )
 
@@ -44,7 +43,7 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_n
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", orderId)), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -112,7 +111,6 @@ func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, 
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/inventory"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -167,15 +165,6 @@ func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, 
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v map[string]int32
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -210,7 +199,7 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Ord
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", orderId)), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -260,16 +249,6 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Ord
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Order
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -303,7 +282,6 @@ func (a *StoreApiService) PlaceOrder(ctx _context.Context, body Order) (Order, *
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -347,16 +325,6 @@ func (a *StoreApiService) PlaceOrder(ctx _context.Context, body Order) (Order, *
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Order
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

@@ -10,6 +10,7 @@ sleep 10
 
 successes=0
 failures=0
+export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.defaultLogLevel=warn"
 for SCRIPT in $(ls -l ./bin/openapi3/*.sh | grep -v all)
 do
     if [ -f ${SCRIPT} -a -x ${SCRIPT} ]; then

@@ -4,9 +4,9 @@ package {{package}}
 {{#imports}}
 import {{import}}
 {{/imports}}
-import {{mainPackage}}.core._
-import {{mainPackage}}.core.CollectionFormats._
-import {{mainPackage}}.core.ApiKeyLocations._
+import {{invokerPackage}}._
+import {{invokerPackage}}.CollectionFormats._
+import {{invokerPackage}}.ApiKeyLocations._
 
 {{#operations}}
 object {{classname}} {
@@ -22,9 +22,8 @@ class {{classname}}(baseUrl: String) {
 {{/javadocRenderer}}
   def {{operationId}}({{>methodParameters}}): ApiRequest[{{>operationReturnType}}] =
     ApiRequest[{{>operationReturnType}}](ApiMethods.{{httpMethod.toUpperCase}}, baseUrl, "{{{path}}}", {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}})
-      {{#authMethods}}{{#isApiKey}}.withApiKey(apiKey, "{{keyParamName}}", {{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}})
-      {{/isApiKey}}{{#isBasic}}.withCredentials(basicAuth)
-      {{/isBasic}}{{/authMethods}}{{#bodyParam}}.withBody({{paramName}})
+      {{#authMethods}}{{#isApiKey}}.withApiKey(apiKey, "{{keyParamName}}", {{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInCookie}}COOKIE{{/isKeyInCookie}})
+      {{/isApiKey}}{{#isBasic}}{{#isBasicBasic}}.withCredentials(basicAuth){{/isBasicBasic}}{{#isBasicBearer}}.withCredentials(bearerToken){{/isBasicBearer}}{{/isBasic}}{{/authMethods}}{{#bodyParam}}.withBody({{paramName}})
       {{/bodyParam}}{{#formParams}}.withFormParam({{>paramCreation}})
       {{/formParams}}{{#queryParams}}.withQueryParam({{>paramCreation}})
       {{/queryParams}}{{#pathParams}}.withPathParam({{>paramCreation}})

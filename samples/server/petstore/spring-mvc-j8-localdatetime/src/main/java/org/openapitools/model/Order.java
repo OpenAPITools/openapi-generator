@@ -26,6 +26,7 @@ public class Order   {
   private Integer quantity;
 
   @JsonProperty("shipDate")
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime shipDate;
 
   /**
@@ -44,8 +45,12 @@ public class Order   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }

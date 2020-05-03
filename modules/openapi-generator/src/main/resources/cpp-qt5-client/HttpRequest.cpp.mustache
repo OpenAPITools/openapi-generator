@@ -6,7 +6,8 @@
 #include <QTimer>
 #include <QUrl>
 #include <QUuid>
-#include <QtGlobal>
+#include <QtGlobal>{{#contentCompression}}
+#include <zlib.h>{{/contentCompression}}
 
 #include "{{prefix}}HttpRequest.h"
 
@@ -44,14 +45,17 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 }
 
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), _timeOut(0) {
+    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
     qsrand(QDateTime::currentDateTime().toTime_t());
     manager = new QNetworkAccessManager(this);
     workingDirectory = QDir::currentPath();
     connect(manager, &QNetworkAccessManager::finished, this, &{{prefix}}HttpRequestWorker::on_manager_finished);
+    timeOutTimer.setSingleShot(true);
 }
 
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {
+    QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+    timeOutTimer.stop();
     for (const auto &item : multiPartFields) {
         if (item != nullptr) {
             delete item;
@@ -85,14 +89,29 @@ QByteArray *{{prefix}}HttpRequestWorker::getMultiPartField(const QString &fieldn
     return nullptr;
 }
 
-void {{prefix}}HttpRequestWorker::setTimeOut(int timeOut) {
-    _timeOut = timeOut;
+void {{prefix}}HttpRequestWorker::setTimeOut(int timeOutMs) {
+    timeOutTimer.setInterval(timeOutMs);
+    if(timeOutTimer.interval() == 0) {
+        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+    }
 }
 
 void {{prefix}}HttpRequestWorker::setWorkingDirectory(const QString &path) {
     if (!path.isEmpty()) {
         workingDirectory = path;
     }
+}
+
+void {{prefix}}HttpRequestWorker::setResponseCompressionEnabled(bool enable) {
+    isResponseCompressionEnabled = enable;
+}
+
+void {{prefix}}HttpRequestWorker::setRequestCompressionEnabled(bool enable) {
+    isRequestCompressionEnabled = enable;
+}
+
+int  {{prefix}}HttpRequestWorker::getHttpResponseCode() const{
+    return httpResponseCode;
 }
 
 QString {{prefix}}HttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -280,7 +299,11 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
     if (input->request_body.size() > 0) {
         qDebug() << "got a request body";
         request_content.clear();
-        request_content.append(input->request_body);
+        if(!isFormData && (input->var_layout != MULTIPART) && isRequestCompressionEnabled){
+            request_content.append(compress(input->request_body, 7, {{prefix}}CompressionType::Gzip));
+        } else {
+            request_content.append(input->request_body);
+        }
     }
     // prepare connection
 
@@ -297,10 +320,19 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         } else {
             request.setHeader(QNetworkRequest::ContentTypeHeader, input->headers.value("Content-Type"));
         }
+        if(isRequestCompressionEnabled){
+            request.setRawHeader("Content-Encoding", "gzip");
+        }
     } else if (input->var_layout == URL_ENCODED) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     } else if (input->var_layout == MULTIPART) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
+    }
+
+    if(isResponseCompressionEnabled){
+        request.setRawHeader("Accept-Encoding", "gzip");
+    } else {
+        request.setRawHeader("Accept-Encoding", "identity");
     }
 
     if (input->http_method == "GET") {
@@ -325,22 +357,33 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if (_timeOut > 0) {
-        QTimer::singleShot(_timeOut, [=]() { on_manager_timeout(reply); });
+    if (timeOutTimer.interval() > 0) {
+        QObject::connect(&timeOutTimer, &QTimer::timeout, [=]() { on_manager_timeout(reply); });
+        timeOutTimer.start();
     }
 }
 
 void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+    bool codeSts = false;
+    if(timeOutTimer.isActive()) {
+        QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
+        timeOutTimer.stop();
+    }
     error_type = reply->error();
-    response = reply->readAll();
     error_str = reply->errorString();
     if (reply->rawHeaderPairs().count() > 0) {
         for (const auto &item : reply->rawHeaderPairs()) {
             headers.insert(item.first, item.second);
         }
     }
+    auto rescode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&codeSts);
+    if(codeSts){
+        httpResponseCode = rescode;
+    } else{
+        httpResponseCode = -1;
+    }
+    process_response(reply);
     reply->deleteLater();
-    process_form_response();
     emit on_execution_finished(this);
 }
 
@@ -354,7 +397,7 @@ void {{prefix}}HttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
     emit on_execution_finished(this);
 }
 
-void {{prefix}}HttpRequestWorker::process_form_response() {
+void {{prefix}}HttpRequestWorker::process_response(QNetworkReply *reply) {
     if (getResponseHeaders().contains(QString("Content-Disposition"))) {
         auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
         auto contentType =
@@ -368,16 +411,118 @@ void {{prefix}}HttpRequestWorker::process_form_response() {
                 }
             }
             {{prefix}}HttpFileElement felement;
-            felement.saveToFile(QString(), workingDirectory + QDir::separator() + filename, filename, contentType, response.data());
+            felement.saveToFile(QString(), workingDirectory + QDir::separator() + filename, filename, contentType, reply->readAll());
             files.insert(filename, felement);
         }
 
     } else if (getResponseHeaders().contains(QString("Content-Type"))) {
         auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
         if ((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))) {
+            // TODO : Handle Multipart responses
         } else {
+            if(headers.contains("Content-Encoding")){
+                auto encoding = headers.value("Content-Encoding").split(QString(";"), QString::SkipEmptyParts);
+                if(encoding.count() > 0){
+                    auto compressionTypes = encoding.first().split(',', QString::SkipEmptyParts);
+                    if(compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)){
+                        response = decompress(reply->readAll());
+                    } else if(compressionTypes.contains("identity", Qt::CaseInsensitive)){
+                        response = reply->readAll();
+                    }
+                }
+            }
+            else {
+                response = reply->readAll();
+            }
         }
     }
+}
+
+QByteArray {{prefix}}HttpRequestWorker::decompress(const QByteArray& data){
+    {{#contentCompression}}QByteArray result;
+    bool sts = false;
+    do{
+        z_stream strm{};
+        static const int CHUNK_SIZE = 8*1024;
+        char out[CHUNK_SIZE];
+        if (data.size() <= 4) {
+            break;
+        }
+        strm.avail_in = data.size();
+        strm.next_in = (Bytef*)(data.data());
+        if(Z_OK != inflateInit2(&strm, 15 + 32)){
+            break;
+        }
+        do {
+            sts = false;
+            strm.avail_out = CHUNK_SIZE;
+            strm.next_out = (Bytef*)(out);
+            if(inflate(&strm, Z_NO_FLUSH) < Z_OK){
+                break;
+            }
+            result.append(out, CHUNK_SIZE - strm.avail_out);
+            sts = true;
+        } while (strm.avail_out == 0);
+        inflateEnd(&strm);
+    } while(false);
+    return sts ? result : QByteArray();{{/contentCompression}}{{^contentCompression}}
+    Q_UNUSED(data);
+    return QByteArray();{{/contentCompression}}
+}
+
+QByteArray {{prefix}}HttpRequestWorker::compress(const QByteArray& input, int level, {{prefix}}CompressionType compressType) {
+    {{#contentCompression}}QByteArray output;
+    static const int GZIP_WINDOW_BIT = 15+16;
+    static const int ZLIB_WINDOW_BIT = 15;
+    static const int CHUNK_SIZE = 8*1024;
+    int windowBits;
+    if( compressType == {{prefix}}CompressionType::Gzip ){
+        windowBits = GZIP_WINDOW_BIT;
+    } else if ( compressType == {{prefix}}CompressionType::Zlib ){
+        windowBits = ZLIB_WINDOW_BIT;
+    }
+    do{
+        int flush = 0, ret = 0;
+        bool error_sts = false;
+        z_stream strm{};
+        if(input.length() <= 0) {
+            break;
+        }
+        if (deflateInit2(&strm, qMax(-1, qMin(9, level)), Z_DEFLATED, windowBits, 8, Z_DEFAULT_STRATEGY) != Z_OK){
+            break;
+        }
+        output.clear();
+        auto input_data = input.data();
+        int input_data_left = input.length();
+        do {
+            int chunk_size = qMin(CHUNK_SIZE, input_data_left);
+            strm.next_in = (unsigned char*)input_data;
+            strm.avail_in = chunk_size;
+            input_data += chunk_size;
+            input_data_left -= chunk_size;
+            flush = (input_data_left <= 0 ? Z_FINISH : Z_NO_FLUSH);
+            do {
+                char out[CHUNK_SIZE];
+                strm.next_out = (unsigned char*)out;
+                strm.avail_out = CHUNK_SIZE;
+                ret = deflate(&strm, flush);
+                if(ret == Z_STREAM_ERROR) {
+                    error_sts = true;
+                    break;
+                }
+                auto have = (CHUNK_SIZE - strm.avail_out);
+                if(have > 0){
+                    output.append((char*)out, have);
+                }
+            } while (strm.avail_out == 0);
+        } while ((flush != Z_FINISH) && !(error_sts));
+        deflateEnd(&strm);
+    } while(false);
+    return output;{{/contentCompression}}{{^contentCompression}}
+    Q_UNUSED(input);
+    Q_UNUSED(level);
+    Q_UNUSED(compressType);        
+    return QByteArray();{{/contentCompression}}
 }
 
 QSslConfiguration *{{prefix}}HttpRequestWorker::sslDefaultConfiguration;

@@ -93,7 +93,7 @@ public interface FakeApi {
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
+    @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake",  })
     @ApiResponses(value = { 
