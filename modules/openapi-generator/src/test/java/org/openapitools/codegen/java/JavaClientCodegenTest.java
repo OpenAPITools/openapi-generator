@@ -455,7 +455,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 26);
+        Assert.assertEquals(generatedFiles.size(), 29);
         validateJavaSourceFiles(generatedFiles);
         String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/PingApi.java").getAbsolutePath().replace("\\", "/");
         String defaultApiContent = generatedFiles.get(defaultApiFilename);
