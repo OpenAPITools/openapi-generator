@@ -19,10 +19,10 @@ type NullableClass struct {
 	StringProp *string `json:"string_prop,omitempty"`
 	DateProp *string `json:"date_prop,omitempty"`
 	DatetimeProp *time.Time `json:"datetime_prop,omitempty"`
-	ArrayNullableProp *[]map[string]interface{} `json:"array_nullable_prop,omitempty"`
-	ArrayAndItemsNullableProp *[]map[string]interface{} `json:"array_and_items_nullable_prop,omitempty"`
-	ArrayItemsNullable []map[string]interface{} `json:"array_items_nullable,omitempty"`
-	ObjectNullableProp *map[string]map[string]interface{} `json:"object_nullable_prop,omitempty"`
-	ObjectAndItemsNullableProp *map[string]map[string]interface{} `json:"object_and_items_nullable_prop,omitempty"`
-	ObjectItemsNullable map[string]map[string]interface{} `json:"object_items_nullable,omitempty"`
+	ArrayNullableProp *[]ObjectType `json:"array_nullable_prop,omitempty"`
+	ArrayAndItemsNullableProp *[]ObjectType `json:"array_and_items_nullable_prop,omitempty"`
+	ArrayItemsNullable []ObjectType `json:"array_items_nullable,omitempty"`
+	ObjectNullableProp *map[string]ObjectType `json:"object_nullable_prop,omitempty"`
+	ObjectAndItemsNullableProp *map[string]ObjectType `json:"object_and_items_nullable_prop,omitempty"`
+	ObjectItemsNullable map[string]ObjectType `json:"object_items_nullable,omitempty"`
 }

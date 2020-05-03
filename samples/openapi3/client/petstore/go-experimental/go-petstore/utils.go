@@ -79,6 +79,78 @@ func (v *NullType) UnmarshalJSON(src []byte) error {
 	return errors.New("Cannot unmarshal value into 'null' type")
 }
 
+// AnyType is a type whose value can anything.
+type AnyType struct{
+	value interface{}
+	isSet bool
+}
+
+func NewAnyType(val interface{}) *AnyType {
+	return &AnyType{value: val, isSet: true}
+}
+
+func (v AnyType) Get() interface{} {
+	return v.value
+}
+
+func (v *AnyType) Set(val interface{}) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v AnyType) IsSet() bool {
+	return v.isSet
+}
+
+func (v *AnyType) Unset() {
+	v.isSet = false
+}
+
+func (v AnyType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *AnyType) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
+// ObjectType is a type whose value can be an object with undeclared properties.
+type ObjectType struct{
+	value map[string]interface{}
+	isSet bool
+}
+
+func NewObjectType(val map[string]interface{}) *ObjectType {
+	return &ObjectType{value: val, isSet: true}
+}
+
+func (v ObjectType) Get() map[string]interface{} {
+	return v.value
+}
+
+func (v *ObjectType) Set(val map[string]interface{}) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v ObjectType) IsSet() bool {
+	return v.isSet
+}
+
+func (v *ObjectType) Unset() {
+	v.isSet = false
+}
+
+func (v ObjectType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *ObjectType) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
 type NullableBool struct {
 	value *bool
 	isSet bool

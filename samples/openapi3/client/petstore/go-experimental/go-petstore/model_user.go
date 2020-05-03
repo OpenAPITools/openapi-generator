@@ -25,13 +25,13 @@ type User struct {
 	// User Status
 	UserStatus *int32 `json:"userStatus,omitempty"`
 	// test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.
-	ArbitraryObject *map[string]interface{} `json:"arbitraryObject,omitempty"`
+	ArbitraryObject *ObjectType `json:"arbitraryObject,omitempty"`
 	// test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
-	ArbitraryNullableObject map[string]interface{} `json:"arbitraryNullableObject,omitempty"`
+	ArbitraryNullableObject ObjectType `json:"arbitraryNullableObject,omitempty"`
 	// test code generation for any type Value can be any type - string, number, boolean, array or object.
-	ArbitraryTypeValue *interface{} `json:"arbitraryTypeValue,omitempty"`
+	ArbitraryTypeValue *AnyType `json:"arbitraryTypeValue,omitempty"`
 	// test code generation for any type Value can be any type - string, number, boolean, array, object or the 'null' value.
-	ArbitraryNullableTypeValue interface{} `json:"arbitraryNullableTypeValue,omitempty"`
+	ArbitraryNullableTypeValue AnyType `json:"arbitraryNullableTypeValue,omitempty"`
 }
 
 // NewUser instantiates a new User object
@@ -308,9 +308,9 @@ func (o *User) SetUserStatus(v int32) {
 }
 
 // GetArbitraryObject returns the ArbitraryObject field value if set, zero value otherwise.
-func (o *User) GetArbitraryObject() map[string]interface{} {
+func (o *User) GetArbitraryObject() ObjectType {
 	if o == nil || o.ArbitraryObject == nil {
-		var ret map[string]interface{}
+		var ret ObjectType
 		return ret
 	}
 	return *o.ArbitraryObject
@@ -318,7 +318,7 @@ func (o *User) GetArbitraryObject() map[string]interface{} {
 
 // GetArbitraryObjectOk returns a tuple with the ArbitraryObject field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetArbitraryObjectOk() (*map[string]interface{}, bool) {
+func (o *User) GetArbitraryObjectOk() (*ObjectType, bool) {
 	if o == nil || o.ArbitraryObject == nil {
 		return nil, false
 	}
@@ -334,15 +334,15 @@ func (o *User) HasArbitraryObject() bool {
 	return false
 }
 
-// SetArbitraryObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryObject field.
-func (o *User) SetArbitraryObject(v map[string]interface{}) {
+// SetArbitraryObject gets a reference to the given ObjectType and assigns it to the ArbitraryObject field.
+func (o *User) SetArbitraryObject(v ObjectType) {
 	o.ArbitraryObject = &v
 }
 
 // GetArbitraryNullableObject returns the ArbitraryNullableObject field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetArbitraryNullableObject() map[string]interface{} {
+func (o *User) GetArbitraryNullableObject() ObjectType {
 	if o == nil  {
-		var ret map[string]interface{}
+		var ret ObjectType
 		return ret
 	}
 	return o.ArbitraryNullableObject
@@ -351,7 +351,7 @@ func (o *User) GetArbitraryNullableObject() map[string]interface{} {
 // GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetArbitraryNullableObjectOk() (*map[string]interface{}, bool) {
+func (o *User) GetArbitraryNullableObjectOk() (*ObjectType, bool) {
 	if o == nil || o.ArbitraryNullableObject == nil {
 		return nil, false
 	}
@@ -367,15 +367,15 @@ func (o *User) HasArbitraryNullableObject() bool {
 	return false
 }
 
-// SetArbitraryNullableObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryNullableObject field.
-func (o *User) SetArbitraryNullableObject(v map[string]interface{}) {
+// SetArbitraryNullableObject gets a reference to the given ObjectType and assigns it to the ArbitraryNullableObject field.
+func (o *User) SetArbitraryNullableObject(v ObjectType) {
 	o.ArbitraryNullableObject = v
 }
 
 // GetArbitraryTypeValue returns the ArbitraryTypeValue field value if set, zero value otherwise.
-func (o *User) GetArbitraryTypeValue() interface{} {
+func (o *User) GetArbitraryTypeValue() AnyType {
 	if o == nil || o.ArbitraryTypeValue == nil {
-		var ret interface{}
+		var ret AnyType
 		return ret
 	}
 	return *o.ArbitraryTypeValue
@@ -383,7 +383,7 @@ func (o *User) GetArbitraryTypeValue() interface{} {
 
 // GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool) {
+func (o *User) GetArbitraryTypeValueOk() (*AnyType, bool) {
 	if o == nil || o.ArbitraryTypeValue == nil {
 		return nil, false
 	}
@@ -399,15 +399,15 @@ func (o *User) HasArbitraryTypeValue() bool {
 	return false
 }
 
-// SetArbitraryTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryTypeValue field.
-func (o *User) SetArbitraryTypeValue(v interface{}) {
+// SetArbitraryTypeValue gets a reference to the given AnyType and assigns it to the ArbitraryTypeValue field.
+func (o *User) SetArbitraryTypeValue(v AnyType) {
 	o.ArbitraryTypeValue = &v
 }
 
 // GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetArbitraryNullableTypeValue() interface{} {
+func (o *User) GetArbitraryNullableTypeValue() AnyType {
 	if o == nil  {
-		var ret interface{}
+		var ret AnyType
 		return ret
 	}
 	return o.ArbitraryNullableTypeValue
@@ -416,7 +416,7 @@ func (o *User) GetArbitraryNullableTypeValue() interface{} {
 // GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool) {
+func (o *User) GetArbitraryNullableTypeValueOk() (*AnyType, bool) {
 	if o == nil || o.ArbitraryNullableTypeValue == nil {
 		return nil, false
 	}
@@ -432,8 +432,8 @@ func (o *User) HasArbitraryNullableTypeValue() bool {
 	return false
 }
 
-// SetArbitraryNullableTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryNullableTypeValue field.
-func (o *User) SetArbitraryNullableTypeValue(v interface{}) {
+// SetArbitraryNullableTypeValue gets a reference to the given AnyType and assigns it to the ArbitraryNullableTypeValue field.
+func (o *User) SetArbitraryNullableTypeValue(v AnyType) {
 	o.ArbitraryNullableTypeValue = v
 }
 

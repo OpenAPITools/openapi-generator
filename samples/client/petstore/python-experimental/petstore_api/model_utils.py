@@ -1231,9 +1231,10 @@ def get_oneof_instance(self, model_args, constant_args):
     schemas described by oneOf.
     Args:
         self: the class we are handling
-        model_args (dict): var_name to var_value
+        model_args (dict/None): var_name to var_value
             The input data, e.g. the payload that must match a oneOf schema
-            in the OpenAPI document.
+            in the OpenAPI document. If the input data is the null value,
+            model_args is None.
         constant_args (dict): var_name to var_value
             args that every model requires, including configuration, server
             and path to item.
@@ -1248,6 +1249,13 @@ def get_oneof_instance(self, model_args, constant_args):
     # Iterate over each oneOf schema and determine if the input data
     # matches the oneOf schemas.
     for oneof_class in self._composed_schemas()['oneOf']:
+        if oneof_class is none_type:
+            # The only way the input data can match the 'None' type
+            # is if the input data is the 'null' value.
+            if model_args is None:
+                # The input data matches the 'None' type.
+                oneof_instances.append(model_args)
+            continue
         # transform js keys from input data to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
             model_args, oneof_class)
@@ -1292,10 +1300,13 @@ def get_anyof_instances(self, model_args, constant_args):
     """
     Args:
         self: the class we are handling
-        model_args (dict): var_name to var_value
-            used to make instances
+        model_args (dict/None): var_name to var_value
+            The input data, e.g. the payload that must match at least one
+            anyOf child schema in the OpenAPI document. If the input data
+            is the null value, model_args is None.
         constant_args (dict): var_name to var_value
-            used to make instances
+            args that every model requires, including configuration, server
+            and path to item.
 
     Returns
         anyof_instances (list)
@@ -1305,6 +1316,12 @@ def get_anyof_instances(self, model_args, constant_args):
         return anyof_instances
 
     for anyof_class in self._composed_schemas()['anyOf']:
+        if anyof_class is none_type:
+            # The only way the input data can match the 'None' type
+            # is if the input data is the 'null' value.
+            if model_args is None:
+                return None
+            continue
         # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
 

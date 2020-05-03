@@ -12,10 +12,10 @@ Name | Type | Description | Notes
 **Password** | Pointer to **string** |  | [optional] 
 **Phone** | Pointer to **string** |  | [optional] 
 **UserStatus** | Pointer to **int32** | User Status | [optional] 
-**ArbitraryObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value. | [optional] 
-**ArbitraryNullableObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value. | [optional] 
-**ArbitraryTypeValue** | Pointer to [**interface{}**](.md) | test code generation for any type Value can be any type - string, number, boolean, array or object. | [optional] 
-**ArbitraryNullableTypeValue** | Pointer to [**interface{}**](.md) | test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value. | [optional] 
+**ArbitraryObject** | Pointer to [**ObjectType**](.md) | test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value. | [optional] 
+**ArbitraryNullableObject** | Pointer to [**ObjectType**](.md) | test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value. | [optional] 
+**ArbitraryTypeValue** | Pointer to [**AnyType**](.md) | test code generation for any type Value can be any type - string, number, boolean, array or object. | [optional] 
+**ArbitraryNullableTypeValue** | Pointer to [**AnyType**](.md) | test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value. | [optional] 
 
 ## Methods
 
@@ -238,20 +238,20 @@ HasUserStatus returns a boolean if a field has been set.
 
 ### GetArbitraryObject
 
-`func (o *User) GetArbitraryObject() map[string]interface{}`
+`func (o *User) GetArbitraryObject() ObjectType`
 
 GetArbitraryObject returns the ArbitraryObject field if non-nil, zero value otherwise.
 
 ### GetArbitraryObjectOk
 
-`func (o *User) GetArbitraryObjectOk() (*map[string]interface{}, bool)`
+`func (o *User) GetArbitraryObjectOk() (*ObjectType, bool)`
 
 GetArbitraryObjectOk returns a tuple with the ArbitraryObject field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArbitraryObject
 
-`func (o *User) SetArbitraryObject(v map[string]interface{})`
+`func (o *User) SetArbitraryObject(v ObjectType)`
 
 SetArbitraryObject sets ArbitraryObject field to given value.
 
@@ -263,20 +263,20 @@ HasArbitraryObject returns a boolean if a field has been set.
 
 ### GetArbitraryNullableObject
 
-`func (o *User) GetArbitraryNullableObject() map[string]interface{}`
+`func (o *User) GetArbitraryNullableObject() ObjectType`
 
 GetArbitraryNullableObject returns the ArbitraryNullableObject field if non-nil, zero value otherwise.
 
 ### GetArbitraryNullableObjectOk
 
-`func (o *User) GetArbitraryNullableObjectOk() (*map[string]interface{}, bool)`
+`func (o *User) GetArbitraryNullableObjectOk() (*ObjectType, bool)`
 
 GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArbitraryNullableObject
 
-`func (o *User) SetArbitraryNullableObject(v map[string]interface{})`
+`func (o *User) SetArbitraryNullableObject(v ObjectType)`
 
 SetArbitraryNullableObject sets ArbitraryNullableObject field to given value.
 
@@ -298,20 +298,20 @@ HasArbitraryNullableObject returns a boolean if a field has been set.
 UnsetArbitraryNullableObject ensures that no value is present for ArbitraryNullableObject, not even an explicit nil
 ### GetArbitraryTypeValue
 
-`func (o *User) GetArbitraryTypeValue() interface{}`
+`func (o *User) GetArbitraryTypeValue() AnyType`
 
 GetArbitraryTypeValue returns the ArbitraryTypeValue field if non-nil, zero value otherwise.
 
 ### GetArbitraryTypeValueOk
 
-`func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool)`
+`func (o *User) GetArbitraryTypeValueOk() (*AnyType, bool)`
 
 GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArbitraryTypeValue
 
-`func (o *User) SetArbitraryTypeValue(v interface{})`
+`func (o *User) SetArbitraryTypeValue(v AnyType)`
 
 SetArbitraryTypeValue sets ArbitraryTypeValue field to given value.
 
@@ -323,20 +323,20 @@ HasArbitraryTypeValue returns a boolean if a field has been set.
 
 ### GetArbitraryNullableTypeValue
 
-`func (o *User) GetArbitraryNullableTypeValue() interface{}`
+`func (o *User) GetArbitraryNullableTypeValue() AnyType`
 
 GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field if non-nil, zero value otherwise.
 
 ### GetArbitraryNullableTypeValueOk
 
-`func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool)`
+`func (o *User) GetArbitraryNullableTypeValueOk() (*AnyType, bool)`
 
 GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArbitraryNullableTypeValue
 
-`func (o *User) SetArbitraryNullableTypeValue(v interface{})`
+`func (o *User) SetArbitraryNullableTypeValue(v AnyType)`
 
 SetArbitraryNullableTypeValue sets ArbitraryNullableTypeValue field to given value.
 
