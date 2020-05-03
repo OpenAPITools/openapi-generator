@@ -3015,7 +3015,8 @@ public class DefaultCodegen implements CodegenConfig {
         //Referenced enum case:
         if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
-
+            // If referenced schema is enum then property is treated as enum.
+            property.isEnum = true;
             Map<String, Object> allowableValues = new HashMap<String, Object>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
