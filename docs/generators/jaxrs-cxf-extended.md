@@ -68,6 +68,7 @@ sidebar_label: jaxrs-cxf-extended
 |useSpringAnnotationConfig|Use Spring Annotation Config| |false|
 |useSwaggerFeature|Use Swagger Feature| |false|
 |useSwaggerUI|Use Swagger UI| |false|
+|useTags|use tags for creating interface and controller classnames| |true|
 |useWadlFeature|Use WADL Feature| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 

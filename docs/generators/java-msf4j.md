@@ -48,6 +48,7 @@ sidebar_label: java-msf4j
 |sourceFolder|source folder for generated code| |src/main/java|
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useTags|use tags for creating interface and controller classnames| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
