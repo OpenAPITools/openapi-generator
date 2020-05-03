@@ -1,10 +1,10 @@
     @classmethod
-    def get_discriminator_class(cls, from_server, data):
+    def get_discriminator_class(cls, data):
         """Returns the child class specified by the discriminator"""
-        discriminator = cls.discriminator()
+        discriminator = cls.discriminator
         discr_propertyname_py = list(discriminator.keys())[0]
         discr_propertyname_js = cls.attribute_map[discr_propertyname_py]
-        if from_server:
+        if discr_propertyname_js in data:
             class_name = data[discr_propertyname_js]
         else:
             class_name = data[discr_propertyname_py]
