@@ -152,11 +152,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("Error", "Error");
                 
 
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
+        cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
+        cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
+        cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
+        cliOptions.add(CliOption.newBoolean(SNAPSHOT,
                 "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
 
@@ -822,15 +822,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // NPM Settings
         if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+            setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
 
         if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+            setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
         }
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
-            this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
+            setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
         
@@ -838,7 +838,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         
     }
 
-    
     private String getHttpLibForFramework(String object) {
         return this.frameworkToHttpLibMap.get(object);
     }
