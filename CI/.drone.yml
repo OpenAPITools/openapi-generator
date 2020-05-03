@@ -26,6 +26,7 @@ steps:
   - ./mvnw --quiet verify -Psamples.droneio -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test java native client
   - ./mvnw clean test -f samples/client/petstore/java/native/pom.xml
+  - ./mvnw clean test -f samples/client/petstore/java/native-async/pom.xml
   # test all generators with fake petstore spec (2.0, 3.0)
   - /bin/bash bin/utils/test-fake-petstore-for-all.sh
   # generate test scripts
