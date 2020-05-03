@@ -60,6 +60,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    private String userSecretsGuid = randomUUID().toString();
 
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
@@ -67,9 +68,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useSwashbuckle = true;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbucke version: 3.0.0, 4.0.0");
-    ; // default to 2.1
-    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 3.0 (preview4 only), 2.2, 2.1, 2.0 (deprecated)");
+    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0, 4.0.0, 5.0.0");
+    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier can be empty, abstract");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual, abstract or partial");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
@@ -83,7 +83,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
-    private String newtonsoftVersion = "3.0.0-preview5-19227-01";
+    private String newtonsoftVersion = "3.0.0";
 
     public AspNetCoreServerCodegen() {
         super();
@@ -186,10 +186,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         addOption(COMPATIBILITY_VERSION, "ASP.Net Core CompatibilityVersion", compatibilityVersion);
 
-        aspnetCoreVersion.addEnum("2.0", "ASP.NET COre 2.0");
+        aspnetCoreVersion.addEnum("2.0", "ASP.NET Core 2.0");
         aspnetCoreVersion.addEnum("2.1", "ASP.NET Core 2.1");
         aspnetCoreVersion.addEnum("2.2", "ASP.NET Core 2.2");
         aspnetCoreVersion.addEnum("3.0", "ASP.NET Core 3.0");
+        aspnetCoreVersion.addEnum("3.1", "ASP.NET Core 3.1");
         aspnetCoreVersion.setDefault("2.2");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
@@ -227,7 +228,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 isLibrary);
 
         addSwitch(USE_FRAMEWORK_REFERENCE,
-                "Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.",
+                "Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.",
                 useFrameworkReference);
 
         addSwitch(USE_NEWTONSOFT,
@@ -239,7 +240,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 newtonsoftVersion);
 
         addSwitch(USE_DEFAULT_ROUTING,
-                "Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.",
+                "Use default routing for the ASP.NET Core version.",
                 useDefaultRouting);
 
         addOption(CodegenConstants.ENUM_NAME_SUFFIX,
@@ -263,7 +264,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         addOption(operationModifier.getOpt(), operationModifier.getDescription(), operationModifier.getOptValue());
 
         buildTarget.addEnum("program", "Generate code for a standalone server");
-        buildTarget.addEnum("library", "Generate code for a server abstract class lbrary");
+        buildTarget.addEnum("library", "Generate code for a server abstract class library");
         buildTarget.setDefault("program");
         buildTarget.setOptValue(buildTarget.getDefault());
         addOption(buildTarget.getOpt(), buildTarget.getDescription(), buildTarget.getOptValue());
@@ -286,7 +287,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.setDefault("partial");
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
-
     }
 
     @Override
@@ -320,6 +320,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         }
         additionalProperties.put("packageGuid", packageGuid);
+        additionalProperties.put("userSecretsGuid", userSecretsGuid);
 
         if (!additionalProperties.containsKey(NEWTONSOFT_VERSION)) {
             additionalProperties.put(NEWTONSOFT_VERSION, newtonsoftVersion);
@@ -367,6 +368,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
         supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
+        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+            supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", packageFolder + File.separator + "OpenApi", "TypeExtensions.cs"));
+        }
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
         if (!isLibrary) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", packageFolder, "Dockerfile"));
@@ -532,17 +536,32 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
-        if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
-            embeddedTemplateDir = templateDir = "aspnetcore/2.0";
+
+        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+            compatibilityVersion = null;
+        } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
             supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
-            LOGGER.info("ASP.NET core version: 2.0");
             compatibilityVersion = null;
         } else {
             // default, do nothing
-            LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
         }
+        LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
+        embeddedTemplateDir = templateDir = "aspnetcore/" + determineTemplateVersion(aspnetCoreVersion.getOptValue());
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
+    }
+
+    private String determineTemplateVersion(String frameworkVersion) {
+        switch (frameworkVersion) {
+            case "3.1":
+                return "3.0";
+
+            case "2.2":
+                return "2.1";
+
+            default:
+                return frameworkVersion;
+        }
     }
 
     private void setUseSwashbuckle() {
@@ -572,7 +591,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setIsFramework() {
         if (aspnetCoreVersion.getOptValue().startsWith("3.")) {// default, do nothing
-            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing  to use frameworkReference instead of packageReference ");
+            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing to use frameworkReference instead of packageReference ");
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
         } else {
@@ -582,7 +601,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             }
         }
-
     }
 
     private void setUseNewtonsoft() {
@@ -617,8 +635,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setCliOption(swashbuckleVersion);
 
         if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
-            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing default Swashbuckle version to 4.0.0.");
-            swashbuckleVersion.setOptValue("4.0.0");
+            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing default Swashbuckle version to 5.0.0.");
+            swashbuckleVersion.setOptValue("5.0.0");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
         } else {
             // default, do nothing
