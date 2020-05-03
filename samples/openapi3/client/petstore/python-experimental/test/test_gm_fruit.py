@@ -66,9 +66,9 @@ class TestGmFruit(unittest.TestCase):
             invalid_variable = getattr(fruit, 'cultivar', 'some value')
 
         # make sure that the ModelComposed class properties are correct
-        # model.composed_schemas() stores the anyOf/allOf/oneOf info
+        # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas(),
+            fruit._composed_schemas,
             {
                 'anyOf': [
                     petstore_api.Apple,
@@ -79,7 +79,7 @@ class TestGmFruit(unittest.TestCase):
             }
         )
         # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
+        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == petstore_api.Banana:
                 banana_instance = composed_instance
@@ -137,7 +137,7 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
 
         # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
+        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == petstore_api.Apple:
                 apple_instance = composed_instance
@@ -180,7 +180,7 @@ class TestGmFruit(unittest.TestCase):
         )
 
         # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
+        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == petstore_api.Apple:
                 apple_instance = composed_instance

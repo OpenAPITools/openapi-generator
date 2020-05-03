@@ -2007,7 +2007,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the type declaration of a given name
+     * Output the language-specific type declaration of a given OAS name.
      *
      * @param name name
      * @return a string presentation of the type
@@ -2018,15 +2018,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the type declaration of the property
+     * Output the language-specific type declaration of the property.
      *
      * @param schema property schema
      * @return a string presentation of the property type
      */
     public String getTypeDeclaration(Schema schema) {
         if (schema == null) {
-            LOGGER.warn("Null schema found. Default type to `NULL_SCHMEA_ERR`");
-            return "NULL_SCHMEA_ERR";
+            LOGGER.warn("Null schema found. Default type to `NULL_SCHEMA_ERR`");
+            return "NULL_SCHEMA_ERR";
         }
 
         String oasType = getSchemaType(schema);
@@ -2812,7 +2812,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Convert OAS Property object to Codegen Property object
      *
      * @param name name of the property
-     * @param p    OAS property object
+     * @param p    OAS property schema
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p) {
