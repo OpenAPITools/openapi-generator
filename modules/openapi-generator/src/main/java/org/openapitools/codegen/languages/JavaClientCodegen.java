@@ -779,11 +779,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 Map<String, Object> mo = (Map<String, Object>) _mo;
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 boolean addImports = false;
-                for (CodegenProperty var : cm.vars) {
-                    boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
-                    // only add JsonNullable and related imports to optional and nullable values
-                    addImports |= isOptionalNullable;
-                    var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                if (this.openApiNullable) {
+                    for (CodegenProperty var : cm.vars) {
+                        boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+                        // only add JsonNullable and related imports to optional and nullable values
+                        addImports |= isOptionalNullable;
+                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                    }
                 }
                 if (addImports) {
                     Map<String, String> imports2Classnames = new HashMap<String, String>() {{
