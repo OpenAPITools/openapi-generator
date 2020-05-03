@@ -18,6 +18,12 @@ steps:
   image: haskell:8.6.5
   commands:
   - (cd samples/client/petstore/haskell-http-client/ && stack --install-ghc --no-haddock-deps haddock --fast && stack test --fast)
+# test aspnetcore 3.x
+- name: aspnetcore-test
+  image: mcr.microsoft.com/dotnet/core/aspnet:3.1
+  commands:
+  - (cd samples/server/petstore/aspnetcore-3.1/ && /bin/sh build.sh)
+  #- (cd samples/server/petstore/aspnetcore-3.0/ && /bin/sh build.sh)
 # test Java 11 HTTP client
 - name: java11-test
   image: openjdk:11.0
