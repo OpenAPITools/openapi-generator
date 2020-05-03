@@ -94,7 +94,7 @@
 
     additional_properties_type = {{#additionalPropertiesType}}({{{additionalPropertiesType}}},)  # noqa: E501{{/additionalPropertiesType}}{{^additionalPropertiesType}}None{{/additionalPropertiesType}}
 
-    @staticmethod
+    @cached_property
     def openapi_types():
         """
         This must be a class method so a model may have properties that are
@@ -113,7 +113,7 @@
 {{/optionalVars}}
         }
 
-    @staticmethod
+    @cached_property
     def discriminator():
         {{^discriminator}}return None{{/discriminator}}{{#discriminator}}val = {
 {{#mappedModels}}
