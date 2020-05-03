@@ -1875,3 +1875,62 @@ components:
           type: boolean
       required:
         - lengthCm
+    # go-experimental is unable to make Triangle and Quadrilateral models
+    # correctly https://github.com/OpenAPITools/openapi-generator/issues/6149
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Triangle'
+        - $ref: '#/components/schemas/Quadrilateral'
+      discriminator:
+        propertyName: shapeType
+    ShapeInterface:
+      properties:
+        shapeType:
+          type: string
+      required:
+        - shapeType
+    TriangleInterface:
+      properties:
+        triangleType:
+          type: string
+      required:
+        - triangleType
+    Triangle:
+      oneOf:
+        - $ref: '#/components/schemas/EquilateralTriangle'
+        - $ref: '#/components/schemas/IsoscelesTriangle'
+        - $ref: '#/components/schemas/ScaleneTriangle'
+      discriminator:
+        propertyName: triangleType
+    EquilateralTriangle:
+      allOf:
+        - $ref: '#/components/schemas/ShapeInterface'
+        - $ref: '#/components/schemas/TriangleInterface'
+    IsoscelesTriangle:
+      allOf:
+        - $ref: '#/components/schemas/ShapeInterface'
+        - $ref: '#/components/schemas/TriangleInterface'
+    ScaleneTriangle:
+      allOf:
+        - $ref: '#/components/schemas/ShapeInterface'
+        - $ref: '#/components/schemas/TriangleInterface'
+    QuadrilateralInterface:
+      properties:
+        quadrilateralType:
+          type: string
+      required:
+        - quadrilateralType
+    Quadrilateral:
+      oneOf:
+        - $ref: '#/components/schemas/SimpleQuadrilateral'
+        - $ref: '#/components/schemas/ComplexQuadrilateral'
+      discriminator:
+        propertyName: quadrilateralType
+    SimpleQuadrilateral:
+      allOf:
+        - $ref: '#/components/schemas/ShapeInterface'
+        - $ref: '#/components/schemas/QuadrilateralInterface'
+    ComplexQuadrilateral:
+      allOf:
+        - $ref: '#/components/schemas/ShapeInterface'
+        - $ref: '#/components/schemas/QuadrilateralInterface'
