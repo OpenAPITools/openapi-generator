@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.1.0</version>
+            <version>0.2.1</version>
         </dependency>
     <!-- Bean Validation API support -->
         <dependency>
