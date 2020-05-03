@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Org.OpenAPITools.Authentication
+namespace {{packageName}}.Authentication
 {
     /// <summary>
     /// A requirement that an ApiKey must be present.
@@ -48,16 +47,24 @@ namespace Org.OpenAPITools.Authentication
 
         private void SucceedRequirementIfApiKeyPresentAndValid(AuthorizationHandlerContext context, ApiKeyRequirement requirement)
         {
-
+{{#authMethods}}{{#isApiKey}}
             if (context.Resource is AuthorizationFilterContext authorizationFilterContext)
             {
-                var apiKey = authorizationFilterContext.HttpContext.Request.Headers["api_key"].FirstOrDefault();
-                if (requirement.PolicyName == "api_key" && apiKey != null && requirement.ApiKeys.Any(requiredApiKey => apiKey == requiredApiKey))
+{{#isKeyInHeader}}
+                var apiKey = authorizationFilterContext.HttpContext.Request.Headers["{{keyParamName}}"].FirstOrDefault();
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+                var apiKey = authorizationFilterContext.HttpContext.Request.Query["{{keyParamName}}"].FirstOrDefault();
+{{/isKeyInQuery}}
+{{#isKeyInCookie}}
+                var apiKey = authorizationFilterContext.HttpContext.Request.Cookies["{{keyParamName}}"] ?? null;
+{{/isKeyInCookie}}
+                if (requirement.PolicyName == "{{name}}" && apiKey != null && requirement.ApiKeys.Any(requiredApiKey => apiKey == requiredApiKey))
                 {
                     context.Succeed(requirement);
                 }
             }
-
+{{/isApiKey}}{{/authMethods}}
         }
     }
 }
