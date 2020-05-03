@@ -99,7 +99,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                         "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
-        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
@@ -112,7 +111,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCapitalize", new CapitalizeLambda());
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
-        additionalProperties.put("mainPackage", mainPackage);
 
         importMapping.remove("Seq");
         importMapping.remove("List");
@@ -146,16 +144,25 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     @Override
     public void processOpts() {
         super.processOpts();
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+        }
         if (additionalProperties.containsKey("mainPackage")) {
             setMainPackage((String) additionalProperties.get("mainPackage"));
             additionalProperties.replace("configKeyPath", this.configKeyPath);
-            apiPackage = mainPackage + ".api";
-            modelPackage = mainPackage + ".model";
-            invokerPackage = mainPackage + ".core";
-            additionalProperties.put("apiPackage", apiPackage);
-            additionalProperties.put("modelPackage", modelPackage);
-            additionalProperties.put("invokerPackage", invokerPackage);
+            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
+                apiPackage = mainPackage + ".api";
+                additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+            }
+            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)){
+                modelPackage = mainPackage + ".model";
+                additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+            }
+            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
+                invokerPackage = mainPackage + ".core";
+            }
         }
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
