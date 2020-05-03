@@ -23,6 +23,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.net.URI;
 {{^supportJava6}}
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -56,6 +57,7 @@ import java.util.regex.Pattern;
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
+import {{invokerPackage}}.auth.HttpSignatureAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 import {{invokerPackage}}.model.AbstractOpenApiSchema;
 
@@ -159,11 +161,26 @@ public class ApiClient {
     setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
-    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-    authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+    authentications = new HashMap<String, Authentication>();
+    {{#authMethods}}
+    {{#isBasic}}
+    {{#isBasicBasic}}
+    authentications.put("{{name}}", new HttpBasicAuth());
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));
+    {{/isBasicBearer}}
+    {{#isHttpSignature}}
+    authentications.put("{{name}}", new HttpSignatureAuth("{{name}}", null, null));
+    {{/isHttpSignature}}
+    {{/isBasic}}
+    {{#isApiKey}}
+    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
+    {{/isApiKey}}
+    {{#isOAuth}}
+    authentications.put("{{name}}", new OAuth());
+    {{/isOAuth}}
+    {{/authMethods}}
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
@@ -701,6 +718,38 @@ public class ApiClient {
     return entity;
   }
 
+  /**
+   * Serialize the given Java object into string according the given
+   * Content-Type (only JSON, HTTP form is supported for now).
+   * @param obj Object
+   * @param formParams Form parameters
+   * @param contentType Context type
+   * @return String
+   * @throws ApiException API exception
+   */
+  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+    try {
+      if (contentType.startsWith("multipart/form-data")) {
+        throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
+      } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+        String formString = "";
+        for (Entry<String, Object> param : formParams.entrySet()) {
+          formString = param.getKey() + "=" + URLEncoder.encode(parameterToString(param.getValue()), "UTF-8") + "&";
+        }
+
+        if (formString.length() == 0) { // empty string
+          return formString;
+        } else {
+          return formString.substring(0, formString.length() - 1);
+        }
+      } else {
+        return json.getMapper().writeValueAsString(obj);
+      }
+    } catch (Exception ex) {
+      throw new ApiException("Failed to perform serializeToString: " + ex.toString());
+    }
+  }
+
   public AbstractOpenApiSchema deserializeSchemas(Response response, AbstractOpenApiSchema schema) throws ApiException{
 
     Object result = null;
@@ -862,7 +911,6 @@ public class ApiClient {
    * @throws ApiException API exception
    */
   public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiSchema schema) throws ApiException {
-    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(targetURL).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
@@ -934,6 +982,14 @@ public class ApiClient {
     }
 
     Entity<?> entity = serialize(body, formParams, contentType);
+
+    // put all headers in one place
+    Map<String, String> allHeaderParams = new HashMap<>();
+    allHeaderParams.putAll(defaultHeaderMap);
+    allHeaderParams.putAll(headerParams);
+   
+    // update different parameters (e.g. headers) for authentication
+    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, serializeToString(body, formParams, contentType), method, target.getUri());
 
     Response response = null;
 
@@ -1061,12 +1117,17 @@ public class ApiClient {
    * @param queryParams List of query parameters
    * @param headerParams Map of header parameters
    * @param cookieParams Map of cookie parameters
+   * @param method HTTP method (e.g. POST)
+   * @param uri HTTP URI
    */
-  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
+                                     Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
-      if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-      auth.applyToParams(queryParams, headerParams, cookieParams);
+      if (auth == null) {
+        throw new RuntimeException("Authentication undefined: " + authName);
+      }
+      auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
     }
   }
 }

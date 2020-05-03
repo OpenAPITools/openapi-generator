@@ -51,7 +51,7 @@ export interface UserApiUpdateUserRequest {
 }
 
 /**
- * no description
+ * 
  */
 export class UserApi extends runtime.BaseAPI {
 

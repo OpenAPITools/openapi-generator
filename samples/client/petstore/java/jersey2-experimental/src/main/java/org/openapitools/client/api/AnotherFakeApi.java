@@ -27,17 +27,28 @@ public class AnotherFakeApi {
     this.apiClient = apiClient;
   }
 
+  /**
+   * Get the API cilent
+   *
+   * @return API client
+   */
   public ApiClient getApiClient() {
     return apiClient;
   }
 
+  /**
+   * Set the API cilent
+   *
+   * @param apiClient an instance of API client
+   */
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
+
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -46,14 +57,14 @@ public class AnotherFakeApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public Client call123testSpecialTags(Client body) throws ApiException {
-    return call123testSpecialTagsWithHttpInfo(body).getData();
+  public Client call123testSpecialTags(Client client) throws ApiException {
+    return call123testSpecialTagsWithHttpInfo(client).getData();
   }
 
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
-   * @param body client model (required)
+   * @param client client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -62,12 +73,12 @@ public class AnotherFakeApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+    Object localVarPostBody = client;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
+    // verify the required parameter 'client' is set
+    if (client == null) {
+      throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
     }
     
     // create path and map variables

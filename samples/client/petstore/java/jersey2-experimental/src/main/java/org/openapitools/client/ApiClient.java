@@ -23,6 +23,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -50,6 +51,7 @@ import java.util.regex.Pattern;
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
+import org.openapitools.client.auth.HttpSignatureAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.model.AbstractOpenApiSchema;
 
@@ -62,14 +64,78 @@ public class ApiClient {
   protected String basePath = "http://petstore.swagger.io:80/v2";
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "http://petstore.swagger.io:80/v2",
-      "No description provided",
-      new HashMap<String, ServerVariable>()
+      "http://{server}.swagger.io:{port}/v2",
+      "petstore server",
+      new HashMap<String, ServerVariable>() {{
+        put("server", new ServerVariable(
+          "No description provided",
+          "petstore",
+          new HashSet<String>(
+            Arrays.asList(
+              "petstore",
+              "qa-petstore",
+              "dev-petstore"
+            )
+          )
+        ));
+        put("port", new ServerVariable(
+          "No description provided",
+          "80",
+          new HashSet<String>(
+            Arrays.asList(
+              "80",
+              "8080"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://localhost:8080/{version}",
+      "The local server",
+      new HashMap<String, ServerVariable>() {{
+        put("version", new ServerVariable(
+          "No description provided",
+          "v2",
+          new HashSet<String>(
+            Arrays.asList(
+              "v1",
+              "v2"
+            )
+          )
+        ));
+      }}
     )
   ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
   protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
+    put("PetApi.addPet", new ArrayList<ServerConfiguration>(Arrays.asList(
+      new ServerConfiguration(
+        "http://petstore.swagger.io/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      ),
+
+      new ServerConfiguration(
+        "http://path-server-test.petstore.local/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      )
+    )));
+    put("PetApi.updatePet", new ArrayList<ServerConfiguration>(Arrays.asList(
+      new ServerConfiguration(
+        "http://petstore.swagger.io/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      ),
+
+      new ServerConfiguration(
+        "http://path-server-test.petstore.local/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      )
+    )));
   }};
   protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
   protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
@@ -99,7 +165,9 @@ public class ApiClient {
     authentications = new HashMap<String, Authentication>();
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("http_signature_test", new HttpSignatureAuth("http_signature_test", null, null));
     authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
@@ -635,6 +703,38 @@ public class ApiClient {
     return entity;
   }
 
+  /**
+   * Serialize the given Java object into string according the given
+   * Content-Type (only JSON, HTTP form is supported for now).
+   * @param obj Object
+   * @param formParams Form parameters
+   * @param contentType Context type
+   * @return String
+   * @throws ApiException API exception
+   */
+  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+    try {
+      if (contentType.startsWith("multipart/form-data")) {
+        throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
+      } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+        String formString = "";
+        for (Entry<String, Object> param : formParams.entrySet()) {
+          formString = param.getKey() + "=" + URLEncoder.encode(parameterToString(param.getValue()), "UTF-8") + "&";
+        }
+
+        if (formString.length() == 0) { // empty string
+          return formString;
+        } else {
+          return formString.substring(0, formString.length() - 1);
+        }
+      } else {
+        return json.getMapper().writeValueAsString(obj);
+      }
+    } catch (Exception ex) {
+      throw new ApiException("Failed to perform serializeToString: " + ex.toString());
+    }
+  }
+
   public AbstractOpenApiSchema deserializeSchemas(Response response, AbstractOpenApiSchema schema) throws ApiException{
 
     Object result = null;
@@ -790,7 +890,6 @@ public class ApiClient {
    * @throws ApiException API exception
    */
   public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiSchema schema) throws ApiException {
-    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
     // Not using `.target(targetURL).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
@@ -862,6 +961,14 @@ public class ApiClient {
     }
 
     Entity<?> entity = serialize(body, formParams, contentType);
+
+    // put all headers in one place
+    Map<String, String> allHeaderParams = new HashMap<>();
+    allHeaderParams.putAll(defaultHeaderMap);
+    allHeaderParams.putAll(headerParams);
+   
+    // update different parameters (e.g. headers) for authentication
+    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, serializeToString(body, formParams, contentType), method, target.getUri());
 
     Response response = null;
 
@@ -984,12 +1091,17 @@ public class ApiClient {
    * @param queryParams List of query parameters
    * @param headerParams Map of header parameters
    * @param cookieParams Map of cookie parameters
+   * @param method HTTP method (e.g. POST)
+   * @param uri HTTP URI
    */
-  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+  protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
+                                     Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
-      if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-      auth.applyToParams(queryParams, headerParams, cookieParams);
+      if (auth == null) {
+        throw new RuntimeException("Authentication undefined: " + authName);
+      }
+      auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
     }
   }
 }

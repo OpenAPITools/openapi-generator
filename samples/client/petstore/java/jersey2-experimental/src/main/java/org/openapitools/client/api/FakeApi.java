@@ -12,11 +12,12 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.HealthCheckResult;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,50 +36,55 @@ public class FakeApi {
     this.apiClient = apiClient;
   }
 
+  /**
+   * Get the API cilent
+   *
+   * @return API client
+   */
   public ApiClient getApiClient() {
     return apiClient;
   }
 
+  /**
+   * Set the API cilent
+   *
+   * @param apiClient an instance of API client
+   */
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
+
   /**
-   * creates an XmlItem
-   * this route creates an XmlItem
-   * @param xmlItem XmlItem Body (required)
+   * Health check endpoint
+   * 
+   * @return HealthCheckResult
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 200 </td><td> The instance started successfully </td><td>  -  </td></tr>
      </table>
    */
-  public void createXmlItem(XmlItem xmlItem) throws ApiException {
-    createXmlItemWithHttpInfo(xmlItem);
+  public HealthCheckResult fakeHealthGet() throws ApiException {
+    return fakeHealthGetWithHttpInfo().getData();
   }
 
   /**
-   * creates an XmlItem
-   * this route creates an XmlItem
-   * @param xmlItem XmlItem Body (required)
-   * @return ApiResponse&lt;Void&gt;
+   * Health check endpoint
+   * 
+   * @return ApiResponse&lt;HealthCheckResult&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 200 </td><td> The instance started successfully </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createXmlItemWithHttpInfo(XmlItem xmlItem) throws ApiException {
-    Object localVarPostBody = xmlItem;
-    
-    // verify the required parameter 'xmlItem' is set
-    if (xmlItem == null) {
-      throw new ApiException(400, "Missing the required parameter 'xmlItem' when calling createXmlItem");
-    }
+  public ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo() throws ApiException {
+    Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/fake/create_xml_item";
+    String localVarPath = "/fake/health";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -91,18 +97,91 @@ public class FakeApi {
     
     
     final String[] localVarAccepts = {
-      
+      "application/json"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"
+      
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
     String[] localVarAuthNames = new String[] {  };
 
-    return apiClient.invokeAPI("FakeApi.createXmlItem", localVarPath, "POST", localVarQueryParams, localVarPostBody,
+    GenericType<HealthCheckResult> localVarReturnType = new GenericType<HealthCheckResult>() {};
+
+    return apiClient.invokeAPI("FakeApi.fakeHealthGet", localVarPath, "GET", localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+                               localVarAuthNames, localVarReturnType, null);
+  }
+  /**
+   * test http signature authentication
+   * 
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> The instance started successfully </td><td>  -  </td></tr>
+     </table>
+   */
+  public void fakeHttpSignatureTest(Pet pet, String query1, String header1) throws ApiException {
+    fakeHttpSignatureTestWithHttpInfo(pet, query1, header1);
+  }
+
+  /**
+   * test http signature authentication
+   * 
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   * @return ApiResponse&lt;Void&gt;
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> The instance started successfully </td><td>  -  </td></tr>
+     </table>
+   */
+  public ApiResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, String query1, String header1) throws ApiException {
+    Object localVarPostBody = pet;
+    
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling fakeHttpSignatureTest");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/http-signature-test";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "query_1", query1));
+
+    if (header1 != null)
+      localVarHeaderParams.put("header_1", apiClient.parameterToString(header1));
+
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json", "application/xml"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "http_signature_test" };
+
+    return apiClient.invokeAPI("FakeApi.fakeHttpSignatureTest", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
                                localVarAuthNames, null, null);
   }
@@ -156,7 +235,7 @@ public class FakeApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -171,7 +250,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param body Input composite as post body (optional)
+   * @param outerComposite Input composite as post body (optional)
    * @return OuterComposite
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -180,14 +259,14 @@ public class FakeApi {
        <tr><td> 200 </td><td> Output composite </td><td>  -  </td></tr>
      </table>
    */
-  public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
-    return fakeOuterCompositeSerializeWithHttpInfo(body).getData();
+  public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
+    return fakeOuterCompositeSerializeWithHttpInfo(outerComposite).getData();
   }
 
   /**
    * 
    * Test serialization of object with outer number type
-   * @param body Input composite as post body (optional)
+   * @param outerComposite Input composite as post body (optional)
    * @return ApiResponse&lt;OuterComposite&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -196,8 +275,8 @@ public class FakeApi {
        <tr><td> 200 </td><td> Output composite </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws ApiException {
+    Object localVarPostBody = outerComposite;
     
     // create path and map variables
     String localVarPath = "/fake/outer/composite";
@@ -218,7 +297,7 @@ public class FakeApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -280,7 +359,7 @@ public class FakeApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -342,7 +421,7 @@ public class FakeApi {
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/json"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
@@ -357,7 +436,7 @@ public class FakeApi {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param body  (required)
+   * @param fileSchemaTestClass  (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -365,14 +444,14 @@ public class FakeApi {
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public void testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
-    testBodyWithFileSchemaWithHttpInfo(body);
+  public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+    testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
   }
 
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param body  (required)
+   * @param fileSchemaTestClass  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -381,12 +460,12 @@ public class FakeApi {
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+    Object localVarPostBody = fileSchemaTestClass;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
+    // verify the required parameter 'fileSchemaTestClass' is set
+    if (fileSchemaTestClass == null) {
+      throw new ApiException(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
     }
     
     // create path and map variables
@@ -422,7 +501,7 @@ public class FakeApi {
    * 
    * 
    * @param query  (required)
-   * @param body  (required)
+   * @param user  (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -430,15 +509,15 @@ public class FakeApi {
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public void testBodyWithQueryParams(String query, User body) throws ApiException {
-    testBodyWithQueryParamsWithHttpInfo(query, body);
+  public void testBodyWithQueryParams(String query, User user) throws ApiException {
+    testBodyWithQueryParamsWithHttpInfo(query, user);
   }
 
   /**
    * 
    * 
    * @param query  (required)
-   * @param body  (required)
+   * @param user  (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -447,17 +526,17 @@ public class FakeApi {
        <tr><td> 200 </td><td> Success </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws ApiException {
+    Object localVarPostBody = user;
     
     // verify the required parameter 'query' is set
     if (query == null) {
       throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
     }
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams");
     }
     
     // create path and map variables
@@ -493,7 +572,7 @@ public class FakeApi {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -502,14 +581,14 @@ public class FakeApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public Client testClientModel(Client body) throws ApiException {
-    return testClientModelWithHttpInfo(body).getData();
+  public Client testClientModel(Client client) throws ApiException {
+    return testClientModelWithHttpInfo(client).getData();
   }
 
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param body client model (required)
+   * @param client client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -518,12 +597,12 @@ public class FakeApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> testClientModelWithHttpInfo(Client body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Client> testClientModelWithHttpInfo(Client client) throws ApiException {
+    Object localVarPostBody = client;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
+    // verify the required parameter 'client' is set
+    if (client == null) {
+      throw new ApiException(400, "Missing the required parameter 'client' when calling testClientModel");
     }
     
     // create path and map variables
@@ -558,8 +637,8 @@ public class FakeApi {
                                localVarAuthNames, localVarReturnType, null);
   }
   /**
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -587,8 +666,8 @@ public class FakeApi {
   }
 
   /**
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -747,7 +826,7 @@ if (paramCallback != null)
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "enum_query_string_array", enumQueryStringArray));
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_string", enumQueryString));
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_integer", enumQueryInteger));
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_double", enumQueryDouble));
@@ -829,7 +908,7 @@ if (booleanGroup != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "bearer_test" };
 
     return apiClient.invokeAPI("FakeApi.testGroupParameters", localVarPath, "DELETE", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
@@ -846,7 +925,6 @@ if (booleanGroup != null)
 
     private APItestGroupParametersRequest() {
     }
-    
 
     /**
      * Set requiredStringGroup
@@ -857,7 +935,6 @@ if (booleanGroup != null)
       this.requiredStringGroup = requiredStringGroup;
       return this;
     }
-    
 
     /**
      * Set requiredBooleanGroup
@@ -868,7 +945,6 @@ if (booleanGroup != null)
       this.requiredBooleanGroup = requiredBooleanGroup;
       return this;
     }
-    
 
     /**
      * Set requiredInt64Group
@@ -879,7 +955,6 @@ if (booleanGroup != null)
       this.requiredInt64Group = requiredInt64Group;
       return this;
     }
-    
 
     /**
      * Set stringGroup
@@ -890,7 +965,6 @@ if (booleanGroup != null)
       this.stringGroup = stringGroup;
       return this;
     }
-    
 
     /**
      * Set booleanGroup
@@ -901,7 +975,6 @@ if (booleanGroup != null)
       this.booleanGroup = booleanGroup;
       return this;
     }
-    
 
     /**
      * Set int64Group
@@ -912,7 +985,6 @@ if (booleanGroup != null)
       this.int64Group = int64Group;
       return this;
     }
-    
 
     /**
      * Execute testGroupParameters request
@@ -939,9 +1011,8 @@ if (booleanGroup != null)
          <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
          <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
        </table>
-     
+
      */
-    
     public ApiResponse<Void> executeWithHttpInfo() throws ApiException {
       return testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
@@ -955,14 +1026,13 @@ if (booleanGroup != null)
    
    
    */
-  
   public APItestGroupParametersRequest testGroupParameters() throws ApiException {
     return new APItestGroupParametersRequest();
   }
   /**
    * test inline additionalProperties
    * 
-   * @param param request body (required)
+   * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -970,14 +1040,14 @@ if (booleanGroup != null)
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
-    testInlineAdditionalPropertiesWithHttpInfo(param);
+  public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
+    testInlineAdditionalPropertiesWithHttpInfo(requestBody);
   }
 
   /**
    * test inline additionalProperties
    * 
-   * @param param request body (required)
+   * @param requestBody request body (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -986,12 +1056,12 @@ if (booleanGroup != null)
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws ApiException {
-    Object localVarPostBody = param;
+  public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws ApiException {
+    Object localVarPostBody = requestBody;
     
-    // verify the required parameter 'param' is set
-    if (param == null) {
-      throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
+    // verify the required parameter 'requestBody' is set
+    if (requestBody == null) {
+      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
     }
     
     // create path and map variables
@@ -1170,7 +1240,7 @@ if (param2 != null)
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "pipe", pipe));
     localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
     localVarQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
     localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
