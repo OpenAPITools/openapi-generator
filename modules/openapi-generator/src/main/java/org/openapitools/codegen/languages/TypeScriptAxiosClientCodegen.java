@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap.Builder;
+import com.samskivert.mustache.Mustache.Lambda;
+
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -27,38 +30,26 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static com.google.common.base.CaseFormat.LOWER_CAMEL;
+import static com.google.common.base.CaseFormat.LOWER_UNDERSCORE;
 
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
-
-    public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String WITH_INTERFACES = "withInterfaces";
-    public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
-    public static final String WITHOUT_PREFIX_ENUMS = "withoutPrefixEnums";
-    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
-
-    protected String npmRepository = null;
-
-    private String tsModelPackage = "";
-
     public TypeScriptAxiosClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
-
-        // clear import mapping (from default generator) as TS does not use it
-        // at the moment
-        importMapping.clear();
-
-        outputFolder = "generated-code/typescript-axios";
+        this.outputFolder = "generated-code/typescript-axios";
         embeddedTemplateDir = templateDir = "typescript-axios";
 
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url of your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        modelTemplateFiles.put("model.mustache", ".ts");
+        apiTemplateFiles.put("api.mustache", ".ts");
+
+        modelPackage = "models";
+        apiPackage = "resources";
     }
 
     @Override
@@ -68,186 +59,116 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript client library using axios.";
+        return "Generates a TypeScript client library using Axios for HTTP requests.";
     }
 
-    public String getNpmRepository() {
-        return npmRepository;
+    @Override
+    public String toModelFilename(String name) {
+        return toModelName(name);
     }
 
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
+    @Override
+    public String toModelImport(String name) {
+        return modelPackage() + "/" + toModelFilename(name);
     }
 
-    private static String getRelativeToRoot(String path) {
-        StringBuilder sb = new StringBuilder();
-        int slashCount = path.split("/").length;
-        if (slashCount == 0) {
-            sb.append("./");
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "Empty";
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return camelize(getSymbolName(name));
+        }
+
+        // number
+        if ("number".equals(datatype)) {
+            String varName = "NUMBER_" + name;
+
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        String enumName = name;
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
         } else {
-            for (int i = 0; i < slashCount; ++i) {
-                sb.append("../");
-            }
+            return enumName;
         }
-        return sb.toString();
     }
 
     @Override
-    public void processOpts() {
-        super.processOpts();
-        tsModelPackage = modelPackage.replaceAll("\\.", "/");
-        String tsApiPackage = apiPackage.replaceAll("\\.", "/");
+    public String toEnumName(CodegenProperty property) {
+        String enumName = toModelName(property.name);
 
-        String modelRelativeToRoot = getRelativeToRoot(tsModelPackage);
-        String apiRelativeToRoot = getRelativeToRoot(tsApiPackage);
-
-        additionalProperties.put("tsModelPackage", tsModelPackage);
-        additionalProperties.put("tsApiPackage", tsApiPackage);
-        additionalProperties.put("apiRelativeToRoot", apiRelativeToRoot);
-        additionalProperties.put("modelRelativeToRoot", modelRelativeToRoot);
-
-        supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
-        supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
-        supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("npmignore", "", ".npmignore"));
-
-        if (additionalProperties.containsKey(SEPARATE_MODELS_AND_API)) {
-            boolean separateModelsAndApi = Boolean.parseBoolean(additionalProperties.get(SEPARATE_MODELS_AND_API).toString());
-            if (separateModelsAndApi) {
-                if (StringUtils.isAnyBlank(modelPackage, apiPackage)) {
-                    throw new RuntimeException("apiPackage and modelPackage must be defined");
-                }
-                modelTemplateFiles.put("model.mustache", ".ts");
-                apiTemplateFiles.put("apiInner.mustache", ".ts");
-                supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
-            }
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
         }
-
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            addNpmPackageGeneration();
-        }
-
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> vals = (Map<String, Object>) objs.getOrDefault("operations", new HashMap<>());
-        List<CodegenOperation> operations = (List<CodegenOperation>) vals.getOrDefault("operation", new ArrayList<>());
-        /*
-            Filter all the operations that are multipart/form-data operations and set the vendor extension flag
-            'multipartFormData' for the template to work with.
-         */
-        operations.stream()
-                .filter(op -> op.hasConsumes)
-                .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
-                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
-        return objs;
-    }
-
-    @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessAllModels(objs);
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> model : models) {
-                CodegenModel codegenModel = (CodegenModel) model.get("model");
-                model.put("hasAllOf", codegenModel.allOf.size() > 0);
-                model.put("hasOneOf", codegenModel.oneOf.size() > 0);
-            }
-        }
-        return result;
-    }
-
-
-    @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
-        addImport(codegenModel, codegenModel.additionalPropertiesType);
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas().put("snakecase_param", new CaseFormatLambda(LOWER_CAMEL, LOWER_UNDERSCORE));
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+        Map<String, Object> result = super.postProcessModels(objs);
 
-        boolean withoutPrefixEnums = false;
-        if (additionalProperties.containsKey(WITHOUT_PREFIX_ENUMS)) {
-            withoutPrefixEnums = Boolean.parseBoolean(additionalProperties.get(WITHOUT_PREFIX_ENUMS).toString());
+        // Add additional filename information for imports
+        List<Map<String, Object>> models = (List<Map<String, Object>>) postProcessModelsEnum(result).get("models");
+        for (Map<String, Object> mo : models) {
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            mo.put("tsImports", toTsImports(cm.imports));
         }
 
-        for (Object _mo  : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        return result;
+    }
 
-            // Deduce the model file name in kebab case
-            cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+    private List<Map<String, String>> toTsImports(Set<String> imports) {
+        List<Map<String, String>> tsImports = new ArrayList<>();
+        for (String im : imports) {
+            HashMap<String, String> tsImport = new HashMap<>();
+            tsImport.put("classname", im);
+            tsImport.put("filename", toModelFilename(im));
+            tsImports.add(tsImport);
+        }
+        return tsImports;
+    }
 
-            //processed enum names
-            if(!withoutPrefixEnums) {
-                cm.imports = new TreeSet(cm.imports);
-                // name enum with model name, e.g. StatusEnum => PetStatusEnum
-                for (CodegenProperty var : cm.vars) {
-                    if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
-                        var.enumName = var.enumName.replace(var.enumName, cm.classname + var.enumName);
-                    }
-                }
-                if (cm.parent != null) {
-                    for (CodegenProperty var : cm.allVars) {
-                        if (Boolean.TRUE.equals(var.isEnum)) {
-                            var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
-                            var.enumName = var.enumName.replace(var.enumName, cm.classname + var.enumName);
-                        }
-                    }
-                }
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+        // Add additional filename information for model imports in the services
+        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
+        for (Map<String, Object> im : imports) {
+            im.put("filename", im.get("import"));
+            im.put("classname", getModelnameFromModelFilename(im.get("filename").toString()));
+        }
+
+        // if there are any form params, we'll need to import stringify
+        Map<String, Object> opsObj = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> ops = (List<CodegenOperation>) opsObj.get("operation");
+        boolean anyHasFormParams = false;
+        for (CodegenOperation op : ops) {
+            if (op.getHasFormParams()) {
+                anyHasFormParams = true;
             }
         }
-
-        // Apply the model file name to the imports as well
-        for (Map<String, String> m : (List<Map<String, String>>) objs.get("imports")) {
-            String javaImport = m.get("import").substring(modelPackage.length() + 1);
-            String tsImport = tsModelPackage + "/" + javaImport;
-            m.put("tsImport", tsImport);
-            m.put("class", javaImport);
-            m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
-        }
-        return objs;
-    }
-
-    /**
-     * Overriding toRegularExpression() to avoid escapeText() being called,
-     * as it would return a broken regular expression if any escaped character / metacharacter were present.
-     */
-    @Override
-    public String toRegularExpression(String pattern) {
-        return addRegularExpressionDelimiter(pattern);
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-        return super.toModelFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
-    }
-
-    @Override
-    public String toApiFilename(String name) {
-        return super.toApiFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
-    }
-
-    private void addNpmPackageGeneration() {
-
-        if (additionalProperties.containsKey(NPM_REPOSITORY)) {
-            this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
+        if (anyHasFormParams) {
+            operations.put("hasFormParams", true);
         }
 
-        //Files for building our lib
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        return operations;
     }
 
+    private String getModelnameFromModelFilename(String filename) {
+        return filename.substring((modelPackage() + "/").length());
+    }
 }
