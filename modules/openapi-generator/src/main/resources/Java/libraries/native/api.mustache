@@ -9,6 +9,7 @@ import {{invokerPackage}}.Pair;
 import {{import}};
 {{/imports}}
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -180,14 +181,18 @@ public class {{classname}} {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                  {{#returnType}}
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
-                  {{/returnType}}
-                  {{^returnType}}
-                      null
-                  {{/returnType}}
-              );
+               try {
+                  return CompletableFuture.completedFuture(
+                      {{#returnType}}
+                          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
+                      {{/returnType}}
+                      {{^returnType}}
+                          null
+                      {{/returnType}}
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
           }
       });
       {{/asyncNative}}
