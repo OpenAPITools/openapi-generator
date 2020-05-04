@@ -103,10 +103,10 @@ class GrandparentAnimal(ModelNormal):
     @cached_property
     def discriminator():
         val = {
-            'ParentPet': parent_pet.ParentPet,
             'ChildCat': child_cat.ChildCat,
             'ChildDog': child_dog.ChildDog,
             'ChildLizard': child_lizard.ChildLizard,
+            'ParentPet': parent_pet.ParentPet,
         }
         if not val:
             return None

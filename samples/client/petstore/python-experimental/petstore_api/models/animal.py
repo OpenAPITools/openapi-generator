@@ -94,8 +94,8 @@ class Animal(ModelNormal):
     @cached_property
     def discriminator():
         val = {
-            'Dog': dog.Dog,
             'Cat': cat.Cat,
+            'Dog': dog.Dog,
         }
         if not val:
             return None

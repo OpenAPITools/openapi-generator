@@ -93,7 +93,11 @@ class ChildDog(ModelComposed):
 
     @cached_property
     def discriminator():
-        return None
+        val = {
+        }
+        if not val:
+            return None
+        return {'pet_type': val}
 
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501

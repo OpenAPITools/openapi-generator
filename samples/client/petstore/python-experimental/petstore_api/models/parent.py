@@ -87,8 +87,8 @@ class Parent(ModelComposed):
                 and the value is attribute type.
         """
         return {
-            'tele_vision': (bool,),  # noqa: E501
             'radio_waves': (bool,),  # noqa: E501
+            'tele_vision': (bool,),  # noqa: E501
         }
 
     @cached_property
@@ -96,8 +96,8 @@ class Parent(ModelComposed):
         return None
 
     attribute_map = {
-        'tele_vision': 'teleVision',  # noqa: E501
         'radio_waves': 'radioWaves',  # noqa: E501
+        'tele_vision': 'teleVision',  # noqa: E501
     }
 
     required_properties = set([
@@ -147,7 +147,6 @@ class Parent(ModelComposed):
                                 _visited_composed_classes = (Animal,)
             radio_waves (bool): [optional]  # noqa: E501
             tele_vision (bool): [optional]  # noqa: E501
-            radio_waves (bool): [optional]  # noqa: E501
         """
 
         self._data_store = {}

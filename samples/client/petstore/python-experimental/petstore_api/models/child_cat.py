@@ -93,7 +93,11 @@ class ChildCat(ModelComposed):
 
     @cached_property
     def discriminator():
-        return None
+        val = {
+        }
+        if not val:
+            return None
+        return {'pet_type': val}
 
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501
@@ -214,7 +218,6 @@ class ChildCat(ModelComposed):
           ],
         }
 
-
     @classmethod
     def get_discriminator_class(cls, data):
         """Returns the child class specified by the discriminator"""
@@ -227,4 +230,3 @@ class ChildCat(ModelComposed):
             class_name = data[discr_propertyname_py]
         class_name_to_discr_class = discriminator[discr_propertyname_py]
         return class_name_to_discr_class.get(class_name)
-      

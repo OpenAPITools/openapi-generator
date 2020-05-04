@@ -94,7 +94,11 @@ class Dog(ModelComposed):
 
     @cached_property
     def discriminator():
-        return None
+        val = {
+        }
+        if not val:
+            return None
+        return {'class_name': val}
 
     attribute_map = {
         'class_name': 'className',  # noqa: E501
@@ -216,7 +220,7 @@ class Dog(ModelComposed):
           'oneOf': [
           ],
         }
-      
+
     @classmethod
     def get_discriminator_class(cls, data):
         """Returns the child class specified by the discriminator"""

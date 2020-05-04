@@ -1385,7 +1385,22 @@ pub fn main() {
 <p class="marked">Pet object that needs to be added to the store</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
+  var schemaWrapper = {
+  "description" : "Pet object that needs to be added to the store",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  },
+  "required" : true
+};
   var schema = findNode('schema', schemaWrapper).schema;
   if (!schema) {
       schema = schemaWrapper.schema;
@@ -3301,7 +3316,22 @@ pub fn main() {
 <p class="marked">Pet object that needs to be added to the store</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
+  var schemaWrapper = {
+  "description" : "Pet object that needs to be added to the store",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  },
+  "required" : true
+};
   var schema = findNode('schema', schemaWrapper).schema;
   if (!schema) {
       schema = schemaWrapper.schema;
@@ -5508,7 +5538,17 @@ pub fn main() {
 <p class="marked">order placed for purchasing the pet</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
+  var schemaWrapper = {
+  "description" : "order placed for purchasing the pet",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
+  },
+  "required" : true
+};
   var schema = findNode('schema', schemaWrapper).schema;
   if (!schema) {
       schema = schemaWrapper.schema;
@@ -5869,7 +5909,17 @@ pub fn main() {
 <p class="marked">Created user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
+  var schemaWrapper = {
+  "description" : "Created user object",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  },
+  "required" : true
+};
   var schema = findNode('schema', schemaWrapper).schema;
   if (!schema) {
       schema = schemaWrapper.schema;
@@ -6156,7 +6206,20 @@ pub fn main() {
 <p class="marked">List of user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
+  var schemaWrapper = {
+  "description" : "List of user object",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/User"
+        }
+      }
+    }
+  },
+  "required" : true
+};
   var schema = findNode('schema', schemaWrapper).schema;
   if (!schema) {
       schema = schemaWrapper.schema;
@@ -6443,7 +6506,20 @@ pub fn main() {
 <p class="marked">List of user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
+  var schemaWrapper = {
+  "description" : "List of user object",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/User"
+        }
+      }
+    }
+  },
+  "required" : true
+};
   var schema = findNode('schema', schemaWrapper).schema;
   if (!schema) {
       schema = schemaWrapper.schema;
@@ -8132,7 +8208,17 @@ name that need to be deleted
 <p class="marked">Updated user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
+  var schemaWrapper = {
+  "description" : "Updated user object",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  },
+  "required" : true
+};
   var schema = findNode('schema', schemaWrapper).schema;
   if (!schema) {
       schema = schemaWrapper.schema;

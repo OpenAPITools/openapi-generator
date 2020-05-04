@@ -94,7 +94,11 @@ class Cat(ModelComposed):
 
     @cached_property
     def discriminator():
-        return None
+        val = {
+        }
+        if not val:
+            return None
+        return {'class_name': val}
 
     attribute_map = {
         'class_name': 'className',  # noqa: E501
