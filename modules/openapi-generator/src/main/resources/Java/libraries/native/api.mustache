@@ -181,12 +181,12 @@ public class {{classname}} {
               );
           } else {
               return CompletableFuture.completedFuture(
-                  {{#returnValue}}
+                  {{#returnType}}
                       memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
-                  {{/returnValue}}
-                  {{^returnValue}}
+                  {{/returnType}}
+                  {{^returnType}}
                       null
-                  {{/returnValue}}
+                  {{/returnType}}
               );
           }
       });
