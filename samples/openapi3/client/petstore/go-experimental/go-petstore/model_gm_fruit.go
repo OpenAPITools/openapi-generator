@@ -15,170 +15,52 @@ import (
 
 // GmFruit struct for GmFruit
 type GmFruit struct {
-	Color *string `json:"color,omitempty"`
-	Cultivar *string `json:"cultivar,omitempty"`
-	LengthCm *float32 `json:"lengthCm,omitempty"`
+	Apple *Apple
+	Banana *Banana
 }
 
-// NewGmFruit instantiates a new GmFruit object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewGmFruit() *GmFruit {
-	this := GmFruit{}
-	return &this
-}
-
-// NewGmFruitWithDefaults instantiates a new GmFruit object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewGmFruitWithDefaults() *GmFruit {
-	this := GmFruit{}
-	return &this
-}
-
-// GetColor returns the Color field value if set, zero value otherwise.
-func (o *GmFruit) GetColor() string {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret
-	}
-	return *o.Color
-}
-
-// GetColorOk returns a tuple with the Color field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *GmFruit) GetColorOk() (*string, bool) {
-	if o == nil || o.Color == nil {
-		return nil, false
-	}
-	return o.Color, true
-}
-
-// HasColor returns a boolean if a field has been set.
-func (o *GmFruit) HasColor() bool {
-	if o != nil && o.Color != nil {
-		return true
+// Unmarshal JSON data into any of the pointers in the struct
+func (dst *GmFruit) UnmarshalJSON(data []byte) error {
+	var err error
+	// try to unmarshal JSON data into Apple
+	err = json.Unmarshal(data, &dst.Apple);
+	if err == nil {
+		jsonApple, _ := json.Marshal(dst.Apple)
+		if string(jsonApple) == "{}" { // empty struct
+			dst.Apple = nil
+		} else {
+			return nil // data stored in dst.Apple, return on the first match
+		}
+	} else {
+		dst.Apple = nil
 	}
 
-	return false
-}
-
-// SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *GmFruit) SetColor(v string) {
-	o.Color = &v
-}
-
-// GetCultivar returns the Cultivar field value if set, zero value otherwise.
-func (o *GmFruit) GetCultivar() string {
-	if o == nil || o.Cultivar == nil {
-		var ret string
-		return ret
-	}
-	return *o.Cultivar
-}
-
-// GetCultivarOk returns a tuple with the Cultivar field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *GmFruit) GetCultivarOk() (*string, bool) {
-	if o == nil || o.Cultivar == nil {
-		return nil, false
-	}
-	return o.Cultivar, true
-}
-
-// HasCultivar returns a boolean if a field has been set.
-func (o *GmFruit) HasCultivar() bool {
-	if o != nil && o.Cultivar != nil {
-		return true
+	// try to unmarshal JSON data into Banana
+	err = json.Unmarshal(data, &dst.Banana);
+	if err == nil {
+		jsonBanana, _ := json.Marshal(dst.Banana)
+		if string(jsonBanana) == "{}" { // empty struct
+			dst.Banana = nil
+		} else {
+			return nil // data stored in dst.Banana, return on the first match
+		}
+	} else {
+		dst.Banana = nil
 	}
 
-	return false
+	return fmt.Errorf("Data failed to match schemas in anyOf(GmFruit)")
 }
 
-// SetCultivar gets a reference to the given string and assigns it to the Cultivar field.
-func (o *GmFruit) SetCultivar(v string) {
-	o.Cultivar = &v
-}
-
-// GetLengthCm returns the LengthCm field value if set, zero value otherwise.
-func (o *GmFruit) GetLengthCm() float32 {
-	if o == nil || o.LengthCm == nil {
-		var ret float32
-		return ret
-	}
-	return *o.LengthCm
-}
-
-// GetLengthCmOk returns a tuple with the LengthCm field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *GmFruit) GetLengthCmOk() (*float32, bool) {
-	if o == nil || o.LengthCm == nil {
-		return nil, false
-	}
-	return o.LengthCm, true
-}
-
-// HasLengthCm returns a boolean if a field has been set.
-func (o *GmFruit) HasLengthCm() bool {
-	if o != nil && o.LengthCm != nil {
-		return true
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src *GmFruit) MarshalJSON() ([]byte, error) {
+	if src.Apple != nil {
+		return json.Marshal(&src.Apple)
 	}
 
-	return false
-}
-
-// SetLengthCm gets a reference to the given float32 and assigns it to the LengthCm field.
-func (o *GmFruit) SetLengthCm(v float32) {
-	o.LengthCm = &v
-}
-
-func (o GmFruit) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Color != nil {
-		toSerialize["color"] = o.Color
+	if src.Banana != nil {
+		return json.Marshal(&src.Banana)
 	}
-	if o.Cultivar != nil {
-		toSerialize["cultivar"] = o.Cultivar
-	}
-	if o.LengthCm != nil {
-		toSerialize["lengthCm"] = o.LengthCm
-	}
-	return json.Marshal(toSerialize)
+
+	return nil, nil // no data in anyOf schemas
 }
 
-type NullableGmFruit struct {
-	value *GmFruit
-	isSet bool
-}
-
-func (v NullableGmFruit) Get() *GmFruit {
-	return v.value
-}
-
-func (v *NullableGmFruit) Set(val *GmFruit) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableGmFruit) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableGmFruit) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableGmFruit(val *GmFruit) *NullableGmFruit {
-	return &NullableGmFruit{value: val, isSet: true}
-}
-
-func (v NullableGmFruit) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
-}
-
-func (v *NullableGmFruit) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
-}

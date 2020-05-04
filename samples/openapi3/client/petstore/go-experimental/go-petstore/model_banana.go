@@ -111,10 +111,6 @@ func (o Banana) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-// AsFruit wraps this instance of Banana in Fruit
-func (s *Banana) AsFruit() Fruit {
-	return Fruit{ FruitInterface: s }
-}
 type NullableBanana struct {
 	value *Banana
 	isSet bool
@@ -150,3 +146,4 @@ func (v *NullableBanana) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
