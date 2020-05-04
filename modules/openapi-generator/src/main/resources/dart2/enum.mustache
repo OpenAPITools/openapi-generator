@@ -16,6 +16,10 @@ class {{classname}} {
   static {{classname}} fromJson({{dataType}} value) {
     return new {{classname}}TypeTransformer().decode(value);
   }
+  
+  static List<{{classname}}> listFromJson(List<dynamic> json) {
+    return json == null ? new List<{{classname}}>() : json.map((value) => {{classname}}.fromJson(value)).toList();
+  }
 }
 
 class {{classname}}TypeTransformer {

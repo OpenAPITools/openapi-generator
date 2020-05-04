@@ -26,7 +26,7 @@ class {{unescapedDescription}}(ModelComposed):
 
 {{> python-experimental/model_templates/method_init_composed }}
 
-    @staticmethod
+    @cached_property
     def _composed_schemas():
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run

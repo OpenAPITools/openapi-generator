@@ -44,6 +44,9 @@ class PetApi {
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [ {"type": "oauth2", "name": "petstore_auth" }],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -75,6 +78,9 @@ class PetApi {
             options: Options(
             method: 'delete'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [ {"type": "oauth2", "name": "petstore_auth" }],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -106,13 +112,16 @@ class PetApi {
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [ {"type": "oauth2", "name": "petstore_auth" }],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
             ).then((response) {
 
                 final FullType type = const FullType(BuiltList, const [const FullType(Pet)]);
-                BuiltList<Pet> dataList = _serializers.deserialize(response.data, specifiedType: type);
+                BuiltList<Pet> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
                 var data = dataList.toList();
 
             return Response<List<Pet>>(
@@ -152,13 +161,16 @@ class PetApi {
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [ {"type": "oauth2", "name": "petstore_auth" }],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
             ).then((response) {
 
                 final FullType type = const FullType(BuiltList, const [const FullType(Pet)]);
-                BuiltList<Pet> dataList = _serializers.deserialize(response.data, specifiedType: type);
+                BuiltList<Pet> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
                 var data = dataList.toList();
 
             return Response<List<Pet>>(
@@ -197,13 +209,16 @@ class PetApi {
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [ {"type": "apiKey", "name": "api_key", "keyName": "api_key", "where": "header" }],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
             ).then((response) {
 
         var serializer = _serializers.serializerForType(Pet);
-        var data = _serializers.deserializeWith<Pet>(serializer, response.data);
+        var data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<Pet>(
                 data: data,
@@ -244,6 +259,9 @@ class PetApi {
             options: Options(
             method: 'put'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [ {"type": "oauth2", "name": "petstore_auth" }],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -266,6 +284,8 @@ class PetApi {
         List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
         Map<String, dynamic> formData = {};
+            formData['name'] = parameterToString(_serializers, name);
+            formData['status'] = parameterToString(_serializers, status);
         bodyData = FormData.fromMap(formData);
 
 
@@ -276,6 +296,9 @@ class PetApi {
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [ {"type": "oauth2", "name": "petstore_auth" }],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
@@ -314,13 +337,16 @@ class PetApi {
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [ {"type": "oauth2", "name": "petstore_auth" }],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
             ).then((response) {
 
         var serializer = _serializers.serializerForType(ApiResponse);
-        var data = _serializers.deserializeWith<ApiResponse>(serializer, response.data);
+        var data = _serializers.deserializeWith<ApiResponse>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<ApiResponse>(
                 data: data,
