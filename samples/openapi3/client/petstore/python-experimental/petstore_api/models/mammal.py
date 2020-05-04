@@ -230,4 +230,3 @@ class Mammal(ModelComposed):
               zebra.Zebra,
           ],
         }
-

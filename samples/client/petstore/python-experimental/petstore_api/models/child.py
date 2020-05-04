@@ -213,4 +213,3 @@ class Child(ModelComposed):
           'oneOf': [
           ],
         }
-

@@ -226,4 +226,3 @@ class ParentPet(ModelComposed):
           'oneOf': [
           ],
         }
-

@@ -214,4 +214,3 @@ class SimpleQuadrilateral(ModelComposed):
           'oneOf': [
           ],
         }
-

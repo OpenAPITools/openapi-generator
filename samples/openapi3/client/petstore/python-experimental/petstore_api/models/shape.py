@@ -224,4 +224,3 @@ class Shape(ModelComposed):
               triangle.Triangle,
           ],
         }
-

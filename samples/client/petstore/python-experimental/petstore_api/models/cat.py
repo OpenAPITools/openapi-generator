@@ -220,4 +220,3 @@ class Cat(ModelComposed):
           'oneOf': [
           ],
         }
-

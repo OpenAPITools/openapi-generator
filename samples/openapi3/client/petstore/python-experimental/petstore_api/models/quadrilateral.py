@@ -220,4 +220,3 @@ class Quadrilateral(ModelComposed):
               simple_quadrilateral.SimpleQuadrilateral,
           ],
         }
-

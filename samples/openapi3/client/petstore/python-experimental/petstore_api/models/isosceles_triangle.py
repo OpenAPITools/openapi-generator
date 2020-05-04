@@ -214,4 +214,3 @@ class IsoscelesTriangle(ModelComposed):
           'oneOf': [
           ],
         }
-

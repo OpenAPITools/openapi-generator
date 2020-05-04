@@ -227,4 +227,3 @@ class Triangle(ModelComposed):
               scalene_triangle.ScaleneTriangle,
           ],
         }
-

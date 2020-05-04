@@ -214,4 +214,3 @@ class EquilateralTriangle(ModelComposed):
           'oneOf': [
           ],
         }
-

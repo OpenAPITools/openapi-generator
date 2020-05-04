@@ -213,4 +213,3 @@ class Fruit(ModelComposed):
               banana.Banana,
           ],
         }
-

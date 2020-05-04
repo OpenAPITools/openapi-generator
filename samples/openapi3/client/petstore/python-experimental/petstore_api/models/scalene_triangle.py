@@ -214,4 +214,3 @@ class ScaleneTriangle(ModelComposed):
           'oneOf': [
           ],
         }
-

@@ -150,4 +150,3 @@ class CatAllOf(ModelNormal):
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
-
