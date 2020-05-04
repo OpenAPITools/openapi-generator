@@ -883,21 +883,6 @@ def deserialize_primitive(data, klass, path_to_item):
         )
 
 
-def fix_model_input_data(model_data, model_class):
-    # this is only called on classes where the input data is a dict
-    fixed_model_data = change_keys_js_to_python(
-        model_data,
-        model_class
-    )
-    if model_class._composed_schemas() is not None:
-        for allof_class in model_class._composed_schemas()['allOf']:
-            fixed_model_data = change_keys_js_to_python(
-                fixed_model_data,
-                allof_class
-            )
-    return fixed_model_data
-
-
 def get_discriminator_class(model_class, from_server, model_data, cls_visited):
     """Returns the child class specified by the discriminator.
 
