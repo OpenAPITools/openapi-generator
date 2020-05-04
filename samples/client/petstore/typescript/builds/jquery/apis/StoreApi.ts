@@ -181,7 +181,7 @@ export class StoreApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "Order not found");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -200,19 +200,29 @@ export class StoreApiResponseProcessor {
     public getInventory(response: ResponseContext):  { [key: string]: number; }  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: { [key: string]: number; } = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "{ [key: string]: number; }", "int32"
-            ) as { [key: string]: number; };
+            let body: { [key: string]: number; };
+            if ("{ [key: string]: number; }" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as { [key: string]: number; };
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "{ [key: string]: number; }", "int32"
+                ) as { [key: string]: number; };
+            }
             return body;
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: { [key: string]: number; } = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "{ [key: string]: number; }", "int32"
-            ) as { [key: string]: number; };
+            let body: { [key: string]: number; };
+            if ("{ [key: string]: number; }" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as { [key: string]: number; };
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "{ [key: string]: number; }", "int32"
+                ) as { [key: string]: number; };
+            }
             return body;
         }
 
@@ -230,10 +240,15 @@ export class StoreApiResponseProcessor {
     public getOrderById(response: ResponseContext):  Order  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Order = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Order", ""
-            ) as Order;
+            let body: Order;
+            if ("Order" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Order;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Order", ""
+                ) as Order;
+            }
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -243,12 +258,17 @@ export class StoreApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "Order not found");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Order = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Order", ""
-            ) as Order;
+            let body: Order;
+            if ("Order" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Order;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Order", ""
+                ) as Order;
+            }
             return body;
         }
 
@@ -266,22 +286,32 @@ export class StoreApiResponseProcessor {
     public placeOrder(response: ResponseContext):  Order  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Order = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Order", ""
-            ) as Order;
+            let body: Order;
+            if ("Order" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Order;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Order", ""
+                ) as Order;
+            }
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid Order");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Order = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Order", ""
-            ) as Order;
+            let body: Order;
+            if ("Order" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Order;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Order", ""
+                ) as Order;
+            }
             return body;
         }
 

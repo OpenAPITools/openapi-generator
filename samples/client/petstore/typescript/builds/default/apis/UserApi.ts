@@ -352,7 +352,7 @@ export class UserApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -374,7 +374,7 @@ export class UserApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -396,7 +396,7 @@ export class UserApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -421,7 +421,7 @@ export class UserApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "User not found");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -440,10 +440,15 @@ export class UserApiResponseProcessor {
     public getUserByName(response: ResponseContext):  User  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: User = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "User", ""
-            ) as User;
+            let body: User;
+            if ("User" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as User;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "User", ""
+                ) as User;
+            }
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -453,12 +458,17 @@ export class UserApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "User not found");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: User = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "User", ""
-            ) as User;
+            let body: User;
+            if ("User" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as User;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "User", ""
+                ) as User;
+            }
             return body;
         }
 
@@ -476,22 +486,32 @@ export class UserApiResponseProcessor {
     public loginUser(response: ResponseContext):  string  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: string = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "string", ""
-            ) as string;
+            let body: string;
+            if ("string" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as string;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "string", ""
+                ) as string;
+            }
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid username/password supplied");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: string = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "string", ""
-            ) as string;
+            let body: string;
+            if ("string" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as string;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "string", ""
+                ) as string;
+            }
             return body;
         }
 
@@ -512,7 +532,7 @@ export class UserApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -537,7 +557,7 @@ export class UserApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "User not found");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }

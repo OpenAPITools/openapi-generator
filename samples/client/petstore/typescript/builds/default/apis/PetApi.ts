@@ -412,7 +412,7 @@ export class PetApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "Invalid input");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -434,7 +434,7 @@ export class PetApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "Invalid pet value");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -453,22 +453,32 @@ export class PetApiResponseProcessor {
     public findPetsByStatus(response: ResponseContext):  Array<Pet>  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<Pet> = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Array<Pet>", ""
-            ) as Array<Pet>;
+            let body: Array<Pet>;
+            if ("Array<Pet>" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Array<Pet>;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Array<Pet>", ""
+                ) as Array<Pet>;
+            }
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid status value");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<Pet> = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Array<Pet>", ""
-            ) as Array<Pet>;
+            let body: Array<Pet>;
+            if ("Array<Pet>" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Array<Pet>;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Array<Pet>", ""
+                ) as Array<Pet>;
+            }
             return body;
         }
 
@@ -486,22 +496,32 @@ export class PetApiResponseProcessor {
     public findPetsByTags(response: ResponseContext):  Array<Pet>  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<Pet> = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Array<Pet>", ""
-            ) as Array<Pet>;
+            let body: Array<Pet>;
+            if ("Array<Pet>" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Array<Pet>;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Array<Pet>", ""
+                ) as Array<Pet>;
+            }
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid tag value");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<Pet> = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Array<Pet>", ""
-            ) as Array<Pet>;
+            let body: Array<Pet>;
+            if ("Array<Pet>" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Array<Pet>;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Array<Pet>", ""
+                ) as Array<Pet>;
+            }
             return body;
         }
 
@@ -519,10 +539,15 @@ export class PetApiResponseProcessor {
     public getPetById(response: ResponseContext):  Pet  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Pet = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Pet", ""
-            ) as Pet;
+            let body: Pet;
+            if ("Pet" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Pet;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Pet", ""
+                ) as Pet;
+            }
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -532,12 +557,17 @@ export class PetApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "Pet not found");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Pet = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "Pet", ""
-            ) as Pet;
+            let body: Pet;
+            if ("Pet" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as Pet;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "Pet", ""
+                ) as Pet;
+            }
             return body;
         }
 
@@ -564,7 +594,7 @@ export class PetApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "Validation exception");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -586,7 +616,7 @@ export class PetApiResponseProcessor {
             throw new ApiException<string>(response.httpStatusCode, "Invalid input");
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             return;
         }
@@ -605,19 +635,29 @@ export class PetApiResponseProcessor {
     public uploadFile(response: ResponseContext):  ApiResponse  {      
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: ApiResponse = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "ApiResponse", ""
-            ) as ApiResponse;
+            let body: ApiResponse;
+            if ("ApiResponse" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as ApiResponse;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "ApiResponse", ""
+                ) as ApiResponse;
+            }
             return body;
         }
 
-        // Work around for incorrect api specification in petstore.yaml
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: ApiResponse = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(response.body, contentType),
-                "ApiResponse", ""
-            ) as ApiResponse;
+            let body: ApiResponse;
+            if ("ApiResponse" as string === "HttpFile" as string) {
+                body = response.getBodyAsFile() as any as ApiResponse;
+            } else {
+                body = ObjectSerializer.deserialize(
+                    ObjectSerializer.parse(response.body, contentType),
+                    "ApiResponse", ""
+                ) as ApiResponse;
+            }
             return body;
         }
 

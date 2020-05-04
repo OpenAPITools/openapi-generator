@@ -142,11 +142,56 @@ export class RequestContext {
 }
 
 export class ResponseContext {
+    public constructor(
+        public httpStatusCode: number,
+        public headers: { [key: string]: string },
+        public body: string
+    ) {}
 
-    public constructor(public httpStatusCode: number, 
-        public headers: { [key: string]: string }, public body: string) {
+    /**
+     * Parse header value in the form `value; param1="value1"`
+     *
+     * E.g. for Content-Type or Content-Disposition
+     * Parameter names are converted to lower case
+     * The first parameter is returned with the key `""`
+     */
+    public getParsedHeader(headerName: string): { [parameter: string]: string } {
+        const result: { [parameter: string]: string } = {};
+        if (!this.headers[headerName]) {
+            return result;
+        }
+
+        const parameters = this.headers[headerName].split(";");
+        for (const parameter of parameters) {
+            let [key, value] = parameter.split("=", 2);
+            key = key.toLowerCase().trim();
+            if (value === undefined) {
+                result[""] = key;
+            } else {
+                value = value.trim();
+                if (value.startsWith('"') && value.endsWith('"')) {
+                    value = value.substring(1, value.length - 1);
+                }
+                result[key] = value;
+            }
+        }
+        return result;
     }
-    
+
+    public getBodyAsFile(): HttpFile {
+        const contentDisposition = this.getParsedHeader("content-disposition");
+        {{#platforms}}
+        {{#node}}
+        return {
+            data: new {{{fileContentDataType}}}(this.body),
+            name: contentDisposition["filename"] || ""
+        };
+        {{/node}}
+        {{^node}}
+        return new File([this.body], contentDisposition["filename"] || "");
+        {{/node}}
+        {{/platforms}}
+    }
 }
 
 export interface HttpLibrary {
