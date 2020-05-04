@@ -325,7 +325,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (!additionalProperties.containsKey(NEWTONSOFT_VERSION)) {
             additionalProperties.put(NEWTONSOFT_VERSION, newtonsoftVersion);
         } else {
-            newtonsoftVersion = (String)additionalProperties.get(NEWTONSOFT_VERSION);
+            newtonsoftVersion = (String) additionalProperties.get(NEWTONSOFT_VERSION);
         }
 
         // CHeck for the modifiers etc.
@@ -383,8 +383,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             // wwwroot files.
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
-
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
                     packageFolder + File.separator + "wwwroot", "openapi-original.json"));
         } else {
@@ -398,7 +396,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                     packageFolder + File.separator + "Filters", "GeneratePathParamsValidationFilter.cs"));
         }
 
-        supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache",packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
+        supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache", packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -542,6 +540,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
             supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
             compatibilityVersion = null;
+        } else if ("2.2".equals(aspnetCoreVersion.getOptValue()) || "2.1".equals(aspnetCoreVersion.getOptValue())) {
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
         } else {
             // default, do nothing
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
