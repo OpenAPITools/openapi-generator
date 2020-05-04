@@ -918,7 +918,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
                 // specification is aligned with the JSON schema specification.
                 // When "items" is not specified, the elements of the array may be anything at all.
-                return prefix + "[bool, date, datetime, dict, float, int, list, str, none_type]" + fullSuffix;
+                return "[bool, date, datetime, dict, float, int, list, str, none_type]";
             } else {
                 return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
             }
