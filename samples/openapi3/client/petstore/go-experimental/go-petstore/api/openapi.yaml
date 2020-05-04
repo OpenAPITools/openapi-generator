@@ -1295,12 +1295,11 @@ components:
         name: Category
     User:
       example:
+        firstName: firstName
         lastName: lastName
+        password: password
         userStatus: 6
         objectWithNoDeclaredPropsNullable: '{}'
-        anyTypeExceptNullProp: ""
-        firstName: firstName
-        password: password
         phone: phone
         objectWithNoDeclaredProps: '{}'
         id: 0
@@ -1342,12 +1341,6 @@ components:
           description: test code generation for any type Here the 'type' attribute
             is not specified, which means the value can be anything, including the
             null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        anyTypeExceptNullProp:
-          description: any type except 'null' Here the 'type' attribute is not specified,
-            which means the value can be anything, including the null value, string,
-            number, boolean, array or object.
-          not:
-            type: "null"
         anyTypePropNullable:
           description: test code generation for any type Here the 'type' attribute
             is not specified, which means the value can be anything, including the

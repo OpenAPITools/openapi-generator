@@ -1264,12 +1264,13 @@ components:
             Here the 'type' attribute is not specified, which means the value can be anything,
             including the null value, string, number, boolean, array or object.
             See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        anyTypeExceptNullProp:
-          description: any type except 'null'
-            Here the 'type' attribute is not specified, which means the value can be anything,
-            including the null value, string, number, boolean, array or object.
-          not:
-            type: 'null'
+        # TODO: this should be supported, currently there are some issues in the code generation.
+        #anyTypeExceptNullProp:
+        #  description: any type except 'null'
+        #    Here the 'type' attribute is not specified, which means the value can be anything,
+        #    including the null value, string, number, boolean, array or object.
+        #  not:
+        #    type: 'null'
         anyTypePropNullable:
           description: test code generation for any type
             Here the 'type' attribute is not specified, which means the value can be anything,

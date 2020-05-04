@@ -15,7 +15,6 @@ Name | Type | Description | Notes
 **ObjectWithNoDeclaredProps** | Pointer to [**ObjectType**](.md) | test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value. | [optional] 
 **ObjectWithNoDeclaredPropsNullable** | Pointer to [**ObjectType**](.md) | test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value. | [optional] 
 **AnyTypeProp** | Pointer to [**AnyType**](.md) | test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389 | [optional] 
-**AnyTypeExceptNullProp** | Pointer to **ObjectType** | any type except &#39;null&#39; Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. | [optional] 
 **AnyTypePropNullable** | Pointer to [**AnyType**](.md) | test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values. | [optional] 
 
 ## Methods
@@ -332,31 +331,6 @@ HasAnyTypeProp returns a boolean if a field has been set.
 `func (o *User) UnsetAnyTypeProp()`
 
 UnsetAnyTypeProp ensures that no value is present for AnyTypeProp, not even an explicit nil
-### GetAnyTypeExceptNullProp
-
-`func (o *User) GetAnyTypeExceptNullProp() ObjectType`
-
-GetAnyTypeExceptNullProp returns the AnyTypeExceptNullProp field if non-nil, zero value otherwise.
-
-### GetAnyTypeExceptNullPropOk
-
-`func (o *User) GetAnyTypeExceptNullPropOk() (*ObjectType, bool)`
-
-GetAnyTypeExceptNullPropOk returns a tuple with the AnyTypeExceptNullProp field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAnyTypeExceptNullProp
-
-`func (o *User) SetAnyTypeExceptNullProp(v ObjectType)`
-
-SetAnyTypeExceptNullProp sets AnyTypeExceptNullProp field to given value.
-
-### HasAnyTypeExceptNullProp
-
-`func (o *User) HasAnyTypeExceptNullProp() bool`
-
-HasAnyTypeExceptNullProp returns a boolean if a field has been set.
-
 ### GetAnyTypePropNullable
 
 `func (o *User) GetAnyTypePropNullable() AnyType`

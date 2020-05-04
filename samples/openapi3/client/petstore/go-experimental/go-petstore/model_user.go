@@ -30,8 +30,6 @@ type User struct {
 	ObjectWithNoDeclaredPropsNullable ObjectType `json:"objectWithNoDeclaredPropsNullable,omitempty"`
 	// test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
 	AnyTypeProp AnyType `json:"anyTypeProp,omitempty"`
-	// any type except 'null' Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object.
-	AnyTypeExceptNullProp *ObjectType `json:"anyTypeExceptNullProp,omitempty"`
 	// test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.
 	AnyTypePropNullable AnyType `json:"anyTypePropNullable,omitempty"`
 }
@@ -407,38 +405,6 @@ func (o *User) SetAnyTypeProp(v AnyType) {
 	o.AnyTypeProp = v
 }
 
-// GetAnyTypeExceptNullProp returns the AnyTypeExceptNullProp field value if set, zero value otherwise.
-func (o *User) GetAnyTypeExceptNullProp() ObjectType {
-	if o == nil || o.AnyTypeExceptNullProp == nil {
-		var ret ObjectType
-		return ret
-	}
-	return *o.AnyTypeExceptNullProp
-}
-
-// GetAnyTypeExceptNullPropOk returns a tuple with the AnyTypeExceptNullProp field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *User) GetAnyTypeExceptNullPropOk() (*ObjectType, bool) {
-	if o == nil || o.AnyTypeExceptNullProp == nil {
-		return nil, false
-	}
-	return o.AnyTypeExceptNullProp, true
-}
-
-// HasAnyTypeExceptNullProp returns a boolean if a field has been set.
-func (o *User) HasAnyTypeExceptNullProp() bool {
-	if o != nil && o.AnyTypeExceptNullProp != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetAnyTypeExceptNullProp gets a reference to the given ObjectType and assigns it to the AnyTypeExceptNullProp field.
-func (o *User) SetAnyTypeExceptNullProp(v ObjectType) {
-	o.AnyTypeExceptNullProp = &v
-}
-
 // GetAnyTypePropNullable returns the AnyTypePropNullable field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *User) GetAnyTypePropNullable() AnyType {
 	if o == nil  {
@@ -506,9 +472,6 @@ func (o User) MarshalJSON() ([]byte, error) {
 	}
 	if o.AnyTypeProp != nil {
 		toSerialize["anyTypeProp"] = o.AnyTypeProp
-	}
-	if o.AnyTypeExceptNullProp != nil {
-		toSerialize["anyTypeExceptNullProp"] = o.AnyTypeExceptNullProp
 	}
 	if o.AnyTypePropNullable != nil {
 		toSerialize["anyTypePropNullable"] = o.AnyTypePropNullable
