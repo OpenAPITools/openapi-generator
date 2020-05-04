@@ -334,7 +334,20 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
+            // In OAS 3.0.x, the array "items" attribute is required.
+            // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
+            // specification is aligned with the JSON schema specification.
+            // When "items" is not specified, the elements of the array may be anything at all.
+            if (inner != null) {
+                inner = ModelUtils.unaliasSchema(this.openAPI, inner);
+            }
+            String typDecl;
+            if (inner != null) {
+                typDecl = getTypeDeclaration(inner);
+            } else {
+                typDecl = "interface{}";
+            }
+            return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
