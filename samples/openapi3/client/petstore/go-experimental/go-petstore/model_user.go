@@ -29,7 +29,7 @@ type User struct {
 	// test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
 	ObjectWithNoDeclaredPropsNullable ObjectType `json:"objectWithNoDeclaredPropsNullable,omitempty"`
 	// test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-	AnyTypeProp *AnyType `json:"anyTypeProp,omitempty"`
+	AnyTypeProp AnyType `json:"anyTypeProp,omitempty"`
 	// any type except 'null' Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object.
 	AnyTypeExceptNullProp *ObjectType `json:"anyTypeExceptNullProp,omitempty"`
 	// test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.
@@ -374,22 +374,23 @@ func (o *User) SetObjectWithNoDeclaredPropsNullable(v ObjectType) {
 	o.ObjectWithNoDeclaredPropsNullable = v
 }
 
-// GetAnyTypeProp returns the AnyTypeProp field value if set, zero value otherwise.
+// GetAnyTypeProp returns the AnyTypeProp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *User) GetAnyTypeProp() AnyType {
-	if o == nil || o.AnyTypeProp == nil {
+	if o == nil  {
 		var ret AnyType
 		return ret
 	}
-	return *o.AnyTypeProp
+	return o.AnyTypeProp
 }
 
 // GetAnyTypePropOk returns a tuple with the AnyTypeProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *User) GetAnyTypePropOk() (*AnyType, bool) {
 	if o == nil || o.AnyTypeProp == nil {
 		return nil, false
 	}
-	return o.AnyTypeProp, true
+	return &o.AnyTypeProp, true
 }
 
 // HasAnyTypeProp returns a boolean if a field has been set.
@@ -403,7 +404,7 @@ func (o *User) HasAnyTypeProp() bool {
 
 // SetAnyTypeProp gets a reference to the given AnyType and assigns it to the AnyTypeProp field.
 func (o *User) SetAnyTypeProp(v AnyType) {
-	o.AnyTypeProp = &v
+	o.AnyTypeProp = v
 }
 
 // GetAnyTypeExceptNullProp returns the AnyTypeExceptNullProp field value if set, zero value otherwise.

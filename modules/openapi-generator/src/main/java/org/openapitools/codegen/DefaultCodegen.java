@@ -2163,7 +2163,14 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-
+        if (ModelUtils.isAnyTypeSchema(schema)) {
+            // The 'null' value is allowed when the OAS schema is 'any type'.
+            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+            if (Boolean.FALSE.equals(schema.getNullable())) {
+                LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", name);
+            }
+            m.isNullable = true;
+        }
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
@@ -2986,6 +2993,12 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
         } else if (ModelUtils.isAnyTypeSchema(p)) {
+            // The 'null' value is allowed when the OAS schema is 'any type'.
+            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+            if (Boolean.FALSE.equals(p.getNullable())) {
+                LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
+            }
+            property.isNullable = true;
             property.isAnyType = true;
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined

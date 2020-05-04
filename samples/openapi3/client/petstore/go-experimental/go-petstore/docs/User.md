@@ -322,6 +322,16 @@ SetAnyTypeProp sets AnyTypeProp field to given value.
 
 HasAnyTypeProp returns a boolean if a field has been set.
 
+### SetAnyTypePropNil
+
+`func (o *User) SetAnyTypePropNil(b bool)`
+
+ SetAnyTypePropNil sets the value for AnyTypeProp to be an explicit nil
+
+### UnsetAnyTypeProp
+`func (o *User) UnsetAnyTypeProp()`
+
+UnsetAnyTypeProp ensures that no value is present for AnyTypeProp, not even an explicit nil
 ### GetAnyTypeExceptNullProp
 
 `func (o *User) GetAnyTypeExceptNullProp() ObjectType`
