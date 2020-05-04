@@ -12,10 +12,11 @@ Name | Type | Description | Notes
 **Password** | Pointer to **string** |  | [optional] 
 **Phone** | Pointer to **string** |  | [optional] 
 **UserStatus** | Pointer to **int32** | User Status | [optional] 
-**ArbitraryObject** | Pointer to [**ObjectType**](.md) | test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value. | [optional] 
-**ArbitraryNullableObject** | Pointer to [**ObjectType**](.md) | test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value. | [optional] 
-**ArbitraryTypeValue** | Pointer to [**AnyType**](.md) | test code generation for any type Value can be any type - string, number, boolean, array or object. | [optional] 
-**ArbitraryNullableTypeValue** | Pointer to [**AnyType**](.md) | test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value. | [optional] 
+**ObjectWithNoDeclaredProps** | Pointer to [**ObjectType**](.md) | test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value. | [optional] 
+**ObjectWithNoDeclaredPropsNullable** | Pointer to [**ObjectType**](.md) | test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value. | [optional] 
+**AnyTypeProp** | Pointer to [**AnyType**](.md) | test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389 | [optional] 
+**AnyTypeExceptNullProp** | Pointer to **ObjectType** | any type except &#39;null&#39; Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. | [optional] 
+**AnyTypePropNullable** | Pointer to [**AnyType**](.md) | test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values. | [optional] 
 
 ## Methods
 
@@ -236,126 +237,151 @@ SetUserStatus sets UserStatus field to given value.
 
 HasUserStatus returns a boolean if a field has been set.
 
-### GetArbitraryObject
+### GetObjectWithNoDeclaredProps
 
-`func (o *User) GetArbitraryObject() ObjectType`
+`func (o *User) GetObjectWithNoDeclaredProps() ObjectType`
 
-GetArbitraryObject returns the ArbitraryObject field if non-nil, zero value otherwise.
+GetObjectWithNoDeclaredProps returns the ObjectWithNoDeclaredProps field if non-nil, zero value otherwise.
 
-### GetArbitraryObjectOk
+### GetObjectWithNoDeclaredPropsOk
 
-`func (o *User) GetArbitraryObjectOk() (*ObjectType, bool)`
+`func (o *User) GetObjectWithNoDeclaredPropsOk() (*ObjectType, bool)`
 
-GetArbitraryObjectOk returns a tuple with the ArbitraryObject field if it's non-nil, zero value otherwise
+GetObjectWithNoDeclaredPropsOk returns a tuple with the ObjectWithNoDeclaredProps field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetArbitraryObject
+### SetObjectWithNoDeclaredProps
 
-`func (o *User) SetArbitraryObject(v ObjectType)`
+`func (o *User) SetObjectWithNoDeclaredProps(v ObjectType)`
 
-SetArbitraryObject sets ArbitraryObject field to given value.
+SetObjectWithNoDeclaredProps sets ObjectWithNoDeclaredProps field to given value.
 
-### HasArbitraryObject
+### HasObjectWithNoDeclaredProps
 
-`func (o *User) HasArbitraryObject() bool`
+`func (o *User) HasObjectWithNoDeclaredProps() bool`
 
-HasArbitraryObject returns a boolean if a field has been set.
+HasObjectWithNoDeclaredProps returns a boolean if a field has been set.
 
-### GetArbitraryNullableObject
+### GetObjectWithNoDeclaredPropsNullable
 
-`func (o *User) GetArbitraryNullableObject() ObjectType`
+`func (o *User) GetObjectWithNoDeclaredPropsNullable() ObjectType`
 
-GetArbitraryNullableObject returns the ArbitraryNullableObject field if non-nil, zero value otherwise.
+GetObjectWithNoDeclaredPropsNullable returns the ObjectWithNoDeclaredPropsNullable field if non-nil, zero value otherwise.
 
-### GetArbitraryNullableObjectOk
+### GetObjectWithNoDeclaredPropsNullableOk
 
-`func (o *User) GetArbitraryNullableObjectOk() (*ObjectType, bool)`
+`func (o *User) GetObjectWithNoDeclaredPropsNullableOk() (*ObjectType, bool)`
 
-GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field if it's non-nil, zero value otherwise
+GetObjectWithNoDeclaredPropsNullableOk returns a tuple with the ObjectWithNoDeclaredPropsNullable field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetArbitraryNullableObject
+### SetObjectWithNoDeclaredPropsNullable
 
-`func (o *User) SetArbitraryNullableObject(v ObjectType)`
+`func (o *User) SetObjectWithNoDeclaredPropsNullable(v ObjectType)`
 
-SetArbitraryNullableObject sets ArbitraryNullableObject field to given value.
+SetObjectWithNoDeclaredPropsNullable sets ObjectWithNoDeclaredPropsNullable field to given value.
 
-### HasArbitraryNullableObject
+### HasObjectWithNoDeclaredPropsNullable
 
-`func (o *User) HasArbitraryNullableObject() bool`
+`func (o *User) HasObjectWithNoDeclaredPropsNullable() bool`
 
-HasArbitraryNullableObject returns a boolean if a field has been set.
+HasObjectWithNoDeclaredPropsNullable returns a boolean if a field has been set.
 
-### SetArbitraryNullableObjectNil
+### SetObjectWithNoDeclaredPropsNullableNil
 
-`func (o *User) SetArbitraryNullableObjectNil(b bool)`
+`func (o *User) SetObjectWithNoDeclaredPropsNullableNil(b bool)`
 
- SetArbitraryNullableObjectNil sets the value for ArbitraryNullableObject to be an explicit nil
+ SetObjectWithNoDeclaredPropsNullableNil sets the value for ObjectWithNoDeclaredPropsNullable to be an explicit nil
 
-### UnsetArbitraryNullableObject
-`func (o *User) UnsetArbitraryNullableObject()`
+### UnsetObjectWithNoDeclaredPropsNullable
+`func (o *User) UnsetObjectWithNoDeclaredPropsNullable()`
 
-UnsetArbitraryNullableObject ensures that no value is present for ArbitraryNullableObject, not even an explicit nil
-### GetArbitraryTypeValue
+UnsetObjectWithNoDeclaredPropsNullable ensures that no value is present for ObjectWithNoDeclaredPropsNullable, not even an explicit nil
+### GetAnyTypeProp
 
-`func (o *User) GetArbitraryTypeValue() AnyType`
+`func (o *User) GetAnyTypeProp() AnyType`
 
-GetArbitraryTypeValue returns the ArbitraryTypeValue field if non-nil, zero value otherwise.
+GetAnyTypeProp returns the AnyTypeProp field if non-nil, zero value otherwise.
 
-### GetArbitraryTypeValueOk
+### GetAnyTypePropOk
 
-`func (o *User) GetArbitraryTypeValueOk() (*AnyType, bool)`
+`func (o *User) GetAnyTypePropOk() (*AnyType, bool)`
 
-GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field if it's non-nil, zero value otherwise
+GetAnyTypePropOk returns a tuple with the AnyTypeProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetArbitraryTypeValue
+### SetAnyTypeProp
 
-`func (o *User) SetArbitraryTypeValue(v AnyType)`
+`func (o *User) SetAnyTypeProp(v AnyType)`
 
-SetArbitraryTypeValue sets ArbitraryTypeValue field to given value.
+SetAnyTypeProp sets AnyTypeProp field to given value.
 
-### HasArbitraryTypeValue
+### HasAnyTypeProp
 
-`func (o *User) HasArbitraryTypeValue() bool`
+`func (o *User) HasAnyTypeProp() bool`
 
-HasArbitraryTypeValue returns a boolean if a field has been set.
+HasAnyTypeProp returns a boolean if a field has been set.
 
-### GetArbitraryNullableTypeValue
+### GetAnyTypeExceptNullProp
 
-`func (o *User) GetArbitraryNullableTypeValue() AnyType`
+`func (o *User) GetAnyTypeExceptNullProp() ObjectType`
 
-GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field if non-nil, zero value otherwise.
+GetAnyTypeExceptNullProp returns the AnyTypeExceptNullProp field if non-nil, zero value otherwise.
 
-### GetArbitraryNullableTypeValueOk
+### GetAnyTypeExceptNullPropOk
 
-`func (o *User) GetArbitraryNullableTypeValueOk() (*AnyType, bool)`
+`func (o *User) GetAnyTypeExceptNullPropOk() (*ObjectType, bool)`
 
-GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field if it's non-nil, zero value otherwise
+GetAnyTypeExceptNullPropOk returns a tuple with the AnyTypeExceptNullProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetArbitraryNullableTypeValue
+### SetAnyTypeExceptNullProp
 
-`func (o *User) SetArbitraryNullableTypeValue(v AnyType)`
+`func (o *User) SetAnyTypeExceptNullProp(v ObjectType)`
 
-SetArbitraryNullableTypeValue sets ArbitraryNullableTypeValue field to given value.
+SetAnyTypeExceptNullProp sets AnyTypeExceptNullProp field to given value.
 
-### HasArbitraryNullableTypeValue
+### HasAnyTypeExceptNullProp
 
-`func (o *User) HasArbitraryNullableTypeValue() bool`
+`func (o *User) HasAnyTypeExceptNullProp() bool`
 
-HasArbitraryNullableTypeValue returns a boolean if a field has been set.
+HasAnyTypeExceptNullProp returns a boolean if a field has been set.
 
-### SetArbitraryNullableTypeValueNil
+### GetAnyTypePropNullable
 
-`func (o *User) SetArbitraryNullableTypeValueNil(b bool)`
+`func (o *User) GetAnyTypePropNullable() AnyType`
 
- SetArbitraryNullableTypeValueNil sets the value for ArbitraryNullableTypeValue to be an explicit nil
+GetAnyTypePropNullable returns the AnyTypePropNullable field if non-nil, zero value otherwise.
 
-### UnsetArbitraryNullableTypeValue
-`func (o *User) UnsetArbitraryNullableTypeValue()`
+### GetAnyTypePropNullableOk
 
-UnsetArbitraryNullableTypeValue ensures that no value is present for ArbitraryNullableTypeValue, not even an explicit nil
+`func (o *User) GetAnyTypePropNullableOk() (*AnyType, bool)`
+
+GetAnyTypePropNullableOk returns a tuple with the AnyTypePropNullable field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAnyTypePropNullable
+
+`func (o *User) SetAnyTypePropNullable(v AnyType)`
+
+SetAnyTypePropNullable sets AnyTypePropNullable field to given value.
+
+### HasAnyTypePropNullable
+
+`func (o *User) HasAnyTypePropNullable() bool`
+
+HasAnyTypePropNullable returns a boolean if a field has been set.
+
+### SetAnyTypePropNullableNil
+
+`func (o *User) SetAnyTypePropNullableNil(b bool)`
+
+ SetAnyTypePropNullableNil sets the value for AnyTypePropNullable to be an explicit nil
+
+### UnsetAnyTypePropNullable
+`func (o *User) UnsetAnyTypePropNullable()`
+
+UnsetAnyTypePropNullable ensures that no value is present for AnyTypePropNullable, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

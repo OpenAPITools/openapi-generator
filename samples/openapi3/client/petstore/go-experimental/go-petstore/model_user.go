@@ -25,13 +25,15 @@ type User struct {
 	// User Status
 	UserStatus *int32 `json:"userStatus,omitempty"`
 	// test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.
-	ArbitraryObject *ObjectType `json:"arbitraryObject,omitempty"`
+	ObjectWithNoDeclaredProps *ObjectType `json:"objectWithNoDeclaredProps,omitempty"`
 	// test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
-	ArbitraryNullableObject ObjectType `json:"arbitraryNullableObject,omitempty"`
-	// test code generation for any type Value can be any type - string, number, boolean, array or object.
-	ArbitraryTypeValue *AnyType `json:"arbitraryTypeValue,omitempty"`
-	// test code generation for any type Value can be any type - string, number, boolean, array, object or the 'null' value.
-	ArbitraryNullableTypeValue AnyType `json:"arbitraryNullableTypeValue,omitempty"`
+	ObjectWithNoDeclaredPropsNullable ObjectType `json:"objectWithNoDeclaredPropsNullable,omitempty"`
+	// test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
+	AnyTypeProp *AnyType `json:"anyTypeProp,omitempty"`
+	// any type except 'null' Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object.
+	AnyTypeExceptNullProp *ObjectType `json:"anyTypeExceptNullProp,omitempty"`
+	// test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.
+	AnyTypePropNullable AnyType `json:"anyTypePropNullable,omitempty"`
 }
 
 // NewUser instantiates a new User object
@@ -307,134 +309,166 @@ func (o *User) SetUserStatus(v int32) {
 	o.UserStatus = &v
 }
 
-// GetArbitraryObject returns the ArbitraryObject field value if set, zero value otherwise.
-func (o *User) GetArbitraryObject() ObjectType {
-	if o == nil || o.ArbitraryObject == nil {
+// GetObjectWithNoDeclaredProps returns the ObjectWithNoDeclaredProps field value if set, zero value otherwise.
+func (o *User) GetObjectWithNoDeclaredProps() ObjectType {
+	if o == nil || o.ObjectWithNoDeclaredProps == nil {
 		var ret ObjectType
 		return ret
 	}
-	return *o.ArbitraryObject
+	return *o.ObjectWithNoDeclaredProps
 }
 
-// GetArbitraryObjectOk returns a tuple with the ArbitraryObject field value if set, nil otherwise
+// GetObjectWithNoDeclaredPropsOk returns a tuple with the ObjectWithNoDeclaredProps field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetArbitraryObjectOk() (*ObjectType, bool) {
-	if o == nil || o.ArbitraryObject == nil {
+func (o *User) GetObjectWithNoDeclaredPropsOk() (*ObjectType, bool) {
+	if o == nil || o.ObjectWithNoDeclaredProps == nil {
 		return nil, false
 	}
-	return o.ArbitraryObject, true
+	return o.ObjectWithNoDeclaredProps, true
 }
 
-// HasArbitraryObject returns a boolean if a field has been set.
-func (o *User) HasArbitraryObject() bool {
-	if o != nil && o.ArbitraryObject != nil {
+// HasObjectWithNoDeclaredProps returns a boolean if a field has been set.
+func (o *User) HasObjectWithNoDeclaredProps() bool {
+	if o != nil && o.ObjectWithNoDeclaredProps != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetArbitraryObject gets a reference to the given ObjectType and assigns it to the ArbitraryObject field.
-func (o *User) SetArbitraryObject(v ObjectType) {
-	o.ArbitraryObject = &v
+// SetObjectWithNoDeclaredProps gets a reference to the given ObjectType and assigns it to the ObjectWithNoDeclaredProps field.
+func (o *User) SetObjectWithNoDeclaredProps(v ObjectType) {
+	o.ObjectWithNoDeclaredProps = &v
 }
 
-// GetArbitraryNullableObject returns the ArbitraryNullableObject field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetArbitraryNullableObject() ObjectType {
+// GetObjectWithNoDeclaredPropsNullable returns the ObjectWithNoDeclaredPropsNullable field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *User) GetObjectWithNoDeclaredPropsNullable() ObjectType {
 	if o == nil  {
 		var ret ObjectType
 		return ret
 	}
-	return o.ArbitraryNullableObject
+	return o.ObjectWithNoDeclaredPropsNullable
 }
 
-// GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field value if set, nil otherwise
+// GetObjectWithNoDeclaredPropsNullableOk returns a tuple with the ObjectWithNoDeclaredPropsNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetArbitraryNullableObjectOk() (*ObjectType, bool) {
-	if o == nil || o.ArbitraryNullableObject == nil {
+func (o *User) GetObjectWithNoDeclaredPropsNullableOk() (*ObjectType, bool) {
+	if o == nil || o.ObjectWithNoDeclaredPropsNullable == nil {
 		return nil, false
 	}
-	return &o.ArbitraryNullableObject, true
+	return &o.ObjectWithNoDeclaredPropsNullable, true
 }
 
-// HasArbitraryNullableObject returns a boolean if a field has been set.
-func (o *User) HasArbitraryNullableObject() bool {
-	if o != nil && o.ArbitraryNullableObject != nil {
+// HasObjectWithNoDeclaredPropsNullable returns a boolean if a field has been set.
+func (o *User) HasObjectWithNoDeclaredPropsNullable() bool {
+	if o != nil && o.ObjectWithNoDeclaredPropsNullable != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetArbitraryNullableObject gets a reference to the given ObjectType and assigns it to the ArbitraryNullableObject field.
-func (o *User) SetArbitraryNullableObject(v ObjectType) {
-	o.ArbitraryNullableObject = v
+// SetObjectWithNoDeclaredPropsNullable gets a reference to the given ObjectType and assigns it to the ObjectWithNoDeclaredPropsNullable field.
+func (o *User) SetObjectWithNoDeclaredPropsNullable(v ObjectType) {
+	o.ObjectWithNoDeclaredPropsNullable = v
 }
 
-// GetArbitraryTypeValue returns the ArbitraryTypeValue field value if set, zero value otherwise.
-func (o *User) GetArbitraryTypeValue() AnyType {
-	if o == nil || o.ArbitraryTypeValue == nil {
+// GetAnyTypeProp returns the AnyTypeProp field value if set, zero value otherwise.
+func (o *User) GetAnyTypeProp() AnyType {
+	if o == nil || o.AnyTypeProp == nil {
 		var ret AnyType
 		return ret
 	}
-	return *o.ArbitraryTypeValue
+	return *o.AnyTypeProp
 }
 
-// GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field value if set, nil otherwise
+// GetAnyTypePropOk returns a tuple with the AnyTypeProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetArbitraryTypeValueOk() (*AnyType, bool) {
-	if o == nil || o.ArbitraryTypeValue == nil {
+func (o *User) GetAnyTypePropOk() (*AnyType, bool) {
+	if o == nil || o.AnyTypeProp == nil {
 		return nil, false
 	}
-	return o.ArbitraryTypeValue, true
+	return o.AnyTypeProp, true
 }
 
-// HasArbitraryTypeValue returns a boolean if a field has been set.
-func (o *User) HasArbitraryTypeValue() bool {
-	if o != nil && o.ArbitraryTypeValue != nil {
+// HasAnyTypeProp returns a boolean if a field has been set.
+func (o *User) HasAnyTypeProp() bool {
+	if o != nil && o.AnyTypeProp != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetArbitraryTypeValue gets a reference to the given AnyType and assigns it to the ArbitraryTypeValue field.
-func (o *User) SetArbitraryTypeValue(v AnyType) {
-	o.ArbitraryTypeValue = &v
+// SetAnyTypeProp gets a reference to the given AnyType and assigns it to the AnyTypeProp field.
+func (o *User) SetAnyTypeProp(v AnyType) {
+	o.AnyTypeProp = &v
 }
 
-// GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetArbitraryNullableTypeValue() AnyType {
+// GetAnyTypeExceptNullProp returns the AnyTypeExceptNullProp field value if set, zero value otherwise.
+func (o *User) GetAnyTypeExceptNullProp() ObjectType {
+	if o == nil || o.AnyTypeExceptNullProp == nil {
+		var ret ObjectType
+		return ret
+	}
+	return *o.AnyTypeExceptNullProp
+}
+
+// GetAnyTypeExceptNullPropOk returns a tuple with the AnyTypeExceptNullProp field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *User) GetAnyTypeExceptNullPropOk() (*ObjectType, bool) {
+	if o == nil || o.AnyTypeExceptNullProp == nil {
+		return nil, false
+	}
+	return o.AnyTypeExceptNullProp, true
+}
+
+// HasAnyTypeExceptNullProp returns a boolean if a field has been set.
+func (o *User) HasAnyTypeExceptNullProp() bool {
+	if o != nil && o.AnyTypeExceptNullProp != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetAnyTypeExceptNullProp gets a reference to the given ObjectType and assigns it to the AnyTypeExceptNullProp field.
+func (o *User) SetAnyTypeExceptNullProp(v ObjectType) {
+	o.AnyTypeExceptNullProp = &v
+}
+
+// GetAnyTypePropNullable returns the AnyTypePropNullable field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *User) GetAnyTypePropNullable() AnyType {
 	if o == nil  {
 		var ret AnyType
 		return ret
 	}
-	return o.ArbitraryNullableTypeValue
+	return o.AnyTypePropNullable
 }
 
-// GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field value if set, nil otherwise
+// GetAnyTypePropNullableOk returns a tuple with the AnyTypePropNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetArbitraryNullableTypeValueOk() (*AnyType, bool) {
-	if o == nil || o.ArbitraryNullableTypeValue == nil {
+func (o *User) GetAnyTypePropNullableOk() (*AnyType, bool) {
+	if o == nil || o.AnyTypePropNullable == nil {
 		return nil, false
 	}
-	return &o.ArbitraryNullableTypeValue, true
+	return &o.AnyTypePropNullable, true
 }
 
-// HasArbitraryNullableTypeValue returns a boolean if a field has been set.
-func (o *User) HasArbitraryNullableTypeValue() bool {
-	if o != nil && o.ArbitraryNullableTypeValue != nil {
+// HasAnyTypePropNullable returns a boolean if a field has been set.
+func (o *User) HasAnyTypePropNullable() bool {
+	if o != nil && o.AnyTypePropNullable != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetArbitraryNullableTypeValue gets a reference to the given AnyType and assigns it to the ArbitraryNullableTypeValue field.
-func (o *User) SetArbitraryNullableTypeValue(v AnyType) {
-	o.ArbitraryNullableTypeValue = v
+// SetAnyTypePropNullable gets a reference to the given AnyType and assigns it to the AnyTypePropNullable field.
+func (o *User) SetAnyTypePropNullable(v AnyType) {
+	o.AnyTypePropNullable = v
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
@@ -463,17 +497,20 @@ func (o User) MarshalJSON() ([]byte, error) {
 	if o.UserStatus != nil {
 		toSerialize["userStatus"] = o.UserStatus
 	}
-	if o.ArbitraryObject != nil {
-		toSerialize["arbitraryObject"] = o.ArbitraryObject
+	if o.ObjectWithNoDeclaredProps != nil {
+		toSerialize["objectWithNoDeclaredProps"] = o.ObjectWithNoDeclaredProps
 	}
-	if o.ArbitraryNullableObject != nil {
-		toSerialize["arbitraryNullableObject"] = o.ArbitraryNullableObject
+	if o.ObjectWithNoDeclaredPropsNullable != nil {
+		toSerialize["objectWithNoDeclaredPropsNullable"] = o.ObjectWithNoDeclaredPropsNullable
 	}
-	if o.ArbitraryTypeValue != nil {
-		toSerialize["arbitraryTypeValue"] = o.ArbitraryTypeValue
+	if o.AnyTypeProp != nil {
+		toSerialize["anyTypeProp"] = o.AnyTypeProp
 	}
-	if o.ArbitraryNullableTypeValue != nil {
-		toSerialize["arbitraryNullableTypeValue"] = o.ArbitraryNullableTypeValue
+	if o.AnyTypeExceptNullProp != nil {
+		toSerialize["anyTypeExceptNullProp"] = o.AnyTypeExceptNullProp
+	}
+	if o.AnyTypePropNullable != nil {
+		toSerialize["anyTypePropNullable"] = o.AnyTypePropNullable
 	}
 	return json.Marshal(toSerialize)
 }
