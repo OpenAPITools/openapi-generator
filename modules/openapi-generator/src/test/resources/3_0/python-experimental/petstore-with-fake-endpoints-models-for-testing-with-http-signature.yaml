@@ -1855,6 +1855,7 @@ components:
           - $ref: '#/components/schemas/banana'
     fruitReq:
        oneOf:
+          - type: 'null'
           - $ref: '#/components/schemas/appleReq'
           - $ref: '#/components/schemas/bananaReq'
     appleReq:
