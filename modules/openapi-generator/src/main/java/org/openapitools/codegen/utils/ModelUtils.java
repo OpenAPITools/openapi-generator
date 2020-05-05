@@ -439,6 +439,11 @@ public class ModelUtils {
      * @return true if the specified schema is a Map schema.
      */
     public static boolean isMapSchema(Schema schema) {
+        // make sure it's not free form object
+        if (isFreeFormObject(schema)) {
+            return false;
+        }
+
         if (schema instanceof MapSchema) {
             return true;
         }
