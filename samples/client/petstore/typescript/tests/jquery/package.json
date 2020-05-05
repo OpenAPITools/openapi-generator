@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "^8.10.48",
+    "raw-loader": "^4.0.0",
     "ts-loader": "^4.3.1",
     "typescript": "^2.4.1"
   },

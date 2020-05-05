@@ -25,10 +25,10 @@ export enum HttpMethod {
 /**
  * Represents a http file which will be uploaded to a server.
  */
-export interface HttpFile {
-	data: Buffer;
-	name: string;
-}
+export type HttpFile = {
+    data: Buffer,
+    name: string
+};
 
 
 export class HttpException extends Error {

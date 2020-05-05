@@ -1,6 +1,9 @@
 declare var QUnit: any;
 
-import * as petstore from 'ts-petstore-client'
+import * as petstore from 'ts-petstore-client';
+
+// @ts-ignore
+import petImage from "./pet.png";
 
 const configuration = new petstore.Configuration()
 const petApi = new petstore.PromisePetApi(configuration)
@@ -38,7 +41,7 @@ QUnit.test("deletePet", (assert: any) => {
         // pet does not exist
         if (err.code && err.code == 404) {
             assert.ok(true, "404'd on getPet after deletion - all good.")
-            return;             
+            return;
         } else {
             throw err;
         }
@@ -108,14 +111,14 @@ QUnit.test("updatePet", (assert: any) => {
     })
 })*/
 
-/** not easily possible?
-QUnit.test("uploadFile", (done) => {
-    const image = fs.readFileSync(__dirname + "/pet.png")
-    petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image}).then((response: any) => {
-        expect(response.code).to.be.gte(200).and.lt(300);
-        expect(response.message).to.contain("pet.png");
-        done();
-    }).catch((err) => {
-        done(err);
-    })
-})*/
+QUnit.test("uploadFile", (assert: any) => {
+    const petImageFile: File = new File([petImage], "pet.png")
+    return petApi.uploadFile(pet.id, "Metadata", petImageFile)
+    .then(
+        (response: any) => {
+            assert.ok(response.code >= 200);
+            assert.ok(response.code < 300);
+            assert.ok(response.message.includes("pet.png"));
+        }
+    )
+})
