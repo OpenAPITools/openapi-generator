@@ -629,8 +629,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     @SuppressWarnings("static-method")
     @Override
     public String escapeText(String input) {
-    	
-    	if (input == null) {
+        
+        if (input == null) {
             return input;
         }
 
@@ -646,7 +646,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\"\""));
-    	
+        
     }
     
     @Override
