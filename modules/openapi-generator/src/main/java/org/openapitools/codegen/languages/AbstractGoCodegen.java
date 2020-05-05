@@ -607,11 +607,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
-        // For containers (e.g. Array, Map), the generated code returns the type directly.
-        // In other cases, the generated code has a wrapper type and a Get() function to
-        // access the underlying type.
-        if (property.isContainer) {
-            property.vendorExtensions.put("x-golang-is-container", true);
+        // For containers (e.g. Array, Map) and non-nullable primitive types, the generated code
+        // returns the type directly.
+        // In other cases (nullable primitive types, free-form objects...), the generated code has
+        // a wrapper type and a Get() function to access the underlying type.
+        if ((property.isNullable && !property.isContainer) || property.isFreeFormObject) {
+            property.vendorExtensions.put("x-golang-has-wrapper", true);
         }
     }
 
