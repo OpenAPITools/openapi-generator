@@ -2,7 +2,7 @@
 /**
  * TagTest
  *
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Model
