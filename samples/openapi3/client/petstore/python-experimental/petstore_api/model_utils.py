@@ -917,7 +917,7 @@ def get_discriminator_class(model_class, model_data, cls_visited):
     if used_model_class is None:
         for mapping, cls in class_name_to_discr_class.items():
             # Check if the schema has inherited discriminators.
-            if cls not in cls_visited and cls.discriminator() is not None:
+            if cls not in cls_visited and cls.discriminator is not None:
                 mc, dn, dv = get_discriminator_class(
                     cls, model_data, cls_visited)
                 if mc is not None:
