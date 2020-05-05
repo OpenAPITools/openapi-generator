@@ -180,14 +180,18 @@ public class {{classname}} {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                  {{#returnValue}}
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
-                  {{/returnValue}}
-                  {{^returnValue}}
-                      null
-                  {{/returnValue}}
-              );
+               try {
+                  return CompletableFuture.completedFuture(
+                      {{#returnType}}
+                          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
+                      {{/returnType}}
+                      {{^returnType}}
+                          null
+                      {{/returnType}}
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
           }
       });
       {{/asyncNative}}
