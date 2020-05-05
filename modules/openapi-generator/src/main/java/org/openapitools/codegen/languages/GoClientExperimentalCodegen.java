@@ -42,7 +42,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         embeddedTemplateDir = templateDir = "go-experimental";
 
         usesOptionals = false;
-        useOneOfInterfaces = true;
+        //useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
     }
@@ -167,6 +167,8 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         // must be invoked at the beginning of this method.
         objs = super.postProcessModels(objs);
 
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+
         List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
         for (Map<String, Object> m : models) {
             Object v = m.get("model");
@@ -193,21 +195,22 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                                 + param.dataType.substring(1);
                     }
                 }
+
+                // additional import for different cases
+                // oneOf
+                if (model.oneOf != null && !model.oneOf.isEmpty()) {
+                    imports.add(createMapping("import", "fmt"));
+                }
+
+                // anyOf
+                if (model.anyOf != null && !model.anyOf.isEmpty()) {
+                    imports.add(createMapping("import", "fmt"));
+                }
             }
+
+
         }
         return objs;
-    }
-
-    @Override
-    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("fmt")) {
-            Map<String, String> oneImport = new HashMap<String, String>() {{
-                put("import", i);
-            }};
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
-            }
-        }
     }
 
     @Override

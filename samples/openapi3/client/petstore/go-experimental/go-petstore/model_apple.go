@@ -16,7 +16,6 @@ import (
 // Apple struct for Apple
 type Apple struct {
 	Cultivar *string `json:"cultivar,omitempty"`
-	Color *string `json:"color,omitempty"`
 }
 
 // NewApple instantiates a new Apple object
@@ -68,45 +67,10 @@ func (o *Apple) SetCultivar(v string) {
 	o.Cultivar = &v
 }
 
-// GetColor returns the Color field value if set, zero value otherwise.
-func (o *Apple) GetColor() string {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret
-	}
-	return *o.Color
-}
-
-// GetColorOk returns a tuple with the Color field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Apple) GetColorOk() (*string, bool) {
-	if o == nil || o.Color == nil {
-		return nil, false
-	}
-	return o.Color, true
-}
-
-// HasColor returns a boolean if a field has been set.
-func (o *Apple) HasColor() bool {
-	if o != nil && o.Color != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *Apple) SetColor(v string) {
-	o.Color = &v
-}
-
 func (o Apple) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Cultivar != nil {
 		toSerialize["cultivar"] = o.Cultivar
-	}
-	if o.Color != nil {
-		toSerialize["color"] = o.Color
 	}
 	return json.Marshal(toSerialize)
 }
