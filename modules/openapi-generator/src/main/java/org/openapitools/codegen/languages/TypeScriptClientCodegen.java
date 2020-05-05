@@ -171,8 +171,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             frameworkOption.addEnum(option, option);
         }
         frameworkOption.defaultValue(FRAMEWORKS[0]);
+        cliOptions.add(frameworkOption);
 
-        cliOptions.add(new CliOption(TypeScriptClientCodegen.PLATFORM_SWITCH, TypeScriptClientCodegen.PLATFORM_SWITCH_DESC));
         CliOption platformOption = new CliOption(TypeScriptClientCodegen.PLATFORM_SWITCH, TypeScriptClientCodegen.PLATFORM_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.PLATFORMS) {
             // TODO: improve description?
@@ -180,9 +180,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         platformOption.defaultValue(PLATFORMS[0]);
 
-        cliOptions.add(frameworkOption);
-                
-        
+        cliOptions.add(platformOption);
+
+
         // TODO: gen package.json?
         
         //Documentation
