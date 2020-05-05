@@ -70,7 +70,7 @@ public class FakeApiTest {
     HttpSignatureAuth auth = (HttpSignatureAuth) client.getAuthentication("http_signature_test");
     auth.setAlgorithm(Algorithm.RSA_SHA512);
     auth.setHeaders(Arrays.asList("(request-target)", "host", "date"));
-    auth.setup(privateKey);
+    auth.setPrivateKey(privateKey);
 
     Pet pet = new Pet();
     pet.setId(10l);

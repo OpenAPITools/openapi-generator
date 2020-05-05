@@ -21,6 +21,9 @@ from petstore_api.model_utils import (  # noqa: F401
     ModelComposed,
     ModelNormal,
     ModelSimple,
+    cached_property,
+    change_keys_js_to_python,
+    convert_js_args_to_python_args,
     date,
     datetime,
     file_type,
@@ -63,7 +66,7 @@ class TypeHolderDefault(ModelNormal):
 
     additional_properties_type = None
 
-    @staticmethod
+    @cached_property
     def openapi_types():
         """
         This must be a class method so a model may have properties that are
@@ -83,7 +86,7 @@ class TypeHolderDefault(ModelNormal):
             'datetime_item': (datetime,),  # noqa: E501
         }
 
-    @staticmethod
+    @cached_property
     def discriminator():
         return None
 
@@ -97,9 +100,7 @@ class TypeHolderDefault(ModelNormal):
         'datetime_item': 'datetime_item',  # noqa: E501
     }
 
-    @staticmethod
-    def _composed_schemas():
-        return None
+    _composed_schemas = {}
 
     required_properties = set([
         '_data_store',
@@ -107,9 +108,11 @@ class TypeHolderDefault(ModelNormal):
         '_from_server',
         '_path_to_item',
         '_configuration',
+        '_visited_composed_classes',
     ])
 
-    def __init__(self, array_item, string_item='what', number_item=1.234, integer_item=-2, bool_item=True, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+    @convert_js_args_to_python_args
+    def __init__(self, array_item, string_item='what', number_item=1.234, integer_item=-2, bool_item=True, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """type_holder_default.TypeHolderDefault - a model defined in OpenAPI
 
         Args:
@@ -133,6 +136,21 @@ class TypeHolderDefault(ModelNormal):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
+            _visited_composed_classes (tuple): This stores a tuple of
+                                classes that we have traveled through so that
+                                if we see that class again we will not use its
+                                discriminator again.
+                                When traveling through a discriminator, the
+                                composed schema that is
+                                is traveled through is added to this set.
+                                For example if Animal has a discriminator
+                                petType and we pass in "Dog", and the class Dog
+                                allOf includes Animal, we move through Animal
+                                once using the discriminator, and pick Dog.
+                                Then in Dog, we will make an instance of the
+                                Animal class but this time we won't travel
+                                through its discriminator because we passed in
+                                _visited_composed_classes = (Animal,)
             date_item (date): [optional]  # noqa: E501
             datetime_item (datetime): [optional]  # noqa: E501
         """
@@ -142,6 +160,7 @@ class TypeHolderDefault(ModelNormal):
         self._from_server = _from_server
         self._path_to_item = _path_to_item
         self._configuration = _configuration
+        self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.string_item = string_item
         self.number_item = number_item
