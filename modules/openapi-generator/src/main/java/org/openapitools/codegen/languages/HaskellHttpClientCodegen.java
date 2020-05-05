@@ -789,6 +789,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             if (sec.isBasic) prefix = "AuthBasic";
             if (sec.isApiKey) prefix = "AuthApiKey";
             if (sec.isOAuth) prefix = "AuthOAuth";
+            if (sec.isOpenIdConnect) prefix = "AuthOpenIdConnect";
             sec.name = prefix + toTypeName("", sec.name);
         }
         return secs;

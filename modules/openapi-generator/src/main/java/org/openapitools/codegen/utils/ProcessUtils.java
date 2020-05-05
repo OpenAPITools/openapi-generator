@@ -71,6 +71,30 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns true if at least one operation has openIdConnect security schema defined
+     *
+     * @param objs Map of operations
+     * @return True if at least one operation has OAuth security schema defined
+     */
+    public static boolean hasOpenIdConnectMethods(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
+                    for (CodegenSecurity cs : operation.authMethods) {
+                        if (Boolean.TRUE.equals(cs.isOpenIdConnect)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns true if at least one operation has Bearer security schema defined
      *
      * @param objs Map of operations
