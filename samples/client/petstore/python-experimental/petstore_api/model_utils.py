@@ -148,7 +148,7 @@ class OpenApiModel(object):
         oneof_anyof_classes = []
         oneof_anyof_classes.extend(cls._composed_schemas.get('oneOf', ()))
         oneof_anyof_classes.extend(cls._composed_schemas.get('anyOf', ()))
-        new_cls = cls.get_discriminator_class(kwargs)
+        new_cls, propname, value = get_discriminator_class(cls, kwargs, set())
         if new_cls is None:
             disc_prop_name_py = list(cls.discriminator.keys())[0]
             disc_prop_name_js = cls.attribute_map[disc_prop_name_py]
@@ -883,13 +883,11 @@ def deserialize_primitive(data, klass, path_to_item):
         )
 
 
-def get_discriminator_class(model_class, from_server, model_data, cls_visited):
+def get_discriminator_class(model_class, model_data, cls_visited):
     """Returns the child class specified by the discriminator.
 
     Args:
         model_class (OpenApiModel): the model class
-        from_server (bool): True if the model_data is from the server
-            False if the data is from the client
         model_data (list/dict): data to instantiate the model.
         cls_visited (set): list of model classes that have been visited.
             Used to determine the discriminator class without
@@ -921,7 +919,7 @@ def get_discriminator_class(model_class, from_server, model_data, cls_visited):
             # Check if the schema has inherited discriminators.
             if cls not in cls_visited and cls.discriminator() is not None:
                 mc, dn, dv = get_discriminator_class(
-                    cls, from_server, model_data, cls_visited)
+                    cls, model_data, cls_visited)
                 if mc is not None:
                     return (mc, dn, dv)
     return (used_model_class, discr_propertyname_js, discr_value)
