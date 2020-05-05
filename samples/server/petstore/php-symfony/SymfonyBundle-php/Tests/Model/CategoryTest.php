@@ -29,6 +29,8 @@
 
 namespace OpenAPI\Server\Model;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * CategoryTest Class Doc Comment
  *
@@ -39,7 +41,7 @@ namespace OpenAPI\Server\Model;
  * @author      openapi-generator contributors
  * @link        https://github.com/openapitools/openapi-generator
  */
-class CategoryTest extends \PHPUnit_Framework_TestCase
+class CategoryTest extends TestCase
 {
 
     /**

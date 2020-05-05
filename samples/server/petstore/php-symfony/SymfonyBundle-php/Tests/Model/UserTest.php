@@ -29,6 +29,8 @@
 
 namespace OpenAPI\Server\Model;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * UserTest Class Doc Comment
  *
@@ -39,7 +41,7 @@ namespace OpenAPI\Server\Model;
  * @author      openapi-generator contributors
  * @link        https://github.com/openapitools/openapi-generator
  */
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends TestCase
 {
 
     /**
