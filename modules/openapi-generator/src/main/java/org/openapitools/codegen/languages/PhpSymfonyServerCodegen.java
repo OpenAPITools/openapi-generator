@@ -362,6 +362,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile(".php_cs.dist", "", ".php_cs.dist"));
+        supportingFiles.add(new SupportingFile(".coveralls.yml", "", ".coveralls.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         // Type-hintable primitive types
