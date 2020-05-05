@@ -238,20 +238,20 @@ HasUserStatus returns a boolean if a field has been set.
 
 ### GetObjectWithNoDeclaredProps
 
-`func (o *User) GetObjectWithNoDeclaredProps() ObjectType`
+`func (o *User) GetObjectWithNoDeclaredProps() map[string]interface{}`
 
 GetObjectWithNoDeclaredProps returns the ObjectWithNoDeclaredProps field if non-nil, zero value otherwise.
 
 ### GetObjectWithNoDeclaredPropsOk
 
-`func (o *User) GetObjectWithNoDeclaredPropsOk() (*ObjectType, bool)`
+`func (o *User) GetObjectWithNoDeclaredPropsOk() (*map[string]interface{}, bool)`
 
 GetObjectWithNoDeclaredPropsOk returns a tuple with the ObjectWithNoDeclaredProps field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetObjectWithNoDeclaredProps
 
-`func (o *User) SetObjectWithNoDeclaredProps(v ObjectType)`
+`func (o *User) SetObjectWithNoDeclaredProps(v map[string]interface{})`
 
 SetObjectWithNoDeclaredProps sets ObjectWithNoDeclaredProps field to given value.
 
@@ -263,20 +263,20 @@ HasObjectWithNoDeclaredProps returns a boolean if a field has been set.
 
 ### GetObjectWithNoDeclaredPropsNullable
 
-`func (o *User) GetObjectWithNoDeclaredPropsNullable() ObjectType`
+`func (o *User) GetObjectWithNoDeclaredPropsNullable() map[string]interface{}`
 
 GetObjectWithNoDeclaredPropsNullable returns the ObjectWithNoDeclaredPropsNullable field if non-nil, zero value otherwise.
 
 ### GetObjectWithNoDeclaredPropsNullableOk
 
-`func (o *User) GetObjectWithNoDeclaredPropsNullableOk() (*ObjectType, bool)`
+`func (o *User) GetObjectWithNoDeclaredPropsNullableOk() (*map[string]interface{}, bool)`
 
 GetObjectWithNoDeclaredPropsNullableOk returns a tuple with the ObjectWithNoDeclaredPropsNullable field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetObjectWithNoDeclaredPropsNullable
 
-`func (o *User) SetObjectWithNoDeclaredPropsNullable(v ObjectType)`
+`func (o *User) SetObjectWithNoDeclaredPropsNullable(v map[string]interface{})`
 
 SetObjectWithNoDeclaredPropsNullable sets ObjectWithNoDeclaredPropsNullable field to given value.
 
@@ -298,20 +298,20 @@ HasObjectWithNoDeclaredPropsNullable returns a boolean if a field has been set.
 UnsetObjectWithNoDeclaredPropsNullable ensures that no value is present for ObjectWithNoDeclaredPropsNullable, not even an explicit nil
 ### GetAnyTypeProp
 
-`func (o *User) GetAnyTypeProp() AnyType`
+`func (o *User) GetAnyTypeProp() interface{}`
 
 GetAnyTypeProp returns the AnyTypeProp field if non-nil, zero value otherwise.
 
 ### GetAnyTypePropOk
 
-`func (o *User) GetAnyTypePropOk() (*AnyType, bool)`
+`func (o *User) GetAnyTypePropOk() (*interface{}, bool)`
 
 GetAnyTypePropOk returns a tuple with the AnyTypeProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAnyTypeProp
 
-`func (o *User) SetAnyTypeProp(v AnyType)`
+`func (o *User) SetAnyTypeProp(v interface{})`
 
 SetAnyTypeProp sets AnyTypeProp field to given value.
 
@@ -333,20 +333,20 @@ HasAnyTypeProp returns a boolean if a field has been set.
 UnsetAnyTypeProp ensures that no value is present for AnyTypeProp, not even an explicit nil
 ### GetAnyTypePropNullable
 
-`func (o *User) GetAnyTypePropNullable() AnyType`
+`func (o *User) GetAnyTypePropNullable() interface{}`
 
 GetAnyTypePropNullable returns the AnyTypePropNullable field if non-nil, zero value otherwise.
 
 ### GetAnyTypePropNullableOk
 
-`func (o *User) GetAnyTypePropNullableOk() (*AnyType, bool)`
+`func (o *User) GetAnyTypePropNullableOk() (*interface{}, bool)`
 
 GetAnyTypePropNullableOk returns a tuple with the AnyTypePropNullable field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAnyTypePropNullable
 
-`func (o *User) SetAnyTypePropNullable(v AnyType)`
+`func (o *User) SetAnyTypePropNullable(v interface{})`
 
 SetAnyTypePropNullable sets AnyTypePropNullable field to given value.
 

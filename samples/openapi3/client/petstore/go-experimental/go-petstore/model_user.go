@@ -308,21 +308,21 @@ func (o *User) SetUserStatus(v int32) {
 }
 
 // GetObjectWithNoDeclaredProps returns the ObjectWithNoDeclaredProps field value if set, zero value otherwise.
-func (o *User) GetObjectWithNoDeclaredProps() ObjectType {
+func (o *User) GetObjectWithNoDeclaredProps() map[string]interface{} {
 	if o == nil || o.ObjectWithNoDeclaredProps == nil {
-		var ret ObjectType
+		var ret map[string]interface{}
 		return ret
 	}
-	return *o.ObjectWithNoDeclaredProps
+	return *o.ObjectWithNoDeclaredProps.Get()
 }
 
 // GetObjectWithNoDeclaredPropsOk returns a tuple with the ObjectWithNoDeclaredProps field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetObjectWithNoDeclaredPropsOk() (*ObjectType, bool) {
+func (o *User) GetObjectWithNoDeclaredPropsOk() (*map[string]interface{}, bool) {
 	if o == nil || o.ObjectWithNoDeclaredProps == nil {
 		return nil, false
 	}
-	return o.ObjectWithNoDeclaredProps, true
+	return o.ObjectWithNoDeclaredProps.Get(), true
 }
 
 // HasObjectWithNoDeclaredProps returns a boolean if a field has been set.
@@ -335,32 +335,32 @@ func (o *User) HasObjectWithNoDeclaredProps() bool {
 }
 
 // SetObjectWithNoDeclaredProps gets a reference to the given ObjectType and assigns it to the ObjectWithNoDeclaredProps field.
-func (o *User) SetObjectWithNoDeclaredProps(v ObjectType) {
-	o.ObjectWithNoDeclaredProps = &v
+func (o *User) SetObjectWithNoDeclaredProps(v map[string]interface{}) {
+	o.ObjectWithNoDeclaredProps.Set(&v)
 }
 
 // GetObjectWithNoDeclaredPropsNullable returns the ObjectWithNoDeclaredPropsNullable field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetObjectWithNoDeclaredPropsNullable() ObjectType {
-	if o == nil  {
-		var ret ObjectType
+func (o *User) GetObjectWithNoDeclaredPropsNullable() map[string]interface{} {
+	if o == nil || o.ObjectWithNoDeclaredPropsNullable.Get() == nil {
+		var ret map[string]interface{}
 		return ret
 	}
-	return o.ObjectWithNoDeclaredPropsNullable
+	return *o.ObjectWithNoDeclaredPropsNullable.Get()
 }
 
 // GetObjectWithNoDeclaredPropsNullableOk returns a tuple with the ObjectWithNoDeclaredPropsNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetObjectWithNoDeclaredPropsNullableOk() (*ObjectType, bool) {
-	if o == nil || o.ObjectWithNoDeclaredPropsNullable == nil {
+func (o *User) GetObjectWithNoDeclaredPropsNullableOk() (*map[string]interface{}, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.ObjectWithNoDeclaredPropsNullable, true
+	return o.ObjectWithNoDeclaredPropsNullable.Get(), o.ObjectWithNoDeclaredPropsNullable.IsSet()
 }
 
 // HasObjectWithNoDeclaredPropsNullable returns a boolean if a field has been set.
 func (o *User) HasObjectWithNoDeclaredPropsNullable() bool {
-	if o != nil && o.ObjectWithNoDeclaredPropsNullable != nil {
+	if o != nil && o.ObjectWithNoDeclaredPropsNullable.IsSet() {
 		return true
 	}
 
@@ -368,32 +368,41 @@ func (o *User) HasObjectWithNoDeclaredPropsNullable() bool {
 }
 
 // SetObjectWithNoDeclaredPropsNullable gets a reference to the given ObjectType and assigns it to the ObjectWithNoDeclaredPropsNullable field.
-func (o *User) SetObjectWithNoDeclaredPropsNullable(v ObjectType) {
-	o.ObjectWithNoDeclaredPropsNullable = v
+func (o *User) SetObjectWithNoDeclaredPropsNullable(v map[string]interface{}) {
+	o.ObjectWithNoDeclaredPropsNullable.Set(&v)
+}
+// SetObjectWithNoDeclaredPropsNullableNil sets the value for ObjectWithNoDeclaredPropsNullable to be an explicit nil
+func (o *User) SetObjectWithNoDeclaredPropsNullableNil() {
+	o.ObjectWithNoDeclaredPropsNullable.Set(nil)
+}
+
+// UnsetObjectWithNoDeclaredPropsNullable ensures that no value is present for ObjectWithNoDeclaredPropsNullable, not even an explicit nil
+func (o *User) UnsetObjectWithNoDeclaredPropsNullable() {
+	o.ObjectWithNoDeclaredPropsNullable.Unset()
 }
 
 // GetAnyTypeProp returns the AnyTypeProp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetAnyTypeProp() AnyType {
-	if o == nil  {
-		var ret AnyType
+func (o *User) GetAnyTypeProp() interface{} {
+	if o == nil || o.AnyTypeProp.Get() == nil {
+		var ret interface{}
 		return ret
 	}
-	return o.AnyTypeProp
+	return *o.AnyTypeProp.Get()
 }
 
 // GetAnyTypePropOk returns a tuple with the AnyTypeProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetAnyTypePropOk() (*AnyType, bool) {
-	if o == nil || o.AnyTypeProp == nil {
+func (o *User) GetAnyTypePropOk() (*interface{}, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.AnyTypeProp, true
+	return o.AnyTypeProp.Get(), o.AnyTypeProp.IsSet()
 }
 
 // HasAnyTypeProp returns a boolean if a field has been set.
 func (o *User) HasAnyTypeProp() bool {
-	if o != nil && o.AnyTypeProp != nil {
+	if o != nil && o.AnyTypeProp.IsSet() {
 		return true
 	}
 
@@ -401,32 +410,41 @@ func (o *User) HasAnyTypeProp() bool {
 }
 
 // SetAnyTypeProp gets a reference to the given AnyType and assigns it to the AnyTypeProp field.
-func (o *User) SetAnyTypeProp(v AnyType) {
-	o.AnyTypeProp = v
+func (o *User) SetAnyTypeProp(v interface{}) {
+	o.AnyTypeProp.Set(&v)
+}
+// SetAnyTypePropNil sets the value for AnyTypeProp to be an explicit nil
+func (o *User) SetAnyTypePropNil() {
+	o.AnyTypeProp.Set(nil)
+}
+
+// UnsetAnyTypeProp ensures that no value is present for AnyTypeProp, not even an explicit nil
+func (o *User) UnsetAnyTypeProp() {
+	o.AnyTypeProp.Unset()
 }
 
 // GetAnyTypePropNullable returns the AnyTypePropNullable field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetAnyTypePropNullable() AnyType {
-	if o == nil  {
-		var ret AnyType
+func (o *User) GetAnyTypePropNullable() interface{} {
+	if o == nil || o.AnyTypePropNullable.Get() == nil {
+		var ret interface{}
 		return ret
 	}
-	return o.AnyTypePropNullable
+	return *o.AnyTypePropNullable.Get()
 }
 
 // GetAnyTypePropNullableOk returns a tuple with the AnyTypePropNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetAnyTypePropNullableOk() (*AnyType, bool) {
-	if o == nil || o.AnyTypePropNullable == nil {
+func (o *User) GetAnyTypePropNullableOk() (*interface{}, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return &o.AnyTypePropNullable, true
+	return o.AnyTypePropNullable.Get(), o.AnyTypePropNullable.IsSet()
 }
 
 // HasAnyTypePropNullable returns a boolean if a field has been set.
 func (o *User) HasAnyTypePropNullable() bool {
-	if o != nil && o.AnyTypePropNullable != nil {
+	if o != nil && o.AnyTypePropNullable.IsSet() {
 		return true
 	}
 
@@ -434,8 +452,17 @@ func (o *User) HasAnyTypePropNullable() bool {
 }
 
 // SetAnyTypePropNullable gets a reference to the given AnyType and assigns it to the AnyTypePropNullable field.
-func (o *User) SetAnyTypePropNullable(v AnyType) {
-	o.AnyTypePropNullable = v
+func (o *User) SetAnyTypePropNullable(v interface{}) {
+	o.AnyTypePropNullable.Set(&v)
+}
+// SetAnyTypePropNullableNil sets the value for AnyTypePropNullable to be an explicit nil
+func (o *User) SetAnyTypePropNullableNil() {
+	o.AnyTypePropNullable.Set(nil)
+}
+
+// UnsetAnyTypePropNullable ensures that no value is present for AnyTypePropNullable, not even an explicit nil
+func (o *User) UnsetAnyTypePropNullable() {
+	o.AnyTypePropNullable.Unset()
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
@@ -467,14 +494,14 @@ func (o User) MarshalJSON() ([]byte, error) {
 	if o.ObjectWithNoDeclaredProps != nil {
 		toSerialize["objectWithNoDeclaredProps"] = o.ObjectWithNoDeclaredProps
 	}
-	if o.ObjectWithNoDeclaredPropsNullable != nil {
-		toSerialize["objectWithNoDeclaredPropsNullable"] = o.ObjectWithNoDeclaredPropsNullable
+	if o.ObjectWithNoDeclaredPropsNullable.IsSet() {
+		toSerialize["objectWithNoDeclaredPropsNullable"] = o.ObjectWithNoDeclaredPropsNullable.Get()
 	}
-	if o.AnyTypeProp != nil {
-		toSerialize["anyTypeProp"] = o.AnyTypeProp
+	if o.AnyTypeProp.IsSet() {
+		toSerialize["anyTypeProp"] = o.AnyTypeProp.Get()
 	}
-	if o.AnyTypePropNullable != nil {
-		toSerialize["anyTypePropNullable"] = o.AnyTypePropNullable
+	if o.AnyTypePropNullable.IsSet() {
+		toSerialize["anyTypePropNullable"] = o.AnyTypePropNullable.Get()
 	}
 	return json.Marshal(toSerialize)
 }

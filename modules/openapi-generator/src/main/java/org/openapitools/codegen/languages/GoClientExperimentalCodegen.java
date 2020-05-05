@@ -177,9 +177,15 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 }
 
                 for (CodegenProperty param : model.vars) {
+                    if (param.isAnyType) {
+                        param.vendorExtensions.put("x-go-base-type", "interface{}");
+                        continue;
+                    } else if (param.isFreeFormObject) {
+                        param.vendorExtensions.put("x-go-base-type", "map[string]interface{}");
+                        continue;
+                    }
                     param.vendorExtensions.put("x-go-base-type", param.dataType);
-                    if (!param.isNullable || param.isMapContainer || param.isListContainer ||
-                            param.isFreeFormObject || param.isAnyType) {
+                    if (!param.isNullable || param.isMapContainer || param.isListContainer) {
                         continue;
                     }
                     if (param.isDateTime) {

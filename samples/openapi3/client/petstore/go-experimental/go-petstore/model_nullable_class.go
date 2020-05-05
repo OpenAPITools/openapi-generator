@@ -398,9 +398,9 @@ func (o *NullableClass) SetArrayItemsNullable(v []ObjectType) {
 }
 
 // GetObjectNullableProp returns the ObjectNullableProp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *NullableClass) GetObjectNullableProp() map[string]ObjectType {
+func (o *NullableClass) GetObjectNullableProp() map[string]interface{} {
 	if o == nil  {
-		var ret map[string]ObjectType
+		var ret map[string]interface{}
 		return ret
 	}
 	return o.ObjectNullableProp
@@ -409,7 +409,7 @@ func (o *NullableClass) GetObjectNullableProp() map[string]ObjectType {
 // GetObjectNullablePropOk returns a tuple with the ObjectNullableProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NullableClass) GetObjectNullablePropOk() (*map[string]ObjectType, bool) {
+func (o *NullableClass) GetObjectNullablePropOk() (*map[string]interface{}, bool) {
 	if o == nil || o.ObjectNullableProp == nil {
 		return nil, false
 	}
@@ -426,14 +426,14 @@ func (o *NullableClass) HasObjectNullableProp() bool {
 }
 
 // SetObjectNullableProp gets a reference to the given map[string]ObjectType and assigns it to the ObjectNullableProp field.
-func (o *NullableClass) SetObjectNullableProp(v map[string]ObjectType) {
+func (o *NullableClass) SetObjectNullableProp(v map[string]interface{}) {
 	o.ObjectNullableProp = v
 }
 
 // GetObjectAndItemsNullableProp returns the ObjectAndItemsNullableProp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]ObjectType {
+func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]interface{} {
 	if o == nil  {
-		var ret map[string]ObjectType
+		var ret map[string]interface{}
 		return ret
 	}
 	return o.ObjectAndItemsNullableProp
@@ -442,7 +442,7 @@ func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]ObjectType {
 // GetObjectAndItemsNullablePropOk returns a tuple with the ObjectAndItemsNullableProp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *NullableClass) GetObjectAndItemsNullablePropOk() (*map[string]ObjectType, bool) {
+func (o *NullableClass) GetObjectAndItemsNullablePropOk() (*map[string]interface{}, bool) {
 	if o == nil || o.ObjectAndItemsNullableProp == nil {
 		return nil, false
 	}
@@ -459,26 +459,26 @@ func (o *NullableClass) HasObjectAndItemsNullableProp() bool {
 }
 
 // SetObjectAndItemsNullableProp gets a reference to the given map[string]ObjectType and assigns it to the ObjectAndItemsNullableProp field.
-func (o *NullableClass) SetObjectAndItemsNullableProp(v map[string]ObjectType) {
+func (o *NullableClass) SetObjectAndItemsNullableProp(v map[string]interface{}) {
 	o.ObjectAndItemsNullableProp = v
 }
 
 // GetObjectItemsNullable returns the ObjectItemsNullable field value if set, zero value otherwise.
-func (o *NullableClass) GetObjectItemsNullable() map[string]ObjectType {
+func (o *NullableClass) GetObjectItemsNullable() map[string]interface{} {
 	if o == nil || o.ObjectItemsNullable == nil {
-		var ret map[string]ObjectType
+		var ret map[string]interface{}
 		return ret
 	}
-	return *o.ObjectItemsNullable
+	return *o.ObjectItemsNullable.Get()
 }
 
 // GetObjectItemsNullableOk returns a tuple with the ObjectItemsNullable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NullableClass) GetObjectItemsNullableOk() (*map[string]ObjectType, bool) {
+func (o *NullableClass) GetObjectItemsNullableOk() (*map[string]interface{}, bool) {
 	if o == nil || o.ObjectItemsNullable == nil {
 		return nil, false
 	}
-	return o.ObjectItemsNullable, true
+	return o.ObjectItemsNullable.Get(), true
 }
 
 // HasObjectItemsNullable returns a boolean if a field has been set.
@@ -491,8 +491,8 @@ func (o *NullableClass) HasObjectItemsNullable() bool {
 }
 
 // SetObjectItemsNullable gets a reference to the given map[string]ObjectType and assigns it to the ObjectItemsNullable field.
-func (o *NullableClass) SetObjectItemsNullable(v map[string]ObjectType) {
-	o.ObjectItemsNullable = &v
+func (o *NullableClass) SetObjectItemsNullable(v map[string]interface{}) {
+	o.ObjectItemsNullable.Set(&v)
 }
 
 func (o NullableClass) MarshalJSON() ([]byte, error) {

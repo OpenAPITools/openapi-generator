@@ -129,7 +129,12 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 {{/vendorExtensions.x-golang-is-container}}
 {{/isNullable}}
 {{^isNullable}}
+{{#isFreeFormObject}}
+	return o.{{name}}.Get()
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
 	return o.{{name}}
+{{/isFreeFormObject}}
 {{/isNullable}}
 }
 
@@ -151,7 +156,12 @@ func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-go-base-type}}, b
 {{/vendorExtensions.x-golang-is-container}}
 {{/isNullable}}
 {{^isNullable}}
+{{#isFreeFormObject}}
+	return &o.{{name}}.Get(), true
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
 	return &o.{{name}}, true
+{{/isFreeFormObject}}
 {{/isNullable}}
 }
 
@@ -187,7 +197,12 @@ func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
 {{/vendorExtensions.x-golang-is-container}}
 {{/isNullable}}
 {{^isNullable}}
+{{#isFreeFormObject}}
+	return *o.{{name}}.Get()
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
 	return *o.{{name}}
+{{/isFreeFormObject}}
 {{/isNullable}}
 }
 
@@ -209,7 +224,12 @@ func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-go-base-type}}, b
 {{/vendorExtensions.x-golang-is-container}}
 {{/isNullable}}
 {{^isNullable}}
+{{#isFreeFormObject}}
+	return o.{{name}}.Get(), true
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
 	return o.{{name}}, true
+{{/isFreeFormObject}}
 {{/isNullable}}
 }
 
@@ -233,7 +253,12 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 {{/vendorExtensions.x-golang-is-container}}
 {{/isNullable}}
 {{^isNullable}}
+{{#isFreeFormObject}}
+	o.{{name}}.Set(&v)
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
 	o.{{name}} = &v
+{{/isFreeFormObject}}
 {{/isNullable}}
 }
 {{#isNullable}}
