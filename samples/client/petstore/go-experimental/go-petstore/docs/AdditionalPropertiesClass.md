@@ -237,20 +237,20 @@ HasMapMapAnytype returns a boolean if a field has been set.
 
 ### GetAnytype1
 
-`func (o *AdditionalPropertiesClass) GetAnytype1() ObjectType`
+`func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{}`
 
 GetAnytype1 returns the Anytype1 field if non-nil, zero value otherwise.
 
 ### GetAnytype1Ok
 
-`func (o *AdditionalPropertiesClass) GetAnytype1Ok() (*ObjectType, bool)`
+`func (o *AdditionalPropertiesClass) GetAnytype1Ok() (*map[string]interface{}, bool)`
 
 GetAnytype1Ok returns a tuple with the Anytype1 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAnytype1
 
-`func (o *AdditionalPropertiesClass) SetAnytype1(v ObjectType)`
+`func (o *AdditionalPropertiesClass) SetAnytype1(v map[string]interface{})`
 
 SetAnytype1 sets Anytype1 field to given value.
 
@@ -262,20 +262,20 @@ HasAnytype1 returns a boolean if a field has been set.
 
 ### GetAnytype2
 
-`func (o *AdditionalPropertiesClass) GetAnytype2() ObjectType`
+`func (o *AdditionalPropertiesClass) GetAnytype2() map[string]interface{}`
 
 GetAnytype2 returns the Anytype2 field if non-nil, zero value otherwise.
 
 ### GetAnytype2Ok
 
-`func (o *AdditionalPropertiesClass) GetAnytype2Ok() (*ObjectType, bool)`
+`func (o *AdditionalPropertiesClass) GetAnytype2Ok() (*map[string]interface{}, bool)`
 
 GetAnytype2Ok returns a tuple with the Anytype2 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAnytype2
 
-`func (o *AdditionalPropertiesClass) SetAnytype2(v ObjectType)`
+`func (o *AdditionalPropertiesClass) SetAnytype2(v map[string]interface{})`
 
 SetAnytype2 sets Anytype2 field to given value.
 
@@ -287,20 +287,20 @@ HasAnytype2 returns a boolean if a field has been set.
 
 ### GetAnytype3
 
-`func (o *AdditionalPropertiesClass) GetAnytype3() ObjectType`
+`func (o *AdditionalPropertiesClass) GetAnytype3() map[string]interface{}`
 
 GetAnytype3 returns the Anytype3 field if non-nil, zero value otherwise.
 
 ### GetAnytype3Ok
 
-`func (o *AdditionalPropertiesClass) GetAnytype3Ok() (*ObjectType, bool)`
+`func (o *AdditionalPropertiesClass) GetAnytype3Ok() (*map[string]interface{}, bool)`
 
 GetAnytype3Ok returns a tuple with the Anytype3 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAnytype3
 
-`func (o *AdditionalPropertiesClass) SetAnytype3(v ObjectType)`
+`func (o *AdditionalPropertiesClass) SetAnytype3(v map[string]interface{})`
 
 SetAnytype3 sets Anytype3 field to given value.
 

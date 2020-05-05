@@ -79,20 +79,20 @@ HasDateTime returns a boolean if a field has been set.
 
 ### GetMap
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]interface{}`
 
 GetMap returns the Map field if non-nil, zero value otherwise.
 
 ### GetMapOk
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]Animal, bool)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]interface{}, bool)`
 
 GetMapOk returns a tuple with the Map field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMap
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]interface{})`
 
 SetMap sets Map field to given value.
 
