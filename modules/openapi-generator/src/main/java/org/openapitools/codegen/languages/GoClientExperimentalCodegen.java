@@ -42,7 +42,6 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         embeddedTemplateDir = templateDir = "go-experimental";
 
         usesOptionals = false;
-        //useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
     }
@@ -265,7 +264,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 return "URL(string: \"https://example.com\")!";
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
                 return "Get-Date";
-            } else{ // numeric
+            } else { // numeric
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return codegenParameter.example;
                 } else {
@@ -305,7 +304,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 return "\"https://example.com\")!";
             } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
                 return "time.Now()";
-            } else{ // numeric
+            } else { // numeric
                 String example;
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     example = codegenProperty.example;
