@@ -661,6 +661,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
         super.postProcessParameter(parameter);
+        
+        if (nullableType.contains(parameter.dataType)) {
+            if (!parameter.required) { //optional
+                parameter.dataType = parameter.dataType + "?";
+            } else {
+                parameter.vendorExtensions.put("x-csharp-value-type", true);
+            }
+        }
     }
 
     @Override
@@ -668,6 +676,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
         super.postProcessModelProperty(model, property);
+        
+        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+            property.vendorExtensions.put("x-csharp-value-type", true);
+        }
     }
 
     /*

@@ -231,7 +231,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **string** | [**string**](string.md)|  | 
+ **another_xml_array** | [**AnotherXmlArray**](AnotherXmlArray.md)|  | 
 
 ### Return type
 
@@ -263,7 +263,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **string** | [**string**](string.md)|  | 
+ **xml_array** | [**XmlArray**](XmlArray.md)|  | 
 
 ### Return type
 

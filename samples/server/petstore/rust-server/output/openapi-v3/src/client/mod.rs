@@ -987,7 +987,7 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn xml_other_put(&self, param_string: Option<models::AnotherXmlArray>, context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>> {
+    fn xml_other_put(&self, param_another_xml_array: Option<models::AnotherXmlArray>, context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml_other",
             self.base_path
@@ -1009,7 +1009,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-        let body = param_string.map(|ref body| {
+        let body = param_another_xml_array.map(|ref body| {
             body.to_xml()
         });
 
@@ -1066,7 +1066,7 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn xml_post(&self, param_string: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, param_xml_array: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml",
             self.base_path
@@ -1088,7 +1088,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        let body = param_string.map(|ref body| {
+        let body = param_xml_array.map(|ref body| {
             body.to_xml()
         });
 

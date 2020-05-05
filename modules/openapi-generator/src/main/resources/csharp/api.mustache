@@ -278,11 +278,20 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{#isBasic}}
+            {{#isBasicBasic}}
             // http basic authentication required
             if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
             {
                 localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
             }
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // http beerer authentication required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+            {{/isBasicBearer}}
             {{/isBasic}}
             {{#isOAuth}}
             // oauth required
@@ -414,11 +423,20 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{#isBasic}}
+            {{#isBasicBasic}}
             // http basic authentication required
             if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
             {
                 localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
             }
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // http bearer authentication required
+            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+            }
+            {{/isBasicBearer}}
             {{/isBasic}}
             {{#isOAuth}}
             // oauth required

@@ -17,11 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -135,6 +138,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        ImmutableMap.Builder<String, Mustache.Lambda> lambdas = super.addMustacheLambdas();
+        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* "));
+        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* "));
+        return lambdas;
+    }
+
+    @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isFileSchema(p)) {
             return "Blob";
@@ -235,7 +246,36 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.updateOperationParameterEnumInformation(operations);
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
+        this.escapeOperationIds(operations);
+        this.addDeepObjectVendorExtension(operations);
         return operations;
+    }
+
+    private void addDeepObjectVendorExtension(Map<String, Object> operations) {
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+
+        for (CodegenOperation op : operationList) {
+            for (CodegenParameter param : op.queryParams) {
+                if (param.style != null && param.style.equals("deepObject")) {
+                    param.vendorExtensions.put("x-codegen-isDeepObject", true);
+                }
+            }
+        }
+    }
+
+    private void escapeOperationIds(Map<String, Object> operations) {
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            String param = op.operationIdCamelCase + "Request";
+            if (op.imports.contains(param)) {
+                // we import a model with the same name as the generated operation, escape it
+                op.operationIdCamelCase += "Operation";
+                op.operationIdLowerCase += "operation";
+                op.operationIdSnakeCase += "_operation";
+            }
+        }
     }
 
     private void addOperationModelImportInfomation(Map<String, Object> operations) {
@@ -312,6 +352,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.reservedWords.add("VoidApiResponse");
         this.reservedWords.add("BlobApiResponse");
         this.reservedWords.add("TextApiResponse");
+        // "Index" would create a file "Index.ts" which on case insensitive filesystems
+        // would override our "index.js" file
+        this.reservedWords.add("Index");
     }
 
     private boolean getUseSingleRequestParameter() {
