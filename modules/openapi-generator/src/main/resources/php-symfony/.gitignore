@@ -52,3 +52,13 @@
 # From root gitignore
 /Tests/cache/
 /Tests/logs/
+
+# PHP Coding Standards Fixer
+# https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/UPGRADE.md#config-file
+# From now you can create new configuration file: .php_cs.dist. 
+# This file is used if no .php_cs file was found. 
+# It is recommended to create .php_cs.dist file attached in your repository and add .php_cs file to .gitignore for allowing your contributors to have theirs own configuration file.
+/.php_cs
+
+# No reason to commit PHP CS Fixer cache files
+/.php_cs.cache
