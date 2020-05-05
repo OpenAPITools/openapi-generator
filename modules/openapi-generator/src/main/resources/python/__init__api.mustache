@@ -5,3 +5,14 @@ from __future__ import absolute_import
 # import apis into api package
 {{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classVarName}} import {{classname}}
 {{/apis}}{{/apiInfo}}
+
+api_dict = {
+    {{#apiInfo}}{{#apis}}"{{classVarName}}": {{classname}},
+    {{/apis}}{{/apiInfo}}}
+
+class ClientObject():
+    def __init__(self, *args, **kwargs):
+        from {{packageName}}.api_client import ApiClient
+        self.client = ApiClient(*args, **kwargs)
+        for name, api in api_dict.items():
+            setattr(self, name, api(self.client))
