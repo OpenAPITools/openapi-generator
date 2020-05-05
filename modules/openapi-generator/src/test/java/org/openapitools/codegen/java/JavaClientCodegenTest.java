@@ -543,7 +543,7 @@ public class JavaClientCodegenTest {
         Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm1 = codegen.fromModel("MapTest1", test1);
-        Assert.assertEquals(cm1.getDataType(), "Map");
+        Assert.assertEquals(cm1.getDataType(), "Object");
         Assert.assertEquals(cm1.getParent(), "HashMap<String, oas_any_type_not_mapped>");
         Assert.assertEquals(cm1.getClassname(), "MapTest1");
 
@@ -748,7 +748,7 @@ public class JavaClientCodegenTest {
         // map
         final CodegenProperty cp4 = cm2.vars.get(3);
         Assert.assertEquals(cp4.baseName, "map_any_value");
-        Assert.assertEquals(cp4.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cp4.dataType, "Object");
         Assert.assertTrue(cp4.hasMore);
         Assert.assertFalse(cp4.required);
         Assert.assertFalse(cp4.isPrimitiveType);
