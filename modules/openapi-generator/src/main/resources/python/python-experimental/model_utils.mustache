@@ -78,7 +78,7 @@ class OpenApiModel(object):
         oneof_anyof_classes = []
         oneof_anyof_classes.extend(cls._composed_schemas.get('oneOf', ()))
         oneof_anyof_classes.extend(cls._composed_schemas.get('anyOf', ()))
-        new_cls, propname, value = get_discriminator_class(cls, kwargs, set())
+        new_cls = get_discriminator_class(cls, kwargs, set())
         if new_cls is None:
             disc_prop_name_py = list(cls.discriminator.keys())[0]
             disc_prop_name_js = cls.attribute_map[disc_prop_name_py]
@@ -633,14 +633,9 @@ def get_discriminator_class(model_class, model_data, cls_visited):
             visiting circular references indefinitely.
 
     Returns:
-        A tuple containing (used_model_class, discr_propertyname_js, discr_value).
-        used_model_class (class): the chosen child class that will be used
+        used_model_class (class/None): the chosen child class that will be used
             to deserialize the data, for example dog.Dog.
             If a class is not found, None is returned.
-        discr_propertyname_js (string): the discriminator.propertyName
-            from the OpenAPI document.
-        discr_value (string): the class name in model_data which is the key used
-            to return used_model_class from the discriminator, for example 'Dog'.
     """
 
     cls_visited.add(model_class)
@@ -649,19 +644,22 @@ def get_discriminator_class(model_class, model_data, cls_visited):
     discr_propertyname_js = model_class.attribute_map[discr_propertyname_py]
     if discr_propertyname_js in model_data:
         discr_value = model_data[discr_propertyname_js]
-    else:
+    elif discr_propertyname_py in model_data:
         discr_value = model_data[discr_propertyname_py]
+    else:
+        # The input data does not contain the discriminator property.
+        # The caller will raise an exception.
+        return None
     class_name_to_discr_class = discriminator[discr_propertyname_py]
     used_model_class = class_name_to_discr_class.get(discr_value)
     if used_model_class is None:
         for mapping, cls in class_name_to_discr_class.items():
             # Check if the schema has inherited discriminators.
             if cls not in cls_visited and cls.discriminator is not None:
-                mc, dn, dv = get_discriminator_class(
-                    cls, model_data, cls_visited)
+                mc = get_discriminator_class(cls, model_data, cls_visited)
                 if mc is not None:
-                    return (mc, dn, dv)
-    return (used_model_class, discr_propertyname_js, discr_value)
+                    return mc
+    return used_model_class
 
 
 def deserialize_model(model_data, model_class, path_to_item, check_type,
