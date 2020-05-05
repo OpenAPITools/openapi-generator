@@ -64,6 +64,10 @@ class OpenApiModel(object):
         # this function uses the discriminator to
         # pick a new schema/class to instantiate because a discriminator
         # propertyName value was passed in
+        oneof_anyof_classes = cls._composed_schemas.get('oneOf', ()) +
+                                cls._composed_schemas.get('anyOf', ())
+        if oneof_anyof_classes and none_type in oneof_anyof_classes and args[0] is None:
+            return None
 
         visited_composed_classes = kwargs.get('_visited_composed_classes', ())
         if (
@@ -75,9 +79,6 @@ class OpenApiModel(object):
             # want to instantiate it this time
             return super(OpenApiModel, cls).__new__(cls)
 
-        oneof_anyof_classes = []
-        oneof_anyof_classes.extend(cls._composed_schemas.get('oneOf', ()))
-        oneof_anyof_classes.extend(cls._composed_schemas.get('anyOf', ()))
         new_cls = cls.get_discriminator_class(kwargs)
         if new_cls is None:
             disc_prop_name_py = list(cls.discriminator.keys())[0]
