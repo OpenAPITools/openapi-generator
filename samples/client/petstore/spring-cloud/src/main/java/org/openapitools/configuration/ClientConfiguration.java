@@ -25,8 +25,14 @@ public class ClientConfiguration {
 
   @Bean
   @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
-  public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor() {
-    return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(), petstoreAuthResourceDetails());
+  public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
+    return new OAuth2FeignRequestInterceptor(oAuth2ClientContext, petstoreAuthResourceDetails());
+  }
+
+  @Bean
+  @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
+  public OAuth2ClientContext oAuth2ClientContext() {
+    return new DefaultOAuth2ClientContext();
   }
 
   @Bean
