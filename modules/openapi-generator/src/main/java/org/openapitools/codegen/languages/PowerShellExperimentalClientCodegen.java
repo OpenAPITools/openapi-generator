@@ -615,6 +615,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Private", apiNamePrefix + "ApiClient.ps1"));
         supportingFiles.add(new SupportingFile("Get-CommonParameters.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Get-CommonParameters.ps1"));
         supportingFiles.add(new SupportingFile("Out-DebugParameter.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Out-DebugParameter.ps1"));
+        supportingFiles.add(new SupportingFile("http_signature_auth.mustache", infrastructureFolder + "Private", apiNamePrefix + "HttpSignatureAuth.ps1"));
+        supportingFiles.add(new SupportingFile("rsa_provider.mustache", infrastructureFolder + "Private", apiNamePrefix + "RSAEncryptionProvider.cs"));
+        
 
         // en-US
         supportingFiles.add(new SupportingFile("about_Org.OpenAPITools.help.txt.mustache", infrastructureFolder + File.separator + "en-US" + File.separator + "about_" + packageName + ".help.txt"));
@@ -626,8 +629,8 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
     @SuppressWarnings("static-method")
     @Override
     public String escapeText(String input) {
-    
-        if (input == null) {
+    	
+    	if (input == null) {
             return input;
         }
 
@@ -643,6 +646,7 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\"\""));
+    	
     }
     
     @Override
