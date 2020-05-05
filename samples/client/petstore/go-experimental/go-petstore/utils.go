@@ -79,21 +79,23 @@ func (v *NullType) UnmarshalJSON(src []byte) error {
 	return errors.New("Cannot unmarshal value into 'null' type")
 }
 
-// AnyType is a type whose value can anything.
+// AnyType is a type whose value can any valid OpenAPI type.
+// The value may be the null value, a string, integer, number, boolean, array
+// or object.
 type AnyType struct{
-	value interface{}
+	value *interface{}
 	isSet bool
 }
 
-func NewAnyType(val interface{}) *AnyType {
+func NewAnyType(val *interface{}) *AnyType {
 	return &AnyType{value: val, isSet: true}
 }
 
-func (v AnyType) Get() interface{} {
+func (v AnyType) Get() *interface{} {
 	return v.value
 }
 
-func (v *AnyType) Set(val interface{}) {
+func (v *AnyType) Set(val *interface{}) {
 	v.value = val
 	v.isSet = true
 }
@@ -115,21 +117,23 @@ func (v *AnyType) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
-// ObjectType is a type whose value can be an object with undeclared properties.
+// ObjectType is a type whose value can be any OpenAPI object with undeclared properties.
 type ObjectType struct{
-	value map[string]interface{}
+	value *map[string]interface{}
 	isSet bool
 }
 
-func NewObjectType(val map[string]interface{}) *ObjectType {
+// NewObjectType creates and returns an object with the specified map
+// of undeclared properties.
+func NewObjectType(val *map[string]interface{}) *ObjectType {
 	return &ObjectType{value: val, isSet: true}
 }
 
-func (v ObjectType) Get() map[string]interface{} {
+func (v ObjectType) Get() *map[string]interface{} {
 	return v.value
 }
 
-func (v *ObjectType) Set(val map[string]interface{}) {
+func (v *ObjectType) Set(val *map[string]interface{}) {
 	v.value = val
 	v.isSet = true
 }
