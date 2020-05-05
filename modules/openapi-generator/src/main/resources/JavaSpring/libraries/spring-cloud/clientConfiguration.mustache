@@ -79,7 +79,7 @@ public class ClientConfiguration {
   @Bean
   @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
   public OAuth2ClientContext oAuth2ClientContext() {
-  return new DefaultOAuth2ClientContext();
+    return new DefaultOAuth2ClientContext();
   }
 
         {{#isCode}}
