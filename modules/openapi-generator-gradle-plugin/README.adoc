@@ -68,7 +68,7 @@ task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.3.0"
+  id "org.openapi.generator" version "4.3.1"
 }
 ----
 

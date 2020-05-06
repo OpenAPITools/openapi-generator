@@ -26,6 +26,7 @@ then
 fi
 
 for spec_path in modules/openapi-generator/src/test/resources/*/rust-server/* ; do
+  echo "Generating: $spec_path"
   export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
   spec=$(basename "$spec_path" | sed 's/.yaml//')
   args="generate --template-dir modules/openapi-generator/src/main/resources/rust-server
