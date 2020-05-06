@@ -5,6 +5,8 @@ use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
 use serde_json;
+#[allow(unused_imports)]
+use std::convert::{TryFrom, TryInto};
 use std::io;
 use url::form_urlencoded;
 #[allow(unused_imports)]
@@ -151,9 +153,22 @@ where
                 // Header parameters
                 let param_information = headers.get(HeaderName::from_static("information"));
 
-                let param_information = param_information.map(|p| {
-                        header::IntoHeaderValue::<String>::from((*p).clone()).0
-                });
+                let param_information = match param_information {
+                    Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
+                        Ok(result) =>
+                            Some(result.0),
+                        Err(err) => {
+                            return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Invalid header Information - {}", err)))
+                                        .expect("Unable to create Bad Request response for invalid header Information")));
+
+                        },
+                    },
+                    None => {
+                        None
+                    }
+                };
 
                 Box::new({
                         {{
