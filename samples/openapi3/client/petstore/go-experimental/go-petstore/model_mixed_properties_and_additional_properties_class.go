@@ -103,21 +103,21 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v time.Time) {
 }
 
 // GetMap returns the Map field value if set, zero value otherwise.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]interface{} {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal {
 	if o == nil || o.Map == nil {
-		var ret map[string]interface{}
+		var ret map[string]Animal
 		return ret
 	}
-	return *o.Map.Get()
+	return *o.Map
 }
 
 // GetMapOk returns a tuple with the Map field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]interface{}, bool) {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]Animal, bool) {
 	if o == nil || o.Map == nil {
 		return nil, false
 	}
-	return o.Map.Get(), true
+	return o.Map, true
 }
 
 // HasMap returns a boolean if a field has been set.
@@ -130,8 +130,8 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) HasMap() bool {
 }
 
 // SetMap gets a reference to the given map[string]Animal and assigns it to the Map field.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]interface{}) {
-	o.Map.Set(&v)
+func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal) {
+	o.Map = &v
 }
 
 func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
