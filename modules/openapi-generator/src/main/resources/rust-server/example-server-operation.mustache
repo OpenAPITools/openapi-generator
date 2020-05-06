@@ -1,7 +1,7 @@
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    async fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
         &self,
 {{#vendorExtensions}}
   {{#callbackParams}}
@@ -11,9 +11,9 @@
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
-        context: &C) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>
+        context: &C) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = context.clone();
         info!("{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());
-        Box::new(future::err("Generic failure".into()))
+        Err("Generic failuare".into())
     }
