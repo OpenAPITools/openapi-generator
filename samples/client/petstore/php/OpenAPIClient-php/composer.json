@@ -27,7 +27,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^7.4",
-        "squizlabs/php_codesniffer": "~2.6",
         "friendsofphp/php-cs-fixer": "~2.12"
     },
     "autoload": {
