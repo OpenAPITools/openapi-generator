@@ -155,6 +155,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isDiscriminator;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
+    // If 'additionalProperties' is not set, items is null.
+    // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
+    // the undeclared properties. 
     public CodegenProperty items;
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();

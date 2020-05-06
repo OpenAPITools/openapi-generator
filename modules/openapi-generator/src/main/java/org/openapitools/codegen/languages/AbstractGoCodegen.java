@@ -604,14 +604,57 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
     }
 
+    /**
+     * OAS type mapping to golang implementation:
+     * 
+     * AnyType                  interface{}                        Any type, e.g. null, string, integer, number, boolean, map, array.
+     * ObjectType               map[string]interface{}             Free-form object with no constraint on additional properties.
+     * map[string]Animal        map[string]Animal                  Free-form object. The value of undeclared properties must be 'Animal'.
+     * map[string]ObjectType    map[string]map[string]interface{}  Free-form object. The value of undeclared properties must be an object (map).
+     *                          map[string][]interface{}           Free-form object. The value of undeclared properties must be an array.
+     * 
+     */
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
-        // For containers (e.g. Array, Map) and non-nullable primitive types, the generated code
-        // returns the type directly.
+        // The 'go-experimental/model.mustache' template generates accessor methods.
+        // For containers (e.g. Array, Map) and non-nullable primitive types, the go struct field
+        // is the underlying type, e.g. *int32, *string, *bool...
         // In other cases (nullable primitive types, free-form objects...), the generated code has
         // a wrapper type and a Get() function to access the underlying type.
-        if ((property.isNullable && !property.isContainer) || property.isFreeFormObject) {
+        boolean hasWrapper = false;
+        if (property.isAnyType) {
+            // The wrapper type is the 'AnyType' struct and the wrapped type is 'interface{}'.
+            hasWrapper = true;
+        } else if (property.isFreeFormObject && !property.isNullable) { // && 
+            // Undeclared properties use case.
+            // The undeclared properties are implemented using a go map.
+            // The map key is always a string.
+            // The map value is interface{} when there are no constraints, but the
+            // 'additionalProperties' attribute may require a specific type.
+            if (property.items == null) {
+                // The 'additionalProperties' attribute is not set, so it is a free-form object
+                // with no constraint on the type of undeclared properties.
+                // The wrapper type is 'ObjectType'.
+                // The wrapped type is 'map[string]interface{}'.
+                hasWrapper = true;
+            } else if (property.items.isFreeFormObject && !property.items.isNullable) {
+                // The 'additionalProperties' attribute is set, and the value of the undeclared
+                // properties must be a free-form object. Hence it's a map of map.
+                // The wrapper type is map[string]ObjectType.
+                // The wrapped type is 'map[string]map[string]interface{}'.
+                hasWrapper = true;
+            } else {
+                // The 'additionalProperties' attribute is set, and the value of the undeclared
+                // properties is not free-form. For example, if the undeclared properties must
+                // be of type 'Animal', then:
+                // The wrapper type is map[string]Animal.
+                // The wrapped type is 'map[string]Animal'.
+            }
+        } else if (property.isNullable && !property.isContainer) {
+            // Primitive types.
+            hasWrapper = true;
+        }
+        if (hasWrapper) {
             property.vendorExtensions.put("x-golang-has-wrapper", true);
         }
     }
