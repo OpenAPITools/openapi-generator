@@ -134,7 +134,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isUri;
     public boolean isEmail;
     /**
-     * The type is a free-form object, i.e. it is a map of string to values with no declared properties
+     * The type is a free-form object, i.e. it is a map of string to values with no declared properties.
+     * A OAS free-form schema may include the 'additionalProperties' attribute, which puts a constraint
+     * on the type of the undeclared properties.
      */
     public boolean isFreeFormObject;
     /**
