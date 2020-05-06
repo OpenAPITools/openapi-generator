@@ -91,6 +91,14 @@ void OAIApiResponse::setCode(const qint32 &code) {
     this->m_code_isSet = true;
 }
 
+bool OAIApiResponse::is_code_Set() const{
+    return m_code_isSet;
+}
+
+bool OAIApiResponse::is_code_Valid() const{
+    return m_code_isValid;
+}
+
 QString OAIApiResponse::getType() const {
     return type;
 }
@@ -99,12 +107,28 @@ void OAIApiResponse::setType(const QString &type) {
     this->m_type_isSet = true;
 }
 
+bool OAIApiResponse::is_type_Set() const{
+    return m_type_isSet;
+}
+
+bool OAIApiResponse::is_type_Valid() const{
+    return m_type_isValid;
+}
+
 QString OAIApiResponse::getMessage() const {
     return message;
 }
 void OAIApiResponse::setMessage(const QString &message) {
     this->message = message;
     this->m_message_isSet = true;
+}
+
+bool OAIApiResponse::is_message_Set() const{
+    return m_message_isSet;
+}
+
+bool OAIApiResponse::is_message_Valid() const{
+    return m_message_isValid;
 }
 
 bool OAIApiResponse::isSet() const {

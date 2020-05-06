@@ -18,10 +18,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.SupportingFile;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -36,6 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoClientExperimentalCodegen.class);
+    protected String goImportAlias = "openapiclient";
 
     public GoClientExperimentalCodegen() {
         super();
@@ -77,16 +76,28 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
         super.processOpts();
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
-           (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+                (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));
         }
+
+        if (additionalProperties.containsKey("goImportAlias")) {
+            setGoImportAlias(additionalProperties.get("goImportAlias").toString());
+        } else {
+            additionalProperties.put("goImportAlias", goImportAlias);
+        }
+
+    }
+
+    public void setGoImportAlias(String goImportAlias) {
+        this.goImportAlias = goImportAlias;
     }
 
     @Override
@@ -179,7 +190,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                         param.dataType = "NullableTime";
                     } else {
                         param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
-                            + param.dataType.substring(1);
+                                + param.dataType.substring(1);
                     }
                 }
             }
@@ -198,4 +209,151 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
             }
         }
     }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+
+        for (Object o : allModels) {
+            HashMap<String, Object> h = (HashMap<String, Object>) o;
+            CodegenModel m = (CodegenModel) h.get("model");
+            modelMaps.put(m.classname, m);
+        }
+
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            for (CodegenParameter p : op.allParams) {
+                p.vendorExtensions.put("x-go-example", constructExampleCode(p, modelMaps, processedModelMaps));
+            }
+        }
+
+        processedModelMaps.clear();
+        for (CodegenOperation operation : operationList) {
+            for (CodegenParameter cp : operation.allParams) {
+                cp.vendorExtensions.put("x-go-example", constructExampleCode(cp, modelMaps, processedModelMaps));
+            }
+        }
+
+        return objs;
+    }
+
+    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+        if (codegenParameter.isListContainer) { // array
+            return codegenParameter.dataType + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+        } else if (codegenParameter.isMapContainer) {
+            return "map[string]string{ \"Key\" = \"Value\" }";
+        } else if (codegenParameter.isPrimitiveType) { // primitive type
+            if (codegenParameter.isString) {
+                if (StringUtils.isEmpty(codegenParameter.example)) {
+                    return "\"" + codegenParameter.example + "\"";
+                } else {
+                    return "\"" + codegenParameter.paramName + "_example\"";
+                }
+            } else if (codegenParameter.isBoolean) { // boolean
+                if (Boolean.parseBoolean(codegenParameter.example)) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+            } else if (codegenParameter.isUri) { // URL
+                return "URL(string: \"https://example.com\")!";
+            } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
+                return "Get-Date";
+            } else{ // numeric
+                if (StringUtils.isEmpty(codegenParameter.example)) {
+                    return codegenParameter.example;
+                } else {
+                    return "987";
+                }
+            }
+        } else { // model
+            // look up the model
+            if (modelMaps.containsKey(codegenParameter.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
+            } else {
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                return "TODO";
+            }
+        }
+    }
+
+    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+        if (codegenProperty.isListContainer) { // array
+            return codegenProperty.dataType + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + ")";
+        } else if (codegenProperty.isMapContainer) { // map
+            return "map[string]string{ \"Key\" = \"Value\" }";
+        } else if (codegenProperty.isPrimitiveType) { // primitive type
+            if (codegenProperty.isString) {
+                if (StringUtils.isEmpty(codegenProperty.example)) {
+                    return "\"" + codegenProperty.example + "\"";
+                } else {
+                    return "\"" + codegenProperty.name + "_example\"";
+                }
+            } else if (codegenProperty.isBoolean) { // boolean
+                if (Boolean.parseBoolean(codegenProperty.example)) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+            } else if (codegenProperty.isUri) { // URL
+                return "\"https://example.com\")!";
+            } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
+                return "time.Now()";
+            } else{ // numeric
+                String example;
+                if (StringUtils.isEmpty(codegenProperty.example)) {
+                    example = codegenProperty.example;
+                } else {
+                    example = "123";
+                }
+
+                if (codegenProperty.isLong) {
+                    return "int64(" + example + ")";
+                } else {
+                    return example;
+                }
+            }
+        } else {
+            // look up the model
+            if (modelMaps.containsKey(codegenProperty.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
+            } else {
+                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
+                return "\"TODO\"";
+            }
+        }
+    }
+
+    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+        String example;
+
+        // break infinite recursion. Return, in case a model is already processed in the current context.
+        String model = codegenModel.name;
+        if (processedModelMap.containsKey(model)) {
+            int count = processedModelMap.get(model);
+            if (count == 1) {
+                processedModelMap.put(model, 2);
+            } else if (count == 2) {
+                return "";
+            } else {
+                throw new RuntimeException("Invalid count when constructing example: " + count);
+            }
+        } else {
+            processedModelMap.put(model, 1);
+        }
+
+        example = "" + goImportAlias + "." + codegenModel.name + "{";
+        List<String> propertyExamples = new ArrayList<>();
+        for (CodegenProperty codegenProperty : codegenModel.allVars) {
+            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
+        }
+        example += StringUtils.join(propertyExamples, ", ");
+        example += "}";
+        return example;
+    }
+
+
 }

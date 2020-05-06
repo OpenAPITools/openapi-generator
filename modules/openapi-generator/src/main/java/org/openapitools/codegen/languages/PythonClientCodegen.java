@@ -119,6 +119,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         languageSpecificPrimitives.add("object");
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
+        languageSpecificPrimitives.add("bytes");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -133,6 +134,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("date", "date");
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "object");
+        typeMapping.put("AnyType", "object");
         typeMapping.put("file", "file");
         // TODO binary should be mapped to byte array
         // mapped to String as a workaround
@@ -828,7 +830,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (schema.getDiscriminator()!=null) {
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
-            
+
             example = packageName + ".models." + underscore(schema.getTitle())+"."+schema.getTitle()+"(";
 
             // if required only:

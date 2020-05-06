@@ -305,14 +305,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = ECAB17FF35111B5E14DAAC08 /* Build configuration list for PBXProject "PetstoreClient" */;
 			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				Base,
 				en,
 			);
 			mainGroup = 5FBA6AE5F64CD737F88B4565;
@@ -568,7 +567,7 @@
 				3B2C02AFB91CB5C82766ED5C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = "";
 		};
 		ECAB17FF35111B5E14DAAC08 /* Build configuration list for PBXProject "PetstoreClient" */ = {
 			isa = XCConfigurationList;
