@@ -84,18 +84,34 @@ class OpenApiModel(object):
             # we deserialize Dog from Animal. Dog contains an Animal instance. We go from Animal to Dog back to Animal
             return super(OpenApiModel, cls).__new__(cls)
 
-        new_cls = get_discriminator_class(cls, visited_composed_classes, kwargs)
+        # Get the name and value of the discriminator property.
+        # The discriminator name is obtained from the discriminator meta-data
+        # and the discriminator value is obtained from the input data.
+        discr_propertyname_py = list(cls.discriminator.keys())[0]
+        discr_propertyname_js = cls.attribute_map[discr_propertyname_py]
+        if discr_propertyname_js in kwargs:
+            discr_value = kwargs[discr_propertyname_js]
+        elif discr_propertyname_py in kwargs:
+            discr_value = kwargs[discr_propertyname_py]
+        else:
+            # The input data does not contain the discriminator property.
+            path_to_item = kwargs.get('_path_to_item', ())
+            raise ApiValueError(
+                "Cannot deserialize input data due to missing discriminator. "
+                "The discriminator property '%s' is missing at path: "
+                "'%s'" % (discr_propertyname_js, path_to_item)
+            )
+
+        new_cls = get_discriminator_class(cls, visited_composed_classes, discr_value)
         if new_cls is None:
-            disc_prop_name_py = list(cls.discriminator.keys())[0]
-            disc_prop_name_js = cls.attribute_map[disc_prop_name_py]
             path_to_item = kwargs.get('_path_to_item', ())
             disc_prop_value = kwargs.get(
-                disc_prop_name_js, kwargs.get(disc_prop_name_py))
+                discr_propertyname_js, kwargs.get(discr_propertyname_py))
             raise ApiValueError(
                 "Cannot deserialize input data due to invalid discriminator "
                 "value. The OpenAPI document has no mapping for discriminator "
                 "property '%s'='%s' at path: %s" %
-                (disc_prop_name_js, disc_prop_value, path_to_item)
+                (discr_propertyname_js, disc_prop_value, path_to_item)
             )
 
         if new_cls in visited_composed_classes:
@@ -628,7 +644,7 @@ def deserialize_primitive(data, klass, path_to_item):
         )
 
 
-def get_discriminator_class(model_class, cls_visited, model_data):
+def get_discriminator_class(model_class, cls_visited, discr_value):
     """Returns the child class specified by the discriminator.
 
     Args:
@@ -636,7 +652,7 @@ def get_discriminator_class(model_class, cls_visited, model_data):
         cls_visited (tuple): list of model classes that have been visited.
             Used to determine the discriminator class without
             visiting circular references indefinitely.
-        model_data (list/dict): data to instantiate the model.
+        discr_value (any): the discriminator value.
 
     Returns:
         used_model_class (class/None): the chosen child class that will be used
@@ -644,17 +660,6 @@ def get_discriminator_class(model_class, cls_visited, model_data):
             If a class is not found, None is returned.
     """
 
-    discriminator = model_class.discriminator
-    discr_propertyname_py = list(discriminator.keys())[0]
-    discr_propertyname_js = model_class.attribute_map[discr_propertyname_py]
-    if discr_propertyname_js in model_data:
-        discr_value = model_data[discr_propertyname_js]
-    elif discr_propertyname_py in model_data:
-        discr_value = model_data[discr_propertyname_py]
-    else:
-        # The input data does not contain the discriminator property.
-        # The caller will raise an exception.
-        return None
     class_name_to_discr_class = discriminator[discr_propertyname_py]
     used_model_class = class_name_to_discr_class.get(discr_value)
     if used_model_class is None:
@@ -670,7 +675,7 @@ def get_discriminator_class(model_class, cls_visited, model_data):
             # oneOf child may itself be an allOf with some arbitrary hierarchy,
             # and a graph traversal is required to find the discriminator.
             if cls not in cls_visited and cls.discriminator is not None:
-                mc = get_discriminator_class(cls, cls_visited, model_data)
+                mc = get_discriminator_class(cls, cls_visited, discr_value)
                 if mc is not None:
                     return mc
     return used_model_class
