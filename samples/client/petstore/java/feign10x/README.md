@@ -1,4 +1,4 @@
-# petstore-feign
+# petstore-feign-10x
 
 ## Requirements
 
@@ -25,7 +25,7 @@ After the client library is installed/deployed, you can use it in your Maven pro
 ```xml
 <dependency>
     <groupId>org.openapitools</groupId>
-    <artifactId>petstore-feign</artifactId>
+    <artifactId>petstore-feign-10x</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>

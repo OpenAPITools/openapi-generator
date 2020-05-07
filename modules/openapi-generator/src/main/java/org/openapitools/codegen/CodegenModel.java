@@ -74,7 +74,26 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel, isDeprecated;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum;
+    /**
+     * Indicates the OAS schema specifies "nullable: true".
+     */
+    public boolean isNullable;
+    /**
+     * Indicates the type has at least one required property.
+     */
+    public boolean hasRequired;
+    /**
+     * Indicates the type has at least one optional property.
+     */
+    public boolean hasOptional;
+    public boolean isArrayModel;
+    public boolean hasChildren;
+    public boolean isMapModel;
+    /**
+     * Indicates the OAS schema specifies "deprecated: true".
+     */
+    public boolean isDeprecated;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -694,6 +713,17 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    public void addDiscriminatorMappedModelsImports(){
+        if (discriminator == null || discriminator.getMappedModels() == null) {
+            return;
+        }
+        for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
+            if (!"".equals(mm.getModelName())) {
+                imports.add(mm.getModelName());
+            }
+        }
     }
 
     public boolean isEmptyVars() {

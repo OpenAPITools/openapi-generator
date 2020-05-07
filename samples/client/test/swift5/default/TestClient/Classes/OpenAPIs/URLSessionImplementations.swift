@@ -102,7 +102,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         return modifiedRequest
     }
 
-    override open func execute(_ apiResponseQueue: DispatchQueue = TestClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    override open func execute(_ apiResponseQueue: DispatchQueue = TestClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let urlSessionId: String = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
@@ -180,7 +180,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     }
 
-    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
 
         if let error = error {
             completion(.failure(ErrorResponse.error(-1, data, error)))
@@ -312,7 +312,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 }
 
 open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T> {
-    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
 
         if let error = error {
             completion(.failure(ErrorResponse.error(-1, data, error)))
@@ -489,7 +489,7 @@ private class FileUploadEncoding: ParameterEncoding {
 
         var body = urlRequest.httpBody.orEmpty
 
-        body.append("--\(boundary)--")
+        body.append("\r\n--\(boundary)--\r\n")
 
         urlRequest.httpBody = body
 
@@ -508,14 +508,23 @@ private class FileUploadEncoding: ParameterEncoding {
 
         let fileName = fileURL.lastPathComponent
 
+        // If we already added something then we need an additional newline.
+        if body.count > 0 {
+            body.append("\r\n")
+        }
+
+        // Value boundary.
         body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n\r\n")
 
-        body.append("Content-Type: \(mimetype)\r\n\r\n")
+        // Value headers.
+        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(fileName)\"\r\n")
+        body.append("Content-Type: \(mimetype)\r\n")
 
+        // Separate headers and body.
+        body.append("\r\n")
+
+        // The value data.
         body.append(fileData)
-
-        body.append("\r\n\r\n")
 
         urlRequest.httpBody = body
 
@@ -528,12 +537,22 @@ private class FileUploadEncoding: ParameterEncoding {
 
         var body = urlRequest.httpBody.orEmpty
 
+        // If we already added something then we need an additional newline.
+        if body.count > 0 {
+            body.append("\r\n")
+        }
+
+        // Value boundary.
         body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n")
 
+        // Value headers.
+        body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+
+        // Separate headers and body.
+        body.append("\r\n")
+
+        // The value data.
         body.append(data)
-
-        body.append("\r\n\r\n")
 
         urlRequest.httpBody = body
 
