@@ -15,6 +15,7 @@ namespace {{this}} {
       _port(port),
       _basePath(basePath),
       _timeOut(timeOut),
+      _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {}
 
@@ -43,6 +44,10 @@ void {{classname}}::setTimeOut(const int timeOut) {
 
 void {{classname}}::setWorkingDirectory(const QString &path) {
     _workingDirectory = path;
+}
+
+void {{classname}}::setNetworkAccessManager(QNetworkAccessManager* manager) {
+    _manager = manager;  
 }
 
 void {{classname}}::addHeaders(const QString &key, const QString &value) {
@@ -120,7 +125,7 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
         }
     }
 {{/collectionFormat}}{{/queryParams}}
-    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this);
+    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     worker->setResponseCompressionEnabled(isResponseCompressionEnabled);

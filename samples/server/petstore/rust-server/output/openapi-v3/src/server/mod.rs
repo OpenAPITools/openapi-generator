@@ -5,6 +5,8 @@ use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
 use serde_json;
+#[allow(unused_imports)]
+use std::convert::{TryFrom, TryInto};
 use std::io;
 use url::form_urlencoded;
 #[allow(unused_imports)]
@@ -365,11 +367,23 @@ where
                 let param_x_header = headers.get(HeaderName::from_static("x-header"));
 
                 let param_x_header = match param_x_header {
-                    Some(v) => header::IntoHeaderValue::<String>::from((*v).clone()).0,
-                    None => return Box::new(future::ok(Response::builder()
+                    Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
+                        Ok(result) =>
+                            result.0,
+                        Err(err) => {
+                            return Box::new(future::ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing or invalid required header X-Header"))
-                                        .expect("Unable to create Bad Request response for missing required header X-Header"))),
+                                        .body(Body::from(format!("Invalid header X-Header - {}", err)))
+                                        .expect("Unable to create Bad Request response for invalid header X-Header")));
+
+                        },
+                    },
+                    None => {
+                        return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from("Missing required header X-Header"))
+                                        .expect("Unable to create Bad Request response for missing required header X-Header")));
+                    }
                 };
 
                 Box::new({
@@ -920,17 +934,52 @@ where
                                                     {
                                                         body,
                                                         success_info,
+                                                        bool_header,
                                                         object_header
                                                     }
                                                 => {
+                                                    let success_info = match header::IntoHeaderValue(success_info).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return future::ok(Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling success_info header - {}", e)))
+                                                                    .expect("Unable to create Internal Server Error for invalid response header"))
+                                                        }
+                                                    };
+
+                                                    let bool_header = match header::IntoHeaderValue(bool_header).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return future::ok(Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling bool_header header - {}", e)))
+                                                                    .expect("Unable to create Internal Server Error for invalid response header"))
+                                                        }
+                                                    };
+
+                                                    let object_header = match header::IntoHeaderValue(object_header).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return future::ok(Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling object_header header - {}", e)))
+                                                                    .expect("Unable to create Internal Server Error for invalid response header"))
+                                                        }
+                                                    };
+
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("success-info"),
-                                                        header::IntoHeaderValue(success_info).into()
+                                                        success_info
+                                                    );
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("bool-header"),
+                                                        bool_header
                                                     );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("object-header"),
-                                                        header::IntoHeaderValue(object_header).into()
+                                                        object_header
                                                     );
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
@@ -945,14 +994,34 @@ where
                                                         failure_info
                                                     }
                                                 => {
+                                                    let further_info = match header::IntoHeaderValue(further_info).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return future::ok(Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling further_info header - {}", e)))
+                                                                    .expect("Unable to create Internal Server Error for invalid response header"))
+                                                        }
+                                                    };
+
+                                                    let failure_info = match header::IntoHeaderValue(failure_info).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return future::ok(Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling failure_info header - {}", e)))
+                                                                    .expect("Unable to create Internal Server Error for invalid response header"))
+                                                        }
+                                                    };
+
                                                     *response.status_mut() = StatusCode::from_u16(412).expect("Unable to turn 412 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("further-info"),
-                                                        header::IntoHeaderValue(further_info).into()
+                                                        further_info
                                                     );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("failure-info"),
-                                                        header::IntoHeaderValue(failure_info).into()
+                                                        failure_info
                                                     );
                                                 },
                                             },
