@@ -16,7 +16,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "gradle.plugin.org.gradle.kotlin:gradle-kotlin-dsl-plugins:1.1.3"
-        classpath "com.gradle.publish:plugin-publish-plugin:0.10.1"
+        classpath "com.gradle.publish:plugin-publish-plugin:0.11.0"
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.20.0"
         classpath "de.marcphilipp.gradle:nexus-publish-plugin:0.2.0"
     }

@@ -795,20 +795,30 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             config.postProcessFile(written, "supporting-mustache");
                         }
                     } else {
-                        InputStream in = null;
+                        if (Arrays.stream(templatingEngine.getFileExtensions()).anyMatch(templateFile::endsWith)) {
+                            String templateContent = templatingEngine.compileTemplate(this, bundle, support.templateFile);
+                            writeToFile(outputFilename, templateContent);
+                            File written = new File(outputFilename);
+                            files.add(written);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(written, "supporting-mustache");
+                            }
+                        } else {
+                            InputStream in = null;
 
-                        try {
-                            in = new FileInputStream(templateFile);
-                        } catch (Exception e) {
-                            // continue
-                        }
-                        if (in == null) {
-                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
-                        }
-                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
-                        files.add(outputFile);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(outputFile, "supporting-common");
+                            try {
+                                in = new FileInputStream(templateFile);
+                            } catch (Exception e) {
+                                // continue
+                            }
+                            if (in == null) {
+                                in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                            }
+                            File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
+                            files.add(outputFile);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(outputFile, "supporting-common");
+                            }
                         }
                     }
 

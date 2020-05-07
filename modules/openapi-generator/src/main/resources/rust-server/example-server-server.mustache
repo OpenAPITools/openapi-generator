@@ -1,0 +1,28 @@
+{{>example-server-common}}
+
+use {{{externCrateName}}}::{
+    Api,
+    ApiError,
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+    {{{operationId}}}Response,
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+};
+use {{{externCrateName}}}::server::MakeService;
+
+impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+{{>example-server-operation}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+}

@@ -62,8 +62,20 @@ cargo run --example server
 ### Running the example client
 To run a client, follow one of the following simple steps:
 
-```{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-cargo run --example client {{{operationId}}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+```
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#vendorExtensions}}
+          {{^noClientExample}}
+cargo run --example client {{{operationId}}}
+          {{/noClientExample}}
+        {{/vendorExtensions}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 ```
 
 ### HTTPS
