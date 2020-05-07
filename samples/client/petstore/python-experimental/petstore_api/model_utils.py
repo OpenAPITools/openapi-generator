@@ -135,20 +135,26 @@ class OpenApiModel(object):
         # pick a new schema/class to instantiate because a discriminator
         # propertyName value was passed in
 
+        # Build a list containing all oneOf and anyOf descendants.
+        oneof_anyof_classes = cls._composed_schemas.get('oneOf', ()) +
+                                cls._composed_schemas.get('anyOf', ())
+        if oneof_anyof_classes and none_type in oneof_anyof_classes and args[0] is None:
+            # The input data is the 'null' value AND one of the oneOf/anyOf children
+            # is the 'null' type (which is introduced in OAS schema >= 3.1).
+            return None
+
         visited_composed_classes = kwargs.get('_visited_composed_classes', ())
         if (
             cls.discriminator is None or
             cls in visited_composed_classes
         ):
-            # we don't have a discriminator
-            # or we have already visited this class before and are sure that we
-            # want to instantiate it this time
+            # There is no discriminator.
+            # Or we have already visited this class before and are sure that we
+            # want to instantiate it this time. For example, this happens when
+            # we deserialize Dog from Animal. Dog contains an Animal instance. We go from Animal to Dog back to Animal
             return super(OpenApiModel, cls).__new__(cls)
 
-        oneof_anyof_classes = []
-        oneof_anyof_classes.extend(cls._composed_schemas.get('oneOf', ()))
-        oneof_anyof_classes.extend(cls._composed_schemas.get('anyOf', ()))
-        new_cls = get_discriminator_class(cls, kwargs, set())
+        new_cls = get_discriminator_class(cls, visited_composed_classes, kwargs)
         if new_cls is None:
             disc_prop_name_py = list(cls.discriminator.keys())[0]
             disc_prop_name_js = cls.attribute_map[disc_prop_name_py]
@@ -883,15 +889,15 @@ def deserialize_primitive(data, klass, path_to_item):
         )
 
 
-def get_discriminator_class(model_class, model_data, cls_visited):
+def get_discriminator_class(model_class, cls_visited, model_data):
     """Returns the child class specified by the discriminator.
 
     Args:
         model_class (OpenApiModel): the model class
-        model_data (list/dict): data to instantiate the model.
-        cls_visited (set): list of model classes that have been visited.
+        cls_visited (tuple): list of model classes that have been visited.
             Used to determine the discriminator class without
             visiting circular references indefinitely.
+        model_data (list/dict): data to instantiate the model.
 
     Returns:
         used_model_class (class/None): the chosen child class that will be used
@@ -899,7 +905,6 @@ def get_discriminator_class(model_class, model_data, cls_visited):
             If a class is not found, None is returned.
     """
 
-    cls_visited.add(model_class)
     discriminator = model_class.discriminator
     discr_propertyname_py = list(discriminator.keys())[0]
     discr_propertyname_js = model_class.attribute_map[discr_propertyname_py]
@@ -914,10 +919,19 @@ def get_discriminator_class(model_class, model_data, cls_visited):
     class_name_to_discr_class = discriminator[discr_propertyname_py]
     used_model_class = class_name_to_discr_class.get(discr_value)
     if used_model_class is None:
+        # We didn't find a discriminated class in class_name_to_discr_class.
+        # It may exist in an ancestor.
         for mapping, cls in class_name_to_discr_class.items():
             # Check if the schema has inherited discriminators.
+            # The discriminators must be searched in the ancestors ('allOf')
+            # and the descendants ('oneOf', 'anyOf').
+            # Ancestor example: in the "Dog -> Mammal -> Chordate -> Animal"
+            # hierarchy, the discriminator mappings may be defined at any level.
+            # Descendant example: a schema is oneOf[Plant, Mammal], and each
+            # oneOf child may itself be an allOf with some arbitrary hierarchy,
+            # and a graph traversal is required to find the discriminator.
             if cls not in cls_visited and cls.discriminator is not None:
-                mc = get_discriminator_class(cls, model_data, cls_visited)
+                mc = get_discriminator_class(cls, cls_visited, model_data)
                 if mc is not None:
                     return mc
     return used_model_class
