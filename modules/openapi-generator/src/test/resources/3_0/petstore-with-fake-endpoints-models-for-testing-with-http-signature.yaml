@@ -1250,32 +1250,22 @@ components:
           type: integer
           format: int32
           description: User Status
-        objectWithNoDeclaredProps:
+        arbitraryObject:
           type: object
           description: test code generation for objects
             Value must be a map of strings to values. It cannot be the 'null' value.
-        objectWithNoDeclaredPropsNullable:
+        arbitraryNullableObject:
           type: object
           description: test code generation for nullable objects.
             Value must be a map of strings to values or the 'null' value.
           nullable: true
-        anyTypeProp:
+        arbitraryTypeValue:
           description: test code generation for any type
-            Here the 'type' attribute is not specified, which means the value can be anything,
-            including the null value, string, number, boolean, array or object.
-            See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        # TODO: this should be supported, currently there are some issues in the code generation.
-        #anyTypeExceptNullProp:
-        #  description: any type except 'null'
-        #    Here the 'type' attribute is not specified, which means the value can be anything,
-        #    including the null value, string, number, boolean, array or object.
-        #  not:
-        #    type: 'null'
-        anyTypePropNullable:
+            Value can be any type - string, number, boolean, array or object.
+        arbitraryNullableTypeValue:
           description: test code generation for any type
-            Here the 'type' attribute is not specified, which means the value can be anything,
-            including the null value, string, number, boolean, array or object.
-            The 'nullable' attribute does not change the allowed values.
+            Value can be any type - string, number, boolean, array, object or
+            the 'null' value.
           nullable: true
       xml:
         name: User
@@ -1865,7 +1855,6 @@ components:
           - $ref: '#/components/schemas/banana'
     fruitReq:
        oneOf:
-          - type: 'null'
           - $ref: '#/components/schemas/appleReq'
           - $ref: '#/components/schemas/bananaReq'
     appleReq:
