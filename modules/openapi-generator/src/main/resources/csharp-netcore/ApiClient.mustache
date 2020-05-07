@@ -271,7 +271,7 @@ namespace {{packageName}}.Client
             {
                 foreach (var headerParam in configuration.DefaultHeaders)
                 {
-                   if (String.Equals(headerParam.Key, "cookie", StringComparison.OrdinalIgnoreCase))
+                    if (String.Equals(headerParam.Key, "cookie", StringComparison.OrdinalIgnoreCase))
                     {
                         string[] cookieSeparators = new string[] {";"};
                         string[] EqualSeparator = new string[] {"="};
