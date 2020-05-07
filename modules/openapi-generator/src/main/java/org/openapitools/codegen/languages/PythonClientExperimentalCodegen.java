@@ -886,6 +886,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Python primitive types.
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
      *
+     * Prefix and suffix are for models, e.g. Pet ==> MyPetV3.
+     *
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.
@@ -898,7 +900,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             fullSuffix = "," + suffix;
         }
         if (ModelUtils.isAnyTypeSchema(p)) {
-            return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
+            return "bool, date, datetime, dict, float, int, list, str, none_type";
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
