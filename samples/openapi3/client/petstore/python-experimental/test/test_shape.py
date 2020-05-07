@@ -58,18 +58,21 @@ class TestShape(unittest.TestCase):
         )
         assert isinstance(simple_quadrilateral, petstore_api.SimpleQuadrilateral)
 
-        err_msg = ("Cannot deserialize input data due to invalid discriminator "
-            "value. The OpenAPI document has no mapping for discriminator "
-            "property '{}'='{}' at path: ()"
-        )
         # No discriminator provided.
+        err_msg = ("Cannot deserialize input data due to missing discriminator. "
+                "The discriminator property '{}' is missing at path: ()"
+        )
         with self.assertRaisesRegexp(
             petstore_api.ApiValueError,
-            err_msg.format("shapeType", "None")
+            err_msg.format("shapeType")
         ):
             petstore_api.Shape()
 
         # invalid shape_type (first discriminator). 'Circle' does not exist in the model.
+        err_msg = ("Cannot deserialize input data due to invalid discriminator "
+            "value. The OpenAPI document has no mapping for discriminator "
+            "property '{}'='{}' at path: ()"
+        )
         with self.assertRaisesRegexp(
             petstore_api.ApiValueError,
             err_msg.format("shapeType", "Circle")
