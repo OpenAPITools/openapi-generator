@@ -118,9 +118,13 @@ class OpenApiModel(object):
                 (discr_propertyname_js, path_to_item)
             )
 
+        # Implementation note: the last argument to get_discriminator_class
+        # is a list of visited classes. get_discriminator_class may recursively
+        # call itself and update the list of visited classes, and the initial
+        # value must be an empty list. Hence not using 'visited_composed_classes'
         new_cls = get_discriminator_class(cls,
                     discr_propertyname_py,
-                    discr_value, visited_composed_classes)
+                    discr_value, [])
         if new_cls is None:
             path_to_item = kwargs.get('_path_to_item', ())
             disc_prop_value = kwargs.get(
@@ -693,7 +697,7 @@ def get_discriminator_class(model_class,
         model_class (OpenApiModel): the model class.
         discr_name (string): the name of the discriminator property.
         discr_value (any): the discriminator value.
-        cls_visited (tuple): list of model classes that have been visited.
+        cls_visited (list): list of model classes that have been visited.
             Used to determine the discriminator class without
             visiting circular references indefinitely.
 
@@ -703,6 +707,10 @@ def get_discriminator_class(model_class,
             If a class is not found, None is returned.
     """
 
+    if model_class in cls_visited:
+        # The class has already been visited and no suitable class was found.
+        return None
+    cls_visited.append(model_class)
     used_model_class = None
     if discr_name in model_class.discriminator:
         class_name_to_discr_class = model_class.discriminator[discr_name]
@@ -722,11 +730,11 @@ def get_discriminator_class(model_class,
             model_class._composed_schemas.get('allOf', ())
         for cls in composed_children:
             # Check if the schema has inherited discriminators.
-            if cls not in cls_visited and cls.discriminator is not None:
-                mc = get_discriminator_class(cls,
+            if cls.discriminator is not None:
+                used_model_class = get_discriminator_class(cls,
                         discr_name, discr_value, cls_visited)
-                if mc is not None:
-                    return mc
+                if used_model_class is not None:
+                    return used_model_class
     return used_model_class
 
 

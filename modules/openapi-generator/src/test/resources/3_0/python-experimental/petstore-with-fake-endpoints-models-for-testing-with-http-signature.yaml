@@ -1934,3 +1934,26 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
+    # The following hierarchy is used to test discriminators
+    # that require recursive lookups.
+    biology.Chordate:
+      type: object
+      discriminator:
+        propertyName: className
+      required:
+        - className
+      properties:
+        className:
+          type: string
+    biology.Reptile:
+      allOf:
+        - $ref: '#/components/schemas/biology.Chordate'
+    biology.Mammal:
+      allOf:
+        - $ref: '#/components/schemas/biology.Chordate'
+    biology.Primate:
+      allOf:
+        - $ref: '#/components/schemas/biology.Mammal'
+    biology.Hominid:
+      allOf:
+        - $ref: '#/components/schemas/biology.Primate'
