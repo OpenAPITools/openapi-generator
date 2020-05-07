@@ -1701,6 +1701,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Sets the content type of the parameter based on the encoding specified in the request body.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param mediaType        MediaType from the request body
+     */
+    public void setParameterContentType(CodegenParameter codegenParameter, MediaType mediaType) {
+        if (mediaType != null && mediaType.getEncoding() != null) {
+            Encoding encoding = mediaType.getEncoding().get(codegenParameter.baseName);
+            if (encoding != null) {
+                codegenParameter.contentType = encoding.getContentType();
+            } else {
+                LOGGER.debug("encoding not specified for " + codegenParameter.baseName);
+            }
+        }
+    }
+
+    /**
      * Return the example value of the property
      *
      * @param schema Property schema
@@ -3512,13 +3529,17 @@ public class DefaultCodegen implements CodegenConfig {
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
             String contentType = getContentType(requestBody);
+            if (contentType != null) {
+                contentType = contentType.toLowerCase(Locale.ROOT);
+            }
             if (contentType != null &&
-                    (contentType.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                            contentType.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
+                    (contentType.startsWith("application/x-www-form-urlencoded") ||
+                            contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
-                op.isMultipart = contentType.toLowerCase(Locale.ROOT).startsWith("multipart");
+                op.isMultipart = contentType.startsWith("multipart");
                 for (CodegenParameter cp : formParams) {
+                    setParameterContentType(cp, requestBody.getContent().get(contentType));
                     postProcessParameter(cp);
                 }
                 // add form parameters to the beginning of all parameter list
@@ -4990,31 +5011,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return tag;
-    }
-
-    /**
-     * Only write if the file doesn't exist
-     *
-     * @param outputFolder   Output folder
-     * @param supportingFile Supporting file
-     */
-    public void writeOptional(String outputFolder, SupportingFile supportingFile) {
-        String folder = "";
-
-        if (outputFolder != null && !"".equals(outputFolder)) {
-            folder += outputFolder + File.separator;
-        }
-        folder += supportingFile.folder;
-        if (!"".equals(folder)) {
-            folder += File.separator + supportingFile.destinationFilename;
-        } else {
-            folder = supportingFile.destinationFilename;
-        }
-        if (!new File(folder).exists()) {
-            supportingFiles.add(supportingFile);
-        } else {
-            LOGGER.info("Skipped overwriting " + supportingFile.destinationFilename + " as the file already exists in " + folder);
-        }
     }
 
     /**

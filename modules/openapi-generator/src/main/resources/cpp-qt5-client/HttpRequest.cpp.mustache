@@ -44,12 +44,13 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
     files.append(file);
 }
 
-{{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
+{{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
+    : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
     qsrand(QDateTime::currentDateTime().toTime_t());
-    manager = new QNetworkAccessManager(this);
+    if (manager == nullptr) {
+        manager = new QNetworkAccessManager(this);
+    }
     workingDirectory = QDir::currentPath();
-    connect(manager, &QNetworkAccessManager::finished, this, &{{prefix}}HttpRequestWorker::on_manager_finished);
     timeOutTimer.setSingleShot(true);
 }
 
@@ -347,7 +348,7 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         reply = manager->deleteResource(request);
     } else {
 #if (QT_VERSION >= 0x050800)
-        manager->sendCustomRequest(request, input->http_method.toLatin1(), request_content);
+        reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), request_content);
 #else
         QBuffer *buffer = new QBuffer;
         buffer->setData(request_content);
@@ -357,13 +358,21 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
+    if (reply != nullptr) {
+        reply->setParent(this);
+        connect(reply, &QNetworkReply::finished, [this, reply] {
+            on_reply_finished(reply);
+        });
+    }
     if (timeOutTimer.interval() > 0) {
-        QObject::connect(&timeOutTimer, &QTimer::timeout, [=]() { on_manager_timeout(reply); });
+        QObject::connect(&timeOutTimer, &QTimer::timeout, [this, reply] {
+            on_reply_timeout(reply);
+        });
         timeOutTimer.start();
     }
 }
 
-void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+void {{prefix}}HttpRequestWorker::on_reply_finished(QNetworkReply *reply) {
     bool codeSts = false;
     if(timeOutTimer.isActive()) {
         QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
@@ -387,11 +396,11 @@ void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     emit on_execution_finished(this);
 }
 
-void {{prefix}}HttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
+void {{prefix}}HttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
     error_type = QNetworkReply::TimeoutError;
     response = "";
     error_str = "Timed out waiting for response";
-    disconnect(manager, nullptr, nullptr, nullptr);
+    disconnect(reply, nullptr, nullptr, nullptr);
     reply->abort();
     reply->deleteLater();
     emit on_execution_finished(this);
