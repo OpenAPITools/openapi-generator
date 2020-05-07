@@ -1093,6 +1093,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/http-signature-test:
+    get:
+      tags:
+        - fake
+      summary: test http signature authentication
+      operationId: fake-http-signature-test
+      parameters:
+        - name: query_1 
+          in: query
+          description: query parameter
+          required: optional 
+          schema:
+            type: string
+        - name: header_1 
+          in: header 
+          description: header parameter
+          required: optional 
+          schema:
+            type: string
+      security:
+        - http_signature_test: []
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        200:
+          description: The instance started successfully
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1168,6 +1194,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    http_signature_test:
+      type: http
+      scheme: signature 
   schemas:
     Foo:
       type: object

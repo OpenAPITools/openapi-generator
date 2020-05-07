@@ -61,7 +61,9 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client MultipartRelatedRequestPost
 cargo run --example client MultipartRequestPost
+cargo run --example client MultipleIdenticalMimeTypesPost
 ```
 
 ### HTTPS
@@ -95,11 +97,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **POST** /multipart_related_request | 
 [****](docs/default_api.md#) | **POST** /multipart_request | 
+[****](docs/default_api.md#) | **POST** /multiple-identical-mime-types | 
 
 
 ## Documentation For Models
 
+ - [InlineObject](docs/InlineObject.md)
+ - [MultipartRelatedRequest](docs/MultipartRelatedRequest.md)
  - [MultipartRequest](docs/MultipartRequest.md)
  - [MultipartRequestObjectField](docs/MultipartRequestObjectField.md)
 

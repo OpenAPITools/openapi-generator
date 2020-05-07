@@ -20,4 +20,5 @@ call .\bin\windows\java-petstore-webclient.bat
 call .\bin\windows\java-petstore-resteasy.bat
 call .\bin\windows\java-petstore-google-api-client.bat
 call .\bin\windows\java-petstore-rest-assured.bat
+call .\bin\windows\java-petstore-rest-assured-jackson.bat
 call .\bin\windows\java-petstore-vertx.bat

@@ -81,7 +81,7 @@ class TestDog(unittest.TestCase):
         # make sure that the ModelComposed class properties are correct
         # model.composed_schemas() stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            dog._composed_schemas(),
+            dog._composed_schemas,
             {
                 'anyOf': [],
                 'allOf': [

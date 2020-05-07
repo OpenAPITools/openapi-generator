@@ -81,7 +81,7 @@ class TestChild(unittest.TestCase):
         # make sure that the ModelComposed class properties are correct
         # model.composed_schemas() stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            child._composed_schemas(),
+            child._composed_schemas,
             {
                 'anyOf': [],
                 'allOf': [

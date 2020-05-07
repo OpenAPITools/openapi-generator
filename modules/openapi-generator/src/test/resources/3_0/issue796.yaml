@@ -34,4 +34,13 @@ components:
       type: object
       description: This type example 4
       additionalProperties: false
-
+    MapObject:
+      properties:
+        map_test1:
+          $ref: '#/components/schemas/MapTest1'
+        map_test2:
+          $ref: '#/components/schemas/MapTest2'
+        map_test3:
+          $ref: '#/components/schemas/MapTest3'
+        other_obj:
+          $ref: '#/components/schemas/OtherObj'

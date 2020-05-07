@@ -7,12 +7,26 @@ using System.Threading.Tasks;
 
 namespace {{packageName}}.Authentication
 {
+    /// <summary>
+    /// A requirement that an ApiKey must be present.
+    /// </summary>
     public class ApiKeyRequirement : IAuthorizationRequirement
     {
-        public IReadOnlyList<string> ApiKeys { get; set; }
-        
-        public string PolicyName { get; set; }
+        /// <summary>
+        /// Get the list of api keys
+        /// </summary>
+        public IReadOnlyList<string> ApiKeys { get; }
 
+        /// <summary>
+        /// Get the policy name,
+        /// </summary>
+        public string PolicyName { get; }
+
+        /// <summary>
+        /// Create a new instance of the <see cref="ApiKeyRequirement"/> class.
+        /// </summary>
+        /// <param name="apiKeys"></param>
+        /// <param name="policyName"></param>
         public ApiKeyRequirement(IEnumerable<string> apiKeys, string policyName)
         {
             ApiKeys = apiKeys?.ToList() ?? new List<string>();
@@ -20,9 +34,12 @@ namespace {{packageName}}.Authentication
         }
     }
 
+    /// <summary>
+    /// Enforce that an api key is present.
+    /// </summary>
     public class ApiKeyRequirementHandler : AuthorizationHandler<ApiKeyRequirement>
     {
-
+        /// <copydoc cref="AuthorizationHandler{T}.HandleRequirementAsync" />
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ApiKeyRequirement requirement)
         {
             SucceedRequirementIfApiKeyPresentAndValid(context, requirement);
@@ -32,27 +49,22 @@ namespace {{packageName}}.Authentication
         private void SucceedRequirementIfApiKeyPresentAndValid(AuthorizationHandlerContext context, ApiKeyRequirement requirement)
         {
 {{#authMethods}}{{#isApiKey}}
-{{#-first}}
             if (context.Resource is AuthorizationFilterContext authorizationFilterContext)
             {
-                var apiKey = "";
-{{/-first}}
 {{#isKeyInHeader}}
-                apiKey = authorizationFilterContext.HttpContext.Request.Headers["{{keyParamName}}"].FirstOrDefault();
+                var apiKey = authorizationFilterContext.HttpContext.Request.Headers["{{keyParamName}}"].FirstOrDefault();
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-                apiKey = authorizationFilterContext.HttpContext.Request.Query["{{keyParamName}}"].FirstOrDefault();
+                var apiKey = authorizationFilterContext.HttpContext.Request.Query["{{keyParamName}}"].FirstOrDefault();
 {{/isKeyInQuery}}
 {{#isKeyInCookie}}
-                apiKey = authorizationFilterContext.HttpContext.Request.Cookies["{{keyParamName}}"] ?? null;
+                var apiKey = authorizationFilterContext.HttpContext.Request.Cookies["{{keyParamName}}"] ?? null;
 {{/isKeyInCookie}}
                 if (requirement.PolicyName == "{{name}}" && apiKey != null && requirement.ApiKeys.Any(requiredApiKey => apiKey == requiredApiKey))
                 {
                     context.Succeed(requirement);
                 }
-{{#-last}}
             }
-{{/-last}}
 {{/isApiKey}}{{/authMethods}}
         }
     }
