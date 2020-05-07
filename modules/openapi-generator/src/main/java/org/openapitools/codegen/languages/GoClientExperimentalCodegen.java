@@ -177,11 +177,37 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 }
 
                 for (CodegenProperty param : model.vars) {
+                    // Two golang types are used in the generated code: the type of the
+                    // struct fields and the types of the getter and setter methods.
+                    // The struct fields may use a wrapper type (such as 'NullableBool'),
+                    // whereas the getter method returns the unwrapped type (e.g. 'bool').
+                    // param.dataType is the golang type of the generated struct field.
+                    // "x-go-base-type" is the type in the setter and getter functions.
                     param.vendorExtensions.put("x-go-base-type", param.dataType);
-                    if (!param.isNullable || param.isMapContainer || param.isListContainer ||
-                            param.isFreeFormObject || param.isAnyType) {
+                    if (!param.vendorExtensions.containsKey("x-golang-has-wrapper")) {
                         continue;
                     }
+                    if (param.isAnyType) {
+                        param.vendorExtensions.put("x-go-base-type", "interface{}");
+                        continue;
+                    } else if (param.isFreeFormObject) {
+                        switch (param.dataType) {
+                        case "ObjectType":
+                            param.vendorExtensions.put("x-go-base-type", "map[string]interface{}");
+                            continue;
+                        case "[]ObjectType":
+                            param.vendorExtensions.put("x-go-base-type", "map[string][]interface{}");
+                            continue;
+                        case "map[string]ObjectType":
+                            param.vendorExtensions.put("x-go-base-type", "map[string]map[string]interface{}");
+                            continue;
+                        }
+                    }
+                    /*
+                    if (!param.isNullable || param.isMapContainer || param.isListContainer) {
+                        continue;
+                    }
+                    */
                     if (param.isDateTime) {
                         // Note this could have been done by adding the following line in processOpts(),
                         // however, we only want to represent the DateTime object as NullableTime if
