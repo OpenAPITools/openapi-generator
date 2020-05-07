@@ -886,7 +886,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Python primitive types.
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
      *
-     * Prefix and suffix are for models, e.g. Pet ==> MyPetV3.
+     * Prefix and suffix are for models, e.g. Pet is transformed to MyPetV3.
      *
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
