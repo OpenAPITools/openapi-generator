@@ -14,6 +14,11 @@ codegen="${cli}/target/openapi-generator-cli.jar"
 # list won't be considered a "real" command. We can get around that a bit by checking CLI completions beforehand if it exists.
 commands="list,generate,meta,help,config-help,validate,version"
 
+if [ $# == 0 ]; then
+	echo "Missing a command"
+	exit
+fi
+
 # if CLI jar exists, check $1 against completions available in the CLI
 if [[ -f "${codegen}" && -n "$(java ${JAVA_OPTS} -jar "${codegen}" completion | grep "^$1\$" )" ]]; then
     command=$1
