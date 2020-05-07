@@ -92,8 +92,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "complex128",
                         "rune",
                         "byte",
-                        "ObjectType",
-                        "AnyType"
+                        "map[string]interface{}",
+                        "interface{}"
                         )
         );
 
@@ -128,15 +128,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // map[string]interface{}, whereas an arbitrary type is implemented
         // in golang as interface{}.
         // See issue #5387 for more details.
-        typeMapping.put("object", "ObjectType");
-        // A schema that does not specify the 'type' attribute. The value
-        // can be anything.
-        typeMapping.put("AnyType", "AnyType");
-        // Below is the entry to map the JSON 'null' type to golang.
-        // Note there is no built-in 'null' type in golang, and it's not possible
-        // to declare a variable whose only possible value is 'nil'.
-        // For example `a := nil` is not a valid go statement.
-        typeMapping.put("null", "NullType");
+        typeMapping.put("object", "map[string]interface{}");
+        typeMapping.put("interface{}", "interface{}");
+        typeMapping.put("AnyType", "interface{}");
 
         numberTypes = new HashSet<String>(
                 Arrays.asList(
@@ -397,7 +391,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             type = openAPIType;
         } else if ("object".equals(openAPIType) && ModelUtils.isAnyTypeSchema(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
-            type = "AnyType";
+            type = "interface{}";
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
@@ -604,58 +598,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
     }
 
-    /**
-     * OAS type mapping to golang implementation:
-     * 
-     * AnyType                  interface{}                        Any type, e.g. null, string, integer, number, boolean, map, array.
-     * ObjectType               map[string]interface{}             Free-form object with no constraint on additional properties.
-     * map[string]Animal        map[string]Animal                  Free-form object. The value of undeclared properties must be 'Animal'.
-     * map[string]ObjectType    map[string]map[string]interface{}  Free-form object. The value of undeclared properties must be an object (map).
-     *                          map[string][]interface{}           Free-form object. The value of undeclared properties must be an array.
-     * 
-     */
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        // The 'go-experimental/model.mustache' template generates accessor methods.
-        // For containers (e.g. Array, Map) and non-nullable primitive types, the go struct field
-        // is the underlying type, e.g. *int32, *string, *bool...
-        // In other cases (nullable primitive types, free-form objects...), the generated code has
-        // a wrapper type and a Get() function to access the underlying type.
-        boolean hasWrapper = false;
-        if (property.isAnyType) {
-            // The wrapper type is the 'AnyType' struct and the wrapped type is 'interface{}'.
-            hasWrapper = true;
-        } else if (property.isFreeFormObject && !property.isNullable) { // && 
-            // Undeclared properties use case.
-            // The undeclared properties are implemented using a go map.
-            // The map key is always a string.
-            // The map value is interface{} when there are no constraints, but the
-            // 'additionalProperties' attribute may require a specific type.
-            if (property.items == null) {
-                // The 'additionalProperties' attribute is not set, so it is a free-form object
-                // with no constraint on the type of undeclared properties.
-                // The wrapper type is 'ObjectType'.
-                // The wrapped type is 'map[string]interface{}'.
-                hasWrapper = true;
-            } else if (property.items.isFreeFormObject && !property.items.isNullable) {
-                // The 'additionalProperties' attribute is set, and the value of the undeclared
-                // properties must be a free-form object. Hence it's a map of map.
-                // The wrapper type is map[string]ObjectType.
-                // The wrapped type is 'map[string]map[string]interface{}'.
-                hasWrapper = true;
-            } else {
-                // The 'additionalProperties' attribute is set, and the value of the undeclared
-                // properties is not free-form. For example, if the undeclared properties must
-                // be of type 'Animal', then:
-                // The wrapper type is map[string]Animal.
-                // The wrapped type is 'map[string]Animal'.
-            }
-        } else if (property.isNullable && !property.isContainer) {
-            // Primitive types.
-            hasWrapper = true;
-        }
-        if (hasWrapper) {
-            property.vendorExtensions.put("x-golang-has-wrapper", true);
+        // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
+        // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
+        // the generated code has a wrapper type and a Get() function to access the underlying type.
+        // For containers (e.g. Array, Map), the generated code returns the type directly. 
+        if (property.isContainer || property.isFreeFormObject || property.isAnyType) {
+            property.vendorExtensions.put("x-golang-is-container", true);
         }
     }
 
