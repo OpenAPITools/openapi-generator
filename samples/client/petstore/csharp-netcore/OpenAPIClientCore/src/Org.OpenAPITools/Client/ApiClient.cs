@@ -275,6 +275,21 @@ namespace Org.OpenAPITools.Client
             {
                 foreach (var headerParam in configuration.DefaultHeaders)
                 {
+                    if (String.Equals(headerParam.Key, "cookie", StringComparison.OrdinalIgnoreCase))
+                    {
+                        string[] cookieSeparators = new string[] {";"};
+                        string[] EqualSeparator = new string[] {"="};
+                        string[] rawCookieParams = headerParam.Value.Split(cookieSeparators, StringSplitOptions.None);
+                        foreach (string paramset in rawCookieParams)
+                        {
+                            String[] param = paramset.Split(EqualSeparator, StringSplitOptions.None);
+                            if (param.Length == 2)
+                            {
+                                request.AddCookie(param[0], param[1]);
+                            }
+                        }
+                        continue;
+                    }
                     request.AddHeader(headerParam.Key, headerParam.Value);
                 }
             }
