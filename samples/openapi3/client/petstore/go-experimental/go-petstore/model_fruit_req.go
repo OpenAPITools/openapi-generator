@@ -37,12 +37,6 @@ func (s *FruitReq) UnmarshalJSON(src []byte) error {
 		s.FruitReqInterface = unmarshaledBananaReq
 		return nil
 	}
-	var unmarshaledNullType *NullType = &NullType{}
-	err = json.Unmarshal(src, unmarshaledNullType)
-	if err == nil {
-		s.FruitReqInterface = unmarshaledNullType
-		return nil
-	}
 	return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
 }
 type NullableFruitReq struct {

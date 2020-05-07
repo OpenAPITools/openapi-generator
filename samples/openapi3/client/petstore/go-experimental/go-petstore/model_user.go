@@ -25,13 +25,13 @@ type User struct {
 	// User Status
 	UserStatus *int32 `json:"userStatus,omitempty"`
 	// test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.
-	ObjectWithNoDeclaredProps *ObjectType `json:"objectWithNoDeclaredProps,omitempty"`
+	ArbitraryObject *map[string]interface{} `json:"arbitraryObject,omitempty"`
 	// test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
-	ObjectWithNoDeclaredPropsNullable ObjectType `json:"objectWithNoDeclaredPropsNullable,omitempty"`
-	// test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-	AnyTypeProp AnyType `json:"anyTypeProp,omitempty"`
-	// test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.
-	AnyTypePropNullable AnyType `json:"anyTypePropNullable,omitempty"`
+	ArbitraryNullableObject map[string]interface{} `json:"arbitraryNullableObject,omitempty"`
+	// test code generation for any type Value can be any type - string, number, boolean, array or object.
+	ArbitraryTypeValue interface{} `json:"arbitraryTypeValue,omitempty"`
+	// test code generation for any type Value can be any type - string, number, boolean, array, object or the 'null' value.
+	ArbitraryNullableTypeValue interface{} `json:"arbitraryNullableTypeValue,omitempty"`
 }
 
 // NewUser instantiates a new User object
@@ -307,162 +307,135 @@ func (o *User) SetUserStatus(v int32) {
 	o.UserStatus = &v
 }
 
-// GetObjectWithNoDeclaredProps returns the ObjectWithNoDeclaredProps field value if set, zero value otherwise.
-func (o *User) GetObjectWithNoDeclaredProps() map[string]interface{} {
-	if o == nil || o.ObjectWithNoDeclaredProps == nil {
+// GetArbitraryObject returns the ArbitraryObject field value if set, zero value otherwise.
+func (o *User) GetArbitraryObject() map[string]interface{} {
+	if o == nil || o.ArbitraryObject == nil {
 		var ret map[string]interface{}
 		return ret
 	}
-	return *o.ObjectWithNoDeclaredProps.Get()
+	return *o.ArbitraryObject
 }
 
-// GetObjectWithNoDeclaredPropsOk returns a tuple with the ObjectWithNoDeclaredProps field value if set, nil otherwise
+// GetArbitraryObjectOk returns a tuple with the ArbitraryObject field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetObjectWithNoDeclaredPropsOk() (*map[string]interface{}, bool) {
-	if o == nil || o.ObjectWithNoDeclaredProps == nil {
+func (o *User) GetArbitraryObjectOk() (*map[string]interface{}, bool) {
+	if o == nil || o.ArbitraryObject == nil {
 		return nil, false
 	}
-	return o.ObjectWithNoDeclaredProps.Get(), true
+	return o.ArbitraryObject, true
 }
 
-// HasObjectWithNoDeclaredProps returns a boolean if a field has been set.
-func (o *User) HasObjectWithNoDeclaredProps() bool {
-	if o != nil && o.ObjectWithNoDeclaredProps != nil {
+// HasArbitraryObject returns a boolean if a field has been set.
+func (o *User) HasArbitraryObject() bool {
+	if o != nil && o.ArbitraryObject != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetObjectWithNoDeclaredProps gets a reference to the given ObjectType and assigns it to the ObjectWithNoDeclaredProps field.
-func (o *User) SetObjectWithNoDeclaredProps(v map[string]interface{}) {
-	o.ObjectWithNoDeclaredProps.Set(&v)
+// SetArbitraryObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryObject field.
+func (o *User) SetArbitraryObject(v map[string]interface{}) {
+	o.ArbitraryObject = &v
 }
 
-// GetObjectWithNoDeclaredPropsNullable returns the ObjectWithNoDeclaredPropsNullable field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetObjectWithNoDeclaredPropsNullable() map[string]interface{} {
-	if o == nil || o.ObjectWithNoDeclaredPropsNullable.Get() == nil {
+// GetArbitraryNullableObject returns the ArbitraryNullableObject field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *User) GetArbitraryNullableObject() map[string]interface{} {
+	if o == nil  {
 		var ret map[string]interface{}
 		return ret
 	}
-	return *o.ObjectWithNoDeclaredPropsNullable.Get()
+	return o.ArbitraryNullableObject
 }
 
-// GetObjectWithNoDeclaredPropsNullableOk returns a tuple with the ObjectWithNoDeclaredPropsNullable field value if set, nil otherwise
+// GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetObjectWithNoDeclaredPropsNullableOk() (*map[string]interface{}, bool) {
-	if o == nil  {
+func (o *User) GetArbitraryNullableObjectOk() (*map[string]interface{}, bool) {
+	if o == nil || o.ArbitraryNullableObject == nil {
 		return nil, false
 	}
-	return o.ObjectWithNoDeclaredPropsNullable.Get(), o.ObjectWithNoDeclaredPropsNullable.IsSet()
+	return &o.ArbitraryNullableObject, true
 }
 
-// HasObjectWithNoDeclaredPropsNullable returns a boolean if a field has been set.
-func (o *User) HasObjectWithNoDeclaredPropsNullable() bool {
-	if o != nil && o.ObjectWithNoDeclaredPropsNullable.IsSet() {
+// HasArbitraryNullableObject returns a boolean if a field has been set.
+func (o *User) HasArbitraryNullableObject() bool {
+	if o != nil && o.ArbitraryNullableObject != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetObjectWithNoDeclaredPropsNullable gets a reference to the given ObjectType and assigns it to the ObjectWithNoDeclaredPropsNullable field.
-func (o *User) SetObjectWithNoDeclaredPropsNullable(v map[string]interface{}) {
-	o.ObjectWithNoDeclaredPropsNullable.Set(&v)
-}
-// SetObjectWithNoDeclaredPropsNullableNil sets the value for ObjectWithNoDeclaredPropsNullable to be an explicit nil
-func (o *User) SetObjectWithNoDeclaredPropsNullableNil() {
-	o.ObjectWithNoDeclaredPropsNullable.Set(nil)
+// SetArbitraryNullableObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryNullableObject field.
+func (o *User) SetArbitraryNullableObject(v map[string]interface{}) {
+	o.ArbitraryNullableObject = v
 }
 
-// UnsetObjectWithNoDeclaredPropsNullable ensures that no value is present for ObjectWithNoDeclaredPropsNullable, not even an explicit nil
-func (o *User) UnsetObjectWithNoDeclaredPropsNullable() {
-	o.ObjectWithNoDeclaredPropsNullable.Unset()
-}
-
-// GetAnyTypeProp returns the AnyTypeProp field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetAnyTypeProp() interface{} {
-	if o == nil || o.AnyTypeProp.Get() == nil {
+// GetArbitraryTypeValue returns the ArbitraryTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *User) GetArbitraryTypeValue() interface{} {
+	if o == nil  {
 		var ret interface{}
 		return ret
 	}
-	return *o.AnyTypeProp.Get()
+	return o.ArbitraryTypeValue
 }
 
-// GetAnyTypePropOk returns a tuple with the AnyTypeProp field value if set, nil otherwise
+// GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetAnyTypePropOk() (*interface{}, bool) {
-	if o == nil  {
+func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool) {
+	if o == nil || o.ArbitraryTypeValue == nil {
 		return nil, false
 	}
-	return o.AnyTypeProp.Get(), o.AnyTypeProp.IsSet()
+	return &o.ArbitraryTypeValue, true
 }
 
-// HasAnyTypeProp returns a boolean if a field has been set.
-func (o *User) HasAnyTypeProp() bool {
-	if o != nil && o.AnyTypeProp.IsSet() {
+// HasArbitraryTypeValue returns a boolean if a field has been set.
+func (o *User) HasArbitraryTypeValue() bool {
+	if o != nil && o.ArbitraryTypeValue != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetAnyTypeProp gets a reference to the given AnyType and assigns it to the AnyTypeProp field.
-func (o *User) SetAnyTypeProp(v interface{}) {
-	o.AnyTypeProp.Set(&v)
-}
-// SetAnyTypePropNil sets the value for AnyTypeProp to be an explicit nil
-func (o *User) SetAnyTypePropNil() {
-	o.AnyTypeProp.Set(nil)
+// SetArbitraryTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryTypeValue field.
+func (o *User) SetArbitraryTypeValue(v interface{}) {
+	o.ArbitraryTypeValue = v
 }
 
-// UnsetAnyTypeProp ensures that no value is present for AnyTypeProp, not even an explicit nil
-func (o *User) UnsetAnyTypeProp() {
-	o.AnyTypeProp.Unset()
-}
-
-// GetAnyTypePropNullable returns the AnyTypePropNullable field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *User) GetAnyTypePropNullable() interface{} {
-	if o == nil || o.AnyTypePropNullable.Get() == nil {
+// GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *User) GetArbitraryNullableTypeValue() interface{} {
+	if o == nil  {
 		var ret interface{}
 		return ret
 	}
-	return *o.AnyTypePropNullable.Get()
+	return o.ArbitraryNullableTypeValue
 }
 
-// GetAnyTypePropNullableOk returns a tuple with the AnyTypePropNullable field value if set, nil otherwise
+// GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *User) GetAnyTypePropNullableOk() (*interface{}, bool) {
-	if o == nil  {
+func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool) {
+	if o == nil || o.ArbitraryNullableTypeValue == nil {
 		return nil, false
 	}
-	return o.AnyTypePropNullable.Get(), o.AnyTypePropNullable.IsSet()
+	return &o.ArbitraryNullableTypeValue, true
 }
 
-// HasAnyTypePropNullable returns a boolean if a field has been set.
-func (o *User) HasAnyTypePropNullable() bool {
-	if o != nil && o.AnyTypePropNullable.IsSet() {
+// HasArbitraryNullableTypeValue returns a boolean if a field has been set.
+func (o *User) HasArbitraryNullableTypeValue() bool {
+	if o != nil && o.ArbitraryNullableTypeValue != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetAnyTypePropNullable gets a reference to the given AnyType and assigns it to the AnyTypePropNullable field.
-func (o *User) SetAnyTypePropNullable(v interface{}) {
-	o.AnyTypePropNullable.Set(&v)
-}
-// SetAnyTypePropNullableNil sets the value for AnyTypePropNullable to be an explicit nil
-func (o *User) SetAnyTypePropNullableNil() {
-	o.AnyTypePropNullable.Set(nil)
-}
-
-// UnsetAnyTypePropNullable ensures that no value is present for AnyTypePropNullable, not even an explicit nil
-func (o *User) UnsetAnyTypePropNullable() {
-	o.AnyTypePropNullable.Unset()
+// SetArbitraryNullableTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryNullableTypeValue field.
+func (o *User) SetArbitraryNullableTypeValue(v interface{}) {
+	o.ArbitraryNullableTypeValue = v
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
@@ -491,17 +464,17 @@ func (o User) MarshalJSON() ([]byte, error) {
 	if o.UserStatus != nil {
 		toSerialize["userStatus"] = o.UserStatus
 	}
-	if o.ObjectWithNoDeclaredProps != nil {
-		toSerialize["objectWithNoDeclaredProps"] = o.ObjectWithNoDeclaredProps
+	if o.ArbitraryObject != nil {
+		toSerialize["arbitraryObject"] = o.ArbitraryObject
 	}
-	if o.ObjectWithNoDeclaredPropsNullable.IsSet() {
-		toSerialize["objectWithNoDeclaredPropsNullable"] = o.ObjectWithNoDeclaredPropsNullable.Get()
+	if o.ArbitraryNullableObject != nil {
+		toSerialize["arbitraryNullableObject"] = o.ArbitraryNullableObject
 	}
-	if o.AnyTypeProp.IsSet() {
-		toSerialize["anyTypeProp"] = o.AnyTypeProp.Get()
+	if o.ArbitraryTypeValue != nil {
+		toSerialize["arbitraryTypeValue"] = o.ArbitraryTypeValue
 	}
-	if o.AnyTypePropNullable.IsSet() {
-		toSerialize["anyTypePropNullable"] = o.AnyTypePropNullable.Get()
+	if o.ArbitraryNullableTypeValue != nil {
+		toSerialize["arbitraryNullableTypeValue"] = o.ArbitraryNullableTypeValue
 	}
 	return json.Marshal(toSerialize)
 }

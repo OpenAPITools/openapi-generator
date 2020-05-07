@@ -10,12 +10,12 @@ Name | Type | Description | Notes
 **StringProp** | Pointer to **NullableString** |  | [optional] 
 **DateProp** | Pointer to **NullableString** |  | [optional] 
 **DatetimeProp** | Pointer to [**NullableTime**](time.Time.md) |  | [optional] 
-**ArrayNullableProp** | Pointer to **[]ObjectType** |  | [optional] 
-**ArrayAndItemsNullableProp** | Pointer to **[]ObjectType** |  | [optional] 
-**ArrayItemsNullable** | Pointer to **[]ObjectType** |  | [optional] 
-**ObjectNullableProp** | Pointer to **map[string]ObjectType** |  | [optional] 
-**ObjectAndItemsNullableProp** | Pointer to **map[string]ObjectType** |  | [optional] 
-**ObjectItemsNullable** | Pointer to **map[string]ObjectType** |  | [optional] 
+**ArrayNullableProp** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ArrayAndItemsNullableProp** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ArrayItemsNullable** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ObjectNullableProp** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
+**ObjectAndItemsNullableProp** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
+**ObjectItemsNullable** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
 
 ## Methods
 
@@ -248,20 +248,20 @@ HasDatetimeProp returns a boolean if a field has been set.
 UnsetDatetimeProp ensures that no value is present for DatetimeProp, not even an explicit nil
 ### GetArrayNullableProp
 
-`func (o *NullableClass) GetArrayNullableProp() []ObjectType`
+`func (o *NullableClass) GetArrayNullableProp() []map[string]interface{}`
 
 GetArrayNullableProp returns the ArrayNullableProp field if non-nil, zero value otherwise.
 
 ### GetArrayNullablePropOk
 
-`func (o *NullableClass) GetArrayNullablePropOk() (*[]ObjectType, bool)`
+`func (o *NullableClass) GetArrayNullablePropOk() (*[]map[string]interface{}, bool)`
 
 GetArrayNullablePropOk returns a tuple with the ArrayNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArrayNullableProp
 
-`func (o *NullableClass) SetArrayNullableProp(v []ObjectType)`
+`func (o *NullableClass) SetArrayNullableProp(v []map[string]interface{})`
 
 SetArrayNullableProp sets ArrayNullableProp field to given value.
 
@@ -283,20 +283,20 @@ HasArrayNullableProp returns a boolean if a field has been set.
 UnsetArrayNullableProp ensures that no value is present for ArrayNullableProp, not even an explicit nil
 ### GetArrayAndItemsNullableProp
 
-`func (o *NullableClass) GetArrayAndItemsNullableProp() []ObjectType`
+`func (o *NullableClass) GetArrayAndItemsNullableProp() []map[string]interface{}`
 
 GetArrayAndItemsNullableProp returns the ArrayAndItemsNullableProp field if non-nil, zero value otherwise.
 
 ### GetArrayAndItemsNullablePropOk
 
-`func (o *NullableClass) GetArrayAndItemsNullablePropOk() (*[]ObjectType, bool)`
+`func (o *NullableClass) GetArrayAndItemsNullablePropOk() (*[]map[string]interface{}, bool)`
 
 GetArrayAndItemsNullablePropOk returns a tuple with the ArrayAndItemsNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArrayAndItemsNullableProp
 
-`func (o *NullableClass) SetArrayAndItemsNullableProp(v []ObjectType)`
+`func (o *NullableClass) SetArrayAndItemsNullableProp(v []map[string]interface{})`
 
 SetArrayAndItemsNullableProp sets ArrayAndItemsNullableProp field to given value.
 
@@ -318,20 +318,20 @@ HasArrayAndItemsNullableProp returns a boolean if a field has been set.
 UnsetArrayAndItemsNullableProp ensures that no value is present for ArrayAndItemsNullableProp, not even an explicit nil
 ### GetArrayItemsNullable
 
-`func (o *NullableClass) GetArrayItemsNullable() []ObjectType`
+`func (o *NullableClass) GetArrayItemsNullable() []map[string]interface{}`
 
 GetArrayItemsNullable returns the ArrayItemsNullable field if non-nil, zero value otherwise.
 
 ### GetArrayItemsNullableOk
 
-`func (o *NullableClass) GetArrayItemsNullableOk() (*[]ObjectType, bool)`
+`func (o *NullableClass) GetArrayItemsNullableOk() (*[]map[string]interface{}, bool)`
 
 GetArrayItemsNullableOk returns a tuple with the ArrayItemsNullable field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArrayItemsNullable
 
-`func (o *NullableClass) SetArrayItemsNullable(v []ObjectType)`
+`func (o *NullableClass) SetArrayItemsNullable(v []map[string]interface{})`
 
 SetArrayItemsNullable sets ArrayItemsNullable field to given value.
 
@@ -343,20 +343,20 @@ HasArrayItemsNullable returns a boolean if a field has been set.
 
 ### GetObjectNullableProp
 
-`func (o *NullableClass) GetObjectNullableProp() map[string]ObjectType`
+`func (o *NullableClass) GetObjectNullableProp() map[string]map[string]interface{}`
 
 GetObjectNullableProp returns the ObjectNullableProp field if non-nil, zero value otherwise.
 
 ### GetObjectNullablePropOk
 
-`func (o *NullableClass) GetObjectNullablePropOk() (*map[string]ObjectType, bool)`
+`func (o *NullableClass) GetObjectNullablePropOk() (*map[string]map[string]interface{}, bool)`
 
 GetObjectNullablePropOk returns a tuple with the ObjectNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetObjectNullableProp
 
-`func (o *NullableClass) SetObjectNullableProp(v map[string]ObjectType)`
+`func (o *NullableClass) SetObjectNullableProp(v map[string]map[string]interface{})`
 
 SetObjectNullableProp sets ObjectNullableProp field to given value.
 
@@ -378,20 +378,20 @@ HasObjectNullableProp returns a boolean if a field has been set.
 UnsetObjectNullableProp ensures that no value is present for ObjectNullableProp, not even an explicit nil
 ### GetObjectAndItemsNullableProp
 
-`func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]ObjectType`
+`func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]map[string]interface{}`
 
 GetObjectAndItemsNullableProp returns the ObjectAndItemsNullableProp field if non-nil, zero value otherwise.
 
 ### GetObjectAndItemsNullablePropOk
 
-`func (o *NullableClass) GetObjectAndItemsNullablePropOk() (*map[string]ObjectType, bool)`
+`func (o *NullableClass) GetObjectAndItemsNullablePropOk() (*map[string]map[string]interface{}, bool)`
 
 GetObjectAndItemsNullablePropOk returns a tuple with the ObjectAndItemsNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetObjectAndItemsNullableProp
 
-`func (o *NullableClass) SetObjectAndItemsNullableProp(v map[string]ObjectType)`
+`func (o *NullableClass) SetObjectAndItemsNullableProp(v map[string]map[string]interface{})`
 
 SetObjectAndItemsNullableProp sets ObjectAndItemsNullableProp field to given value.
 
@@ -413,20 +413,20 @@ HasObjectAndItemsNullableProp returns a boolean if a field has been set.
 UnsetObjectAndItemsNullableProp ensures that no value is present for ObjectAndItemsNullableProp, not even an explicit nil
 ### GetObjectItemsNullable
 
-`func (o *NullableClass) GetObjectItemsNullable() map[string]ObjectType`
+`func (o *NullableClass) GetObjectItemsNullable() map[string]map[string]interface{}`
 
 GetObjectItemsNullable returns the ObjectItemsNullable field if non-nil, zero value otherwise.
 
 ### GetObjectItemsNullableOk
 
-`func (o *NullableClass) GetObjectItemsNullableOk() (*map[string]ObjectType, bool)`
+`func (o *NullableClass) GetObjectItemsNullableOk() (*map[string]map[string]interface{}, bool)`
 
 GetObjectItemsNullableOk returns a tuple with the ObjectItemsNullable field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetObjectItemsNullable
 
-`func (o *NullableClass) SetObjectItemsNullable(v map[string]ObjectType)`
+`func (o *NullableClass) SetObjectItemsNullable(v map[string]map[string]interface{})`
 
 SetObjectItemsNullable sets ObjectItemsNullable field to given value.
 

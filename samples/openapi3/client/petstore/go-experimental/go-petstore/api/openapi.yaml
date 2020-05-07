@@ -1299,13 +1299,13 @@ components:
         lastName: lastName
         password: password
         userStatus: 6
-        objectWithNoDeclaredPropsNullable: '{}'
+        arbitraryTypeValue: ""
+        arbitraryNullableTypeValue: ""
         phone: phone
-        objectWithNoDeclaredProps: '{}'
         id: 0
-        anyTypePropNullable: ""
+        arbitraryObject: '{}'
         email: email
-        anyTypeProp: ""
+        arbitraryNullableObject: '{}'
         username: username
       properties:
         id:
@@ -1328,24 +1328,21 @@ components:
           description: User Status
           format: int32
           type: integer
-        objectWithNoDeclaredProps:
+        arbitraryObject:
           description: test code generation for objects Value must be a map of strings
             to values. It cannot be the 'null' value.
           type: object
-        objectWithNoDeclaredPropsNullable:
+        arbitraryNullableObject:
           description: test code generation for nullable objects. Value must be a
             map of strings to values or the 'null' value.
           nullable: true
           type: object
-        anyTypeProp:
-          description: test code generation for any type Here the 'type' attribute
-            is not specified, which means the value can be anything, including the
-            null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        anyTypePropNullable:
-          description: test code generation for any type Here the 'type' attribute
-            is not specified, which means the value can be anything, including the
-            null value, string, number, boolean, array or object. The 'nullable' attribute
-            does not change the allowed values.
+        arbitraryTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array or object.
+        arbitraryNullableTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array, object or the 'null' value.
           nullable: true
       type: object
       xml:
@@ -1976,7 +1973,6 @@ components:
           type: string
     fruitReq:
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
       x-one-of-name: FruitReq

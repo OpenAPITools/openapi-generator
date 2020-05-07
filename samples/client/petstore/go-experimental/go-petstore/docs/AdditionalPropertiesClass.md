@@ -9,12 +9,12 @@ Name | Type | Description | Notes
 **MapInteger** | Pointer to **map[string]int32** |  | [optional] 
 **MapBoolean** | Pointer to **map[string]bool** |  | [optional] 
 **MapArrayInteger** | Pointer to [**map[string][]int32**](array.md) |  | [optional] 
-**MapArrayAnytype** | Pointer to [**map[string][]ObjectType**](array.md) |  | [optional] 
+**MapArrayAnytype** | Pointer to [**map[string][]map[string]interface{}**](array.md) |  | [optional] 
 **MapMapString** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional] 
-**MapMapAnytype** | Pointer to [**map[string]map[string]ObjectType**](map.md) |  | [optional] 
-**Anytype1** | Pointer to [**ObjectType**](.md) |  | [optional] 
-**Anytype2** | Pointer to [**ObjectType**](.md) |  | [optional] 
-**Anytype3** | Pointer to [**ObjectType**](.md) |  | [optional] 
+**MapMapAnytype** | Pointer to [**map[string]map[string]map[string]interface{}**](map.md) |  | [optional] 
+**Anytype1** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
+**Anytype2** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
+**Anytype3** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
 
 ## Methods
 
@@ -162,20 +162,20 @@ HasMapArrayInteger returns a boolean if a field has been set.
 
 ### GetMapArrayAnytype
 
-`func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]ObjectType`
+`func (o *AdditionalPropertiesClass) GetMapArrayAnytype() map[string][]map[string]interface{}`
 
 GetMapArrayAnytype returns the MapArrayAnytype field if non-nil, zero value otherwise.
 
 ### GetMapArrayAnytypeOk
 
-`func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (*map[string][]ObjectType, bool)`
+`func (o *AdditionalPropertiesClass) GetMapArrayAnytypeOk() (*map[string][]map[string]interface{}, bool)`
 
 GetMapArrayAnytypeOk returns a tuple with the MapArrayAnytype field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMapArrayAnytype
 
-`func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]ObjectType)`
+`func (o *AdditionalPropertiesClass) SetMapArrayAnytype(v map[string][]map[string]interface{})`
 
 SetMapArrayAnytype sets MapArrayAnytype field to given value.
 
@@ -212,20 +212,20 @@ HasMapMapString returns a boolean if a field has been set.
 
 ### GetMapMapAnytype
 
-`func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]ObjectType`
+`func (o *AdditionalPropertiesClass) GetMapMapAnytype() map[string]map[string]map[string]interface{}`
 
 GetMapMapAnytype returns the MapMapAnytype field if non-nil, zero value otherwise.
 
 ### GetMapMapAnytypeOk
 
-`func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (*map[string]map[string]ObjectType, bool)`
+`func (o *AdditionalPropertiesClass) GetMapMapAnytypeOk() (*map[string]map[string]map[string]interface{}, bool)`
 
 GetMapMapAnytypeOk returns a tuple with the MapMapAnytype field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMapMapAnytype
 
-`func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]ObjectType)`
+`func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]map[string]interface{})`
 
 SetMapMapAnytype sets MapMapAnytype field to given value.
 
