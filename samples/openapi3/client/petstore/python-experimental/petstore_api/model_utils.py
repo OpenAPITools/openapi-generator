@@ -136,7 +136,7 @@ class OpenApiModel(object):
         # propertyName value was passed in
 
         # Build a list containing all oneOf and anyOf descendants.
-        oneof_anyof_classes = cls._composed_schemas.get('oneOf', ()) +
+        oneof_anyof_classes = cls._composed_schemas.get('oneOf', ()) + \
                                 cls._composed_schemas.get('anyOf', ())
         if oneof_anyof_classes and none_type in oneof_anyof_classes and args[0] is None:
             # The input data is the 'null' value AND one of the oneOf/anyOf children
@@ -148,24 +148,58 @@ class OpenApiModel(object):
             cls.discriminator is None or
             cls in visited_composed_classes
         ):
-            # There is no discriminator.
+            # This openapi schema (cls) does not have a discriminator
             # Or we have already visited this class before and are sure that we
-            # want to instantiate it this time. For example, this happens when
-            # we deserialize Dog from Animal. Dog contains an Animal instance. We go from Animal to Dog back to Animal
+            # want to instantiate it this time.
+            #
+            # If we are making an instance of a composed schema Descendent
+            # which allOf includes Ancestor, then Ancestor contains
+            # a discriminator that includes Descendent.
+            # So if we make an instance of Descendent, we have to make an
+            # instance of Ancestor to hold the allOf properties.
+            # This code detects that use case and makes the instance of Ancestor
+            # For example:
+            # When making an instance of Dog, _visited_composed_classes = (Dog,)
+            # then we make an instance of Animal to include in dog._composed_instances
+            # so when we are here, cls is Animal
+            # cls.discriminator != None
+            # cls not in _visited_composed_classes
+            # new_cls = Dog
+            # but we know we know that we already have Dog
+            # because it is in visited_composed_classes
+            # so make Animal here                    
             return super(OpenApiModel, cls).__new__(cls)
 
-        new_cls = get_discriminator_class(cls, visited_composed_classes, kwargs)
+        # Get the name and value of the discriminator property.
+        # The discriminator name is obtained from the discriminator meta-data
+        # and the discriminator value is obtained from the input data.
+        discr_propertyname_py = list(cls.discriminator.keys())[0]
+        discr_propertyname_js = cls.attribute_map[discr_propertyname_py]
+        if discr_propertyname_js in kwargs:
+            discr_value = kwargs[discr_propertyname_js]
+        elif discr_propertyname_py in kwargs:
+            discr_value = kwargs[discr_propertyname_py]
+        else:
+            # The input data does not contain the discriminator property.
+            path_to_item = kwargs.get('_path_to_item', ())
+            raise ApiValueError(
+                "Cannot deserialize input data due to missing discriminator. "
+                "The discriminator property '%s' is missing at path: %s" %
+                (discr_propertyname_js, path_to_item)
+            )
+
+        new_cls = get_discriminator_class(cls,
+                    discr_propertyname_py,
+                    discr_value, visited_composed_classes)
         if new_cls is None:
-            disc_prop_name_py = list(cls.discriminator.keys())[0]
-            disc_prop_name_js = cls.attribute_map[disc_prop_name_py]
             path_to_item = kwargs.get('_path_to_item', ())
             disc_prop_value = kwargs.get(
-                disc_prop_name_js, kwargs.get(disc_prop_name_py))
+                discr_propertyname_js, kwargs.get(discr_propertyname_py))
             raise ApiValueError(
                 "Cannot deserialize input data due to invalid discriminator "
                 "value. The OpenAPI document has no mapping for discriminator "
                 "property '%s'='%s' at path: %s" %
-                (disc_prop_name_js, disc_prop_value, path_to_item)
+                (discr_propertyname_js, disc_prop_value, path_to_item)
             )
 
         if new_cls in visited_composed_classes:
@@ -301,7 +335,29 @@ class ModelNormal(OpenApiModel):
 
 class ModelComposed(OpenApiModel):
     """the parent class of models whose type == object in their
-    swagger/openapi and have oneOf/allOf/anyOf"""
+    swagger/openapi and have oneOf/allOf/anyOf
+
+    When one sets a property we use var_name_to_model_instances to store the value in
+    the correct class instances + run any type checking + validation code.
+    When one gets a property we use var_name_to_model_instances to get the value
+    from the correct class instances.
+    This allows multiple composed schemas to contain the same property with additive
+    constraints on the value.
+
+    _composed_schemas (dict) stores the anyOf/allOf/oneOf classes
+    key (str): allOf/oneOf/anyOf
+    value (list): the classes in the XOf definition.
+        Note: none_type can be included when the openapi document version >= 3.1.0
+    _composed_instances (list): stores a list of instances of the composed schemas
+    defined in _composed_schemas. When properties are accessed in the self instance,
+    they are returned from the self._data_store or the data stores in the instances
+    in self._composed_schemas
+    _var_name_to_model_instances (dict): maps between a variable name on self and
+    the composed instances (self included) which contain that data
+    key (str): property name
+    value (list): list of class instances, self or instances in _composed_instances
+    which contain the value that the key is referring to    
+    """
 
     def __setattr__(self, name, value):
         """this allows us to set a value with instance.field_name = val"""
@@ -889,15 +945,18 @@ def deserialize_primitive(data, klass, path_to_item):
         )
 
 
-def get_discriminator_class(model_class, cls_visited, model_data):
+def get_discriminator_class(model_class,
+                            discr_name,
+                            discr_value, cls_visited):
     """Returns the child class specified by the discriminator.
 
     Args:
-        model_class (OpenApiModel): the model class
+        model_class (OpenApiModel): the model class.
+        discr_name (string): the name of the discriminator property.
+        discr_value (any): the discriminator value.
         cls_visited (tuple): list of model classes that have been visited.
             Used to determine the discriminator class without
             visiting circular references indefinitely.
-        model_data (list/dict): data to instantiate the model.
 
     Returns:
         used_model_class (class/None): the chosen child class that will be used
@@ -905,33 +964,28 @@ def get_discriminator_class(model_class, cls_visited, model_data):
             If a class is not found, None is returned.
     """
 
-    discriminator = model_class.discriminator
-    discr_propertyname_py = list(discriminator.keys())[0]
-    discr_propertyname_js = model_class.attribute_map[discr_propertyname_py]
-    if discr_propertyname_js in model_data:
-        discr_value = model_data[discr_propertyname_js]
-    elif discr_propertyname_py in model_data:
-        discr_value = model_data[discr_propertyname_py]
-    else:
-        # The input data does not contain the discriminator property.
-        # The caller will raise an exception.
-        return None
-    class_name_to_discr_class = discriminator[discr_propertyname_py]
-    used_model_class = class_name_to_discr_class.get(discr_value)
+    used_model_class = None
+    if discr_name in model_class.discriminator:
+        class_name_to_discr_class = model_class.discriminator[discr_name]
+        used_model_class = class_name_to_discr_class.get(discr_value)
     if used_model_class is None:
         # We didn't find a discriminated class in class_name_to_discr_class.
-        # It may exist in an ancestor.
-        for mapping, cls in class_name_to_discr_class.items():
+        # The discriminator mapping may exist in a descendant (anyOf, oneOf)
+        # or ancestor (allOf).
+        # Ancestor example: in the "Dog -> Mammal -> Chordate -> Animal"
+        #   hierarchy, the discriminator mappings may be defined at any level
+        #   in the hieararchy.
+        # Descendant example: a schema is oneOf[Plant, Mammal], and each
+        #   oneOf child may itself be an allOf with some arbitrary hierarchy,
+        #   and a graph traversal is required to find the discriminator.
+        composed_children = model_class._composed_schemas.get('oneOf', ()) + \
+            model_class._composed_schemas.get('anyOf', ()) + \
+            model_class._composed_schemas.get('allOf', ())
+        for cls in composed_children:
             # Check if the schema has inherited discriminators.
-            # The discriminators must be searched in the ancestors ('allOf')
-            # and the descendants ('oneOf', 'anyOf').
-            # Ancestor example: in the "Dog -> Mammal -> Chordate -> Animal"
-            # hierarchy, the discriminator mappings may be defined at any level.
-            # Descendant example: a schema is oneOf[Plant, Mammal], and each
-            # oneOf child may itself be an allOf with some arbitrary hierarchy,
-            # and a graph traversal is required to find the discriminator.
             if cls not in cls_visited and cls.discriminator is not None:
-                mc = get_discriminator_class(cls, cls_visited, model_data)
+                mc = get_discriminator_class(cls,
+                        discr_name, discr_value, cls_visited)
                 if mc is not None:
                     return mc
     return used_model_class
