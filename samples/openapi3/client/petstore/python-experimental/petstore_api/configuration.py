@@ -49,6 +49,18 @@ class Configuration(object):
       then all undeclared properties received by the server are injected into the
       additional properties map. In that case, there are undeclared properties, and
       nothing to discard.
+    :param disable_validation: Boolean value indicating whether to disable the JSON
+      schema structural validation rules specified in the OpenAPI document.
+      This includes multipleOf, maximum, exclusiveMaximum, minimum, exclusiveMinimum,
+      maxLength, minLength, pattern...
+      By default, the validation is performed for data generated locally by the client
+      and data received from the server, independent of any validation performed by
+      the server side.
+      If the input data does not satisfy the JSON schema validation rules specified
+      in the OpenAPI document, an exception is raised.
+      If disable_validation is set to true, structural validation is disabled. This
+      can be useful to troubleshoot data validation problem, such as when the OpenAPI
+      document validation rules do not match the actual API data received by the server.
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
@@ -135,6 +147,7 @@ conf = petstore_api.Configuration(
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
                  discard_unknown_keys=False,
+                 disable_validation=False,
                  signing_info=None,
                  ):
         """Constructor
@@ -166,6 +179,7 @@ conf = petstore_api.Configuration(
         """Password for HTTP basic authentication
         """
         self.discard_unknown_keys = discard_unknown_keys
+        self.disable_validation = disable_validation
         if signing_info is not None:
             signing_info.host = host
         self.signing_info = signing_info
