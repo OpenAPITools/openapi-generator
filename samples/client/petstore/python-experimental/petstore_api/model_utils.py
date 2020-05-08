@@ -194,9 +194,8 @@ class OpenApiModel(object):
         # is a list of visited classes. get_discriminator_class may recursively
         # call itself and update the list of visited classes, and the initial
         # value must be an empty list. Hence not using 'visited_composed_classes'
-        new_cls = get_discriminator_class(cls,
-                                            discr_propertyname_py,
-                                            discr_value, [])
+        new_cls = get_discriminator_class(
+                    cls,discr_propertyname_py, discr_value, [])
         if new_cls is None:
             path_to_item = kwargs.get('_path_to_item', ())
             disc_prop_value = kwargs.get(
