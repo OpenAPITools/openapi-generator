@@ -95,6 +95,7 @@ class TestFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit, banana_instance],
                 'cultivar': [fruit],
+                'origin': [fruit],
             }
         )
         # model._additional_properties_model_instances stores a list of
@@ -163,6 +164,7 @@ class TestFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit],
                 'cultivar': [fruit, apple_instance],
+                'origin': [fruit, apple_instance],
             }
         )
         # model._additional_properties_model_instances stores a list of

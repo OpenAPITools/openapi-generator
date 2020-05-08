@@ -1808,6 +1808,10 @@ components:
       properties:
         cultivar:
           type: string
+          pattern: ^[a-zA-Z\s]*$
+        origin:
+          type: string
+          pattern: /^[A-Z\s]*$/i
     banana:
       type: object
       properties:

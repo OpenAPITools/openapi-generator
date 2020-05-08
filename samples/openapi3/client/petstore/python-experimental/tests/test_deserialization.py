@@ -92,6 +92,41 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized.color, color)
         self.assertEqual(deserialized.breed, breed)
 
+    def test_regex_constraint(self):
+        """
+        Test regex pattern validation.
+        """
+
+        # Test with valid regex pattern.
+        inst = petstore_api.Apple(
+            cultivar="Akane"
+        )
+        assert isinstance(inst, petstore_api.Apple)
+
+        inst = petstore_api.Apple(
+            origin="cHiLe"
+        )
+        assert isinstance(inst, petstore_api.Apple)
+
+        # Test with invalid regex pattern.
+        err_msg = ("Invalid value for `{}`, must match regular expression `{}`$")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiValueError,
+            err_msg.format("cultivar", "[^`]*")
+        ):
+            inst = petstore_api.Apple(
+                cultivar="!@#%@$#Akane"
+            )
+
+        err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiValueError,
+            err_msg.format("origin", "[^`]*")
+        ):
+            inst = petstore_api.Apple(
+                origin="!@#%@$#Chile"
+            )
+
     def test_deserialize_mammal(self):
         """
         deserialize mammal
