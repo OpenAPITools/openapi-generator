@@ -66,8 +66,10 @@ class OpenApiModel(object):
         # propertyName value was passed in
 
         # Build a list containing all oneOf and anyOf descendants.
-        oneof_anyof_classes = cls._composed_schemas.get('oneOf', ()) + \
-                                cls._composed_schemas.get('anyOf', ())
+        oneof_anyof_classes = None
+        if cls._composed_schemas is not None:
+            oneof_anyof_classes = cls._composed_schemas.get('oneOf', ()) + \
+                                    cls._composed_schemas.get('anyOf', ())
         if oneof_anyof_classes and none_type in oneof_anyof_classes and args[0] is None:
             # The input data is the 'null' value AND one of the oneOf/anyOf children
             # is the 'null' type (which is introduced in OAS schema >= 3.1).
@@ -144,7 +146,7 @@ class OpenApiModel(object):
         kwargs['_visited_composed_classes'] = visited_composed_classes + (cls,)
 
         if cls._composed_schemas.get('allOf') and oneof_anyof_child:
-            # validate that we can make self because when we make the
+            # Validate that we can make self because when we make the
             # new_cls it will not include the allOf validations in self
             self_inst = super(OpenApiModel, cls).__new__(cls)
             self_inst.__init__(*args, **kwargs)
