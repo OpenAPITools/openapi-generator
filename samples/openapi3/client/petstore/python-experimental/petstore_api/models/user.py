@@ -85,10 +85,10 @@ class User(ModelNormal):
             'password': (str,),  # noqa: E501
             'phone': (str,),  # noqa: E501
             'user_status': (int,),  # noqa: E501
-            'arbitrary_object': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
-            'arbitrary_nullable_object': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
-            'arbitrary_type_value': (object,),  # noqa: E501
-            'arbitrary_nullable_type_value': (object, none_type,),  # noqa: E501
+            'object_with_no_declared_props': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'object_with_no_declared_props_nullable': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'any_type_prop': (object,),  # noqa: E501
+            'any_type_prop_nullable': (object, none_type,),  # noqa: E501
         }
 
     @cached_property
@@ -104,10 +104,10 @@ class User(ModelNormal):
         'password': 'password',  # noqa: E501
         'phone': 'phone',  # noqa: E501
         'user_status': 'userStatus',  # noqa: E501
-        'arbitrary_object': 'arbitraryObject',  # noqa: E501
-        'arbitrary_nullable_object': 'arbitraryNullableObject',  # noqa: E501
-        'arbitrary_type_value': 'arbitraryTypeValue',  # noqa: E501
-        'arbitrary_nullable_type_value': 'arbitraryNullableTypeValue',  # noqa: E501
+        'object_with_no_declared_props': 'objectWithNoDeclaredProps',  # noqa: E501
+        'object_with_no_declared_props_nullable': 'objectWithNoDeclaredPropsNullable',  # noqa: E501
+        'any_type_prop': 'anyTypeProp',  # noqa: E501
+        'any_type_prop_nullable': 'anyTypePropNullable',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -162,10 +162,10 @@ class User(ModelNormal):
             password (str): [optional]  # noqa: E501
             phone (str): [optional]  # noqa: E501
             user_status (int): User Status. [optional]  # noqa: E501
-            arbitrary_object (bool, date, datetime, dict, float, int, list, str): test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.. [optional]  # noqa: E501
-            arbitrary_nullable_object (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.. [optional]  # noqa: E501
-            arbitrary_type_value (object): test code generation for any type Value can be any type - string, number, boolean, array or object.. [optional]  # noqa: E501
-            arbitrary_nullable_type_value (object, none_type): test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value.. [optional]  # noqa: E501
+            object_with_no_declared_props (bool, date, datetime, dict, float, int, list, str): test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.. [optional]  # noqa: E501
+            object_with_no_declared_props_nullable (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.. [optional]  # noqa: E501
+            any_type_prop (object): test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389. [optional]  # noqa: E501
+            any_type_prop_nullable (object, none_type): test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.. [optional]  # noqa: E501
         """
 
         self._data_store = {}
