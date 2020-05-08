@@ -99,7 +99,7 @@ class OpenApiModel(object):
             # new_cls = Dog
             # but we know we know that we already have Dog
             # because it is in visited_composed_classes
-            # so make Animal here                    
+            # so make Animal here
             return super(OpenApiModel, cls).__new__(cls)
 
         # Get the name and value of the discriminator property.
@@ -125,8 +125,8 @@ class OpenApiModel(object):
         # call itself and update the list of visited classes, and the initial
         # value must be an empty list. Hence not using 'visited_composed_classes'
         new_cls = get_discriminator_class(cls,
-                    discr_propertyname_py,
-                    discr_value, [])
+                                            discr_propertyname_py,
+                                            discr_value, [])
         if new_cls is None:
             path_to_item = kwargs.get('_path_to_item', ())
             disc_prop_value = kwargs.get(
@@ -197,7 +197,7 @@ class ModelComposed(OpenApiModel):
     the composed instances (self included) which contain that data
     key (str): property name
     value (list): list of class instances, self or instances in _composed_instances
-    which contain the value that the key is referring to    
+    which contain the value that the key is referring to.
     """
 
 {{> python-experimental/model_templates/methods_setattr_getattr_composed }}
@@ -733,8 +733,8 @@ def get_discriminator_class(model_class,
         for cls in composed_children:
             # Check if the schema has inherited discriminators.
             if cls.discriminator is not None:
-                used_model_class = get_discriminator_class(cls,
-                        discr_name, discr_value, cls_visited)
+                used_model_class = get_discriminator_class(
+                                    cls, discr_name, discr_value, cls_visited)
                 if used_model_class is not None:
                     return used_model_class
     return used_model_class
