@@ -405,7 +405,7 @@ def check_validations(validations, input_variable_path, input_values):
             not re.search(current_validations['regex']['pattern'],
                           input_values, flags=flags)):
         raise ApiValueError(
-            r"Invalid value for `%s`, must be a follow pattern or equal to "
+            r"Invalid value for `%s`, must match regular expression "
             r"`%s` with flags=`%s`" % (
                 input_variable_path[0],
                 current_validations['regex']['pattern'],
