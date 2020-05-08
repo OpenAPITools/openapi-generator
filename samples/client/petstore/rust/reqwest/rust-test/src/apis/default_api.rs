@@ -9,21 +9,35 @@
  */
 
 use async_trait::async_trait;
-use std::rc::Rc;
 use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
+use std::sync::Arc;
 
 use reqwest;
 
+use bytes::Bytes;
+use futures::{Stream, TryStreamExt};
+use tokio::io::AsyncRead;
+use tokio_util::codec::{BytesCodec, FramedRead};
+
 use super::{Error, configuration};
 
+#[allow(dead_code)]
+fn into_bytes_stream<R>(r: R) -> impl Stream<Item=Result<Bytes, std::io::Error>>
+    where
+        R: AsyncRead,
+{
+    FramedRead::new(r, BytesCodec::new())
+        .map_ok(|bytes| bytes.freeze())
+}
+
 pub struct DefaultApiClient {
-    configuration: Rc<configuration::Configuration>,
+    configuration: Arc<configuration::Configuration>,
 }
 
 impl DefaultApiClient {
-    pub fn new(configuration: Rc<configuration::Configuration>) -> DefaultApiClient {
+    pub fn new(configuration: Arc<configuration::Configuration>) -> DefaultApiClient {
         DefaultApiClient {
             configuration,
         }
@@ -42,7 +56,7 @@ impl DefaultApi for DefaultApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/dummy", configuration.base_path);
-        let mut req_builder = client.GET(uri_str.as_str());
+        let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());

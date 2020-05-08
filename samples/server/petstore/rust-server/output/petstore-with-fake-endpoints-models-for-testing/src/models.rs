@@ -6,6 +6,8 @@ use serde::ser::Serializer;
 use std::collections::{HashMap, BTreeMap};
 use std::string::ParseError;
 use uuid;
+#[cfg(feature = "conversion")]
+use frunk::LabelledGeneric;
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

@@ -6,6 +6,8 @@ use serde::ser::Serializer;
 use std::collections::{HashMap, BTreeMap};
 use std::string::ParseError;
 use uuid;
+#[cfg(feature = "conversion")]
+use frunk::LabelledGeneric;
 
 
 // Utility function for wrapping list elements when serializing xml

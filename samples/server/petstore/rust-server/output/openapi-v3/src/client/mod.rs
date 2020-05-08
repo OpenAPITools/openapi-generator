@@ -886,10 +886,14 @@ impl<Ctx, Conn> Api<Ctx> for Client<Conn> where
         match response.status().as_u16() {
             201 => {
                 let body = hyper::body::aggregate(response.into_body()).await.map_err(|e| ApiError(format!("Error getting response: {}", e)))?;
+                let body = str::from_utf8(body.bytes())
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                let body = serde_xml_rs::from_str::<crate::models::AnotherXmlObject>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
 
-                Ok(
-                    XmlOtherPostResponse::OK
-                )
+                        Ok(XmlOtherPostResponse::OK(body))
             },
             400 => {
                 let body = hyper::body::aggregate(response.into_body()).await.map_err(|e| ApiError(format!("Error getting response: {}", e)))?;
@@ -947,7 +951,7 @@ impl<Ctx, Conn> Api<Ctx> for Client<Conn> where
 
 
         let body = hyper::Body::empty();
-        let body = param_string.map(|ref body| {
+        let body = param_another_xml_array.map(|ref body| {
             body.to_xml()
         });
 

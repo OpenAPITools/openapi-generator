@@ -185,7 +185,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # ****
-> models::AnotherXmlObject (optional)
+> crate::models::AnotherXmlObject (optional)
 
 
 ### Required Parameters
@@ -203,7 +203,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**models::AnotherXmlObject**](anotherXmlObject.md)
+[**crate::models::AnotherXmlObject**](anotherXmlObject.md)
 
 ### Authorization
 

@@ -4,6 +4,8 @@ use serde::ser::Serializer;
 
 use std::collections::HashMap;
 use std::string::ParseError;
+#[cfg(feature = "conversion")]
+use frunk::LabelledGeneric;
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

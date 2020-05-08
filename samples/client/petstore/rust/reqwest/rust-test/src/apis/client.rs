@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::sync::Arc;
 
 use super::configuration::Configuration;
 
@@ -8,7 +8,7 @@ pub struct APIClient {
 
 impl APIClient {
     pub fn new(configuration: Configuration) -> APIClient {
-        let rc = Rc::new(configuration);
+        let rc = Arc::new(configuration);
 
         APIClient {
             default_api: Box::new(crate::apis::DefaultApiClient::new(rc.clone())),

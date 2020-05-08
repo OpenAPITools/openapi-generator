@@ -39,7 +39,7 @@ async fn main() {
 
     let addr = "127.0.0.1:80".parse().expect("Failed to parse bind address");
     if matches.is_present("https") {
-        let acceptor = openapi_client::server::tls::acceptor(
+        let acceptor = multipart_v3::server::tls::acceptor(
             &addr,
             "examples/server-chain.pem",
             "examples/server-key.pem",

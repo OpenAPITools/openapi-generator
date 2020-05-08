@@ -9,21 +9,35 @@
  */
 
 use async_trait::async_trait;
-use std::rc::Rc;
 use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
+use std::sync::Arc;
 
 use reqwest;
 
+use bytes::Bytes;
+use futures::{Stream, TryStreamExt};
+use tokio::io::AsyncRead;
+use tokio_util::codec::{BytesCodec, FramedRead};
+
 use super::{Error, configuration};
 
+#[allow(dead_code)]
+fn into_bytes_stream<R>(r: R) -> impl Stream<Item=Result<Bytes, std::io::Error>>
+    where
+        R: AsyncRead,
+{
+    FramedRead::new(r, BytesCodec::new())
+        .map_ok(|bytes| bytes.freeze())
+}
+
 pub struct UserApiClient {
-    configuration: Rc<configuration::Configuration>,
+    configuration: Arc<configuration::Configuration>,
 }
 
 impl UserApiClient {
-    pub fn new(configuration: Rc<configuration::Configuration>) -> UserApiClient {
+    pub fn new(configuration: Arc<configuration::Configuration>) -> UserApiClient {
         UserApiClient {
             configuration,
         }
@@ -49,7 +63,7 @@ impl UserApi for UserApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user", configuration.base_path);
-        let mut req_builder = client.POST(uri_str.as_str());
+        let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -68,7 +82,7 @@ impl UserApi for UserApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithArray", configuration.base_path);
-        let mut req_builder = client.POST(uri_str.as_str());
+        let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -87,7 +101,7 @@ impl UserApi for UserApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithList", configuration.base_path);
-        let mut req_builder = client.POST(uri_str.as_str());
+        let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -106,7 +120,7 @@ impl UserApi for UserApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-        let mut req_builder = client.DELETE(uri_str.as_str());
+        let mut req_builder = client.delete(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -124,7 +138,7 @@ impl UserApi for UserApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-        let mut req_builder = client.GET(uri_str.as_str());
+        let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -133,7 +147,7 @@ impl UserApi for UserApiClient {
         // send request
         let req = req_builder.build()?;
 
-        Ok(client.execute(req).await?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json().await?)
     }
 
     async fn login_user(&self, username: &str, password: &str) -> Result<String, Error> {
@@ -141,7 +155,7 @@ impl UserApi for UserApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/login", configuration.base_path);
-        let mut req_builder = client.GET(uri_str.as_str());
+        let mut req_builder = client.get(uri_str.as_str());
 
         req_builder = req_builder.query(&[("username", &username.to_string())]);
         req_builder = req_builder.query(&[("password", &password.to_string())]);
@@ -152,7 +166,7 @@ impl UserApi for UserApiClient {
         // send request
         let req = req_builder.build()?;
 
-        Ok(client.execute(req).await?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json().await?)
     }
 
     async fn logout_user(&self, ) -> Result<(), Error> {
@@ -160,7 +174,7 @@ impl UserApi for UserApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/logout", configuration.base_path);
-        let mut req_builder = client.GET(uri_str.as_str());
+        let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -178,7 +192,7 @@ impl UserApi for UserApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
-        let mut req_builder = client.PUT(uri_str.as_str());
+        let mut req_builder = client.put(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());

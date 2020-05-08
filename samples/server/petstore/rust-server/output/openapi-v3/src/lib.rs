@@ -101,7 +101,7 @@ pub enum XmlExtraPostResponse {
 pub enum XmlOtherPostResponse {
     /// OK
     OK
-    (models::AnotherXmlObject)
+    (crate::models::AnotherXmlObject)
     ,
     /// Bad Request
     BadRequest
@@ -167,7 +167,7 @@ pub trait Api<C> {
     async fn xml_other_put(&mut self, another_xml_array: Option<crate::models::AnotherXmlArray>, context: &C) -> Result<XmlOtherPutResponse, ApiError>;
 
     /// Post an array
-    fn xml_post(&self, xml_array: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>>;
+    async fn xml_post(&mut self, xml_array: Option<crate::models::XmlArray>, context: &C) -> Result<XmlPostResponse, ApiError>;
 
 
     async fn xml_put(&mut self, xml_object: Option<crate::models::XmlObject>, context: &C) -> Result<XmlPutResponse, ApiError>;
@@ -282,13 +282,13 @@ impl<T: Api<C>, C> ApiNoContext for ContextWrapper<T, C>
 
     async fn xml_other_put(&mut self, another_xml_array: Option<crate::models::AnotherXmlArray>) -> Result<XmlOtherPutResponse, ApiError> {
         let ctx: C = self.context().clone();
-        self.api_mut().xml_other_put(string, &ctx).await
+        self.api_mut().xml_other_put(another_xml_array, &ctx).await
     }
 
     /// Post an array
     async fn xml_post(&mut self, xml_array: Option<crate::models::XmlArray>) -> Result<XmlPostResponse, ApiError> {
         let ctx: C = self.context().clone();
-        self.api_mut().xml_post(string, &ctx).await
+        self.api_mut().xml_post(xml_array, &ctx).await
     }
 
 

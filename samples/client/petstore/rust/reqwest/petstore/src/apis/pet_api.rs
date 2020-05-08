@@ -9,21 +9,35 @@
  */
 
 use async_trait::async_trait;
-use std::rc::Rc;
 use std::borrow::Borrow;
 #[allow(unused_imports)]
 use std::option::Option;
+use std::sync::Arc;
 
 use reqwest;
 
+use bytes::Bytes;
+use futures::{Stream, TryStreamExt};
+use tokio::io::AsyncRead;
+use tokio_util::codec::{BytesCodec, FramedRead};
+
 use super::{Error, configuration};
 
+#[allow(dead_code)]
+fn into_bytes_stream<R>(r: R) -> impl Stream<Item=Result<Bytes, std::io::Error>>
+    where
+        R: AsyncRead,
+{
+    FramedRead::new(r, BytesCodec::new())
+        .map_ok(|bytes| bytes.freeze())
+}
+
 pub struct PetApiClient {
-    configuration: Rc<configuration::Configuration>,
+    configuration: Arc<configuration::Configuration>,
 }
 
 impl PetApiClient {
-    pub fn new(configuration: Rc<configuration::Configuration>) -> PetApiClient {
+    pub fn new(configuration: Arc<configuration::Configuration>) -> PetApiClient {
         PetApiClient {
             configuration,
         }
@@ -49,7 +63,7 @@ impl PetApi for PetApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
-        let mut req_builder = client.POST(uri_str.as_str());
+        let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -71,7 +85,7 @@ impl PetApi for PetApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-        let mut req_builder = client.DELETE(uri_str.as_str());
+        let mut req_builder = client.delete(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -95,7 +109,7 @@ impl PetApi for PetApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
-        let mut req_builder = client.GET(uri_str.as_str());
+        let mut req_builder = client.get(uri_str.as_str());
 
         req_builder = req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
         if let Some(ref user_agent) = configuration.user_agent {
@@ -108,7 +122,7 @@ impl PetApi for PetApiClient {
         // send request
         let req = req_builder.build()?;
 
-        Ok(client.execute(req).await?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json().await?)
     }
 
     async fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
@@ -116,7 +130,7 @@ impl PetApi for PetApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByTags", configuration.base_path);
-        let mut req_builder = client.GET(uri_str.as_str());
+        let mut req_builder = client.get(uri_str.as_str());
 
         req_builder = req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
         if let Some(ref user_agent) = configuration.user_agent {
@@ -129,7 +143,7 @@ impl PetApi for PetApiClient {
         // send request
         let req = req_builder.build()?;
 
-        Ok(client.execute(req).await?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json().await?)
     }
 
     async fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error> {
@@ -137,7 +151,7 @@ impl PetApi for PetApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-        let mut req_builder = client.GET(uri_str.as_str());
+        let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -154,7 +168,7 @@ impl PetApi for PetApiClient {
         // send request
         let req = req_builder.build()?;
 
-        Ok(client.execute(req).await?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json().await?)
     }
 
     async fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error> {
@@ -162,7 +176,7 @@ impl PetApi for PetApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
-        let mut req_builder = client.PUT(uri_str.as_str());
+        let mut req_builder = client.put(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -184,7 +198,7 @@ impl PetApi for PetApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-        let mut req_builder = client.POST(uri_str.as_str());
+        let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -213,7 +227,7 @@ impl PetApi for PetApiClient {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
-        let mut req_builder = client.POST(uri_str.as_str());
+        let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -226,14 +240,18 @@ impl PetApi for PetApiClient {
             form = form.text("additionalMetadata", param_value.to_string());
         }
         if let Some(param_value) = file {
-            form = form.file("file", param_value)?;
+            let f = tokio::fs::File::open(param_value).await?;
+            let part = reqwest::multipart::Part::stream(
+                reqwest::Body::wrap_stream(into_bytes_stream(f))
+            );
+            form = form.part("file", part);
         }
         req_builder = req_builder.multipart(form);
 
         // send request
         let req = req_builder.build()?;
 
-        Ok(client.execute(req).await?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json().await?)
     }
 
 }

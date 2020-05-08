@@ -96,14 +96,14 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanId> + Send + Sync {
 
     async fn xml_other_put(&mut self, another_xml_array: Option<crate::models::AnotherXmlArray>, context: &C) -> Result<XmlOtherPutResponse, ApiError> {
         let context = context.clone();
-        println!("xml_other_put({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        println!("xml_other_put({:?}) - X-Span-ID: {:?}", another_xml_array, context.get().0.clone());
         Err("Generic failure".into())
     }
 
     /// Post an array
     async fn xml_post(&mut self, xml_array: Option<crate::models::XmlArray>, context: &C) -> Result<XmlPostResponse, ApiError> {
         let context = context.clone();
-        println!("xml_post({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        println!("xml_post({:?}) - X-Span-ID: {:?}", xml_array, context.get().0.clone());
         Err("Generic failure".into())
     }
 
