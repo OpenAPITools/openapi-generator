@@ -44,6 +44,7 @@
             check_validations(
                 self.validations,
                 (name,),
-                value
+                value,
+                self._configuration
             )
         self.__dict__['_data_store'][name] = value

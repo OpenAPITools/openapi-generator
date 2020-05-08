@@ -299,15 +299,21 @@ def check_allowed_values(allowed_values, input_variable_path, input_values):
         )
 
 
-def check_validations(validations, input_variable_path, input_values):
+def check_validations(validations, input_variable_path, input_values,
+                        configuration=None):
     """Raises an exception if the input_values are invalid
 
     Args:
-        validations (dict): the validation dictionary
-        input_variable_path (tuple): the path to the input variable
+        validations (dict): the validation dictionary.
+        input_variable_path (tuple): the path to the input variable.
         input_values (list/str/int/float/date/datetime): the values that we
-            are checking
+            are checking.
+        configuration (Configuration): the configuration class.
     """
+    if configuration is not None and configuration.disable_validation:
+        # Skip JSON schema structural validation.
+        return
+
     current_validations = validations[input_variable_path]
     if ('max_length' in current_validations and
             len(input_values) > current_validations['max_length']):
