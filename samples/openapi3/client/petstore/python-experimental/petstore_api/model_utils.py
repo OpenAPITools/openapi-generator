@@ -138,7 +138,8 @@ class OpenApiModel(object):
         # Build a list containing all oneOf and anyOf descendants.
         oneof_anyof_classes = None
         if cls._composed_schemas is not None:
-            oneof_anyof_classes = (cls._composed_schemas.get('oneOf', ()) +
+            oneof_anyof_classes = (
+                cls._composed_schemas.get('oneOf', ()) +
                 cls._composed_schemas.get('anyOf', ()))
         if (oneof_anyof_classes and none_type in oneof_anyof_classes and
                 len(args) == 1 and args[0] is None):
