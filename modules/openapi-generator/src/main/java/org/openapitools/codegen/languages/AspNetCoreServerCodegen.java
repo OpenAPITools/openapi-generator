@@ -538,10 +538,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
             compatibilityVersion = null;
         } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
-            supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
             compatibilityVersion = null;
-        } else if ("2.2".equals(aspnetCoreVersion.getOptValue()) || "2.1".equals(aspnetCoreVersion.getOptValue())) {
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
         } else {
             // default, do nothing
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
