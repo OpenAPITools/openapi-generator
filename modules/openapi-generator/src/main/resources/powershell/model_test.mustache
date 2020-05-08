@@ -1,6 +1,15 @@
+{{> partial_header}}
 {{#models}}
 {{#model}}
-## TODO we need to update the template to test the model files
-
+Describe -tag '{{{packageName}}}' -name '{{{classname}}}' {
+    Context '{{{classname}}}' {
+        It 'New-{{{classname}}}' {
+            # a simple test to create an object
+            #$NewObject = New-{{{classname}}}{{#vars}} -{{name}} "TEST_VALUE"{{/vars}}
+            #$NewObject | Should BeOfType {{classname}}
+            #$NewObject.property | Should Be 0
+        }
+    }
+}
 {{/model}}
 {{/models}}
