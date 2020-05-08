@@ -42,7 +42,7 @@ let typeMap: {[index: string]: any} = {
 
 export class ObjectSerializer {
     public static findCorrectType(data: any, expectedType: string) {
-        if (data == undefined) {
+        if (data === undefined) {
             return expectedType;
         } else if (primitives.indexOf(expectedType.toLowerCase()) !== -1) {
             return expectedType;
@@ -59,7 +59,7 @@ export class ObjectSerializer {
 
             // Check the discriminator
             let discriminatorProperty = typeMap[expectedType].discriminator;
-            if (discriminatorProperty == null) {
+            if (discriminatorProperty === null) {
                 return expectedType; // the type does not have a discriminator. use it.
             } else {
                 if (data[discriminatorProperty]) {
@@ -77,7 +77,7 @@ export class ObjectSerializer {
     }
 
     public static serialize(data: any, type: string) {
-        if (data == undefined) {
+        if (data === undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
@@ -117,7 +117,7 @@ export class ObjectSerializer {
     public static deserialize(data: any, type: string) {
         // polymorphism may change the actual type.
         type = ObjectSerializer.findCorrectType(data, type);
-        if (data == undefined) {
+        if (data === undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
@@ -189,11 +189,11 @@ export class ApiKeyAuth implements Authentication {
     }
 
     applyToRequest(requestOptions: localVarRequest.Options): void {
-        if (this.location == "query") {
+        if (this.location === "query") {
             (<any>requestOptions.qs)[this.paramName] = this.apiKey;
-        } else if (this.location == "header" && requestOptions && requestOptions.headers) {
+        } else if (this.location === "header" && requestOptions && requestOptions.headers) {
             requestOptions.headers[this.paramName] = this.apiKey;
-        } else if (this.location == 'cookie' && requestOptions && requestOptions.headers) {
+        } else if (this.location === 'cookie' && requestOptions && requestOptions.headers) {
             if (requestOptions.headers['Cookie']) {
                 requestOptions.headers['Cookie'] += '; ' + this.paramName + '=' + encodeURIComponent(this.apiKey);
             }
