@@ -1307,12 +1307,9 @@ def get_oneof_instance(self, model_args, constant_args):
         # The composed oneOf schema allows the 'null' type and the input data
         # is the null value. This is a OAS >= 3.1 feature.
         if oneof_class is none_type:
-            if model_args is None:
-                return model_args
-            else:
-                # Skip to the next oneOf.
-                # Only the null value matches the null type.
-                continue
+            # skip none_types because we are deserializing dict data.
+            # none_type deserialization is handled in the __new__ method
+            continue        
 
         # transform js keys from input data to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
@@ -1376,12 +1373,9 @@ def get_anyof_instances(self, model_args, constant_args):
         # The composed oneOf schema allows the 'null' type and the input data
         # is the null value. This is a OAS >= 3.1 feature.
         if anyof_class is none_type:
-            if model_args is None:
-                return model_args
-            else:
-                # Skip to the next oneOf.
-                # Only the null value matches the null type.
-                continue
+            # skip none_types because we are deserializing dict data.
+            # none_type deserialization is handled in the __new__ method
+            continue        
 
         # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
