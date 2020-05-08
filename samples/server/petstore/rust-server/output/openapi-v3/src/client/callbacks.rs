@@ -140,6 +140,15 @@ where
 
             // CallbackCallbackWithHeaderPost - POST /{$request.query.url}/callback-with-header
             &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => {
+                // Path parameters
+                let path: &str = &uri.path().to_string();
+                let path_params =
+                    paths::REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE REQUEST_QUERY_URL_CALLBACK_WITH_HEADER in set but failed match against \"{}\"", path, paths::REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER.as_str())
+                    );
+
                 let callback_request_query_url = path_params["request_query_url"].to_string();
                 // Header parameters
                 let param_information = headers.get(HeaderName::from_static("information"));
@@ -199,6 +208,15 @@ where
 
             // CallbackCallbackPost - POST /{$request.query.url}/callback
             &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => {
+                // Path parameters
+                let path: &str = &uri.path().to_string();
+                let path_params =
+                    paths::REGEX_REQUEST_QUERY_URL_CALLBACK
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE REQUEST_QUERY_URL_CALLBACK in set but failed match against \"{}\"", path, paths::REGEX_REQUEST_QUERY_URL_CALLBACK.as_str())
+                    );
+
                 let callback_request_query_url = path_params["request_query_url"].to_string();
                 Box::new({
                         {{
