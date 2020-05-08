@@ -1055,7 +1055,7 @@ def get_oneof_instance(self, model_args, constant_args):
         if oneof_class is none_type:
             # skip none_types because we are deserializing dict data.
             # none_type deserialization is handled in the __new__ method
-            continue        
+            continue
 
         # transform js keys from input data to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
@@ -1121,7 +1121,7 @@ def get_anyof_instances(self, model_args, constant_args):
         if anyof_class is none_type:
             # skip none_types because we are deserializing dict data.
             # none_type deserialization is handled in the __new__ method
-            continue        
+            continue
 
         # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
