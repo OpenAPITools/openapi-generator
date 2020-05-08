@@ -881,26 +881,32 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     /**
-     * Return a string representation of the Python types for the specified schema.
+     * Return a string representation of the Python types for the specified OAS schema.
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
+     * 
+     * The caller should set the prefix and suffix arguments to empty string, except when
+     * getTypeString invokes itself recursively. A non-empty prefix/suffix may be specified
+     * to wrap the return value in a python dict, list or tuple.
      *
-     * Prefix and suffix are for models, e.g. Pet is transformed to MyPetV3.
-     *
+     * Examples:
+     * - "bool, date, float"  The data must be a bool, date or float.
+     * - "[bool, date]"       The data must be an array, and the array items must be a bool or date.
+     * 
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.
-     * @return a string representation of the Python types
+     * @return a comma-separated string representation of the Python types
      */
-    public String getTypeString(Schema p, String prefix, String suffix) {
+    private String getTypeString(Schema p, String prefix, String suffix) {
         // this is used to set dataType, which defines a python tuple of classes
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
         if (ModelUtils.isAnyTypeSchema(p)) {
-            return "bool, date, datetime, dict, float, int, list, str, none_type";
+            return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
@@ -920,7 +926,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
                 // specification is aligned with the JSON schema specification.
                 // When "items" is not specified, the elements of the array may be anything at all.
-                return "[bool, date, datetime, dict, float, int, list, str, none_type]";
+                // In that case, the return value should be:
+                //    "[bool, date, datetime, dict, float, int, list, str, none_type]"
+                // Using recursion to wrap the allowed python types in an array.
+                Schema anyType = new Schema(); // A Schema without any attribute represents 'any type'.
+                return getTypeString(anyType, "[", "]");
             } else {
                 return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
             }
