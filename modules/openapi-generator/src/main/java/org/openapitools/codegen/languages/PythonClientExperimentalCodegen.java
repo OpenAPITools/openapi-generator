@@ -932,7 +932,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 Schema anyType = new Schema(); // A Schema without any attribute represents 'any type'.
                 return getTypeString(anyType, "[", "]");
             } else {
-                return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
+                return prefix + getTypeString(inner, "[", "]") + fullSuffix;
             }
         }
         if (ModelUtils.isFileSchema(p)) {
