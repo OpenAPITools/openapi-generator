@@ -140,8 +140,8 @@ class OpenApiModel(object):
         if cls._composed_schemas is not None:
             oneof_anyof_classes = (cls._composed_schemas.get('oneOf', ()) +
                                     cls._composed_schemas.get('anyOf', ()))
-        if oneof_anyof_classes and none_type in oneof_anyof_classes and \
-                len(args) == 1 and args[0] is None:
+        if (oneof_anyof_classes and none_type in oneof_anyof_classes and
+                len(args) == 1 and args[0] is None):
             # The input data is the 'null' value AND one of the oneOf/anyOf children
             # is the 'null' type (which is introduced in OAS schema >= 3.1).
             return None
