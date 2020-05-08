@@ -737,7 +737,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         String vendorExtensionPath = op.path.replace("{", ":").replace("}", "");
         op.vendorExtensions.put("x-path",vendorExtensionPath);
         op.vendorExtensions.put("x-path-id", pathId);
-        op.vendorExtensions.put("x-has-path-params", !op.pathParams.isEmpty());
+        op.vendorExtensions.put("x-has-path-params", hasPathParams);
         op.vendorExtensions.put("x-path-format-string", formatPath);
 
         String vendorExtensionHttpMethod = op.httpMethod.toUpperCase(Locale.ROOT);
