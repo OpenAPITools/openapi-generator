@@ -1443,23 +1443,23 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectUntypedProps {
     #[serde(rename = "required_untyped")]
-    pub required_untyped: AnyType,
+    pub required_untyped: serde_json::Value,
 
     #[serde(rename = "required_untyped_nullable")]
-    pub required_untyped_nullable: swagger::Nullable<AnyType>,
+    pub required_untyped_nullable: swagger::Nullable<serde_json::Value>,
 
     #[serde(rename = "not_required_untyped")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub not_required_untyped: Option<AnyType>,
+    pub not_required_untyped: Option<serde_json::Value>,
 
     #[serde(rename = "not_required_untyped_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub not_required_untyped_nullable: Option<AnyType>,
+    pub not_required_untyped_nullable: Option<serde_json::Value>,
 
 }
 
 impl ObjectUntypedProps {
-    pub fn new(required_untyped: AnyType, required_untyped_nullable: swagger::Nullable<AnyType>, ) -> ObjectUntypedProps {
+    pub fn new(required_untyped: serde_json::Value, required_untyped_nullable: swagger::Nullable<serde_json::Value>, ) -> ObjectUntypedProps {
         ObjectUntypedProps {
             required_untyped: required_untyped,
             required_untyped_nullable: required_untyped_nullable,
@@ -1497,10 +1497,10 @@ impl std::str::FromStr for ObjectUntypedProps {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub required_untyped: Vec<AnyType>,
-            pub required_untyped_nullable: Vec<AnyType>,
-            pub not_required_untyped: Vec<AnyType>,
-            pub not_required_untyped_nullable: Vec<AnyType>,
+            pub required_untyped: Vec<serde_json::Value>,
+            pub required_untyped_nullable: Vec<serde_json::Value>,
+            pub not_required_untyped: Vec<serde_json::Value>,
+            pub not_required_untyped_nullable: Vec<serde_json::Value>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -1517,10 +1517,10 @@ impl std::str::FromStr for ObjectUntypedProps {
 
             if let Some(key) = key_result {
                 match key {
-                    "required_untyped" => intermediate_rep.required_untyped.push(AnyType::from_str(val).map_err(|x| format!("{}", x))?),
+                    "required_untyped" => intermediate_rep.required_untyped.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
                     "required_untyped_nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
-                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(AnyType::from_str(val).map_err(|x| format!("{}", x))?),
-                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(AnyType::from_str(val).map_err(|x| format!("{}", x))?),
+                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
+                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
             }
