@@ -24,9 +24,9 @@
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
-            path_to_item
+        raise AttributeError(
+            "{0} has no attribute '{1}' at {2}".format(
+                type(self).__name__, name, path_to_item)
         )
 
     def __getattr__(self, name):
@@ -54,9 +54,9 @@
                         values.append(v)
         len_values = len(values)
         if len_values == 0:
-            raise ApiKeyError(
-                "{0} has no key '{1}'".format(type(self).__name__, name),
-                path_to_item
+            raise AttributeError(
+                "{0} has no attribute '{1}' at {2}".format(
+                    type(self).__name__, name, path_to_item)
             )
         elif len_values == 1:
             return values[0]
