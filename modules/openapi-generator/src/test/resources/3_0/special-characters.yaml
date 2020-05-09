@@ -1,0 +1,67 @@
+openapi: "3.0.2"
+info:
+  title: "OpenAPI spec containing parameters with special characters."
+  version: "1.0"
+  description: "OpenAPI spec for verifying that special characters are handled correctly."
+servers:
+  - url: "http://localhost:8080"
+tags:
+  - name: example
+
+paths:
+  /examples:
+    post:
+      tags:
+        - example
+      parameters:
+        - $ref: "#/components/parameters/X-Correlation-ID"
+        - $ref: "#/components/parameters/header_with_underscore"
+        - $ref: "#/components/parameters/query-param-with-dash"
+        - $ref: "#/components/parameters/query_param_with_underscore"
+      operationId: "postExample"
+      requestBody:
+        description: "A simple string wrapped in a DTO."
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        201:
+          description: "A new example is created."
+          headers:
+            Location:
+              description: "The location at which the new example is available."
+              schema:
+                type: "string"
+                format: "uri"
+
+components:
+  parameters:
+    X-Correlation-ID:
+      name: "X-Correlation-ID"
+      in: "header"
+      description: "The authorization header which contains a JWT."
+      required: false
+      schema:
+        type: string
+    header_with_underscore:
+      name: "header_with_underscore"
+      in: "header"
+      description: "Some header with underscore."
+      required: false
+      schema:
+        type: string
+    query-param-with-dash:
+      name: "query-param-with-dash"
+      in: "query"
+      description: "Some query-parameter with dash."
+      required: false
+      schema:
+        type: string
+    query_param_with_underscore:
+      name: "query_param_with_underscore"
+      in: "query"
+      description: "Some query-parameter with underscore."
+      required: false
+      schema:
+        type: string
