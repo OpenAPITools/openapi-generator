@@ -29,7 +29,7 @@ data class Pet (
     @Json(name = "name")
     val name: kotlin.String?,
     @Json(name = "photoUrls")
-    @Deprecated(message = "Field is deprecated by the API.")
+    @Deprecated(message = "This property is deprecated.")
     val photoUrls: kotlin.Array<kotlin.String>,
     @Json(name = "id")
     val id: kotlin.Long? = null,

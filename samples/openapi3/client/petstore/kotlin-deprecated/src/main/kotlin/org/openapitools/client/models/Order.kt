@@ -23,6 +23,7 @@ import com.squareup.moshi.Json
  * @param complete 
  */
 
+@Deprecated(message = "This schema is deprecated.")
 data class Order (
     @Json(name = "id")
     val id: kotlin.Long? = null,

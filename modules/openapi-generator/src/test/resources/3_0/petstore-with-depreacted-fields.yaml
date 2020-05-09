@@ -593,6 +593,7 @@ components:
       title: Pet Order
       description: An order for a pets from the pet store
       type: object
+      deprecated: true
       properties:
         id:
           type: integer
