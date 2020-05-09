@@ -999,7 +999,7 @@ export class PetApi extends BaseAPI {
     /**
      * Status values that need to be considered for filter
      */
-    status: Array<OrderStatusEnum>;
+    status: Array<'available' | 'pending' | 'sold'>;
     }
     export interface FindPetsByTagsRequest {
     /**

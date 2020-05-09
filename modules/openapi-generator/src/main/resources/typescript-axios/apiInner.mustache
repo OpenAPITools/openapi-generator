@@ -463,7 +463,7 @@ export class {{classname}} extends BaseAPI {
     /**
      * {{{description}}}
      */
-    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    {{paramName}}{{^required}}?{{/required}}: {{=<% %>=}}<%&dataType%><%={{ }}=%>{{#isNullable}} | null{{/isNullable}};
     {{/allParams}}
     }
 {{/allParams.0}}
