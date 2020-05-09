@@ -5,39 +5,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
 
 
 
-public class Tag   {
-  @JsonProperty("id")
-  private Long id;
-
+public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
   @JsonProperty("name")
   private String name;
 
   /**
    **/
-  public Tag id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-  
-  @ApiModelProperty(value = "")
-  @JsonProperty("id")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
-   **/
-  public Tag name(String name) {
+  public AdditionalPropertiesBoolean name(String name) {
     this.name = name;
     return this;
   }
@@ -61,22 +43,20 @@ public class Tag   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(id, tag.id) &&
-        Objects.equals(name, tag.name);
+    AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
+    return Objects.equals(name, additionalPropertiesBoolean.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("class AdditionalPropertiesBoolean {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();

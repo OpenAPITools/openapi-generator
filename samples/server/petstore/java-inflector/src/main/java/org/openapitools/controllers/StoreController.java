@@ -40,7 +40,7 @@ public class StoreController  {
   */
 
   /*
-    public ResponseContext placeOrder(RequestContext request , Order order) {
+    public ResponseContext placeOrder(RequestContext request , Order body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

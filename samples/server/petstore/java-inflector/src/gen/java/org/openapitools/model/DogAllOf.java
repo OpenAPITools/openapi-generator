@@ -11,45 +11,25 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-public class Tag   {
-  @JsonProperty("id")
-  private Long id;
-
-  @JsonProperty("name")
-  private String name;
+public class DogAllOf   {
+  @JsonProperty("breed")
+  private String breed;
 
   /**
    **/
-  public Tag id(Long id) {
-    this.id = id;
+  public DogAllOf breed(String breed) {
+    this.breed = breed;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("id")
-  public Long getId() {
-    return id;
+  @JsonProperty("breed")
+  public String getBreed() {
+    return breed;
   }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
-   **/
-  public Tag name(String name) {
-    this.name = name;
-    return this;
-  }
-
-  
-  @ApiModelProperty(value = "")
-  @JsonProperty("name")
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
+  public void setBreed(String breed) {
+    this.breed = breed;
   }
 
 
@@ -61,23 +41,21 @@ public class Tag   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(id, tag.id) &&
-        Objects.equals(name, tag.name);
+    DogAllOf dogAllOf = (DogAllOf) o;
+    return Objects.equals(breed, dogAllOf.breed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(breed);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("class DogAllOf {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("}");
     return sb.toString();
   }
