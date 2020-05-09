@@ -35,17 +35,34 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        {{^useSingleRequestParameter}}
         {{nickname}}: async ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: any = {}): Promise<RequestArgs> => {
+        {{/useSingleRequestParameter}}
+        {{#useSingleRequestParameter}}
+        {{nickname}}: async ({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options: any = {}): Promise<RequestArgs> => {
+        {{/useSingleRequestParameter}}
     {{#allParams}}
     {{#required}}
             // verify required parameter '{{paramName}}' is not null or undefined
+        {{^useSingleRequestParameter}}
             if ({{paramName}} === null || {{paramName}} === undefined) {
                 throw new RequiredError('{{paramName}}','Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
             }
+        {{/useSingleRequestParameter}}
+        {{#useSingleRequestParameter}}
+            if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
+                throw new RequiredError('{{paramName}}','Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+            }
+        {{/useSingleRequestParameter}}            
     {{/required}}
     {{/allParams}}
+        {{^useSingleRequestParameter}}
             const localVarPath = `{{{path}}}`{{#pathParams}}
                 .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
+        {{/useSingleRequestParameter}}
+        {{#useSingleRequestParameter}}
+            const localVarPath = `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}};
+        {{/useSingleRequestParameter}}            
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
@@ -104,6 +121,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/authMethods}}
     {{#queryParams}}
             {{#isListContainer}}
+            {{^useSingleRequestParameter}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
@@ -112,8 +130,21 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
             {{/isCollectionFormatMulti}}
             }
+            {{/useSingleRequestParameter}}
+
+            {{#useSingleRequestParameter}}
+            if (requestParameters.{{paramName}}) {
+            {{#isCollectionFormatMulti}}
+                localVarQueryParameter['{{baseName}}'] = requestParameters.{{paramName}};
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+                localVarQueryParameter['{{baseName}}'] = requestParameters.{{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
+            {{/isCollectionFormatMulti}}
+            }
+            {{/useSingleRequestParameter}}
             {{/isListContainer}}
             {{^isListContainer}}
+            {{^useSingleRequestParameter}}
             if ({{paramName}} !== undefined) {
                 {{#isDateTime}}
                 localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any instanceof Date) ?
@@ -131,6 +162,25 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 {{/isDate}}
                 {{/isDateTime}}
             }
+            {{/useSingleRequestParameter}}
+
+            {{#useSingleRequestParameter}}
+            if (requestParameters.{{paramName}} !== undefined) {
+                {{#isDateTime}}
+                localVarQueryParameter['{{baseName}}'] = (requestParameters.{{paramName}} as any instanceof Date) ?
+                    (requestParameters.{{paramName}} as any).toISOString() : requestParameters.{{paramName}};
+                {{/isDateTime}}
+                {{^isDateTime}}
+                {{#isDate}}
+                localVarQueryParameter['{{baseName}}'] = (requestParameters.{{paramName}} as any instanceof Date) ?
+                    (requestParameters.{{paramName}} as any).toISOString().substr(0,10) : requestParameters.{{paramName}};
+                {{/isDate}}
+                {{^isDate}}
+                localVarQueryParameter['{{baseName}}'] = requestParameters.{{paramName}};
+                {{/isDate}}
+                {{/isDateTime}}
+            }
+            {{/useSingleRequestParameter}}            
             {{/isListContainer}}
 
     {{/queryParams}}
@@ -196,8 +246,14 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             localVarRequestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
     {{/hasFormParams}}
     {{#bodyParam}}
+{{^useSingleRequestParameter}}
             const needsSerialization = (typeof {{paramName}} !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify({{paramName}} !== undefined ? {{paramName}} : {}) : ({{paramName}} || "");
+{{/useSingleRequestParameter}}
+{{#useSingleRequestParameter}}
+            const needsSerialization = (typeof requestParameters.{{paramName}} !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(requestParameters.{{paramName}} !== undefined ? requestParameters.{{paramName}} : {}) : (requestParameters.{{paramName}} || "");
+{{/useSingleRequestParameter}}            
     {{/bodyParam}}
 
             return {
@@ -228,6 +284,7 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+{{^useSingleRequestParameter}}
         async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
             const localVarAxiosArgs = await {{classname}}AxiosParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -235,6 +292,16 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
                 return axios.request(axiosRequestArgs);
             };
         },
+{{/useSingleRequestParameter}}
+{{#useSingleRequestParameter}}
+        async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
+            const localVarAxiosArgs = await {{classname}}AxiosParamCreator(configuration).{{nickname}}({{#allParams.0}}requestParameters, {{/allParams.0}}options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+{{/useSingleRequestParameter}}
     {{/operation}}
     }
 };
@@ -258,9 +325,16 @@ export const {{classname}}Factory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+{{^useSingleRequestParameter}}
         {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
             return {{classname}}Fp(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(axios, basePath));
         },
+{{/useSingleRequestParameter}}
+{{#useSingleRequestParameter}}
+        {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+            return {{classname}}Fp(configuration).{{nickname}}({{#allParams.0}}requestParameters, {{/allParams.0}}options).then((request) => request(axios, basePath));
+        },
+{{/useSingleRequestParameter}} 
     {{/operation}}
     };
 };
@@ -279,15 +353,21 @@ export interface {{classname}}Interface {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
+{{^useSingleRequestParameter}}
      {{#allParams}}
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
+{{/useSingleRequestParameter}}     
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
+{{^useSingleRequestParameter}}
     {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
-
+{{/useSingleRequestParameter}}
+{{#useSingleRequestParameter}}
+    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+{{/useSingleRequestParameter}}     
 {{/operation}}
 }
 
@@ -318,10 +398,33 @@ export class {{classname}} extends BaseAPI {
      * @throws {RequiredError}
      * @memberof {{classname}}
      */
+{{^useSingleRequestParameter}}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
     }
+{{/useSingleRequestParameter}}
+{{#useSingleRequestParameter}}
+    public {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options?: any) {
+        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams.0}}requestParameters, {{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
+    }
+{{/useSingleRequestParameter}}
 
     {{/operation}}
 }
+
+{{#useSingleRequestParameter}}
+{{#operation}}
+{{#allParams.0}}
+    export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request {
+    {{#allParams}}
+    /**
+     * {{{description}}}
+     */
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    {{/allParams}}
+    }
+{{/allParams.0}}
+{{/operation}}
+{{/useSingleRequestParameter}}
+
 {{/operations}}
