@@ -1,6 +1,6 @@
 ---
-title: Config Options for php-silex
-sidebar_label: php-silex
+title: Config Options for php-silex-deprecated
+sidebar_label: php-silex-deprecated
 ---
 
 | Option | Description | Values | Default |
