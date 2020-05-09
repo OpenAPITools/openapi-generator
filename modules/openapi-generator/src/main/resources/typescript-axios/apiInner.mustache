@@ -39,7 +39,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
         {{nickname}}: async ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: any = {}): Promise<RequestArgs> => {
         {{/useSingleRequestParameter}}
         {{#useSingleRequestParameter}}
-        {{nickname}}: async ({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options: any = {}): Promise<RequestArgs> => {
+        {{nickname}}: async ({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}options: any = {}): Promise<RequestArgs> => {
         {{/useSingleRequestParameter}}
     {{#allParams}}
     {{#required}}
@@ -186,12 +186,21 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/queryParams}}
     {{#headerParams}}
             {{#isListContainer}}
-            if ({{paramName}}) {
-                let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
-                localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
-            }
+                {{^useSingleRequestParameter}}
+                    if ({{paramName}}) {
+                    let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                    localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                    }
+                {{/useSingleRequestParameter}}
+                {{#useSingleRequestParameter}}
+                    if (requestParameters.{{paramName}}) {
+                    let mapped = requestParameters.{{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                    localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                    }
+                {{/useSingleRequestParameter}}   
             {{/isListContainer}}
             {{^isListContainer}}
+            {{^useSingleRequestParameter}}
             if ({{paramName}} !== undefined && {{paramName}} !== null) {
                 {{#isString}}
                 localVarHeaderParameter['{{baseName}}'] = String({{paramName}});
@@ -200,30 +209,64 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarHeaderParameter['{{baseName}}'] = String(JSON.stringify({{paramName}}));
                 {{/isString}}
             }
+            {{/useSingleRequestParameter}}
+            {{#useSingleRequestParameter}}
+            if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
+                {{#isString}}
+                localVarHeaderParameter['{{baseName}}'] = String(requestParameters.{{paramName}});
+                {{/isString}}
+                {{^isString}}
+                localVarHeaderParameter['{{baseName}}'] = String(JSON.stringify(requestParameters.{{paramName}}));
+                {{/isString}}
+            }
+            {{/useSingleRequestParameter}}   
             {{/isListContainer}}
 
     {{/headerParams}}
     {{#vendorExtensions}}
     {{#formParams}}
-            {{#isListContainer}}
-            if ({{paramName}}) {
-            {{#isCollectionFormatMulti}}
-                {{paramName}}.forEach((element) => {
-                    localVarFormParams.append('{{baseName}}', element as any);
-                })
-            {{/isCollectionFormatMulti}}
-            {{^isCollectionFormatMulti}}{{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}{{#multipartFormData}}
-                localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}
-            {{/isCollectionFormatMulti}}
-            }{{/isListContainer}}
-            {{^isListContainer}}
-            if ({{paramName}} !== undefined) { {{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}
-                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}
-            }
-            {{/isListContainer}}
-    {{/formParams}}{{/vendorExtensions}}
+    {{^useSingleRequestParameter}}
+                {{#isListContainer}}
+                if ({{paramName}}) {
+                {{#isCollectionFormatMulti}}
+                    {{paramName}}.forEach((element) => {
+                        localVarFormParams.append('{{baseName}}', element as any);
+                    })
+                {{/isCollectionFormatMulti}}
+                {{^isCollectionFormatMulti}}{{^multipartFormData}}
+                    localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}{{#multipartFormData}}
+                    localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}
+                {{/isCollectionFormatMulti}}
+                }{{/isListContainer}}
+                {{^isListContainer}}
+                if ({{paramName}} !== undefined) { {{^multipartFormData}}
+                    localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}
+                    localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}
+                }
+                {{/isListContainer}}
+    {{/useSingleRequestParameter}}
+    {{#useSingleRequestParameter}}
+                {{#isListContainer}}
+                if (requestParameters.{{paramName}}) {
+                {{#isCollectionFormatMulti}}
+                    requestParameters.{{paramName}}.forEach((element) => {
+                        localVarFormParams.append('{{baseName}}', element as any);
+                    })
+                {{/isCollectionFormatMulti}}
+                {{^isCollectionFormatMulti}}{{^multipartFormData}}
+                    localVarFormParams.set('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}{{#multipartFormData}}
+                    localVarFormParams.append('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}
+                {{/isCollectionFormatMulti}}
+                }{{/isListContainer}}
+                {{^isListContainer}}
+                if (requestParameters.{{paramName}} !== undefined) { {{^multipartFormData}}
+                    localVarFormParams.set('{{baseName}}', requestParameters.{{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}
+                    localVarFormParams.append('{{baseName}}', requestParameters.{{paramName}} as any);{{/multipartFormData}}
+                }
+                {{/isListContainer}}
+    {{/useSingleRequestParameter}}   
+    {{/formParams}}
+    {{/vendorExtensions}}
     {{#vendorExtensions}}{{#hasFormParams}}{{^multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';{{/multipartFormData}}{{#multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';{{/multipartFormData}}
@@ -294,8 +337,8 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
         },
 {{/useSingleRequestParameter}}
 {{#useSingleRequestParameter}}
-        async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
-            const localVarAxiosArgs = await {{classname}}AxiosParamCreator(configuration).{{nickname}}({{#allParams.0}}requestParameters, {{/allParams.0}}options);
+        async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request,{{/allParams.0}}options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
+            const localVarAxiosArgs = await {{classname}}AxiosParamCreator(configuration).{{nickname}}({{#allParams.0}}requestParameters,{{/allParams.0}}options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -331,7 +374,7 @@ export const {{classname}}Factory = function (configuration?: Configuration, bas
         },
 {{/useSingleRequestParameter}}
 {{#useSingleRequestParameter}}
-        {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+        {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
             return {{classname}}Fp(configuration).{{nickname}}({{#allParams.0}}requestParameters, {{/allParams.0}}options).then((request) => request(axios, basePath));
         },
 {{/useSingleRequestParameter}} 
@@ -366,7 +409,7 @@ export interface {{classname}}Interface {
     {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
 {{/useSingleRequestParameter}}
 {{#useSingleRequestParameter}}
-    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
 {{/useSingleRequestParameter}}     
 {{/operation}}
 }
@@ -404,7 +447,7 @@ export class {{classname}} extends BaseAPI {
     }
 {{/useSingleRequestParameter}}
 {{#useSingleRequestParameter}}
-    public {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}, options?: any) {
+    public {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: any) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams.0}}requestParameters, {{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
     }
 {{/useSingleRequestParameter}}
