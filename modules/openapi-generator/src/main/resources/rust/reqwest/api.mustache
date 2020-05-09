@@ -23,17 +23,21 @@ impl {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    /// struct for passing parameters to the method `{{operationdId}}`
+    {{#allParams}}
+    {{#-first}}
+    /// struct for passing parameters to the method `{{operationId}}`
     #[derive(Clone, Debug)]
     struct {{{operationIdCamelCase}}}Params {
-        {{#allParams}}
+    {{/-first}}
         {{#description}}
         /// {{{.}}}
         {{/description}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}String{{/isString}}{{#isUuid}}String{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}
-        {{/allParams}}
+    {{#-last}}
     }
 
+    {{/-last}}
+    {{/allParams}}
     {{/vendorExtensions.x-group-parameters}}
 {{/operation}}
 {{/operations}}
@@ -42,7 +46,7 @@ pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    fn {{{operationId}}}(&self, params: {{{operationIdCamelCase}}}Params) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
     {{/vendorExtensions.x-group-parameters}}
     {{^vendorExtensions.x-group-parameters}}
     fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
@@ -55,7 +59,8 @@ impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    fn {{{operationId}}}(&self, params: {{{operationIdCamelCase}}}Params) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+        // unbox the parameters
         {{#allParams}}
         let {{paramName}} = params.{{paramName}};
         {{/allParams}}

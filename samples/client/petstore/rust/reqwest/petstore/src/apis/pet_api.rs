@@ -29,6 +29,7 @@ impl PetApiClient {
     }
 }
 
+
 pub trait PetApi {
     fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
     fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error>;
