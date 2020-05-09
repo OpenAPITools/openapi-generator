@@ -75,9 +75,9 @@ class OpenApiModel(object):
         if name in self.openapi_types:
             required_types_mixed = self.openapi_types[name]
         elif self.additional_properties_type is None:
-            raise ApiKeyError(
-                "{0} has no key '{1}'".format(type(self).__name__, name),
-                path_to_item
+            raise AttributeError(
+                "{0} has no attribute '{1}' at {2}".format(
+                    type(self).__name__, name, path_to_item)
             )
         elif self.additional_properties_type is not None:
             required_types_mixed = self.additional_properties_type
@@ -204,9 +204,9 @@ class ModelSimple(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
-            [name]
+        raise AttributeError(
+            "{0} has no attribute '{1}' at {2}".format(
+                type(self).__name__, name, [name])
         )
 
     def to_str(self):
@@ -257,9 +257,9 @@ class ModelNormal(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
-            [name]
+        raise AttributeError(
+            "{0} has no attribute '{1}' at {2}".format(
+                type(self).__name__, name, [name])
         )
 
     def to_dict(self):
@@ -323,9 +323,9 @@ class ModelComposed(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
-            path_to_item
+        raise AttributeError(
+            "{0} has no attribute '{1}' at {2}".format(
+                type(self).__name__, name, path_to_item)
         )
 
     def __getattr__(self, name):
@@ -353,9 +353,9 @@ class ModelComposed(OpenApiModel):
                         values.append(v)
         len_values = len(values)
         if len_values == 0:
-            raise ApiKeyError(
-                "{0} has no key '{1}'".format(type(self).__name__, name),
-                path_to_item
+            raise AttributeError(
+                "{0} has no attribute '{1}' at {2}".format(
+                    type(self).__name__, name, path_to_item)
             )
         elif len_values == 1:
             return values[0]

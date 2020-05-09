@@ -51,19 +51,21 @@ class TestGmFruit(unittest.TestCase):
         )
         # setting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             fruit['invalid_variable'] = 'some value'
         # with setattr
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             setattr(fruit, 'invalid_variable', 'some value')
 
         # getting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             invalid_variable = fruit['cultivar']
         # with getattr
-        with self.assertRaises(petstore_api.ApiKeyError):
-            invalid_variable = getattr(fruit, 'cultivar', 'some value')
+        self.assertTrue(getattr(fruit, 'cultivar', 'some value'), 'some value')
+
+        with self.assertRaises(AttributeError):
+            invalid_variable = getattr(fruit, 'cultivar')
 
         # make sure that the ModelComposed class properties are correct
         # model._composed_schemas stores the anyOf/allOf/oneOf info
