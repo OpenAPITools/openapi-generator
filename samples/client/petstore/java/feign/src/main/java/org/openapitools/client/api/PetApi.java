@@ -38,9 +38,9 @@ public interface PetApi extends ApiClient.Api {
   @RequestLine("DELETE /pet/{petId}")
   @Headers({
     "Accept: application/json",
-    "api_key: {apiKey}"
+    "api_key: {api_key}"
   })
-  void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey);
+  void deletePet(@Param("petId") Long petId, @Param("api_key") String apiKey);
 
   /**
    * Finds Pets by status
