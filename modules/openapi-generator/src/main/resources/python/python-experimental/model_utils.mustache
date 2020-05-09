@@ -299,8 +299,9 @@ def check_allowed_values(allowed_values, input_variable_path, input_values):
         )
 
 
-def check_validations(validations, input_variable_path, input_values,
-                        configuration=None):
+def check_validations(
+        validations, input_variable_path, input_values,
+        configuration=None):
     """Raises an exception if the input_values are invalid
 
     Args:
@@ -310,8 +311,9 @@ def check_validations(validations, input_variable_path, input_values,
             are checking.
         configuration (Configuration): the configuration class.
     """
-    if configuration is not None and configuration.disable_validation:
-        # Skip JSON schema structural validation.
+    if configuration is not None and configuration.disable_client_side_validation:
+        # Skip JSON schema structural validation as requested in the configuration.
+        # By default, JSON schema validation is enabled.
         return
 
     current_validations = validations[input_variable_path]
