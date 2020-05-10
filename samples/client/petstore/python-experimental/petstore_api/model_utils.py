@@ -22,6 +22,7 @@ import six
 
 from petstore_api.exceptions import (
     ApiKeyError,
+    ApiAttributeError,
     ApiTypeError,
     ApiValueError,
 )
@@ -75,9 +76,10 @@ class OpenApiModel(object):
         if name in self.openapi_types:
             required_types_mixed = self.openapi_types[name]
         elif self.additional_properties_type is None:
-            raise AttributeError(
-                "{0} has no attribute '{1}' at {2}".format(
-                    type(self).__name__, name, path_to_item)
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
+                path_to_item
             )
         elif self.additional_properties_type is not None:
             required_types_mixed = self.additional_properties_type
@@ -113,6 +115,7 @@ class OpenApiModel(object):
                 value
             )
         self.__dict__['_data_store'][name] = value
+
 
     def __setitem__(self, name, value):
         """this allows us to set values with instance[field_name] = val"""
@@ -204,10 +207,12 @@ class ModelSimple(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise AttributeError(
-            "{0} has no attribute '{1}' at {2}".format(
-                type(self).__name__, name, [name])
+        raise ApiAttributeError(
+            "{0} has no attribute '{1}'".format(
+                type(self).__name__, name),
+            [name]
         )
+
 
     def to_str(self):
         """Returns the string representation of the model"""
@@ -257,10 +262,12 @@ class ModelNormal(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise AttributeError(
-            "{0} has no attribute '{1}' at {2}".format(
-                type(self).__name__, name, [name])
+        raise ApiAttributeError(
+            "{0} has no attribute '{1}'".format(
+                type(self).__name__, name),
+            [name]
         )
+
 
     def to_dict(self):
         """Returns the model properties as a dict"""
@@ -323,9 +330,10 @@ class ModelComposed(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise AttributeError(
-            "{0} has no attribute '{1}' at {2}".format(
-                type(self).__name__, name, path_to_item)
+        raise ApiAttributeError(
+            "{0} has no attribute '{1}'".format(
+                type(self).__name__, name),
+            path_to_item
         )
 
     def __getattr__(self, name):
@@ -353,9 +361,10 @@ class ModelComposed(OpenApiModel):
                         values.append(v)
         len_values = len(values)
         if len_values == 0:
-            raise AttributeError(
-                "{0} has no attribute '{1}' at {2}".format(
-                    type(self).__name__, name, path_to_item)
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
+                path_to_item
             )
         elif len_values == 1:
             return values[0]
@@ -366,6 +375,7 @@ class ModelComposed(OpenApiModel):
                 "the same".format(name, type(self).__name__),
                 path_to_item
             )
+
 
     def to_dict(self):
         """Returns the model properties as a dict"""
