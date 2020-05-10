@@ -23,7 +23,12 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     factory {{classname}}([updates({{classname}}Builder b)]) = _${{classname}};
     static Serializer<{{classname}}> get serializer => _${{classVarName}}Serializer;
 }
-{{! Generate an enum for any variables that are declared as inline enums}}
+{{!
+    Generate an enum for any variables that are declared as inline enums
+    isEnum is only true for inline variables that are enums.
+    If an enum is declared as a definition, isEnum is false and the enum is generated from the
+    enum.mustache template.
+}}
 {{#vars}}
     {{#isEnum}}
 
