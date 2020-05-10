@@ -18,6 +18,7 @@ title {{appName}} Schemas Diagram
 {{#interfaces}}
 {{.}} <|-- {{classname}}
 {{/interfaces}}
+{{#vars}}{{#items}}{{#isModel}}{{classname}} - "0..*" {{dataType}} : {{baseName}}{{/isModel}}{{/items}}{{/vars}}
 {{/model}}
 {{/models}}
 {{/modelPackage}}
