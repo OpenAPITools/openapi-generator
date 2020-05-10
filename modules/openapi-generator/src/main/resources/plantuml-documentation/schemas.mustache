@@ -1,0 +1,11 @@
+# PlantUML Documentation for {{appName}}
+
+{{#generateModelDocs}}
+{{#modelPackage}}
+{{#models}}{{#model}} - [{{{classname}}}](./{{{modelPackage}}}/{{modelDocPath}}{{{classname}}}.md)
+{{/model}}{{/models}}
+{{/modelPackage}}
+{{^modelPackage}}
+No model defined in this package
+{{/modelPackage}}
+{{/generateModelDocs}}

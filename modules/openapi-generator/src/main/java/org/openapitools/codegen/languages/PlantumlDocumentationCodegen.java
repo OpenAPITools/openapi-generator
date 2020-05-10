@@ -35,12 +35,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         super();
 
         outputFolder = "generated-code" + File.separator + "plantuml";
-        modelTemplateFiles.put("model.mustache", ".zz");
-        apiTemplateFiles.put("api.mustache", ".zz");
         embeddedTemplateDir = templateDir = "plantuml-documentation";
-        apiPackage = File.separator + "Apis";
-        modelPackage = File.separator + "Models";
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        // TODO: Fill this out.
+        supportingFiles.add(new SupportingFile("schemas.mustache", "", "schemas.plantuml"));
     }
 }
