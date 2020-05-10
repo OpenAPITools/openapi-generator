@@ -602,7 +602,7 @@ Fake endpoint to test group parameters (optional)
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-  # Configure Bearer authorization (JWT): bearer_test
+  # Configure Bearer authorization: bearer_test
   config.access_token = 'YOUR_BEARER_TOKEN'
 end
 

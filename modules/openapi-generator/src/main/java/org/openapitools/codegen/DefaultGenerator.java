@@ -1419,7 +1419,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         for (CodegenSecurity security : authMethods) {
             boolean filtered = false;
-            if (security != null && security.scopes != null) {
+            if (security != null && security.scopes != null && SecurityScheme.Type.OAUTH2.toString().equals(security.type)) {
                 for (SecurityRequirement requirement : securities) {
                     List<String> opScopes = requirement.get(security.name);
                     if (opScopes != null) {
@@ -1428,6 +1428,28 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         // We have to create a new auth method instance because the original object must
                         // not be modified.
                         CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
+                        opSecurity.hasMore = security.hasMore;
+                        result.add(opSecurity);
+                        filtered = true;
+                        break;
+                    }
+                }
+            }
+            // This is separate than the oauth2 case since bearerAuths aren't declared in the scheme definition. They
+            // only exist at the api definition level
+            if (security != null && SecurityScheme.Type.HTTP.toString().equals(security.type)) {
+                for (SecurityRequirement requirement : securities) {
+                    List<String> opScopes = requirement.get(security.name);
+                    if (opScopes != null) {
+                        CodegenSecurity opSecurity = security.filterByScopeNames(Collections.emptyList());
+                        Iterator<String> it = opScopes.iterator();
+                        opSecurity.scopes = new ArrayList<>();
+                        while(it.hasNext()){
+                            Map<String, Object> scope = new HashMap<>();
+                            scope.put("scope", it.next());
+                            scope.put("hasMore", it.hasNext()? "true": null);
+                            opSecurity.scopes.add(scope);
+                        }
                         opSecurity.hasMore = security.hasMore;
                         result.add(opSecurity);
                         filtered = true;
