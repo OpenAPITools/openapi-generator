@@ -183,18 +183,18 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/queryParams}}
     {{#headerParams}}
             {{#isListContainer}}
-                {{^useSingleRequestParameter}}
-                    if ({{paramName}}) {
-                    let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
-                    localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
-                    }
-                {{/useSingleRequestParameter}}
-                {{#useSingleRequestParameter}}
-                    if (requestParameters.{{paramName}}) {
-                    let mapped = requestParameters.{{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
-                    localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
-                    }
-                {{/useSingleRequestParameter}}   
+            {{^useSingleRequestParameter}}
+                if ({{paramName}}) {
+                let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                }
+            {{/useSingleRequestParameter}}
+            {{#useSingleRequestParameter}}
+                if (requestParameters.{{paramName}}) {
+                let mapped = requestParameters.{{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                }
+            {{/useSingleRequestParameter}}   
             {{/isListContainer}}
             {{^isListContainer}}
             {{^useSingleRequestParameter}}
