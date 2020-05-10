@@ -14,9 +14,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
-        /// <param name="body">Pet object that needs to be added to the store</param>
-        /// <returns></returns>
-        void AddPet (Pet body);
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <returns>Pet</returns>
+        Pet AddPet (Pet pet);
         /// <summary>
         /// Deletes a pet 
         /// </summary>
@@ -45,9 +45,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Update an existing pet 
         /// </summary>
-        /// <param name="body">Pet object that needs to be added to the store</param>
-        /// <returns></returns>
-        void UpdatePet (Pet body);
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <returns>Pet</returns>
+        Pet UpdatePet (Pet pet);
         /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
@@ -122,13 +122,13 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
-        /// <param name="body">Pet object that needs to be added to the store</param> 
-        /// <returns></returns>            
-        public void AddPet (Pet body)
+        /// <param name="pet">Pet object that needs to be added to the store</param> 
+        /// <returns>Pet</returns>            
+        public Pet AddPet (Pet pet)
         {
             
-            // verify the required parameter 'body' is set
-            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling AddPet");
+            // verify the required parameter 'pet' is set
+            if (pet == null) throw new ApiException(400, "Missing required parameter 'pet' when calling AddPet");
             
     
             var path = "/pet";
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(pet); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Api
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling AddPet: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet), response.Headers);
         }
     
         /// <summary>
@@ -309,13 +309,13 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Update an existing pet 
         /// </summary>
-        /// <param name="body">Pet object that needs to be added to the store</param> 
-        /// <returns></returns>            
-        public void UpdatePet (Pet body)
+        /// <param name="pet">Pet object that needs to be added to the store</param> 
+        /// <returns>Pet</returns>            
+        public Pet UpdatePet (Pet pet)
         {
             
-            // verify the required parameter 'body' is set
-            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling UpdatePet");
+            // verify the required parameter 'pet' is set
+            if (pet == null) throw new ApiException(400, "Missing required parameter 'pet' when calling UpdatePet");
             
     
             var path = "/pet";
@@ -327,7 +327,7 @@ namespace Org.OpenAPITools.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(pet); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };
@@ -340,7 +340,7 @@ namespace Org.OpenAPITools.Api
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling UpdatePet: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            return (Pet) ApiClient.Deserialize(response.Content, typeof(Pet), response.Headers);
         }
     
         /// <summary>
