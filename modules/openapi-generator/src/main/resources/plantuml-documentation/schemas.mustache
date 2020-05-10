@@ -7,7 +7,7 @@ title {{appName}} Schemas Diagram
 {{#models}}
 {{#model}}entity {{{name}}} { 
 {{#vars}}
-    {{#required}}* {{/required}}{{name}}: {{dataType}}
+    {{#required}}* {{/required}}{{baseName}}: {{dataType}}{{#items}}<{{dataType}}>{{/items}}
 {{/vars}}
 }
 
