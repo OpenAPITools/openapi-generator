@@ -116,7 +116,6 @@ class OpenApiModel(object):
             )
         self.__dict__['_data_store'][name] = value
 
-
     def __setitem__(self, name, value):
         """this allows us to set values with instance[field_name] = val"""
         self.__setattr__(name, value)
@@ -213,7 +212,6 @@ class ModelSimple(OpenApiModel):
             [name]
         )
 
-
     def to_str(self):
         """Returns the string representation of the model"""
         return str(self.value)
@@ -267,7 +265,6 @@ class ModelNormal(OpenApiModel):
                 type(self).__name__, name),
             [name]
         )
-
 
     def to_dict(self):
         """Returns the model properties as a dict"""
@@ -375,7 +372,6 @@ class ModelComposed(OpenApiModel):
                 "the same".format(name, type(self).__name__),
                 path_to_item
             )
-
 
     def to_dict(self):
         """Returns the model properties as a dict"""
