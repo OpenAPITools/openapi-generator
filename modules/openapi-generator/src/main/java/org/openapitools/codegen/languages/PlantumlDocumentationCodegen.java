@@ -8,6 +8,7 @@ import io.swagger.models.parameters.Parameter;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,5 +38,28 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         outputFolder = "generated-code" + File.separator + "plantuml";
         embeddedTemplateDir = templateDir = "plantuml-documentation";
         supportingFiles.add(new SupportingFile("schemas.mustache", "", "schemas.plantuml"));
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> model : models) {
+            Object v = model.get("model");
+            if (v instanceof CodegenModel) {
+                CodegenModel m = (CodegenModel) v;
+                if (m.interfaces != null) {
+                    m.interfaces.removeIf(interfaceName -> interfaceName.endsWith("AllOf"));
+                }
+            }
+        }
+        return objs;
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        List<String> keysToRemove = objs.keySet().stream().filter(key -> key.endsWith("_allOf")).collect(Collectors.toList());
+        keysToRemove.forEach(key -> objs.remove(key));
+
+        return super.postProcessAllModels(objs);
     }
 }
