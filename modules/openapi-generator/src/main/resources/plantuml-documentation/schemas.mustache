@@ -10,6 +10,7 @@ title {{appName}} Schemas Diagram
     {{#required}}* {{/required}}{{baseName}}: {{dataType}}{{#items}}<{{dataType}}>{{/items}}
 {{/vars}}
 }
+
 {{/model}}
 {{/models}}
 
@@ -19,6 +20,7 @@ title {{appName}} Schemas Diagram
 {{.}} <|-- {{classname}}
 {{/interfaces}}
 {{#vars}}{{#items}}{{#isModel}}{{classname}} - "0..*" {{dataType}} : {{baseName}}{{/isModel}}{{/items}}{{/vars}}
+
 {{/model}}
 {{/models}}
 {{/modelPackage}}
