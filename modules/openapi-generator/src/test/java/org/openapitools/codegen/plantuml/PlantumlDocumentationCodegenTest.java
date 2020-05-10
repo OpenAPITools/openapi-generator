@@ -9,10 +9,8 @@ import org.openapitools.codegen.languages.PlantumlDocumentationCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PlantumlDocumentationCodegenTest {
     private PlantumlDocumentationCodegen plantumlDocumentationCodegen = new PlantumlDocumentationCodegen();
@@ -29,12 +27,7 @@ public class PlantumlDocumentationCodegenTest {
         plantumlDocumentationCodegen.setOpenAPI(openAPI);
         final CodegenModel cm = plantumlDocumentationCodegen.fromModel("sample", model);
 
-        Map<String, Object> modelsMap = new HashMap<>();
-        modelsMap.put("model", cm);
-        List<Map<?,?>> modelsList = new ArrayList();
-        modelsList.add(modelsMap);
-        Map<String, Object> objs = new HashMap<>();
-        objs.put("models", modelsList);
+        Map<String, Object> objs = createObjectsMapFor(cm);
 
         plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
 
@@ -71,12 +64,7 @@ public class PlantumlDocumentationCodegenTest {
         plantumlDocumentationCodegen.setOpenAPI(openAPI);
         final CodegenModel cm = plantumlDocumentationCodegen.fromModel("sample", model);
 
-        Map<String, Object> modelsMap = new HashMap<>();
-        modelsMap.put("model", cm);
-        List<Map<?,?>> modelsList = new ArrayList();
-        modelsList.add(modelsMap);
-        Map<String, Object> objs = new HashMap<>();
-        objs.put("models", modelsList);
+        Map<String, Object> objs = createObjectsMapFor(cm);
 
         plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
 
@@ -88,5 +76,120 @@ public class PlantumlDocumentationCodegenTest {
 
         Assert.assertEquals((String)firstField.get("name"), "tags");
         Assert.assertEquals((String)firstField.get("dataType"), "List<String>");
+    }
+
+    @Test
+    public void composedEntitiesTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema parentSchema = new Schema()
+                .description("a parent model")
+                .addProperties("id", new StringSchema())
+                .addRequiredItem("id");
+
+        openAPI.getComponents().addSchemas("parent", parentSchema);
+
+        final Schema parentRefSchema = new Schema()
+                .$ref("#/components/schemas/parent");
+
+        final Schema childAllOfInlineSchema = new Schema()
+                .description("an inline model")
+                .addProperties("name", new StringSchema());
+
+        openAPI.getComponents().addSchemas("child_allOf", childAllOfInlineSchema);
+
+        final Schema childAllOfRefSchema = new Schema()
+                .$ref("#/components/schemas/child_allOf");
+
+        final ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.setDescription("a composed child model");
+        composedSchema.addAllOfItem(parentRefSchema);
+        composedSchema.addAllOfItem(childAllOfRefSchema);
+        openAPI.getComponents().addSchemas("child", composedSchema);
+
+        plantumlDocumentationCodegen.setOpenAPI(openAPI);
+        final CodegenModel parentModel = plantumlDocumentationCodegen.fromModel("parent", parentSchema);
+        final CodegenModel childAllOfModel = plantumlDocumentationCodegen.fromModel("child_allOf", childAllOfInlineSchema);
+        final CodegenModel childComposedModel = plantumlDocumentationCodegen.fromModel("child", composedSchema);
+
+        Map<String, Object> objs = createObjectsMapFor(parentModel, childComposedModel, childAllOfModel);
+
+        plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
+
+        Object entities = objs.get("entities");
+        List<?> entityList = (List<?>)entities;
+        Assert.assertEquals(entityList.size(), 2, "size of entity list");
+
+        assertEntityDoesNotExistsInList("ChildAllOf", entityList);
+
+        Map<String, Object> parentEntity = getEntityFromList("Parent", entityList);
+        getFieldFromEntity("id", parentEntity);
+
+        Map<String, Object> childEntity = getEntityFromList("Child", entityList);
+        assertFieldDoesNotExistsInEntity("id", childEntity);
+        getFieldFromEntity("name", childEntity);
+    }
+
+    private Map<String, Object> createObjectsMapFor(CodegenModel... codegenModels) {
+        List<Map<?,?>> modelsList = new ArrayList();
+
+        for (CodegenModel codegenModel: codegenModels) {
+            Map<String, Object> modelMap = new HashMap<>();
+            modelMap.put("model", codegenModel);
+            modelsList.add(modelMap);
+        }
+
+        Map<String, Object> objs = new HashMap<>();
+        objs.put("models", modelsList);
+        return objs;
+    }
+
+    private Map<String, Object> toMap(Object entityItem) {
+        return (Map<String, Object>)entityItem;
+    }
+
+    private boolean hasName(String name, Map<String, Object> map) {
+        return ((String)map.get("name")).equalsIgnoreCase(name);
+    }
+
+    private void assertEntityDoesNotExistsInList(String name, List<?> entityList) {
+        long count = entityList.stream()
+                .map(entityItem -> toMap(entityItem))
+                .filter(entityMap -> hasName(name, entityMap))
+                .count();
+
+        Assert.assertEquals(count, 0, "entries with name " + name);
+    }
+
+    private Map<String, Object> getEntityFromList(String name, List<?> entityList) {
+        Optional<Map<String, Object>> entity = entityList.stream()
+                .map(entityItem -> toMap(entityItem))
+                .filter(entityMap -> hasName(name, entityMap))
+                .findFirst();
+
+        Assert.assertTrue(entity.isPresent(), "entity with name '" + name + "' found in list");
+
+        return entity.get();
+    }
+
+    private void assertFieldDoesNotExistsInEntity(String name, Map<String, Object> entity) {
+        List<Object> fieldList = (List<Object>)entity.get("fields");
+        long count = fieldList.stream()
+                .map(fieldItem -> toMap(fieldItem))
+                .filter(fieldMap -> hasName(name, fieldMap))
+                .count();
+
+        Assert.assertEquals(count, 0, "fields with name " + name);
+    }
+
+    private Map<String, Object> getFieldFromEntity(String name, Map<String, Object> entity) {
+        List<Object> fieldList = (List<Object>)entity.get("fields");
+        Optional<Map<String, Object>> field = fieldList.stream()
+                .map(fieldItem -> toMap(fieldItem))
+                .filter(fieldMap -> hasName(name, fieldMap))
+                .findFirst();
+
+        Assert.assertTrue(field.isPresent(), "field with name '" + name + "' found in list");
+
+        return field.get();
     }
 }
