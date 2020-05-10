@@ -1,12 +1,12 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 
+use async_trait::async_trait;
 use futures::Stream;
-use std::io::Error;
+use std::error::Error;
+use std::task::{Poll, Context};
+use swagger::{ApiError, ContextWrapper};
 
-#[deprecated(note = "Import swagger-rs directly")]
-pub use swagger::{ApiError, ContextWrapper};
-#[deprecated(note = "Import futures directly")]
-pub use futures::Future;
+type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "/v2";
 pub const API_VERSION: &'static str = "1.0.0";
@@ -306,60 +306,65 @@ pub enum UpdateUserResponse {
 }
 
 /// API
-pub trait Api<C> {
+#[async_trait]
+pub trait Api<C: Send + Sync> {
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
+        Poll::Ready(Ok(()))
+    }
+
     /// To test special tags
-    fn test_special_tags(
+    async fn test_special_tags(
         &self,
         body: models::Client,
-        context: &C) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<TestSpecialTagsResponse, ApiError>;
 
-    fn call123example(
+    async fn call123example(
         &self,
-        context: &C) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<Call123exampleResponse, ApiError>;
 
-    fn fake_outer_boolean_serialize(
+    async fn fake_outer_boolean_serialize(
         &self,
         body: Option<models::OuterBoolean>,
-        context: &C) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<FakeOuterBooleanSerializeResponse, ApiError>;
 
-    fn fake_outer_composite_serialize(
+    async fn fake_outer_composite_serialize(
         &self,
         body: Option<models::OuterComposite>,
-        context: &C) -> Box<dyn Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<FakeOuterCompositeSerializeResponse, ApiError>;
 
-    fn fake_outer_number_serialize(
+    async fn fake_outer_number_serialize(
         &self,
         body: Option<models::OuterNumber>,
-        context: &C) -> Box<dyn Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<FakeOuterNumberSerializeResponse, ApiError>;
 
-    fn fake_outer_string_serialize(
+    async fn fake_outer_string_serialize(
         &self,
         body: Option<models::OuterString>,
-        context: &C) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<FakeOuterStringSerializeResponse, ApiError>;
 
-    fn fake_response_with_numerical_description(
+    async fn fake_response_with_numerical_description(
         &self,
-        context: &C) -> Box<dyn Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>;
 
-    fn hyphen_param(
+    async fn hyphen_param(
         &self,
         hyphen_param: String,
-        context: &C) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<HyphenParamResponse, ApiError>;
 
-    fn test_body_with_query_params(
+    async fn test_body_with_query_params(
         &self,
         query: String,
         body: models::User,
-        context: &C) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<TestBodyWithQueryParamsResponse, ApiError>;
 
     /// To test \"client\" model
-    fn test_client_model(
+    async fn test_client_model(
         &self,
         body: models::Client,
-        context: &C) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<TestClientModelResponse, ApiError>;
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    fn test_endpoint_parameters(
+    async fn test_endpoint_parameters(
         &self,
         number: f64,
         double: f64,
@@ -375,10 +380,10 @@ pub trait Api<C> {
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
-        context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<TestEndpointParametersResponse, ApiError>;
 
     /// To test enum parameters
-    fn test_enum_parameters(
+    async fn test_enum_parameters(
         &self,
         enum_header_string_array: Option<&Vec<String>>,
         enum_header_string: Option<String>,
@@ -387,209 +392,215 @@ pub trait Api<C> {
         enum_query_integer: Option<i32>,
         enum_query_double: Option<f64>,
         enum_form_string: Option<String>,
-        context: &C) -> Box<dyn Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<TestEnumParametersResponse, ApiError>;
 
     /// test inline additionalProperties
-    fn test_inline_additional_properties(
+    async fn test_inline_additional_properties(
         &self,
         param: std::collections::HashMap<String, String>,
-        context: &C) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<TestInlineAdditionalPropertiesResponse, ApiError>;
 
     /// test json serialization of form data
-    fn test_json_form_data(
+    async fn test_json_form_data(
         &self,
         param: String,
         param2: String,
-        context: &C) -> Box<dyn Future<Item=TestJsonFormDataResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<TestJsonFormDataResponse, ApiError>;
 
     /// To test class name in snake case
-    fn test_classname(
+    async fn test_classname(
         &self,
         body: models::Client,
-        context: &C) -> Box<dyn Future<Item=TestClassnameResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<TestClassnameResponse, ApiError>;
 
     /// Add a new pet to the store
-    fn add_pet(
+    async fn add_pet(
         &self,
         body: models::Pet,
-        context: &C) -> Box<dyn Future<Item=AddPetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<AddPetResponse, ApiError>;
 
     /// Deletes a pet
-    fn delete_pet(
+    async fn delete_pet(
         &self,
         pet_id: i64,
         api_key: Option<String>,
-        context: &C) -> Box<dyn Future<Item=DeletePetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<DeletePetResponse, ApiError>;
 
     /// Finds Pets by status
-    fn find_pets_by_status(
+    async fn find_pets_by_status(
         &self,
         status: &Vec<String>,
-        context: &C) -> Box<dyn Future<Item=FindPetsByStatusResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<FindPetsByStatusResponse, ApiError>;
 
     /// Finds Pets by tags
-    fn find_pets_by_tags(
+    async fn find_pets_by_tags(
         &self,
         tags: &Vec<String>,
-        context: &C) -> Box<dyn Future<Item=FindPetsByTagsResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<FindPetsByTagsResponse, ApiError>;
 
     /// Find pet by ID
-    fn get_pet_by_id(
+    async fn get_pet_by_id(
         &self,
         pet_id: i64,
-        context: &C) -> Box<dyn Future<Item=GetPetByIdResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<GetPetByIdResponse, ApiError>;
 
     /// Update an existing pet
-    fn update_pet(
+    async fn update_pet(
         &self,
         body: models::Pet,
-        context: &C) -> Box<dyn Future<Item=UpdatePetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<UpdatePetResponse, ApiError>;
 
     /// Updates a pet in the store with form data
-    fn update_pet_with_form(
+    async fn update_pet_with_form(
         &self,
         pet_id: i64,
         name: Option<String>,
         status: Option<String>,
-        context: &C) -> Box<dyn Future<Item=UpdatePetWithFormResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<UpdatePetWithFormResponse, ApiError>;
 
     /// uploads an image
-    fn upload_file(
+    async fn upload_file(
         &self,
         pet_id: i64,
         additional_metadata: Option<String>,
         file: Option<swagger::ByteArray>,
-        context: &C) -> Box<dyn Future<Item=UploadFileResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<UploadFileResponse, ApiError>;
 
     /// Delete purchase order by ID
-    fn delete_order(
+    async fn delete_order(
         &self,
         order_id: String,
-        context: &C) -> Box<dyn Future<Item=DeleteOrderResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<DeleteOrderResponse, ApiError>;
 
     /// Returns pet inventories by status
-    fn get_inventory(
+    async fn get_inventory(
         &self,
-        context: &C) -> Box<dyn Future<Item=GetInventoryResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<GetInventoryResponse, ApiError>;
 
     /// Find purchase order by ID
-    fn get_order_by_id(
+    async fn get_order_by_id(
         &self,
         order_id: i64,
-        context: &C) -> Box<dyn Future<Item=GetOrderByIdResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Place an order for a pet
-    fn place_order(
+    async fn place_order(
         &self,
         body: models::Order,
-        context: &C) -> Box<dyn Future<Item=PlaceOrderResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<PlaceOrderResponse, ApiError>;
 
     /// Create user
-    fn create_user(
+    async fn create_user(
         &self,
         body: models::User,
-        context: &C) -> Box<dyn Future<Item=CreateUserResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<CreateUserResponse, ApiError>;
 
     /// Creates list of users with given input array
-    fn create_users_with_array_input(
+    async fn create_users_with_array_input(
         &self,
         body: &Vec<models::User>,
-        context: &C) -> Box<dyn Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>;
 
     /// Creates list of users with given input array
-    fn create_users_with_list_input(
+    async fn create_users_with_list_input(
         &self,
         body: &Vec<models::User>,
-        context: &C) -> Box<dyn Future<Item=CreateUsersWithListInputResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>;
 
     /// Delete user
-    fn delete_user(
+    async fn delete_user(
         &self,
         username: String,
-        context: &C) -> Box<dyn Future<Item=DeleteUserResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<DeleteUserResponse, ApiError>;
 
     /// Get user by user name
-    fn get_user_by_name(
+    async fn get_user_by_name(
         &self,
         username: String,
-        context: &C) -> Box<dyn Future<Item=GetUserByNameResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<GetUserByNameResponse, ApiError>;
 
     /// Logs user into the system
-    fn login_user(
+    async fn login_user(
         &self,
         username: String,
         password: String,
-        context: &C) -> Box<dyn Future<Item=LoginUserResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<LoginUserResponse, ApiError>;
 
     /// Logs out current logged in user session
-    fn logout_user(
+    async fn logout_user(
         &self,
-        context: &C) -> Box<dyn Future<Item=LogoutUserResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<LogoutUserResponse, ApiError>;
 
     /// Updated user
-    fn update_user(
+    async fn update_user(
         &self,
         username: String,
         body: models::User,
-        context: &C) -> Box<dyn Future<Item=UpdateUserResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<UpdateUserResponse, ApiError>;
 
 }
 
-/// API without a `Context`
-pub trait ApiNoContext {
+/// API where `Context` isn't passed on every API call
+#[async_trait]
+pub trait ApiNoContext<C: Send + Sync> {
+
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
+
+    fn context(&self) -> &C;
+
     /// To test special tags
-    fn test_special_tags(
+    async fn test_special_tags(
         &self,
         body: models::Client,
-        ) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>;
+        ) -> Result<TestSpecialTagsResponse, ApiError>;
 
-    fn call123example(
+    async fn call123example(
         &self,
-        ) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send>;
+        ) -> Result<Call123exampleResponse, ApiError>;
 
-    fn fake_outer_boolean_serialize(
+    async fn fake_outer_boolean_serialize(
         &self,
         body: Option<models::OuterBoolean>,
-        ) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>;
+        ) -> Result<FakeOuterBooleanSerializeResponse, ApiError>;
 
-    fn fake_outer_composite_serialize(
+    async fn fake_outer_composite_serialize(
         &self,
         body: Option<models::OuterComposite>,
-        ) -> Box<dyn Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError> + Send>;
+        ) -> Result<FakeOuterCompositeSerializeResponse, ApiError>;
 
-    fn fake_outer_number_serialize(
+    async fn fake_outer_number_serialize(
         &self,
         body: Option<models::OuterNumber>,
-        ) -> Box<dyn Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError> + Send>;
+        ) -> Result<FakeOuterNumberSerializeResponse, ApiError>;
 
-    fn fake_outer_string_serialize(
+    async fn fake_outer_string_serialize(
         &self,
         body: Option<models::OuterString>,
-        ) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>;
+        ) -> Result<FakeOuterStringSerializeResponse, ApiError>;
 
-    fn fake_response_with_numerical_description(
+    async fn fake_response_with_numerical_description(
         &self,
-        ) -> Box<dyn Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send>;
+        ) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>;
 
-    fn hyphen_param(
+    async fn hyphen_param(
         &self,
         hyphen_param: String,
-        ) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send>;
+        ) -> Result<HyphenParamResponse, ApiError>;
 
-    fn test_body_with_query_params(
+    async fn test_body_with_query_params(
         &self,
         query: String,
         body: models::User,
-        ) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError> + Send>;
+        ) -> Result<TestBodyWithQueryParamsResponse, ApiError>;
 
     /// To test \"client\" model
-    fn test_client_model(
+    async fn test_client_model(
         &self,
         body: models::Client,
-        ) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError> + Send>;
+        ) -> Result<TestClientModelResponse, ApiError>;
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    fn test_endpoint_parameters(
+    async fn test_endpoint_parameters(
         &self,
         number: f64,
         double: f64,
@@ -605,10 +616,10 @@ pub trait ApiNoContext {
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
-        ) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>;
+        ) -> Result<TestEndpointParametersResponse, ApiError>;
 
     /// To test enum parameters
-    fn test_enum_parameters(
+    async fn test_enum_parameters(
         &self,
         enum_header_string_array: Option<&Vec<String>>,
         enum_header_string: Option<String>,
@@ -617,250 +628,270 @@ pub trait ApiNoContext {
         enum_query_integer: Option<i32>,
         enum_query_double: Option<f64>,
         enum_form_string: Option<String>,
-        ) -> Box<dyn Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>;
+        ) -> Result<TestEnumParametersResponse, ApiError>;
 
     /// test inline additionalProperties
-    fn test_inline_additional_properties(
+    async fn test_inline_additional_properties(
         &self,
         param: std::collections::HashMap<String, String>,
-        ) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>;
+        ) -> Result<TestInlineAdditionalPropertiesResponse, ApiError>;
 
     /// test json serialization of form data
-    fn test_json_form_data(
+    async fn test_json_form_data(
         &self,
         param: String,
         param2: String,
-        ) -> Box<dyn Future<Item=TestJsonFormDataResponse, Error=ApiError> + Send>;
+        ) -> Result<TestJsonFormDataResponse, ApiError>;
 
     /// To test class name in snake case
-    fn test_classname(
+    async fn test_classname(
         &self,
         body: models::Client,
-        ) -> Box<dyn Future<Item=TestClassnameResponse, Error=ApiError> + Send>;
+        ) -> Result<TestClassnameResponse, ApiError>;
 
     /// Add a new pet to the store
-    fn add_pet(
+    async fn add_pet(
         &self,
         body: models::Pet,
-        ) -> Box<dyn Future<Item=AddPetResponse, Error=ApiError> + Send>;
+        ) -> Result<AddPetResponse, ApiError>;
 
     /// Deletes a pet
-    fn delete_pet(
+    async fn delete_pet(
         &self,
         pet_id: i64,
         api_key: Option<String>,
-        ) -> Box<dyn Future<Item=DeletePetResponse, Error=ApiError> + Send>;
+        ) -> Result<DeletePetResponse, ApiError>;
 
     /// Finds Pets by status
-    fn find_pets_by_status(
+    async fn find_pets_by_status(
         &self,
         status: &Vec<String>,
-        ) -> Box<dyn Future<Item=FindPetsByStatusResponse, Error=ApiError> + Send>;
+        ) -> Result<FindPetsByStatusResponse, ApiError>;
 
     /// Finds Pets by tags
-    fn find_pets_by_tags(
+    async fn find_pets_by_tags(
         &self,
         tags: &Vec<String>,
-        ) -> Box<dyn Future<Item=FindPetsByTagsResponse, Error=ApiError> + Send>;
+        ) -> Result<FindPetsByTagsResponse, ApiError>;
 
     /// Find pet by ID
-    fn get_pet_by_id(
+    async fn get_pet_by_id(
         &self,
         pet_id: i64,
-        ) -> Box<dyn Future<Item=GetPetByIdResponse, Error=ApiError> + Send>;
+        ) -> Result<GetPetByIdResponse, ApiError>;
 
     /// Update an existing pet
-    fn update_pet(
+    async fn update_pet(
         &self,
         body: models::Pet,
-        ) -> Box<dyn Future<Item=UpdatePetResponse, Error=ApiError> + Send>;
+        ) -> Result<UpdatePetResponse, ApiError>;
 
     /// Updates a pet in the store with form data
-    fn update_pet_with_form(
+    async fn update_pet_with_form(
         &self,
         pet_id: i64,
         name: Option<String>,
         status: Option<String>,
-        ) -> Box<dyn Future<Item=UpdatePetWithFormResponse, Error=ApiError> + Send>;
+        ) -> Result<UpdatePetWithFormResponse, ApiError>;
 
     /// uploads an image
-    fn upload_file(
+    async fn upload_file(
         &self,
         pet_id: i64,
         additional_metadata: Option<String>,
         file: Option<swagger::ByteArray>,
-        ) -> Box<dyn Future<Item=UploadFileResponse, Error=ApiError> + Send>;
+        ) -> Result<UploadFileResponse, ApiError>;
 
     /// Delete purchase order by ID
-    fn delete_order(
+    async fn delete_order(
         &self,
         order_id: String,
-        ) -> Box<dyn Future<Item=DeleteOrderResponse, Error=ApiError> + Send>;
+        ) -> Result<DeleteOrderResponse, ApiError>;
 
     /// Returns pet inventories by status
-    fn get_inventory(
+    async fn get_inventory(
         &self,
-        ) -> Box<dyn Future<Item=GetInventoryResponse, Error=ApiError> + Send>;
+        ) -> Result<GetInventoryResponse, ApiError>;
 
     /// Find purchase order by ID
-    fn get_order_by_id(
+    async fn get_order_by_id(
         &self,
         order_id: i64,
-        ) -> Box<dyn Future<Item=GetOrderByIdResponse, Error=ApiError> + Send>;
+        ) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Place an order for a pet
-    fn place_order(
+    async fn place_order(
         &self,
         body: models::Order,
-        ) -> Box<dyn Future<Item=PlaceOrderResponse, Error=ApiError> + Send>;
+        ) -> Result<PlaceOrderResponse, ApiError>;
 
     /// Create user
-    fn create_user(
+    async fn create_user(
         &self,
         body: models::User,
-        ) -> Box<dyn Future<Item=CreateUserResponse, Error=ApiError> + Send>;
+        ) -> Result<CreateUserResponse, ApiError>;
 
     /// Creates list of users with given input array
-    fn create_users_with_array_input(
+    async fn create_users_with_array_input(
         &self,
         body: &Vec<models::User>,
-        ) -> Box<dyn Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError> + Send>;
+        ) -> Result<CreateUsersWithArrayInputResponse, ApiError>;
 
     /// Creates list of users with given input array
-    fn create_users_with_list_input(
+    async fn create_users_with_list_input(
         &self,
         body: &Vec<models::User>,
-        ) -> Box<dyn Future<Item=CreateUsersWithListInputResponse, Error=ApiError> + Send>;
+        ) -> Result<CreateUsersWithListInputResponse, ApiError>;
 
     /// Delete user
-    fn delete_user(
+    async fn delete_user(
         &self,
         username: String,
-        ) -> Box<dyn Future<Item=DeleteUserResponse, Error=ApiError> + Send>;
+        ) -> Result<DeleteUserResponse, ApiError>;
 
     /// Get user by user name
-    fn get_user_by_name(
+    async fn get_user_by_name(
         &self,
         username: String,
-        ) -> Box<dyn Future<Item=GetUserByNameResponse, Error=ApiError> + Send>;
+        ) -> Result<GetUserByNameResponse, ApiError>;
 
     /// Logs user into the system
-    fn login_user(
+    async fn login_user(
         &self,
         username: String,
         password: String,
-        ) -> Box<dyn Future<Item=LoginUserResponse, Error=ApiError> + Send>;
+        ) -> Result<LoginUserResponse, ApiError>;
 
     /// Logs out current logged in user session
-    fn logout_user(
+    async fn logout_user(
         &self,
-        ) -> Box<dyn Future<Item=LogoutUserResponse, Error=ApiError> + Send>;
+        ) -> Result<LogoutUserResponse, ApiError>;
 
     /// Updated user
-    fn update_user(
+    async fn update_user(
         &self,
         username: String,
         body: models::User,
-        ) -> Box<dyn Future<Item=UpdateUserResponse, Error=ApiError> + Send>;
+        ) -> Result<UpdateUserResponse, ApiError>;
 
 }
 
 /// Trait to extend an API to make it easy to bind it to a context.
-pub trait ContextWrapperExt<'a, C> where Self: Sized {
+pub trait ContextWrapperExt<C: Send + Sync> where Self: Sized
+{
     /// Binds this API to a context.
-    fn with_context(self: &'a Self, context: C) -> ContextWrapper<'a, Self, C>;
+    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
 }
 
-impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
-    fn with_context(self: &'a T, context: C) -> ContextWrapper<'a, T, C> {
+impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T {
+    fn with_context(self: T, context: C) -> ContextWrapper<T, C> {
          ContextWrapper::<T, C>::new(self, context)
     }
 }
 
-impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+#[async_trait]
+impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for ContextWrapper<T, C> {
+    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
+        self.api().poll_ready(cx)
+    }
+
+    fn context(&self) -> &C {
+        ContextWrapper::context(self)
+    }
+
     /// To test special tags
-    fn test_special_tags(
+    async fn test_special_tags(
         &self,
         body: models::Client,
-        ) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>
+        ) -> Result<TestSpecialTagsResponse, ApiError>
     {
-        self.api().test_special_tags(body, &self.context())
+        let context = self.context().clone();
+        self.api().test_special_tags(body, &context).await
     }
 
-    fn call123example(
+    async fn call123example(
         &self,
-        ) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send>
+        ) -> Result<Call123exampleResponse, ApiError>
     {
-        self.api().call123example(&self.context())
+        let context = self.context().clone();
+        self.api().call123example(&context).await
     }
 
-    fn fake_outer_boolean_serialize(
+    async fn fake_outer_boolean_serialize(
         &self,
         body: Option<models::OuterBoolean>,
-        ) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>
+        ) -> Result<FakeOuterBooleanSerializeResponse, ApiError>
     {
-        self.api().fake_outer_boolean_serialize(body, &self.context())
+        let context = self.context().clone();
+        self.api().fake_outer_boolean_serialize(body, &context).await
     }
 
-    fn fake_outer_composite_serialize(
+    async fn fake_outer_composite_serialize(
         &self,
         body: Option<models::OuterComposite>,
-        ) -> Box<dyn Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError> + Send>
+        ) -> Result<FakeOuterCompositeSerializeResponse, ApiError>
     {
-        self.api().fake_outer_composite_serialize(body, &self.context())
+        let context = self.context().clone();
+        self.api().fake_outer_composite_serialize(body, &context).await
     }
 
-    fn fake_outer_number_serialize(
+    async fn fake_outer_number_serialize(
         &self,
         body: Option<models::OuterNumber>,
-        ) -> Box<dyn Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError> + Send>
+        ) -> Result<FakeOuterNumberSerializeResponse, ApiError>
     {
-        self.api().fake_outer_number_serialize(body, &self.context())
+        let context = self.context().clone();
+        self.api().fake_outer_number_serialize(body, &context).await
     }
 
-    fn fake_outer_string_serialize(
+    async fn fake_outer_string_serialize(
         &self,
         body: Option<models::OuterString>,
-        ) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>
+        ) -> Result<FakeOuterStringSerializeResponse, ApiError>
     {
-        self.api().fake_outer_string_serialize(body, &self.context())
+        let context = self.context().clone();
+        self.api().fake_outer_string_serialize(body, &context).await
     }
 
-    fn fake_response_with_numerical_description(
+    async fn fake_response_with_numerical_description(
         &self,
-        ) -> Box<dyn Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send>
+        ) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>
     {
-        self.api().fake_response_with_numerical_description(&self.context())
+        let context = self.context().clone();
+        self.api().fake_response_with_numerical_description(&context).await
     }
 
-    fn hyphen_param(
+    async fn hyphen_param(
         &self,
         hyphen_param: String,
-        ) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send>
+        ) -> Result<HyphenParamResponse, ApiError>
     {
-        self.api().hyphen_param(hyphen_param, &self.context())
+        let context = self.context().clone();
+        self.api().hyphen_param(hyphen_param, &context).await
     }
 
-    fn test_body_with_query_params(
+    async fn test_body_with_query_params(
         &self,
         query: String,
         body: models::User,
-        ) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError> + Send>
+        ) -> Result<TestBodyWithQueryParamsResponse, ApiError>
     {
-        self.api().test_body_with_query_params(query, body, &self.context())
+        let context = self.context().clone();
+        self.api().test_body_with_query_params(query, body, &context).await
     }
 
     /// To test \"client\" model
-    fn test_client_model(
+    async fn test_client_model(
         &self,
         body: models::Client,
-        ) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError> + Send>
+        ) -> Result<TestClientModelResponse, ApiError>
     {
-        self.api().test_client_model(body, &self.context())
+        let context = self.context().clone();
+        self.api().test_client_model(body, &context).await
     }
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    fn test_endpoint_parameters(
+    async fn test_endpoint_parameters(
         &self,
         number: f64,
         double: f64,
@@ -876,13 +907,14 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
-        ) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>
+        ) -> Result<TestEndpointParametersResponse, ApiError>
     {
-        self.api().test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, &self.context())
+        let context = self.context().clone();
+        self.api().test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, &context).await
     }
 
     /// To test enum parameters
-    fn test_enum_parameters(
+    async fn test_enum_parameters(
         &self,
         enum_header_string_array: Option<&Vec<String>>,
         enum_header_string: Option<String>,
@@ -891,225 +923,250 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         enum_query_integer: Option<i32>,
         enum_query_double: Option<f64>,
         enum_form_string: Option<String>,
-        ) -> Box<dyn Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>
+        ) -> Result<TestEnumParametersResponse, ApiError>
     {
-        self.api().test_enum_parameters(enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, &self.context())
+        let context = self.context().clone();
+        self.api().test_enum_parameters(enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, &context).await
     }
 
     /// test inline additionalProperties
-    fn test_inline_additional_properties(
+    async fn test_inline_additional_properties(
         &self,
         param: std::collections::HashMap<String, String>,
-        ) -> Box<dyn Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>
+        ) -> Result<TestInlineAdditionalPropertiesResponse, ApiError>
     {
-        self.api().test_inline_additional_properties(param, &self.context())
+        let context = self.context().clone();
+        self.api().test_inline_additional_properties(param, &context).await
     }
 
     /// test json serialization of form data
-    fn test_json_form_data(
+    async fn test_json_form_data(
         &self,
         param: String,
         param2: String,
-        ) -> Box<dyn Future<Item=TestJsonFormDataResponse, Error=ApiError> + Send>
+        ) -> Result<TestJsonFormDataResponse, ApiError>
     {
-        self.api().test_json_form_data(param, param2, &self.context())
+        let context = self.context().clone();
+        self.api().test_json_form_data(param, param2, &context).await
     }
 
     /// To test class name in snake case
-    fn test_classname(
+    async fn test_classname(
         &self,
         body: models::Client,
-        ) -> Box<dyn Future<Item=TestClassnameResponse, Error=ApiError> + Send>
+        ) -> Result<TestClassnameResponse, ApiError>
     {
-        self.api().test_classname(body, &self.context())
+        let context = self.context().clone();
+        self.api().test_classname(body, &context).await
     }
 
     /// Add a new pet to the store
-    fn add_pet(
+    async fn add_pet(
         &self,
         body: models::Pet,
-        ) -> Box<dyn Future<Item=AddPetResponse, Error=ApiError> + Send>
+        ) -> Result<AddPetResponse, ApiError>
     {
-        self.api().add_pet(body, &self.context())
+        let context = self.context().clone();
+        self.api().add_pet(body, &context).await
     }
 
     /// Deletes a pet
-    fn delete_pet(
+    async fn delete_pet(
         &self,
         pet_id: i64,
         api_key: Option<String>,
-        ) -> Box<dyn Future<Item=DeletePetResponse, Error=ApiError> + Send>
+        ) -> Result<DeletePetResponse, ApiError>
     {
-        self.api().delete_pet(pet_id, api_key, &self.context())
+        let context = self.context().clone();
+        self.api().delete_pet(pet_id, api_key, &context).await
     }
 
     /// Finds Pets by status
-    fn find_pets_by_status(
+    async fn find_pets_by_status(
         &self,
         status: &Vec<String>,
-        ) -> Box<dyn Future<Item=FindPetsByStatusResponse, Error=ApiError> + Send>
+        ) -> Result<FindPetsByStatusResponse, ApiError>
     {
-        self.api().find_pets_by_status(status, &self.context())
+        let context = self.context().clone();
+        self.api().find_pets_by_status(status, &context).await
     }
 
     /// Finds Pets by tags
-    fn find_pets_by_tags(
+    async fn find_pets_by_tags(
         &self,
         tags: &Vec<String>,
-        ) -> Box<dyn Future<Item=FindPetsByTagsResponse, Error=ApiError> + Send>
+        ) -> Result<FindPetsByTagsResponse, ApiError>
     {
-        self.api().find_pets_by_tags(tags, &self.context())
+        let context = self.context().clone();
+        self.api().find_pets_by_tags(tags, &context).await
     }
 
     /// Find pet by ID
-    fn get_pet_by_id(
+    async fn get_pet_by_id(
         &self,
         pet_id: i64,
-        ) -> Box<dyn Future<Item=GetPetByIdResponse, Error=ApiError> + Send>
+        ) -> Result<GetPetByIdResponse, ApiError>
     {
-        self.api().get_pet_by_id(pet_id, &self.context())
+        let context = self.context().clone();
+        self.api().get_pet_by_id(pet_id, &context).await
     }
 
     /// Update an existing pet
-    fn update_pet(
+    async fn update_pet(
         &self,
         body: models::Pet,
-        ) -> Box<dyn Future<Item=UpdatePetResponse, Error=ApiError> + Send>
+        ) -> Result<UpdatePetResponse, ApiError>
     {
-        self.api().update_pet(body, &self.context())
+        let context = self.context().clone();
+        self.api().update_pet(body, &context).await
     }
 
     /// Updates a pet in the store with form data
-    fn update_pet_with_form(
+    async fn update_pet_with_form(
         &self,
         pet_id: i64,
         name: Option<String>,
         status: Option<String>,
-        ) -> Box<dyn Future<Item=UpdatePetWithFormResponse, Error=ApiError> + Send>
+        ) -> Result<UpdatePetWithFormResponse, ApiError>
     {
-        self.api().update_pet_with_form(pet_id, name, status, &self.context())
+        let context = self.context().clone();
+        self.api().update_pet_with_form(pet_id, name, status, &context).await
     }
 
     /// uploads an image
-    fn upload_file(
+    async fn upload_file(
         &self,
         pet_id: i64,
         additional_metadata: Option<String>,
         file: Option<swagger::ByteArray>,
-        ) -> Box<dyn Future<Item=UploadFileResponse, Error=ApiError> + Send>
+        ) -> Result<UploadFileResponse, ApiError>
     {
-        self.api().upload_file(pet_id, additional_metadata, file, &self.context())
+        let context = self.context().clone();
+        self.api().upload_file(pet_id, additional_metadata, file, &context).await
     }
 
     /// Delete purchase order by ID
-    fn delete_order(
+    async fn delete_order(
         &self,
         order_id: String,
-        ) -> Box<dyn Future<Item=DeleteOrderResponse, Error=ApiError> + Send>
+        ) -> Result<DeleteOrderResponse, ApiError>
     {
-        self.api().delete_order(order_id, &self.context())
+        let context = self.context().clone();
+        self.api().delete_order(order_id, &context).await
     }
 
     /// Returns pet inventories by status
-    fn get_inventory(
+    async fn get_inventory(
         &self,
-        ) -> Box<dyn Future<Item=GetInventoryResponse, Error=ApiError> + Send>
+        ) -> Result<GetInventoryResponse, ApiError>
     {
-        self.api().get_inventory(&self.context())
+        let context = self.context().clone();
+        self.api().get_inventory(&context).await
     }
 
     /// Find purchase order by ID
-    fn get_order_by_id(
+    async fn get_order_by_id(
         &self,
         order_id: i64,
-        ) -> Box<dyn Future<Item=GetOrderByIdResponse, Error=ApiError> + Send>
+        ) -> Result<GetOrderByIdResponse, ApiError>
     {
-        self.api().get_order_by_id(order_id, &self.context())
+        let context = self.context().clone();
+        self.api().get_order_by_id(order_id, &context).await
     }
 
     /// Place an order for a pet
-    fn place_order(
+    async fn place_order(
         &self,
         body: models::Order,
-        ) -> Box<dyn Future<Item=PlaceOrderResponse, Error=ApiError> + Send>
+        ) -> Result<PlaceOrderResponse, ApiError>
     {
-        self.api().place_order(body, &self.context())
+        let context = self.context().clone();
+        self.api().place_order(body, &context).await
     }
 
     /// Create user
-    fn create_user(
+    async fn create_user(
         &self,
         body: models::User,
-        ) -> Box<dyn Future<Item=CreateUserResponse, Error=ApiError> + Send>
+        ) -> Result<CreateUserResponse, ApiError>
     {
-        self.api().create_user(body, &self.context())
+        let context = self.context().clone();
+        self.api().create_user(body, &context).await
     }
 
     /// Creates list of users with given input array
-    fn create_users_with_array_input(
+    async fn create_users_with_array_input(
         &self,
         body: &Vec<models::User>,
-        ) -> Box<dyn Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError> + Send>
+        ) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
-        self.api().create_users_with_array_input(body, &self.context())
+        let context = self.context().clone();
+        self.api().create_users_with_array_input(body, &context).await
     }
 
     /// Creates list of users with given input array
-    fn create_users_with_list_input(
+    async fn create_users_with_list_input(
         &self,
         body: &Vec<models::User>,
-        ) -> Box<dyn Future<Item=CreateUsersWithListInputResponse, Error=ApiError> + Send>
+        ) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
-        self.api().create_users_with_list_input(body, &self.context())
+        let context = self.context().clone();
+        self.api().create_users_with_list_input(body, &context).await
     }
 
     /// Delete user
-    fn delete_user(
+    async fn delete_user(
         &self,
         username: String,
-        ) -> Box<dyn Future<Item=DeleteUserResponse, Error=ApiError> + Send>
+        ) -> Result<DeleteUserResponse, ApiError>
     {
-        self.api().delete_user(username, &self.context())
+        let context = self.context().clone();
+        self.api().delete_user(username, &context).await
     }
 
     /// Get user by user name
-    fn get_user_by_name(
+    async fn get_user_by_name(
         &self,
         username: String,
-        ) -> Box<dyn Future<Item=GetUserByNameResponse, Error=ApiError> + Send>
+        ) -> Result<GetUserByNameResponse, ApiError>
     {
-        self.api().get_user_by_name(username, &self.context())
+        let context = self.context().clone();
+        self.api().get_user_by_name(username, &context).await
     }
 
     /// Logs user into the system
-    fn login_user(
+    async fn login_user(
         &self,
         username: String,
         password: String,
-        ) -> Box<dyn Future<Item=LoginUserResponse, Error=ApiError> + Send>
+        ) -> Result<LoginUserResponse, ApiError>
     {
-        self.api().login_user(username, password, &self.context())
+        let context = self.context().clone();
+        self.api().login_user(username, password, &context).await
     }
 
     /// Logs out current logged in user session
-    fn logout_user(
+    async fn logout_user(
         &self,
-        ) -> Box<dyn Future<Item=LogoutUserResponse, Error=ApiError> + Send>
+        ) -> Result<LogoutUserResponse, ApiError>
     {
-        self.api().logout_user(&self.context())
+        let context = self.context().clone();
+        self.api().logout_user(&context).await
     }
 
     /// Updated user
-    fn update_user(
+    async fn update_user(
         &self,
         username: String,
         body: models::User,
-        ) -> Box<dyn Future<Item=UpdateUserResponse, Error=ApiError> + Send>
+        ) -> Result<UpdateUserResponse, ApiError>
     {
-        self.api().update_user(username, body, &self.context())
+        let context = self.context().clone();
+        self.api().update_user(username, body, &context).await
     }
 
 }
+
 
 #[cfg(feature = "client")]
 pub mod client;

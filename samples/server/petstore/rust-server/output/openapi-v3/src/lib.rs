@@ -1,12 +1,12 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 
+use async_trait::async_trait;
 use futures::Stream;
-use std::io::Error;
+use std::error::Error;
+use std::task::{Poll, Context};
+use swagger::{ApiError, ContextWrapper};
 
-#[deprecated(note = "Import swagger-rs directly")]
-pub use swagger::{ApiError, ContextWrapper};
-#[deprecated(note = "Import futures directly")]
-pub use futures::Future;
+type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "1.0.7";
@@ -225,432 +225,477 @@ pub enum GetRepoInfoResponse {
 }
 
 /// API
-pub trait Api<C> {
-    fn callback_with_header_post(
+#[async_trait]
+pub trait Api<C: Send + Sync> {
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
+        Poll::Ready(Ok(()))
+    }
+
+    async fn callback_with_header_post(
         &self,
         url: String,
-        context: &C) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<CallbackWithHeaderPostResponse, ApiError>;
 
-    fn complex_query_param_get(
+    async fn complex_query_param_get(
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
-        context: &C) -> Box<dyn Future<Item=ComplexQueryParamGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>;
 
-    fn enum_in_path_path_param_get(
+    async fn enum_in_path_path_param_get(
         &self,
         path_param: models::StringEnum,
-        context: &C) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>;
 
-    fn mandatory_request_header_get(
+    async fn mandatory_request_header_get(
         &self,
         x_header: String,
-        context: &C) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<MandatoryRequestHeaderGetResponse, ApiError>;
 
-    fn merge_patch_json_get(
+    async fn merge_patch_json_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<MergePatchJsonGetResponse, ApiError>;
 
     /// Get some stuff.
-    fn multiget_get(
+    async fn multiget_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<MultigetGetResponse, ApiError>;
 
-    fn multiple_auth_scheme_get(
+    async fn multiple_auth_scheme_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
 
-    fn override_server_get(
+    async fn override_server_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<OverrideServerGetResponse, ApiError>;
 
     /// Get some stuff with parameters.
-    fn paramget_get(
+    async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<models::ObjectParam>,
         some_list: Option<models::MyIdList>,
-        context: &C) -> Box<dyn Future<Item=ParamgetGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<ParamgetGetResponse, ApiError>;
 
-    fn readonly_auth_scheme_get(
+    async fn readonly_auth_scheme_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<ReadonlyAuthSchemeGetResponse, ApiError>;
 
-    fn register_callback_post(
+    async fn register_callback_post(
         &self,
         url: String,
-        context: &C) -> Box<dyn Future<Item=RegisterCallbackPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<RegisterCallbackPostResponse, ApiError>;
 
-    fn required_octet_stream_put(
+    async fn required_octet_stream_put(
         &self,
         body: swagger::ByteArray,
-        context: &C) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<RequiredOctetStreamPutResponse, ApiError>;
 
-    fn responses_with_headers_get(
+    async fn responses_with_headers_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<ResponsesWithHeadersGetResponse, ApiError>;
 
-    fn rfc7807_get(
+    async fn rfc7807_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<Rfc7807GetResponse, ApiError>;
 
-    fn untyped_property_get(
+    async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
-        context: &C) -> Box<dyn Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<UntypedPropertyGetResponse, ApiError>;
 
-    fn uuid_get(
+    async fn uuid_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<UuidGetResponse, ApiError>;
 
-    fn xml_extra_post(
+    async fn xml_extra_post(
         &self,
         duplicate_xml_object: Option<models::DuplicateXmlObject>,
-        context: &C) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<XmlExtraPostResponse, ApiError>;
 
-    fn xml_other_post(
+    async fn xml_other_post(
         &self,
         another_xml_object: Option<models::AnotherXmlObject>,
-        context: &C) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<XmlOtherPostResponse, ApiError>;
 
-    fn xml_other_put(
+    async fn xml_other_put(
         &self,
         another_xml_array: Option<models::AnotherXmlArray>,
-        context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<XmlOtherPutResponse, ApiError>;
 
     /// Post an array
-    fn xml_post(
+    async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
-        context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<XmlPostResponse, ApiError>;
 
-    fn xml_put(
+    async fn xml_put(
         &self,
         xml_object: Option<models::XmlObject>,
-        context: &C) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<XmlPutResponse, ApiError>;
 
-    fn create_repo(
+    async fn create_repo(
         &self,
         object_param: models::ObjectParam,
-        context: &C) -> Box<dyn Future<Item=CreateRepoResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<CreateRepoResponse, ApiError>;
 
-    fn get_repo_info(
+    async fn get_repo_info(
         &self,
         repo_id: String,
-        context: &C) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<GetRepoInfoResponse, ApiError>;
 
 }
 
-/// API without a `Context`
-pub trait ApiNoContext {
-    fn callback_with_header_post(
+/// API where `Context` isn't passed on every API call
+#[async_trait]
+pub trait ApiNoContext<C: Send + Sync> {
+
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
+
+    fn context(&self) -> &C;
+
+    async fn callback_with_header_post(
         &self,
         url: String,
-        ) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>;
+        ) -> Result<CallbackWithHeaderPostResponse, ApiError>;
 
-    fn complex_query_param_get(
+    async fn complex_query_param_get(
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
-        ) -> Box<dyn Future<Item=ComplexQueryParamGetResponse, Error=ApiError> + Send>;
+        ) -> Result<ComplexQueryParamGetResponse, ApiError>;
 
-    fn enum_in_path_path_param_get(
+    async fn enum_in_path_path_param_get(
         &self,
         path_param: models::StringEnum,
-        ) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>;
+        ) -> Result<EnumInPathPathParamGetResponse, ApiError>;
 
-    fn mandatory_request_header_get(
+    async fn mandatory_request_header_get(
         &self,
         x_header: String,
-        ) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
+        ) -> Result<MandatoryRequestHeaderGetResponse, ApiError>;
 
-    fn merge_patch_json_get(
+    async fn merge_patch_json_get(
         &self,
-        ) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>;
+        ) -> Result<MergePatchJsonGetResponse, ApiError>;
 
     /// Get some stuff.
-    fn multiget_get(
+    async fn multiget_get(
         &self,
-        ) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send>;
+        ) -> Result<MultigetGetResponse, ApiError>;
 
-    fn multiple_auth_scheme_get(
+    async fn multiple_auth_scheme_get(
         &self,
-        ) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>;
+        ) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
 
-    fn override_server_get(
+    async fn override_server_get(
         &self,
-        ) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>;
+        ) -> Result<OverrideServerGetResponse, ApiError>;
 
     /// Get some stuff with parameters.
-    fn paramget_get(
+    async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<models::ObjectParam>,
         some_list: Option<models::MyIdList>,
-        ) -> Box<dyn Future<Item=ParamgetGetResponse, Error=ApiError> + Send>;
+        ) -> Result<ParamgetGetResponse, ApiError>;
 
-    fn readonly_auth_scheme_get(
+    async fn readonly_auth_scheme_get(
         &self,
-        ) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError> + Send>;
+        ) -> Result<ReadonlyAuthSchemeGetResponse, ApiError>;
 
-    fn register_callback_post(
+    async fn register_callback_post(
         &self,
         url: String,
-        ) -> Box<dyn Future<Item=RegisterCallbackPostResponse, Error=ApiError> + Send>;
+        ) -> Result<RegisterCallbackPostResponse, ApiError>;
 
-    fn required_octet_stream_put(
+    async fn required_octet_stream_put(
         &self,
         body: swagger::ByteArray,
-        ) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError> + Send>;
+        ) -> Result<RequiredOctetStreamPutResponse, ApiError>;
 
-    fn responses_with_headers_get(
+    async fn responses_with_headers_get(
         &self,
-        ) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>;
+        ) -> Result<ResponsesWithHeadersGetResponse, ApiError>;
 
-    fn rfc7807_get(
+    async fn rfc7807_get(
         &self,
-        ) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>;
+        ) -> Result<Rfc7807GetResponse, ApiError>;
 
-    fn untyped_property_get(
+    async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
-        ) -> Box<dyn Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send>;
+        ) -> Result<UntypedPropertyGetResponse, ApiError>;
 
-    fn uuid_get(
+    async fn uuid_get(
         &self,
-        ) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError> + Send>;
+        ) -> Result<UuidGetResponse, ApiError>;
 
-    fn xml_extra_post(
+    async fn xml_extra_post(
         &self,
         duplicate_xml_object: Option<models::DuplicateXmlObject>,
-        ) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError> + Send>;
+        ) -> Result<XmlExtraPostResponse, ApiError>;
 
-    fn xml_other_post(
+    async fn xml_other_post(
         &self,
         another_xml_object: Option<models::AnotherXmlObject>,
-        ) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError> + Send>;
+        ) -> Result<XmlOtherPostResponse, ApiError>;
 
-    fn xml_other_put(
+    async fn xml_other_put(
         &self,
         another_xml_array: Option<models::AnotherXmlArray>,
-        ) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>;
+        ) -> Result<XmlOtherPutResponse, ApiError>;
 
     /// Post an array
-    fn xml_post(
+    async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
-        ) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>;
+        ) -> Result<XmlPostResponse, ApiError>;
 
-    fn xml_put(
+    async fn xml_put(
         &self,
         xml_object: Option<models::XmlObject>,
-        ) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>;
+        ) -> Result<XmlPutResponse, ApiError>;
 
-    fn create_repo(
+    async fn create_repo(
         &self,
         object_param: models::ObjectParam,
-        ) -> Box<dyn Future<Item=CreateRepoResponse, Error=ApiError> + Send>;
+        ) -> Result<CreateRepoResponse, ApiError>;
 
-    fn get_repo_info(
+    async fn get_repo_info(
         &self,
         repo_id: String,
-        ) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>;
+        ) -> Result<GetRepoInfoResponse, ApiError>;
 
 }
 
 /// Trait to extend an API to make it easy to bind it to a context.
-pub trait ContextWrapperExt<'a, C> where Self: Sized {
+pub trait ContextWrapperExt<C: Send + Sync> where Self: Sized
+{
     /// Binds this API to a context.
-    fn with_context(self: &'a Self, context: C) -> ContextWrapper<'a, Self, C>;
+    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
 }
 
-impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
-    fn with_context(self: &'a T, context: C) -> ContextWrapper<'a, T, C> {
+impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T {
+    fn with_context(self: T, context: C) -> ContextWrapper<T, C> {
          ContextWrapper::<T, C>::new(self, context)
     }
 }
 
-impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
-    fn callback_with_header_post(
+#[async_trait]
+impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for ContextWrapper<T, C> {
+    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
+        self.api().poll_ready(cx)
+    }
+
+    fn context(&self) -> &C {
+        ContextWrapper::context(self)
+    }
+
+    async fn callback_with_header_post(
         &self,
         url: String,
-        ) -> Box<dyn Future<Item=CallbackWithHeaderPostResponse, Error=ApiError> + Send>
+        ) -> Result<CallbackWithHeaderPostResponse, ApiError>
     {
-        self.api().callback_with_header_post(url, &self.context())
+        let context = self.context().clone();
+        self.api().callback_with_header_post(url, &context).await
     }
 
-    fn complex_query_param_get(
+    async fn complex_query_param_get(
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
-        ) -> Box<dyn Future<Item=ComplexQueryParamGetResponse, Error=ApiError> + Send>
+        ) -> Result<ComplexQueryParamGetResponse, ApiError>
     {
-        self.api().complex_query_param_get(list_of_strings, &self.context())
+        let context = self.context().clone();
+        self.api().complex_query_param_get(list_of_strings, &context).await
     }
 
-    fn enum_in_path_path_param_get(
+    async fn enum_in_path_path_param_get(
         &self,
         path_param: models::StringEnum,
-        ) -> Box<dyn Future<Item=EnumInPathPathParamGetResponse, Error=ApiError> + Send>
+        ) -> Result<EnumInPathPathParamGetResponse, ApiError>
     {
-        self.api().enum_in_path_path_param_get(path_param, &self.context())
+        let context = self.context().clone();
+        self.api().enum_in_path_path_param_get(path_param, &context).await
     }
 
-    fn mandatory_request_header_get(
+    async fn mandatory_request_header_get(
         &self,
         x_header: String,
-        ) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>
+        ) -> Result<MandatoryRequestHeaderGetResponse, ApiError>
     {
-        self.api().mandatory_request_header_get(x_header, &self.context())
+        let context = self.context().clone();
+        self.api().mandatory_request_header_get(x_header, &context).await
     }
 
-    fn merge_patch_json_get(
+    async fn merge_patch_json_get(
         &self,
-        ) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>
+        ) -> Result<MergePatchJsonGetResponse, ApiError>
     {
-        self.api().merge_patch_json_get(&self.context())
+        let context = self.context().clone();
+        self.api().merge_patch_json_get(&context).await
     }
 
     /// Get some stuff.
-    fn multiget_get(
+    async fn multiget_get(
         &self,
-        ) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send>
+        ) -> Result<MultigetGetResponse, ApiError>
     {
-        self.api().multiget_get(&self.context())
+        let context = self.context().clone();
+        self.api().multiget_get(&context).await
     }
 
-    fn multiple_auth_scheme_get(
+    async fn multiple_auth_scheme_get(
         &self,
-        ) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>
+        ) -> Result<MultipleAuthSchemeGetResponse, ApiError>
     {
-        self.api().multiple_auth_scheme_get(&self.context())
+        let context = self.context().clone();
+        self.api().multiple_auth_scheme_get(&context).await
     }
 
-    fn override_server_get(
+    async fn override_server_get(
         &self,
-        ) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>
+        ) -> Result<OverrideServerGetResponse, ApiError>
     {
-        self.api().override_server_get(&self.context())
+        let context = self.context().clone();
+        self.api().override_server_get(&context).await
     }
 
     /// Get some stuff with parameters.
-    fn paramget_get(
+    async fn paramget_get(
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<models::ObjectParam>,
         some_list: Option<models::MyIdList>,
-        ) -> Box<dyn Future<Item=ParamgetGetResponse, Error=ApiError> + Send>
+        ) -> Result<ParamgetGetResponse, ApiError>
     {
-        self.api().paramget_get(uuid, some_object, some_list, &self.context())
+        let context = self.context().clone();
+        self.api().paramget_get(uuid, some_object, some_list, &context).await
     }
 
-    fn readonly_auth_scheme_get(
+    async fn readonly_auth_scheme_get(
         &self,
-        ) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError> + Send>
+        ) -> Result<ReadonlyAuthSchemeGetResponse, ApiError>
     {
-        self.api().readonly_auth_scheme_get(&self.context())
+        let context = self.context().clone();
+        self.api().readonly_auth_scheme_get(&context).await
     }
 
-    fn register_callback_post(
+    async fn register_callback_post(
         &self,
         url: String,
-        ) -> Box<dyn Future<Item=RegisterCallbackPostResponse, Error=ApiError> + Send>
+        ) -> Result<RegisterCallbackPostResponse, ApiError>
     {
-        self.api().register_callback_post(url, &self.context())
+        let context = self.context().clone();
+        self.api().register_callback_post(url, &context).await
     }
 
-    fn required_octet_stream_put(
+    async fn required_octet_stream_put(
         &self,
         body: swagger::ByteArray,
-        ) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError> + Send>
+        ) -> Result<RequiredOctetStreamPutResponse, ApiError>
     {
-        self.api().required_octet_stream_put(body, &self.context())
+        let context = self.context().clone();
+        self.api().required_octet_stream_put(body, &context).await
     }
 
-    fn responses_with_headers_get(
+    async fn responses_with_headers_get(
         &self,
-        ) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>
+        ) -> Result<ResponsesWithHeadersGetResponse, ApiError>
     {
-        self.api().responses_with_headers_get(&self.context())
+        let context = self.context().clone();
+        self.api().responses_with_headers_get(&context).await
     }
 
-    fn rfc7807_get(
+    async fn rfc7807_get(
         &self,
-        ) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>
+        ) -> Result<Rfc7807GetResponse, ApiError>
     {
-        self.api().rfc7807_get(&self.context())
+        let context = self.context().clone();
+        self.api().rfc7807_get(&context).await
     }
 
-    fn untyped_property_get(
+    async fn untyped_property_get(
         &self,
         object_untyped_props: Option<models::ObjectUntypedProps>,
-        ) -> Box<dyn Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send>
+        ) -> Result<UntypedPropertyGetResponse, ApiError>
     {
-        self.api().untyped_property_get(object_untyped_props, &self.context())
+        let context = self.context().clone();
+        self.api().untyped_property_get(object_untyped_props, &context).await
     }
 
-    fn uuid_get(
+    async fn uuid_get(
         &self,
-        ) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError> + Send>
+        ) -> Result<UuidGetResponse, ApiError>
     {
-        self.api().uuid_get(&self.context())
+        let context = self.context().clone();
+        self.api().uuid_get(&context).await
     }
 
-    fn xml_extra_post(
+    async fn xml_extra_post(
         &self,
         duplicate_xml_object: Option<models::DuplicateXmlObject>,
-        ) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError> + Send>
+        ) -> Result<XmlExtraPostResponse, ApiError>
     {
-        self.api().xml_extra_post(duplicate_xml_object, &self.context())
+        let context = self.context().clone();
+        self.api().xml_extra_post(duplicate_xml_object, &context).await
     }
 
-    fn xml_other_post(
+    async fn xml_other_post(
         &self,
         another_xml_object: Option<models::AnotherXmlObject>,
-        ) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError> + Send>
+        ) -> Result<XmlOtherPostResponse, ApiError>
     {
-        self.api().xml_other_post(another_xml_object, &self.context())
+        let context = self.context().clone();
+        self.api().xml_other_post(another_xml_object, &context).await
     }
 
-    fn xml_other_put(
+    async fn xml_other_put(
         &self,
         another_xml_array: Option<models::AnotherXmlArray>,
-        ) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError> + Send>
+        ) -> Result<XmlOtherPutResponse, ApiError>
     {
-        self.api().xml_other_put(another_xml_array, &self.context())
+        let context = self.context().clone();
+        self.api().xml_other_put(another_xml_array, &context).await
     }
 
     /// Post an array
-    fn xml_post(
+    async fn xml_post(
         &self,
         xml_array: Option<models::XmlArray>,
-        ) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError> + Send>
+        ) -> Result<XmlPostResponse, ApiError>
     {
-        self.api().xml_post(xml_array, &self.context())
+        let context = self.context().clone();
+        self.api().xml_post(xml_array, &context).await
     }
 
-    fn xml_put(
+    async fn xml_put(
         &self,
         xml_object: Option<models::XmlObject>,
-        ) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError> + Send>
+        ) -> Result<XmlPutResponse, ApiError>
     {
-        self.api().xml_put(xml_object, &self.context())
+        let context = self.context().clone();
+        self.api().xml_put(xml_object, &context).await
     }
 
-    fn create_repo(
+    async fn create_repo(
         &self,
         object_param: models::ObjectParam,
-        ) -> Box<dyn Future<Item=CreateRepoResponse, Error=ApiError> + Send>
+        ) -> Result<CreateRepoResponse, ApiError>
     {
-        self.api().create_repo(object_param, &self.context())
+        let context = self.context().clone();
+        self.api().create_repo(object_param, &context).await
     }
 
-    fn get_repo_info(
+    async fn get_repo_info(
         &self,
         repo_id: String,
-        ) -> Box<dyn Future<Item=GetRepoInfoResponse, Error=ApiError> + Send>
+        ) -> Result<GetRepoInfoResponse, ApiError>
     {
-        self.api().get_repo_info(repo_id, &self.context())
+        let context = self.context().clone();
+        self.api().get_repo_info(repo_id, &context).await
     }
 
 }
+
 
 #[derive(Debug, PartialEq)]
 pub enum CallbackCallbackWithHeaderPostResponse {
@@ -666,68 +711,89 @@ pub enum CallbackCallbackPostResponse {
 
 
 /// Callback API
-pub trait CallbackApi<C> {
-    fn callback_callback_with_header_post(
+#[async_trait]
+pub trait CallbackApi<C: Send + Sync> {
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
+        Poll::Ready(Ok(()))
+    }
+
+    async fn callback_callback_with_header_post(
         &self,
         callback_request_query_url: String,
         information: Option<String>,
-        context: &C) -> Box<dyn Future<Item=CallbackCallbackWithHeaderPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<CallbackCallbackWithHeaderPostResponse, ApiError>;
 
-    fn callback_callback_post(
+    async fn callback_callback_post(
         &self,
         callback_request_query_url: String,
-        context: &C) -> Box<dyn Future<Item=CallbackCallbackPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<CallbackCallbackPostResponse, ApiError>;
 
 }
 
 /// Callback API without a `Context`
-pub trait CallbackApiNoContext {
-    fn callback_callback_with_header_post(
+#[async_trait]
+pub trait CallbackApiNoContext<C: Send + Sync> {
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
+
+    fn context(&self) -> &C;
+
+    async fn callback_callback_with_header_post(
         &self,
         callback_request_query_url: String,
         information: Option<String>,
-        ) -> Box<dyn Future<Item=CallbackCallbackWithHeaderPostResponse, Error=ApiError> + Send>;
+        ) -> Result<CallbackCallbackWithHeaderPostResponse, ApiError>;
 
-    fn callback_callback_post(
+    async fn callback_callback_post(
         &self,
         callback_request_query_url: String,
-        ) -> Box<dyn Future<Item=CallbackCallbackPostResponse, Error=ApiError> + Send>;
+        ) -> Result<CallbackCallbackPostResponse, ApiError>;
 
 }
 
-/// Trait to extend an API to make it easy to bind it to a context.
-pub trait CallbackContextWrapperExt<'a, C> where Self: Sized {
+pub trait CallbackContextWrapperExt<C: Send + Sync> where Self: Sized
+{
     /// Binds this API to a context.
-    fn with_context(self: &'a Self, context: C) -> ContextWrapper<'a, Self, C>;
+    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
 }
 
-impl<'a, T: CallbackApi<C> + Sized, C> CallbackContextWrapperExt<'a, C> for T {
-    fn with_context(self: &'a T, context: C) -> ContextWrapper<'a, T, C> {
+impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackContextWrapperExt<C> for T {
+    fn with_context(self: T, context: C) -> ContextWrapper<T, C> {
          ContextWrapper::<T, C>::new(self, context)
     }
 }
 
-impl<'a, T: CallbackApi<C>, C> CallbackApiNoContext for ContextWrapper<'a, T, C> {
-    fn callback_callback_with_header_post(
+#[async_trait]
+impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoContext<C> for ContextWrapper<T, C> {
+    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
+        self.api().poll_ready(cx)
+    }
+
+    fn context(&self) -> &C {
+        ContextWrapper::context(self)
+    }
+
+    async fn callback_callback_with_header_post(
         &self,
         callback_request_query_url: String,
         information: Option<String>,
-        ) -> Box<dyn Future<Item=CallbackCallbackWithHeaderPostResponse, Error=ApiError> + Send>
+        ) -> Result<CallbackCallbackWithHeaderPostResponse, ApiError>
     {
+        let context = self.context().clone();
         self.api().callback_callback_with_header_post(
             callback_request_query_url,
             information,
-            &self.context())
+            &context).await
     }
 
-    fn callback_callback_post(
+    async fn callback_callback_post(
         &self,
         callback_request_query_url: String,
-        ) -> Box<dyn Future<Item=CallbackCallbackPostResponse, Error=ApiError> + Send>
+        ) -> Result<CallbackCallbackPostResponse, ApiError>
     {
+        let context = self.context().clone();
         self.api().callback_callback_post(
             callback_request_query_url,
-            &self.context())
+            &context).await
     }
 
 }

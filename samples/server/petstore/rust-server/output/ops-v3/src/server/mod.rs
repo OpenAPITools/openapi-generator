@@ -1,26 +1,25 @@
-use std::marker::PhantomData;
-use futures::{Future, future, Stream, stream};
-use hyper;
-use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
+use futures::{future, future::BoxFuture, Stream, stream, future::FutureExt, stream::TryStreamExt};
+use hyper::{Request, Response, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
-use serde_json;
 #[allow(unused_imports)]
 use std::convert::{TryFrom, TryInto};
-use std::io;
-use url::form_urlencoded;
-#[allow(unused_imports)]
-use swagger;
-use swagger::{ApiError, XSpanIdString, Has, RequestParser};
+use std::error::Error;
+use std::future::Future;
+use std::marker::PhantomData;
+use std::task::{Context, Poll};
+use swagger::{ApiError, BodyExt, Has, RequestParser, XSpanIdString};
 pub use swagger::auth::Authorization;
 use swagger::auth::Scopes;
-use swagger::context::ContextualPayload;
+use url::form_urlencoded;
 
 #[allow(unused_imports)]
 use crate::models;
 use crate::header;
 
 pub use crate::context;
+
+type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceError>>;
 
 use crate::{Api,
      Op10GetResponse,
@@ -146,15 +145,17 @@ mod paths {
     pub(crate) static ID_OP9: usize = 36;
 }
 
-pub struct MakeService<T, RC> {
+pub struct MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static
+{
     api_impl: T,
-    marker: PhantomData<RC>,
+    marker: PhantomData<C>,
 }
 
-impl<T, RC> MakeService<T, RC>
-where
-    T: Api<RC> + Clone + Send + 'static,
-    RC: Has<XSpanIdString>  + 'static
+impl<T, C> MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static
 {
     pub fn new(api_impl: T) -> Self {
         MakeService {
@@ -164,44 +165,45 @@ where
     }
 }
 
-impl<'a, T, SC, RC> hyper::service::MakeService<&'a SC> for MakeService<T, RC>
-where
-    T: Api<RC> + Clone + Send + 'static,
-    RC: Has<XSpanIdString>  + 'static + Send
+impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static
 {
-    type ReqBody = ContextualPayload<Body, RC>;
-    type ResBody = Body;
-    type Error = Error;
-    type Service = Service<T, RC>;
-    type Future = future::FutureResult<Self::Service, Self::MakeError>;
-    type MakeError = Error;
+    type Response = Service<T, C>;
+    type Error = crate::ServiceError;
+    type Future = future::Ready<Result<Self::Response, Self::Error>>;
 
-    fn make_service(&mut self, _ctx: &'a SC) -> Self::Future {
-        future::FutureResult::from(Ok(Service::new(
+    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+        Poll::Ready(Ok(()))
+    }
+
+    fn call(&mut self, target: Target) -> Self::Future {
+        futures::future::ok(Service::new(
             self.api_impl.clone(),
-        )))
+        ))
     }
 }
 
-type ServiceFuture = Box<dyn Future<Item = Response<Body>, Error = Error> + Send>;
-
-fn method_not_allowed() -> ServiceFuture {
-    Box::new(future::ok(
+fn method_not_allowed() -> Result<Response<Body>, crate::ServiceError> {
+    Ok(
         Response::builder().status(StatusCode::METHOD_NOT_ALLOWED)
             .body(Body::empty())
             .expect("Unable to create Method Not Allowed response")
-    ))
+    )
 }
 
-pub struct Service<T, RC> {
+pub struct Service<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static
+{
     api_impl: T,
-    marker: PhantomData<RC>,
+    marker: PhantomData<C>,
 }
 
-impl<T, RC> Service<T, RC>
-where
-    T: Api<RC> + Clone + Send + 'static,
-    RC: Has<XSpanIdString>  + 'static {
+impl<T, C> Service<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static
+{
     pub fn new(api_impl: T) -> Self {
         Service {
             api_impl: api_impl,
@@ -210,36 +212,48 @@ where
     }
 }
 
-impl<T, C> hyper::service::Service for Service<T, C>
-where
+impl<T, C> Clone for Service<T, C> where
     T: Api<C> + Clone + Send + 'static,
-    C: Has<XSpanIdString>  + 'static + Send
+    C: Has<XSpanIdString>  + Send + Sync + 'static
 {
-    type ReqBody = ContextualPayload<Body, C>;
-    type ResBody = Body;
-    type Error = Error;
+    fn clone(&self) -> Self {
+        Service {
+            api_impl: self.api_impl.clone(),
+            marker: self.marker.clone(),
+        }
+    }
+}
+
+impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
+    T: Api<C> + Clone + Send + Sync + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static
+{
+    type Response = Response<Body>;
+    type Error = crate::ServiceError;
     type Future = ServiceFuture;
 
-    fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
-        let api_impl = self.api_impl.clone();
-        let (parts, body) = req.into_parts();
+    fn poll_ready(&mut self, cx: &mut Context) -> Poll<Result<(), Self::Error>> {
+        self.api_impl.poll_ready(cx)
+    }
+
+    fn call(&mut self, req: (Request<Body>, C)) -> Self::Future { async fn run<T, C>(mut api_impl: T, req: (Request<Body>, C)) -> Result<Response<Body>, crate::ServiceError> where
+        T: Api<C> + Clone + Send + 'static,
+        C: Has<XSpanIdString>  + Send + Sync + 'static
+    {
+        let (request, context) = req;
+        let (parts, body) = request.into_parts();
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
-        let mut context = body.context;
-        let body = body.inner;
 
         match &method {
 
             // Op10Get - GET /op10
             &hyper::Method::GET if path.matched(paths::ID_OP10) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op10_get(
+                                let result = api_impl.op10_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -259,23 +273,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op11Get - GET /op11
             &hyper::Method::GET if path.matched(paths::ID_OP11) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op11_get(
+                                let result = api_impl.op11_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -295,23 +302,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op12Get - GET /op12
             &hyper::Method::GET if path.matched(paths::ID_OP12) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op12_get(
+                                let result = api_impl.op12_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -331,23 +331,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op13Get - GET /op13
             &hyper::Method::GET if path.matched(paths::ID_OP13) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op13_get(
+                                let result = api_impl.op13_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -367,23 +360,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op14Get - GET /op14
             &hyper::Method::GET if path.matched(paths::ID_OP14) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op14_get(
+                                let result = api_impl.op14_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -403,23 +389,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op15Get - GET /op15
             &hyper::Method::GET if path.matched(paths::ID_OP15) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op15_get(
+                                let result = api_impl.op15_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -439,23 +418,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op16Get - GET /op16
             &hyper::Method::GET if path.matched(paths::ID_OP16) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op16_get(
+                                let result = api_impl.op16_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -475,23 +447,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op17Get - GET /op17
             &hyper::Method::GET if path.matched(paths::ID_OP17) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op17_get(
+                                let result = api_impl.op17_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -511,23 +476,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op18Get - GET /op18
             &hyper::Method::GET if path.matched(paths::ID_OP18) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op18_get(
+                                let result = api_impl.op18_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -547,23 +505,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op19Get - GET /op19
             &hyper::Method::GET if path.matched(paths::ID_OP19) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op19_get(
+                                let result = api_impl.op19_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -583,23 +534,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op1Get - GET /op1
             &hyper::Method::GET if path.matched(paths::ID_OP1) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op1_get(
+                                let result = api_impl.op1_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -619,23 +563,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op20Get - GET /op20
             &hyper::Method::GET if path.matched(paths::ID_OP20) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op20_get(
+                                let result = api_impl.op20_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -655,23 +592,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op21Get - GET /op21
             &hyper::Method::GET if path.matched(paths::ID_OP21) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op21_get(
+                                let result = api_impl.op21_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -691,23 +621,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op22Get - GET /op22
             &hyper::Method::GET if path.matched(paths::ID_OP22) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op22_get(
+                                let result = api_impl.op22_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -727,23 +650,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op23Get - GET /op23
             &hyper::Method::GET if path.matched(paths::ID_OP23) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op23_get(
+                                let result = api_impl.op23_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -763,23 +679,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op24Get - GET /op24
             &hyper::Method::GET if path.matched(paths::ID_OP24) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op24_get(
+                                let result = api_impl.op24_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -799,23 +708,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op25Get - GET /op25
             &hyper::Method::GET if path.matched(paths::ID_OP25) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op25_get(
+                                let result = api_impl.op25_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -835,23 +737,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op26Get - GET /op26
             &hyper::Method::GET if path.matched(paths::ID_OP26) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op26_get(
+                                let result = api_impl.op26_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -871,23 +766,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op27Get - GET /op27
             &hyper::Method::GET if path.matched(paths::ID_OP27) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op27_get(
+                                let result = api_impl.op27_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -907,23 +795,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op28Get - GET /op28
             &hyper::Method::GET if path.matched(paths::ID_OP28) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op28_get(
+                                let result = api_impl.op28_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -943,23 +824,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op29Get - GET /op29
             &hyper::Method::GET if path.matched(paths::ID_OP29) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op29_get(
+                                let result = api_impl.op29_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -979,23 +853,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op2Get - GET /op2
             &hyper::Method::GET if path.matched(paths::ID_OP2) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op2_get(
+                                let result = api_impl.op2_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1015,23 +882,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op30Get - GET /op30
             &hyper::Method::GET if path.matched(paths::ID_OP30) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op30_get(
+                                let result = api_impl.op30_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1051,23 +911,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op31Get - GET /op31
             &hyper::Method::GET if path.matched(paths::ID_OP31) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op31_get(
+                                let result = api_impl.op31_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1087,23 +940,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op32Get - GET /op32
             &hyper::Method::GET if path.matched(paths::ID_OP32) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op32_get(
+                                let result = api_impl.op32_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1123,23 +969,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op33Get - GET /op33
             &hyper::Method::GET if path.matched(paths::ID_OP33) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op33_get(
+                                let result = api_impl.op33_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1159,23 +998,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op34Get - GET /op34
             &hyper::Method::GET if path.matched(paths::ID_OP34) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op34_get(
+                                let result = api_impl.op34_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1195,23 +1027,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op35Get - GET /op35
             &hyper::Method::GET if path.matched(paths::ID_OP35) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op35_get(
+                                let result = api_impl.op35_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1231,23 +1056,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op36Get - GET /op36
             &hyper::Method::GET if path.matched(paths::ID_OP36) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op36_get(
+                                let result = api_impl.op36_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1267,23 +1085,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op37Get - GET /op37
             &hyper::Method::GET if path.matched(paths::ID_OP37) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op37_get(
+                                let result = api_impl.op37_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1303,23 +1114,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op3Get - GET /op3
             &hyper::Method::GET if path.matched(paths::ID_OP3) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op3_get(
+                                let result = api_impl.op3_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1339,23 +1143,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op4Get - GET /op4
             &hyper::Method::GET if path.matched(paths::ID_OP4) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op4_get(
+                                let result = api_impl.op4_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1375,23 +1172,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op5Get - GET /op5
             &hyper::Method::GET if path.matched(paths::ID_OP5) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op5_get(
+                                let result = api_impl.op5_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1411,23 +1201,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op6Get - GET /op6
             &hyper::Method::GET if path.matched(paths::ID_OP6) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op6_get(
+                                let result = api_impl.op6_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1447,23 +1230,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op7Get - GET /op7
             &hyper::Method::GET if path.matched(paths::ID_OP7) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op7_get(
+                                let result = api_impl.op7_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1483,23 +1259,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op8Get - GET /op8
             &hyper::Method::GET if path.matched(paths::ID_OP8) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op8_get(
+                                let result = api_impl.op8_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1519,23 +1288,16 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             // Op9Get - GET /op9
             &hyper::Method::GET if path.matched(paths::ID_OP9) => {
-                Box::new({
-                        {{
-                                Box::new(
-                                    api_impl.op9_get(
+                                let result = api_impl.op9_get(
                                         &context
-                                    ).then(move |result| {
-                                        let mut response = Response::new(Body::empty());
-                                        response.headers_mut().insert(
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
@@ -1555,11 +1317,7 @@ where
                                             },
                                         }
 
-                                        future::ok(response)
-                                    }
-                                ))
-                        }}
-                }) as Self::Future
+                                        Ok(response)
             },
 
             _ if path.matched(paths::ID_OP1) => method_not_allowed(),
@@ -1599,23 +1357,11 @@ where
             _ if path.matched(paths::ID_OP7) => method_not_allowed(),
             _ if path.matched(paths::ID_OP8) => method_not_allowed(),
             _ if path.matched(paths::ID_OP9) => method_not_allowed(),
-            _ => Box::new(future::ok(
-                Response::builder().status(StatusCode::NOT_FOUND)
+            _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
                     .body(Body::empty())
-                    .expect("Unable to create Not Found response")
-            )) as Self::Future
+                    .expect("Unable to create Not Found response"))
         }
-    }
-}
-
-impl<T, C> Clone for Service<T, C> where T: Clone
-{
-    fn clone(&self) -> Self {
-        Service {
-            api_impl: self.api_impl.clone(),
-            marker: self.marker.clone(),
-        }
-    }
+    } Box::pin(run(self.api_impl.clone(), req)) }
 }
 
 /// Request parser for `Api`.

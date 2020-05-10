@@ -2,11 +2,10 @@
 
 
 #[allow(unused_imports)]
-use futures::{Future, future, Stream, stream};
+use futures::{future, Stream, stream};
 #[allow(unused_imports)]
-use no_example_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
-                      ApiError,
-                      OpGetResponse
+use no_example_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+                      OpGetResponse,
                      };
 use clap::{App, Arg};
 
@@ -15,7 +14,9 @@ use log::info;
 
 // swagger::Has may be unused if there are no examples
 #[allow(unused_imports)]
-use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
+use swagger::{AuthData, ContextBuilder, EmptyContext, Has, Push, XSpanIdString};
+
+type ClientContext = swagger::make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString);
 
 // rt may be unused if there are no examples
 #[allow(unused_mut)]
@@ -50,21 +51,21 @@ fn main() {
                            matches.value_of("host").unwrap(),
                            matches.value_of("port").unwrap());
 
-    let client = if matches.is_present("https") {
-        // Using Simple HTTPS
-        Client::try_new_https(&base_url)
-            .expect("Failed to create HTTPS client")
-    } else {
-        // Using HTTP
-        Client::try_new_http(
-            &base_url)
-            .expect("Failed to create HTTP client")
-    };
-
-    let context: swagger::make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
+    let context: ClientContext =
         swagger::make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString::default());
 
-    let client = client.with_context(context);
+    let mut client : Box<dyn ApiNoContext<ClientContext>> = if matches.is_present("https") {
+        // Using Simple HTTPS
+        let client = Box::new(Client::try_new_https(&base_url)
+            .expect("Failed to create HTTPS client"));
+        Box::new(client.with_context(context))
+    } else {
+        // Using HTTP
+        let client = Box::new(Client::try_new_http(
+            &base_url)
+            .expect("Failed to create HTTP client"));
+        Box::new(client.with_context(context))
+    };
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
