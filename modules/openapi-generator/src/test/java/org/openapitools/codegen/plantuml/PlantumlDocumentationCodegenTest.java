@@ -3,6 +3,7 @@ package org.openapitools.codegen.plantuml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import javafx.util.Pair;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.PlantumlDocumentationCodegen;
@@ -127,6 +128,14 @@ public class PlantumlDocumentationCodegenTest {
         Map<String, Object> childEntity = getEntityFromList("Child", entityList);
         assertFieldDoesNotExistsInEntity("id", childEntity);
         getFieldFromEntity("name", childEntity);
+
+        Object inheritances = objs.get("inheritances");
+        List<?>inheritanceList = (List<?>)inheritances;
+        Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
+
+        Map<String, String> firstInheritance = (Map<String, String>)inheritanceList.get(0);
+        Assert.assertEquals(firstInheritance.get("parent"), "Parent");
+        Assert.assertEquals(firstInheritance.get("child"), "Child");
     }
 
     private Map<String, Object> createObjectsMapFor(CodegenModel... codegenModels) {

@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import javafx.util.Pair;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -75,24 +76,42 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
                 .filter(codegenModel -> codegenModel.allOf.isEmpty())
                 .collect(Collectors.toList());
 
-        List<CodegenModel> allOfInlineCodegenModelList = notComposedCodegenModelList.stream()
-                .filter(codegenModel -> codegenModel.getName().endsWith("_allOf"))
-                .collect(Collectors.toList());
-
-        List<CodegenModel> simpleCodegenModelList = notComposedCodegenModelList.stream()
-                .filter(codegenModel -> !codegenModel.getName().endsWith("_allOf"))
-                .collect(Collectors.toList());
+//        List<CodegenModel> allOfInlineCodegenModelList = notComposedCodegenModelList.stream()
+//                .filter(codegenModel -> codegenModel.getName().endsWith("_allOf"))
+//                .collect(Collectors.toList());
+//
+//        List<CodegenModel> simpleCodegenModelList = notComposedCodegenModelList.stream()
+//                .filter(codegenModel -> !codegenModel.getName().endsWith("_allOf"))
+//                .collect(Collectors.toList());
 
         List<Object> entities = notComposedCodegenModelList.stream().map(cm -> createEntityFor(cm)).collect(Collectors.toList());
         objs.put("entities", entities);
 
+        List<Object> inheritances = calculateInheritanceRelationships(composedCodegenModelList);
+        objs.put("inheritances", inheritances);
+
         return super.postProcessSupportingFileData(objs);
+    }
+
+    private List<Object> calculateInheritanceRelationships(List<CodegenModel> composedCodegenModelList) {
+        return composedCodegenModelList.stream()
+                .map(composedModel -> new Pair<>(composedModel.getClassname(), composedModel.getInterfaces().stream()
+                        .filter(inf -> !inf.endsWith("AllOf"))
+                        .collect(Collectors.toList())))
+                .flatMap(stringListPair -> stringListPair.getValue().stream().map(parent -> createInheritance(parent, stringListPair.getKey())))
+                .collect(Collectors.toList());
+    }
+
+    private Object createInheritance(String parentName, String childName) {
+        Map<String, Object> inheritance = new HashMap<>();
+        inheritance.put("parent", parentName);
+        inheritance.put("child", childName);
+        return inheritance;
     }
 
     private Object createEntityFor(CodegenModel codegenModel) {
         Map<String, Object> entity = new HashMap<>();
-        String className = codegenModel.getClassname();
-        entity.put("name", className.endsWith("AllOf") ? className.substring(0, className.length() - 5) : className);
+        entity.put("name", removeSuffix(codegenModel.getClassname(), "AllOf"));
 
         List<Object> fields = codegenModel.getAllVars().stream()
                 .map(var -> createFieldFor(var))
@@ -100,6 +119,14 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         entity.put("fields", fields);
 
         return entity;
+    }
+
+    private String removeSuffix(final String value, final String suffix) {
+        if (value != null && suffix != null && value.endsWith(suffix)) {
+            return value.substring(0, value.length() - 5);
+        }
+
+        return value;
     }
 
     private Object createFieldFor(CodegenProperty codegenProperty) {
