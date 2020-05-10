@@ -31,7 +31,7 @@ pub trait Api<C> {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -53,7 +53,7 @@ pub trait ApiNoContext {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -86,14 +86,14 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>
     {
-        self.api().{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}{{{paramName}}}, {{/allParams}}&self.context())
+        self.api().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{{paramName}}}, {{/allParams}}&self.context())
     }
 
       {{/operation}}
@@ -131,12 +131,12 @@ pub trait CallbackApi<C> {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
         callback_{{.}}: String,
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -164,12 +164,12 @@ pub trait CallbackApiNoContext {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
         callback_{{.}}: String,
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -208,23 +208,23 @@ impl<'a, T: CallbackApi<C>, C> CallbackApiNoContext for ContextWrapper<'a, T, C>
               {{#summary}}
     /// {{{summary}}}
               {{/summary}}
-    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
         callback_{{.}}: String,
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError> + Send>
     {
-        self.api().{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+        self.api().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
             callback_{{.}},
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
             {{{paramName}}},

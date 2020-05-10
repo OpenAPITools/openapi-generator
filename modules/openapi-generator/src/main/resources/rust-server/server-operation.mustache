@@ -38,7 +38,7 @@
 
 {{/hasAuthMethods}}
 {{#vendorExtensions}}
-  {{#consumesMultipart}}
+  {{#x-consumes-multipart}}
                 let boundary = match swagger::multipart::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
                     None => return Box::new(future::ok(Response::builder()
@@ -47,8 +47,8 @@
                                 .expect("Unable to create Bad Request response for incorrect boundary"))),
                 };
 
-  {{/consumesMultipart}}
-  {{#hasPathParams}}
+  {{/x-consumes-multipart}}
+  {{#x-has-path-params}}
                 // Path parameters
                 let path: &str = &uri.path().to_string();
                 let path_params =
@@ -58,7 +58,7 @@
                         panic!("Path {} matched RE {{{x-path-id}}} in set but failed match against \"{}\"", path, paths::REGEX_{{{x-path-id}}}.as_str())
                     );
 
-  {{/hasPathParams}}
+  {{/x-has-path-params}}
 {{/vendorExtensions}}
 {{#pathParams}}
                 let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{baseName}}}"].as_bytes()).decode_utf8() {
@@ -77,9 +77,9 @@
 
 {{/pathParams}}
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
                 let callback_{{.}} = path_params["{{{.}}}"].to_string();
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#headerParams}}
   {{#-first}}
@@ -163,7 +163,7 @@
   {{/-last}}
 {{/queryParams}}
 {{#vendorExtensions}}
-{{^consumesMultipart}}
+{{^x-consumes-multipart}}
 {{#bodyParams}}
 {{#-first}}
                 // Body parameters (note that non-required body parameters will ignore garbage
@@ -174,17 +174,17 @@
                         match result {
                             Ok(body) => {
 {{#vendorExtensions}}
-{{^consumesPlainText}}
+{{^x-consumes-plain-text}}
                                 let mut unused_elements = Vec::new();
-{{/consumesPlainText}}
+{{/x-consumes-plain-text}}
                                 let param_{{{paramName}}}: Option<{{{dataType}}}> = if !body.is_empty() {
-{{#consumesXml}}
+{{#x-consumes-xml}}
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-{{/consumesXml}}
-{{#consumesJson}}
+{{/x-consumes-xml}}
+{{#x-consumes-json}}
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-{{/consumesJson}}
-{{^consumesPlainText}}
+{{/x-consumes-json}}
+{{^x-consumes-plain-text}}
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -200,8 +200,8 @@
                                         Err(_) => None,
 {{/required}}
                                     }
-{{/consumesPlainText}}
-{{#consumesPlainText}}
+{{/x-consumes-plain-text}}
+{{#x-consumes-plain-text}}
 {{#isByteArray}}
                                     Some(swagger::ByteArray(body.to_vec()))
 {{/isByteArray}}
@@ -214,7 +214,7 @@
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{{baseName}}} due to UTF-8"))),
                                     }
 {{/isString}}
-{{/consumesPlainText}}
+{{/x-consumes-plain-text}}
 {{/vendorExtensions}}
                                 } else {
                                     None
@@ -233,8 +233,8 @@
 
   {{/-last}}
 {{/bodyParams}}
-{{/consumesMultipart}}
-{{#consumesMultipart}}
+{{/x-consumes-multipart}}
+{{#x-consumes-multipart}}
   {{^bodyParams}}
     {{#vendorExtensions}}
                 // Form Body parameters (note that non-required body parameters will ignore garbage
@@ -308,9 +308,9 @@
       {{/formParams}}
     {{/vendorExtensions}}
   {{/bodyParams}}
-{{/consumesMultipart}}
-{{^consumesMultipartRelated}}
-{{^consumesMultipart}}
+{{/x-consumes-multipart}}
+{{^x-consumes-multipart-related}}
+{{^x-consumes-multipart}}
 {{^bodyParams}}
 {{#vendorExtensions}}
                 Box::new({
@@ -319,16 +319,16 @@
 {{#-first}}
                                 // Form parameters
 {{/-first}}
-                                let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMapContainer}}None;{{/isMapContainer}}
+                                let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{x-example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMapContainer}}None;{{/isMapContainer}}
 {{#-last}}
 
 {{/-last}}
 {{/formParams}}
 {{/vendorExtensions}}
 {{/bodyParams}}
-{{/consumesMultipart}}
-{{/consumesMultipartRelated}}
-{{#consumesMultipartRelated}}
+{{/x-consumes-multipart}}
+{{/x-consumes-multipart-related}}
+{{#x-consumes-multipart-related}}
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -437,14 +437,14 @@
 
 {{/-last}}
 {{/formParams}}
-{{/consumesMultipartRelated}}
+{{/x-consumes-multipart-related}}
 {{/vendorExtensions}}
                                 Box::new(
-                                    api_impl.{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+                                    api_impl.{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
                                         {{#vendorExtensions}}
-                                          {{#callbackParams}}
+                                          {{#x-callback-params}}
                                             callback_{{.}},
-                                          {{/callbackParams}}
+                                          {{/x-callback-params}}
                                         {{/vendorExtensions}}
                                         {{#allParams}}
                                             param_{{{paramName}}}{{#isListContainer}}.as_ref(){{/isListContainer}},
@@ -459,7 +459,7 @@
 
 {{#bodyParams}}
 {{#vendorExtensions}}
-{{^consumesPlainText}}
+{{^x-consumes-plain-text}}
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
@@ -467,13 +467,13 @@
                                                     .expect("Unable to create Warning header value"));
                                         }
 
-{{/consumesPlainText}}
+{{/x-consumes-plain-text}}
 {{/vendorExtensions}}
 {{/bodyParams}}
                                         match result {
                                             Ok(rsp) => match rsp {
 {{#responses}}
-                                                {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}
+                                                {{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
 {{#dataType}}
 {{^headers}}
                                                     (body)
@@ -526,35 +526,35 @@
 {{#vendorExtensions}}
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str("{{{mimeType}}}")
-                                                            .expect("Unable to create Content-Type header for {{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}"));
+                                                        HeaderValue::from_str("{{{x-mime-type}}}")
+                                                            .expect("Unable to create Content-Type header for {{{x-uppercase-operation-id}}}_{{x-uppercase-response-id}}"));
 {{/vendorExtensions}}
 {{/dataType}}
 {{/-first}}
 {{/produces}}
 {{#dataType}}
 {{#vendorExtensions}}
-{{#producesXml}}
-{{^has_namespace}}
+{{#x-produces-xml}}
+{{^x-has-namespace}}
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-{{/has_namespace}}
-{{#has_namespace}}
+{{/x-has-namespace}}
+{{#x-has-namespace}}
                                                     let mut namespaces = std::collections::BTreeMap::new();
 
                                                     // An empty string is used to indicate a global namespace in xmltree.
                                                     namespaces.insert("".to_string(), {{{dataType}}}::NAMESPACE.to_string());
                                                     let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
-{{/has_namespace}}
-{{/producesXml}}
-{{#producesJson}}
+{{/x-has-namespace}}
+{{/x-produces-xml}}
+{{#x-produces-json}}
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-{{/producesJson}}
-{{#producesBytes}}
+{{/x-produces-json}}
+{{#x-produces-bytes}}
                                                     let body = body.0;
-{{/producesBytes}}
-{{#producesPlainText}}
+{{/x-produces-bytes}}
+{{#x-produces-plain-text}}
                                                     let body = body;
-{{/producesPlainText}}
+{{/x-produces-plain-text}}
 {{/vendorExtensions}}
                                                     *response.body_mut() = Body::from(body);
 {{/dataType}}
@@ -573,10 +573,10 @@
                                     }
                                 ))
 {{#vendorExtensions}}
-{{^consumesMultipart}}
+{{^x-consumes-multipart}}
 {{^bodyParams}}
 {{#vendorExtensions}}
-{{#consumesMultipartRelated}}
+{{#x-consumes-multipart-related}}
                             },
                             Err(e) => Box::new(future::ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
@@ -585,14 +585,14 @@
                         }
                     })
                 ) as Self::Future
-{{/consumesMultipartRelated}}
-{{^consumesMultipartRelated}}
+{{/x-consumes-multipart-related}}
+{{^x-consumes-multipart-related}}
                         }}
                 }) as Self::Future
-{{/consumesMultipartRelated}}
+{{/x-consumes-multipart-related}}
 {{/vendorExtensions}}
 {{/bodyParams}}
-{{/consumesMultipart}}
+{{/x-consumes-multipart}}
 {{/vendorExtensions}}
 {{#bodyParams}}
 {{#-first}}
@@ -607,7 +607,7 @@
 {{/-first}}
 {{/bodyParams}}
 {{#vendorExtensions}}
-{{#consumesMultipart}}
+{{#x-consumes-multipart}}
 {{^bodyParams}}
 {{#vendorExtensions}}
                                 as Self::Future
@@ -621,6 +621,6 @@
                 )
 {{/vendorExtensions}}
 {{/bodyParams}}
-{{/consumesMultipart}}
+{{/x-consumes-multipart}}
 {{/vendorExtensions}}
             },

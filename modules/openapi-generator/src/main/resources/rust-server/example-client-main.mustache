@@ -34,9 +34,9 @@ fn main() {
     {{#operations}}
       {{#operation}}
         {{#vendorExtensions}}
-          {{^noClientExample}}
+          {{^x-no-client-example}}
                 "{{{operationId}}}",
-          {{/noClientExample}}
+          {{/x-no-client-example}}
         {{/vendorExtensions}}
       {{/operation}}
     {{/operations}}
@@ -95,22 +95,22 @@ fn main() {
     {{#operations}}
       {{#operation}}
         {{#vendorExtensions}}
-          {{#noClientExample}}
+          {{#x-no-client-example}}
         /* Disabled because there's no example.
-          {{/noClientExample}}
+          {{/x-no-client-example}}
         {{/vendorExtensions}}
         Some("{{{operationId}}}") => {
-            let result = rt.block_on(client.{{{vendorExtensions.operation_id}}}(
+            let result = rt.block_on(client.{{{vendorExtensions.x-operation-id}}}(
                 {{#allParams}}
-                  {{{vendorExtensions.example}}}{{^-last}},{{/-last}}
+                  {{{vendorExtensions.x-example}}}{{^-last}},{{/-last}}
                 {{/allParams}}
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         {{#vendorExtensions}}
-          {{#noClientExample}}
+          {{#x-no-client-example}}
         */
-          {{/noClientExample}}
+          {{/x-no-client-example}}
         {{/vendorExtensions}}
       {{/operation}}
     {{/operations}}

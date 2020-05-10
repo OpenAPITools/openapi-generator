@@ -24,7 +24,7 @@ pub enum {{classname}} {
 #[serde(tag = "{{{vendorExtensions.x-tag-name}}}")]
 pub enum {{classname}} {
 {{#vendorExtensions}}
-    {{#mappedModels}}
+    {{#x-mapped-models}}
     #[serde(rename="{{mappingName}}")]
     {{modelName}} {
     {{#vars}}
@@ -35,7 +35,7 @@ pub enum {{classname}} {
         {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
     {{/vars}}
     },
-    {{/mappedModels}}
+    {{/x-mapped-models}}
 {{/vendorExtensions}}
 }
 
