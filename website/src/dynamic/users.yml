@@ -384,6 +384,11 @@
   infoLink: "https://www.yahoo.co.jp"
   pinned: false
 -
+  caption: Vonage
+  image: "img/companies/vonage.jpg"
+  infoLink: "https://vonage.com"
+  pinned: false
+-
   caption: YITU Technology
   image: "img/companies/yitu.jpeg"
   infoLink: "https://www.yitutech.com/"
