@@ -1,10 +1,7 @@
 package org.openapitools.codegen.plantuml;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.DateTimeSchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.TestUtils;
@@ -63,5 +60,33 @@ public class PlantumlDocumentationCodegenTest {
         Assert.assertEquals((String)firstField.get("name"), "id");
         Assert.assertTrue((boolean)firstField.get("isRequired"));
         Assert.assertEquals((String)firstField.get("dataType"), "Long");
+    }
+
+    @Test
+    public void listFieldTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("tags", new ArraySchema().items(new StringSchema()));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        plantumlDocumentationCodegen.setOpenAPI(openAPI);
+        final CodegenModel cm = plantumlDocumentationCodegen.fromModel("sample", model);
+
+        Map<String, Object> modelsMap = new HashMap<>();
+        modelsMap.put("model", cm);
+        List<Map<?,?>> modelsList = new ArrayList();
+        modelsList.add(modelsMap);
+        Map<String, Object> objs = new HashMap<>();
+        objs.put("models", modelsList);
+
+        plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
+
+        Object entities = objs.get("entities");
+        List<?> entityList = (List<?>)entities;
+        HashMap<String, Object> firstEntity = (HashMap<String, Object>)entityList.get(0);
+        List<Object> fieldList = (List<Object>)firstEntity.get("fields");
+        HashMap<String, Object> firstField = (HashMap<String, Object>)fieldList.get(0);
+
+        Assert.assertEquals((String)firstField.get("name"), "tags");
+        Assert.assertEquals((String)firstField.get("dataType"), "List<String>");
     }
 }

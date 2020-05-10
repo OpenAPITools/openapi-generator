@@ -89,7 +89,9 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         Map<String, Object> field = new HashMap<>();
         field.put("name", codegenProperty.getBaseName());
         field.put("isRequired", codegenProperty.getRequired());
-        field.put("dataType", codegenProperty.getDataType());
+
+        String dataType = codegenProperty.isListContainer && codegenProperty.getItems() != null ? "List<" + codegenProperty.getItems().getDataType() + ">" : codegenProperty.getDataType();
+        field.put("dataType", dataType);
 
         return field;
     }
