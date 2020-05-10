@@ -544,7 +544,7 @@ public class JavaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel cm1 = codegen.fromModel("MapTest1", test1);
         Assert.assertEquals(cm1.getDataType(), "Map");
-        Assert.assertEquals(cm1.getParent(), "HashMap<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cm1.getParent(), "HashMap<String, Object>");
         Assert.assertEquals(cm1.getClassname(), "MapTest1");
 
         Schema test2 = openAPI.getComponents().getSchemas().get("MapTest2");
@@ -683,7 +683,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty property1 = cm1.allVars.get(0);
         Assert.assertEquals(property1.baseName, "any_value");
-        Assert.assertEquals(property1.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(property1.dataType, "Object");
         Assert.assertTrue(property1.hasMore);
         Assert.assertFalse(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
@@ -692,7 +692,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty property2 = cm1.allVars.get(1);
         Assert.assertEquals(property2.baseName, "any_value_with_desc");
-        Assert.assertEquals(property2.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(property2.dataType, "Object");
         Assert.assertTrue(property2.hasMore);
         Assert.assertFalse(property2.required);
         Assert.assertFalse(property2.isPrimitiveType);
@@ -702,7 +702,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty property3 = cm1.allVars.get(2);
         Assert.assertEquals(property3.baseName, "any_value_nullable");
-        Assert.assertEquals(property3.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(property3.dataType, "Object");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isPrimitiveType);
@@ -717,7 +717,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp1 = cm2.vars.get(0);
         Assert.assertEquals(cp1.baseName, "any_value");
-        Assert.assertEquals(cp1.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(cp1.dataType, "Object");
         Assert.assertTrue(cp1.hasMore);
         Assert.assertFalse(cp1.required);
         Assert.assertFalse(cp1.isPrimitiveType);
@@ -727,7 +727,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp2 = cm2.vars.get(1);
         Assert.assertEquals(cp2.baseName, "any_value_with_desc");
-        Assert.assertEquals(cp2.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(cp2.dataType, "Object");
         Assert.assertTrue(cp2.hasMore);
         Assert.assertFalse(cp2.required);
         Assert.assertFalse(cp2.isPrimitiveType);
@@ -737,7 +737,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp3 = cm2.vars.get(2);
         Assert.assertEquals(cp3.baseName, "any_value_nullable");
-        Assert.assertEquals(cp3.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(cp3.dataType, "Object");
         Assert.assertTrue(cp3.hasMore);
         Assert.assertFalse(cp3.required);
         Assert.assertFalse(cp3.isPrimitiveType);
@@ -748,7 +748,7 @@ public class JavaClientCodegenTest {
         // map
         final CodegenProperty cp4 = cm2.vars.get(3);
         Assert.assertEquals(cp4.baseName, "map_any_value");
-        Assert.assertEquals(cp4.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cp4.dataType, "Map<String, Object>");
         Assert.assertTrue(cp4.hasMore);
         Assert.assertFalse(cp4.required);
         Assert.assertFalse(cp4.isPrimitiveType);
@@ -759,7 +759,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp5 = cm2.vars.get(4);
         Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
-        Assert.assertEquals(cp5.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cp5.dataType, "Map<String, Object>");
         Assert.assertTrue(cp5.hasMore);
         Assert.assertFalse(cp5.required);
         Assert.assertFalse(cp5.isPrimitiveType);
@@ -770,7 +770,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp6 = cm2.vars.get(5);
         Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
-        Assert.assertEquals(cp6.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cp6.dataType, "Map<String, Object>");
         Assert.assertTrue(cp6.hasMore);
         Assert.assertFalse(cp6.required);
         Assert.assertFalse(cp6.isPrimitiveType);
@@ -782,7 +782,7 @@ public class JavaClientCodegenTest {
         // array
         final CodegenProperty cp7 = cm2.vars.get(6);
         Assert.assertEquals(cp7.baseName, "array_any_value");
-        Assert.assertEquals(cp7.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertEquals(cp7.dataType, "List<Object>");
         Assert.assertTrue(cp7.hasMore);
         Assert.assertFalse(cp7.required);
         Assert.assertFalse(cp7.isPrimitiveType);
@@ -793,7 +793,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp8 = cm2.vars.get(7);
         Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
-        Assert.assertEquals(cp8.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertEquals(cp8.dataType, "List<Object>");
         Assert.assertTrue(cp8.hasMore);
         Assert.assertFalse(cp8.required);
         Assert.assertFalse(cp8.isPrimitiveType);
@@ -804,7 +804,7 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp9 = cm2.vars.get(8);
         Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
-        Assert.assertEquals(cp9.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertEquals(cp9.dataType, "List<Object>");
         Assert.assertFalse(cp9.hasMore);
         Assert.assertFalse(cp9.required);
         Assert.assertFalse(cp9.isPrimitiveType);
