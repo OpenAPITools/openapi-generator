@@ -1,11 +1,19 @@
-# PlantUML Documentation for {{appName}}
+@startuml
+
+title {{appName}} Schemas Diagram
 
 {{#generateModelDocs}}
 {{#modelPackage}}
-{{#models}}{{#model}} - [{{{classname}}}](./{{{modelPackage}}}/{{modelDocPath}}{{{classname}}}.md)
-{{/model}}{{/models}}
-{{/modelPackage}}
-{{^modelPackage}}
-No model defined in this package
+{{#models}}
+{{#model}}entity {{{name}}} { 
+{{#vars}}
+    {{#required}}* {{/required}}{{name}}: {{dataType}}
+{{/vars}}
+}
+
+{{/model}}
+{{/models}}
 {{/modelPackage}}
 {{/generateModelDocs}}
+
+@enduml
