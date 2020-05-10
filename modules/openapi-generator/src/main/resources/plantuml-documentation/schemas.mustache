@@ -5,12 +5,19 @@ title {{appName}} Schemas Diagram
 {{#generateModelDocs}}
 {{#modelPackage}}
 {{#models}}
-{{#model}}entity {{{name}}} { 
+{{#model}}entity {{{classname}}} { 
 {{#vars}}
     {{#required}}* {{/required}}{{baseName}}: {{dataType}}{{#items}}<{{dataType}}>{{/items}}
 {{/vars}}
 }
+{{/model}}
+{{/models}}
 
+{{#models}}
+{{#model}}
+{{#interfaces}}
+{{.}} <|-- {{classname}}
+{{/interfaces}}
 {{/model}}
 {{/models}}
 {{/modelPackage}}
