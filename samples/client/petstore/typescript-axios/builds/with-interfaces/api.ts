@@ -385,7 +385,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
             }
 
-
     
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
@@ -432,7 +431,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (tags) {
                 localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
             }
-
 
     
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
@@ -574,14 +572,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
 
 
-            if (name !== undefined) { 
-                localVarFormParams.set('name', name as any);
-            }
-    
-            if (status !== undefined) { 
-                localVarFormParams.set('status', status as any);
-            }
-    
+                if (name !== undefined) { 
+                    localVarFormParams.set('name', name as any);
+                }
+
+                if (status !== undefined) { 
+                    localVarFormParams.set('status', status as any);
+                }
+
     
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
     
@@ -633,14 +631,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
 
 
-            if (additionalMetadata !== undefined) { 
-                localVarFormParams.append('additionalMetadata', additionalMetadata as any);
-            }
-    
-            if (file !== undefined) { 
-                localVarFormParams.append('file', file as any);
-            }
-    
+                if (additionalMetadata !== undefined) { 
+                    localVarFormParams.append('additionalMetadata', additionalMetadata as any);
+                }
+
+                if (file !== undefined) { 
+                    localVarFormParams.append('file', file as any);
+                }
+
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
@@ -894,7 +892,6 @@ export interface PetApiInterface {
      * @memberof PetApiInterface
      */
     addPet(body: Pet, options?: any): AxiosPromise<void>;
-
     /**
      * 
      * @summary Deletes a pet
@@ -905,7 +902,6 @@ export interface PetApiInterface {
      * @memberof PetApiInterface
      */
     deletePet(petId: number, apiKey?: string, options?: any): AxiosPromise<void>;
-
     /**
      * Multiple status values can be provided with comma separated strings
      * @summary Finds Pets by status
@@ -915,7 +911,6 @@ export interface PetApiInterface {
      * @memberof PetApiInterface
      */
     findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): AxiosPromise<Array<Pet>>;
-
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
@@ -925,7 +920,6 @@ export interface PetApiInterface {
      * @memberof PetApiInterface
      */
     findPetsByTags(tags: Array<string>, options?: any): AxiosPromise<Array<Pet>>;
-
     /**
      * Returns a single pet
      * @summary Find pet by ID
@@ -935,7 +929,6 @@ export interface PetApiInterface {
      * @memberof PetApiInterface
      */
     getPetById(petId: number, options?: any): AxiosPromise<Pet>;
-
     /**
      * 
      * @summary Update an existing pet
@@ -945,7 +938,6 @@ export interface PetApiInterface {
      * @memberof PetApiInterface
      */
     updatePet(body: Pet, options?: any): AxiosPromise<void>;
-
     /**
      * 
      * @summary Updates a pet in the store with form data
@@ -957,7 +949,6 @@ export interface PetApiInterface {
      * @memberof PetApiInterface
      */
     updatePetWithForm(petId: number, name?: string, status?: string, options?: any): AxiosPromise<void>;
-
     /**
      * 
      * @summary uploads an image
@@ -969,7 +960,6 @@ export interface PetApiInterface {
      * @memberof PetApiInterface
      */
     uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): AxiosPromise<ApiResponse>;
-
 }
 
 /**
@@ -1368,7 +1358,6 @@ export interface StoreApiInterface {
      * @memberof StoreApiInterface
      */
     deleteOrder(orderId: string, options?: any): AxiosPromise<void>;
-
     /**
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
@@ -1377,7 +1366,6 @@ export interface StoreApiInterface {
      * @memberof StoreApiInterface
      */
     getInventory(options?: any): AxiosPromise<{ [key: string]: number; }>;
-
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * @summary Find purchase order by ID
@@ -1387,7 +1375,6 @@ export interface StoreApiInterface {
      * @memberof StoreApiInterface
      */
     getOrderById(orderId: number, options?: any): AxiosPromise<Order>;
-
     /**
      * 
      * @summary Place an order for a pet
@@ -1397,7 +1384,6 @@ export interface StoreApiInterface {
      * @memberof StoreApiInterface
      */
     placeOrder(body: Order, options?: any): AxiosPromise<Order>;
-
 }
 
 /**
@@ -1682,11 +1668,9 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (username !== undefined) {
                 localVarQueryParameter['username'] = username;
             }
-
             if (password !== undefined) {
                 localVarQueryParameter['password'] = password;
             }
-
 
     
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
@@ -2005,7 +1989,6 @@ export interface UserApiInterface {
      * @memberof UserApiInterface
      */
     createUser(body: User, options?: any): AxiosPromise<void>;
-
     /**
      * 
      * @summary Creates list of users with given input array
@@ -2015,7 +1998,6 @@ export interface UserApiInterface {
      * @memberof UserApiInterface
      */
     createUsersWithArrayInput(body: Array<User>, options?: any): AxiosPromise<void>;
-
     /**
      * 
      * @summary Creates list of users with given input array
@@ -2025,7 +2007,6 @@ export interface UserApiInterface {
      * @memberof UserApiInterface
      */
     createUsersWithListInput(body: Array<User>, options?: any): AxiosPromise<void>;
-
     /**
      * This can only be done by the logged in user.
      * @summary Delete user
@@ -2035,7 +2016,6 @@ export interface UserApiInterface {
      * @memberof UserApiInterface
      */
     deleteUser(username: string, options?: any): AxiosPromise<void>;
-
     /**
      * 
      * @summary Get user by user name
@@ -2045,7 +2025,6 @@ export interface UserApiInterface {
      * @memberof UserApiInterface
      */
     getUserByName(username: string, options?: any): AxiosPromise<User>;
-
     /**
      * 
      * @summary Logs user into the system
@@ -2056,7 +2035,6 @@ export interface UserApiInterface {
      * @memberof UserApiInterface
      */
     loginUser(username: string, password: string, options?: any): AxiosPromise<string>;
-
     /**
      * 
      * @summary Logs out current logged in user session
@@ -2065,7 +2043,6 @@ export interface UserApiInterface {
      * @memberof UserApiInterface
      */
     logoutUser(options?: any): AxiosPromise<void>;
-
     /**
      * This can only be done by the logged in user.
      * @summary Updated user
@@ -2076,7 +2053,6 @@ export interface UserApiInterface {
      * @memberof UserApiInterface
      */
     updateUser(username: string, body: User, options?: any): AxiosPromise<void>;
-
 }
 
 /**

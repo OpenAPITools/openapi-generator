@@ -131,7 +131,6 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{/isCollectionFormatMulti}}
             }
             {{/useSingleRequestParameter}}
-
             {{#useSingleRequestParameter}}
             if (requestParameters.{{paramName}}) {
             {{#isCollectionFormatMulti}}
@@ -163,7 +162,6 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 {{/isDateTime}}
             }
             {{/useSingleRequestParameter}}
-
             {{#useSingleRequestParameter}}
             if (requestParameters.{{paramName}} !== undefined) {
                 {{#isDateTime}}
@@ -182,7 +180,6 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             }
             {{/useSingleRequestParameter}}            
             {{/isListContainer}}
-
     {{/queryParams}}
     {{#headerParams}}
             {{#isListContainer}}
@@ -267,6 +264,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/useSingleRequestParameter}}   
     {{/formParams}}
     {{/vendorExtensions}}
+
     {{#vendorExtensions}}{{#hasFormParams}}{{^multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';{{/multipartFormData}}{{#multipartFormData}}
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';{{/multipartFormData}}
@@ -454,7 +452,6 @@ export class {{classname}} extends BaseAPI {
 
     {{/operation}}
 }
-
 {{#useSingleRequestParameter}}
 {{#operation}}
 {{#allParams.0}}
@@ -469,5 +466,4 @@ export class {{classname}} extends BaseAPI {
 {{/allParams.0}}
 {{/operation}}
 {{/useSingleRequestParameter}}
-
 {{/operations}}

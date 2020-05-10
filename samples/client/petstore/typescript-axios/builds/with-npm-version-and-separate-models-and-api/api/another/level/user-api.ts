@@ -245,11 +245,9 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (username !== undefined) {
                 localVarQueryParameter['username'] = username;
             }
-
             if (password !== undefined) {
                 localVarQueryParameter['password'] = password;
             }
-
 
     
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};

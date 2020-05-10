@@ -385,7 +385,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
             }
 
-
     
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
@@ -432,7 +431,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (tags) {
                 localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
             }
-
 
     
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
@@ -574,14 +572,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
 
 
-            if (name !== undefined) { 
-                localVarFormParams.set('name', name as any);
-            }
-    
-            if (status !== undefined) { 
-                localVarFormParams.set('status', status as any);
-            }
-    
+                if (name !== undefined) { 
+                    localVarFormParams.set('name', name as any);
+                }
+
+                if (status !== undefined) { 
+                    localVarFormParams.set('status', status as any);
+                }
+
     
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
     
@@ -633,14 +631,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
 
 
-            if (additionalMetadata !== undefined) { 
-                localVarFormParams.append('additionalMetadata', additionalMetadata as any);
-            }
-    
-            if (file !== undefined) { 
-                localVarFormParams.append('file', file as any);
-            }
-    
+                if (additionalMetadata !== undefined) { 
+                    localVarFormParams.append('additionalMetadata', additionalMetadata as any);
+                }
+
+                if (file !== undefined) { 
+                    localVarFormParams.append('file', file as any);
+                }
+
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
@@ -1542,11 +1540,9 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             if (username !== undefined) {
                 localVarQueryParameter['username'] = username;
             }
-
             if (password !== undefined) {
                 localVarQueryParameter['password'] = password;
             }
-
 
     
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};

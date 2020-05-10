@@ -41,7 +41,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     protected String npmRepository = null;
 
     private String tsModelPackage = "";
-    private boolean useSingleRequestParameter = true;
+    private boolean useSingleRequestParameter = false;
 
     public TypeScriptAxiosClientCodegen() {
         super();
