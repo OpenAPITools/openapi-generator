@@ -1,6 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import javafx.util.Pair;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -103,11 +102,16 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
 
     private List<Object> calculateInheritanceRelationships(List<CodegenModel> subtypeCodegenModelList) {
         return subtypeCodegenModelList.stream()
-                .map(subtypeModel -> new Pair<>(subtypeModel.getClassname(), subtypeModel.getInterfaces().stream()
-                        .filter(inf -> !inf.endsWith(ALL_OF_SUFFIX))
-                        .collect(Collectors.toList())))
-                .flatMap(stringListPair -> stringListPair.getValue().stream().map(parent -> createInheritance(parent, stringListPair.getKey())))
+                .map(subtypeModel -> getInterfacesForSubtype(subtypeModel))
+                .flatMap(subTypeInterfaces -> subTypeInterfaces.getValue().stream().map(parent -> createInheritance(parent, subTypeInterfaces.getKey())))
                 .collect(Collectors.toList());
+    }
+
+    private Map.Entry<String, List<String>> getInterfacesForSubtype(CodegenModel subtypeModel) {
+        List<String> interfaceList = subtypeModel.getInterfaces().stream()
+                .filter(inf -> !inf.endsWith(ALL_OF_SUFFIX))
+                .collect(Collectors.toList());
+        return new AbstractMap.SimpleEntry<>(subtypeModel.getClassname(), interfaceList);
     }
 
     private Object createInheritance(String parentName, String childName) {
