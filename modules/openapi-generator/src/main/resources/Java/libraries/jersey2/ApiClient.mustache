@@ -214,7 +214,9 @@ public class ApiClient {
 
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
+    {{#hasOAuthMethods}}
     setOauthBasePath(basePath);
+    {{/hasOAuthMethods}}
     return this;
   }
 
@@ -252,6 +254,7 @@ public class ApiClient {
     setBasePath(servers.get(serverIndex).URL(serverVariables));
   }
 
+  {{#hasOAuthMethods}}
   private void setOauthBasePath(String basePath) {
     for(Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
@@ -260,6 +263,7 @@ public class ApiClient {
     }
   }
 
+  {{/hasOAuthMethods}}
   /**
    * Get authentications (key: authentication name, value: authentication).
    *
@@ -1086,6 +1090,7 @@ public class ApiClient {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
+      {{#hasOAuthMethods}}
       // If OAuth is used and a status 401 is received, renew the access token and retry the request
       if (response.getStatusInfo() == Status.UNAUTHORIZED) {
         for (String authName : authNames) {
@@ -1102,6 +1107,7 @@ public class ApiClient {
         }
       }
 
+      {{/hasOAuthMethods}}
       int statusCode = response.getStatusInfo().getStatusCode();
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
