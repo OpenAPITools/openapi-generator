@@ -29,6 +29,7 @@ impl DefaultApiClient {
     }
 }
 
+
 pub trait DefaultApi {
     fn dummy_get(&self, ) -> Result<(), Error>;
 }
