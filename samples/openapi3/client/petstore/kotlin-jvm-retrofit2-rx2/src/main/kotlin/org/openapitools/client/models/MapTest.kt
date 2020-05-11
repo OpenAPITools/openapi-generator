@@ -42,8 +42,8 @@ data class MapTest (
     */
     
     enum class MapOfEnumString(val value: kotlin.String){
-        @SerializedName(value="UPPER")  uPPER("UPPER"),
-        @SerializedName(value="lower")  lower("lower");
+        @SerializedName(value = "UPPER") uPPER("UPPER"),
+        @SerializedName(value = "lower") lower("lower");
     }
 }
 

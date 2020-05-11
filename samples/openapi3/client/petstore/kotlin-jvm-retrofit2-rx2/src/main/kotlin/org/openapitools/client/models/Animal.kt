@@ -25,9 +25,7 @@ interface Animal : Serializable {
 		private const val serialVersionUID: Long = 123
 	}
 
-    @SerializedName("className")
     val className: kotlin.String
-    @SerializedName("color")
     val color: kotlin.String?
 }
 
