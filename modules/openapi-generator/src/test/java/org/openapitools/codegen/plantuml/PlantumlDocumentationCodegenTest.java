@@ -145,33 +145,47 @@ public class PlantumlDocumentationCodegenTest {
 
         openAPI.getComponents().addSchemas("simple", simpleDataTypeSchema);
 
+        final Schema tagDataTypeSchema = new Schema()
+                .description("a tag model")
+                .addProperties("name", new StringSchema());
+
+        openAPI.getComponents().addSchemas("tag", tagDataTypeSchema);
+
         final Schema parentSchema = new Schema()
                 .description("a parent model")
                 .addProperties("id", new StringSchema())
-                .addProperties("names", new ArraySchema().items(new Schema().$ref("#/components/schemas/simple")))
+                .addProperties("name", new Schema().$ref("#/components/schemas/simple"))
+                .addProperties("tags", new ArraySchema().items(new Schema().$ref("#/components/schemas/tag")))
                 .addRequiredItem("id");
 
         openAPI.getComponents().addSchemas("parent", parentSchema);
 
         plantumlDocumentationCodegen.setOpenAPI(openAPI);
         final CodegenModel simpleModel = plantumlDocumentationCodegen.fromModel("simple", simpleDataTypeSchema);
+        final CodegenModel tagModel = plantumlDocumentationCodegen.fromModel("tag", tagDataTypeSchema);
         final CodegenModel parentModel = plantumlDocumentationCodegen.fromModel("parent", parentSchema);
 
-        Map<String, Object> objs = createObjectsMapFor(parentModel, simpleModel);
+        Map<String, Object> objs = createObjectsMapFor(parentModel, simpleModel, tagModel);
 
         plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
 
         Object entities = objs.get("entities");
         List<?> entityList = (List<?>)entities;
-        Assert.assertEquals(entityList.size(), 2, "size of entity list");
+        Assert.assertEquals(entityList.size(), 3, "size of entity list");
 
         Object relationships = objs.get("relationships");
         List<?>relationshipList = (List<?>)relationships;
-        Assert.assertEquals(relationshipList.size(), 1, "size of relationship list");
+        Assert.assertEquals(relationshipList.size(), 2, "size of relationship list");
 
-        Map<String, String> firstRelationship = (Map<String, String>)relationshipList.get(0);
-        Assert.assertEquals(firstRelationship.get("parent"), "Parent");
-        Assert.assertEquals(firstRelationship.get("child"), "Simple");
+        Map<String, Object> firstRelationship = (Map<String, Object>)relationshipList.get(0);
+        Assert.assertEquals((String)firstRelationship.get("parent"), "Parent");
+        Assert.assertEquals((String)firstRelationship.get("child"), "Simple");
+        Assert.assertFalse((boolean)firstRelationship.get("isList"));
+
+        Map<String, Object> secondRelationship = (Map<String, Object>)relationshipList.get(1);
+        Assert.assertEquals((String)secondRelationship.get("parent"), "Parent");
+        Assert.assertEquals((String)secondRelationship.get("child"), "Tag");
+        Assert.assertTrue((boolean)secondRelationship.get("isList"));
     }
 
     private Map<String, Object> createObjectsMapFor(CodegenModel... codegenModels) {

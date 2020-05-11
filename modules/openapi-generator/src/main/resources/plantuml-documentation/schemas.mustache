@@ -15,7 +15,7 @@ entity {{{name}}} {
 {{/inheritances}}
 
 {{#relationships}}
-{{parent}} -- {{child}}
+{{parent}} -- {{#isList}}"0..*" {{/isList}} {{child}}
 {{/relationships}}
 
 @enduml
