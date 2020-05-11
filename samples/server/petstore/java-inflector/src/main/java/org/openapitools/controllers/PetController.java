@@ -23,7 +23,7 @@ public class PetController  {
    **/
 
   /*
-    public ResponseContext addPet(RequestContext request , Pet pet) {
+    public ResponseContext addPet(RequestContext request , Pet body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
@@ -53,7 +53,7 @@ public class PetController  {
   */
 
   /*
-    public ResponseContext updatePet(RequestContext request , Pet pet) {
+    public ResponseContext updatePet(RequestContext request , Pet body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
