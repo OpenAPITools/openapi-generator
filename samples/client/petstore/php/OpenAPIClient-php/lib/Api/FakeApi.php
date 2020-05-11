@@ -297,7 +297,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -558,7 +558,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -819,7 +819,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -1080,7 +1080,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -1341,7 +1341,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -1560,7 +1560,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -1797,7 +1797,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -2068,7 +2068,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -2432,9 +2432,12 @@ class FakeApi
         if ($binary !== null) {
             $multipart = true;
             $formParams['binary'] = [];
-            $paramFiles = is_array($binary) ?: [$binary];
+            $paramFiles = is_array($binary) ? $binary : [$binary];
             foreach ($paramFiles as $paramFile) {
-                $formParams['binary'][] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($paramFile, 'rb')
+                $formParams['binary'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue($paramFile),
+                    'rb'
+                );
             }
         }
         // form params
@@ -2479,7 +2482,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -2779,7 +2782,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -3090,7 +3093,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -3313,7 +3316,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -3552,7 +3555,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
@@ -3851,7 +3854,7 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,

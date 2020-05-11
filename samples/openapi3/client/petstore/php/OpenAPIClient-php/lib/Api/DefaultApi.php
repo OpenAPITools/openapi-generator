@@ -327,7 +327,7 @@ class DefaultApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ?: [$formParamValue];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
                     foreach ($formParamValueItems as $formParamValueItem) {
                         $multipartContents[] = [
                             'name' => $formParamName,
