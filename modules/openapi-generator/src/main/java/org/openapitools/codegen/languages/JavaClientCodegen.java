@@ -823,9 +823,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (this.parcelableModel) {
                 ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
             }
-            if (this.serializableModel) {
-                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
-            }
         }
 
         return objs;
@@ -950,17 +947,5 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiVarName = escapeReservedWord(apiVarName);
         }
         return apiVarName;
-    }
-
-    @Override
-    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
-            Map<String, String> oneImport = new HashMap<String, String>() {{
-                put("import", importMapping.get(i));
-            }};
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
-            }
-        }
     }
 }
