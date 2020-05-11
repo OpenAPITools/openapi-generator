@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PlantumlDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
-    public static final String PROJECT_NAME = "projectName";
     public static final String ALL_OF_SUFFIX = "AllOf";
 
     static Logger LOGGER = LoggerFactory.getLogger(PlantumlDocumentationCodegen.class);
@@ -35,29 +34,6 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         embeddedTemplateDir = templateDir = "plantuml-documentation";
         supportingFiles.add(new SupportingFile("schemas.mustache", "", "schemas.plantuml"));
     }
-
-//    @Override
-//    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-//        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
-//        for (Map<String, Object> model : models) {
-//            Object v = model.get("model");
-//            if (v instanceof CodegenModel) {
-//                CodegenModel m = (CodegenModel) v;
-//                if (m.interfaces != null) {
-//                    m.interfaces.removeIf(interfaceName -> interfaceName.endsWith("AllOf"));
-//                }
-//            }
-//        }
-//        return objs;
-//    }
-
-//    @Override
-//    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-//        List<String> keysToRemove = objs.keySet().stream().filter(key -> key.endsWith("_allOf")).collect(Collectors.toList());
-//        keysToRemove.forEach(key -> objs.remove(key));
-//
-//        return super.postProcessAllModels(objs);
-//    }
 
     @SuppressWarnings("unchecked")
     @Override
