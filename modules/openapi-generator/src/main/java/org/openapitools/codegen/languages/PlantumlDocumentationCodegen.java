@@ -109,6 +109,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         String childModelName = toModelName(getComplexDataTypeFor(codegenProperty));
         field.put("parent", parent);
         field.put("child", childModelName);
+        field.put("name", codegenProperty.getName());
         field.put("isList", codegenProperty.isListContainer);
 
         return field;

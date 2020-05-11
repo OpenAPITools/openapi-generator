@@ -164,11 +164,13 @@ public class PlantumlDocumentationCodegenTest {
         Map<String, Object> firstRelationship = (Map<String, Object>)relationshipList.get(0);
         Assert.assertEquals((String)firstRelationship.get("parent"), "Parent");
         Assert.assertEquals((String)firstRelationship.get("child"), "Simple");
+        Assert.assertEquals((String)firstRelationship.get("name"), "name");
         Assert.assertFalse((boolean)firstRelationship.get("isList"));
 
         Map<String, Object> secondRelationship = (Map<String, Object>)relationshipList.get(1);
         Assert.assertEquals((String)secondRelationship.get("parent"), "Parent");
         Assert.assertEquals((String)secondRelationship.get("child"), "Tag");
+        Assert.assertEquals((String)secondRelationship.get("name"), "tags");
         Assert.assertTrue((boolean)secondRelationship.get("isList"));
     }
 
