@@ -11,7 +11,11 @@ entity {{{name}}} {
 
 {{/entities}}
 {{#inheritances}}
-{{parent}} <|-- {{child}}
+{{parent}} <|--- {{child}}
 {{/inheritances}}
+
+{{#relationships}}
+{{parent}} -- {{child}}
+{{/relationships}}
 
 @enduml

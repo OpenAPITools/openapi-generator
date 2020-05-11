@@ -3,7 +3,6 @@ package org.openapitools.codegen.plantuml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import javafx.util.Pair;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.PlantumlDocumentationCodegen;
@@ -11,7 +10,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class PlantumlDocumentationCodegenTest {
     private PlantumlDocumentationCodegen plantumlDocumentationCodegen = new PlantumlDocumentationCodegen();
@@ -80,7 +78,7 @@ public class PlantumlDocumentationCodegenTest {
     }
 
     @Test
-    public void composedEntitiesTest() {
+    public void inheritedEntitiesTest() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema parentSchema = new Schema()
                 .description("a parent model")
@@ -136,6 +134,44 @@ public class PlantumlDocumentationCodegenTest {
         Map<String, String> firstInheritance = (Map<String, String>)inheritanceList.get(0);
         Assert.assertEquals(firstInheritance.get("parent"), "Parent");
         Assert.assertEquals(firstInheritance.get("child"), "Child");
+    }
+
+    @Test
+    public void aggregatedEntitiesTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema simpleDataTypeSchema = new Schema()
+                .description("a simple model")
+                .addProperties("name", new StringSchema());
+
+        openAPI.getComponents().addSchemas("simple", simpleDataTypeSchema);
+
+        final Schema parentSchema = new Schema()
+                .description("a parent model")
+                .addProperties("id", new StringSchema())
+                .addProperties("names", new ArraySchema().items(new Schema().$ref("#/components/schemas/simple")))
+                .addRequiredItem("id");
+
+        openAPI.getComponents().addSchemas("parent", parentSchema);
+
+        plantumlDocumentationCodegen.setOpenAPI(openAPI);
+        final CodegenModel simpleModel = plantumlDocumentationCodegen.fromModel("simple", simpleDataTypeSchema);
+        final CodegenModel parentModel = plantumlDocumentationCodegen.fromModel("parent", parentSchema);
+
+        Map<String, Object> objs = createObjectsMapFor(parentModel, simpleModel);
+
+        plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
+
+        Object entities = objs.get("entities");
+        List<?> entityList = (List<?>)entities;
+        Assert.assertEquals(entityList.size(), 2, "size of entity list");
+
+        Object relationships = objs.get("relationships");
+        List<?>relationshipList = (List<?>)relationships;
+        Assert.assertEquals(relationshipList.size(), 1, "size of relationship list");
+
+        Map<String, String> firstRelationship = (Map<String, String>)relationshipList.get(0);
+        Assert.assertEquals(firstRelationship.get("parent"), "Parent");
+        Assert.assertEquals(firstRelationship.get("child"), "Simple");
     }
 
     private Map<String, Object> createObjectsMapFor(CodegenModel... codegenModels) {

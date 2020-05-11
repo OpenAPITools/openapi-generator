@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 public class PlantumlDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
+    public static final String ALL_OF_SUFFIX = "AllOf";
 
     static Logger LOGGER = LoggerFactory.getLogger(PlantumlDocumentationCodegen.class);
 
@@ -68,35 +69,64 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
                 .map(listItem -> (CodegenModel)((HashMap<?, ?>)listItem).get("model"))
                 .collect(Collectors.toList());
 
-        List<CodegenModel> composedCodegenModelList = codegenModelList.stream()
+        List<CodegenModel> subtypeCodegenModelList = codegenModelList.stream()
                 .filter(codegenModel -> !codegenModel.allOf.isEmpty())
                 .collect(Collectors.toList());
 
-        List<CodegenModel> notComposedCodegenModelList = codegenModelList.stream()
+        List<CodegenModel> supertypeCodegenModelList = codegenModelList.stream()
                 .filter(codegenModel -> codegenModel.allOf.isEmpty())
                 .collect(Collectors.toList());
 
-//        List<CodegenModel> allOfInlineCodegenModelList = notComposedCodegenModelList.stream()
-//                .filter(codegenModel -> codegenModel.getName().endsWith("_allOf"))
-//                .collect(Collectors.toList());
-//
-//        List<CodegenModel> simpleCodegenModelList = notComposedCodegenModelList.stream()
-//                .filter(codegenModel -> !codegenModel.getName().endsWith("_allOf"))
-//                .collect(Collectors.toList());
-
-        List<Object> entities = notComposedCodegenModelList.stream().map(cm -> createEntityFor(cm)).collect(Collectors.toList());
+        List<Object> entities = supertypeCodegenModelList.stream().map(cm -> createEntityFor(cm)).collect(Collectors.toList());
         objs.put("entities", entities);
 
-        List<Object> inheritances = calculateInheritanceRelationships(composedCodegenModelList);
+        List<Object> relationships = calculateCompositionRelationships(supertypeCodegenModelList);
+        objs.put("relationships", relationships);
+
+        List<Object> inheritances = calculateInheritanceRelationships(subtypeCodegenModelList);
         objs.put("inheritances", inheritances);
 
         return super.postProcessSupportingFileData(objs);
     }
 
-    private List<Object> calculateInheritanceRelationships(List<CodegenModel> composedCodegenModelList) {
-        return composedCodegenModelList.stream()
-                .map(composedModel -> new Pair<>(composedModel.getClassname(), composedModel.getInterfaces().stream()
-                        .filter(inf -> !inf.endsWith("AllOf"))
+    private List<Object> calculateCompositionRelationships(List<CodegenModel> supertypeCodegenModelList) {
+        return supertypeCodegenModelList.stream()
+                .map(superType -> calculateCompositionRelationshipsFor(superType))
+                .flatMap(relationshipList -> relationshipList.stream())
+                .collect(Collectors.toList());
+    }
+
+    private List<Object> calculateCompositionRelationshipsFor(CodegenModel codegenModel) {
+        String parentName = removeSuffix(codegenModel.getClassname(), ALL_OF_SUFFIX);
+        return codegenModel.getAllVars().stream()
+                .filter(var -> getComplexDataTypeFor(var) != null)
+                .map(var -> createRelationshipFor(var,parentName))
+                .collect(Collectors.toList());
+    }
+
+    private Object createRelationshipFor(CodegenProperty codegenProperty, String parent) {
+        Map<String, Object> field = new HashMap<>();
+        String childModelName = toModelName(getComplexDataTypeFor(codegenProperty));
+        field.put("parent", parent);
+        field.put("child", childModelName);
+
+        return field;
+    }
+
+    private String getComplexDataTypeFor(CodegenProperty codegenProperty) {
+        if (codegenProperty.isModel) {
+            return codegenProperty.getDataType();
+        } else if (codegenProperty.isListContainer && codegenProperty.getItems().isModel) {
+            return codegenProperty.getItems().getDataType();
+        }
+
+        return null;
+    }
+
+    private List<Object> calculateInheritanceRelationships(List<CodegenModel> subtypeCodegenModelList) {
+        return subtypeCodegenModelList.stream()
+                .map(subtypeModel -> new Pair<>(subtypeModel.getClassname(), subtypeModel.getInterfaces().stream()
+                        .filter(inf -> !inf.endsWith(ALL_OF_SUFFIX))
                         .collect(Collectors.toList())))
                 .flatMap(stringListPair -> stringListPair.getValue().stream().map(parent -> createInheritance(parent, stringListPair.getKey())))
                 .collect(Collectors.toList());
@@ -111,7 +141,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
 
     private Object createEntityFor(CodegenModel codegenModel) {
         Map<String, Object> entity = new HashMap<>();
-        entity.put("name", removeSuffix(codegenModel.getClassname(), "AllOf"));
+        entity.put("name", removeSuffix(codegenModel.getClassname(), ALL_OF_SUFFIX));
 
         List<Object> fields = codegenModel.getAllVars().stream()
                 .map(var -> createFieldFor(var))
@@ -123,7 +153,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
 
     private String removeSuffix(final String value, final String suffix) {
         if (value != null && suffix != null && value.endsWith(suffix)) {
-            return value.substring(0, value.length() - 5);
+            return value.substring(0, value.length() - suffix.length());
         }
 
         return value;
