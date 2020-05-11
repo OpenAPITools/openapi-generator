@@ -544,7 +544,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
         }
         LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
-        embeddedTemplateDir = templateDir = "aspnetcore/" + determineTemplateVersion(aspnetCoreVersion.getOptValue());
+        embeddedTemplateDir = "aspnetcore/" + determineTemplateVersion(aspnetCoreVersion.getOptValue());
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }
 
