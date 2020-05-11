@@ -685,7 +685,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(property1.baseName, "any_value");
         Assert.assertEquals(property1.dataType, "Object");
         Assert.assertTrue(property1.hasMore);
-        Assert.assertFalse(property1.isPrimitiveType);
+        Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
         Assert.assertFalse(property1.isFreeFormObject);
         Assert.assertTrue(property1.isAnyType);
@@ -695,7 +695,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(property2.dataType, "Object");
         Assert.assertTrue(property2.hasMore);
         Assert.assertFalse(property2.required);
-        Assert.assertFalse(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
         Assert.assertFalse(property2.isFreeFormObject);
         Assert.assertTrue(property2.isAnyType);
@@ -705,7 +705,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(property3.dataType, "Object");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertFalse(property3.isPrimitiveType);
+        Assert.assertTrue(property3.isPrimitiveType);
         Assert.assertFalse(property3.isContainer);
         Assert.assertFalse(property3.isFreeFormObject);
         Assert.assertTrue(property3.isAnyType);
@@ -720,7 +720,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp1.dataType, "Object");
         Assert.assertTrue(cp1.hasMore);
         Assert.assertFalse(cp1.required);
-        Assert.assertFalse(cp1.isPrimitiveType);
+        Assert.assertTrue(cp1.isPrimitiveType);
         Assert.assertFalse(cp1.isContainer);
         Assert.assertFalse(cp1.isFreeFormObject);
         Assert.assertTrue(cp1.isAnyType);
@@ -730,7 +730,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp2.dataType, "Object");
         Assert.assertTrue(cp2.hasMore);
         Assert.assertFalse(cp2.required);
-        Assert.assertFalse(cp2.isPrimitiveType);
+        Assert.assertTrue(cp2.isPrimitiveType);
         Assert.assertFalse(cp2.isContainer);
         Assert.assertFalse(cp2.isFreeFormObject);
         Assert.assertTrue(cp2.isAnyType);
@@ -740,7 +740,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp3.dataType, "Object");
         Assert.assertTrue(cp3.hasMore);
         Assert.assertFalse(cp3.required);
-        Assert.assertFalse(cp3.isPrimitiveType);
+        Assert.assertTrue(cp3.isPrimitiveType);
         Assert.assertFalse(cp3.isContainer);
         Assert.assertFalse(cp3.isFreeFormObject);
         Assert.assertTrue(cp3.isAnyType);
@@ -751,7 +751,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp4.dataType, "Map<String, Object>");
         Assert.assertTrue(cp4.hasMore);
         Assert.assertFalse(cp4.required);
-        Assert.assertFalse(cp4.isPrimitiveType);
+        Assert.assertTrue(cp4.isPrimitiveType);
         Assert.assertTrue(cp4.isContainer);
         Assert.assertTrue(cp4.isMapContainer);
         Assert.assertTrue(cp4.isFreeFormObject);
@@ -762,7 +762,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp5.dataType, "Map<String, Object>");
         Assert.assertTrue(cp5.hasMore);
         Assert.assertFalse(cp5.required);
-        Assert.assertFalse(cp5.isPrimitiveType);
+        Assert.assertTrue(cp5.isPrimitiveType);
         Assert.assertTrue(cp5.isContainer);
         Assert.assertTrue(cp5.isMapContainer);
         Assert.assertTrue(cp5.isFreeFormObject);
@@ -773,7 +773,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp6.dataType, "Map<String, Object>");
         Assert.assertTrue(cp6.hasMore);
         Assert.assertFalse(cp6.required);
-        Assert.assertFalse(cp6.isPrimitiveType);
+        Assert.assertTrue(cp6.isPrimitiveType);
         Assert.assertTrue(cp6.isContainer);
         Assert.assertTrue(cp6.isMapContainer);
         Assert.assertTrue(cp6.isFreeFormObject);
@@ -785,7 +785,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp7.dataType, "List<Object>");
         Assert.assertTrue(cp7.hasMore);
         Assert.assertFalse(cp7.required);
-        Assert.assertFalse(cp7.isPrimitiveType);
+        Assert.assertTrue(cp7.isPrimitiveType);
         Assert.assertTrue(cp7.isContainer);
         Assert.assertTrue(cp7.isListContainer);
         Assert.assertFalse(cp7.isFreeFormObject);
@@ -796,7 +796,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp8.dataType, "List<Object>");
         Assert.assertTrue(cp8.hasMore);
         Assert.assertFalse(cp8.required);
-        Assert.assertFalse(cp8.isPrimitiveType);
+        Assert.assertTrue(cp8.isPrimitiveType);
         Assert.assertTrue(cp8.isContainer);
         Assert.assertTrue(cp8.isListContainer);
         Assert.assertFalse(cp8.isFreeFormObject);
@@ -807,7 +807,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(cp9.dataType, "List<Object>");
         Assert.assertFalse(cp9.hasMore);
         Assert.assertFalse(cp9.required);
-        Assert.assertFalse(cp9.isPrimitiveType);
+        Assert.assertTrue(cp9.isPrimitiveType);
         Assert.assertTrue(cp9.isContainer);
         Assert.assertTrue(cp9.isListContainer);
         Assert.assertFalse(cp9.isFreeFormObject);
