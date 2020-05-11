@@ -284,6 +284,11 @@
             <artifactId>tomitribe-http-signatures</artifactId>
             <version>${http-signature-version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-apis</artifactId>
+            <version>6.9.0</version>
+        </dependency>
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>

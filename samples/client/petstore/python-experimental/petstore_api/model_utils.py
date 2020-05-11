@@ -22,6 +22,7 @@ import six
 
 from petstore_api.exceptions import (
     ApiKeyError,
+    ApiAttributeError,
     ApiTypeError,
     ApiValueError,
 )
@@ -75,8 +76,9 @@ class OpenApiModel(object):
         if name in self.openapi_types:
             required_types_mixed = self.openapi_types[name]
         elif self.additional_properties_type is None:
-            raise ApiKeyError(
-                "{0} has no key '{1}'".format(type(self).__name__, name),
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
                 path_to_item
             )
         elif self.additional_properties_type is not None:
@@ -213,8 +215,9 @@ class ModelSimple(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
+        raise ApiAttributeError(
+            "{0} has no attribute '{1}'".format(
+                type(self).__name__, name),
             [name]
         )
 
@@ -266,8 +269,9 @@ class ModelNormal(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
+        raise ApiAttributeError(
+            "{0} has no attribute '{1}'".format(
+                type(self).__name__, name),
             [name]
         )
 
@@ -332,8 +336,9 @@ class ModelComposed(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
+        raise ApiAttributeError(
+            "{0} has no attribute '{1}'".format(
+                type(self).__name__, name),
             path_to_item
         )
 
@@ -362,8 +367,9 @@ class ModelComposed(OpenApiModel):
                         values.append(v)
         len_values = len(values)
         if len_values == 0:
-            raise ApiKeyError(
-                "{0} has no key '{1}'".format(type(self).__name__, name),
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
                 path_to_item
             )
         elif len_values == 1:
@@ -674,14 +680,15 @@ def check_validations(validations, input_variable_path, input_values):
     if ('regex' in current_validations and
             not re.search(current_validations['regex']['pattern'],
                           input_values, flags=flags)):
-        raise ApiValueError(
-            r"Invalid value for `%s`, must be a follow pattern or equal to "
-            r"`%s` with flags=`%s`" % (
-                input_variable_path[0],
-                current_validations['regex']['pattern'],
-                flags
-            )
-          )
+        err_msg = r"Invalid value for `%s`, must match regular expression `%s`" % (
+                    input_variable_path[0],
+                    current_validations['regex']['pattern']
+                )
+        if flags != 0:
+            # Don't print the regex flags if the flags are not
+            # specified in the OAS document.
+            err_msg = r"%s with flags=`%s`" % (err_msg, flags)
+        raise ApiValueError(err_msg)
 
 
 def order_response_types(required_types):

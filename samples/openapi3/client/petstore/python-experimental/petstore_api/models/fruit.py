@@ -72,6 +72,17 @@ class Fruit(ModelComposed):
     }
 
     validations = {
+        ('cultivar',): {
+            'regex': {
+                'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
+            },
+        },
+        ('origin',): {
+            'regex': {
+                'pattern': r'^[A-Z\s]*$',  # noqa: E501
+                'flags': (re.IGNORECASE)
+            },
+        },
     }
 
     additional_properties_type = None
@@ -89,6 +100,7 @@ class Fruit(ModelComposed):
         return {
             'color': (str,),  # noqa: E501
             'cultivar': (str,),  # noqa: E501
+            'origin': (str,),  # noqa: E501
             'length_cm': (float,),  # noqa: E501
         }
 
@@ -99,6 +111,7 @@ class Fruit(ModelComposed):
     attribute_map = {
         'color': 'color',  # noqa: E501
         'cultivar': 'cultivar',  # noqa: E501
+        'origin': 'origin',  # noqa: E501
         'length_cm': 'lengthCm',  # noqa: E501
     }
 
@@ -149,6 +162,7 @@ class Fruit(ModelComposed):
                                 _visited_composed_classes = (Animal,)
             color (str): [optional]  # noqa: E501
             cultivar (str): [optional]  # noqa: E501
+            origin (str): [optional]  # noqa: E501
             length_cm (float): [optional]  # noqa: E501
         """
 

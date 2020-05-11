@@ -14,6 +14,7 @@ import six
 
 from {{packageName}}.exceptions import (
     ApiKeyError,
+    ApiAttributeError,
     ApiTypeError,
     ApiValueError,
 )
@@ -413,14 +414,15 @@ def check_validations(validations, input_variable_path, input_values):
     if ('regex' in current_validations and
             not re.search(current_validations['regex']['pattern'],
                           input_values, flags=flags)):
-        raise ApiValueError(
-            r"Invalid value for `%s`, must be a follow pattern or equal to "
-            r"`%s` with flags=`%s`" % (
-                input_variable_path[0],
-                current_validations['regex']['pattern'],
-                flags
-            )
-          )
+        err_msg = r"Invalid value for `%s`, must match regular expression `%s`" % (
+                    input_variable_path[0],
+                    current_validations['regex']['pattern']
+                )
+        if flags != 0:
+            # Don't print the regex flags if the flags are not
+            # specified in the OAS document.
+            err_msg = r"%s with flags=`%s`" % (err_msg, flags)
+        raise ApiValueError(err_msg)
 
 
 def order_response_types(required_types):

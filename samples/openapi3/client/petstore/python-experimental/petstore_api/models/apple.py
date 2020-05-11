@@ -62,6 +62,17 @@ class Apple(ModelNormal):
     }
 
     validations = {
+        ('cultivar',): {
+            'regex': {
+                'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501
+            },
+        },
+        ('origin',): {
+            'regex': {
+                'pattern': r'^[A-Z\s]*$',  # noqa: E501
+                'flags': (re.IGNORECASE)
+            },
+        },
     }
 
     additional_properties_type = None
@@ -78,6 +89,7 @@ class Apple(ModelNormal):
         """
         return {
             'cultivar': (str,),  # noqa: E501
+            'origin': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -86,6 +98,7 @@ class Apple(ModelNormal):
 
     attribute_map = {
         'cultivar': 'cultivar',  # noqa: E501
+        'origin': 'origin',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -133,6 +146,7 @@ class Apple(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             cultivar (str): [optional]  # noqa: E501
+            origin (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}

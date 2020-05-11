@@ -262,8 +262,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype1
    * @return anytype1
   **/
-  @Valid
-  public Object getAnytype1() {
+    public Object getAnytype1() {
     return anytype1;
   }
 
@@ -280,8 +279,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype2
    * @return anytype2
   **/
-  @Valid
-  public Object getAnytype2() {
+    public Object getAnytype2() {
     return anytype2;
   }
 
@@ -298,8 +296,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype3
    * @return anytype3
   **/
-  @Valid
-  public Object getAnytype3() {
+    public Object getAnytype3() {
     return anytype3;
   }
 
