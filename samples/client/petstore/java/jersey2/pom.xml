@@ -155,6 +155,7 @@
                 </executions>
                 <configuration>
                     <doclint>none</doclint>
+                        <source>1.7</source>
                     <tags>
                         <tag>
                             <name>http.response.details</name>
