@@ -38,8 +38,8 @@ data class InlineObject2 (
     */
     
     enum class EnumFormStringArray(val value: kotlin.String){
-        @SerializedName(value=">")  greaterThan(">"),
-        @SerializedName(value="$")  dollar("$");
+        @SerializedName(value = ">") greaterThan(">"),
+        @SerializedName(value = "$") dollar("$");
     }
     /**
     * Form parameter enum test (string)
@@ -47,9 +47,9 @@ data class InlineObject2 (
     */
     
     enum class EnumFormString(val value: kotlin.String){
-        @SerializedName(value="_abc")  abc("_abc"),
-        @SerializedName(value="-efg")  minusEfg("-efg"),
-        @SerializedName(value="(xyz)")  leftParenthesisXyzRightParenthesis("(xyz)");
+        @SerializedName(value = "_abc") abc("_abc"),
+        @SerializedName(value = "-efg") minusEfg("-efg"),
+        @SerializedName(value = "(xyz)") leftParenthesisXyzRightParenthesis("(xyz)");
     }
 }
 

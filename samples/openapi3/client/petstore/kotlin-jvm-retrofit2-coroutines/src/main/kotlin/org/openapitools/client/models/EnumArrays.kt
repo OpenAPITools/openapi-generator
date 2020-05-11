@@ -36,8 +36,8 @@ data class EnumArrays (
     */
     
     enum class JustSymbol(val value: kotlin.String){
-        @SerializedName(value=">=")  greaterThanEqual(">="),
-        @SerializedName(value="$")  dollar("$");
+        @SerializedName(value = ">=") greaterThanEqual(">="),
+        @SerializedName(value = "$") dollar("$");
     }
     /**
     * 
@@ -45,8 +45,8 @@ data class EnumArrays (
     */
     
     enum class ArrayEnum(val value: kotlin.String){
-        @SerializedName(value="fish")  fish("fish"),
-        @SerializedName(value="crab")  crab("crab");
+        @SerializedName(value = "fish") fish("fish"),
+        @SerializedName(value = "crab") crab("crab");
     }
 }
 

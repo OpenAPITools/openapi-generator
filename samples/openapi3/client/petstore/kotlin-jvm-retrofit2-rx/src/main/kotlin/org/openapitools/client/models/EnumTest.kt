@@ -58,9 +58,9 @@ data class EnumTest (
     */
     
     enum class EnumStringRequired(val value: kotlin.String){
-        @SerializedName(value="UPPER")  uPPER("UPPER"),
-        @SerializedName(value="lower")  lower("lower"),
-        @SerializedName(value="")  eMPTY("");
+        @SerializedName(value = "UPPER") uPPER("UPPER"),
+        @SerializedName(value = "lower") lower("lower"),
+        @SerializedName(value = "") eMPTY("");
     }
     /**
     * 
@@ -68,9 +68,9 @@ data class EnumTest (
     */
     
     enum class EnumString(val value: kotlin.String){
-        @SerializedName(value="UPPER")  uPPER("UPPER"),
-        @SerializedName(value="lower")  lower("lower"),
-        @SerializedName(value="")  eMPTY("");
+        @SerializedName(value = "UPPER") uPPER("UPPER"),
+        @SerializedName(value = "lower") lower("lower"),
+        @SerializedName(value = "") eMPTY("");
     }
     /**
     * 
@@ -78,8 +78,8 @@ data class EnumTest (
     */
     
     enum class EnumInteger(val value: kotlin.Int){
-        @SerializedName(value=1)  _1(1),
-        @SerializedName(value=-1)  minus1(-1);
+        @SerializedName(value = "1") _1(1),
+        @SerializedName(value = "-1") minus1(-1);
     }
     /**
     * 
@@ -87,8 +87,8 @@ data class EnumTest (
     */
     
     enum class EnumNumber(val value: kotlin.Double){
-        @SerializedName(value=1.1)  _1period1(1.1),
-        @SerializedName(value=-1.2)  minus1Period2(-1.2);
+        @SerializedName(value = "1.1") _1period1(1.1),
+        @SerializedName(value = "-1.2") minus1Period2(-1.2);
     }
 }
 
