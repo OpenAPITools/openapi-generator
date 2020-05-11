@@ -31,6 +31,7 @@ ags="generate --artifact-id petstore-jersey2-java6 -i modules/openapi-generator/
 
 echo "Removing files and folders under samples/client/petstore/java/jersey2-java6/src/main"
 rm -rf samples/client/petstore/java/jersey2-java6/src/main
+rm -rf samples/client/petstore/java/jersey2-java6/src/test
 find samples/client/petstore/java/jersey2-java6 -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
 
 echo "Restoring build.gradle ... "
