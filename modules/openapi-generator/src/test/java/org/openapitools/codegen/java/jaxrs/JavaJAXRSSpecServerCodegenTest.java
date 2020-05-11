@@ -1,6 +1,7 @@
 package org.openapitools.codegen.java.jaxrs;
 
 import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -52,6 +53,9 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
+        final Components components = new Components();
+        components.schemas(new HashMap<>());
+        openAPI.setComponents(components);
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
@@ -102,6 +106,10 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
+        final Components components = new Components();
+        components.schemas(new HashMap<>());
+        openAPI.setComponents(components);
+
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
