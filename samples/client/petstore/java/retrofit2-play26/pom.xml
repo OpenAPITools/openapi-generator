@@ -265,7 +265,12 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson-databind-version}</version>
+                <version>${jackson-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openapitools</groupId>
+                <artifactId>jackson-databind-nullable</artifactId>
+                <version>${jackson-databind-nullable-version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -282,11 +287,6 @@
                 <artifactId>validation-api</artifactId>
                 <version>1.1.0.Final</version>
             </dependency>
-            <dependency>
-                <groupId>org.openapitools</groupId>
-                <artifactId>jackson-databind-nullable</artifactId>
-                <version>${jackson-databind-nullable-version}</version>
-            </dependency>
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -302,7 +302,6 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.3</gson-fire-version>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <jackson-databind-version>2.10.3</jackson-databind-version>
         <jackson-version>2.10.3</jackson-version>
         <play-version>2.6.7</play-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>

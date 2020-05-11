@@ -15,7 +15,7 @@ lazy val root = (project in file(".")).
       "javax.validation" % "validation-api" % "1.1.0.Final" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.3" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.3" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.9.10.3" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.3" % "compile",
       "com.squareup.retrofit2" % "converter-jackson" % "2.3.0" % "compile",
       "io.swagger" % "swagger-annotations" % "1.5.21" % "compile",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
