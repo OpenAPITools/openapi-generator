@@ -248,7 +248,7 @@ apply plugin: 'org.openapi.generator'
 |httpUserAgent
 |String
 |None
-|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}}/{language}', but may be generator-specific.
+|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}/{language}', but may be generator-specific.
 
 |reservedWordsMappings
 |Map(String,String)
