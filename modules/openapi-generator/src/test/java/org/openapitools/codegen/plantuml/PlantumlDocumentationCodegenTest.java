@@ -30,24 +30,15 @@ public class PlantumlDocumentationCodegenTest {
 
         plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
 
-        Object entities = objs.get("entities");
-        Assert.assertNotNull(entities);
-
-        Assert.assertTrue(entities instanceof List<?>);
-        List<?> entityList = (List<?>)entities;
-
+        List<Object> entityList = getList(objs, "entities");
         Assert.assertFalse(entityList.isEmpty(), "empty entity list");
-        Object firstEntityItem = entityList.get(0);
 
-        Assert.assertTrue(firstEntityItem instanceof HashMap<?, ?>, "first item in the entity list is a HashMap");
-        HashMap<String, Object> firstEntity = (HashMap<String, Object>)firstEntityItem;
+        Map<String, Object> firstEntity = getEntityFromList("Sample", entityList);
 
-        Assert.assertEquals(firstEntity.get("name"), "Sample");
-
-        List<Object> fieldList = (List<Object>)firstEntity.get("fields");
+        List<Object> fieldList = getList(firstEntity, "fields");
         Assert.assertEquals(fieldList.size(), 2, "size of field list");
 
-        HashMap<String, Object> firstField = (HashMap<String, Object>)fieldList.get(0);
+        Map<String, Object> firstField = (Map<String, Object>)fieldList.get(0);
 
         Assert.assertEquals((String)firstField.get("name"), "id");
         Assert.assertTrue((boolean)firstField.get("isRequired"));
@@ -67,14 +58,11 @@ public class PlantumlDocumentationCodegenTest {
 
         plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
 
-        Object entities = objs.get("entities");
-        List<?> entityList = (List<?>)entities;
-        HashMap<String, Object> firstEntity = (HashMap<String, Object>)entityList.get(0);
-        List<Object> fieldList = (List<Object>)firstEntity.get("fields");
-        HashMap<String, Object> firstField = (HashMap<String, Object>)fieldList.get(0);
+        List<Object> entityList = getList(objs, "entities");
 
-        Assert.assertEquals((String)firstField.get("name"), "tags");
-        Assert.assertEquals((String)firstField.get("dataType"), "List<String>");
+        Map<String, Object> sampleEntity = getEntityFromList("Sample", entityList);
+        Map<String, Object> tagsField = getFieldFromEntity("tags", sampleEntity);
+        Assert.assertEquals((String)tagsField.get("dataType"), "List<String>");
     }
 
     @Test
@@ -114,8 +102,7 @@ public class PlantumlDocumentationCodegenTest {
 
         plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
 
-        Object entities = objs.get("entities");
-        List<?> entityList = (List<?>)entities;
+        List<Object> entityList = getList(objs, "entities");
         Assert.assertEquals(entityList.size(), 2, "size of entity list");
 
         assertEntityDoesNotExistsInList("ChildAllOf", entityList);
@@ -127,8 +114,7 @@ public class PlantumlDocumentationCodegenTest {
         assertFieldDoesNotExistsInEntity("id", childEntity);
         getFieldFromEntity("name", childEntity);
 
-        Object inheritances = objs.get("inheritances");
-        List<?>inheritanceList = (List<?>)inheritances;
+        List<Object> inheritanceList = getList(objs, "inheritances");
         Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
 
         Map<String, String> firstInheritance = (Map<String, String>)inheritanceList.get(0);
@@ -169,12 +155,10 @@ public class PlantumlDocumentationCodegenTest {
 
         plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
 
-        Object entities = objs.get("entities");
-        List<?> entityList = (List<?>)entities;
+        List<Object> entityList = getList(objs, "entities");
         Assert.assertEquals(entityList.size(), 3, "size of entity list");
 
-        Object relationships = objs.get("relationships");
-        List<?>relationshipList = (List<?>)relationships;
+        List<Object> relationshipList = getList(objs, "relationships");
         Assert.assertEquals(relationshipList.size(), 2, "size of relationship list");
 
         Map<String, Object> firstRelationship = (Map<String, Object>)relationshipList.get(0);
@@ -207,7 +191,7 @@ public class PlantumlDocumentationCodegenTest {
     }
 
     private boolean hasName(String name, Map<String, Object> map) {
-        return ((String)map.get("name")).equalsIgnoreCase(name);
+        return (map.get("name")).equals(name);
     }
 
     private void assertEntityDoesNotExistsInList(String name, List<?> entityList) {
@@ -250,5 +234,13 @@ public class PlantumlDocumentationCodegenTest {
         Assert.assertTrue(field.isPresent(), "field with name '" + name + "' found in list");
 
         return field.get();
+    }
+
+    private List<Object> getList(Map<String, Object> objs, String listName) {
+        Object list = objs.get(listName);
+        Assert.assertNotNull(list, "object with name '" + listName + "' in objs map");
+
+        Assert.assertTrue(list instanceof List<?>, "object with name '" + listName + "' in objs map is a list");
+        return (List<Object>)list;
     }
 }
