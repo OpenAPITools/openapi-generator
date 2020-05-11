@@ -12,9 +12,9 @@ Name | Type | Description | Notes
 **MapArrayAnytype** | Pointer to [**map[string][]map[string]interface{}**](array.md) |  | [optional] 
 **MapMapString** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional] 
 **MapMapAnytype** | Pointer to [**map[string]map[string]map[string]interface{}**](map.md) |  | [optional] 
-**Anytype1** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
-**Anytype2** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
-**Anytype3** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
+**Anytype1** | Pointer to **map[string]interface{}** |  | [optional] 
+**Anytype2** | Pointer to **map[string]interface{}** |  | [optional] 
+**Anytype3** | Pointer to **map[string]interface{}** |  | [optional] 
 
 ## Methods
 
