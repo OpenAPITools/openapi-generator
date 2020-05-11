@@ -7,7 +7,7 @@ class OAuthInterceptor extends AuthInterceptor {
 
     @override
     FutureOr<void> before(RouteBase route) {
-        final authInfo = getAuthInfo(route, "oauth");
+        final authInfo = getAuthInfo(route, "oauth2");
         for (var info in authInfo) {
             final token = tokens[info["name"]];
             if(token != null) {
