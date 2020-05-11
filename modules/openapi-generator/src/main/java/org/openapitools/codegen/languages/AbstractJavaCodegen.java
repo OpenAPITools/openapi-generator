@@ -1124,6 +1124,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // add implements for serializable/parcelable to all models
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());  // TODO: 5.0 Remove
+            cm.getVendorExtensions().putIfAbsent("x-implements", cm.getVendorExtensions().get("implements"));
+            if (this.serializableModel) {
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
+            }
+        }
+
         return postProcessModelsEnum(objs);
     }
 
@@ -1211,6 +1223,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     .filter(schema -> Objects.nonNull(schema.getEnum()))
                                     .findFirst()
                                     .orElse((Schema) s)));
+        }
+    }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+            Map<String, String> oneImport = new HashMap<>();
+            oneImport.put("import", importMapping.get(i));
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
+            }
         }
     }
 
@@ -1727,7 +1750,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         if (!supportsAdditionalPropertiesWithComposedSchema) {
             // The additional (undeclared) propertiees are modeled in Java as a HashMap.
-            // 
+            //
             // 1. supportsAdditionalPropertiesWithComposedSchema is set to false:
             //    The generated model class extends from the HashMap. That does not work
             //    with composed schemas that also use a discriminator because the model class
