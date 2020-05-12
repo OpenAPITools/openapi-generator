@@ -51,6 +51,11 @@ from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.banana import Banana
 from petstore_api.models.banana_req import BananaReq
+from petstore_api.models.biology_chordate import BiologyChordate
+from petstore_api.models.biology_hominid import BiologyHominid
+from petstore_api.models.biology_mammal import BiologyMammal
+from petstore_api.models.biology_primate import BiologyPrimate
+from petstore_api.models.biology_reptile import BiologyReptile
 from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat import Cat
 from petstore_api.models.cat_all_of import CatAllOf

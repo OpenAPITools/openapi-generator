@@ -28,7 +28,6 @@ func (v EnumClass) Ptr() *EnumClass {
 	return &v
 }
 
-
 type NullableEnumClass struct {
 	value *EnumClass
 	isSet bool
@@ -64,3 +63,4 @@ func (v *NullableEnumClass) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+

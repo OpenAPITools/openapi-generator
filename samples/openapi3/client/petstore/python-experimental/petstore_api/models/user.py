@@ -87,8 +87,8 @@ class User(ModelNormal):
             'user_status': (int,),  # noqa: E501
             'arbitrary_object': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
             'arbitrary_nullable_object': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
-            'arbitrary_type_value': (object,),  # noqa: E501
-            'arbitrary_nullable_type_value': (object, none_type,),  # noqa: E501
+            'arbitrary_type_value': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'arbitrary_nullable_type_value': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
         }
 
     @cached_property
@@ -164,8 +164,8 @@ class User(ModelNormal):
             user_status (int): User Status. [optional]  # noqa: E501
             arbitrary_object (bool, date, datetime, dict, float, int, list, str): test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.. [optional]  # noqa: E501
             arbitrary_nullable_object (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.. [optional]  # noqa: E501
-            arbitrary_type_value (object): test code generation for any type Value can be any type - string, number, boolean, array or object.. [optional]  # noqa: E501
-            arbitrary_nullable_type_value (object, none_type): test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value.. [optional]  # noqa: E501
+            arbitrary_type_value (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for any type Value can be any type - string, number, boolean, array or object.. [optional]  # noqa: E501
+            arbitrary_nullable_type_value (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value.. [optional]  # noqa: E501
         """
 
         self._data_store = {}

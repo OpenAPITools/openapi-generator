@@ -1,4 +1,4 @@
-# petstore-jersey2
+# petstore-jersey2-exp
 
 OpenAPI Petstore
 
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>petstore-jersey2</artifactId>
+  <artifactId>petstore-jersey2-exp</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -50,7 +50,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-jersey2:1.0.0"
+compile "org.openapitools:petstore-jersey2-exp:1.0.0"
 ```
 
 ### Others
@@ -63,7 +63,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-- `target/petstore-jersey2-1.0.0.jar`
+- `target/petstore-jersey2-exp-1.0.0.jar`
 - `target/lib/*.jar`
 
 ## Getting Started
@@ -84,9 +84,9 @@ public class AnotherFakeApiExample {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            Client result = apiInstance.call123testSpecialTags(body);
+            Client result = apiInstance.call123testSpecialTags(client);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -107,7 +107,9 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
-*FakeApi* | [**createXmlItem**](docs/FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+*DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
+*FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**fakeHttpSignatureTest**](docs/FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -115,7 +117,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-*FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+*FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -147,20 +149,11 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Animal](docs/Animal.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
- - [BigCat](docs/BigCat.md)
- - [BigCatAllOf](docs/BigCatAllOf.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
@@ -173,26 +166,36 @@ Class | Method | HTTP request | Description
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [Foo](docs/Foo.md)
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [InlineObject](docs/InlineObject.md)
+ - [InlineObject1](docs/InlineObject1.md)
+ - [InlineObject2](docs/InlineObject2.md)
+ - [InlineObject3](docs/InlineObject3.md)
+ - [InlineObject4](docs/InlineObject4.md)
+ - [InlineObject5](docs/InlineObject5.md)
+ - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
+ - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
+ - [OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
- - [TypeHolderDefault](docs/TypeHolderDefault.md)
- - [TypeHolderExample](docs/TypeHolderExample.md)
  - [User](docs/User.md)
- - [XmlItem](docs/XmlItem.md)
 
 
 ## Documentation for Authorization
@@ -212,7 +215,17 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+### bearer_test
+
+
+- **Type**: HTTP basic authentication
+
 ### http_basic_test
+
+
+- **Type**: HTTP basic authentication
+
+### http_signature_test
 
 
 - **Type**: HTTP basic authentication

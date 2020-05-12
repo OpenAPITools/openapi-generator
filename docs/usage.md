@@ -362,7 +362,7 @@ OPTIONS
 
         --http-user-agent <http user agent>
             HTTP user agent, e.g. codegen_csharp_api_client, default to
-            'OpenAPI-Generator/{packageVersion}}/{language}'
+            'OpenAPI-Generator/{packageVersion}/{language}'
 
         -i <spec file>, --input-spec <spec file>
             location of the OpenAPI spec, as URL or file (required)

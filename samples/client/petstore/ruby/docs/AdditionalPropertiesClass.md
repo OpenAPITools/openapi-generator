@@ -12,9 +12,9 @@ Name | Type | Description | Notes
 **map_array_anytype** | **Hash&lt;String, Array&lt;Object&gt;&gt;** |  | [optional] 
 **map_map_string** | **Hash&lt;String, Hash&lt;String, String&gt;&gt;** |  | [optional] 
 **map_map_anytype** | **Hash&lt;String, Hash&lt;String, Object&gt;&gt;** |  | [optional] 
-**anytype_1** | [**Object**](.md) |  | [optional] 
-**anytype_2** | [**Object**](.md) |  | [optional] 
-**anytype_3** | [**Object**](.md) |  | [optional] 
+**anytype_1** | **Object** |  | [optional] 
+**anytype_2** | **Object** |  | [optional] 
+**anytype_3** | **Object** |  | [optional] 
 
 ## Code Sample
 
