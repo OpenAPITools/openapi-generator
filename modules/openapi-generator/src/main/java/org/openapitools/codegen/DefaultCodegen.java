@@ -2949,10 +2949,13 @@ public class DefaultCodegen implements CodegenConfig {
             if (p.getExclusiveMaximum() != null) {
                 property.exclusiveMaximum = p.getExclusiveMaximum();
             }
+            if (p.getMultipleOf() != null) {
+                property.multipleOf = p.getMultipleOf();
+            }
 
             // check if any validation rule defined
             // exclusive* are noop without corresponding min/max
-            if (property.minimum != null || property.maximum != null)
+            if (property.minimum != null || property.maximum != null || p.getMultipleOf() != null)
                 property.hasValidation = true;
 
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
@@ -3024,8 +3027,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             // check if any validation rule defined
             // exclusive* are noop without corresponding min/max
-            if (property.minimum != null || property.maximum != null)
+            if (property.minimum != null || property.maximum != null || p.getMultipleOf() != null) {
                 property.hasValidation = true;
+            }
 
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
@@ -4138,7 +4142,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
                     codegenParameter.maxLength != null || codegenParameter.minLength != null ||
                     codegenParameter.maxItems != null || codegenParameter.minItems != null ||
-                    codegenParameter.pattern != null) {
+                    codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
                 codegenParameter.hasValidation = true;
             }
 
@@ -5616,7 +5620,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
                 codegenParameter.maxLength != null || codegenParameter.minLength != null ||
                 codegenParameter.maxItems != null || codegenParameter.minItems != null ||
-                codegenParameter.pattern != null) {
+                codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
             codegenParameter.hasValidation = true;
         }
 
