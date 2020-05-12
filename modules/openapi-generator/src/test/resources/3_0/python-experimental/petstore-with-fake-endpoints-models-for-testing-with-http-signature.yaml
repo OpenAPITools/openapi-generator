@@ -1848,6 +1848,10 @@ components:
             - grevys
         className:
           type: string
+        lunch:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being define inline.
+          - $ref: '#/components/schemas/fruitReq'
       required:
         - className
     gmFruit:
