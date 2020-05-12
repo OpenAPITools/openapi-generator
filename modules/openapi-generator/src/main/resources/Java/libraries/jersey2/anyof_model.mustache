@@ -11,7 +11,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public {{classname}}() {
-        super("anyOf");
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 
     static {
@@ -24,5 +24,24 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     @Override
     public Map<String, GenericType> getSchemas() {
         return {{classname}}.schemas;
+    }
+
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#isNulalble}}
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
+        {{/isNulalble}}
+        {{#anyOf}}
+        if (instance instanceof {{{.}}}) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        {{/anyOf}}
+        throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
     }
 }

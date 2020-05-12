@@ -848,6 +848,15 @@ public class ApiClient {
     int matchCounter = 0;
     ArrayList<String> matchSchemas = new ArrayList<>();
 
+    if (schema.isNullable()) {
+      response.bufferEntity();
+      if ("{}".equals(String.valueOf(response.readEntity(String.class))) ||
+          "".equals(String.valueOf(response.readEntity(String.class)))) {
+        // schema is nullable and the response body is {} or empty string
+        return schema;
+      }
+    }
+
     for (Map.Entry<String, GenericType> entry : schema.getSchemas().entrySet()) {
       String schemaName = entry.getKey();
       GenericType schemaType = entry.getValue();
