@@ -16,6 +16,7 @@ import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Pet;
 import org.openapitools.model.User;
 
 import java.util.Map;
@@ -74,6 +75,22 @@ public class FakeApi  {
     public Response fakeHealthGet(@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeHealthGet(securityContext);
+    }
+    @GET
+    @Path("/http-signature-test")
+    @Consumes({ "application/json", "application/xml" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test http signature authentication", notes = "", response = Void.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "http_signature_test")
+    }, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "The instance started successfully", response = Void.class) })
+    public Response fakeHttpSignatureTest(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet
+,@ApiParam(value = "query parameter") @QueryParam("query_1")  String query1
+,@ApiParam(value = "header parameter" )@HeaderParam("header_1") String header1
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fakeHttpSignatureTest(pet, query1, header1, securityContext);
     }
     @POST
     @Path("/outer/boolean")

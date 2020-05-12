@@ -99,7 +99,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
         $path = str_replace($pattern, $data, $path);
         {{/pathParams}}
 
-        $crawler = $client->request('{{httpMethod}}', $path);
+        $crawler = $client->request('{{httpMethod}}', $path{{#hasBodyParam}}, [], [], ['CONTENT_TYPE' => 'application/json']{{/hasBodyParam}});
     }
     {{/operation}}
 

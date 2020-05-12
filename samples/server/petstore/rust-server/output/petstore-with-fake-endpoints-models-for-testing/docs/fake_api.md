@@ -4,10 +4,12 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+**123example**](fake_api.md#123example) | **GET** /fake/operation-with-numeric-id | 
 **fakeOuterBooleanSerialize**](fake_api.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 **fakeOuterCompositeSerialize**](fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 **fakeOuterNumberSerialize**](fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 **fakeOuterStringSerialize**](fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+**fake_response_with_numerical_description**](fake_api.md#fake_response_with_numerical_description) | **GET** /fake/response-with-numerical-description | 
 **hyphenParam**](fake_api.md#hyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
 **testBodyWithQueryParams**](fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 **testClientModel**](fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model
@@ -16,6 +18,28 @@ Method | HTTP request | Description
 **testInlineAdditionalProperties**](fake_api.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 **testJsonFormData**](fake_api.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
+
+# **123example**
+> 123example()
+
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeOuterBooleanSerialize**
 > bool fakeOuterBooleanSerialize(optional)
@@ -153,6 +177,28 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **fake_response_with_numerical_description**
+> fake_response_with_numerical_description()
+
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **hyphenParam**
 > hyphenParam(hyphen_param)
 
@@ -265,8 +311,8 @@ Name | Type | Description  | Notes
  **float** | **f32**| None | 
  **string** | **String**| None | 
  **binary** | **swagger::ByteArray**| None | 
- **date** | **chrono::DateTime<chrono::Utc>**| None | 
- **date_time** | **chrono::DateTime<chrono::Utc>**| None | 
+ **date** | **chrono::DateTime::<chrono::Utc>**| None | 
+ **date_time** | **chrono::DateTime::<chrono::Utc>**| None | 
  **password** | **String**| None | 
  **callback** | **String**| None | 
 

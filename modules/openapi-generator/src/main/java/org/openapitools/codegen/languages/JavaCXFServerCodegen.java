@@ -183,41 +183,49 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
-        writeOptional(outputFolder, new SupportingFile("server/pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("server/pom.mustache", "", "pom.xml")
+            .doNotOverwrite());
 
-        writeOptional(outputFolder,
-                new SupportingFile("server/openapi-generator-ignore.mustache", "", ".openapi-generator-ignore"));
+        supportingFiles.add(new SupportingFile("server/openapi-generator-ignore.mustache", "", ".openapi-generator-ignore")
+            .doNotOverwrite());
 
         if (this.generateSpringApplication) {
-            writeOptional(outputFolder, new SupportingFile("server/readme.md", "", "readme.md"));
-
-            writeOptional(outputFolder, new SupportingFile("server/ApplicationContext.xml.mustache",
-                    ("src/main/resources"), "ApplicationContext.xml"));
-            writeOptional(outputFolder, new SupportingFile("server/web.mustache",
-                    ("src/main/webapp/WEB-INF"), "web.xml"));
-            writeOptional(outputFolder, new SupportingFile("server/context.xml.mustache",
-                    ("src/main/webapp/WEB-INF"), "context.xml"));
+            supportingFiles.add(new SupportingFile("server/readme.md", "", "readme.md")
+                .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("server/ApplicationContext.xml.mustache",
+                    ("src/main/resources"), "ApplicationContext.xml")
+                .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("server/web.mustache",
+                    ("src/main/webapp/WEB-INF"), "web.xml")
+                .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("server/context.xml.mustache",
+                    ("src/main/webapp/WEB-INF"), "context.xml")
+                .doNotOverwrite());
 
             // Jboss
             if (generateJbossDeploymentDescriptor) {
-                writeOptional(outputFolder, new SupportingFile("server/jboss-web.xml.mustache",
-                        ("src/main/webapp/WEB-INF"), "jboss-web.xml"));
+                supportingFiles.add(new SupportingFile("server/jboss-web.xml.mustache",
+                        ("src/main/webapp/WEB-INF"), "jboss-web.xml")
+                    .doNotOverwrite());
 
             }
 
             // Spring Boot
             if (this.generateSpringBootApplication) {
-                writeOptional(outputFolder, new SupportingFile("server/SpringBootApplication.mustache",
-                        (testFolder + '/' + apiPackage).replace(".", "/"), "SpringBootApplication.java"));
-                writeOptional(outputFolder, new SupportingFile("server/application.properties.mustache",
-                        (testResourcesFolder + '/'), "application.properties"));
+                supportingFiles.add(new SupportingFile("server/SpringBootApplication.mustache",
+                        (testFolder + '/' + apiPackage).replace(".", "/"), "SpringBootApplication.java")
+                    .doNotOverwrite());
+                supportingFiles.add(new SupportingFile("server/application.properties.mustache",
+                        (testResourcesFolder + '/'), "application.properties")
+                    .doNotOverwrite());
 
             }
         }
 
         if (this.generateNonSpringApplication) {
-            writeOptional(outputFolder, new SupportingFile("server/nonspring-web.mustache",
-                    ("src/main/webapp/WEB-INF"), "web.xml"));
+            supportingFiles.add(new SupportingFile("server/nonspring-web.mustache",
+                    ("src/main/webapp/WEB-INF"), "web.xml")
+                .doNotOverwrite());
         }
     }
 

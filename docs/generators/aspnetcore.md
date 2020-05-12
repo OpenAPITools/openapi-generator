@@ -5,7 +5,7 @@ sidebar_label: aspnetcore
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspnetCoreVersion|ASP.NET Core version: 3.0 (preview4 only), 2.2, 2.1, 2.0 (deprecated)| |2.2|
+|aspnetCoreVersion|ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |2.2|
 |buildTarget|Target to build an application or library| |program|
 |classModifier|Class Modifier can be empty, abstract| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
@@ -16,7 +16,7 @@ sidebar_label: aspnetcore
 |licenseName|The name of the license| |NoLicense|
 |licenseUrl|The URL of the license| |http://localhost|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
-|newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0-preview5-19227-01|
+|newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
 |operationIsAsync|Set methods to async or sync (default).| |false|
 |operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
@@ -29,11 +29,11 @@ sidebar_label: aspnetcore
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|swashbuckleVersion|Swashbucke version: 3.0.0, 4.0.0| |3.0.0|
+|swashbuckleVersion|Swashbuckle version: 3.0.0, 4.0.0, 5.0.0| |3.0.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
-|useDefaultRouting|Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.| |true|
-|useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.| |false|
+|useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|
+|useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
 

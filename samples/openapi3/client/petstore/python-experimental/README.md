@@ -46,13 +46,19 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 from __future__ import print_function
+import datetime
 import time
 import petstore_api
 from pprint import pprint
 
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
 
-# Defining host is optional and default to http://petstore.swagger.io:80/v2
-configuration.host = "http://petstore.swagger.io:80/v2"
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -127,17 +133,24 @@ Class | Method | HTTP request | Description
  - [array_test.ArrayTest](docs/ArrayTest.md)
  - [banana.Banana](docs/Banana.md)
  - [banana_req.BananaReq](docs/BananaReq.md)
+ - [biology_chordate.BiologyChordate](docs/BiologyChordate.md)
+ - [biology_hominid.BiologyHominid](docs/BiologyHominid.md)
+ - [biology_mammal.BiologyMammal](docs/BiologyMammal.md)
+ - [biology_primate.BiologyPrimate](docs/BiologyPrimate.md)
+ - [biology_reptile.BiologyReptile](docs/BiologyReptile.md)
  - [capitalization.Capitalization](docs/Capitalization.md)
  - [cat.Cat](docs/Cat.md)
  - [cat_all_of.CatAllOf](docs/CatAllOf.md)
  - [category.Category](docs/Category.md)
  - [class_model.ClassModel](docs/ClassModel.md)
  - [client.Client](docs/Client.md)
+ - [complex_quadrilateral.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [dog.Dog](docs/Dog.md)
  - [dog_all_of.DogAllOf](docs/DogAllOf.md)
  - [enum_arrays.EnumArrays](docs/EnumArrays.md)
  - [enum_class.EnumClass](docs/EnumClass.md)
  - [enum_test.EnumTest](docs/EnumTest.md)
+ - [equilateral_triangle.EquilateralTriangle](docs/EquilateralTriangle.md)
  - [file.File](docs/File.md)
  - [file_schema_test_class.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [foo.Foo](docs/Foo.md)
@@ -154,6 +167,7 @@ Class | Method | HTTP request | Description
  - [inline_object4.InlineObject4](docs/InlineObject4.md)
  - [inline_object5.InlineObject5](docs/InlineObject5.md)
  - [inline_response_default.InlineResponseDefault](docs/InlineResponseDefault.md)
+ - [isosceles_triangle.IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [list.List](docs/List.md)
  - [mammal.Mammal](docs/Mammal.md)
  - [map_test.MapTest](docs/MapTest.md)
@@ -170,10 +184,18 @@ Class | Method | HTTP request | Description
  - [outer_enum_integer.OuterEnumInteger](docs/OuterEnumInteger.md)
  - [outer_enum_integer_default_value.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [pet.Pet](docs/Pet.md)
+ - [quadrilateral.Quadrilateral](docs/Quadrilateral.md)
+ - [quadrilateral_interface.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [read_only_first.ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [scalene_triangle.ScaleneTriangle](docs/ScaleneTriangle.md)
+ - [shape.Shape](docs/Shape.md)
+ - [shape_interface.ShapeInterface](docs/ShapeInterface.md)
+ - [simple_quadrilateral.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [special_model_name.SpecialModelName](docs/SpecialModelName.md)
  - [string_boolean_map.StringBooleanMap](docs/StringBooleanMap.md)
  - [tag.Tag](docs/Tag.md)
+ - [triangle.Triangle](docs/Triangle.md)
+ - [triangle_interface.TriangleInterface](docs/TriangleInterface.md)
  - [user.User](docs/User.md)
  - [whale.Whale](docs/Whale.md)
  - [zebra.Zebra](docs/Zebra.md)

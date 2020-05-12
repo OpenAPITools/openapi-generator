@@ -17,43 +17,46 @@ import java.util.UUID;
 
 public class FormatTest   {
   @JsonProperty("integer")
-  private Integer integer = null;
+  private Integer integer;
 
   @JsonProperty("int32")
-  private Integer int32 = null;
+  private Integer int32;
 
   @JsonProperty("int64")
-  private Long int64 = null;
+  private Long int64;
 
   @JsonProperty("number")
-  private BigDecimal number = null;
+  private BigDecimal number;
 
   @JsonProperty("float")
-  private Float _float = null;
+  private Float _float;
 
   @JsonProperty("double")
-  private Double _double = null;
+  private Double _double;
 
   @JsonProperty("string")
-  private String string = null;
+  private String string;
 
   @JsonProperty("byte")
-  private byte[] _byte = null;
+  private byte[] _byte;
 
   @JsonProperty("binary")
-  private File binary = null;
+  private File binary;
 
   @JsonProperty("date")
-  private Date date = null;
+  private Date date;
 
   @JsonProperty("dateTime")
-  private Date dateTime = null;
+  private Date dateTime;
 
   @JsonProperty("uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("password")
-  private String password = null;
+  private String password;
+
+  @JsonProperty("BigDecimal")
+  private BigDecimal bigDecimal;
 
   /**
    * minimum: 10
@@ -260,7 +263,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
@@ -286,6 +289,23 @@ public class FormatTest   {
     this.password = password;
   }
 
+  /**
+   **/
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("BigDecimal")
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -308,12 +328,13 @@ public class FormatTest   {
         Objects.equals(date, formatTest.date) &&
         Objects.equals(dateTime, formatTest.dateTime) &&
         Objects.equals(uuid, formatTest.uuid) &&
-        Objects.equals(password, formatTest.password);
+        Objects.equals(password, formatTest.password) &&
+        Objects.equals(bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
   }
 
   @Override
@@ -334,6 +355,7 @@ public class FormatTest   {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }
