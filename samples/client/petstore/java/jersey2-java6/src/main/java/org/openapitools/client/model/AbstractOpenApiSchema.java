@@ -27,11 +27,15 @@ public abstract class AbstractOpenApiSchema {
     // store the actual instance of the schema/object
     private Object instance;
 
+    // is nullable
+    private Boolean isNullable;
+
     // schema type (e.g. oneOf, anyOf)
     private final String schemaType;
 
-    public AbstractOpenApiSchema(String schemaType) {
+    public AbstractOpenApiSchema(String schemaType, Boolean isNullable) {
         this.schemaType = schemaType;
+        this.isNullable = isNullable;
     }
 
     /***
@@ -62,5 +66,18 @@ public abstract class AbstractOpenApiSchema {
      */
     public String getSchemaType() {
         return schemaType;
+    }
+
+    /***
+     * Is nullalble
+     *
+     * @return true if it's nullable
+     */
+    public Boolean isNullable() {
+        if (Boolean.TRUE.equals(isNullable)) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 }
