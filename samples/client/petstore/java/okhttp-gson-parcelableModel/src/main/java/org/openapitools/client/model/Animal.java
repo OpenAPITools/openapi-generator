@@ -23,6 +23,9 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import org.openapitools.client.model.BigCat;
+import org.openapitools.client.model.Cat;
+import org.openapitools.client.model.Dog;
 import android.os.Parcelable;
 import android.os.Parcel;
 
