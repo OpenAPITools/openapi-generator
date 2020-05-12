@@ -647,6 +647,7 @@ def is_json_validation_enabled(schema_keyword, configuration=None):
     """
 
     return (configuration is None or
+        not hasattr(configuration, '_disable_client_side_validation') or
         schema_keyword not in configuration._disable_client_side_validation)
 
 
@@ -664,7 +665,19 @@ def check_validations(
     """
 
     current_validations = validations[input_variable_path]
-    if (is_json_validation_enabled('maxLength') and
+    if (is_json_validation_enabled('multipleOf', configuration) and
+            'multiple_of' in current_validations and
+            not (input_values / current_validations['multiple_of']).is_integer()):
+        # Note 'multipleOf' will be as good as the floating point arithmetic.
+        raise ApiValueError(
+            "Invalid value for `%s`, value must be a multiple of "
+            "`%s`" % (
+                input_variable_path[0],
+                current_validations['multiple_of']
+            )
+        )
+
+    if (is_json_validation_enabled('maxLength', configuration) and
             'max_length' in current_validations and
             len(input_values) > current_validations['max_length']):
         raise ApiValueError(
@@ -675,7 +688,7 @@ def check_validations(
             )
         )
 
-    if (is_json_validation_enabled('minLength') and
+    if (is_json_validation_enabled('minLength', configuration) and
             'min_length' in current_validations and
             len(input_values) < current_validations['min_length']):
         raise ApiValueError(
@@ -686,7 +699,7 @@ def check_validations(
             )
         )
 
-    if (is_json_validation_enabled('maxItems') and
+    if (is_json_validation_enabled('maxItems', configuration) and
             'max_items' in current_validations and
             len(input_values) > current_validations['max_items']):
         raise ApiValueError(
@@ -697,7 +710,7 @@ def check_validations(
             )
         )
 
-    if (is_json_validation_enabled('minItems') and
+    if (is_json_validation_enabled('minItems', configuration) and
             'min_items' in current_validations and
             len(input_values) < current_validations['min_items']):
         raise ValueError(
@@ -721,7 +734,7 @@ def check_validations(
             max_val = input_values
             min_val = input_values
 
-    if (is_json_validation_enabled('exclusiveMaximum') and
+    if (is_json_validation_enabled('exclusiveMaximum', configuration) and
             'exclusive_maximum' in current_validations and
             max_val >= current_validations['exclusive_maximum']):
         raise ApiValueError(
@@ -731,7 +744,7 @@ def check_validations(
             )
         )
 
-    if (is_json_validation_enabled('maximum') and
+    if (is_json_validation_enabled('maximum', configuration) and
             'inclusive_maximum' in current_validations and
             max_val > current_validations['inclusive_maximum']):
         raise ApiValueError(
@@ -742,7 +755,7 @@ def check_validations(
             )
         )
 
-    if (is_json_validation_enabled('exclusiveMinimum') and
+    if (is_json_validation_enabled('exclusiveMinimum', configuration) and
             'exclusive_minimum' in current_validations and
             min_val <= current_validations['exclusive_minimum']):
         raise ApiValueError(
@@ -753,7 +766,7 @@ def check_validations(
             )
         )
 
-    if (is_json_validation_enabled('minimum') and
+    if (is_json_validation_enabled('minimum', configuration) and
             'inclusive_minimum' in current_validations and
             min_val < current_validations['inclusive_minimum']):
         raise ApiValueError(
@@ -764,7 +777,7 @@ def check_validations(
             )
         )
     flags = current_validations.get('regex', {}).get('flags', 0)
-    if (is_json_validation_enabled('pattern') and
+    if (is_json_validation_enabled('pattern', configuration) and
             'regex' in current_validations and
             not re.search(current_validations['regex']['pattern'],
                           input_values, flags=flags)):
