@@ -20,6 +20,7 @@ import urllib3
 
 import six
 from six.moves import http_client as httplib
+from petstore_api.exceptions import ApiValueError
 
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
@@ -55,7 +56,7 @@ class Configuration(object):
       then all undeclared properties received by the server are injected into the
       additional properties map. In that case, there are undeclared properties, and
       nothing to discard.
-    :param disable_client_side_validation (string/None): Comma-separated list of
+    :param disabled_client_side_validations (string): Comma-separated list of
       JSON schema validation keywords to disable JSON schema structural validation
       rules. The following keywords may be specified: multipleOf, maximum,
       exclusiveMaximum, minimum, exclusiveMinimum, maxLength, minLength, pattern,
@@ -64,7 +65,7 @@ class Configuration(object):
       and data received from the server, independent of any validation performed by
       the server side. If the input data does not satisfy the JSON schema validation
       rules specified in the OpenAPI document, an exception is raised.
-      If disable_client_side_validation is set, structural validation is
+      If disabled_client_side_validations is set, structural validation is
       disabled. This can be useful to troubleshoot data validation problem, such as
       when the OpenAPI document validation rules do not match the actual API data
       received by the server.
@@ -154,7 +155,7 @@ conf = petstore_api.Configuration(
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
                  discard_unknown_keys=False,
-                 disable_client_side_validation=None,
+                 disabled_client_side_validations="",
                  signing_info=None,
                  ):
         """Constructor
@@ -186,7 +187,7 @@ conf = petstore_api.Configuration(
         """Password for HTTP basic authentication
         """
         self.discard_unknown_keys = discard_unknown_keys
-        self.disable_client_side_validation = disable_client_side_validation
+        self.disabled_client_side_validations = disabled_client_side_validations
         if signing_info is not None:
             signing_info.host = host
         self.signing_info = signing_info
@@ -273,13 +274,13 @@ conf = petstore_api.Configuration(
 
     def __setattr__(self, name, value):
         object.__setattr__(self, name, value)
-        if name == 'disable_client_side_validation' and value is not None:
-            s = set(value.split(','))
+        if name == 'disabled_client_side_validations':
+            s = set(filter(None, value.split(',')))
             for v in s:
                 if v not in JSON_SCHEMA_VALIDATION_KEYWORDS:
-                    raise ValueError(
+                    raise ApiValueError(
                         "Invalid keyword: '{0}''".format(v))
-            self._disable_client_side_validation = s
+            self._disabled_client_side_validations = s
         if name == "signing_info" and value is not None:
             # Ensure the host paramater from signing info is the same as
             # Configuration.host.

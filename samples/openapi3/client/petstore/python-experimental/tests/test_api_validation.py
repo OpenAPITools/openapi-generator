@@ -35,11 +35,11 @@ class ApiClientTests(unittest.TestCase):
         config = petstore_api.Configuration()
         config.host = 'http://localhost/'
 
-        config.disable_client_side_validation = ("multipleOf,maximum,exclusiveMaximum,minimum,exclusiveMinimum,"
+        config.disabled_client_side_validations = ("multipleOf,maximum,exclusiveMaximum,minimum,exclusiveMinimum,"
             "maxLength,minLength,pattern,maxItems,minItems")
         with self.checkRaiseRegex(ValueError, "Invalid keyword: 'foo'"):
-            config.disable_client_side_validation = 'foo'
-        config.disable_client_side_validation = None
+            config.disabled_client_side_validations = 'foo'
+        config.disabled_client_side_validations = ""
 
 
     def checkRaiseRegex(self, expected_exception, expected_regex):
@@ -97,7 +97,7 @@ class ApiClientTests(unittest.TestCase):
 
         # Disable JSON schema validation. No error should be raised during deserialization.
         config = petstore_api.Configuration()
-        config.disable_client_side_validation = ("multipleOf")
+        config.disabled_client_side_validations = "multipleOf"
         api_client = petstore_api.ApiClient(configuration=config)
 
         data = {
@@ -115,7 +115,7 @@ class ApiClientTests(unittest.TestCase):
         # Disable JSON schema validation but for a different keyword.
         # An error should be raised during deserialization.
         config = petstore_api.Configuration()
-        config.disable_client_side_validation = ("maxItems")
+        config.disabled_client_side_validations = "maxItems"
         api_client = petstore_api.ApiClient(configuration=config)
 
         with self.checkRaiseRegex(petstore_api.exceptions.ApiValueError, "Invalid value for `integer`, value must be a multiple of `2`"):

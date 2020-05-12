@@ -380,8 +380,8 @@ def is_json_validation_enabled(schema_keyword, configuration=None):
     """
 
     return (configuration is None or
-        not hasattr(configuration, '_disable_client_side_validation') or
-        schema_keyword not in configuration._disable_client_side_validation)
+        not hasattr(configuration, '_disabled_client_side_validations') or
+        schema_keyword not in configuration._disabled_client_side_validations)
 
 
 def check_validations(
