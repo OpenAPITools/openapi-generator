@@ -20,7 +20,8 @@ func TestCreateUser(t *testing.T) {
 		Phone:      sw.PtrString("5101112222"),
 		UserStatus: sw.PtrInt32(1)}
 
-	apiResponse, err := client.UserApi.CreateUser(context.Background()).Body(newUser).Execute()
+	req := client.UserApi.CreateUserGetRequest(context.Background()).Body(newUser)
+	apiResponse, err := client.UserApi.CreateUserExecute(req)
 
 	if err != nil {
 		t.Fatalf("Error while adding user: %v", err)
@@ -55,7 +56,8 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 		},
 	}
 
-	apiResponse, err := client.UserApi.CreateUsersWithArrayInput(context.Background()).Body(newUsers).Execute()
+	req := client.UserApi.CreateUsersWithArrayInputGetRequest(context.Background()).Body(newUsers)
+	apiResponse, err := client.UserApi.CreateUsersWithArrayInputExecute(req)
 	if err != nil {
 		t.Fatalf("Error while adding users: %v", err)
 	}
@@ -81,7 +83,8 @@ func TestCreateUsersWithArrayInput(t *testing.T) {
 func TestGetUserByName(t *testing.T) {
 	assert := assert.New(t)
 
-	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "gopher").Execute()
+	req := client.UserApi.GetUserByNameGetRequest(context.Background(), "gopher")
+	resp, apiResponse, err := client.UserApi.GetUserByNameExecute(req)
 	if err != nil {
 		t.Fatalf("Error while getting user by id: %v", err)
 	} else {
@@ -96,7 +99,8 @@ func TestGetUserByName(t *testing.T) {
 }
 
 func TestGetUserByNameWithInvalidID(t *testing.T) {
-	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "999999999").Execute()
+	req := client.UserApi.GetUserByNameGetRequest(context.Background(), "999999999")
+	resp, apiResponse, err := client.UserApi.GetUserByNameExecute(req)
 	if apiResponse != nil && apiResponse.StatusCode == 404 {
 		return // This is a pass condition. API will return with a 404 error.
 	} else if err != nil {
@@ -123,7 +127,8 @@ func TestUpdateUser(t *testing.T) {
 		Phone:      sw.PtrString("5101112222"),
 		UserStatus: sw.PtrInt32(1)}
 
-	apiResponse, err := client.UserApi.UpdateUser(context.Background(), "gopher").Body(newUser).Execute()
+	updateReq := client.UserApi.UpdateUserGetRequest(context.Background(), "gopher").Body(newUser)
+	apiResponse, err := client.UserApi.UpdateUserExecute(updateReq)
 	if err != nil {
 		t.Fatalf("Error while deleting user by id: %v", err)
 	}
@@ -132,7 +137,8 @@ func TestUpdateUser(t *testing.T) {
 	}
 
 	//verify changings are correct
-	resp, apiResponse, err := client.UserApi.GetUserByName(context.Background(), "gopher").Execute()
+	getReq := client.UserApi.GetUserByNameGetRequest(context.Background(), "gopher")
+	resp, apiResponse, err := client.UserApi.GetUserByNameExecute(getReq)
 	if err != nil {
 		t.Fatalf("Error while getting user by id: %v", err)
 	} else {
