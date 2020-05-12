@@ -45,14 +45,29 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
+    /**
+     * Get the status code
+     *
+     * @return status code
+     */
     public int getStatusCode() {
         return statusCode;
     }
 
+    /**
+     * Get the headers
+     *
+     * @return map of headers
+     */
     public Map<String, List<String>> getHeaders() {
         return headers;
     }
 
+    /**
+     * Get the data
+     *
+     * @return data
+     */
     public T getData() {
         return data;
     }
