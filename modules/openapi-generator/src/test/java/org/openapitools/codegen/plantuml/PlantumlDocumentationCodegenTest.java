@@ -158,6 +158,14 @@ public class PlantumlDocumentationCodegenTest {
         List<Object> entityList = getList(objs, "entities");
         Assert.assertEquals(entityList.size(), 3, "size of entity list");
 
+        Map<String, Object> parentEntity = getEntityFromList("Parent", entityList);
+
+        Map<String, Object> nameField = getFieldFromEntity("name", parentEntity);
+        Assert.assertEquals((String)nameField.get("dataType"), "Simple");
+
+        Map<String, Object> tagsField = getFieldFromEntity("tags", parentEntity);
+        Assert.assertEquals((String)tagsField.get("dataType"), "List<Tag>");
+
         List<Object> relationshipList = getList(objs, "relationships");
         Assert.assertEquals(relationshipList.size(), 2, "size of relationship list");
 

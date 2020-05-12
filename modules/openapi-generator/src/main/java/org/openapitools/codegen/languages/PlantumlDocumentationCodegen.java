@@ -146,7 +146,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         field.put("name", codegenProperty.getBaseName());
         field.put("isRequired", codegenProperty.getRequired());
 
-        String dataType = codegenProperty.isListContainer && codegenProperty.getItems() != null ? "List<" + codegenProperty.getItems().getDataType() + ">" : codegenProperty.getDataType();
+        String dataType = codegenProperty.isListContainer && codegenProperty.getItems() != null ? "List<" + toModelName(codegenProperty.getItems().getDataType()) + ">" : toModelName(codegenProperty.getDataType());
         field.put("dataType", dataType);
 
         return field;
