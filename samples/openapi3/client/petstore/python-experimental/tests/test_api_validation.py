@@ -70,6 +70,7 @@ class ApiClientTests(unittest.TestCase):
               float=62.4
           )
 
+    def test_multiple_of_deserialization(self):
         data = {
             'byte': '3',
             'date': '1970-01-01',

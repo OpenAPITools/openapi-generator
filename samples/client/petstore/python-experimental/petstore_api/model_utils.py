@@ -667,7 +667,7 @@ def check_validations(
     current_validations = validations[input_variable_path]
     if (is_json_validation_enabled('multipleOf', configuration) and
             'multiple_of' in current_validations and
-            not (input_values / current_validations['multiple_of']).is_integer()):
+            not float(input_values / current_validations['multiple_of']).is_integer()):
         # Note 'multipleOf' will be as good as the floating point arithmetic.
         raise ApiValueError(
             "Invalid value for `%s`, value must be a multiple of "
