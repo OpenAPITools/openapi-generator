@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  protected String className;
+  private String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
   private String color = "red";
