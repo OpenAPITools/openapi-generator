@@ -97,6 +97,7 @@ class TestGmFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit, banana_instance],
                 'cultivar': [fruit],
+                'origin': [fruit],
             }
         )
         # model._additional_properties_model_instances stores a list of
@@ -157,6 +158,7 @@ class TestGmFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit, banana_instance],
                 'cultivar': [fruit, apple_instance],
+                'origin': [fruit, apple_instance],
             }
         )
 
@@ -164,7 +166,8 @@ class TestGmFruit(unittest.TestCase):
         # apple test
         color = 'red'
         cultivar = 'golden delicious'
-        fruit = petstore_api.GmFruit(color=color, cultivar=cultivar)
+        origin = 'California'
+        fruit = petstore_api.GmFruit(color=color, cultivar=cultivar, origin=origin)
         # check its properties
         self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
@@ -172,12 +175,18 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
         self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
+
+        self.assertEqual(fruit.origin, origin)
+        self.assertEqual(fruit['origin'], origin)
+        self.assertEqual(getattr(fruit, 'origin'), origin)
+
         # check the dict representation
         self.assertEqual(
             fruit.to_dict(),
             {
                 'color': color,
-                'cultivar': cultivar
+                'cultivar': cultivar,
+                'origin': origin,
             }
         )
 
@@ -198,6 +207,7 @@ class TestGmFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit],
                 'cultivar': [fruit, apple_instance],
+                'origin': [fruit, apple_instance],
             }
         )
         # model._additional_properties_model_instances stores a list of
