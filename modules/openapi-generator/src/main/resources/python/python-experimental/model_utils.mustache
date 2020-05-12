@@ -887,7 +887,7 @@ def is_valid_type(input_class_simple, valid_classes):
         for valid_class in valid_classes:
             if not valid_class.discriminator:
                 continue
-            discr_propertyname_py = valid_class.discriminator.keys()[0]
+            discr_propertyname_py = list(valid_class.discriminator.keys())[0]
             discriminator_classes = (
                 valid_class.discriminator[discr_propertyname_py].values()
             )
