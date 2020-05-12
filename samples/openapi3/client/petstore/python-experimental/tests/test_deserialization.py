@@ -27,6 +27,48 @@ class DeserializationTests(unittest.TestCase):
         self.api_client = petstore_api.ApiClient()
         self.deserialize = self.api_client.deserialize
 
+    def test_deserialize_shape(self):
+        """
+
+        deserialize Shape to an instance of:
+        - EquilateralTriangle
+        - IsoscelesTriangle
+        - IsoscelesTriangle
+        - ScaleneTriangle
+        - ComplexQuadrilateral
+        - SimpleQuadrilateral
+        by traveling through 2 discriminators
+        """
+        shape_type, triangle_type  = ['Triangle', 'EquilateralTriangle']
+        data = {
+            'shapeType': shape_type,
+            'triangleType': triangle_type,
+        }
+        response = MockResponse(data=json.dumps(data))
+
+        deserialized = self.deserialize(response, (petstore_api.Shape,), True)
+        self.assertTrue(isinstance(deserialized, petstore_api.EquilateralTriangle))
+        self.assertEqual(deserialized.shape_type, shape_type)
+        self.assertEqual(deserialized.triangle_type, triangle_type)
+
+        # invalid second discriminator value
+        shape_type, quadrilateral_type  = ['Quadrilateral', 'Triangle']
+        data = {
+            'shapeType': shape_type,
+            'quadrilateralType': quadrilateral_type,
+        }
+        response = MockResponse(data=json.dumps(data))
+
+        err_msg = ("Cannot deserialize input data due to invalid discriminator "
+            "value. The OpenAPI document has no mapping for discriminator "
+            "property '{}'='{}' at path: ()"
+        )
+        with self.assertRaisesRegexp(
+            petstore_api.ApiValueError,
+            err_msg.format("quadrilateralType", "Triangle")
+        ):
+            self.deserialize(response, (petstore_api.Shape,), True)
+
     def test_deserialize_animal(self):
         """
         deserialize Animal to a Dog instance
@@ -49,6 +91,41 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized.class_name, class_name)
         self.assertEqual(deserialized.color, color)
         self.assertEqual(deserialized.breed, breed)
+
+    def test_regex_constraint(self):
+        """
+        Test regex pattern validation.
+        """
+
+        # Test with valid regex pattern.
+        inst = petstore_api.Apple(
+            cultivar="Akane"
+        )
+        assert isinstance(inst, petstore_api.Apple)
+
+        inst = petstore_api.Apple(
+            origin="cHiLe"
+        )
+        assert isinstance(inst, petstore_api.Apple)
+
+        # Test with invalid regex pattern.
+        err_msg = ("Invalid value for `{}`, must match regular expression `{}`$")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiValueError,
+            err_msg.format("cultivar", "[^`]*")
+        ):
+            inst = petstore_api.Apple(
+                cultivar="!@#%@$#Akane"
+            )
+
+        err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiValueError,
+            err_msg.format("origin", "[^`]*")
+        ):
+            inst = petstore_api.Apple(
+                origin="!@#%@$#Chile"
+            )
 
     def test_deserialize_mammal(self):
         """

@@ -31,6 +31,7 @@ sidebar_label: python
 
 <ul class="column-ul">
 <li>bool</li>
+<li>bytes</li>
 <li>date</li>
 <li>datetime</li>
 <li>dict</li>

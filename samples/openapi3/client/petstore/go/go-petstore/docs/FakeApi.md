@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**FakeHealthGet**](FakeApi.md#FakeHealthGet) | **Get** /fake/health | Health check endpoint
+[**FakeHttpSignatureTest**](FakeApi.md#FakeHttpSignatureTest) | **Get** /fake/http-signature-test | test http signature authentication
 [**FakeOuterBooleanSerialize**](FakeApi.md#FakeOuterBooleanSerialize) | **Post** /fake/outer/boolean | 
 [**FakeOuterCompositeSerialize**](FakeApi.md#FakeOuterCompositeSerialize) | **Post** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#FakeOuterNumberSerialize) | **Post** /fake/outer/number | 
@@ -43,6 +44,50 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## FakeHttpSignatureTest
+
+> FakeHttpSignatureTest(ctx, pet, optional)
+
+test http signature authentication
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **optional** | ***FakeHttpSignatureTestOpts** | optional parameters | nil if no parameters
+
+### Optional Parameters
+
+Optional parameters are passed through a pointer to a FakeHttpSignatureTestOpts struct
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **query1** | **optional.String**| query parameter | 
+ **header1** | **optional.String**| header parameter | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[http_signature_test](../README.md#http_signature_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

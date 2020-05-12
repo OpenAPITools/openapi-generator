@@ -28,8 +28,6 @@ import java.io.File;
 import java.util.List;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
-    protected String mainPackage = "org.openapitools.client";
-
     public ScalaSttpClientCodegen() {
         super();
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)

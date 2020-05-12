@@ -21,6 +21,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.options.Option
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.listProperty
@@ -37,7 +38,7 @@ import org.openapitools.codegen.config.GlobalSettings
  *
  * Example (CLI):
  *
- * ./gradlew -q openApiGenerate
+ * ./gradlew -q openApiGenerate --input=/path/to/file
  *
  * @author Jim Schubert
  */
@@ -68,6 +69,14 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val outputDir = project.objects.property<String>()
 
+    @Suppress("unused")
+    @get:Internal
+    @set:Option(option = "input", description = "The input specification.")
+    var input: String? = null
+        set(value) {
+            inputSpec.set(value)
+        }
+    
     /**
      * The Open API 2.0/3.x specification location.
      */
@@ -230,7 +239,7 @@ open class GenerateTask : DefaultTask() {
     val releaseNote = project.objects.property<String?>()
 
     /**
-     * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}}/{language}'
+     * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'
      */
     @get:Internal
     val httpUserAgent = project.objects.property<String?>()
@@ -574,6 +583,7 @@ open class GenerateTask : DefaultTask() {
             }
 
             if (systemProperties.isPresent) {
+                // TODO: rename to globalProperties in 5.0
                 systemProperties.get().forEach { entry ->
                     configurator.addSystemProperty(entry.key, entry.value)
                 }
@@ -639,7 +649,7 @@ open class GenerateTask : DefaultTask() {
 
                 DefaultGenerator().opts(clientOptInput).generate()
 
-                out.println("Successfully generated code to $outputDir")
+                out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {
                 throw GradleException("Code generation failed.", e)
             }

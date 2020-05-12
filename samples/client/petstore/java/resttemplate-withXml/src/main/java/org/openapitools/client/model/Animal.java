@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.*;
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   @XmlElement(name = "className")
-  private String className;
+  protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
   @XmlElement(name = "color")

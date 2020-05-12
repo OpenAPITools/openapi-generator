@@ -22,6 +22,11 @@ import java.util.*;
 public class CodegenResponse implements IJsonSchemaValidationProperties {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
     public String code;
+    public boolean is1xx;
+    public boolean is2xx;
+    public boolean is3xx;
+    public boolean is4xx;
+    public boolean is5xx;
     public String message;
     public boolean hasMore;
     public List<Map<String, Object>> examples;
@@ -44,6 +49,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isEmail;
     public boolean isModel;
     public boolean isFreeFormObject;
+    public boolean isAnyType;
     public boolean isDefault;
     public boolean simpleType;
     public boolean primitiveType;
@@ -72,7 +78,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public int hashCode() {
         return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
-                isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isDefault, simpleType, primitiveType,
+                isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
@@ -100,6 +106,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isEmail == that.isEmail &&
                 isModel == that.isModel &&
                 isFreeFormObject == that.isFreeFormObject &&
+                isAnyType == that.isAnyType &&
                 isDefault == that.isDefault &&
                 simpleType == that.simpleType &&
                 primitiveType == that.primitiveType &&
@@ -290,6 +297,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", isEmail=").append(isEmail);
         sb.append(", isModel=").append(isModel);
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
+        sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isDefault=").append(isDefault);
         sb.append(", simpleType=").append(simpleType);
         sb.append(", primitiveType=").append(primitiveType);

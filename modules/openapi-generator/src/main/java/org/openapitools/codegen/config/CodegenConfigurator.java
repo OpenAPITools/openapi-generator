@@ -79,67 +79,72 @@ public class CodegenConfigurator {
     public static CodegenConfigurator fromFile(String configFile, Module... modules) {
 
         if (isNotEmpty(configFile)) {
-            ObjectMapper mapper;
+            DynamicSettings settings = readDynamicSettings(configFile, modules);
 
-            if (FilenameUtils.isExtension(configFile, new String[]{"yml", "yaml"})) {
-                mapper = Yaml.mapper();
-            } else {
-                mapper = Json.mapper();
+            CodegenConfigurator configurator = new CodegenConfigurator();
+
+            GeneratorSettings generatorSettings = settings.getGeneratorSettings();
+            WorkflowSettings workflowSettings = settings.getWorkflowSettings();
+
+            // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
+            // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
+            configurator.generatorName = generatorSettings.getGeneratorName();
+            configurator.inputSpec = workflowSettings.getInputSpec();
+            configurator.templatingEngineName = workflowSettings.getTemplatingEngineName();
+            if (workflowSettings.getSystemProperties() != null) {
+                configurator.systemProperties.putAll(workflowSettings.getSystemProperties());
+            }
+            if(generatorSettings.getInstantiationTypes() != null) {
+                configurator.instantiationTypes.putAll(generatorSettings.getInstantiationTypes());
+            }
+            if(generatorSettings.getTypeMappings() != null) {
+                configurator.typeMappings.putAll(generatorSettings.getTypeMappings());
+            }
+            if(generatorSettings.getAdditionalProperties() != null) {
+                configurator.additionalProperties.putAll(generatorSettings.getAdditionalProperties());
+            }
+            if(generatorSettings.getImportMappings() != null) {
+                configurator.importMappings.putAll(generatorSettings.getImportMappings());
+            }
+            if(generatorSettings.getLanguageSpecificPrimitives() != null) {
+                configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
+            }
+            if(generatorSettings.getReservedWordMappings() != null) {
+                configurator.reservedWordMappings.putAll(generatorSettings.getReservedWordMappings());
+            }
+            if(generatorSettings.getServerVariables() != null) {
+                configurator.serverVariables.putAll(generatorSettings.getServerVariables());
             }
 
-            if (modules != null && modules.length > 0) {
-                mapper.registerModules(modules);
-            }
+            configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(generatorSettings);
+            configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(workflowSettings);
 
-            mapper.registerModule(new GuavaModule());
-
-            try {
-                DynamicSettings settings = mapper.readValue(new File(configFile), DynamicSettings.class);
-                CodegenConfigurator configurator = new CodegenConfigurator();
-
-                GeneratorSettings generatorSettings = settings.getGeneratorSettings();
-                WorkflowSettings workflowSettings = settings.getWorkflowSettings();
-
-                // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
-                // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
-                configurator.generatorName = generatorSettings.getGeneratorName();
-                configurator.inputSpec = workflowSettings.getInputSpec();
-                configurator.templatingEngineName = workflowSettings.getTemplatingEngineName();
-                if (workflowSettings.getSystemProperties() != null) {
-                    configurator.systemProperties.putAll(workflowSettings.getSystemProperties());
-                }
-                if(generatorSettings.getInstantiationTypes() != null) {
-                    configurator.instantiationTypes.putAll(generatorSettings.getInstantiationTypes());
-                }
-                if(generatorSettings.getTypeMappings() != null) {
-                    configurator.typeMappings.putAll(generatorSettings.getTypeMappings());
-                }
-                if(generatorSettings.getAdditionalProperties() != null) {
-                    configurator.additionalProperties.putAll(generatorSettings.getAdditionalProperties());
-                }
-                if(generatorSettings.getImportMappings() != null) {
-                    configurator.importMappings.putAll(generatorSettings.getImportMappings());
-                }
-                if(generatorSettings.getLanguageSpecificPrimitives() != null) {
-                    configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
-                }
-                if(generatorSettings.getReservedWordMappings() != null) {
-                    configurator.reservedWordMappings.putAll(generatorSettings.getReservedWordMappings());
-                }
-                if(generatorSettings.getServerVariables() != null) {
-                    configurator.serverVariables.putAll(generatorSettings.getServerVariables());
-                }
-
-                configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(generatorSettings);
-                configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(workflowSettings);
-
-                return configurator;
-            } catch (IOException ex) {
-                LOGGER.error(ex.getMessage());
-                throw new RuntimeException("Unable to deserialize config file: " + configFile);
-            }
+            return configurator;
         }
         return null;
+    }
+
+    private static DynamicSettings readDynamicSettings(String configFile, Module... modules) {
+        ObjectMapper mapper;
+
+        if (FilenameUtils.isExtension(configFile.toLowerCase(Locale.ROOT), new String[]{"yml", "yaml"})) {
+            mapper = Yaml.mapper().copy();
+        } else {
+            mapper = Json.mapper().copy();
+        }
+
+        if (modules != null && modules.length > 0) {
+            mapper.registerModules(modules);
+        }
+
+        mapper.registerModule(new GuavaModule());
+
+        try {
+            return mapper.readValue(new File(configFile), DynamicSettings.class);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
+            throw new RuntimeException("Unable to deserialize config file: " + configFile);
+        }
     }
 
     public CodegenConfigurator addServerVariable(String key, String value) {
@@ -178,6 +183,7 @@ public class CodegenConfigurator {
         return this;
     }
 
+    // TODO: rename this and other references to "global property" rather than "system property"
     public CodegenConfigurator addSystemProperty(String key, String value) {
         this.systemProperties.put(key, value);
         workflowSettingsBuilder.withSystemProperty(key, value);

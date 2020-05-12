@@ -25,6 +25,7 @@ public class MysqlSchemaOptionsProvider implements OptionsProvider {
     public static final String DEFAULT_DATABASE_NAME_VALUE = "database_name";
     public static final String JSON_DATA_TYPE_ENABLED_VALUE = "false";
     public static final String IDENTIFIER_NAMING_CONVENTION_VALUE = "snake_case";
+    public static final String NAMED_PARAMETERS_ENABLED_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -37,6 +38,7 @@ public class MysqlSchemaOptionsProvider implements OptionsProvider {
         return builder.put(MysqlSchemaCodegen.DEFAULT_DATABASE_NAME, DEFAULT_DATABASE_NAME_VALUE)
             .put(MysqlSchemaCodegen.JSON_DATA_TYPE_ENABLED, JSON_DATA_TYPE_ENABLED_VALUE)
             .put(MysqlSchemaCodegen.IDENTIFIER_NAMING_CONVENTION, IDENTIFIER_NAMING_CONVENTION_VALUE)
+            .put(MysqlSchemaCodegen.NAMED_PARAMETERS_ENABLED, NAMED_PARAMETERS_ENABLED_VALUE)
             .build();
     }
 

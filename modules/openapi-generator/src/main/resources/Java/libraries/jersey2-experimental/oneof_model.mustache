@@ -1,0 +1,41 @@
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+
+    // store a list of schema names defined in oneOf
+    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+
+    public {{classname}}() {
+        super("oneOf");
+    }
+
+    static {
+        {{#oneOf}}
+        schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
+        });
+        {{/oneOf}}
+    }
+
+    @Override
+    public Map<String, GenericType> getSchemas() {
+        return {{classname}}.schemas;
+    }
+
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#oneOf}}
+        if (instance instanceof {{{.}}}) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        {{/oneOf}}
+        throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
+    }
+
+}
