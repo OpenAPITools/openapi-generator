@@ -636,6 +636,20 @@ def check_allowed_values(allowed_values, input_variable_path, input_values):
         )
 
 
+def is_json_validation_enabled(schema_keyword, configuration=None):
+    """Returns true if JSON schema validation is enabled for the specified
+    validation keyword. This can be used to skip JSON schema structural validation
+    as requested in the configuration.
+
+    Args:
+        schema_keyword (string): the name of a JSON schema validation keyword.
+        configuration (Configuration): the configuration class.
+    """
+
+    return (configuration is None or
+        schema_keyword not in configuration._disable_client_side_validation)
+
+
 def check_validations(
         validations, input_variable_path, input_values,
         configuration=None):
@@ -648,13 +662,10 @@ def check_validations(
             are checking.
         configuration (Configuration): the configuration class.
     """
-    if configuration is not None and configuration.disable_client_side_validation:
-        # Skip JSON schema structural validation as requested in the configuration.
-        # By default, JSON schema validation is enabled.
-        return
 
     current_validations = validations[input_variable_path]
-    if ('max_length' in current_validations and
+    if (is_json_validation_enabled('maxLength') and
+            'max_length' in current_validations and
             len(input_values) > current_validations['max_length']):
         raise ApiValueError(
             "Invalid value for `%s`, length must be less than or equal to "
@@ -664,7 +675,8 @@ def check_validations(
             )
         )
 
-    if ('min_length' in current_validations and
+    if (is_json_validation_enabled('minLength') and
+            'min_length' in current_validations and
             len(input_values) < current_validations['min_length']):
         raise ApiValueError(
             "Invalid value for `%s`, length must be greater than or equal to "
@@ -674,7 +686,8 @@ def check_validations(
             )
         )
 
-    if ('max_items' in current_validations and
+    if (is_json_validation_enabled('maxItems') and
+            'max_items' in current_validations and
             len(input_values) > current_validations['max_items']):
         raise ApiValueError(
             "Invalid value for `%s`, number of items must be less than or "
@@ -684,7 +697,8 @@ def check_validations(
             )
         )
 
-    if ('min_items' in current_validations and
+    if (is_json_validation_enabled('minItems') and
+            'min_items' in current_validations and
             len(input_values) < current_validations['min_items']):
         raise ValueError(
             "Invalid value for `%s`, number of items must be greater than or "
@@ -707,7 +721,8 @@ def check_validations(
             max_val = input_values
             min_val = input_values
 
-    if ('exclusive_maximum' in current_validations and
+    if (is_json_validation_enabled('exclusiveMaximum') and
+            'exclusive_maximum' in current_validations and
             max_val >= current_validations['exclusive_maximum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value less than `%s`" % (
@@ -716,7 +731,8 @@ def check_validations(
             )
         )
 
-    if ('inclusive_maximum' in current_validations and
+    if (is_json_validation_enabled('maximum') and
+            'inclusive_maximum' in current_validations and
             max_val > current_validations['inclusive_maximum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value less than or equal to "
@@ -726,7 +742,8 @@ def check_validations(
             )
         )
 
-    if ('exclusive_minimum' in current_validations and
+    if (is_json_validation_enabled('exclusiveMinimum') and
+            'exclusive_minimum' in current_validations and
             min_val <= current_validations['exclusive_minimum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value greater than `%s`" %
@@ -736,7 +753,8 @@ def check_validations(
             )
         )
 
-    if ('inclusive_minimum' in current_validations and
+    if (is_json_validation_enabled('minimum') and
+            'inclusive_minimum' in current_validations and
             min_val < current_validations['inclusive_minimum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value greater than or equal "
@@ -746,7 +764,8 @@ def check_validations(
             )
         )
     flags = current_validations.get('regex', {}).get('flags', 0)
-    if ('regex' in current_validations and
+    if (is_json_validation_enabled('pattern') and
+            'regex' in current_validations and
             not re.search(current_validations['regex']['pattern'],
                           input_values, flags=flags)):
         err_msg = r"Invalid value for `%s`, must match regular expression `%s`" % (
