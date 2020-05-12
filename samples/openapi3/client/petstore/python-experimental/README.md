@@ -147,6 +147,7 @@ Class | Method | HTTP request | Description
  - [complex_quadrilateral.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [dog.Dog](docs/Dog.md)
  - [dog_all_of.DogAllOf](docs/DogAllOf.md)
+ - [drawing.Drawing](docs/Drawing.md)
  - [enum_arrays.EnumArrays](docs/EnumArrays.md)
  - [enum_class.EnumClass](docs/EnumClass.md)
  - [enum_test.EnumTest](docs/EnumTest.md)

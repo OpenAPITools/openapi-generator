@@ -1848,10 +1848,6 @@ components:
             - grevys
         className:
           type: string
-        lunch:
-          # A property whose value is a 'oneOf' type, and the type is referenced instead
-          # of being define inline.
-          - $ref: '#/components/schemas/fruitReq'
       required:
         - className
     gmFruit:
@@ -1885,6 +1881,17 @@ components:
         - lengthCm
     # go-experimental is unable to make Triangle and Quadrilateral models
     # correctly https://github.com/OpenAPITools/openapi-generator/issues/6149
+    Drawing:
+      type: object
+      properties:
+        mainShape:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being define inline.
+          $ref: '#/components/schemas/Shape'
+        shapes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Shape'
     Shape:
       oneOf:
         - $ref: '#/components/schemas/Triangle'
