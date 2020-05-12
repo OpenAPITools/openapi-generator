@@ -183,4 +183,4 @@ class DeserializationTests(unittest.TestCase):
                 ),
             ],
         )
-        assert isinstance(inst, petstore_api.BiologyHominid)
+        assert isinstance(inst, petstore_api.Drawing)

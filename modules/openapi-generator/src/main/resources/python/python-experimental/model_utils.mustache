@@ -125,9 +125,10 @@ class OpenApiModel(object):
 
         # Implementation note: the last argument to get_discriminator_class
         # is a list of visited classes. get_discriminator_class may recursively
-        # call itself and update the list of visited classes
-        new_cls, visited_composed_classes = get_discriminator_class(
-            cls, discr_propertyname_py, discr_value, visited_composed_classes)
+        # call itself and update the list of visited classes, and the initial
+        # value must be an empty list. Hence not using 'visited_composed_classes'
+        new_cls = get_discriminator_class(
+                    cls, discr_propertyname_py, discr_value, [])
         if new_cls is None:
             path_to_item = kwargs.get('_path_to_item', ())
             disc_prop_value = kwargs.get(
@@ -694,35 +695,31 @@ def deserialize_primitive(data, klass, path_to_item):
 
 def get_discriminator_class(model_class,
                             discr_name,
-                            discr_value,
-                            visited_composed_classes):
+                            discr_value, cls_visited):
     """Returns the child class specified by the discriminator.
 
     Args:
         model_class (OpenApiModel): the model class.
         discr_name (string): the name of the discriminator property.
         discr_value (any): the discriminator value.
-        visited_composed_classes (tuple): model classes that have been
-            visited. Used to determine the discriminator class without
+        cls_visited (list): list of model classes that have been visited.
+            Used to determine the discriminator class without
             visiting circular references indefinitely.
 
     Returns:
         used_model_class (class/None): the chosen child class that will be used
             to deserialize the data, for example dog.Dog.
             If a class is not found, None is returned.
-        new_visited_composed_classes (tuple): list of model classes that have been
-            visited. This is used to determine if the chosen class implements
-            an ancestor interface. For example Dog is Animal because Animal is
-            in visited_composed_classes.
     """
-    # The class has already been visited and no suitable class was found
-    already_visited_this_class = model_class in visited_composed_classes
-    incorrect_discriminator_name = discr_name not in model_class.discriminator
-    if already_visited_this_class or incorrect_discriminator_name:
-        return None, visited_composed_classes
-    class_name_to_discr_class = model_class.discriminator[discr_name]
-    used_model_class = class_name_to_discr_class.get(discr_value)
-    visited_composed_classes += (model_class,)
+
+    if model_class in cls_visited:
+        # The class has already been visited and no suitable class was found.
+        return None
+    cls_visited.append(model_class)
+    used_model_class = None
+    if discr_name in model_class.discriminator:
+        class_name_to_discr_class = model_class.discriminator[discr_name]
+        used_model_class = class_name_to_discr_class.get(discr_value)
     if used_model_class is None:
         # We didn't find a discriminated class in class_name_to_discr_class.
         # The discriminator mapping may exist in a descendant (anyOf, oneOf)
@@ -739,12 +736,11 @@ def get_discriminator_class(model_class,
         for cls in composed_children:
             # Check if the schema has inherited discriminators.
             if cls.discriminator is not None:
-                results = get_discriminator_class(
-                    cls, discr_name, discr_value, visited_composed_classes)
-                used_model_class, new_visited_composed_classes = results
+                used_model_class = get_discriminator_class(
+                                    cls, discr_name, discr_value, cls_visited)
                 if used_model_class is not None:
-                    return used_model_class, new_visited_composed_classes
-    return used_model_class, visited_composed_classes
+                    return used_model_class
+    return used_model_class
 
 
 def deserialize_model(model_data, model_class, path_to_item, check_type,
@@ -876,6 +872,31 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
     return input_value
 
 
+def is_valid_type(input_class_simple, valid_classes):
+    """
+    Args:
+        input_class_simple (class): the class of the input_value that we are
+            checking
+        valid_classes (tuple): the valid classes that the current item
+            should be
+    Returns:
+        bool
+    """
+    valid_type = input_class_simple in valid_classes
+    if not valid_type and issubclass(input_class_simple, OpenApiModel):
+        for valid_class in valid_classes:
+            if not valid_class.discriminator:
+                continue
+            discr_propertyname_py = valid_class.discriminator.keys()[0]
+            discriminator_classes = (
+                valid_class.discriminator[discr_propertyname_py].values()
+            )
+            valid_type = is_valid_type(input_class_simple, discriminator_classes)
+            if valid_type:
+                return True
+    return valid_type
+
+
 def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                                from_server, _check_type, configuration=None):
     """Raises a TypeError is there is a problem, otherwise returns value
@@ -908,7 +929,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     valid_classes, child_req_types_by_current_type = results
 
     input_class_simple = get_simple_class(input_value)
-    valid_type = input_class_simple in set(valid_classes)
+    valid_type = is_valid_type(input_class_simple, valid_classes)
     if not valid_type:
         if configuration:
             # if input_value is not valid_type try to convert it
