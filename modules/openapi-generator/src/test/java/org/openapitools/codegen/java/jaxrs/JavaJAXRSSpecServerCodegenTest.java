@@ -43,11 +43,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final JavaJAXRSSpecServerCodegen codegen = new JavaJAXRSSpecServerCodegen();
         codegen.processOpts();
 
-        OpenAPI openAPI = new OpenAPI();
-        final Components components = new Components();
-        components.schemas(new HashMap<>());
-        openAPI.setComponents(components);
-        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
+        final OpenAPI openAPI = createOpenApiWithServerUrl();
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
@@ -96,12 +92,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
         codegen.processOpts();
 
-        OpenAPI openAPI = new OpenAPI();
-        final Components components = new Components();
-        components.schemas(new HashMap<>());
-        openAPI.setComponents(components);
-
-        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
+        OpenAPI openAPI = createOpenApiWithServerUrl();
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -319,5 +310,16 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
 
         output.deleteOnExit();
+    }
+
+    private OpenAPI createOpenApiWithServerUrl() {
+        final OpenAPI openAPI = new OpenAPI();
+        final Components components = new Components();
+        components.schemas(new HashMap<>());
+        openAPI.setComponents(components);
+
+        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
+
+        return openAPI;
     }
 }

@@ -387,7 +387,6 @@ public class DefaultCodegen implements CodegenConfig {
                     Map<String, Object> mo = (Map<String, Object>) _mo;
                     CodegenModel cm = (CodegenModel) mo.get("model");
                     if (cm.oneOf.size() > 0) {
-                        System.err.println("MUUUUUUUUUUUUUUUUUUUUH");
                         cm.vendorExtensions.put("x-is-one-of-interface", true);
                         for (String one : cm.oneOf) {
                             if (!additionalDataMap.containsKey(one)) {
