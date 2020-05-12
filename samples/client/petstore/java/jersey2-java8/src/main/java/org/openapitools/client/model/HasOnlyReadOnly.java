@@ -15,27 +15,26 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.IOException;
 
 /**
  * HasOnlyReadOnly
  */
-@JsonPropertyOrder({
-  HasOnlyReadOnly.JSON_PROPERTY_BAR,
-  HasOnlyReadOnly.JSON_PROPERTY_FOO
-})
 
 public class HasOnlyReadOnly {
-  public static final String JSON_PROPERTY_BAR = "bar";
+  public static final String SERIALIZED_NAME_BAR = "bar";
+  @SerializedName(SERIALIZED_NAME_BAR)
   private String bar;
 
-  public static final String JSON_PROPERTY_FOO = "foo";
+  public static final String SERIALIZED_NAME_FOO = "foo";
+  @SerializedName(SERIALIZED_NAME_FOO)
   private String foo;
 
 
@@ -45,8 +44,6 @@ public class HasOnlyReadOnly {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BAR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
     return bar;
@@ -61,8 +58,6 @@ public class HasOnlyReadOnly {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_FOO)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFoo() {
     return foo;

@@ -1,4 +1,4 @@
-# petstore-jersey2-java6
+# petstore-jersey2
 
 OpenAPI Petstore
 
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>petstore-jersey2-java6</artifactId>
+  <artifactId>petstore-jersey2</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -50,7 +50,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-jersey2-java6:1.0.0"
+compile "org.openapitools:petstore-jersey2:1.0.0"
 ```
 
 ### Others
@@ -63,7 +63,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-- `target/petstore-jersey2-java6-1.0.0.jar`
+- `target/petstore-jersey2-1.0.0.jar`
 - `target/lib/*.jar`
 
 ## Getting Started

@@ -15,43 +15,42 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.IOException;
 
 /**
  * Capitalization
  */
-@JsonPropertyOrder({
-  Capitalization.JSON_PROPERTY_SMALL_CAMEL,
-  Capitalization.JSON_PROPERTY_CAPITAL_CAMEL,
-  Capitalization.JSON_PROPERTY_SMALL_SNAKE,
-  Capitalization.JSON_PROPERTY_CAPITAL_SNAKE,
-  Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
-  Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
-})
 
 public class Capitalization {
-  public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
+  public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
+  @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
   private String smallCamel;
 
-  public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
+  public static final String SERIALIZED_NAME_CAPITAL_CAMEL = "CapitalCamel";
+  @SerializedName(SERIALIZED_NAME_CAPITAL_CAMEL)
   private String capitalCamel;
 
-  public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
+  public static final String SERIALIZED_NAME_SMALL_SNAKE = "small_Snake";
+  @SerializedName(SERIALIZED_NAME_SMALL_SNAKE)
   private String smallSnake;
 
-  public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
+  public static final String SERIALIZED_NAME_CAPITAL_SNAKE = "Capital_Snake";
+  @SerializedName(SERIALIZED_NAME_CAPITAL_SNAKE)
   private String capitalSnake;
 
-  public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
+  public static final String SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
+  @SerializedName(SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS)
   private String scAETHFlowPoints;
 
-  public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
+  public static final String SERIALIZED_NAME_A_T_T_N_A_M_E = "ATT_NAME";
+  @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
   private String ATT_NAME;
 
 
@@ -67,8 +66,6 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSmallCamel() {
     return smallCamel;
@@ -92,8 +89,6 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getCapitalCamel() {
     return capitalCamel;
@@ -117,8 +112,6 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSmallSnake() {
     return smallSnake;
@@ -142,8 +135,6 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getCapitalSnake() {
     return capitalSnake;
@@ -167,8 +158,6 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -192,8 +181,6 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Name of the pet ")
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getATTNAME() {
     return ATT_NAME;

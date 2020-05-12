@@ -15,23 +15,22 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.IOException;
 
 /**
  * DogAllOf
  */
-@JsonPropertyOrder({
-  DogAllOf.JSON_PROPERTY_BREED
-})
 
 public class DogAllOf {
-  public static final String JSON_PROPERTY_BREED = "breed";
+  public static final String SERIALIZED_NAME_BREED = "breed";
+  @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
 
@@ -47,8 +46,6 @@ public class DogAllOf {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BREED)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBreed() {
     return breed;
