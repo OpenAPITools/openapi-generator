@@ -21,17 +21,33 @@ class TestDrawing(unittest.TestCase):
     """Drawing unit test stubs"""
 
     def setUp(self):
-        pass
+        self.api_client = petstore_api.ApiClient()
 
     def tearDown(self):
         pass
 
-    def testDrawing(self):
-        """Test Drawing"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.Drawing()  # noqa: E501
-        pass
+    def test_deserialize_oneof_reference(self):
 
+        inst = petstore_api.Drawing(
+            # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
+            # composed schema. So we should be able to assign a petstore_api.Triangle
+            # to a 'main_shape'.
+            main_shape=petstore_api.Triangle(
+                shape_type="Triangle",
+                triangle_type="IsoscelesTriangle"
+            ),
+            shapes=[
+                petstore_api.Triangle(
+                    shape_type="Triangle",
+                    triangle_type="IsoscelesTriangle"
+                ),
+                petstore_api.Shape(
+                    shape_type="Quadrilateral",
+                    quadrilateral_type="ComplexQuadrilateral"
+                ),
+            ],
+        )
+        assert isinstance(inst, petstore_api.BiologyHominid)
 
 if __name__ == '__main__':
     unittest.main()

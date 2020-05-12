@@ -161,26 +161,3 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized, petstore_api.Zebra))
         self.assertEqual(deserialized.type, zebra_type)
         self.assertEqual(deserialized.class_name, class_name)
-
-    def test_deserialize_oneof_reference(self):
-
-        inst = petstore_api.Drawing(
-            # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
-            # composed schema. So we should be able to assign a petstore_api.Triangle
-            # to a 'main_shape'.
-            main_shape=petstore_api.Triangle(
-                shape_type="Triangle",
-                triangle_type="IsoscelesTriangle"
-            ),
-            shapes=[
-                petstore_api.Triangle(
-                    shape_type="Triangle",
-                    triangle_type="IsoscelesTriangle"
-                ),
-                petstore_api.Shape(
-                    shape_type="Quadrilateral",
-                    quadrilateral_type="ComplexQuadrilateral"
-                ),
-            ],
-        )
-        assert isinstance(inst, petstore_api.BiologyHominid)
