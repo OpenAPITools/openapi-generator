@@ -15,6 +15,7 @@ import org.openapitools.client.models.Client
 import org.openapitools.client.models.FileSchemaTestClass
 import org.openapitools.client.models.HealthCheckResult
 import org.openapitools.client.models.OuterComposite
+import org.openapitools.client.models.Pet
 import org.openapitools.client.models.User
 
 import org.openapitools.client.infrastructure.ApiClient
@@ -64,6 +65,53 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as HealthCheckResult
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * test http signature authentication
+    * 
+    * @param pet Pet object that needs to be added to the store 
+    * @param query1 query parameter (optional)
+    * @param header1 header parameter (optional)
+    * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun fakeHttpSignatureTest(pet: Pet, query1: kotlin.String?, header1: kotlin.String?) : Unit {
+        val localVariableBody: kotlin.Any? = pet
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                if (query1 != null) {
+                    put("query_1", listOf(query1.toString()))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("header_1" to header1.toString())
+        val localVariableConfig = RequestConfig(
+            RequestMethod.GET,
+            "/fake/http-signature-test",
+            query = localVariableQuery,
+            headers = localVariableHeaders
+        )
+        val localVarResponse = request<Any?>(
+            localVariableConfig,
+            localVariableBody
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {

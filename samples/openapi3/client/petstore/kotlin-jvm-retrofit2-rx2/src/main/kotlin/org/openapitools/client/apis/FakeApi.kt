@@ -12,11 +12,15 @@ import org.openapitools.client.models.Client
 import org.openapitools.client.models.FileSchemaTestClass
 import org.openapitools.client.models.HealthCheckResult
 import org.openapitools.client.models.OuterComposite
+import org.openapitools.client.models.Pet
 import org.openapitools.client.models.User
 
 interface FakeApi {
     @GET("/fake/health")
     fun fakeHealthGet(): Single<HealthCheckResult>
+
+    @GET("/fake/http-signature-test")
+    fun fakeHttpSignatureTest(@Body pet: Pet, @Query("query_1") query1: kotlin.String, @Header("header_1") header1: kotlin.String): Completable
 
     @POST("/fake/outer/boolean")
     fun fakeOuterBooleanSerialize(@Body body: kotlin.Boolean): Single<kotlin.Boolean>
