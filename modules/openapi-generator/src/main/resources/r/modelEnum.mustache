@@ -1,13 +1,5 @@
-# add to utils.R
-{{#allowableValues}}
-.parse_{{name}} <- function(vals) {
-    res <- gsub("^\\[|\\]$", "",
-        "{{{values}}}"
-    )
-    unlist(strsplit(res, ", "))
-}
-
 #' @export
+{{#allowableValues}}
 {{classname}} <- R6::R6Class(
     "{{classname}}",
     public = list(
@@ -45,4 +37,12 @@
         value = NULL
     )
 )
+
+# add to utils.R
+.parse_{{name}} <- function(vals) {
+    res <- gsub("^\\[|\\]$", "",
+        "{{{values}}}"
+    )
+    unlist(strsplit(res, ", "))
+}
 {{/allowableValues}}
