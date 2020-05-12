@@ -55,7 +55,7 @@ data class NullableClass (
     val objectAndItemsNullableProp: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null,
     @SerializedName("object_items_nullable")
     val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
-) : kotlin.collections.HashMap&lt;String, kotlin.Any&gt;, Serializable {
+) : kotlin.collections.HashMap<String, kotlin.Any>, Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}

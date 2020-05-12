@@ -43,5 +43,5 @@ data class NullableClass (
     @SerialName(value = "object_nullable_prop") val objectNullableProp: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
     @SerialName(value = "object_and_items_nullable_prop") val objectAndItemsNullableProp: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
     @SerialName(value = "object_items_nullable") val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.String>? = null
-) : kotlin.collections.HashMap&lt;String, kotlin.String&gt;
+) : kotlin.collections.HashMap<String, kotlin.String>
 
