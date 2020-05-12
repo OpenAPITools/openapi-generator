@@ -27,19 +27,20 @@ class TestDrawing(unittest.TestCase):
         pass
 
     def test_deserialize_oneof_reference(self):
-
+        isosceles_triangle = petstore_api.Shape(
+            shape_type="Triangle",
+            triangle_type="IsoscelesTriangle"
+        )
+        assert isinstance(isosceles_triangle, petstore_api.IsoscelesTriangle)
         inst = petstore_api.Drawing(
             # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
             # composed schema. So we should be able to assign a petstore_api.Triangle
             # to a 'main_shape'.
-            main_shape=petstore_api.Shape(
-                shape_type="Triangle",
-                triangle_type="IsoscelesTriangle"
-            ),
+            main_shape=isosceles_triangle,
             shapes=[
                 petstore_api.Shape(
                     shape_type="Triangle",
-                    triangle_type="IsoscelesTriangle"
+                    triangle_type="EquilateralTriangle"
                 ),
                 petstore_api.Shape(
                     shape_type="Quadrilateral",
@@ -48,10 +49,10 @@ class TestDrawing(unittest.TestCase):
             ],
         )
         assert isinstance(inst, petstore_api.Drawing)
-        assert isinstance(inst.main_shape, petstore_api.Triangle)
+        assert isinstance(inst.main_shape, petstore_api.IsoscelesTriangle)
         self.assertEqual(len(inst.shapes), 2)
-        assert isinstance(inst.shapes[0], petstore_api.Triangle)
-        assert isinstance(inst.shapes[0], petstore_api.Quadrilateral)
+        assert isinstance(inst.shapes[0], petstore_api.EquilateralTriangle)
+        assert isinstance(inst.shapes[1], petstore_api.ComplexQuadrilateral)
 
 if __name__ == '__main__':
     unittest.main()
