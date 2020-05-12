@@ -7,12 +7,9 @@
 
 import Foundation
 
+public struct StringBooleanMap: Codable {
 
-public struct StringBooleanMap: Codable { 
-
-
-
-    public private(set) var additionalProperties: [String:Bool] = [:]
+    public private(set) var additionalProperties: [String: Bool] = [:]
 
     public subscript(key: String) -> Bool? {
         get {
@@ -44,6 +41,5 @@ public struct StringBooleanMap: Codable {
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
 
 }

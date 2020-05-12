@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-public struct List: Codable { 
-
+public struct List: Codable {
 
     public var _123list: String?
 
@@ -17,7 +15,7 @@ public struct List: Codable {
         self._123list = _123list
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case _123list = "123-list"
     }
 
