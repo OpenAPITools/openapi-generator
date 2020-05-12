@@ -32,12 +32,12 @@ class TestDrawing(unittest.TestCase):
             # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
             # composed schema. So we should be able to assign a petstore_api.Triangle
             # to a 'main_shape'.
-            main_shape=petstore_api.Triangle(
+            main_shape=petstore_api.Shape(
                 shape_type="Triangle",
                 triangle_type="IsoscelesTriangle"
             ),
             shapes=[
-                petstore_api.Triangle(
+                petstore_api.Shape(
                     shape_type="Triangle",
                     triangle_type="IsoscelesTriangle"
                 ),
@@ -47,7 +47,11 @@ class TestDrawing(unittest.TestCase):
                 ),
             ],
         )
-        assert isinstance(inst, petstore_api.BiologyHominid)
+        assert isinstance(inst, petstore_api.Drawing)
+        assert isinstance(inst.main_shape, petstore_api.Triangle)
+        self.assertEqual(len(inst.shapes), 2)
+        assert isinstance(inst.shapes[0], petstore_api.Triangle)
+        assert isinstance(inst.shapes[0], petstore_api.Quadrilateral)
 
 if __name__ == '__main__':
     unittest.main()
