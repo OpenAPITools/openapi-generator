@@ -28,7 +28,6 @@ func (v OuterEnumInteger) Ptr() *OuterEnumInteger {
 	return &v
 }
 
-
 type NullableOuterEnumInteger struct {
 	value *OuterEnumInteger
 	isSet bool
@@ -64,3 +63,4 @@ func (v *NullableOuterEnumInteger) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+

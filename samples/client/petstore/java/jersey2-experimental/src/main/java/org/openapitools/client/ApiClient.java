@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
@@ -37,7 +38,6 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
 
 import java.net.URLEncoder;
 
@@ -53,9 +53,8 @@ import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.HttpSignatureAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
-import org.openapitools.client.model.AbstractOpenApiSchema;
-
 import org.openapitools.client.auth.OAuth;
+import org.openapitools.client.model.AbstractOpenApiSchema;
 
 
 public class ApiClient {
@@ -168,7 +167,7 @@ public class ApiClient {
     authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     authentications.put("http_basic_test", new HttpBasicAuth());
     authentications.put("http_signature_test", new HttpSignatureAuth("http_signature_test", null, null));
-    authentications.put("petstore_auth", new OAuth());
+    authentications.put("petstore_auth", new OAuth(basePath, ""));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
@@ -178,6 +177,7 @@ public class ApiClient {
 
   /**
    * Gets the JSON instance to do JSON serialization and deserialization.
+   *
    * @return JSON
    */
   public JSON getJSON() {
@@ -199,6 +199,7 @@ public class ApiClient {
 
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
+    setOauthBasePath(basePath);
     return this;
   }
 
@@ -208,6 +209,7 @@ public class ApiClient {
 
   public ApiClient setServers(List<ServerConfiguration> servers) {
     this.servers = servers;
+    updateBasePath();
     return this;
   }
 
@@ -217,6 +219,7 @@ public class ApiClient {
 
   public ApiClient setServerIndex(Integer serverIndex) {
     this.serverIndex = serverIndex;
+    updateBasePath();
     return this;
   }
 
@@ -226,11 +229,25 @@ public class ApiClient {
 
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
     this.serverVariables = serverVariables;
+    updateBasePath();
     return this;
+  }
+
+  private void updateBasePath() {
+    setBasePath(servers.get(serverIndex).URL(serverVariables));
+  }
+
+  private void setOauthBasePath(String basePath) {
+    for(Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setBasePath(basePath);
+      }
+    }
   }
 
   /**
    * Get authentications (key: authentication name, value: authentication).
+   *
    * @return Map of authentication object
    */
   public Map<String, Authentication> getAuthentications() {
@@ -249,13 +266,14 @@ public class ApiClient {
 
   /**
    * Helper method to set username for the first HTTP basic authentication.
+   *
    * @param username Username
    */
-  public void setUsername(String username) {
+  public ApiClient setUsername(String username) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBasicAuth) {
         ((HttpBasicAuth) auth).setUsername(username);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No HTTP basic authentication configured!");
@@ -263,13 +281,14 @@ public class ApiClient {
 
   /**
    * Helper method to set password for the first HTTP basic authentication.
+   *
    * @param password Password
    */
-  public void setPassword(String password) {
+  public ApiClient setPassword(String password) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBasicAuth) {
         ((HttpBasicAuth) auth).setPassword(password);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No HTTP basic authentication configured!");
@@ -277,13 +296,14 @@ public class ApiClient {
 
   /**
    * Helper method to set API key value for the first API key authentication.
+   *
    * @param apiKey API key
    */
-  public void setApiKey(String apiKey) {
+  public ApiClient setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
         ((ApiKeyAuth) auth).setApiKey(apiKey);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No API key authentication configured!");
@@ -294,29 +314,31 @@ public class ApiClient {
    *
    * @param secrets Hash map from authentication name to its secret.
    */
-  public void configureApiKeys(HashMap<String, String> secrets) {
+  public ApiClient configureApiKeys(HashMap<String, String> secrets) {
     for (Map.Entry<String, Authentication> authEntry : authentications.entrySet()) {
       Authentication auth = authEntry.getValue();
       if (auth instanceof ApiKeyAuth) {
         String name = authEntry.getKey();
         // respect x-auth-id-alias property
-        name = authenticationLookup.getOrDefault(name, name);
+        name = authenticationLookup.containsKey(name) ? authenticationLookup.get(name) : name;
         if (secrets.containsKey(name)) {
           ((ApiKeyAuth) auth).setApiKey(secrets.get(name));
         }
       }
     }
+    return this;
   }
 
   /**
    * Helper method to set API key prefix for the first API key authentication.
+   *
    * @param apiKeyPrefix API key prefix
    */
-  public void setApiKeyPrefix(String apiKeyPrefix) {
+  public ApiClient setApiKeyPrefix(String apiKeyPrefix) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
         ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No API key authentication configured!");
@@ -324,27 +346,91 @@ public class ApiClient {
 
   /**
    * Helper method to set bearer token for the first Bearer authentication.
+   *
    * @param bearerToken Bearer token
    */
-  public void setBearerToken(String bearerToken) {
+  public ApiClient setBearerToken(String bearerToken) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBearerAuth) {
         ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No Bearer authentication configured!");
   }
 
+
   /**
    * Helper method to set access token for the first OAuth2 authentication.
    * @param accessToken Access token
    */
-  public void setAccessToken(String accessToken) {
+  public ApiClient setAccessToken(String accessToken) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setAccessToken(accessToken);
-        return;
+        return this;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
+   * Helper method to set the credentials for the first OAuth2 authentication.
+   *
+   * @param clientId the client ID
+   * @param clientSecret the client secret
+   */
+  public ApiClient setOauthCredentials(String clientId, String clientSecret) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setCredentials(clientId, clientSecret);
+        return this;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
+   * Helper method to set the password flow for the first OAuth2 authentication.
+   *
+   * @param username the user name
+   * @param password the user password
+   */
+  public ApiClient setOauthPasswordFlow(String username, String password) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).usePasswordFlow(username, password);
+        return this;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
+   * Helper method to set the authorization code flow for the first OAuth2 authentication.
+   *
+   * @param code the authorization code
+   */
+  public ApiClient setOauthAuthorizationCodeFlow(String code) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).useAuthorizationCodeFlow(code);
+        return this;
+      }
+    }
+    throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  /**
+   * Helper method to set the scopes for the first OAuth2 authentication.
+   *
+   * @param scope the oauth scope
+   */
+  public ApiClient setOauthScope(String scope) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof OAuth) {
+        ((OAuth) auth).setScope(scope);
+        return this;
       }
     }
     throw new RuntimeException("No OAuth2 authentication configured!");
@@ -772,9 +858,9 @@ public class ApiClient {
     }
 
     if (matchCounter > 1 && "oneOf".equals(schema.getSchemaType())) {// more than 1 match for oneOf
-      throw new ApiException("Response body is invalid as it matches more than one schema (" + String.join(", ", matchSchemas) + ") defined in the oneOf model: " + schema.getClass().getName());
+      throw new ApiException("Response body is invalid as it matches more than one schema (" + StringUtil.join(matchSchemas, ", ") + ") defined in the oneOf model: " + schema.getClass().getName());
     } else if (matchCounter == 0) { // fail to match any in oneOf/anyOf schemas
-      throw new ApiException("Response body is invalid as it doens't match any schemas (" + String.join(", ", schema.getSchemas().keySet()) + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
+      throw new ApiException("Response body is invalid as it doens't match any schemas (" + StringUtil.join(schema.getSchemas().keySet(), ", ") + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
     } else { // only one matched
       schema.setActualInstance(result);
       return schema;
@@ -889,29 +975,35 @@ public class ApiClient {
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiSchema schema) throws ApiException {
+  public <T> ApiResponse<T> invokeAPI(
+      String operation,
+      String path,
+      String method,
+      List<Pair> queryParams,
+      Object body,
+      Map<String, String> headerParams,
+      Map<String, String> cookieParams,
+      Map<String, Object> formParams,
+      String accept,
+      String contentType,
+      String[] authNames,
+      GenericType<T> returnType,
+      AbstractOpenApiSchema schema)
+      throws ApiException {
 
     // Not using `.target(targetURL).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
-    if (serverIndex != null) {
-      Integer index;
-      List<ServerConfiguration> serverConfigurations;
-      Map<String, String> variables;
-
-      if (operationServers.containsKey(operation)) {
-        index = operationServerIndex.getOrDefault(operation, serverIndex);
-        variables = operationServerVariables.getOrDefault(operation, serverVariables);
-        serverConfigurations = operationServers.get(operation);
-      } else {
-        index = serverIndex;
-        variables = serverVariables;
-        serverConfigurations = servers;
-      }
+    if (operationServers.containsKey(operation)) {
+      Integer index = operationServerIndex.containsKey(operation) ? operationServerIndex.get(operation) : serverIndex;
+      Map<String, String> variables = operationServerVariables.containsKey(operation) ?
+        operationServerVariables.get(operation) : serverVariables;
+      List<ServerConfiguration> serverConfigurations = operationServers.get(operation);
       if (index < 0 || index >= serverConfigurations.size()) {
-        throw new ArrayIndexOutOfBoundsException(String.format(
-          "Invalid index %d when selecting the host settings. Must be less than %d", index, serverConfigurations.size()
-        ));
+        throw new ArrayIndexOutOfBoundsException(
+            String.format(
+                "Invalid index %d when selecting the host settings. Must be less than %d",
+                index, serverConfigurations.size()));
       }
       targetURL = serverConfigurations.get(index).URL(variables) + path;
     } else {
@@ -929,13 +1021,6 @@ public class ApiClient {
 
     Invocation.Builder invocationBuilder = target.request().accept(accept);
 
-    for (Entry<String, String> entry : headerParams.entrySet()) {
-      String value = entry.getValue();
-      if (value != null) {
-        invocationBuilder = invocationBuilder.header(entry.getKey(), value);
-      }
-    }
-
     for (Entry<String, String> entry : cookieParams.entrySet()) {
       String value = entry.getValue();
       if (value != null) {
@@ -950,63 +1035,63 @@ public class ApiClient {
       }
     }
 
-    for (Entry<String, String> entry : defaultHeaderMap.entrySet()) {
-      String key = entry.getKey();
-      if (!headerParams.containsKey(key)) {
-        String value = entry.getValue();
-        if (value != null) {
-          invocationBuilder = invocationBuilder.header(key, value);
-        }
-      }
-    }
-
     Entity<?> entity = serialize(body, formParams, contentType);
 
     // put all headers in one place
-    Map<String, String> allHeaderParams = new HashMap<>();
-    allHeaderParams.putAll(defaultHeaderMap);
+    Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
     allHeaderParams.putAll(headerParams);
-   
+
     // update different parameters (e.g. headers) for authentication
-    updateParamsForAuth(authNames, queryParams, allHeaderParams, cookieParams, serializeToString(body, formParams, contentType), method, target.getUri());
+    updateParamsForAuth(
+        authNames,
+        queryParams,
+        allHeaderParams,
+        cookieParams,
+        serializeToString(body, formParams, contentType),
+        method,
+        target.getUri());
+
+    for (Entry<String, String> entry : allHeaderParams.entrySet()) {
+      String value = entry.getValue();
+      if (value != null) {
+        invocationBuilder = invocationBuilder.header(entry.getKey(), value);
+      }
+    }
 
     Response response = null;
 
     try {
-      if ("GET".equals(method)) {
-        response = invocationBuilder.get();
-      } else if ("POST".equals(method)) {
-        response = invocationBuilder.post(entity);
-      } else if ("PUT".equals(method)) {
-        response = invocationBuilder.put(entity);
-      } else if ("DELETE".equals(method)) {
-        response = invocationBuilder.method("DELETE", entity);
-      } else if ("PATCH".equals(method)) {
-        response = invocationBuilder.method("PATCH", entity);
-      } else if ("HEAD".equals(method)) {
-        response = invocationBuilder.head();
-      } else if ("OPTIONS".equals(method)) {
-        response = invocationBuilder.options();
-      } else if ("TRACE".equals(method)) {
-        response = invocationBuilder.trace();
-      } else {
-        throw new ApiException(500, "unknown method type " + method);
+      response = sendRequest(method, invocationBuilder, entity);
+
+      // If OAuth is used and a status 401 is received, renew the access token and retry the request
+      if (response.getStatusInfo() == Status.UNAUTHORIZED) {
+        for (String authName : authNames) {
+          Authentication authentication = authentications.get(authName);
+          if (authentication instanceof OAuth) {
+            OAuth2AccessToken accessToken = ((OAuth) authentication).renewAccessToken();
+            if (accessToken != null) {
+              invocationBuilder.header("Authorization", null);
+              invocationBuilder.header("Authorization", "Bearer " + accessToken.getAccessToken());
+              response = sendRequest(method, invocationBuilder, entity);
+            }
+            break;
+          }
+        }
       }
 
       int statusCode = response.getStatusInfo().getStatusCode();
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
-      if (response.getStatus() == Status.NO_CONTENT.getStatusCode()) {
-        return new ApiResponse<>(statusCode, responseHeaders);
+      if (response.getStatusInfo() == Status.NO_CONTENT) {
+        return new ApiResponse<T>(statusCode, responseHeaders);
       } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
-        if (returnType == null)
-          return new ApiResponse<>(statusCode, responseHeaders);
-        else
-          if (schema == null) {
-            return new ApiResponse<>(statusCode, responseHeaders, deserialize(response, returnType));
-          } else { // oneOf/anyOf
-            return new ApiResponse<>(statusCode, responseHeaders, (T)deserializeSchemas(response, schema));
-          }
+        if (returnType == null) return new ApiResponse<T>(statusCode, responseHeaders);
+        else if (schema == null) {
+          return new ApiResponse<T>(statusCode, responseHeaders, deserialize(response, returnType));
+        } else { // oneOf/anyOf
+          return new ApiResponse<T>(
+              statusCode, responseHeaders, (T) deserializeSchemas(response, schema));
+        }
       } else {
         String message = "error";
         String respBody = null;
@@ -1019,18 +1104,32 @@ public class ApiClient {
           }
         }
         throw new ApiException(
-          response.getStatus(),
-          message,
-          buildResponseHeaders(response),
-          respBody);
+            response.getStatus(), message, buildResponseHeaders(response), respBody);
       }
     } finally {
       try {
         response.close();
       } catch (Exception e) {
-        // it's not critical, since the response object is local in method invokeAPI; that's fine, just continue
+        // it's not critical, since the response object is local in method invokeAPI; that's fine,
+        // just continue
       }
     }
+  }
+
+  private Response sendRequest(String method, Invocation.Builder invocationBuilder, Entity<?> entity) {
+    Response response;
+    if ("POST".equals(method)) {
+      response = invocationBuilder.post(entity);
+    } else if ("PUT".equals(method)) {
+      response = invocationBuilder.put(entity);
+    } else if ("DELETE".equals(method)) {
+      response = invocationBuilder.method("DELETE", entity);
+    } else if ("PATCH".equals(method)) {
+      response = invocationBuilder.method("PATCH", entity);
+    } else {
+      response = invocationBuilder.method(method);
+    }
+    return response;
   }
 
   /**

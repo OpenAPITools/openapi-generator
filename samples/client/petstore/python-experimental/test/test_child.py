@@ -64,19 +64,24 @@ class TestChild(unittest.TestCase):
 
         # setting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             child['invalid_variable'] = 'some value'
         # with setattr
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             setattr(child, 'invalid_variable', 'some value')
+
+        # with hasattr
+        self.assertFalse(hasattr(child, 'invalid_variable'))
 
         # getting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             invalid_variable = child['invalid_variable']
         # with getattr
-        with self.assertRaises(petstore_api.ApiKeyError):
-            invalid_variable = getattr(child, 'invalid_variable', 'some value')
+        self.assertEquals(getattr(child, 'invalid_variable', 'some value'), 'some value')
+
+        with self.assertRaises(AttributeError):
+            invalid_variable = getattr(child, 'invalid_variable')
 
         # make sure that the ModelComposed class properties are correct
         # model.composed_schemas() stores the anyOf/allOf/oneOf info

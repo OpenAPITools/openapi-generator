@@ -2553,36 +2553,60 @@ public class DefaultCodegen implements CodegenConfig {
             if (composedSchema.getOneOf() != null && composedSchema.getOneOf().size() != 0) {
                 // All oneOf definitions must contain the discriminator
                 Integer hasDiscriminatorCnt = 0;
+                Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
-                for (Schema oneOf : composedSchema.getOneOf()) {
+                for  (Schema oneOf: composedSchema.getOneOf()) {
+                    if (ModelUtils.isNullType(oneOf)) {
+                        // The null type does not have a discriminator. Skip.
+                        hasNullTypeCnt++;
+                        continue;
+                    }
                     foundDisc = recursiveGetDiscriminator(oneOf, openAPI);
                     if (foundDisc != null) {
                         discriminatorsPropNames.add(foundDisc.getPropertyName());
                         hasDiscriminatorCnt++;
                     }
                 }
-                if (hasDiscriminatorCnt == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
+                if (discriminatorsPropNames.size() > 1) {
+                    throw new RuntimeException("The oneOf schemas have conflicting discriminator property names. " +
+                        "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
+                }
+                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
                 }
+                // If the scenario when oneOf has two children and one of them is the 'null' type,
+                // there is no need for a discriminator.
             }
             if (composedSchema.getAnyOf() != null && composedSchema.getAnyOf().size() != 0) {
                 // All anyOf definitions must contain the discriminator because a min of one must be selected
                 Integer hasDiscriminatorCnt = 0;
+                Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
-                for (Schema anyOf : composedSchema.getAnyOf()) {
+                for  (Schema anyOf: composedSchema.getAnyOf()) {
+                    if (ModelUtils.isNullType(anyOf)) {
+                        // The null type does not have a discriminator. Skip.
+                        hasNullTypeCnt++;
+                        continue;
+                    }
                     foundDisc = recursiveGetDiscriminator(anyOf, openAPI);
                     if (foundDisc != null) {
                         discriminatorsPropNames.add(foundDisc.getPropertyName());
                         hasDiscriminatorCnt++;
                     }
                 }
-                if (hasDiscriminatorCnt == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
+                if (discriminatorsPropNames.size() > 1) {
+                    throw new RuntimeException("The anyOf schemas have conflicting discriminator property names. " +
+                        "anyOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
+                }
+                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
                 }
+                // If the scenario when anyOf has two children and one of them is the 'null' type,
+                // there is no need for a discriminator.
             }
         }
         return null;
@@ -2611,7 +2635,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (schemaList == null) {
                 continue;
             }
-            for (Schema sc : schemaList) {
+            for  (Schema sc: schemaList) {
+                if (ModelUtils.isNullType(sc)) {
+                    continue;
+                }
                 String ref = sc.get$ref();
                 if (ref == null) {
                     // for schemas with no ref, it is not possible to build the discriminator map
@@ -3110,9 +3137,15 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
             property.baseType = getSchemaType(p);
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
         } else if (ModelUtils.isAnyTypeSchema(p)) {
             property.isAnyType = true;
             property.baseType = getSchemaType(p);
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
         } else { // model
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
