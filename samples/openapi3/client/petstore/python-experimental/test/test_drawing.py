@@ -42,6 +42,14 @@ class TestDrawing(unittest.TestCase):
                     shape_type="Triangle",
                     triangle_type="EquilateralTriangle"
                 ),
+                petstore_api.Triangle(
+                    shape_type="Triangle",
+                    triangle_type="IsoscelesTriangle"
+                ),
+                petstore_api.EquilateralTriangle(
+                    shape_type="Triangle",
+                    triangle_type="EquilateralTriangle"
+                ),
                 petstore_api.Shape(
                     shape_type="Quadrilateral",
                     quadrilateral_type="ComplexQuadrilateral"
@@ -50,9 +58,11 @@ class TestDrawing(unittest.TestCase):
         )
         assert isinstance(inst, petstore_api.Drawing)
         assert isinstance(inst.main_shape, petstore_api.IsoscelesTriangle)
-        self.assertEqual(len(inst.shapes), 2)
+        self.assertEqual(len(inst.shapes), 4)
         assert isinstance(inst.shapes[0], petstore_api.EquilateralTriangle)
-        assert isinstance(inst.shapes[1], petstore_api.ComplexQuadrilateral)
+        assert isinstance(inst.shapes[1], petstore_api.IsoscelesTriangle)
+        assert isinstance(inst.shapes[2], petstore_api.EquilateralTriangle)
+        assert isinstance(inst.shapes[3], petstore_api.ComplexQuadrilateral)
 
 if __name__ == '__main__':
     unittest.main()
