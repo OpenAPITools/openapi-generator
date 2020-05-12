@@ -128,7 +128,7 @@ public interface {{classname}} {
     {{/implicitHeaders}}
     {{#hasAuthMethods}}
         {{#useSpringSecurity}}
-    @PreAuthorize("{{#authMethods}}{{#isOAuth}}({{#scopes}}hasAuthority('{{scope}}'){{#hasMore}} and {{/hasMore}}{{/scopes}}{{/isOAuth}}{{#isBasicBearer}}{{#scopes}}hasAuthority('{{scope}}'){{#hasMore}} and {{/hasMore}}{{/scopes}}{{^scopes}}){{/scopes}}{{/isBasicBearer}}{{#hasMore}} or {{/hasMore}}{{/authMethods}}")
+    @PreAuthorize("{{#authMethods}}{{#isOAuth}}({{#scopes}}hasAuthority('{{scope}}'){{#hasMore}} and {{/hasMore}}{{/scopes}}){{/isOAuth}}{{#isBasicBearer}}({{#scopes}}hasAuthority('{{scope}}'){{#hasMore}} and {{/hasMore}}{{/scopes}}){{/isBasicBearer}}{{#hasMore}} or {{/hasMore}}{{/authMethods}}")
         {{/useSpringSecurity}}
     {{/hasAuthMethods}}
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}{{#hasProduces}}

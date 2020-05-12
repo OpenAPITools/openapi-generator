@@ -313,7 +313,7 @@ public interface FakeApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    @PreAuthorize("(hasAuthority('write:pets') and hasAuthority('read:pets')")
+    @PreAuthorize("(hasAuthority('write:pets') and hasAuthority('read:pets'))")
     @RequestMapping(value = "/fake/{petId}/uploadImageWithRequiredFile",
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
