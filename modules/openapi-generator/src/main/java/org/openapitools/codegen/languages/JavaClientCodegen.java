@@ -173,6 +173,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
+
+        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
+        // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
+        // and the discriminator mapping schemas in the OAS document.
+        this.setLegacyDiscriminatorBehavior(false);
     }
 
     @Override
@@ -606,7 +611,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 HashMap<String, Object> h = (HashMap<String, Object>) o;
                 CodegenModel m = (CodegenModel) h.get("model");
                 modelMaps.put(m.classname, m);
-
             }
 
             // check if return type is oneOf/anyeOf model
@@ -809,6 +813,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             //List<String> impl = (List<String>) cm.getVendorExtensions().get("x-implements");
             if (JERSEY2.equals(getLibrary())) {
                 cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
+
+                if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                    // if oneOf contains "null" type
+                    cm.isNullable = true;
+                    cm.oneOf.remove("ModelNull");
+                }
+
+                if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                    // if anyOf contains "null" type
+                    cm.isNullable = true;
+                    cm.anyOf.remove("ModelNull");
+                }
             }
             if (this.parcelableModel) {
                 ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");

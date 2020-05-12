@@ -33,6 +33,7 @@ import org.hibernate.validator.constraints.*;
  * BigCat
  */
 
+
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -89,6 +90,9 @@ public class BigCat extends Cat {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
+  public BigCat() {
+    this.className = this.getClass().getSimpleName();
+  }
 
   public BigCat kind(KindEnum kind) {
     
