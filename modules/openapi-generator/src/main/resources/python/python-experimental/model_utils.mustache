@@ -893,11 +893,9 @@ def is_type_nullable(input_type):
     if issubclass(input_type, ModelComposed):
         # If oneOf/anyOf, check if the 'null' type is one of the allowed types.            
         for t in input_type._composed_schemas.get('oneOf', ()):
-            if t is none_type:
-                return True
+            return is_type_nullable(t)
         for t in input_type._composed_schemas.get('anyOf', ()):
-            if t is none_type:
-                return True
+            return is_type_nullable(t)
     return False
 
 
@@ -916,11 +914,11 @@ def is_valid_type(input_class_simple, valid_classes):
             issubclass(input_class_simple, OpenApiModel) or
             input_class_simple is none_type):
         for valid_class in valid_classes:
-            if not valid_class.discriminator:
-                continue
             if input_class_simple is none_type and is_type_nullable(valid_class):
                 # Schema is oneOf/anyOf and the 'null' type is one of the allowed types.            
                 return True
+            if not valid_class.discriminator:
+                continue
             discr_propertyname_py = list(valid_class.discriminator.keys())[0]
             discriminator_classes = (
                 valid_class.discriminator[discr_propertyname_py].values()
