@@ -14,30 +14,25 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import org.openapitools.client.model.OuterEnum;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * EnumTest
  */
-@JsonPropertyOrder({
-  EnumTest.JSON_PROPERTY_ENUM_STRING,
-  EnumTest.JSON_PROPERTY_ENUM_STRING_REQUIRED,
-  EnumTest.JSON_PROPERTY_ENUM_INTEGER,
-  EnumTest.JSON_PROPERTY_ENUM_NUMBER,
-  EnumTest.JSON_PROPERTY_OUTER_ENUM
-})
 
 public class EnumTest {
   /**
    * Gets or Sets enumString
    */
+  @JsonAdapter(EnumStringEnum.Adapter.class)
   public enum EnumStringEnum {
     UPPER("UPPER"),
     
@@ -51,7 +46,6 @@ public class EnumTest {
       this.value = value;
     }
 
-    @JsonValue
     public String getValue() {
       return value;
     }
@@ -61,7 +55,6 @@ public class EnumTest {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static EnumStringEnum fromValue(String value) {
       for (EnumStringEnum b : EnumStringEnum.values()) {
         if (b.value.equals(value)) {
@@ -70,14 +63,29 @@ public class EnumTest {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
+
+    public static class Adapter extends TypeAdapter<EnumStringEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final EnumStringEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public EnumStringEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return EnumStringEnum.fromValue(value);
+      }
+    }
   }
 
-  public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
+  public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
+  @SerializedName(SERIALIZED_NAME_ENUM_STRING)
   private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
    */
+  @JsonAdapter(EnumStringRequiredEnum.Adapter.class)
   public enum EnumStringRequiredEnum {
     UPPER("UPPER"),
     
@@ -91,7 +99,6 @@ public class EnumTest {
       this.value = value;
     }
 
-    @JsonValue
     public String getValue() {
       return value;
     }
@@ -101,7 +108,6 @@ public class EnumTest {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static EnumStringRequiredEnum fromValue(String value) {
       for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
         if (b.value.equals(value)) {
@@ -110,14 +116,29 @@ public class EnumTest {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
+
+    public static class Adapter extends TypeAdapter<EnumStringRequiredEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final EnumStringRequiredEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public EnumStringRequiredEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return EnumStringRequiredEnum.fromValue(value);
+      }
+    }
   }
 
-  public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
+  public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
+  @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
    */
+  @JsonAdapter(EnumIntegerEnum.Adapter.class)
   public enum EnumIntegerEnum {
     NUMBER_1(1),
     
@@ -129,7 +150,6 @@ public class EnumTest {
       this.value = value;
     }
 
-    @JsonValue
     public Integer getValue() {
       return value;
     }
@@ -139,7 +159,6 @@ public class EnumTest {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static EnumIntegerEnum fromValue(Integer value) {
       for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
         if (b.value.equals(value)) {
@@ -148,14 +167,29 @@ public class EnumTest {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
+
+    public static class Adapter extends TypeAdapter<EnumIntegerEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final EnumIntegerEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public EnumIntegerEnum read(final JsonReader jsonReader) throws IOException {
+        Integer value =  jsonReader.nextInt();
+        return EnumIntegerEnum.fromValue(value);
+      }
+    }
   }
 
-  public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
+  public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
+  @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
   private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
    */
+  @JsonAdapter(EnumNumberEnum.Adapter.class)
   public enum EnumNumberEnum {
     NUMBER_1_DOT_1(1.1),
     
@@ -167,7 +201,6 @@ public class EnumTest {
       this.value = value;
     }
 
-    @JsonValue
     public Double getValue() {
       return value;
     }
@@ -177,7 +210,6 @@ public class EnumTest {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static EnumNumberEnum fromValue(Double value) {
       for (EnumNumberEnum b : EnumNumberEnum.values()) {
         if (b.value.equals(value)) {
@@ -186,12 +218,27 @@ public class EnumTest {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
+
+    public static class Adapter extends TypeAdapter<EnumNumberEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final EnumNumberEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public EnumNumberEnum read(final JsonReader jsonReader) throws IOException {
+        Double value =  jsonReader.nextDouble();
+        return EnumNumberEnum.fromValue(value);
+      }
+    }
   }
 
-  public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
+  public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
+  @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
   private EnumNumberEnum enumNumber;
 
-  public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
+  public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
+  @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum;
 
 
@@ -207,8 +254,6 @@ public class EnumTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -231,8 +276,6 @@ public class EnumTest {
    * @return enumStringRequired
   **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -256,8 +299,6 @@ public class EnumTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -281,8 +322,6 @@ public class EnumTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -306,8 +345,6 @@ public class EnumTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OuterEnum getOuterEnum() {
     return outerEnum;
