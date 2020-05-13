@@ -177,15 +177,13 @@ export interface RawAjaxResponse<T> extends AjaxResponse {
     response: T;
 }
 
-export const encodeURI = (value: any) => encodeURIComponent(String(value));
+export const encodeURI = (value: any) => encodeURIComponent(`${value}`);
 
-const queryString = (params: HttpQuery): string => Object.keys(params)
-    .map((key) => {
-        const value = params[key];
-        return (value instanceof Array)
-            ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
-            : `${encodeURI(key)}=${encodeURI(value)}`;
-    })
+const queryString = (params: HttpQuery): string => Object.entries(params)
+    .map(([key, value]) => value instanceof Array
+        ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
+        : `${encodeURI(key)}=${encodeURI(value)}`
+    )
     .join('&');
 
 // alias fallback for not being a breaking change

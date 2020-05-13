@@ -92,7 +92,7 @@ export class BaseAPI {
         );
     }
 
-    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType, progressSubscriber }: RequestOpts): RequestArgs => {
+    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType }: RequestOpts): RequestArgs => {
         // only add the queryString to the URL if there are query parameters.
         // this is done to avoid urls ending with a '?' character which buggy webservers
         // do not handle correctly sometimes.
@@ -104,7 +104,6 @@ export class BaseAPI {
             headers,
             body: body instanceof FormData ? body : JSON.stringify(body),
             responseType: responseType ?? 'json',
-            progressSubscriber,
         };
     }
 
@@ -160,7 +159,6 @@ export interface RequestOpts extends AjaxRequest {
     headers?: HttpHeaders;
     body?: HttpBody;
     responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
-    progressSubscriber?: Subscriber<ProgressEvent>;
 }
 
 export interface ResponseOpts {
@@ -168,7 +166,6 @@ export interface ResponseOpts {
 }
 
 export interface OperationOpts {
-    progressSubscriber?: Subscriber<ProgressEvent>;
     responseOpts?: ResponseOpts;
 }
 
@@ -177,15 +174,13 @@ export interface RawAjaxResponse<T> extends AjaxResponse {
     response: T;
 }
 
-export const encodeURI = (value: any) => encodeURIComponent(String(value));
+export const encodeURI = (value: any) => encodeURIComponent(`${value}`);
 
-const queryString = (params: HttpQuery): string => Object.keys(params)
-    .map((key) => {
-        const value = params[key];
-        return (value instanceof Array)
-            ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
-            : `${encodeURI(key)}=${encodeURI(value)}`;
-    })
+const queryString = (params: HttpQuery): string => Object.entries(params)
+    .map(([key, value]) => value instanceof Array
+        ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
+        : `${encodeURI(key)}=${encodeURI(value)}`
+    )
     .join('&');
 
 // alias fallback for not being a breaking change
