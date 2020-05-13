@@ -176,3 +176,27 @@ class DeserializationTests(unittest.TestCase):
 
         inst = petstore_api.FruitReq(None)
         self.assertIsNone(inst)
+
+    def test_deserialize_all_of_with_additional_properties(self):
+        """
+        deserialize data.
+        """
+
+        # Dog is allOf with two child schemas.
+        # The OAS document for Dog does not specify the 'additionalProperties' keyword. 
+        # The additionalProperties keyword is used to control the handling of extra stuff,
+        # that is, properties whose names are not listed in the properties keyword.
+        # By default any additional properties are allowed.
+        data = {
+            'className': 'Dog',
+            'color': 'brown',
+            'breed': 'golden retriever',
+            # Below are additional, undeclared properties
+            'group': 'Terrier Group',
+            'size': 'medium',
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Dog,), True)
+        self.assertEqual(type(deserialized), petstore_api.Dog)
+        self.assertEqual(deserialized.class_name, 'Dog')
+        self.assertEqual(deserialized.breed, 'golden retriever')
