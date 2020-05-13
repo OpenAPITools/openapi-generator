@@ -81,7 +81,7 @@ export class BaseAPI {
         );
     }
 
-    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType, progressSubscriber }: RequestOpts): RequestArgs => {
+    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType{{#withProgressSubscriber}}, progressSubscriber{{/withProgressSubscriber}} }: RequestOpts): RequestArgs => {
         // only add the queryString to the URL if there are query parameters.
         // this is done to avoid urls ending with a '?' character which buggy webservers
         // do not handle correctly sometimes.
@@ -93,7 +93,9 @@ export class BaseAPI {
             headers,
             body: body instanceof FormData ? body : JSON.stringify(body),
             responseType: responseType ?? 'json',
+{{#withProgressSubscriber}}
             progressSubscriber,
+{{/withProgressSubscriber}}
         };
     }
 
@@ -149,7 +151,9 @@ export interface RequestOpts extends AjaxRequest {
     headers?: HttpHeaders;
     body?: HttpBody;
     responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
+{{#withProgressSubscriber}}
     progressSubscriber?: Subscriber<ProgressEvent>;
+{{/withProgressSubscriber}}
 }
 
 export interface ResponseOpts {
@@ -157,7 +161,9 @@ export interface ResponseOpts {
 }
 
 export interface OperationOpts {
+{{#withProgressSubscriber}}
     progressSubscriber?: Subscriber<ProgressEvent>;
+{{/withProgressSubscriber}}
     responseOpts?: ResponseOpts;
 }
 

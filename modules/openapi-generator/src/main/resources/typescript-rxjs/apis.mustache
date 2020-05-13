@@ -38,7 +38,9 @@ export class {{classname}} extends BaseAPI {
      {{/summary}}
      */
     {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>
+{{#withProgressSubscriber}}
     {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>
+{{/withProgressSubscriber}}
     {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}RawAjaxResponse<{{{returnType}}}>{{/returnType}}{{^returnType}}void | RawAjaxResponse<void>{{/returnType}}>
     {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}{{{returnType}}} | RawAjaxResponse<{{{returnType}}}>{{/returnType}}{{^returnType}}void | RawAjaxResponse<void>{{/returnType}}> {
         {{#hasParams}}
@@ -209,7 +211,9 @@ export class {{classname}} extends BaseAPI {
 {{#isResponseFile}}
             responseType: 'blob',
 {{/isResponseFile}}
+{{#withProgressSubscriber}}
             progressSubscriber: opts?.progressSubscriber,
+{{/withProgressSubscriber}}
         }, opts?.responseOpts);
     };
 
