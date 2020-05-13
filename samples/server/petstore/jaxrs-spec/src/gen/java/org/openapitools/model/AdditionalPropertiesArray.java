@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class AdditionalPropertiesArray extends HashMap<String, List> implements Serializable {
+public class AdditionalPropertiesArray extends HashMap<String, List> implements Serializable  {
   
   private @Valid String name;
 
@@ -82,4 +82,6 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
 
 
 }
+
+
 

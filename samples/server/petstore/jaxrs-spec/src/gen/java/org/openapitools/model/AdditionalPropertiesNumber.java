@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable {
+public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable  {
   
   private @Valid String name;
 
@@ -82,4 +82,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
 
 
 }
+
+
 

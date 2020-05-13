@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Pet  implements Serializable {
+public class Pet implements Serializable  {
   
   private @Valid Long id;
   private @Valid Category category;
@@ -223,4 +223,6 @@ public enum StatusEnum {
 
 
 }
+
+
 

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class TypeHolderExample  implements Serializable {
+public class TypeHolderExample implements Serializable  {
   
   private @Valid String stringItem;
   private @Valid BigDecimal numberItem;
@@ -192,4 +192,6 @@ public class TypeHolderExample  implements Serializable {
 
 
 }
+
+
 

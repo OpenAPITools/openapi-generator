@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class AdditionalPropertiesClass  implements Serializable {
+public class AdditionalPropertiesClass implements Serializable  {
   
   private @Valid Map<String, String> mapString = new HashMap<String, String>();
   private @Valid Map<String, BigDecimal> mapNumber = new HashMap<String, BigDecimal>();
@@ -292,4 +292,6 @@ public class AdditionalPropertiesClass  implements Serializable {
 
 
 }
+
+
 

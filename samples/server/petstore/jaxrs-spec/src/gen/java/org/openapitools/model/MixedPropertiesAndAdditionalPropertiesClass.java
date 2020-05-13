@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
+public class MixedPropertiesAndAdditionalPropertiesClass implements Serializable  {
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
@@ -126,4 +126,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
 
 }
+
+
 

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class EnumTest  implements Serializable {
+public class EnumTest implements Serializable  {
   
 
 public enum EnumStringEnum {
@@ -296,4 +296,6 @@ public enum EnumNumberEnum {
 
 
 }
+
+
 

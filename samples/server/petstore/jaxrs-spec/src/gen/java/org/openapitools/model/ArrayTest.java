@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class ArrayTest  implements Serializable {
+public class ArrayTest implements Serializable  {
   
   private @Valid List<String> arrayOfString = new ArrayList<String>();
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
@@ -123,4 +123,6 @@ public class ArrayTest  implements Serializable {
 
 
 }
+
+
 

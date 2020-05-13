@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class XmlItem  implements Serializable {
+public class XmlItem implements Serializable  {
   
   private @Valid String attributeString;
   private @Valid BigDecimal attributeNumber;
@@ -669,4 +669,6 @@ public class XmlItem  implements Serializable {
 
 
 }
+
+
 

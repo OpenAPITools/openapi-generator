@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Category  implements Serializable {
+public class Category implements Serializable  {
   
   private @Valid Long id;
   private @Valid String name = "default-name";
@@ -100,4 +100,6 @@ public class Category  implements Serializable {
 
 
 }
+
+
 
