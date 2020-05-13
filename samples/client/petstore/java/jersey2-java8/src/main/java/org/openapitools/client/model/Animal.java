@@ -15,41 +15,35 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Animal
  */
-@JsonPropertyOrder({
-  Animal.JSON_PROPERTY_CLASS_NAME,
-  Animal.JSON_PROPERTY_COLOR
-})
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
-})
 
 public class Animal {
-  public static final String JSON_PROPERTY_CLASS_NAME = "className";
-  private String className;
+  public static final String SERIALIZED_NAME_CLASS_NAME = "className";
+  @SerializedName(SERIALIZED_NAME_CLASS_NAME)
+  protected String className;
 
-  public static final String JSON_PROPERTY_COLOR = "color";
+  public static final String SERIALIZED_NAME_COLOR = "color";
+  @SerializedName(SERIALIZED_NAME_COLOR)
   private String color = "red";
 
+  public Animal() {
+    this.className = this.getClass().getSimpleName();
+  }
 
   public Animal className(String className) {
     
@@ -62,8 +56,6 @@ public class Animal {
    * @return className
   **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getClassName() {
     return className;
@@ -87,8 +79,6 @@ public class Animal {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_COLOR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getColor() {
     return color;
