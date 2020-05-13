@@ -29,6 +29,12 @@ elif [ "$NODE_INDEX" = "2" ]; then
   if [[ $project_version == *"-SNAPSHOT" ]]; then
     echo "Running node $NODE_INDEX to test ensure-up-to-date"
     java -version
+    # Install golang version 1.14
+    go version
+    sudo mkdir /usr/local/go1.14
+    wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
+    export PATH="/usr/local/go1.14/go/bin:$PATH"
+    go version
 
     # clear any changes to the samples
     git checkout -- .

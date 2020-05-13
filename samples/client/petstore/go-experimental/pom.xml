@@ -69,6 +69,20 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>go-get-gomock</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>go</executable>
+                            <arguments>
+                                <argument>get</argument>
+                                <argument>github.com/golang/mock/gomock</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>go-test</id>
                         <phase>integration-test</phase>
                         <goals>

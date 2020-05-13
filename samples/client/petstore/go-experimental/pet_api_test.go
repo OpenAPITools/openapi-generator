@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"os"
 	"testing"
 
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
 	sw "./go-petstore"
@@ -40,6 +42,27 @@ func TestAddPet(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(r)
 	}
+}
+
+func TestAddPetMock(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()	// Only needed for go versions < 1.14
+	mockApi := sw.NewMockPetApi(ctrl)
+
+	mockApi.EXPECT().
+		AddPetGetRequest(gomock.Any()).
+		Return(sw.ApiAddPetRequest{}).
+		MinTimes(1)	// ensure mock method is called at least once
+
+	mockApi.EXPECT().
+		AddPetExecute(gomock.Any()).
+		Return(&http.Response{StatusCode:200}, nil).
+		MinTimes(1)
+
+	actualApi := client.PetApi
+	client.PetApi = mockApi
+	TestAddPet(t)
+	client.PetApi = actualApi
 }
 
 func TestFindPetsByStatusWithMissingParam(t *testing.T) {

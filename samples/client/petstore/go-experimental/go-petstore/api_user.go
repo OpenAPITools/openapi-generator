@@ -22,6 +22,113 @@ var (
 	_ _context.Context
 )
 
+  type UserApi interface {
+  /*
+   * CreateUser Create user
+   * This can only be done by the logged in user.
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return apiCreateUserRequest
+   */
+  CreateUserGetRequest(ctx _context.Context) ApiCreateUserRequest
+
+  /*
+   * Execute executes the request
+   */
+  CreateUserExecute(r ApiCreateUserRequest) (*_nethttp.Response, error)
+
+  /*
+   * CreateUsersWithArrayInput Creates list of users with given input array
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return apiCreateUsersWithArrayInputRequest
+   */
+  CreateUsersWithArrayInputGetRequest(ctx _context.Context) ApiCreateUsersWithArrayInputRequest
+
+  /*
+   * Execute executes the request
+   */
+  CreateUsersWithArrayInputExecute(r ApiCreateUsersWithArrayInputRequest) (*_nethttp.Response, error)
+
+  /*
+   * CreateUsersWithListInput Creates list of users with given input array
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return apiCreateUsersWithListInputRequest
+   */
+  CreateUsersWithListInputGetRequest(ctx _context.Context) ApiCreateUsersWithListInputRequest
+
+  /*
+   * Execute executes the request
+   */
+  CreateUsersWithListInputExecute(r ApiCreateUsersWithListInputRequest) (*_nethttp.Response, error)
+
+  /*
+   * DeleteUser Delete user
+   * This can only be done by the logged in user.
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @param username The name that needs to be deleted
+   * @return apiDeleteUserRequest
+   */
+  DeleteUserGetRequest(ctx _context.Context, username string) ApiDeleteUserRequest
+
+  /*
+   * Execute executes the request
+   */
+  DeleteUserExecute(r ApiDeleteUserRequest) (*_nethttp.Response, error)
+
+  /*
+   * GetUserByName Get user by user name
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return apiGetUserByNameRequest
+   */
+  GetUserByNameGetRequest(ctx _context.Context, username string) ApiGetUserByNameRequest
+
+  /*
+   * Execute executes the request
+   * @return User
+   */
+  GetUserByNameExecute(r ApiGetUserByNameRequest) (User, *_nethttp.Response, error)
+
+  /*
+   * LoginUser Logs user into the system
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return apiLoginUserRequest
+   */
+  LoginUserGetRequest(ctx _context.Context) ApiLoginUserRequest
+
+  /*
+   * Execute executes the request
+   * @return string
+   */
+  LoginUserExecute(r ApiLoginUserRequest) (string, *_nethttp.Response, error)
+
+  /*
+   * LogoutUser Logs out current logged in user session
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return apiLogoutUserRequest
+   */
+  LogoutUserGetRequest(ctx _context.Context) ApiLogoutUserRequest
+
+  /*
+   * Execute executes the request
+   */
+  LogoutUserExecute(r ApiLogoutUserRequest) (*_nethttp.Response, error)
+
+  /*
+   * UpdateUser Updated user
+   * This can only be done by the logged in user.
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @param username name that need to be deleted
+   * @return apiUpdateUserRequest
+   */
+  UpdateUserGetRequest(ctx _context.Context, username string) ApiUpdateUserRequest
+
+  /*
+   * Execute executes the request
+   */
+  UpdateUserExecute(r ApiUpdateUserRequest) (*_nethttp.Response, error)
+
+  }
+
 // UserApiService UserApi service
 type UserApiService service
 

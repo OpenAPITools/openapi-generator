@@ -22,6 +22,65 @@ var (
 	_ _context.Context
 )
 
+  type StoreApi interface {
+  /*
+   * DeleteOrder Delete purchase order by ID
+   * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @param orderId ID of the order that needs to be deleted
+   * @return apiDeleteOrderRequest
+   */
+  DeleteOrderGetRequest(ctx _context.Context, orderId string) ApiDeleteOrderRequest
+
+  /*
+   * Execute executes the request
+   */
+  DeleteOrderExecute(r ApiDeleteOrderRequest) (*_nethttp.Response, error)
+
+  /*
+   * GetInventory Returns pet inventories by status
+   * Returns a map of status codes to quantities
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return apiGetInventoryRequest
+   */
+  GetInventoryGetRequest(ctx _context.Context) ApiGetInventoryRequest
+
+  /*
+   * Execute executes the request
+   * @return map[string]int32
+   */
+  GetInventoryExecute(r ApiGetInventoryRequest) (map[string]int32, *_nethttp.Response, error)
+
+  /*
+   * GetOrderById Find purchase order by ID
+   * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @param orderId ID of pet that needs to be fetched
+   * @return apiGetOrderByIdRequest
+   */
+  GetOrderByIdGetRequest(ctx _context.Context, orderId int64) ApiGetOrderByIdRequest
+
+  /*
+   * Execute executes the request
+   * @return Order
+   */
+  GetOrderByIdExecute(r ApiGetOrderByIdRequest) (Order, *_nethttp.Response, error)
+
+  /*
+   * PlaceOrder Place an order for a pet
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return apiPlaceOrderRequest
+   */
+  PlaceOrderGetRequest(ctx _context.Context) ApiPlaceOrderRequest
+
+  /*
+   * Execute executes the request
+   * @return Order
+   */
+  PlaceOrderExecute(r ApiPlaceOrderRequest) (Order, *_nethttp.Response, error)
+
+  }
+
 // StoreApiService StoreApi service
 type StoreApiService service
 
