@@ -414,16 +414,11 @@ namespace Org.OpenAPITools.Client
             InterceptRequest(req);
 
             IRestResponse<T> response;
-            if (configuration.RetryStatusCodes != null)	
+            if (configuration.RetryPolicy != null)	
             {
-                Random jitterer = new Random();
-                var policy = Policy
-                    .HandleResult<IRestResponse<T>>(resp => (configuration.RetryStatusCodes.Contains(resp.StatusCode)))
-                    .WaitAndRetry(configuration.MaxRetries, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
-                                                          + TimeSpan.FromMilliseconds(jitterer.Next(0, 1000))
-                     );
-                var policyResult = policy.ExecuteAndCapture(() => client.Execute<T>(req));
-                response = (policyResult.Outcome == OutcomeType.Successful) ? policyResult.Result : new RestResponse<T>
+                var policy = configuration.RetryPolicy;
+                var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
                 {
                     Request = req,
                     ErrorException = policyResult.FinalException
@@ -503,16 +498,11 @@ namespace Org.OpenAPITools.Client
             InterceptRequest(req);
 
             IRestResponse<T> response;
-            if (configuration.RetryStatusCodes != null)
+            if (configuration.RetryPolicyAsync != null)
             {
-                Random jitterer = new Random();
-                var policy = Policy
-                    .HandleResult<IRestResponse<T>>(resp => (configuration.RetryStatusCodes.Contains(resp.StatusCode)))
-                    .WaitAndRetryAsync(configuration.MaxRetries, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
-                                                          + TimeSpan.FromMilliseconds(jitterer.Next(0, 1000))
-                     );
-                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync<T>(req));
-                response = (policyResult.Outcome == OutcomeType.Successful) ? policyResult.Result : new RestResponse<T>
+                var policy = configuration.RetryPolicyAsync;
+                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync(req));
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
                 {
                     Request = req,
                     ErrorException = policyResult.FinalException

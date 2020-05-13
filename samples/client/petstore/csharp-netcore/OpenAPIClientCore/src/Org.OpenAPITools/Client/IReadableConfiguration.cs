@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using Polly;
+using Polly.Retry;
+using RestSharp;
 
 namespace Org.OpenAPITools.Client
 {
@@ -109,16 +111,16 @@ namespace Org.OpenAPITools.Client
         X509CertificateCollection ClientCertificates { get; }
 
         /// <summary>
-        /// Status codes to apply the retry policy
+        /// Gets the async version of Polly retry policy to be applied for retrying requests
         /// </summary>
-        /// <value>List of http status codes.</value>
-        IList<HttpStatusCode> RetryStatusCodes { get;}
+        /// <value>Async RetryPolicy</value>
+        AsyncRetryPolicy<IRestResponse> RetryPolicyAsync { get; set; }
 
         /// <summary>
-        /// Maximum number of retry attempts to make on given retry status codes.
+        /// Gets the Polly retry policy to be applied for retrying requests
         /// </summary>
-        /// <value>Maximum number of retries</value>
-        int MaxRetries { get;}
+        /// <value>RetryPolicy</value>
+        RetryPolicy<IRestResponse> RetryPolicy { get; set; }
 
     }
 }

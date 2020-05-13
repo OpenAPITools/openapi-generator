@@ -19,6 +19,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Net;
 using Polly;
+using Polly.Retry;
+using RestSharp;
 
 namespace Org.OpenAPITools.Client
 {
@@ -342,16 +344,16 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Gets or sets the status codes for retry policy.
+        /// Get or set the async version of Polly retry policy to be applied for retrying requests
         /// </summary>
-        /// <value>List of http status codes</value>
-        public IList<HttpStatusCode> RetryStatusCodes { get; set; }
+        /// <value>Async RetryPolicy</value>
+        public AsyncRetryPolicy<IRestResponse> RetryPolicyAsync { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum number of retry attempts on the retry status codes.
+        /// Get or set the Polly retry policy to be applied for retrying requests
         /// </summary>
-        /// <value>Maximum number of retries</value>
-        public int MaxRetries {get; set;}
+        /// <value>RetryPolicy</value>
+        public RetryPolicy<IRestResponse> RetryPolicy { get; set; }
 
         #endregion Properties
 
@@ -425,8 +427,8 @@ namespace Org.OpenAPITools.Client
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
                 DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
-                RetryStatusCodes = second.RetryStatusCodes ?? first.RetryStatusCodes,
-                MaxRetries = second.MaxRetries == 0 ? first.MaxRetries : second.MaxRetries
+                RetryPolicyAsync = second.RetryPolicyAsync ?? first.RetryPolicyAsync,
+                RetryPolicy = second.RetryPolicy ?? first.RetryPolicy
             };
             return config;
         }
