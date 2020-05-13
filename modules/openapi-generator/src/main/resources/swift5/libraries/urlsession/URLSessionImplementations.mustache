@@ -24,8 +24,6 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     
-    let progress = Progress()
-    
     private var observation: NSKeyValueObservation?
     
     deinit {
@@ -161,12 +159,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
             }
             
             if #available(iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0, *) {
-                observation = dataTask.progress.observe(\.fractionCompleted) { newProgress, _ in
-                    self.progress.totalUnitCount = newProgress.totalUnitCount
-                    self.progress.completedUnitCount = newProgress.completedUnitCount
-                }
-                
-                onProgressReady?(progress)
+                onProgressReady?(dataTask.progress)
             }
             
             dataTask.resume()

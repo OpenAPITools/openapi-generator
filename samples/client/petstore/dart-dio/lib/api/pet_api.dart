@@ -217,8 +217,8 @@ class PetApi {
             cancelToken: cancelToken,
             ).then((response) {
 
-        var serializer = _serializers.serializerForType(Pet);
-        var data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+                var serializer = _serializers.serializerForType(Pet);
+                var data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<Pet>(
                 data: data,
@@ -345,8 +345,8 @@ class PetApi {
             cancelToken: cancelToken,
             ).then((response) {
 
-        var serializer = _serializers.serializerForType(ApiResponse);
-        var data = _serializers.deserializeWith<ApiResponse>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+                var serializer = _serializers.serializerForType(ApiResponse);
+                var data = _serializers.deserializeWith<ApiResponse>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<ApiResponse>(
                 data: data,

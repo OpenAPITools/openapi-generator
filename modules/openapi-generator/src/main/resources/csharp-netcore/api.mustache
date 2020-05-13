@@ -316,6 +316,13 @@ namespace {{packageName}}.{{apiPackage}}
             {{#authMethods}}
             // authentication ({{name}}) required
             {{#isApiKey}}
+            {{#isKeyInCookie}}
+            // cookie parameter support
+            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
+            {
+                localVarRequestOptions.Cookies.Add(new Cookie("{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
+            }
+            {{/isKeyInCookie}}
             {{#isKeyInHeader}}
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
@@ -479,6 +486,13 @@ namespace {{packageName}}.{{apiPackage}}
             {{#authMethods}}
             // authentication ({{name}}) required
             {{#isApiKey}}
+            {{#isKeyInCookie}}
+            // cookie parameter support
+            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
+            {
+                localVarRequestOptions.Cookies.Add(new Cookie("{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
+            }
+            {{/isKeyInCookie}}
             {{#isKeyInHeader}}
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
