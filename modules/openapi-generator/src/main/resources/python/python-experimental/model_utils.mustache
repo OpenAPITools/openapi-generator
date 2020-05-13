@@ -872,6 +872,31 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
     return input_value
 
 
+def is_valid_type(input_class_simple, valid_classes):
+    """
+    Args:
+        input_class_simple (class): the class of the input_value that we are
+            checking
+        valid_classes (tuple): the valid classes that the current item
+            should be
+    Returns:
+        bool
+    """
+    valid_type = input_class_simple in valid_classes
+    if not valid_type and issubclass(input_class_simple, OpenApiModel):
+        for valid_class in valid_classes:
+            if not valid_class.discriminator:
+                continue
+            discr_propertyname_py = list(valid_class.discriminator.keys())[0]
+            discriminator_classes = (
+                valid_class.discriminator[discr_propertyname_py].values()
+            )
+            valid_type = is_valid_type(input_class_simple, discriminator_classes)
+            if valid_type:
+                return True
+    return valid_type
+
+
 def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                                from_server, _check_type, configuration=None):
     """Raises a TypeError is there is a problem, otherwise returns value
@@ -904,7 +929,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     valid_classes, child_req_types_by_current_type = results
 
     input_class_simple = get_simple_class(input_value)
-    valid_type = input_class_simple in set(valid_classes)
+    valid_type = is_valid_type(input_class_simple, valid_classes)
     if not valid_type:
         if configuration:
             # if input_value is not valid_type try to convert it
