@@ -191,6 +191,7 @@ Class | Method | HTTP request | Description
  - [scalene_triangle.ScaleneTriangle](docs/ScaleneTriangle.md)
  - [shape.Shape](docs/Shape.md)
  - [shape_interface.ShapeInterface](docs/ShapeInterface.md)
+ - [shape_or_null.ShapeOrNull](docs/ShapeOrNull.md)
  - [simple_quadrilateral.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [special_model_name.SpecialModelName](docs/SpecialModelName.md)
  - [string_boolean_map.StringBooleanMap](docs/StringBooleanMap.md)

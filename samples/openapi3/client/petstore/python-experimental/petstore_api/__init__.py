@@ -109,6 +109,7 @@ from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.scalene_triangle import ScaleneTriangle
 from petstore_api.models.shape import Shape
 from petstore_api.models.shape_interface import ShapeInterface
+from petstore_api.models.shape_or_null import ShapeOrNull
 from petstore_api.models.simple_quadrilateral import SimpleQuadrilateral
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.string_boolean_map import StringBooleanMap
