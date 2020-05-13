@@ -1419,7 +1419,7 @@ def get_oneof_instance(self, model_args, constant_args):
             and path to item.
 
     Returns
-        oneof_instance (instance/None)
+        oneof_instance (instance)
     """
     if len(self._composed_schemas['oneOf']) == 0:
         return None
@@ -1428,6 +1428,13 @@ def get_oneof_instance(self, model_args, constant_args):
     # Iterate over each oneOf schema and determine if the input data
     # matches the oneOf schemas.
     for oneof_class in self._composed_schemas['oneOf']:
+        # The composed oneOf schema allows the 'null' type and the input data
+        # is the null value. This is a OAS >= 3.1 feature.
+        if oneof_class is none_type:
+            # skip none_types because we are deserializing dict data.
+            # none_type deserialization is handled in the __new__ method
+            continue
+
         # transform js keys from input data to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
             model_args, oneof_class)
@@ -1473,9 +1480,11 @@ def get_anyof_instances(self, model_args, constant_args):
     Args:
         self: the class we are handling
         model_args (dict): var_name to var_value
-            used to make instances
+            The input data, e.g. the payload that must match at least one
+            anyOf child schema in the OpenAPI document.
         constant_args (dict): var_name to var_value
-            used to make instances
+            args that every model requires, including configuration, server
+            and path to item.
 
     Returns
         anyof_instances (list)
@@ -1485,6 +1494,13 @@ def get_anyof_instances(self, model_args, constant_args):
         return anyof_instances
 
     for anyof_class in self._composed_schemas['anyOf']:
+        # The composed oneOf schema allows the 'null' type and the input data
+        # is the null value. This is a OAS >= 3.1 feature.
+        if anyof_class is none_type:
+            # skip none_types because we are deserializing dict data.
+            # none_type deserialization is handled in the __new__ method
+            continue
+
         # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
 
