@@ -177,6 +177,7 @@ Class | Method | HTTP request | Description
  - [model_return.ModelReturn](docs/ModelReturn.md)
  - [name.Name](docs/Name.md)
  - [nullable_class.NullableClass](docs/NullableClass.md)
+ - [nullable_shape.NullableShape](docs/NullableShape.md)
  - [number_only.NumberOnly](docs/NumberOnly.md)
  - [order.Order](docs/Order.md)
  - [outer_composite.OuterComposite](docs/OuterComposite.md)

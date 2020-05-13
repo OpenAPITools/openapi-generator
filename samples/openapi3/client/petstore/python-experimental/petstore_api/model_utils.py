@@ -1155,7 +1155,6 @@ def is_type_nullable(input_type):
     """
     if input_type is none_type:
         return True
-    # TODO: how do we handle the 'nullable: true' scenario?
     if issubclass(input_type, ModelComposed):
         # If oneOf/anyOf, check if the 'null' type is one of the allowed types.            
         for t in input_type._composed_schemas.get('oneOf', ()):

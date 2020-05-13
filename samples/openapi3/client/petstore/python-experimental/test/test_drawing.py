@@ -27,6 +27,10 @@ class TestDrawing(unittest.TestCase):
         pass
 
     def test_deserialize_oneof_reference(self):
+        """
+        Validate the scenario when the type of a OAS property is 'oneOf', and the 'oneOf'
+        schema is specified as a reference ($ref), not an inline 'oneOf' schema.
+        """
         isosceles_triangle = petstore_api.Shape(
             shape_type="Triangle",
             triangle_type="IsoscelesTriangle"
@@ -78,15 +82,46 @@ class TestDrawing(unittest.TestCase):
                 main_shape=None,
             )
 
-        # Validate we can assign the None value to secondary_shape, because the 'null' type
+
+    def test_deserialize_oneof_reference_with_null_type(self):
+        """
+        Validate the scenario when the type of a OAS property is 'oneOf', and the 'oneOf'
+        schema is specified as a reference ($ref), not an inline 'oneOf' schema.
+        Further, the 'oneOf' schema has a 'null' type child schema (as introduced in
+        OpenAPI 3.1).
+        """
+
+        # Validate we can assign the None value to shape_or_null, because the 'null' type
         # is one of the allowed types in the 'ShapeOrNull' schema.
         inst = petstore_api.Drawing(
-            # 'secondary_shape' has type 'Shape', which is a oneOf [null, triangle, quadrilateral]
-            secondary_shape=None,
+            # 'shape_or_null' has type 'ShapeOrNull', which is a oneOf [null, triangle, quadrilateral]
+            shape_or_null=None,
         )
         assert isinstance(inst, petstore_api.Drawing)
         self.assertFalse(hasattr(inst, 'main_shape'))
-        self.assertIsNone(inst.secondary_shape)
+        self.assertTrue(hasattr(inst, 'shape_or_null'))
+        self.assertIsNone(inst.shape_or_null)
+
+
+    def test_deserialize_oneof_reference_with_nullable_type(self):
+        """
+        Validate the scenario when the type of a OAS property is 'oneOf', and the 'oneOf'
+        schema is specified as a reference ($ref), not an inline 'oneOf' schema.
+        Further, the 'oneOf' schema has the 'nullable' attribute (as introduced in
+        OpenAPI 3.0 and deprecated in 3.1).
+        """
+
+        # Validate we can assign the None value to nullable_shape, because the NullableShape
+        # has the 'nullable: true' attribute.
+        inst = petstore_api.Drawing(
+            # 'nullable_shape' has type 'NullableShape', which is a oneOf [triangle, quadrilateral]
+            # and the 'nullable: true' attribute. 
+            nullable_shape=None,
+        )
+        assert isinstance(inst, petstore_api.Drawing)
+        self.assertFalse(hasattr(inst, 'main_shape'))
+        self.assertTrue(hasattr(inst, 'nullable_shape'))
+        self.assertIsNone(inst.nullable_shape)
 
 
 if __name__ == '__main__':
