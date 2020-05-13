@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class ProcessUtils {
 
+    private static Boolean hasOAuthMethods;
+
     /**
      * Add x-index extension to the model's properties
      *
@@ -53,21 +55,27 @@ public class ProcessUtils {
      * @return True if at least one operation has OAuth security schema defined
      */
     public static boolean hasOAuthMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isOAuth)) {
-                            return true;
+        if (hasOAuthMethods == null) {
+            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            if (operations != null) {
+                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                for (CodegenOperation operation : ops) {
+                    if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
+                        for (CodegenSecurity cs : operation.authMethods) {
+                            if (Boolean.TRUE.equals(cs.isOAuth)) {
+                                hasOAuthMethods = true;
+                                return true;
+                            }
                         }
                     }
                 }
             }
-        }
 
-        return false;
+            hasOAuthMethods = false;
+            return false;
+        } else {
+            return hasOAuthMethods;
+        }
     }
 
     /**
