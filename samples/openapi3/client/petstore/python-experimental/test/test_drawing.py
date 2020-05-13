@@ -27,10 +27,13 @@ class TestDrawing(unittest.TestCase):
         pass
 
     def test_deserialize_oneof_reference(self):
+<<<<<<< HEAD
         """
         Validate the scenario when the type of a OAS property is 'oneOf', and the 'oneOf'
         schema is specified as a reference ($ref), not an inline 'oneOf' schema.
         """
+=======
+>>>>>>> 3ae466e772a3277d19b0d213719935155724aab8
         isosceles_triangle = petstore_api.Shape(
             shape_type="Triangle",
             triangle_type="IsoscelesTriangle"
@@ -68,6 +71,7 @@ class TestDrawing(unittest.TestCase):
         assert isinstance(inst.shapes[2], petstore_api.EquilateralTriangle)
         assert isinstance(inst.shapes[3], petstore_api.ComplexQuadrilateral)
 
+<<<<<<< HEAD
         # Validate we cannot assign the None value to main_shape because the 'null' type
         # is not one of the allowed types in the 'Shape' schema.
         err_msg = ("Invalid type for variable '{}'. "
@@ -124,5 +128,7 @@ class TestDrawing(unittest.TestCase):
         self.assertIsNone(inst.nullable_shape)
 
 
+=======
+>>>>>>> 3ae466e772a3277d19b0d213719935155724aab8
 if __name__ == '__main__':
     unittest.main()

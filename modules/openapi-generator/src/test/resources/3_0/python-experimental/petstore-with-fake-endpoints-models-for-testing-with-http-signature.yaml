@@ -1897,16 +1897,16 @@ components:
       properties:
         mainShape:
           # A property whose value is a 'oneOf' type, and the type is referenced instead
-          # of being define inline. The value cannot be null.
+          # of being defined inline. The value cannot be null.
           $ref: '#/components/schemas/Shape'
         shapeOrNull:
           # A property whose value is a 'oneOf' type, and the type is referenced instead
-          # of being define inline. The value may be null because ShapeOrNull has 'null'
+          # of being defined inline. The value may be null because ShapeOrNull has 'null'
           # type as a child schema of 'oneOf'.
           $ref: '#/components/schemas/ShapeOrNull'
         nullableShape:
           # A property whose value is a 'oneOf' type, and the type is referenced instead
-          # of being define inline. The value may be null because NullableShape has the
+          # of being defined inline. The value may be null because NullableShape has the
           # 'nullable: true' attribute. For this specific scenario this is exactly the
           # same thing as 'shapeOrNull'.
           $ref: '#/components/schemas/NullableShape'
