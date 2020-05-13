@@ -1,6 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import org.commonmark.node.Code;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -57,15 +56,11 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
                 .filter(codegenModel -> !codegenModel.allOf.isEmpty())
                 .collect(Collectors.toList());
 
-        List<CodegenModel> supertypeCodegenModelList = codegenModelList.stream()
-                .filter(codegenModel -> codegenModel.allOf.isEmpty())
-                .collect(Collectors.toList());
 
-
-        List<Object> entities = calculateEntities(nonInlineAllOfCodegenModelList, inlineAllOfCodegenModelList);
+        List<Map<String, Object>> entities = calculateEntities(nonInlineAllOfCodegenModelList, inlineAllOfCodegenModelList);
         objs.put("entities", entities);
 
-        List<Object> relationships = calculateCompositionRelationships(supertypeCodegenModelList);
+        List<Map<String, Object>> relationships = calculateCompositionRelationshipsFrom(entities);
         objs.put("relationships", relationships);
 
         List<Object> inheritances = calculateInheritanceRelationships(subtypeCodegenModelList);
@@ -74,13 +69,13 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         return super.postProcessSupportingFileData(objs);
     }
 
-    private List<Object> calculateEntities(List<CodegenModel> nonInlineAllOfCodegenModelList, List<CodegenModel> inlineAllOfCodegenModelList) {
+    private List<Map<String, Object>> calculateEntities(List<CodegenModel> nonInlineAllOfCodegenModelList, List<CodegenModel> inlineAllOfCodegenModelList) {
         Map<String, CodegenModel> inlineAllOfCodegenModelMap = inlineAllOfCodegenModelList.stream().collect(Collectors.toMap(cm -> cm.getClassname(), cm -> cm));
 
         return nonInlineAllOfCodegenModelList.stream().map(codegenModel -> createEntityFor(codegenModel, inlineAllOfCodegenModelMap)).collect(Collectors.toList());
     }
 
-    private Object createEntityFor(CodegenModel nonInlineAllOfCodegenModel, Map<String, CodegenModel> inlineAllOfCodegenModelMap) {
+    private Map<String, Object> createEntityFor(CodegenModel nonInlineAllOfCodegenModel, Map<String, CodegenModel> inlineAllOfCodegenModelMap) {
         if (nonInlineAllOfCodegenModel.allOf.isEmpty()) {
             return createEntityFor(nonInlineAllOfCodegenModel, nonInlineAllOfCodegenModel.getAllVars());
         } else {
@@ -96,7 +91,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private Object createEntityFor(CodegenModel codegenModel, List<CodegenProperty> properties) {
+    private Map<String, Object> createEntityFor(CodegenModel codegenModel, List<CodegenProperty> properties) {
         Map<String, Object> entity = new HashMap<>();
         entity.put("name", removeSuffix(codegenModel.getClassname(), ALL_OF_SUFFIX));
 
@@ -112,6 +107,8 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         Map<String, Object> field = new HashMap<>();
         field.put("name", codegenProperty.getBaseName());
         field.put("isRequired", codegenProperty.getRequired());
+        field.put("isList", codegenProperty.isListContainer);
+        field.put("complexDataType", getComplexDataTypeFor(codegenProperty));
 
         String dataType = codegenProperty.isListContainer && codegenProperty.getItems() != null ? "List<" + toModelName(codegenProperty.getItems().getDataType()) + ">" : toModelName(codegenProperty.getDataType());
         field.put("dataType", dataType);
@@ -119,37 +116,39 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         return field;
     }
 
-    private List<Object> calculateCompositionRelationships(List<CodegenModel> supertypeCodegenModelList) {
-        return supertypeCodegenModelList.stream()
-                .map(superType -> calculateCompositionRelationshipsFor(superType))
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> calculateCompositionRelationshipsFrom(List<Map<String, Object>> entities) {
+        Map<String, List<Map<String, Object>>> entityFieldsMap =  entities.stream()
+                .collect(Collectors.toMap(entity -> (String)entity.get("name"), entity -> (List<Map<String, Object>>)entity.get("fields")));
+
+        return entityFieldsMap.entrySet().stream()
+                .map(entry -> createRelationshipsFor(entry.getKey(), entry.getValue()))
                 .flatMap(relationshipList -> relationshipList.stream())
                 .collect(Collectors.toList());
     }
 
-    private List<Object> calculateCompositionRelationshipsFor(CodegenModel codegenModel) {
-        String parentName = removeSuffix(codegenModel.getClassname(), ALL_OF_SUFFIX);
-        return codegenModel.getAllVars().stream()
-                .filter(var -> getComplexDataTypeFor(var) != null)
-                .map(var -> createRelationshipFor(var,parentName))
+    private List<Map<String, Object>> createRelationshipsFor(String entityName, List<Map<String, Object>> fields) {
+        return fields.stream()
+                .filter(field -> field.get("complexDataType") != null)
+                .map(complexField -> createRelationshipFor(complexField, entityName))
                 .collect(Collectors.toList());
     }
 
-    private Object createRelationshipFor(CodegenProperty codegenProperty, String parent) {
-        Map<String, Object> field = new HashMap<>();
-        String childModelName = toModelName(getComplexDataTypeFor(codegenProperty));
-        field.put("parent", parent);
-        field.put("child", childModelName);
-        field.put("name", codegenProperty.getName());
-        field.put("isList", codegenProperty.isListContainer);
+    private Map<String, Object> createRelationshipFor(Map<String, Object> complexField, String entityName) {
+        Map<String, Object> relationship = new HashMap<>();
+        relationship.put("parent", entityName);
+        relationship.put("child", complexField.get("complexDataType"));
+        relationship.put("name", complexField.get("name"));
+        relationship.put("isList", complexField.get("isList"));
 
-        return field;
+        return relationship;
     }
 
     private String getComplexDataTypeFor(CodegenProperty codegenProperty) {
         if (codegenProperty.isModel) {
-            return codegenProperty.getDataType();
+            return toModelName(codegenProperty.getDataType());
         } else if (codegenProperty.isListContainer && codegenProperty.getItems().isModel) {
-            return codegenProperty.getItems().getDataType();
+            return toModelName((codegenProperty.getItems().getDataType()));
         }
 
         return null;

@@ -75,22 +75,16 @@ public class PlantumlDocumentationCodegenTest {
 
         openAPI.getComponents().addSchemas("parent", parentSchema);
 
-        final Schema parentRefSchema = new Schema()
-                .$ref("#/components/schemas/parent");
-
         final Schema childAllOfInlineSchema = new Schema()
                 .description("an inline model")
                 .addProperties("name", new StringSchema());
 
         openAPI.getComponents().addSchemas("child_allOf", childAllOfInlineSchema);
 
-        final Schema childAllOfRefSchema = new Schema()
-                .$ref("#/components/schemas/child_allOf");
-
         final ComposedSchema composedSchema = new ComposedSchema();
         composedSchema.setDescription("a composed child model");
-        composedSchema.addAllOfItem(parentRefSchema);
-        composedSchema.addAllOfItem(childAllOfRefSchema);
+        composedSchema.addAllOfItem(new Schema().$ref("#/components/schemas/parent"));
+        composedSchema.addAllOfItem(new Schema().$ref("#/components/schemas/child_allOf"));
         openAPI.getComponents().addSchemas("child", composedSchema);
 
         plantumlDocumentationCodegen.setOpenAPI(openAPI);
@@ -113,56 +107,6 @@ public class PlantumlDocumentationCodegenTest {
         Map<String, Object> childEntity = getEntityFromList("Child", entityList);
         assertFieldDoesNotExistsInEntity("id", childEntity);
         getFieldFromEntity("name", childEntity);
-
-        List<Object> inheritanceList = getList(objs, "inheritances");
-        Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
-
-        Map<String, String> firstInheritance = (Map<String, String>)inheritanceList.get(0);
-        Assert.assertEquals(firstInheritance.get("parent"), "Parent");
-        Assert.assertEquals(firstInheritance.get("child"), "Child");
-    }
-
-    @Test
-    public void sharedIdenticalInlineAllOfTest() {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
-        final Schema parentSchema = new Schema()
-                .description("a parent model")
-                .addProperties("id", new StringSchema());
-
-        openAPI.getComponents().addSchemas("parent", parentSchema);
-
-        final Schema parentRefSchema = new Schema()
-                .$ref("#/components/schemas/parent");
-
-        final Schema anotherAllOfInlineSchema = new Schema()
-                .description("an identical inline model used elsewhere")
-                .addProperties("name", new StringSchema());
-
-        openAPI.getComponents().addSchemas("another_allOf", anotherAllOfInlineSchema);
-
-        final Schema sharedIdenticalInlineAllOfRefSchema = new Schema()
-                .$ref("#/components/schemas/another_allOf");
-
-        final ComposedSchema composedSchema = new ComposedSchema();
-        composedSchema.setDescription("a composed child model");
-        composedSchema.addAllOfItem(parentRefSchema);
-        composedSchema.addAllOfItem(sharedIdenticalInlineAllOfRefSchema);
-        openAPI.getComponents().addSchemas("child", composedSchema);
-
-        plantumlDocumentationCodegen.setOpenAPI(openAPI);
-        final CodegenModel parentModel = plantumlDocumentationCodegen.fromModel("parent", parentSchema);
-        final CodegenModel childAllOfModel = plantumlDocumentationCodegen.fromModel("another_allOf", anotherAllOfInlineSchema);
-        final CodegenModel childComposedModel = plantumlDocumentationCodegen.fromModel("child", composedSchema);
-
-        Map<String, Object> objs = createObjectsMapFor(parentModel, childComposedModel, childAllOfModel);
-
-        plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
-
-        List<Object> entityList = getList(objs, "entities");
-        Assert.assertEquals(entityList.size(), 2, "size of entity list");
-
-        Map<String, Object> parentEntity = getEntityFromList("Parent", entityList);
-        Map<String, Object> childEntity = getEntityFromList("Child", entityList);
 
         List<Object> inheritanceList = getList(objs, "inheritances");
         Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
@@ -230,6 +174,63 @@ public class PlantumlDocumentationCodegenTest {
         Assert.assertEquals((String)secondRelationship.get("child"), "Tag");
         Assert.assertEquals((String)secondRelationship.get("name"), "tags");
         Assert.assertTrue((boolean)secondRelationship.get("isList"));
+    }
+
+    @Test
+    public void sharedIdenticalInlineAllOfTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema parentSchema = new Schema()
+                .description("a parent model")
+                .addProperties("id", new StringSchema());
+
+        openAPI.getComponents().addSchemas("parent", parentSchema);
+
+        final Schema tagDataTypeSchema = new Schema()
+                .description("a tag model")
+                .addProperties("name", new StringSchema());
+
+        openAPI.getComponents().addSchemas("tag", tagDataTypeSchema);
+
+        final Schema anotherAllOfInlineSchema = new Schema()
+                .description("an identical inline model used elsewhere")
+                .addProperties("tag", new Schema().$ref("#/components/schemas/tag"));
+
+        openAPI.getComponents().addSchemas("another_allOf", anotherAllOfInlineSchema);
+
+        final ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.setDescription("a composed child model");
+        composedSchema.addAllOfItem(new Schema().$ref("#/components/schemas/parent"));
+        composedSchema.addAllOfItem(new Schema().$ref("#/components/schemas/another_allOf"));
+        openAPI.getComponents().addSchemas("child", composedSchema);
+
+        plantumlDocumentationCodegen.setOpenAPI(openAPI);
+        final CodegenModel parentModel = plantumlDocumentationCodegen.fromModel("parent", parentSchema);
+        final CodegenModel childAllOfModel = plantumlDocumentationCodegen.fromModel("another_allOf", anotherAllOfInlineSchema);
+        final CodegenModel childComposedModel = plantumlDocumentationCodegen.fromModel("child", composedSchema);
+
+        Map<String, Object> objs = createObjectsMapFor(parentModel, childComposedModel, childAllOfModel);
+
+        plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
+
+        List<Object> entityList = getList(objs, "entities");
+        Assert.assertEquals(entityList.size(), 2, "size of entity list");
+
+        Map<String, Object> parentEntity = getEntityFromList("Parent", entityList);
+        Map<String, Object> childEntity = getEntityFromList("Child", entityList);
+
+        List<Object> inheritanceList = getList(objs, "inheritances");
+        Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
+
+        Map<String, String> firstInheritance = (Map<String, String>)inheritanceList.get(0);
+        Assert.assertEquals(firstInheritance.get("parent"), "Parent");
+        Assert.assertEquals(firstInheritance.get("child"), "Child");
+
+        List<Object> relationshipList = getList(objs, "relationships");
+        Assert.assertEquals(relationshipList.size(), 1, "size of relationship list");
+
+        Map<String, Object> firstRelationship = (Map<String, Object>)relationshipList.get(0);
+        Assert.assertEquals((String)firstRelationship.get("parent"), "Child");
+        Assert.assertEquals((String)firstRelationship.get("child"), "Tag");
     }
 
     private Map<String, Object> createObjectsMapFor(CodegenModel... codegenModels) {
