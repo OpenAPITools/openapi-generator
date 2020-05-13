@@ -8,7 +8,7 @@ import { Observable } from '../rxjsStub';
 export * from './isomorphic-fetch';
 
 /**
- * Represents a HTTP Method.
+ * Represents an HTTP method.
  */
 export enum HttpMethod {
     GET = "GET",
@@ -23,7 +23,7 @@ export enum HttpMethod {
 }
 
 /**
- * Represents a http file which will be uploaded to a server.
+ * Represents an HTTP file which will be transferred from or to a server.
  */
 export type HttpFile = {
     data: Buffer,
@@ -38,14 +38,18 @@ export class HttpException extends Error {
 }
 
 /**
- * Represents a HTTP request context 
- *
+ * Represents the body of an outgoing HTTP request.
+ */
+export type RequestBody = undefined | string | FormData;
+
+/**
+ * Represents an HTTP request context
  */
 export class RequestContext {
     private headers: { [key: string]: string } = {};
-    private body?: string | FormData = undefined;
-	private url: URLParse;
-	
+    private body: RequestBody = undefined;
+    private url: URLParse;
+
 	/**
 	 * Creates the request context using a http method and request resource url
 	 *
@@ -72,27 +76,19 @@ export class RequestContext {
     	this.url = URLParse(url, true);
     }
 
-    
     /**
      * Sets the body of the http request either as a string or FormData
-     * Setting a body on a HTTP GET request is disallowed under HTTP-Spec 1.1. Section
-     * 4.3 and this method throws an HttpException accordingly.
+     *
+     * Note that setting a body on a HTTP GET, HEAD, DELETE, CONNECT or TRACE
+     * request is discouraged.
+     * https://httpwg.org/http-core/draft-ietf-httpbis-semantics-latest.html#rfc.section.7.3.1
      *
      * @param body the body of the request
      */
-    public setBody(body: string | FormData) {
-        // HTTP-Spec 1.1 Section 4.3
-        if (this.httpMethod === HttpMethod.GET) {
-            throw new HttpException("Body should not be included in GET-Requests!");
-        }
-        
-        // TODO: other http methods
-        
-        // post is fine either formData or string
+    public setBody(body: RequestBody) {
         this.body = body;
-        
     }
-    
+
     public getHttpMethod(): HttpMethod {
     	return this.httpMethod;
     }
@@ -100,9 +96,9 @@ export class RequestContext {
     public getHeaders(): { [key: string]: string } {
     	return this.headers;
     }
-    
-    public getBody(): string | FormData | undefined{
-    	return this.body;
+
+    public getBody(): RequestBody {
+        return this.body;
     }
 
 	public setQueryParam(name: string, value: string) {
