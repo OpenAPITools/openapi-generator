@@ -892,9 +892,9 @@ def is_type_nullable(input_type):
     if issubclass(input_type, ModelComposed):
         # If oneOf/anyOf, check if the 'null' type is one of the allowed types.            
         for t in input_type._composed_schemas.get('oneOf', ()):
-            return is_type_nullable(t)
+            if is_type_nullable(t): return True
         for t in input_type._composed_schemas.get('anyOf', ()):
-            return is_type_nullable(t)
+            if is_type_nullable(t): return True
     return False
 
 
