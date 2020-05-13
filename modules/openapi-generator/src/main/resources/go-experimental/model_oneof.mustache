@@ -9,6 +9,13 @@ type {{classname}} struct {
 func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
+	{{#isNullable}}
+	// this object is nullable so check if the payload is null or empty string
+	if string(data) == "" || string(data) == "{}" {
+		return nil
+	}
+
+	{{/isNullable}}
 	{{#oneOf}}
 	// try to unmarshal data into {{{.}}}
 	err = json.Unmarshal(data, &dst.{{{.}}});
