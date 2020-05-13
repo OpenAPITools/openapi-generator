@@ -17,6 +17,10 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Net;
+using Polly;
+using Polly.Retry;
+using RestSharp;
 
 namespace Org.OpenAPITools.Client
 {
@@ -339,6 +343,18 @@ namespace Org.OpenAPITools.Client
             }
         }
 
+        /// <summary>
+        /// Get or set the async version of Polly retry policy to be applied for retrying requests
+        /// </summary>
+        /// <value>Async RetryPolicy</value>
+        public AsyncRetryPolicy<IRestResponse> RetryPolicyAsync { get; set; }
+
+        /// <summary>
+        /// Get or set the Polly retry policy to be applied for retrying requests
+        /// </summary>
+        /// <value>RetryPolicy</value>
+        public RetryPolicy<IRestResponse> RetryPolicy { get; set; }
+
         #endregion Properties
 
         #region Methods
@@ -410,7 +426,9 @@ namespace Org.OpenAPITools.Client
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                RetryPolicyAsync = second.RetryPolicyAsync ?? first.RetryPolicyAsync,
+                RetryPolicy = second.RetryPolicy ?? first.RetryPolicy
             };
             return config;
         }

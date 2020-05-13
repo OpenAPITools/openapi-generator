@@ -22,12 +22,14 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
 using RestSharp.Deserializers;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharpMethod = RestSharp.Method;
+using Polly;
 
 namespace Org.OpenAPITools.Client
 {
@@ -412,7 +414,21 @@ namespace Org.OpenAPITools.Client
 
             InterceptRequest(req);
 
-            var response = client.Execute<T>(req);
+            IRestResponse<T> response;
+            if (configuration.RetryPolicy != null)	
+            {
+                var policy = configuration.RetryPolicy;
+                var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                {
+                    Request = req,
+                    ErrorException = policyResult.FinalException
+                };
+            }
+            else
+            {
+                response = client.Execute<T>(req);
+            }
 
             InterceptResponse(req, response);
 
@@ -482,7 +498,21 @@ namespace Org.OpenAPITools.Client
 
             InterceptRequest(req);
 
-            var response = await client.ExecuteAsync<T>(req);
+            IRestResponse<T> response;
+            if (configuration.RetryPolicyAsync != null)
+            {
+                var policy = configuration.RetryPolicyAsync;
+                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync(req));
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                {
+                    Request = req,
+                    ErrorException = policyResult.FinalException
+                };
+            }
+            else
+            {
+                 response = await client.ExecuteAsync<T>(req);
+            }
 
             InterceptResponse(req, response);
 
