@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class FileSchemaTestClass  implements Serializable {
+public class FileSchemaTestClass implements Serializable  {
   
   private @Valid java.io.File file;
   private @Valid List<java.io.File> files = new ArrayList<java.io.File>();
@@ -101,4 +101,6 @@ public class FileSchemaTestClass  implements Serializable {
 
 
 }
+
+
 

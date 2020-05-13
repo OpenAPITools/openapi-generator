@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class BigCat extends Cat implements Serializable {
+public class BigCat extends Cat implements Serializable  {
   
 
 public enum KindEnum {
@@ -114,4 +114,6 @@ public enum KindEnum {
 
 
 }
+
+
 

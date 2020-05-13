@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 })
 
 
-public class Animal  implements Serializable {
+public class Animal implements Serializable  {
   
   private @Valid String className;
   private @Valid String color = "red";
@@ -108,4 +108,6 @@ public class Animal  implements Serializable {
 
 
 }
+
+
 

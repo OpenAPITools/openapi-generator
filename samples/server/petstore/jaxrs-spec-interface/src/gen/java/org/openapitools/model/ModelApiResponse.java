@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class ModelApiResponse  implements Serializable {
+public class ModelApiResponse implements Serializable  {
   
   private @Valid Integer code;
   private @Valid String type;
@@ -120,4 +120,6 @@ public class ModelApiResponse  implements Serializable {
 
 
 }
+
+
 

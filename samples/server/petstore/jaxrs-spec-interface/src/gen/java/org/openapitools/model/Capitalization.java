@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Capitalization  implements Serializable {
+public class Capitalization implements Serializable  {
   
   private @Valid String smallCamel;
   private @Valid String capitalCamel;
@@ -184,4 +184,6 @@ public class Capitalization  implements Serializable {
 
 
 }
+
+
 

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class CatAllOf  implements Serializable {
+public class CatAllOf implements Serializable  {
   
   private @Valid Boolean declawed;
 
@@ -78,4 +78,6 @@ public class CatAllOf  implements Serializable {
 
 
 }
+
+
 

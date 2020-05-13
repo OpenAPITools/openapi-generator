@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class MapTest  implements Serializable {
+public class MapTest implements Serializable  {
   
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
  
@@ -177,4 +177,6 @@ public enum InnerEnum {
 
 
 }
+
+
 

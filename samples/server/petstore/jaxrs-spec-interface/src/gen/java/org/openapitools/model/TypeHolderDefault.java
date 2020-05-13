@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class TypeHolderDefault  implements Serializable {
+public class TypeHolderDefault implements Serializable  {
   
   private @Valid String stringItem = "what";
   private @Valid BigDecimal numberItem;
@@ -170,4 +170,6 @@ public class TypeHolderDefault  implements Serializable {
 
 
 }
+
+
 

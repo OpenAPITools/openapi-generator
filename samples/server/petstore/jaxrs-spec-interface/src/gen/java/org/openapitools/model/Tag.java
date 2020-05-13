@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Tag  implements Serializable {
+public class Tag implements Serializable  {
   
   private @Valid Long id;
   private @Valid String name;
@@ -99,4 +99,6 @@ public class Tag  implements Serializable {
 
 
 }
+
+
 

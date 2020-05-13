@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Model for testing model with \&quot;_class\&quot; property
  **/
 @ApiModel(description = "Model for testing model with \"_class\" property")
-public class ClassModel  implements Serializable {
+public class ClassModel implements Serializable  {
   
   private @Valid String propertyClass;
 
@@ -80,4 +80,6 @@ public class ClassModel  implements Serializable {
 
 
 }
+
+
 

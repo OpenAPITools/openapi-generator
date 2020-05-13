@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class EnumArrays  implements Serializable {
+public class EnumArrays implements Serializable  {
   
 
 public enum JustSymbolEnum {
@@ -167,4 +167,6 @@ public enum ArrayEnumEnum {
 
 
 }
+
+
 

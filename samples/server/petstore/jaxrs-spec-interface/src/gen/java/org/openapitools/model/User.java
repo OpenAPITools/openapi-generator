@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class User  implements Serializable {
+public class User implements Serializable  {
   
   private @Valid Long id;
   private @Valid String username;
@@ -226,4 +226,6 @@ public class User  implements Serializable {
 
 
 }
+
+
 

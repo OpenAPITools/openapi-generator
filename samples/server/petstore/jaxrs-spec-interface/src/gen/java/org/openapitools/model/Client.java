@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Client  implements Serializable {
+public class Client implements Serializable  {
   
   private @Valid String client;
 
@@ -78,4 +78,6 @@ public class Client  implements Serializable {
 
 
 }
+
+
 
