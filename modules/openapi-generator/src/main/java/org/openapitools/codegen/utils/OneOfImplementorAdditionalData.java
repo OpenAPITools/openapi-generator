@@ -75,9 +75,11 @@ public class OneOfImplementorAdditionalData {
         // note that we can't just toAdd.removeAll(m.vars) for every interfaceModel,
         // as they might have different value of `hasMore` and thus are not equal
         List<String> omitAdding = new ArrayList<String>();
-        for (CodegenModel m : cm.interfaceModels) {
-            for (CodegenProperty v : m.vars) {
-                omitAdding.add(v.baseName);
+        if (cm.interfaceModels != null) {
+            for (CodegenModel m : cm.interfaceModels) {
+                for (CodegenProperty v : m.vars) {
+                    omitAdding.add(v.baseName);
+                }
             }
         }
         for (CodegenProperty v : toAdd) {

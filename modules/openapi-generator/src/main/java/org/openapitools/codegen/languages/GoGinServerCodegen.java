@@ -168,7 +168,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", apiPath, "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", apiPath, "README.md")
+                .doNotOverwrite());
     }
 
     @Override

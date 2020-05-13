@@ -89,6 +89,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
+        typeMapping.put("AnyType", "Object");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");

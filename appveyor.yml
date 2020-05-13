@@ -70,7 +70,7 @@ test_script:
   # test ps pestore
   - ps: |
       $ErrorActionPreference = "Stop"
-      cd samples\client\petstore\powershell-experimental\
+      cd samples\client\petstore\powershell\
       .\Build.ps1
       Import-Module -Name '.\src\PSPetstore'
       $Result = Invoke-Pester -PassThru

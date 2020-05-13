@@ -1701,6 +1701,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Sets the content type of the parameter based on the encoding specified in the request body.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param mediaType        MediaType from the request body
+     */
+    public void setParameterContentType(CodegenParameter codegenParameter, MediaType mediaType) {
+        if (mediaType != null && mediaType.getEncoding() != null) {
+            Encoding encoding = mediaType.getEncoding().get(codegenParameter.baseName);
+            if (encoding != null) {
+                codegenParameter.contentType = encoding.getContentType();
+            } else {
+                LOGGER.debug("encoding not specified for " + codegenParameter.baseName);
+            }
+        }
+    }
+
+    /**
      * Return the example value of the property
      *
      * @param schema Property schema
@@ -2163,7 +2180,14 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-
+        if (ModelUtils.isAnyTypeSchema(schema)) {
+            // The 'null' value is allowed when the OAS schema is 'any type'.
+            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+            if (Boolean.FALSE.equals(schema.getNullable())) {
+                LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", name);
+            }
+            m.isNullable = true;
+        }
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
@@ -2536,36 +2560,60 @@ public class DefaultCodegen implements CodegenConfig {
             if (composedSchema.getOneOf() != null && composedSchema.getOneOf().size() != 0) {
                 // All oneOf definitions must contain the discriminator
                 Integer hasDiscriminatorCnt = 0;
+                Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
-                for (Schema oneOf : composedSchema.getOneOf()) {
+                for  (Schema oneOf: composedSchema.getOneOf()) {
+                    if (ModelUtils.isNullType(oneOf)) {
+                        // The null type does not have a discriminator. Skip.
+                        hasNullTypeCnt++;
+                        continue;
+                    }
                     foundDisc = recursiveGetDiscriminator(oneOf, openAPI);
                     if (foundDisc != null) {
                         discriminatorsPropNames.add(foundDisc.getPropertyName());
                         hasDiscriminatorCnt++;
                     }
                 }
-                if (hasDiscriminatorCnt == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
+                if (discriminatorsPropNames.size() > 1) {
+                    throw new RuntimeException("The oneOf schemas have conflicting discriminator property names. " +
+                        "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
+                }
+                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
                 }
+                // If the scenario when oneOf has two children and one of them is the 'null' type,
+                // there is no need for a discriminator.
             }
             if (composedSchema.getAnyOf() != null && composedSchema.getAnyOf().size() != 0) {
                 // All anyOf definitions must contain the discriminator because a min of one must be selected
                 Integer hasDiscriminatorCnt = 0;
+                Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
-                for (Schema anyOf : composedSchema.getAnyOf()) {
+                for  (Schema anyOf: composedSchema.getAnyOf()) {
+                    if (ModelUtils.isNullType(anyOf)) {
+                        // The null type does not have a discriminator. Skip.
+                        hasNullTypeCnt++;
+                        continue;
+                    }
                     foundDisc = recursiveGetDiscriminator(anyOf, openAPI);
                     if (foundDisc != null) {
                         discriminatorsPropNames.add(foundDisc.getPropertyName());
                         hasDiscriminatorCnt++;
                     }
                 }
-                if (hasDiscriminatorCnt == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
+                if (discriminatorsPropNames.size() > 1) {
+                    throw new RuntimeException("The anyOf schemas have conflicting discriminator property names. " +
+                        "anyOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
+                }
+                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
                 }
+                // If the scenario when anyOf has two children and one of them is the 'null' type,
+                // there is no need for a discriminator.
             }
         }
         return null;
@@ -2594,7 +2642,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (schemaList == null) {
                 continue;
             }
-            for (Schema sc : schemaList) {
+            for  (Schema sc: schemaList) {
+                if (ModelUtils.isNullType(sc)) {
+                    continue;
+                }
                 String ref = sc.get$ref();
                 if (ref == null) {
                     // for schemas with no ref, it is not possible to build the discriminator map
@@ -2986,6 +3037,12 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
         } else if (ModelUtils.isAnyTypeSchema(p)) {
+            // The 'null' value is allowed when the OAS schema is 'any type'.
+            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+            if (Boolean.FALSE.equals(p.getNullable())) {
+                LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
+            }
+            property.isNullable = true;
             property.isAnyType = true;
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
@@ -3093,9 +3150,15 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
             property.baseType = getSchemaType(p);
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
         } else if (ModelUtils.isAnyTypeSchema(p)) {
             property.isAnyType = true;
             property.baseType = getSchemaType(p);
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
         } else { // model
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
@@ -3499,13 +3562,17 @@ public class DefaultCodegen implements CodegenConfig {
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
             String contentType = getContentType(requestBody);
+            if (contentType != null) {
+                contentType = contentType.toLowerCase(Locale.ROOT);
+            }
             if (contentType != null &&
-                    (contentType.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                            contentType.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
+                    (contentType.startsWith("application/x-www-form-urlencoded") ||
+                            contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
-                op.isMultipart = contentType.toLowerCase(Locale.ROOT).startsWith("multipart");
+                op.isMultipart = contentType.startsWith("multipart");
                 for (CodegenParameter cp : formParams) {
+                    setParameterContentType(cp, requestBody.getContent().get(contentType));
                     postProcessParameter(cp);
                 }
                 // add form parameters to the beginning of all parameter list
@@ -4977,31 +5044,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return tag;
-    }
-
-    /**
-     * Only write if the file doesn't exist
-     *
-     * @param outputFolder   Output folder
-     * @param supportingFile Supporting file
-     */
-    public void writeOptional(String outputFolder, SupportingFile supportingFile) {
-        String folder = "";
-
-        if (outputFolder != null && !"".equals(outputFolder)) {
-            folder += outputFolder + File.separator;
-        }
-        folder += supportingFile.folder;
-        if (!"".equals(folder)) {
-            folder += File.separator + supportingFile.destinationFilename;
-        } else {
-            folder = supportingFile.destinationFilename;
-        }
-        if (!new File(folder).exists()) {
-            supportingFiles.add(supportingFile);
-        } else {
-            LOGGER.info("Skipped overwriting " + supportingFile.destinationFilename + " as the file already exists in " + folder);
-        }
     }
 
     /**

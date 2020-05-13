@@ -428,7 +428,7 @@ import (
 
 func main() {
     query := "query_example" // string | 
-    user := openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123, ArbitraryObject: "TODO", ArbitraryNullableObject: "TODO", ArbitraryTypeValue: "TODO", ArbitraryNullableTypeValue: "TODO"} // User | 
+    user := openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123, ArbitraryObject: 123, ArbitraryNullableObject: 123, ArbitraryTypeValue: 123, ArbitraryNullableTypeValue: 123} // User | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

@@ -181,16 +181,3 @@ class GrandparentAnimal(ModelNormal):
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
-
-    @classmethod
-    def get_discriminator_class(cls, data):
-        """Returns the child class specified by the discriminator"""
-        discriminator = cls.discriminator
-        discr_propertyname_py = list(discriminator.keys())[0]
-        discr_propertyname_js = cls.attribute_map[discr_propertyname_py]
-        if discr_propertyname_js in data:
-            class_name = data[discr_propertyname_js]
-        else:
-            class_name = data[discr_propertyname_py]
-        class_name_to_discr_class = discriminator[discr_propertyname_py]
-        return class_name_to_discr_class.get(class_name)

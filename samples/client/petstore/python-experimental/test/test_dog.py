@@ -64,19 +64,21 @@ class TestDog(unittest.TestCase):
 
         # setting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             dog['invalid_variable'] = 'some value'
         # with setattr
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             setattr(dog, 'invalid_variable', 'some value')
 
         # getting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             invalid_variable = dog['invalid_variable']
         # with getattr
-        with self.assertRaises(petstore_api.ApiKeyError):
-            invalid_variable = getattr(dog, 'invalid_variable', 'some value')
+        self.assertEquals(getattr(dog, 'invalid_variable', 'some value'), 'some value')
+
+        with self.assertRaises(AttributeError):
+            invalid_variable = getattr(dog, 'invalid_variable')
 
         # make sure that the ModelComposed class properties are correct
         # model.composed_schemas() stores the anyOf/allOf/oneOf info

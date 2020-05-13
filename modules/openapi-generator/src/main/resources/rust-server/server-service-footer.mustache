@@ -1,0 +1,18 @@
+            _ => Box::new(future::ok(
+                Response::builder().status(StatusCode::NOT_FOUND)
+                    .body(Body::empty())
+                    .expect("Unable to create Not Found response")
+            )) as Self::Future
+        }
+    }
+}
+
+impl<T, C> Clone for Service<T, C> where T: Clone
+{
+    fn clone(&self) -> Self {
+        Service {
+            api_impl: self.api_impl.clone(),
+            marker: self.marker.clone(),
+        }
+    }
+}
