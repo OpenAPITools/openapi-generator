@@ -65,6 +65,7 @@ from petstore_api.models.client import Client
 from petstore_api.models.complex_quadrilateral import ComplexQuadrilateral
 from petstore_api.models.dog import Dog
 from petstore_api.models.dog_all_of import DogAllOf
+from petstore_api.models.drawing import Drawing
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_test import EnumTest
