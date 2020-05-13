@@ -41,7 +41,7 @@ export class StoreApi extends BaseAPI {
     deleteOrder({ orderId }: DeleteOrderRequest): Observable<void>
     deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
-        throwIfNullOrUndefined(orderId, 'deleteOrder');
+        throwIfNullOrUndefined(orderId, 'orderId', 'deleteOrder');
 
         return this.request<void>({
             url: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
@@ -74,7 +74,7 @@ export class StoreApi extends BaseAPI {
     getOrderById({ orderId }: GetOrderByIdRequest): Observable<Order>
     getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<RawAjaxResponse<Order>>
     getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<Order | RawAjaxResponse<Order>> {
-        throwIfNullOrUndefined(orderId, 'getOrderById');
+        throwIfNullOrUndefined(orderId, 'orderId', 'getOrderById');
 
         return this.request<Order>({
             url: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
@@ -88,7 +88,7 @@ export class StoreApi extends BaseAPI {
     placeOrder({ body }: PlaceOrderRequest): Observable<Order>
     placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<RawAjaxResponse<Order>>
     placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<Order | RawAjaxResponse<Order>> {
-        throwIfNullOrUndefined(body, 'placeOrder');
+        throwIfNullOrUndefined(body, 'body', 'placeOrder');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',

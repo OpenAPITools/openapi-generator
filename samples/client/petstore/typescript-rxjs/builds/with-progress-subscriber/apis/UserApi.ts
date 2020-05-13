@@ -60,7 +60,7 @@ export class UserApi extends BaseAPI {
     createUser({ body }: CreateUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
-        throwIfNullOrUndefined(body, 'createUser');
+        throwIfNullOrUndefined(body, 'body', 'createUser');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export class UserApi extends BaseAPI {
     createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
-        throwIfNullOrUndefined(body, 'createUsersWithArrayInput');
+        throwIfNullOrUndefined(body, 'body', 'createUsersWithArrayInput');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ export class UserApi extends BaseAPI {
     createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
-        throwIfNullOrUndefined(body, 'createUsersWithListInput');
+        throwIfNullOrUndefined(body, 'body', 'createUsersWithListInput');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ export class UserApi extends BaseAPI {
     deleteUser({ username }: DeleteUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
-        throwIfNullOrUndefined(username, 'deleteUser');
+        throwIfNullOrUndefined(username, 'username', 'deleteUser');
 
         return this.request<void>({
             url: '/user/{username}'.replace('{username}', encodeURI(username)),
@@ -143,7 +143,7 @@ export class UserApi extends BaseAPI {
     getUserByName({ username }: GetUserByNameRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<User>
     getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<RawAjaxResponse<User>>
     getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<User | RawAjaxResponse<User>> {
-        throwIfNullOrUndefined(username, 'getUserByName');
+        throwIfNullOrUndefined(username, 'username', 'getUserByName');
 
         return this.request<User>({
             url: '/user/{username}'.replace('{username}', encodeURI(username)),
@@ -159,8 +159,8 @@ export class UserApi extends BaseAPI {
     loginUser({ username, password }: LoginUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<string>
     loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<RawAjaxResponse<string>>
     loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<string | RawAjaxResponse<string>> {
-        throwIfNullOrUndefined(username, 'loginUser');
-        throwIfNullOrUndefined(password, 'loginUser');
+        throwIfNullOrUndefined(username, 'username', 'loginUser');
+        throwIfNullOrUndefined(password, 'password', 'loginUser');
 
         const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
             'username': username,
@@ -197,8 +197,8 @@ export class UserApi extends BaseAPI {
     updateUser({ username, body }: UpdateUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
-        throwIfNullOrUndefined(username, 'updateUser');
-        throwIfNullOrUndefined(body, 'updateUser');
+        throwIfNullOrUndefined(username, 'username', 'updateUser');
+        throwIfNullOrUndefined(body, 'body', 'updateUser');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
