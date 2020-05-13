@@ -1169,6 +1169,36 @@ paths:
       summary: Health check endpoint
       tags:
       - fake
+  /fake/http-signature-test:
+    get:
+      operationId: fake-http-signature-test
+      parameters:
+      - description: query parameter
+        explode: true
+        in: query
+        name: query_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: header parameter
+        explode: false
+        in: header
+        name: header_1
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        "200":
+          description: The instance started successfully
+      security:
+      - http_signature_test: []
+      summary: test http signature authentication
+      tags:
+      - fake
 components:
   requestBodies:
     UserArray:
@@ -2056,4 +2086,7 @@ components:
     bearer_test:
       bearerFormat: JWT
       scheme: bearer
+      type: http
+    http_signature_test:
+      scheme: signature
       type: http

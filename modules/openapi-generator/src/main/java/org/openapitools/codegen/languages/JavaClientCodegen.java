@@ -55,6 +55,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
     public static final String FEIGN_VERSION = "feignVersion";
+    public static final String ASYNC_NATIVE = "asyncNative";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
@@ -94,6 +95,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_25;
     protected String feignVersion = FEIGN_10;
+    protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
@@ -138,6 +140,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
+        cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
         cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x' (default), '9.x' (deprecated)"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
@@ -170,6 +173,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
+
+        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
+        // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
+        // and the discriminator mapping schemas in the OAS document.
+        this.setLegacyDiscriminatorBehavior(false);
     }
 
     @Override
@@ -247,6 +255,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(FEIGN_VERSION, feignVersion);
 
+        if (additionalProperties.containsKey(ASYNC_NATIVE)) {
+            this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
+        }
+
         if (additionalProperties.containsKey(PARCELABLE_MODEL)) {
             this.setParcelableModel(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
         }
@@ -282,13 +294,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
 
         //Common files
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        writeOptional(outputFolder, new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        writeOptional(outputFolder, new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
-        writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml").doNotOverwrite());
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
@@ -370,6 +382,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (JERSEY2.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+            supportingFiles.add(new SupportingFile("auth/HttpSignatureAuth.mustache", authFolder, "HttpSignatureAuth.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (NATIVE.equals(getLibrary())) {
             setJava8Mode(true);
@@ -499,11 +513,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
         }
 
-        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
-            useOneOfInterfaces = true;
-            addOneOfInterfaceImports = true;
-        }
-
     }
 
     private boolean usesAnyRetrofitLibrary() {
@@ -593,6 +602,38 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (MICROPROFILE.equals(getLibrary())) {
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
+        }
+
+        if (JERSEY2.equals(getLibrary())) {
+            // index the model
+            HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+            for (Object o : allModels) {
+                HashMap<String, Object> h = (HashMap<String, Object>) o;
+                CodegenModel m = (CodegenModel) h.get("model");
+                modelMaps.put(m.classname, m);
+            }
+
+            // check if return type is oneOf/anyeOf model
+            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation op : operationList) {
+                if (op.returnType != null) {
+                    // look up the model to see if it's anyOf/oneOf
+                    if (modelMaps.containsKey(op.returnType) && modelMaps.get(op.returnType) != null) {
+                        CodegenModel cm = modelMaps.get(op.returnType);
+
+                        if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
+                            op.vendorExtensions.put("x-java-return-type-one-of", true);
+                        }
+
+                        if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+                            op.vendorExtensions.put("x-java-return-type-any-of", true);
+                        }
+                    } else {
+                        //LOGGER.error("cannot lookup model " + op.returnType);
+                    }
+                }
+            }
         }
 
         return objs;
@@ -769,12 +810,27 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());  // TODO: 5.0 Remove
             cm.getVendorExtensions().putIfAbsent("x-implements", cm.getVendorExtensions().get("implements"));
-            List<String> impl = (List<String>) cm.getVendorExtensions().get("implements");
+            //List<String> impl = (List<String>) cm.getVendorExtensions().get("x-implements");
+            if (JERSEY2.equals(getLibrary())) {
+                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
+
+                if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                    // if oneOf contains "null" type
+                    cm.isNullable = true;
+                    cm.oneOf.remove("ModelNull");
+                }
+
+                if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                    // if anyOf contains "null" type
+                    cm.isNullable = true;
+                    cm.anyOf.remove("ModelNull");
+                }
+            }
             if (this.parcelableModel) {
-                impl.add("Parcelable");
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
             }
             if (this.serializableModel) {
-                impl.add("Serializable");
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
         }
 
@@ -805,6 +861,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setFeignVersion(String feignVersion) {
         this.feignVersion = feignVersion;
+    }
+
+    public void setAsyncNative(boolean asyncNative) {
+        this.asyncNative = asyncNative;
     }
 
     public void setParcelableModel(boolean parcelableModel) {

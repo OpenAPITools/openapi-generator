@@ -104,10 +104,6 @@ func (o Zebra) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-// AsMammal wraps this instance of Zebra in Mammal
-func (s *Zebra) AsMammal() Mammal {
-	return Mammal{ MammalInterface: s }
-}
 type NullableZebra struct {
 	value *Zebra
 	isSet bool
@@ -143,3 +139,4 @@ func (v *NullableZebra) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+

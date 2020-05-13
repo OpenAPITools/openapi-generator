@@ -594,6 +594,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             }
         }
 
+        generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
 
         for (Map<String, Object> operations : getOperations(objs)) {

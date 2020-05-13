@@ -19,7 +19,7 @@ import {
 
 {{/discriminator}}
 /**
- * {{{description}}}
+ * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
  * @export
  * @interface {{classname}}
  */
@@ -29,7 +29,7 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{/additionalPropertiesType}}
 {{#vars}}
     /**
-     * {{{description}}}
+     * {{#lambda.indented_star_4}}{{{unescapedDescription}}}{{/lambda.indented_star_4}}
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */

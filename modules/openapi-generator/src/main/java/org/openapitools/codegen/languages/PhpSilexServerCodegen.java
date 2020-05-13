@@ -23,6 +23,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 import java.util.*;
@@ -38,6 +40,10 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
     public PhpSilexServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -136,15 +142,13 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String getName()
-
-    {
-        return "php-silex";
+    public String getName() {
+        return "php-silex-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Silex server library.";
+        return "Generates a PHP Silex server library. IMPORTANT NOTE: this generator is no longer actively maintained.";
     }
 
     @Override

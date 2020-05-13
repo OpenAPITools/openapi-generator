@@ -43,7 +43,7 @@ internal class RequestBuilder<T> {
         }
     }
 
-    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) { }
+    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) { }
 
     internal func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
