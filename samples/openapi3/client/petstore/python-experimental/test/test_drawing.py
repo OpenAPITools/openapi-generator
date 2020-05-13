@@ -64,5 +64,30 @@ class TestDrawing(unittest.TestCase):
         assert isinstance(inst.shapes[2], petstore_api.EquilateralTriangle)
         assert isinstance(inst.shapes[3], petstore_api.ComplexQuadrilateral)
 
+        # Validate we cannot assign the None value to main_shape because the 'null' type
+        # is not one of the allowed types in the 'Shape' schema.
+        err_msg = ("Invalid type for variable '{}'. "
+            "Required value type is {} and passed type was {} at {}")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiTypeError,
+            err_msg.format("main_shape", "Shape", "NoneType", "\['main_shape'\]")
+        ):
+            inst = petstore_api.Drawing(
+                # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
+                # So the None value should not be allowed and an exception should be raised.
+                main_shape=None,
+            )
+
+        # Validate we can assign the None value to secondary_shape, because the 'null' type
+        # is one of the allowed types in the 'ShapeOrNull' schema.
+        inst = petstore_api.Drawing(
+            # 'secondary_shape' has type 'Shape', which is a oneOf [null, triangle, quadrilateral]
+            secondary_shape=None,
+        )
+        assert isinstance(inst, petstore_api.Drawing)
+        self.assertFalse(hasattr(inst, 'main_shape'))
+        self.assertIsNone(inst.secondary_shape)
+
+
 if __name__ == '__main__':
     unittest.main()
