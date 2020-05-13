@@ -1080,11 +1080,28 @@ public class ModelUtils {
         return schema;
     }
 
+    /**
+     * Returns the additionalProperties Schema for the specified input schema.
+     * 
+     * The additionalProperties keyword is used to control the handling of additional, undeclared
+     * properties, that is, properties whose names are not listed in the properties keyword.
+     * The additionalProperties keyword may be either a boolean or an object.
+     * If additionalProperties is a boolean and set to false, no additional properties are allowed.
+     * By default when the additionalProperties keyword is not specified in the input schema,
+     * any additional properties are allowed. This is equivalent to setting additionalProperties
+     * to the boolean value True or setting additionalProperties: {}
+     * 
+     * @param schema the input schema that may or may not have the additionalProperties keyword.
+     * @return the Schema of the additionalProperties. The null value is returned if no additional
+     *         properties are allowed.
+     */
     public static Schema getAdditionalProperties(Schema schema) {
         if (schema.getAdditionalProperties() instanceof Schema) {
             return (Schema) schema.getAdditionalProperties();
         }
-        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
+        if (schema.getAdditionalProperties() == null ||
+            (schema.getAdditionalProperties() instanceof Boolean &&
+                (Boolean) schema.getAdditionalProperties())) {
             return new ObjectSchema();
         }
         return null;
