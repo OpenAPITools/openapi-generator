@@ -172,7 +172,7 @@ export interface RawAjaxResponse<T> extends AjaxResponse {
     response: T;
 }
 
-export const encodeURI = (value: any) => encodeURIComponent(String(value));
+export const encodeURI = (value: any) => encodeURIComponent(`${value}`);
 
 const queryString = (params: HttpQuery): string => Object.keys(params)
     .map((key) => {
