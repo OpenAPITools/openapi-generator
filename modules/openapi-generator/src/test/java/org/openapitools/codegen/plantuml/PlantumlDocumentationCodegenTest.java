@@ -123,6 +123,56 @@ public class PlantumlDocumentationCodegenTest {
     }
 
     @Test
+    public void sharedIdenticalInlineAllOfTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema parentSchema = new Schema()
+                .description("a parent model")
+                .addProperties("id", new StringSchema());
+
+        openAPI.getComponents().addSchemas("parent", parentSchema);
+
+        final Schema parentRefSchema = new Schema()
+                .$ref("#/components/schemas/parent");
+
+        final Schema anotherAllOfInlineSchema = new Schema()
+                .description("an identical inline model used elsewhere")
+                .addProperties("name", new StringSchema());
+
+        openAPI.getComponents().addSchemas("another_allOf", anotherAllOfInlineSchema);
+
+        final Schema sharedIdenticalInlineAllOfRefSchema = new Schema()
+                .$ref("#/components/schemas/another_allOf");
+
+        final ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.setDescription("a composed child model");
+        composedSchema.addAllOfItem(parentRefSchema);
+        composedSchema.addAllOfItem(sharedIdenticalInlineAllOfRefSchema);
+        openAPI.getComponents().addSchemas("child", composedSchema);
+
+        plantumlDocumentationCodegen.setOpenAPI(openAPI);
+        final CodegenModel parentModel = plantumlDocumentationCodegen.fromModel("parent", parentSchema);
+        final CodegenModel childAllOfModel = plantumlDocumentationCodegen.fromModel("another_allOf", anotherAllOfInlineSchema);
+        final CodegenModel childComposedModel = plantumlDocumentationCodegen.fromModel("child", composedSchema);
+
+        Map<String, Object> objs = createObjectsMapFor(parentModel, childComposedModel, childAllOfModel);
+
+        plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
+
+        List<Object> entityList = getList(objs, "entities");
+        Assert.assertEquals(entityList.size(), 2, "size of entity list");
+
+        Map<String, Object> parentEntity = getEntityFromList("Parent", entityList);
+        Map<String, Object> childEntity = getEntityFromList("Child", entityList);
+
+        List<Object> inheritanceList = getList(objs, "inheritances");
+        Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
+
+        Map<String, String> firstInheritance = (Map<String, String>)inheritanceList.get(0);
+        Assert.assertEquals(firstInheritance.get("parent"), "Parent");
+        Assert.assertEquals(firstInheritance.get("child"), "Child");
+    }
+
+    @Test
     public void aggregatedEntitiesTest() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema simpleDataTypeSchema = new Schema()
