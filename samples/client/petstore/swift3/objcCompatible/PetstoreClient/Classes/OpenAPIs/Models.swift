@@ -297,15 +297,15 @@ class Decoders {
         Decoders.addDecoder(clazz: AdditionalPropertiesClass.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AdditionalPropertiesClass> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? AdditionalPropertiesClass() : instance as! AdditionalPropertiesClass
-                switch Decoders.decodeOptional(clazz: [String:String].self, source: sourceDictionary["map_property"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: [String:String].self, source: sourceDictionary["map_string"] as AnyObject?) {
                 
-                case let .success(value): _result.mapProperty = value
+                case let .success(value): _result.mapString = value
                 case let .failure(error): break
                 
                 }
-                switch Decoders.decodeOptional(clazz: [String:[String:String]].self, source: sourceDictionary["map_of_map_property"] as AnyObject?) {
+                switch Decoders.decodeOptional(clazz: [String:[String:String]].self, source: sourceDictionary["map_map_string"] as AnyObject?) {
                 
-                case let .success(value): _result.mapOfMapProperty = value
+                case let .success(value): _result.mapMapString = value
                 case let .failure(error): break
                 
                 }
@@ -533,6 +533,26 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "Cat", actual: "\(source)"))
             }
         }
+        // Decoder for [CatAllOf]
+        Decoders.addDecoder(clazz: [CatAllOf].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[CatAllOf]> in
+            return Decoders.decode(clazz: [CatAllOf].self, source: source)
+        }
+
+        // Decoder for CatAllOf
+        Decoders.addDecoder(clazz: CatAllOf.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<CatAllOf> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let _result = instance == nil ? CatAllOf() : instance as! CatAllOf
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["declawed"] as AnyObject?) {
+                
+                case let .success(value): _result.declawed = value
+                case let .failure(error): break
+                
+                }
+                return .success(_result)
+            } else {
+                return .failure(.typeMismatch(expected: "CatAllOf", actual: "\(source)"))
+            }
+        }
         // Decoder for [Category]
         Decoders.addDecoder(clazz: [Category].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Category]> in
             return Decoders.decode(clazz: [Category].self, source: source)
@@ -634,6 +654,26 @@ class Decoders {
                 return .failure(.typeMismatch(expected: "Dog", actual: "\(source)"))
             }
         }
+        // Decoder for [DogAllOf]
+        Decoders.addDecoder(clazz: [DogAllOf].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[DogAllOf]> in
+            return Decoders.decode(clazz: [DogAllOf].self, source: source)
+        }
+
+        // Decoder for DogAllOf
+        Decoders.addDecoder(clazz: DogAllOf.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<DogAllOf> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let _result = instance == nil ? DogAllOf() : instance as! DogAllOf
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["breed"] as AnyObject?) {
+                
+                case let .success(value): _result.breed = value
+                case let .failure(error): break
+                
+                }
+                return .success(_result)
+            } else {
+                return .failure(.typeMismatch(expected: "DogAllOf", actual: "\(source)"))
+            }
+        }
         // Decoder for [EnumArrays]
         Decoders.addDecoder(clazz: [EnumArrays].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[EnumArrays]> in
             return Decoders.decode(clazz: [EnumArrays].self, source: source)
@@ -685,6 +725,12 @@ class Decoders {
                 case let .failure(error): break
                 
                 }
+                switch Decoders.decodeOptional(clazz: EnumTest.EnumStringRequired.self, source: sourceDictionary["enum_string_required"] as AnyObject?) {
+                
+                case let .success(value): _result.enumStringRequired = value
+                case let .failure(error): break
+                
+                }
                 switch Decoders.decodeOptional(clazz: EnumTest.EnumInteger.self, source: sourceDictionary["enum_integer"] as AnyObject?) {
                 
                 case let .success(value): _result.enumInteger = value
@@ -706,6 +752,52 @@ class Decoders {
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "EnumTest", actual: "\(source)"))
+            }
+        }
+        // Decoder for [File]
+        Decoders.addDecoder(clazz: [File].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[File]> in
+            return Decoders.decode(clazz: [File].self, source: source)
+        }
+
+        // Decoder for File
+        Decoders.addDecoder(clazz: File.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<File> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let _result = instance == nil ? File() : instance as! File
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["sourceURI"] as AnyObject?) {
+                
+                case let .success(value): _result.sourceURI = value
+                case let .failure(error): break
+                
+                }
+                return .success(_result)
+            } else {
+                return .failure(.typeMismatch(expected: "File", actual: "\(source)"))
+            }
+        }
+        // Decoder for [FileSchemaTestClass]
+        Decoders.addDecoder(clazz: [FileSchemaTestClass].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[FileSchemaTestClass]> in
+            return Decoders.decode(clazz: [FileSchemaTestClass].self, source: source)
+        }
+
+        // Decoder for FileSchemaTestClass
+        Decoders.addDecoder(clazz: FileSchemaTestClass.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<FileSchemaTestClass> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let _result = instance == nil ? FileSchemaTestClass() : instance as! FileSchemaTestClass
+                switch Decoders.decodeOptional(clazz: File.self, source: sourceDictionary["file"] as AnyObject?) {
+                
+                case let .success(value): _result.file = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: [File].self, source: sourceDictionary["files"] as AnyObject?) {
+                
+                case let .success(value): _result.files = value
+                case let .failure(error): break
+                
+                }
+                return .success(_result)
+            } else {
+                return .failure(.typeMismatch(expected: "FileSchemaTestClass", actual: "\(source)"))
             }
         }
         // Decoder for [FormatTest]
@@ -866,6 +958,18 @@ class Decoders {
                 case let .success(value): _result.mapOfEnumString = value
                 case let .failure(error): break
                 */ default: break //TODO: handle enum map scenario
+                }
+                switch Decoders.decodeOptional(clazz: [String:Bool].self, source: sourceDictionary["direct_map"] as AnyObject?) {
+                
+                case let .success(value): _result.directMap = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: [String:Bool].self, source: sourceDictionary["indirect_map"] as AnyObject?) {
+                
+                case let .success(value): _result.indirectMap = value
+                case let .failure(error): break
+                
                 }
                 return .success(_result)
             } else {
@@ -1220,6 +1324,94 @@ class Decoders {
                 return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "Tag", actual: "\(source)"))
+            }
+        }
+        // Decoder for [TypeHolderDefault]
+        Decoders.addDecoder(clazz: [TypeHolderDefault].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[TypeHolderDefault]> in
+            return Decoders.decode(clazz: [TypeHolderDefault].self, source: source)
+        }
+
+        // Decoder for TypeHolderDefault
+        Decoders.addDecoder(clazz: TypeHolderDefault.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TypeHolderDefault> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let _result = instance == nil ? TypeHolderDefault() : instance as! TypeHolderDefault
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["string_item"] as AnyObject?) {
+                
+                case let .success(value): _result.stringItem = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["number_item"] as AnyObject?) {
+                
+                case let .success(value): _result.numberItem = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["integer_item"] as AnyObject?) {
+                
+                case let .success(value): _result.integerItem = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["bool_item"] as AnyObject?) {
+                
+                case let .success(value): _result.boolItem = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Int32].self, source: sourceDictionary["array_item"] as AnyObject?) {
+                
+                case let .success(value): _result.arrayItem = value
+                case let .failure(error): break
+                
+                }
+                return .success(_result)
+            } else {
+                return .failure(.typeMismatch(expected: "TypeHolderDefault", actual: "\(source)"))
+            }
+        }
+        // Decoder for [TypeHolderExample]
+        Decoders.addDecoder(clazz: [TypeHolderExample].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[TypeHolderExample]> in
+            return Decoders.decode(clazz: [TypeHolderExample].self, source: source)
+        }
+
+        // Decoder for TypeHolderExample
+        Decoders.addDecoder(clazz: TypeHolderExample.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<TypeHolderExample> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let _result = instance == nil ? TypeHolderExample() : instance as! TypeHolderExample
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["string_item"] as AnyObject?) {
+                
+                case let .success(value): _result.stringItem = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["number_item"] as AnyObject?) {
+                
+                case let .success(value): _result.numberItem = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["integer_item"] as AnyObject?) {
+                
+                case let .success(value): _result.integerItem = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["bool_item"] as AnyObject?) {
+                
+                case let .success(value): _result.boolItem = value
+                case let .failure(error): break
+                
+                }
+                switch Decoders.decodeOptional(clazz: [Int32].self, source: sourceDictionary["array_item"] as AnyObject?) {
+                
+                case let .success(value): _result.arrayItem = value
+                case let .failure(error): break
+                
+                }
+                return .success(_result)
+            } else {
+                return .failure(.typeMismatch(expected: "TypeHolderExample", actual: "\(source)"))
             }
         }
         // Decoder for [User]

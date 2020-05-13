@@ -41,13 +41,13 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   }
   
 
-  val addPetOperation = (apiOperation[Pet]("addPet")
+  val addPetOperation = (apiOperation[Unit]("addPet")
     summary "Add a new pet to the store"
-    parameters(bodyParam[Pet]("pet").description(""))
+    parameters(bodyParam[Pet]("body").description(""))
   )
 
   post("/pet", operation(addPetOperation)) {
-    //println("pet: " + pet)
+    //println("body: " + body)
   }
 
   
@@ -118,13 +118,13 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   
 
-  val updatePetOperation = (apiOperation[Pet]("updatePet")
+  val updatePetOperation = (apiOperation[Unit]("updatePet")
     summary "Update an existing pet"
-    parameters(bodyParam[Pet]("pet").description(""))
+    parameters(bodyParam[Pet]("body").description(""))
   )
 
   put("/pet", operation(updatePetOperation)) {
-    //println("pet: " + pet)
+    //println("body: " + body)
   }
 
   

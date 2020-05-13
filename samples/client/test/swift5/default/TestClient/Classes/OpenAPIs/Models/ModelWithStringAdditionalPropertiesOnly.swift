@@ -8,9 +8,11 @@
 import Foundation
 
 /** This is an empty model with no properties and only additionalProperties of type string */
-public struct ModelWithStringAdditionalPropertiesOnly: Codable {
+public struct ModelWithStringAdditionalPropertiesOnly: Codable { 
 
-    public var additionalProperties: [String: String] = [:]
+
+
+    public var additionalProperties: [String:String] = [:]
 
     public subscript(key: String) -> String? {
         get {
@@ -42,5 +44,6 @@ public struct ModelWithStringAdditionalPropertiesOnly: Codable {
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(String.self, excludedKeys: nonAdditionalPropertyKeys)
     }
+
 
 }

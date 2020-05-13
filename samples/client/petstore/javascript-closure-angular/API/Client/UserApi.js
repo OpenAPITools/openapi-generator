@@ -46,11 +46,11 @@ API.Client.UserApi.$inject = ['$http', '$httpParamSerializer', '$injector'];
 /**
  * Create user
  * This can only be done by the logged in user.
- * @param {!User} user Created user object
+ * @param {!User} body Created user object
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise}
  */
-API.Client.UserApi.prototype.createUser = function(user, opt_extraHttpRequestParams) {
+API.Client.UserApi.prototype.createUser = function(body, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/user';
 
@@ -59,16 +59,16 @@ API.Client.UserApi.prototype.createUser = function(user, opt_extraHttpRequestPar
 
   /** @type {!Object} */
   var headerParams = angular.extend({}, this.defaultHeaders_);
-  // verify required parameter 'user' is set
-  if (!user) {
-    throw new Error('Missing required parameter user when calling createUser');
+  // verify required parameter 'body' is set
+  if (!body) {
+    throw new Error('Missing required parameter body when calling createUser');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'POST',
     url: path,
     json: true,
-    data: user,
+    data: body,
         params: queryParameters,
     headers: headerParams
   };
@@ -83,11 +83,11 @@ API.Client.UserApi.prototype.createUser = function(user, opt_extraHttpRequestPar
 /**
  * Creates list of users with given input array
  * 
- * @param {!Array<!API.Client.User>} user List of user object
+ * @param {!Array<!API.Client.User>} body List of user object
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise}
  */
-API.Client.UserApi.prototype.createUsersWithArrayInput = function(user, opt_extraHttpRequestParams) {
+API.Client.UserApi.prototype.createUsersWithArrayInput = function(body, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/user/createWithArray';
 
@@ -96,16 +96,16 @@ API.Client.UserApi.prototype.createUsersWithArrayInput = function(user, opt_extr
 
   /** @type {!Object} */
   var headerParams = angular.extend({}, this.defaultHeaders_);
-  // verify required parameter 'user' is set
-  if (!user) {
-    throw new Error('Missing required parameter user when calling createUsersWithArrayInput');
+  // verify required parameter 'body' is set
+  if (!body) {
+    throw new Error('Missing required parameter body when calling createUsersWithArrayInput');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'POST',
     url: path,
     json: true,
-    data: user,
+    data: body,
         params: queryParameters,
     headers: headerParams
   };
@@ -120,11 +120,11 @@ API.Client.UserApi.prototype.createUsersWithArrayInput = function(user, opt_extr
 /**
  * Creates list of users with given input array
  * 
- * @param {!Array<!API.Client.User>} user List of user object
+ * @param {!Array<!API.Client.User>} body List of user object
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise}
  */
-API.Client.UserApi.prototype.createUsersWithListInput = function(user, opt_extraHttpRequestParams) {
+API.Client.UserApi.prototype.createUsersWithListInput = function(body, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/user/createWithList';
 
@@ -133,16 +133,16 @@ API.Client.UserApi.prototype.createUsersWithListInput = function(user, opt_extra
 
   /** @type {!Object} */
   var headerParams = angular.extend({}, this.defaultHeaders_);
-  // verify required parameter 'user' is set
-  if (!user) {
-    throw new Error('Missing required parameter user when calling createUsersWithListInput');
+  // verify required parameter 'body' is set
+  if (!body) {
+    throw new Error('Missing required parameter body when calling createUsersWithListInput');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'POST',
     url: path,
     json: true,
-    data: user,
+    data: body,
         params: queryParameters,
     headers: headerParams
   };
@@ -312,11 +312,11 @@ API.Client.UserApi.prototype.logoutUser = function(opt_extraHttpRequestParams) {
  * Updated user
  * This can only be done by the logged in user.
  * @param {!string} username name that need to be deleted
- * @param {!User} user Updated user object
+ * @param {!User} body Updated user object
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
  * @return {!angular.$q.Promise}
  */
-API.Client.UserApi.prototype.updateUser = function(username, user, opt_extraHttpRequestParams) {
+API.Client.UserApi.prototype.updateUser = function(username, body, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/user/{username}'
       .replace('{' + 'username' + '}', String(username));
@@ -330,16 +330,16 @@ API.Client.UserApi.prototype.updateUser = function(username, user, opt_extraHttp
   if (!username) {
     throw new Error('Missing required parameter username when calling updateUser');
   }
-  // verify required parameter 'user' is set
-  if (!user) {
-    throw new Error('Missing required parameter user when calling updateUser');
+  // verify required parameter 'body' is set
+  if (!body) {
+    throw new Error('Missing required parameter body when calling updateUser');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'PUT',
     url: path,
     json: true,
-    data: user,
+    data: body,
         params: queryParameters,
     headers: headerParams
   };

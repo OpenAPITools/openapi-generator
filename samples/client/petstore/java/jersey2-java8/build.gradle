@@ -1,6 +1,5 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
-apply plugin: 'java'
 
 group = 'org.openapitools'
 version = '1.0.0'
@@ -19,9 +18,7 @@ buildscript {
 repositories {
     jcenter()
 }
-sourceSets {
-    main.java.srcDirs = ['src/main/java']
-}
+
 
 if(hasProperty('target') && target == 'android') {
 
@@ -36,8 +33,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
 
         // Rename the aar correctly
@@ -52,7 +49,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:javax.annotation-api:1.3.2'
+            provided 'javax.annotation:jsr250-api:1.0'
         }
     }
 
@@ -81,9 +78,8 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven'
-
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     install {
         repositories.mavenInstaller {
@@ -97,17 +93,27 @@ if(hasProperty('target') && target == 'android') {
     }
 }
 
+ext {
+    swagger_annotations_version = "1.5.22"
+    jackson_version = "2.10.3"
+    jackson_databind_version = "2.10.3"
+    jackson_databind_nullable_version = "0.2.1"
+    jersey_version = "2.27"
+    junit_version = "4.13"
+}
+
 dependencies {
-    compile 'io.swagger:swagger-annotations:1.5.24'
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.google.code.findbugs:jsr305:3.0.2"
-    compile 'com.squareup.okhttp3:okhttp:3.14.7'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.14.7'
-    compile 'com.google.code.gson:gson:2.8.6'
-    compile 'io.gsonfire:gson-fire:1.8.4'
-    compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
-    compile 'org.threeten:threetenbp:1.4.3'
-    testCompile 'junit:junit:4.13'
+    compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
+    compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
+    compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
+    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    testCompile "junit:junit:$junit_version"
 }
 
 javadoc {

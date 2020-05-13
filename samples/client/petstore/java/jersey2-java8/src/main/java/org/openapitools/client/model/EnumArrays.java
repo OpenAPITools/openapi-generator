@@ -15,26 +15,28 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * EnumArrays
  */
+@JsonPropertyOrder({
+  EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+  EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
 
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
-  @JsonAdapter(JustSymbolEnum.Adapter.class)
   public enum JustSymbolEnum {
     GREATER_THAN_OR_EQUAL_TO(">="),
     
@@ -46,6 +48,7 @@ public class EnumArrays {
       this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -55,6 +58,7 @@ public class EnumArrays {
       return String.valueOf(value);
     }
 
+    @JsonCreator
     public static JustSymbolEnum fromValue(String value) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
         if (b.value.equals(value)) {
@@ -63,29 +67,14 @@ public class EnumArrays {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
-
-    public static class Adapter extends TypeAdapter<JustSymbolEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final JustSymbolEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public JustSymbolEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return JustSymbolEnum.fromValue(value);
-      }
-    }
   }
 
-  public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
-  @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
+  public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
    */
-  @JsonAdapter(ArrayEnumEnum.Adapter.class)
   public enum ArrayEnumEnum {
     FISH("fish"),
     
@@ -97,6 +86,7 @@ public class EnumArrays {
       this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -106,6 +96,7 @@ public class EnumArrays {
       return String.valueOf(value);
     }
 
+    @JsonCreator
     public static ArrayEnumEnum fromValue(String value) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
         if (b.value.equals(value)) {
@@ -114,23 +105,9 @@ public class EnumArrays {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
-
-    public static class Adapter extends TypeAdapter<ArrayEnumEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final ArrayEnumEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public ArrayEnumEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return ArrayEnumEnum.fromValue(value);
-      }
-    }
   }
 
-  public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
-  @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   private List<ArrayEnumEnum> arrayEnum = null;
 
 
@@ -146,6 +123,8 @@ public class EnumArrays {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -165,7 +144,7 @@ public class EnumArrays {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+      this.arrayEnum = new ArrayList<>();
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;
@@ -177,6 +156,8 @@ public class EnumArrays {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

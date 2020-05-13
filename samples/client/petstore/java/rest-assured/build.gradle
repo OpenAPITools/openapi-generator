@@ -112,5 +112,7 @@ dependencies {
     compile 'com.google.code.gson:gson:$gson_version'
     compile "org.threeten:threetenbp:$threetenbp_version"
     compile "com.squareup.okio:okio:$okio_version"
+    compile "javax.validation:validation-api:2.0.1.Final"
+    compile "org.hibernate:hibernate-validator:6.0.19.Final"
     testCompile "junit:junit:$junit_version"
 }

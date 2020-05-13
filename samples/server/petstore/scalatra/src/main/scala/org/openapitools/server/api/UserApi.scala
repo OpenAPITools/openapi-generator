@@ -41,33 +41,33 @@ class UserApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   val createUserOperation = (apiOperation[Unit]("createUser")
     summary "Create user"
-    parameters(bodyParam[User]("user").description(""))
+    parameters(bodyParam[User]("body").description(""))
   )
 
   post("/user", operation(createUserOperation)) {
-    //println("user: " + user)
+    //println("body: " + body)
   }
 
   
 
   val createUsersWithArrayInputOperation = (apiOperation[Unit]("createUsersWithArrayInput")
     summary "Creates list of users with given input array"
-    parameters(bodyParam[List[User]]("user").description(""))
+    parameters(bodyParam[List[User]]("body").description(""))
   )
 
   post("/user/createWithArray", operation(createUsersWithArrayInputOperation)) {
-    //println("user: " + user)
+    //println("body: " + body)
   }
 
   
 
   val createUsersWithListInputOperation = (apiOperation[Unit]("createUsersWithListInput")
     summary "Creates list of users with given input array"
-    parameters(bodyParam[List[User]]("user").description(""))
+    parameters(bodyParam[List[User]]("body").description(""))
   )
 
   post("/user/createWithList", operation(createUsersWithListInputOperation)) {
-    //println("user: " + user)
+    //println("body: " + body)
   }
 
   
@@ -124,13 +124,13 @@ class UserApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   val updateUserOperation = (apiOperation[Unit]("updateUser")
     summary "Updated user"
-    parameters(pathParam[String]("username").description(""), bodyParam[User]("user").description(""))
+    parameters(pathParam[String]("username").description(""), bodyParam[User]("body").description(""))
   )
 
   put("/user/:username", operation(updateUserOperation)) {
     val username = params.getOrElse("username", halt(400))
     //println("username: " + username)
-    //println("user: " + user)
+    //println("body: " + body)
   }
 
 }

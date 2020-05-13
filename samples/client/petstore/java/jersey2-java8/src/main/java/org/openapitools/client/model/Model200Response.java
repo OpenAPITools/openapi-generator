@@ -15,27 +15,28 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
+@JsonPropertyOrder({
+  Model200Response.JSON_PROPERTY_NAME,
+  Model200Response.JSON_PROPERTY_PROPERTY_CLASS
+})
 
 public class Model200Response {
-  public static final String SERIALIZED_NAME_NAME = "name";
-  @SerializedName(SERIALIZED_NAME_NAME)
+  public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
 
-  public static final String SERIALIZED_NAME_PROPERTY_CLASS = "class";
-  @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
+  public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
   private String propertyClass;
 
 
@@ -51,6 +52,8 @@ public class Model200Response {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getName() {
     return name;
@@ -74,6 +77,8 @@ public class Model200Response {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropertyClass() {
     return propertyClass;

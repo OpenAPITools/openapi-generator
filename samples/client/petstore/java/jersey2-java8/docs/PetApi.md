@@ -15,13 +15,15 @@ Method | HTTP request | Description
 [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
-<a name="addPet"></a>
-# **addPet**
+
+## addPet
+
 > addPet(body)
 
 Add a new pet to the store
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -32,30 +34,31 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
-    try {
-      apiInstance.addPet(body);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#addPet");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        try {
+            apiInstance.addPet(body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#addPet");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -71,22 +74,24 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
-**405** | Invalid input |  -  |
+| **200** | successful operation |  -  |
+| **405** | Invalid input |  -  |
 
-<a name="deletePet"></a>
-# **deletePet**
+
+## deletePet
+
 > deletePet(petId, apiKey)
 
 Deletes a pet
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -97,31 +102,32 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    Long petId = 56L; // Long | Pet id to delete
-    String apiKey = "apiKey_example"; // String | 
-    try {
-      apiInstance.deletePet(petId, apiKey);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#deletePet");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        Long petId = 56L; // Long | Pet id to delete
+        String apiKey = "apiKey_example"; // String | 
+        try {
+            apiInstance.deletePet(petId, apiKey);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#deletePet");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -138,17 +144,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
-**400** | Invalid pet value |  -  |
+| **200** | successful operation |  -  |
+| **400** | Invalid pet value |  -  |
 
-<a name="findPetsByStatus"></a>
-# **findPetsByStatus**
+
+## findPetsByStatus
+
 > List&lt;Pet&gt; findPetsByStatus(status)
 
 Finds Pets by status
@@ -156,6 +163,7 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -166,31 +174,32 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
-    try {
-      List<Pet> result = apiInstance.findPetsByStatus(status);
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#findPetsByStatus");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
+        try {
+            List<Pet> result = apiInstance.findPetsByStatus(status);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#findPetsByStatus");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -206,17 +215,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
-**400** | Invalid status value |  -  |
+| **200** | successful operation |  -  |
+| **400** | Invalid status value |  -  |
 
-<a name="findPetsByTags"></a>
-# **findPetsByTags**
+
+## findPetsByTags
+
 > List&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
@@ -224,6 +234,7 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -234,31 +245,32 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
-    try {
-      List<Pet> result = apiInstance.findPetsByTags(tags);
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#findPetsByTags");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
+        try {
+            List<Pet> result = apiInstance.findPetsByTags(tags);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#findPetsByTags");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -274,17 +286,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
-**400** | Invalid tag value |  -  |
+| **200** | successful operation |  -  |
+| **400** | Invalid tag value |  -  |
 
-<a name="getPetById"></a>
-# **getPetById**
+
+## getPetById
+
 > Pet getPetById(petId)
 
 Find pet by ID
@@ -292,6 +305,7 @@ Find pet by ID
 Returns a single pet
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -302,33 +316,34 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure API key authorization: api_key
-    ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
-    api_key.setApiKey("YOUR API KEY");
-    // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-    //api_key.setApiKeyPrefix("Token");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    Long petId = 56L; // Long | ID of pet to return
-    try {
-      Pet result = apiInstance.getPetById(petId);
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#getPetById");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        Long petId = 56L; // Long | ID of pet to return
+        try {
+            Pet result = apiInstance.getPetById(petId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#getPetById");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -344,23 +359,25 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
-**400** | Invalid ID supplied |  -  |
-**404** | Pet not found |  -  |
+| **200** | successful operation |  -  |
+| **400** | Invalid ID supplied |  -  |
+| **404** | Pet not found |  -  |
 
-<a name="updatePet"></a>
-# **updatePet**
+
+## updatePet
+
 > updatePet(body)
 
 Update an existing pet
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -371,30 +388,31 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
-    try {
-      apiInstance.updatePet(body);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#updatePet");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        try {
+            apiInstance.updatePet(body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#updatePet");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -410,24 +428,26 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
-**400** | Invalid ID supplied |  -  |
-**404** | Pet not found |  -  |
-**405** | Validation exception |  -  |
+| **200** | successful operation |  -  |
+| **400** | Invalid ID supplied |  -  |
+| **404** | Pet not found |  -  |
+| **405** | Validation exception |  -  |
 
-<a name="updatePetWithForm"></a>
-# **updatePetWithForm**
+
+## updatePetWithForm
+
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -438,32 +458,33 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    Long petId = 56L; // Long | ID of pet that needs to be updated
-    String name = "name_example"; // String | Updated name of the pet
-    String status = "status_example"; // String | Updated status of the pet
-    try {
-      apiInstance.updatePetWithForm(petId, name, status);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#updatePetWithForm");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        Long petId = 56L; // Long | ID of pet that needs to be updated
+        String name = "name_example"; // String | Updated name of the pet
+        String status = "status_example"; // String | Updated status of the pet
+        try {
+            apiInstance.updatePetWithForm(petId, name, status);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#updatePetWithForm");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -481,21 +502,23 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**405** | Invalid input |  -  |
+| **405** | Invalid input |  -  |
 
-<a name="uploadFile"></a>
-# **uploadFile**
+
+## uploadFile
+
 > ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -506,33 +529,34 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    Long petId = 56L; // Long | ID of pet to update
-    String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-    File file = new File("/path/to/file"); // File | file to upload
-    try {
-      ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#uploadFile");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        Long petId = 56L; // Long | ID of pet to update
+        String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+        File file = new File("/path/to/file"); // File | file to upload
+        try {
+            ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#uploadFile");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -550,21 +574,23 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
+| **200** | successful operation |  -  |
 
-<a name="uploadFileWithRequiredFile"></a>
-# **uploadFileWithRequiredFile**
+
+## uploadFileWithRequiredFile
+
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -575,33 +601,34 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    Long petId = 56L; // Long | ID of pet to update
-    File requiredFile = new File("/path/to/file"); // File | file to upload
-    String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-    try {
-      ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        PetApi apiInstance = new PetApi(defaultClient);
+        Long petId = 56L; // Long | ID of pet to update
+        File requiredFile = new File("/path/to/file"); // File | file to upload
+        String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+        try {
+            ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -619,11 +646,11 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
+| **200** | successful operation |  -  |
 

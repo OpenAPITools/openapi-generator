@@ -15,27 +15,33 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * BigCat
  */
+@JsonPropertyOrder({
+  BigCat.JSON_PROPERTY_KIND
+})
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
+@JsonSubTypes({
+})
 
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
    */
-  @JsonAdapter(KindEnum.Adapter.class)
   public enum KindEnum {
     LIONS("lions"),
     
@@ -51,6 +57,7 @@ public class BigCat extends Cat {
       this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -60,6 +67,7 @@ public class BigCat extends Cat {
       return String.valueOf(value);
     }
 
+    @JsonCreator
     public static KindEnum fromValue(String value) {
       for (KindEnum b : KindEnum.values()) {
         if (b.value.equals(value)) {
@@ -68,28 +76,11 @@ public class BigCat extends Cat {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
-
-    public static class Adapter extends TypeAdapter<KindEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final KindEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public KindEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return KindEnum.fromValue(value);
-      }
-    }
   }
 
-  public static final String SERIALIZED_NAME_KIND = "kind";
-  @SerializedName(SERIALIZED_NAME_KIND)
+  public static final String JSON_PROPERTY_KIND = "kind";
   private KindEnum kind;
 
-  public BigCat() {
-    this.className = this.getClass().getSimpleName();
-  }
 
   public BigCat kind(KindEnum kind) {
     
@@ -103,6 +94,8 @@ public class BigCat extends Cat {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public KindEnum getKind() {
     return kind;

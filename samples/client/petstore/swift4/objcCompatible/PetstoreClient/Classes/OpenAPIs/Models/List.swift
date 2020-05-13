@@ -7,7 +7,9 @@
 
 import Foundation
 
-@objc public class List: NSObject, Codable {
+
+
+@objc public class List: NSObject, Codable { 
 
     public var _123list: String?
 
@@ -15,7 +17,7 @@ import Foundation
         self._123list = _123list
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case _123list = "123-list"
     }
 

@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct Cat: Codable {
+
+public struct Cat: Codable { 
+
 
     public var className: String?
     public var color: String? = "red"
