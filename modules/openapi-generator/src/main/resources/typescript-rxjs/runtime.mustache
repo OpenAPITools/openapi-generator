@@ -93,9 +93,9 @@ export class BaseAPI {
             headers,
             body: body instanceof FormData ? body : JSON.stringify(body),
             responseType: responseType ?? 'json',
-{{#withProgressSubscriber}}
+            {{#withProgressSubscriber}}
             progressSubscriber,
-{{/withProgressSubscriber}}
+            {{/withProgressSubscriber}}
         };
     }
 
@@ -151,9 +151,9 @@ export interface RequestOpts extends AjaxRequest {
     headers?: HttpHeaders;
     body?: HttpBody;
     responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
-{{#withProgressSubscriber}}
+    {{#withProgressSubscriber}}
     progressSubscriber?: Subscriber<ProgressEvent>;
-{{/withProgressSubscriber}}
+    {{/withProgressSubscriber}}
 }
 
 export interface ResponseOpts {
@@ -161,9 +161,9 @@ export interface ResponseOpts {
 }
 
 export interface OperationOpts {
-{{#withProgressSubscriber}}
+    {{#withProgressSubscriber}}
     progressSubscriber?: Subscriber<ProgressEvent>;
-{{/withProgressSubscriber}}
+    {{/withProgressSubscriber}}
     responseOpts?: ResponseOpts;
 }
 
