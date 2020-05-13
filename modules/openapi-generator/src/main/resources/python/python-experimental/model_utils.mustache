@@ -917,7 +917,7 @@ def is_valid_type(input_class_simple, valid_classes):
             if input_class_simple is none_type and is_type_nullable(valid_class):
                 # Schema is oneOf/anyOf and the 'null' type is one of the allowed types.            
                 return True
-            if not valid_class.discriminator:
+            if not (issubclass(valid_class, OpenApiModel) and valid_class.discriminator):
                 continue
             discr_propertyname_py = list(valid_class.discriminator.keys())[0]
             discriminator_classes = (
