@@ -23,6 +23,7 @@ sidebar_label: typescript-axios
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withSeparateModelsAndApi|Put the model and api in separate folders and in separate classes| |false|
 |withoutPrefixEnums|Don't prefix enum names with class names| |false|
+|useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 
 ## IMPORT MAPPING
 
