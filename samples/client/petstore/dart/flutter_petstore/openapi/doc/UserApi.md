@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **createUser**
-> createUser(user)
+> createUser(body)
 
 Create user
 
@@ -29,16 +29,12 @@ This can only be done by the logged in user.
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
 
 var api_instance = new UserApi();
-var user = new User(); // User | Created user object
+var body = new User(); // User | Created user object
 
 try { 
-    api_instance.createUser(user);
+    api_instance.createUser(body);
 } catch (e) {
     print("Exception when calling UserApi->createUser: $e\n");
 }
@@ -48,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -56,33 +52,29 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(user)
+> createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
 
 var api_instance = new UserApi();
-var user = [new List&lt;User&gt;()]; // List<User> | List of user object
+var body = [new List&lt;User&gt;()]; // List<User> | List of user object
 
 try { 
-    api_instance.createUsersWithArrayInput(user);
+    api_instance.createUsersWithArrayInput(body);
 } catch (e) {
     print("Exception when calling UserApi->createUsersWithArrayInput: $e\n");
 }
@@ -92,7 +84,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -100,33 +92,29 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithListInput**
-> createUsersWithListInput(user)
+> createUsersWithListInput(body)
 
 Creates list of users with given input array
 
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
 
 var api_instance = new UserApi();
-var user = [new List&lt;User&gt;()]; // List<User> | List of user object
+var body = [new List&lt;User&gt;()]; // List<User> | List of user object
 
 try { 
-    api_instance.createUsersWithListInput(user);
+    api_instance.createUsersWithListInput(body);
 } catch (e) {
     print("Exception when calling UserApi->createUsersWithListInput: $e\n");
 }
@@ -136,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -144,11 +132,11 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -163,10 +151,6 @@ This can only be done by the logged in user.
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
 
 var api_instance = new UserApi();
 var username = username_example; // String | The name that needs to be deleted
@@ -190,7 +174,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -291,10 +275,6 @@ Logs out current logged in user session
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
 
 var api_instance = new UserApi();
 
@@ -314,7 +294,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -324,7 +304,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateUser**
-> updateUser(username, user)
+> updateUser(username, body)
 
 Updated user
 
@@ -333,17 +313,13 @@ This can only be done by the logged in user.
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
 
 var api_instance = new UserApi();
 var username = username_example; // String | name that need to be deleted
-var user = new User(); // User | Updated user object
+var body = new User(); // User | Updated user object
 
 try { 
-    api_instance.updateUser(username, user);
+    api_instance.updateUser(username, body);
 } catch (e) {
     print("Exception when calling UserApi->updateUser: $e\n");
 }
@@ -354,7 +330,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | [default to null]
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -362,11 +338,11 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

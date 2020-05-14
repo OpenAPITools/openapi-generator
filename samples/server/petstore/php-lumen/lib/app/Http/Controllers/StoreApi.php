@@ -61,10 +61,10 @@ class StoreApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['order'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $order when calling placeOrder');
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling placeOrder');
         }
-        $order = $input['order'];
+        $body = $input['body'];
 
 
         return response('How about implementing placeOrder as a post method ?');

@@ -23,7 +23,7 @@ import {
  * addPet - parameters interface
  */
 export interface IAddPetParams {
-  pet: Pet;
+  body: Pet;
 }
 
 /**
@@ -59,7 +59,7 @@ export interface IGetPetByIdParams {
  * updatePet - parameters interface
  */
 export interface IUpdatePetParams {
-  pet: Pet;
+  body: Pet;
 }
 
 /**
@@ -98,11 +98,11 @@ export class PetApi extends Api {
 
   /**
    * Add a new pet to the store
-   * @param params.pet Pet object that needs to be added to the store
+   * @param params.body Pet object that needs to be added to the store
    */
-  async addPet(params: IAddPetParams): Promise<Pet> {
+  async addPet(params: IAddPetParams): Promise<any> {
     // Verify required parameters are set
-    this.ensureParamIsSet('addPet', params, 'pet');
+    this.ensureParamIsSet('addPet', params, 'body');
 
     // Create URL to call
     const url = `${this.basePath}/pet`;
@@ -112,7 +112,7 @@ export class PetApi extends Api {
       .asPost()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['pet'] || {}))
+      .withContent(JSON.stringify(params['body'] || {}))
 
       // Authentication 'petstore_auth' required
       // Send the request
@@ -251,11 +251,11 @@ export class PetApi extends Api {
 
   /**
    * Update an existing pet
-   * @param params.pet Pet object that needs to be added to the store
+   * @param params.body Pet object that needs to be added to the store
    */
-  async updatePet(params: IUpdatePetParams): Promise<Pet> {
+  async updatePet(params: IUpdatePetParams): Promise<any> {
     // Verify required parameters are set
-    this.ensureParamIsSet('updatePet', params, 'pet');
+    this.ensureParamIsSet('updatePet', params, 'body');
 
     // Create URL to call
     const url = `${this.basePath}/pet`;
@@ -265,7 +265,7 @@ export class PetApi extends Api {
       .asPut()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['pet'] || {}))
+      .withContent(JSON.stringify(params['body'] || {}))
 
       // Authentication 'petstore_auth' required
       // Send the request

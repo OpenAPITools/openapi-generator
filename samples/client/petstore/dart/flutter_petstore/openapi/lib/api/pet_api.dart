@@ -10,12 +10,12 @@ class PetApi {
   /// Add a new pet to the store
   ///
   /// 
-  Future<Pet> addPet(Pet pet) async {
-    Object postBody = pet;
+  Future addPet(Pet body) async {
+    Object postBody = body;
 
     // verify required params are set
-    if(pet == null) {
-     throw new ApiException(400, "Missing required param: pet");
+    if(body == null) {
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -52,9 +52,8 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     } else {
-      return null;
+      return;
     }
   }
   /// Deletes a pet
@@ -262,12 +261,12 @@ class PetApi {
   /// Update an existing pet
   ///
   /// 
-  Future<Pet> updatePet(Pet pet) async {
-    Object postBody = pet;
+  Future updatePet(Pet body) async {
+    Object postBody = body;
 
     // verify required params are set
-    if(pet == null) {
-     throw new ApiException(400, "Missing required param: pet");
+    if(body == null) {
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
@@ -304,9 +303,8 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     } else {
-      return null;
+      return;
     }
   }
   /// Updates a pet in the store with form data

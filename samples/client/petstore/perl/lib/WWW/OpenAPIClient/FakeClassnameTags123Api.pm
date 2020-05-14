@@ -53,10 +53,10 @@ sub new {
 #
 # To test class name in snake case
 # 
-# @param Client $client client model (required)
+# @param Client $body client model (required)
 {
     my $params = {
-    'client' => {
+    'body' => {
         data_type => 'Client',
         description => 'client model',
         required => '1',
@@ -73,9 +73,9 @@ sub new {
 sub test_classname {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'client' is set
-    unless (exists $args{'client'}) {
-      croak("Missing the required parameter 'client' when calling test_classname");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_classname");
     }
 
     # parse inputs
@@ -95,8 +95,8 @@ sub test_classname {
 
     my $_body_data;
     # body params
-    if ( exists $args{'client'}) {
-        $_body_data = $args{'client'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any

@@ -29,7 +29,6 @@ class ApiResponse implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
-  "title" : "An uploaded response",
   "type" : "object",
   "properties" : {
     "code" : {
@@ -42,8 +41,7 @@ class ApiResponse implements ModelInterface
     "message" : {
       "type" : "string"
     }
-  },
-  "description" : "Describes the result of uploading an image resource"
+  }
 }
 SCHEMA;
 

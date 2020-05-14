@@ -1,8 +1,8 @@
-defmodule OpenAPIPetstore.Mixfile do
+defmodule OpenapiPetstore.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :open_api_petstore,
+    [app: :openapi_petstore,
      version: "1.0.0",
      elixir: "~> 1.6",
      build_embedded: Mix.env == :prod,

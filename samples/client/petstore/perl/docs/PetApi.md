@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(pet => $pet)
+> add_pet(body => $body)
 
 Add a new pet to the store
 
@@ -35,10 +35,10 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $pet = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+my $body = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
 eval { 
-    $api_instance->add_pet(pet => $pet);
+    $api_instance->add_pet(body => $body);
 };
 if ($@) {
     warn "Exception when calling PetApi->add_pet: $@\n";
@@ -49,7 +49,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -264,7 +264,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(pet => $pet)
+> update_pet(body => $body)
 
 Update an existing pet
 
@@ -278,10 +278,10 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $pet = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+my $body = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
 eval { 
-    $api_instance->update_pet(pet => $pet);
+    $api_instance->update_pet(body => $body);
 };
 if ($@) {
     warn "Exception when calling PetApi->update_pet: $@\n";
@@ -292,7 +292,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

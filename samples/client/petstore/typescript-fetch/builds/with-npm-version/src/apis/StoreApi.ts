@@ -29,7 +29,7 @@ export interface GetOrderByIdRequest {
 }
 
 export interface PlaceOrderRequest {
-    order: Order;
+    body: Order;
 }
 
 /**
@@ -136,8 +136,8 @@ export class StoreApi extends runtime.BaseAPI {
      * Place an order for a pet
      */
     async placeOrderRaw(requestParameters: PlaceOrderRequest): Promise<runtime.ApiResponse<Order>> {
-        if (requestParameters.order === null || requestParameters.order === undefined) {
-            throw new runtime.RequiredError('order','Required parameter requestParameters.order was null or undefined when calling placeOrder.');
+        if (requestParameters.body === null || requestParameters.body === undefined) {
+            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -151,7 +151,7 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: OrderToJSON(requestParameters.order),
+            body: OrderToJSON(requestParameters.body),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));

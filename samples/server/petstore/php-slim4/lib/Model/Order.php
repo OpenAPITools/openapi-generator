@@ -29,7 +29,6 @@ class Order implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
-  "title" : "Pet Order",
   "type" : "object",
   "properties" : {
     "id" : {
@@ -58,7 +57,6 @@ class Order implements ModelInterface
       "default" : false
     }
   },
-  "description" : "An order for a pets from the pet store",
   "xml" : {
     "name" : "Order"
   }

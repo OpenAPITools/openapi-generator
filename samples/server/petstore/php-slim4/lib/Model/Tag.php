@@ -29,7 +29,6 @@ class Tag implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
-  "title" : "Pet Tag",
   "type" : "object",
   "properties" : {
     "id" : {
@@ -40,7 +39,6 @@ class Tag implements ModelInterface
       "type" : "string"
     }
   },
-  "description" : "A tag for a pet",
   "xml" : {
     "name" : "Tag"
   }

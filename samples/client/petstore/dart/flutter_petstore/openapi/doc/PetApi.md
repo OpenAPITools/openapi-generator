@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> Pet addPet(pet)
+> addPet(body)
 
 Add a new pet to the store
 
@@ -31,11 +31,10 @@ import 'package:openapi/api.dart';
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    var result = api_instance.addPet(pet);
-    print(result);
+    api_instance.addPet(body);
 } catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }
@@ -45,11 +44,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-[**Pet**](Pet.md)
+void (empty response body)
 
 ### Authorization
 
@@ -58,7 +57,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -244,7 +243,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePet**
-> Pet updatePet(pet)
+> updatePet(body)
 
 Update an existing pet
 
@@ -255,11 +254,10 @@ import 'package:openapi/api.dart';
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    var result = api_instance.updatePet(pet);
-    print(result);
+    api_instance.updatePet(body);
 } catch (e) {
     print("Exception when calling PetApi->updatePet: $e\n");
 }
@@ -269,11 +267,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-[**Pet**](Pet.md)
+void (empty response body)
 
 ### Authorization
 
@@ -282,7 +280,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

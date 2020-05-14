@@ -17,7 +17,6 @@ import http = require('http');
 import { User } from '../model/user';
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
-import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';
 
 import { HttpError, RequestFile } from './apis';
 
@@ -28,7 +27,6 @@ let defaultBasePath = 'http://petstore.swagger.io/v2';
 // ===============================================
 
 export enum UserApiApiKeys {
-    auth_cookie,
 }
 
 export class UserApi {
@@ -38,7 +36,6 @@ export class UserApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'auth_cookie': new ApiKeyAuth('cookie', 'AUTH_KEY'),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -91,17 +88,17 @@ export class UserApi {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
-     * @param user Created user object
+     * @param body Created user object
      */
-    public async createUser (user: User, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async createUser (body: User, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling createUser.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createUser.');
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -115,13 +112,10 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(user, "User")
+            body: ObjectSerializer.serialize(body, "User")
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.auth_cookie.apiKey) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.auth_cookie.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -155,17 +149,17 @@ export class UserApi {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      */
-    public async createUsersWithArrayInput (user: Array<User>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async createUsersWithArrayInput (body: Array<User>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/createWithArray';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -179,13 +173,10 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(user, "Array<User>")
+            body: ObjectSerializer.serialize(body, "Array<User>")
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.auth_cookie.apiKey) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.auth_cookie.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -219,17 +210,17 @@ export class UserApi {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      */
-    public async createUsersWithListInput (user: Array<User>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async createUsersWithListInput (body: Array<User>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/createWithList';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -243,13 +234,10 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(user, "Array<User>")
+            body: ObjectSerializer.serialize(body, "Array<User>")
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.auth_cookie.apiKey) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.auth_cookie.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -311,9 +299,6 @@ export class UserApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.auth_cookie.apiKey) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.auth_cookie.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -519,9 +504,6 @@ export class UserApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.auth_cookie.apiKey) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.auth_cookie.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -556,9 +538,9 @@ export class UserApi {
      * This can only be done by the logged in user.
      * @summary Updated user
      * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param body Updated user object
      */
-    public async updateUser (username: string, user: User, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async updateUser (username: string, body: User, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
@@ -570,9 +552,9 @@ export class UserApi {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
 
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new Error('Required parameter user was null or undefined when calling updateUser.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling updateUser.');
         }
 
         (<any>Object).assign(localVarHeaderParams, options.headers);
@@ -586,13 +568,10 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(user, "User")
+            body: ObjectSerializer.serialize(body, "User")
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.auth_cookie.apiKey) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.auth_cookie.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;

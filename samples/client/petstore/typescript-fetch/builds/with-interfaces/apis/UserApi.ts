@@ -21,15 +21,15 @@ import {
 } from '../models';
 
 export interface CreateUserRequest {
-    user: User;
+    body: User;
 }
 
 export interface CreateUsersWithArrayInputRequest {
-    user: Array<User>;
+    body: Array<User>;
 }
 
 export interface CreateUsersWithListInputRequest {
-    user: Array<User>;
+    body: Array<User>;
 }
 
 export interface DeleteUserRequest {
@@ -47,7 +47,7 @@ export interface LoginUserRequest {
 
 export interface UpdateUserRequest {
     username: string;
-    user: User;
+    body: User;
 }
 
 /**
@@ -60,7 +60,7 @@ export interface UserApiInterface {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
-     * @param {User} user Created user object
+     * @param {User} body Created user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
@@ -76,7 +76,7 @@ export interface UserApiInterface {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param {Array<User>} user List of user object
+     * @param {Array<User>} body List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
@@ -91,7 +91,7 @@ export interface UserApiInterface {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param {Array<User>} user List of user object
+     * @param {Array<User>} body List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
@@ -168,7 +168,7 @@ export interface UserApiInterface {
      * This can only be done by the logged in user.
      * @summary Updated user
      * @param {string} username name that need to be deleted
-     * @param {User} user Updated user object
+     * @param {User} body Updated user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApiInterface
@@ -193,8 +193,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
      * Create user
      */
     async createUserRaw(requestParameters: CreateUserRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.user === null || requestParameters.user === undefined) {
-            throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling createUser.');
+        if (requestParameters.body === null || requestParameters.body === undefined) {
+            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUser.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -208,7 +208,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UserToJSON(requestParameters.user),
+            body: UserToJSON(requestParameters.body),
         });
 
         return new runtime.VoidApiResponse(response);
@@ -226,8 +226,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
      * Creates list of users with given input array
      */
     async createUsersWithArrayInputRaw(requestParameters: CreateUsersWithArrayInputRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.user === null || requestParameters.user === undefined) {
-            throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling createUsersWithArrayInput.');
+        if (requestParameters.body === null || requestParameters.body === undefined) {
+            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithArrayInput.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -241,7 +241,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.user.map(UserToJSON),
+            body: requestParameters.body.map(UserToJSON),
         });
 
         return new runtime.VoidApiResponse(response);
@@ -258,8 +258,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
      * Creates list of users with given input array
      */
     async createUsersWithListInputRaw(requestParameters: CreateUsersWithListInputRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.user === null || requestParameters.user === undefined) {
-            throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling createUsersWithListInput.');
+        if (requestParameters.body === null || requestParameters.body === undefined) {
+            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithListInput.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -273,7 +273,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.user.map(UserToJSON),
+            body: requestParameters.body.map(UserToJSON),
         });
 
         return new runtime.VoidApiResponse(response);
@@ -423,8 +423,8 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling updateUser.');
         }
 
-        if (requestParameters.user === null || requestParameters.user === undefined) {
-            throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling updateUser.');
+        if (requestParameters.body === null || requestParameters.body === undefined) {
+            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updateUser.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -438,7 +438,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UserToJSON(requestParameters.user),
+            body: UserToJSON(requestParameters.body),
         });
 
         return new runtime.VoidApiResponse(response);
