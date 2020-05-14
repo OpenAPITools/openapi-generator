@@ -7,9 +7,12 @@
 
 import Foundation
 
-@objc public class StringBooleanMap: NSObject, Codable {
 
-    public var additionalProperties: [String: Bool] = [:]
+
+@objc public class StringBooleanMap: NSObject, Codable { 
+
+
+    public var additionalProperties: [String:Bool] = [:]
 
     public subscript(key: String) -> Bool? {
         get {
@@ -41,5 +44,6 @@ import Foundation
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
+
 
 }

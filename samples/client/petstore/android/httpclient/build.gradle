@@ -3,7 +3,7 @@ project.version = '1.0.0'
 
 buildscript {
     repositories {
-        mavenCentral()
+        maven { url "https://repo1.maven.org/maven2" }
         jcenter()
     }
     dependencies {

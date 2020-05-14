@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * Pet
@@ -141,6 +144,7 @@ public class Pet {
    * @return category
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Category getCategory() {
@@ -163,6 +167,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+  @NotNull
   @ApiModelProperty(example = "doggie", required = true, value = "")
 
   public String getName() {
@@ -190,6 +195,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public List<String> getPhotoUrls() {
@@ -221,6 +227,7 @@ public class Pet {
    * @return tags
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public List<Tag> getTags() {

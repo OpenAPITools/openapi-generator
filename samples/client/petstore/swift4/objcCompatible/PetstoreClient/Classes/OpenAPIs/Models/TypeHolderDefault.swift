@@ -7,7 +7,9 @@
 
 import Foundation
 
-@objc public class TypeHolderDefault: NSObject, Codable {
+
+
+@objc public class TypeHolderDefault: NSObject, Codable { 
 
     public var stringItem: String = "what"
     public var numberItem: Double
@@ -33,7 +35,7 @@ import Foundation
         self.arrayItem = arrayItem
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case stringItem = "string_item"
         case numberItem = "number_item"
         case integerItem = "integer_item"

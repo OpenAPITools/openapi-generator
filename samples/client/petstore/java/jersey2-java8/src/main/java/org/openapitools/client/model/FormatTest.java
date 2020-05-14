@@ -15,79 +15,80 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * FormatTest
  */
+@JsonPropertyOrder({
+  FormatTest.JSON_PROPERTY_INTEGER,
+  FormatTest.JSON_PROPERTY_INT32,
+  FormatTest.JSON_PROPERTY_INT64,
+  FormatTest.JSON_PROPERTY_NUMBER,
+  FormatTest.JSON_PROPERTY_FLOAT,
+  FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_STRING,
+  FormatTest.JSON_PROPERTY_BYTE,
+  FormatTest.JSON_PROPERTY_BINARY,
+  FormatTest.JSON_PROPERTY_DATE,
+  FormatTest.JSON_PROPERTY_DATE_TIME,
+  FormatTest.JSON_PROPERTY_UUID,
+  FormatTest.JSON_PROPERTY_PASSWORD,
+  FormatTest.JSON_PROPERTY_BIG_DECIMAL
+})
 
 public class FormatTest {
-  public static final String SERIALIZED_NAME_INTEGER = "integer";
-  @SerializedName(SERIALIZED_NAME_INTEGER)
+  public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
 
-  public static final String SERIALIZED_NAME_INT32 = "int32";
-  @SerializedName(SERIALIZED_NAME_INT32)
+  public static final String JSON_PROPERTY_INT32 = "int32";
   private Integer int32;
 
-  public static final String SERIALIZED_NAME_INT64 = "int64";
-  @SerializedName(SERIALIZED_NAME_INT64)
+  public static final String JSON_PROPERTY_INT64 = "int64";
   private Long int64;
 
-  public static final String SERIALIZED_NAME_NUMBER = "number";
-  @SerializedName(SERIALIZED_NAME_NUMBER)
+  public static final String JSON_PROPERTY_NUMBER = "number";
   private BigDecimal number;
 
-  public static final String SERIALIZED_NAME_FLOAT = "float";
-  @SerializedName(SERIALIZED_NAME_FLOAT)
+  public static final String JSON_PROPERTY_FLOAT = "float";
   private Float _float;
 
-  public static final String SERIALIZED_NAME_DOUBLE = "double";
-  @SerializedName(SERIALIZED_NAME_DOUBLE)
+  public static final String JSON_PROPERTY_DOUBLE = "double";
   private Double _double;
 
-  public static final String SERIALIZED_NAME_STRING = "string";
-  @SerializedName(SERIALIZED_NAME_STRING)
+  public static final String JSON_PROPERTY_STRING = "string";
   private String string;
 
-  public static final String SERIALIZED_NAME_BYTE = "byte";
-  @SerializedName(SERIALIZED_NAME_BYTE)
+  public static final String JSON_PROPERTY_BYTE = "byte";
   private byte[] _byte;
 
-  public static final String SERIALIZED_NAME_BINARY = "binary";
-  @SerializedName(SERIALIZED_NAME_BINARY)
+  public static final String JSON_PROPERTY_BINARY = "binary";
   private File binary;
 
-  public static final String SERIALIZED_NAME_DATE = "date";
-  @SerializedName(SERIALIZED_NAME_DATE)
+  public static final String JSON_PROPERTY_DATE = "date";
   private LocalDate date;
 
-  public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
-  @SerializedName(SERIALIZED_NAME_DATE_TIME)
+  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   private OffsetDateTime dateTime;
 
-  public static final String SERIALIZED_NAME_UUID = "uuid";
-  @SerializedName(SERIALIZED_NAME_UUID)
+  public static final String JSON_PROPERTY_UUID = "uuid";
   private UUID uuid;
 
-  public static final String SERIALIZED_NAME_PASSWORD = "password";
-  @SerializedName(SERIALIZED_NAME_PASSWORD)
+  public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
-  public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
-  @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
+  public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
   private BigDecimal bigDecimal;
 
 
@@ -105,6 +106,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInteger() {
     return integer;
@@ -130,6 +133,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInt32() {
     return int32;
@@ -153,6 +158,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getInt64() {
     return int64;
@@ -177,6 +184,8 @@ public class FormatTest {
    * @return number
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumber() {
     return number;
@@ -202,6 +211,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Float getFloat() {
     return _float;
@@ -227,6 +238,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Double getDouble() {
     return _double;
@@ -250,6 +263,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getString() {
     return string;
@@ -272,6 +287,8 @@ public class FormatTest {
    * @return _byte
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public byte[] getByte() {
     return _byte;
@@ -295,6 +312,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public File getBinary() {
     return binary;
@@ -317,6 +336,8 @@ public class FormatTest {
    * @return date
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public LocalDate getDate() {
     return date;
@@ -340,6 +361,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -363,6 +386,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public UUID getUuid() {
     return uuid;
@@ -385,6 +410,8 @@ public class FormatTest {
    * @return password
   **/
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getPassword() {
     return password;
@@ -408,6 +435,8 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getBigDecimal() {
     return bigDecimal;
