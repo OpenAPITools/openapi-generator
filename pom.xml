@@ -691,7 +691,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client-jersey2</id>
+            <id>java-client-jersey2-java7</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -699,7 +699,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/jersey2</module>
+                <module>samples/client/petstore/java/jersey2-java7</module>
             </modules>
         </profile>
         <profile>
@@ -1303,7 +1303,6 @@
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/feign10x</module>
                 <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
@@ -1397,7 +1396,7 @@
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
+                <module>samples/client/petstore/java/jersey2-java7</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>

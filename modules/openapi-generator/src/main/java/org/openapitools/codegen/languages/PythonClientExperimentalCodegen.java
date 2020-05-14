@@ -388,7 +388,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 composedSchemaSets.add(cm.oneOf);
                 for (Set<String> importSet : composedSchemaSets) {
                     for (String otherModelName : importSet) {
-                        cm.imports.add(otherModelName);
+                        if (!languageSpecificPrimitives.contains(otherModelName)) {
+                            cm.imports.add(otherModelName);
+                        }
                     }
                 }
 

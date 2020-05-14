@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>petstore-jersey2</artifactId>
+    <artifactId>petstore-jersey2-java7</artifactId>
     <packaging>jar</packaging>
-    <name>petstore-jersey2</name>
+    <name>petstore-jersey2-java7</name>
     <version>1.0.0</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <description>OpenAPI Java</description>
