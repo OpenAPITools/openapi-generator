@@ -19,3 +19,6 @@
 ./bin/springboot-petstore-server-implicitHeaders.sh
 ./bin/springboot-petstore-server-useOptional.sh
 ./bin/springboot-virtualan-petstore-server.sh
+
+# spring security server
+./bin/spring-security-petstore-server.sh
