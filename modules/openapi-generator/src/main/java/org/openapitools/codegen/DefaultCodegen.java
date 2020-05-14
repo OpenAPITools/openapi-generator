@@ -183,7 +183,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected boolean supportsMultipleInheritance;
     /**
-     * True if the code generator supports class inheritance.
+     * True if the code generator supports single class inheritance.
      * This is used to model the parent hierarchy based on the 'allOf' composed schemas.
      * Note: the single-class inheritance technique has inherent limitations because
      * a 'allOf' composed schema may have multiple $ref child schemas, each one
