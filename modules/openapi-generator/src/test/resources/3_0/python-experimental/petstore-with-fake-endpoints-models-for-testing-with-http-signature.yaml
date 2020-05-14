@@ -1815,7 +1815,7 @@ components:
         - $ref: '#/components/schemas/banana'
       # Below additionalProperties is set to false to validate the use
       # case when a composed schema has additionalProperties set to false.
-      #additionalProperties: false
+      additionalProperties: false
     apple:
       type: object
       properties:
@@ -1870,11 +1870,13 @@ components:
        anyOf:
           - $ref: '#/components/schemas/apple'
           - $ref: '#/components/schemas/banana'
+       additionalProperties: false
     fruitReq:
        oneOf:
           - type: 'null'
           - $ref: '#/components/schemas/appleReq'
           - $ref: '#/components/schemas/bananaReq'
+       additionalProperties: false
     appleReq:
       type: object
       properties:
@@ -1942,6 +1944,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+      additionalProperties: false
     ScaleneTriangle:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
