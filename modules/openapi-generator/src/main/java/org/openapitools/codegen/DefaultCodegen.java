@@ -2793,6 +2793,32 @@ public class DefaultCodegen implements CodegenConfig {
         return discriminator;
     }
 
+    /**
+     * Handle the model for the 'additionalProperties' keyword in the OAS schema.
+     *
+     * For example, in the OAS schema below, the schema has a declared 'id' property
+     * and additional, undeclared properties of type 'integer' are allowed.
+     * 
+     * type: object
+     * properties:
+     *   id:
+     *     type: integer
+     * additionalProperties:
+     *   type: integer
+     *
+     * In most programming languages, the additionalProperties are stored in a map
+     * data structure, such as HashMap<String, V> in Java, map[string]interface{} in golang,
+     * and a dict in Python.
+     * There are multiple ways to implement the additionalProperties keyword, depending
+     * on the programming language and mustache template.
+     * One way is to use class inheritance. For example in Java, the schema may extend
+     * from HashMap<String, Integer> to store the additional properties.
+     * In that case 'CodegenModel.parent' may be used.
+     * Another way is to use CodegenModel.additionalPropertiesType.
+     * 
+     * @param codegenModel The codegen representation of the schema.
+     * @param schema the input OAS schema.
+     */
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         addParentContainer(codegenModel, codegenModel.name, schema);
     }
@@ -4473,6 +4499,13 @@ public class DefaultCodegen implements CodegenConfig {
         co.baseName = tag;
     }
 
+    /**
+     * Sets the value of the 'model.parent' property in CodegenModel.
+     * 
+     * @param model the codegen representation of the OAS schema.
+     * @param name the name of the model.
+     * @param schema the input OAS schema.
+     */
     protected void addParentContainer(CodegenModel model, String name, Schema schema) {
         final CodegenProperty property = fromProperty(name, schema);
         addImport(model, property.complexType);
