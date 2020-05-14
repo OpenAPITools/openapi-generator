@@ -177,7 +177,7 @@ class DeserializationTests(unittest.TestCase):
         inst = petstore_api.FruitReq(None)
         self.assertIsNone(inst)
 
-    def test_deserialize_all_of_with_additional_properties(self):
+    def test_deserialize_with_additional_properties(self):
         """
         deserialize data.
         """
@@ -200,3 +200,40 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(type(deserialized), petstore_api.Dog)
         self.assertEqual(deserialized.class_name, 'Dog')
         self.assertEqual(deserialized.breed, 'golden retriever')
+
+        # The 'appleReq' schema allows additional properties by explicitly setting
+        # additionalProperties: true
+        data = {
+            'cultivar': 'Golden Delicious',
+            'mealy': False,
+            # Below are additional, undeclared properties
+            'group': 'abc',
+            'size': 3,
+            'p1': True,
+            'p2': [ 'a', 'b', 123],
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.AppleReq,), True)
+        self.assertEqual(type(deserialized), petstore_api.AppleReq)
+        self.assertEqual(deserialized.cultivar, 'Golden Delicious')
+        self.assertEqual(deserialized.p1, True)
+
+        # The 'bananaReq' schema disallows additional properties by explicitly setting
+        # additionalProperties: false
+        err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiValueError,
+            err_msg.format("origin", "[^`]*")
+        ):
+            data = {
+                'lengthCm': 21,
+                'sweet': False,
+                # Below are additional, undeclared properties. They are not allowed,
+                # an exception should be raised.
+                'group': 'abc',
+            }
+            response = MockResponse(data=json.dumps(data))
+            deserialized = self.deserialize(response, (petstore_api.AppleReq,), True)
+            self.assertEqual(type(deserialized), petstore_api.AppleReq)
+            self.assertEqual(deserialized.lengthCm, 21)
+            self.assertEqual(deserialized.p1, True)
