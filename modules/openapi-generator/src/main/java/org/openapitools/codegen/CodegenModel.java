@@ -105,6 +105,29 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
      * Used in map like objects, including composed schemas.
+     * 
+     * In most programming languages, the additional (undeclared) properties are stored
+     * in a map data structure, such as HashMap<String, V> in Java, map[string]interface{}
+     * in golang, or a dict in Python.
+     * There are multiple ways to implement the additionalProperties keyword, depending
+     * on the programming language and mustache template.
+     * One way is to use class inheritance. For example in the generated Java code, the
+     * generated model class may extend from HashMap<String, Integer> to store the
+     * additional properties. In that case 'CodegenModel.parent' is set to represent
+     * the class hierarchy.
+     * Another way is to use CodegenModel.additionalPropertiesType. A code generator
+     * such as Python does not use class inheritance to model additional properties.
+     *
+     * For example, in the OAS schema below, the schema has a declared 'id' property
+     * and additional, undeclared properties of type 'integer' are allowed.
+     * 
+     * type: object
+     * properties:
+     *   id:
+     *     type: integer
+     * additionalProperties:
+     *   type: integer
+     *
      */
     public String additionalPropertiesType;
 
