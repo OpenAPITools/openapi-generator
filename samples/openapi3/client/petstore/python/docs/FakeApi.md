@@ -814,7 +814,7 @@ Fake endpoint to test group parameters (optional)
 
 ### Example
 
-* Bearer (JWT) Authentication (bearer_test):
+* Bearer Authentication (bearer_test):
 ```python
 from __future__ import print_function
 import time
@@ -832,7 +832,7 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure Bearer authorization (JWT): bearer_test
+# Configure Bearer authorization: bearer_test
 configuration = petstore_api.Configuration(
     access_token = 'YOUR_BEARER_TOKEN'
 )
