@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## addPet
 
-> addPet(body)
+> Pet addPet(pet)
 
 Add a new pet to the store
 
@@ -28,9 +28,10 @@ Add a new pet to the store
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.addPet(body);
+    Pet result = apiInstance.addPet(pet);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#addPet");
     e.printStackTrace();
@@ -42,11 +43,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-null (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -55,7 +56,7 @@ null (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+- **Accept**: application/xml, application/json
 
 
 ## deletePet
@@ -243,7 +244,7 @@ Name | Type | Description  | Notes
 
 ## updatePet
 
-> updatePet(body)
+> Pet updatePet(pet)
 
 Update an existing pet
 
@@ -254,9 +255,10 @@ Update an existing pet
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.updatePet(body);
+    Pet result = apiInstance.updatePet(pet);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#updatePet");
     e.printStackTrace();
@@ -268,11 +270,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-null (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -281,7 +283,7 @@ null (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+- **Accept**: application/xml, application/json
 
 
 ## updatePetWithForm

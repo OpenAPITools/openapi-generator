@@ -23,10 +23,8 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 data class EnumArrays (
     @SerialName(value = "just_symbol") val justSymbol: EnumArrays.JustSymbol? = null,
     @SerialName(value = "array_enum") val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
-) 
+) {
 
-
-{
     /**
     * 
     * Values: greaterThanEqual,dollar

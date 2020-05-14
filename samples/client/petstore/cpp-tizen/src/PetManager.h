@@ -28,28 +28,28 @@ public:
 /*! \brief Add a new pet to the store. *Synchronous*
  *
  * 
- * \param body Pet object that needs to be added to the store *Required*
+ * \param pet Pet object that needs to be added to the store *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool addPetSync(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData);
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData);
 
 /*! \brief Add a new pet to the store. *Asynchronous*
  *
  * 
- * \param body Pet object that needs to be added to the store *Required*
+ * \param pet Pet object that needs to be added to the store *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool addPetAsync(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData);
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData);
 
 
 /*! \brief Deletes a pet. *Synchronous*
@@ -165,28 +165,28 @@ bool getPetByIdAsync(char * accessToken,
 /*! \brief Update an existing pet. *Synchronous*
  *
  * 
- * \param body Pet object that needs to be added to the store *Required*
+ * \param pet Pet object that needs to be added to the store *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool updatePetSync(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData);
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData);
 
 /*! \brief Update an existing pet. *Asynchronous*
  *
  * 
- * \param body Pet object that needs to be added to the store *Required*
+ * \param pet Pet object that needs to be added to the store *Required*
  * \param handler The callback function to be invoked on completion. *Required*
  * \param accessToken The Authorization token. *Required*
  * \param userData The user data to be passed to the callback function.
  */
 bool updatePetAsync(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData);
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData);
 
 
 /*! \brief Updates a pet in the store with form data. *Synchronous*

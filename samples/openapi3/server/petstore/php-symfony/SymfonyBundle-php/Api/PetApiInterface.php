@@ -53,15 +53,6 @@ interface PetApiInterface
     public function setpetstore_auth($value);
 
     /**
-     * Sets authentication method api_key
-     *
-     * @param string $value Value of the api_key authentication method.
-     *
-     * @return void
-     */
-    public function setapi_key($value);
-
-    /**
      * Sets authentication method petstore_auth
      *
      * @param string $value Value of the petstore_auth authentication method.
@@ -69,6 +60,15 @@ interface PetApiInterface
      * @return void
      */
     public function setpetstore_auth($value);
+
+    /**
+     * Sets authentication method api_key
+     *
+     * @param string $value Value of the api_key authentication method.
+     *
+     * @return void
+     */
+    public function setapi_key($value);
 
     /**
      * Operation addPet
@@ -79,7 +79,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return void
+     * @return OpenAPI\Server\Model\Pet
      *
      */
     public function addPet(Pet $pet, &$responseCode, array &$responseHeaders);
@@ -119,14 +119,13 @@ interface PetApiInterface
      * Finds Pets by tags
      *
      * @param  string[] $tags  Tags to filter by (required)
-     * @param  int $maxCount  Maximum number of items to return (optional)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return OpenAPI\Server\Model\Pet[]
      *
      */
-    public function findPetsByTags(array $tags, $maxCount = null, &$responseCode, array &$responseHeaders);
+    public function findPetsByTags(array $tags, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation getPetById
@@ -151,7 +150,7 @@ interface PetApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return void
+     * @return OpenAPI\Server\Model\Pet
      *
      */
     public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders);

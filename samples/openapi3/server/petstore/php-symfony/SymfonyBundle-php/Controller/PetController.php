@@ -62,10 +62,18 @@ class PetController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = ['application/json', 'application/xml'];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
-        if (!in_array($inputFormat, $consumes)) {
+        if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
+        }
+
+        // Figure out what data format to return to the client
+        $produces = ['application/xml', 'application/json'];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
         }
 
         // Handle authentication
@@ -80,6 +88,7 @@ class PetController extends Controller
 
         // Deserialize the input values that needs it
         try {
+            $inputFormat = $request->getMimeType($request->getContentType());
             $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
@@ -103,26 +112,30 @@ class PetController extends Controller
             $handler->setpetstore_auth($securitypetstore_auth);
             
             // Make the call to the business logic
-            $responseCode = 204;
+            $responseCode = 200;
             $responseHeaders = [];
             $result = $handler->addPet($pet, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = '';
+            $message = 'successful operation';
 
             // Find a more specific message, if available
             switch ($responseCode) {
+                case 200:
+                    $message = 'successful operation';
+                    break;
                 case 405:
                     $message = 'Invalid input';
                     break;
             }
 
             return new Response(
-                '',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
+                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -329,14 +342,12 @@ class PetController extends Controller
 
         // Read out all input parameter values into variables
         $tags = $request->query->get('tags');
-        $maxCount = $request->query->get('maxCount');
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
             $tags = $this->deserialize($tags, 'array<csv,string>', 'string');
-            $maxCount = $this->deserialize($maxCount, 'int', 'string');
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -351,12 +362,6 @@ class PetController extends Controller
         if ($response instanceof Response) {
             return $response;
         }
-        $asserts = [];
-        $asserts[] = new Assert\Type("int");
-        $response = $this->validate($maxCount, $asserts);
-        if ($response instanceof Response) {
-            return $response;
-        }
 
 
         try {
@@ -368,7 +373,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->findPetsByTags($tags, $maxCount, $responseCode, $responseHeaders);
+            $result = $handler->findPetsByTags($tags, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -499,10 +504,18 @@ class PetController extends Controller
     {
         // Make sure that the client is providing something that we can consume
         $consumes = ['application/json', 'application/xml'];
-        $inputFormat = $request->headers->has('Content-Type')?$request->headers->get('Content-Type'):$consumes[0];
-        if (!in_array($inputFormat, $consumes)) {
+        if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
+        }
+
+        // Figure out what data format to return to the client
+        $produces = ['application/xml', 'application/json'];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
         }
 
         // Handle authentication
@@ -517,6 +530,7 @@ class PetController extends Controller
 
         // Deserialize the input values that needs it
         try {
+            $inputFormat = $request->getMimeType($request->getContentType());
             $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
@@ -540,15 +554,18 @@ class PetController extends Controller
             $handler->setpetstore_auth($securitypetstore_auth);
             
             // Make the call to the business logic
-            $responseCode = 204;
+            $responseCode = 200;
             $responseHeaders = [];
             $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = '';
+            $message = 'successful operation';
 
             // Find a more specific message, if available
             switch ($responseCode) {
+                case 200:
+                    $message = 'successful operation';
+                    break;
                 case 400:
                     $message = 'Invalid ID supplied';
                     break;
@@ -561,11 +578,12 @@ class PetController extends Controller
             }
 
             return new Response(
-                '',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
+                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )

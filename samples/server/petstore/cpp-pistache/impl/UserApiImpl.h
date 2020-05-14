@@ -45,14 +45,14 @@ public:
     UserApiImpl(std::shared_ptr<Pistache::Rest::Router>);
     ~UserApiImpl() {}
 
-    void create_user(const User &body, Pistache::Http::ResponseWriter &response);
-    void create_users_with_array_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response);
-    void create_users_with_list_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response);
+    void create_user(const User &user, Pistache::Http::ResponseWriter &response);
+    void create_users_with_array_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response);
+    void create_users_with_list_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response);
     void delete_user(const std::string &username, Pistache::Http::ResponseWriter &response);
     void get_user_by_name(const std::string &username, Pistache::Http::ResponseWriter &response);
     void login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response);
     void logout_user(Pistache::Http::ResponseWriter &response);
-    void update_user(const std::string &username, const User &body, Pistache::Http::ResponseWriter &response);
+    void update_user(const std::string &username, const User &user, Pistache::Http::ResponseWriter &response);
 
 };
 

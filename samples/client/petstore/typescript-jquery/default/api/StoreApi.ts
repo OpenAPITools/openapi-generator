@@ -234,9 +234,9 @@ export class StoreApi {
     /**
      * 
      * @summary Place an order for a pet
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      */
-    public placeOrder(body: models.Order, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public placeOrder(order: models.Order, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body: models.Order;  },
     { response: JQueryXHR; errorThrown: string }
     > {
@@ -244,15 +244,16 @@ export class StoreApi {
 
         let queryParameters: any = {};
         let headerParams: any = {};
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
+        // verify required parameter 'order' is not null or undefined
+        if (order === null || order === undefined) {
+            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
 
 
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header
@@ -271,7 +272,7 @@ export class StoreApi {
             processData: false
         };
 
-        requestOptions.data = JSON.stringify(body);
+        requestOptions.data = JSON.stringify(order);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
         }

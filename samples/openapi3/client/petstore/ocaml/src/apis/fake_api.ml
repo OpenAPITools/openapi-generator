@@ -12,6 +12,16 @@ let fake_health_get () =
     Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.unwrap Health_check_result.of_yojson) resp body
 
+let fake_http_signature_test ~pet_t ?query_1 ?header_1 () =
+    let open Lwt in
+    let uri = Request.build_uri "/fake/http-signature-test" in
+    let headers = Request.default_headers in
+    let headers = Request.maybe_add_header headers "header_1" (fun x -> x) header_1 in
+    let uri = Request.maybe_add_query_param uri "query_1" (fun x -> x) query_1 in
+    let body = Request.write_as_json_body Pet.to_yojson pet_t in
+    Cohttp_lwt_unix.Client.call `GET uri ~headers ~body >>= fun (resp, body) ->
+    Request.handle_unit_response resp
+
 let fake_outer_boolean_serialize ~body () =
     let open Lwt in
     let uri = Request.build_uri "/fake/outer/boolean" in
@@ -139,5 +149,17 @@ let test_json_form_data ~param ~param2 =
     let body = Request.add_form_encoded_body_param body "param2" (fun x -> x) param2 in
     let body = Request.finalize_form_encoded_body body in
     Cohttp_lwt_unix.Client.call `GET uri ~headers ~body >>= fun (resp, body) ->
+    Request.handle_unit_response resp
+
+let test_query_parameter_collection_format ~pipe ~ioutil ~http ~url ~context =
+    let open Lwt in
+    let uri = Request.build_uri "/fake/test-query-paramters" in
+    let headers = Request.default_headers in
+    let uri = Request.add_query_param_list uri "pipe" (List.map (fun x -> x)) pipe in
+    let uri = Request.add_query_param_list uri "ioutil" (List.map (fun x -> x)) ioutil in
+    let uri = Request.add_query_param_list uri "http" (List.map (fun x -> x)) http in
+    let uri = Request.add_query_param_list uri "url" (List.map (fun x -> x)) url in
+    let uri = Request.add_query_param_list uri "context" (List.map (fun x -> x)) context in
+    Cohttp_lwt_unix.Client.call `PUT uri ~headers >>= fun (resp, body) ->
     Request.handle_unit_response resp
 

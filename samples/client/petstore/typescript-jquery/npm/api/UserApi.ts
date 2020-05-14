@@ -49,9 +49,9 @@ export class UserApi {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
-     * @param body Created user object
+     * @param user Created user object
      */
-    public createUser(body: models.User, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public createUser(user: models.User, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
@@ -59,21 +59,23 @@ export class UserApi {
 
         let queryParameters: any = {};
         let headerParams: any = {};
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUser.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
 
 
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
         ];
 
+        // authentication (auth_cookie) required
 
         headerParams['Content-Type'] = 'application/json';
 
@@ -84,7 +86,7 @@ export class UserApi {
             processData: false
         };
 
-        requestOptions.data = JSON.stringify(body);
+        requestOptions.data = JSON.stringify(user);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
         }
@@ -113,9 +115,9 @@ export class UserApi {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param body List of user object
+     * @param modelsUser List of user object
      */
-    public createUsersWithArrayInput(body: Array<models.User>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public createUsersWithArrayInput(modelsUser: Array<models.User>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
@@ -123,21 +125,23 @@ export class UserApi {
 
         let queryParameters: any = {};
         let headerParams: any = {};
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
+        // verify required parameter 'modelsUser' is not null or undefined
+        if (modelsUser === null || modelsUser === undefined) {
+            throw new Error('Required parameter modelsUser was null or undefined when calling createUsersWithArrayInput.');
         }
 
 
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
         ];
 
+        // authentication (auth_cookie) required
 
         headerParams['Content-Type'] = 'application/json';
 
@@ -148,7 +152,7 @@ export class UserApi {
             processData: false
         };
 
-        requestOptions.data = JSON.stringify(body);
+        requestOptions.data = JSON.stringify(modelsUser);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
         }
@@ -177,9 +181,9 @@ export class UserApi {
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param body List of user object
+     * @param modelsUser List of user object
      */
-    public createUsersWithListInput(body: Array<models.User>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public createUsersWithListInput(modelsUser: Array<models.User>, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
@@ -187,21 +191,23 @@ export class UserApi {
 
         let queryParameters: any = {};
         let headerParams: any = {};
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
+        // verify required parameter 'modelsUser' is not null or undefined
+        if (modelsUser === null || modelsUser === undefined) {
+            throw new Error('Required parameter modelsUser was null or undefined when calling createUsersWithListInput.');
         }
 
 
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
         ];
 
+        // authentication (auth_cookie) required
 
         headerParams['Content-Type'] = 'application/json';
 
@@ -212,7 +218,7 @@ export class UserApi {
             processData: false
         };
 
-        requestOptions.data = JSON.stringify(body);
+        requestOptions.data = JSON.stringify(modelsUser);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
         }
@@ -266,6 +272,7 @@ export class UserApi {
         let produces: string[] = [
         ];
 
+        // authentication (auth_cookie) required
 
         let requestOptions: JQueryAjaxSettings = {
             url: localVarPath,
@@ -459,6 +466,7 @@ export class UserApi {
         let produces: string[] = [
         ];
 
+        // authentication (auth_cookie) required
 
         let requestOptions: JQueryAjaxSettings = {
             url: localVarPath,
@@ -496,9 +504,9 @@ export class UserApi {
      * This can only be done by the logged in user.
      * @summary Updated user
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      */
-    public updateUser(username: string, body: models.User, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    public updateUser(username: string, user: models.User, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
     { response: JQueryXHR; body?: any;  },
     { response: JQueryXHR; errorThrown: string }
     > {
@@ -511,21 +519,23 @@ export class UserApi {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
 
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updateUser.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new Error('Required parameter user was null or undefined when calling updateUser.');
         }
 
 
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header
         let consumes: string[] = [
+            'application/json'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
         ];
 
+        // authentication (auth_cookie) required
 
         headerParams['Content-Type'] = 'application/json';
 
@@ -536,7 +546,7 @@ export class UserApi {
             processData: false
         };
 
-        requestOptions.data = JSON.stringify(body);
+        requestOptions.data = JSON.stringify(user);
         if (headerParams['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
         }

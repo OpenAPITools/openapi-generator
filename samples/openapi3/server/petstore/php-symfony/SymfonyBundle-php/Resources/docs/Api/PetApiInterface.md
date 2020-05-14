@@ -27,7 +27,7 @@ services:
 ```
 
 ## **addPet**
-> addPet($pet)
+> OpenAPI\Server\Model\Pet addPet($pet)
 
 Add a new pet to the store
 
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**OpenAPI\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -82,7 +82,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -210,7 +210,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **findPetsByTags**
-> OpenAPI\Server\Model\Pet findPetsByTags($tags, $maxCount)
+> OpenAPI\Server\Model\Pet findPetsByTags($tags)
 
 Finds Pets by tags
 
@@ -241,7 +241,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#findPetsByTags
      */
-    public function findPetsByTags(array $tags, $maxCount = null)
+    public function findPetsByTags(array $tags)
     {
         // Implement the operation ...
     }
@@ -255,7 +255,6 @@ class PetApi implements PetApiInterface
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**string**](../Model/string.md)| Tags to filter by |
- **maxCount** | **int**| Maximum number of items to return | [optional]
 
 ### Return type
 
@@ -335,7 +334,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updatePet**
-> updatePet($pet)
+> OpenAPI\Server\Model\Pet updatePet($pet)
 
 Update an existing pet
 
@@ -381,7 +380,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**OpenAPI\Server\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -390,7 +389,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

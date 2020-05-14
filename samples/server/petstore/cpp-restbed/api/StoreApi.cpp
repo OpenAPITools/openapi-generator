@@ -240,7 +240,7 @@ void StoreApiStoreOrderResource::POST_method_handler(const std::shared_ptr<restb
 			if (handler_POST_)
 			{
 				std::tie(status_code, result) = handler_POST_(
-					body
+					order
 				);
 			}
 

@@ -59,8 +59,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUser(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: jsonBody[User]) { (body: User) =>
-          da.User_createUser(body) match {
+        post("user" :: jsonBody[User]) { (user: User, authParamauth_cookie: String) =>
+          da.User_createUser(user, authParamauth_cookie) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -73,8 +73,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUsersWithArrayInput(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: "createWithArray" :: jsonBody[Seq[User]]) { (body: Seq[User]) =>
-          da.User_createUsersWithArrayInput(body) match {
+        post("user" :: "createWithArray" :: jsonBody[Seq[User]]) { (user: Seq[User], authParamauth_cookie: String) =>
+          da.User_createUsersWithArrayInput(user, authParamauth_cookie) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -87,8 +87,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUsersWithListInput(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: "createWithList" :: jsonBody[Seq[User]]) { (body: Seq[User]) =>
-          da.User_createUsersWithListInput(body) match {
+        post("user" :: "createWithList" :: jsonBody[Seq[User]]) { (user: Seq[User], authParamauth_cookie: String) =>
+          da.User_createUsersWithListInput(user, authParamauth_cookie) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -101,8 +101,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def deleteUser(da: DataAccessor): Endpoint[Unit] =
-        delete("user" :: string) { (username: String) =>
-          da.User_deleteUser(username) match {
+        delete("user" :: string) { (username: String, authParamauth_cookie: String) =>
+          da.User_deleteUser(username, authParamauth_cookie) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -143,8 +143,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def logoutUser(da: DataAccessor): Endpoint[Unit] =
-        get("user" :: "logout") { () =>
-          da.User_logoutUser() match {
+        get("user" :: "logout") { (authParamauth_cookie: String) =>
+          da.User_logoutUser(authParamauth_cookie) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -157,8 +157,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def updateUser(da: DataAccessor): Endpoint[Unit] =
-        put("user" :: string :: jsonBody[User]) { (username: String, body: User) =>
-          da.User_updateUser(username, body) match {
+        put("user" :: string :: jsonBody[User]) { (username: String, user: User, authParamauth_cookie: String) =>
+          da.User_updateUser(username, user, authParamauth_cookie) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }

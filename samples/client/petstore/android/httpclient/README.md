@@ -64,9 +64,10 @@ public class PetApiExample {
 
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            apiInstance.addPet(body);
+            Pet result = apiInstance.addPet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             e.printStackTrace();
@@ -108,6 +109,8 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](docs/ApiResponse.md)
  - [Category](docs/Category.md)
+ - [InlineObject](docs/InlineObject.md)
+ - [InlineObject1](docs/InlineObject1.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)
@@ -123,6 +126,13 @@ Authentication schemes defined for the API:
 
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+### auth_cookie
+
+- **Type**: API key
+
+- **API key parameter name**: AUTH_KEY
+- **Location**: 
 
 ### petstore_auth
 

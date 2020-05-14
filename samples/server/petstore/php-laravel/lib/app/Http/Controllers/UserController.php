@@ -2,7 +2,7 @@
 
 /**
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -46,10 +46,10 @@ class UserController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUser');
+        if (!isset($input['user'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $user when calling createUser');
         }
-        $body = $input['body'];
+        $user = $input['user'];
 
 
         return response('How about implementing createUser as a post method ?');
@@ -70,10 +70,10 @@ class UserController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUsersWithArrayInput');
+        if (!isset($input['user'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $user when calling createUsersWithArrayInput');
         }
-        $body = $input['body'];
+        $user = $input['user'];
 
 
         return response('How about implementing createUsersWithArrayInput as a post method ?');
@@ -94,10 +94,10 @@ class UserController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUsersWithListInput');
+        if (!isset($input['user'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $user when calling createUsersWithListInput');
         }
-        $body = $input['body'];
+        $user = $input['user'];
 
 
         return response('How about implementing createUsersWithListInput as a post method ?');
@@ -120,6 +120,9 @@ class UserController extends Controller
         //not path params validation
         if (!isset($input['username'])) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling loginUser');
+        }
+        if (!preg_match("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/", $input['username'])) {
+            throw new \InvalidArgumentException('invalid value for $username when calling UserController.loginUser, must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/.');
         }
         $username = $input['username'];
 

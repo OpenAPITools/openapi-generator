@@ -96,6 +96,8 @@ Class | Description
 ------------- | -------------
  *ApiResponse* | Describes the result of uploading an image resource
  *Category* | A category for a pet
+ *Inline_object* | 
+ *Inline_object_1* | 
  *Order* | An order for a pets from the pet store
  *Pet* | A pet for sale in the pet store
  *Tag* | A tag for a pet

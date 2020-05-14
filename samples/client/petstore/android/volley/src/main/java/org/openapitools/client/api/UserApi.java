@@ -59,15 +59,15 @@ public class UserApi {
   /**
   * Create user
   * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param user Created user object
    * @return void
   */
-  public void createUser (User body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-    Object postBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling createUser",
-        new ApiException(400, "Missing the required parameter 'body' when calling createUser"));
+  public void createUser (User user) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = user;
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'user' when calling createUser",
+        new ApiException(400, "Missing the required parameter 'user' when calling createUser"));
     }
 
     // create path and map variables
@@ -80,6 +80,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
     String[] contentTypes = {
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -92,7 +93,7 @@ public class UserApi {
       // normal form params
     }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -121,15 +122,15 @@ public class UserApi {
       /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param user Created user object
   */
-  public void createUser (User body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
+  public void createUser (User user, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = user;
 
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling createUser",
-        new ApiException(400, "Missing the required parameter 'body' when calling createUser"));
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'user' when calling createUser",
+        new ApiException(400, "Missing the required parameter 'user' when calling createUser"));
     }
 
     // create path and map variables
@@ -145,7 +146,7 @@ public class UserApi {
 
 
     String[] contentTypes = {
-      
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -160,7 +161,7 @@ public class UserApi {
       // normal form params
           }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
@@ -182,15 +183,15 @@ public class UserApi {
   /**
   * Creates list of users with given input array
   * 
-   * @param body List of user object
+   * @param user List of user object
    * @return void
   */
-  public void createUsersWithArrayInput (List<User> body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-    Object postBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling createUsersWithArrayInput",
-        new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput"));
+  public void createUsersWithArrayInput (List<User> user) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = user;
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'user' when calling createUsersWithArrayInput",
+        new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput"));
     }
 
     // create path and map variables
@@ -203,6 +204,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
     String[] contentTypes = {
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -215,7 +217,7 @@ public class UserApi {
       // normal form params
     }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -244,15 +246,15 @@ public class UserApi {
       /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param user List of user object
   */
-  public void createUsersWithArrayInput (List<User> body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
+  public void createUsersWithArrayInput (List<User> user, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = user;
 
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling createUsersWithArrayInput",
-        new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput"));
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'user' when calling createUsersWithArrayInput",
+        new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput"));
     }
 
     // create path and map variables
@@ -268,7 +270,7 @@ public class UserApi {
 
 
     String[] contentTypes = {
-      
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -283,7 +285,7 @@ public class UserApi {
       // normal form params
           }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
@@ -305,15 +307,15 @@ public class UserApi {
   /**
   * Creates list of users with given input array
   * 
-   * @param body List of user object
+   * @param user List of user object
    * @return void
   */
-  public void createUsersWithListInput (List<User> body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-    Object postBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling createUsersWithListInput",
-        new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput"));
+  public void createUsersWithListInput (List<User> user) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = user;
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'user' when calling createUsersWithListInput",
+        new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput"));
     }
 
     // create path and map variables
@@ -326,6 +328,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
     String[] contentTypes = {
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -338,7 +341,7 @@ public class UserApi {
       // normal form params
     }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -367,15 +370,15 @@ public class UserApi {
       /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param user List of user object
   */
-  public void createUsersWithListInput (List<User> body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
+  public void createUsersWithListInput (List<User> user, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = user;
 
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling createUsersWithListInput",
-        new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput"));
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'user' when calling createUsersWithListInput",
+        new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput"));
     }
 
     // create path and map variables
@@ -391,7 +394,7 @@ public class UserApi {
 
 
     String[] contentTypes = {
-      
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -406,7 +409,7 @@ public class UserApi {
       // normal form params
           }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
@@ -461,7 +464,7 @@ public class UserApi {
       // normal form params
     }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -529,7 +532,7 @@ public class UserApi {
       // normal form params
           }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames,
@@ -847,7 +850,7 @@ public class UserApi {
       // normal form params
     }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -910,7 +913,7 @@ public class UserApi {
       // normal form params
           }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
@@ -933,20 +936,20 @@ public class UserApi {
   * Updated user
   * This can only be done by the logged in user.
    * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param user Updated user object
    * @return void
   */
-  public void updateUser (String username, User body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-    Object postBody = body;
+  public void updateUser (String username, User user) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = user;
     // verify the required parameter 'username' is set
     if (username == null) {
       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling updateUser",
         new ApiException(400, "Missing the required parameter 'username' when calling updateUser"));
     }
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling updateUser",
-        new ApiException(400, "Missing the required parameter 'body' when calling updateUser"));
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'user' when calling updateUser",
+        new ApiException(400, "Missing the required parameter 'user' when calling updateUser"));
     }
 
     // create path and map variables
@@ -959,6 +962,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
     String[] contentTypes = {
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -971,7 +975,7 @@ public class UserApi {
       // normal form params
     }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -1000,20 +1004,20 @@ public class UserApi {
       /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted   * @param body Updated user object
+   * @param username name that need to be deleted   * @param user Updated user object
   */
-  public void updateUser (String username, User body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
+  public void updateUser (String username, User user, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = user;
 
     // verify the required parameter 'username' is set
     if (username == null) {
       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling updateUser",
         new ApiException(400, "Missing the required parameter 'username' when calling updateUser"));
     }
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'body' when calling updateUser",
-        new ApiException(400, "Missing the required parameter 'body' when calling updateUser"));
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'user' when calling updateUser",
+        new ApiException(400, "Missing the required parameter 'user' when calling updateUser"));
     }
 
     // create path and map variables
@@ -1029,7 +1033,7 @@ public class UserApi {
 
 
     String[] contentTypes = {
-      
+      "application/json"
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -1044,7 +1048,7 @@ public class UserApi {
       // normal form params
           }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "auth_cookie" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames,

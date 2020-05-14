@@ -33,6 +33,6 @@ Find purchase order by ID
 For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
 <a name="PlaceOrder"></a>
 # **PlaceOrder**
-> Order PlaceOrder(body)
+> Order PlaceOrder(order)
 
 Place an order for a pet

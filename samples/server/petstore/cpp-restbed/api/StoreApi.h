@@ -140,7 +140,7 @@ private:
 	)> handler_POST_;
 
 
-	std::shared_ptr<Order> body{};
+	std::shared_ptr<Order> order{};
 };
 
 

@@ -42,10 +42,10 @@ export default {
 
     Mutation: {
 
-        // @return 
-        AddPet: ($body) => {
+        // @return Pet
+        AddPet: ($pet) => {
             return {
-                "body": ""
+                "pet": ""
             };
         },
 
@@ -57,10 +57,10 @@ export default {
             };
         },
 
-        // @return 
-        UpdatePet: ($body) => {
+        // @return Pet
+        UpdatePet: ($pet) => {
             return {
-                "body": ""
+                "pet": ""
             };
         },
 

@@ -83,7 +83,7 @@ private:
 		std::shared_ptr<Pet> const &
 	)> handler_PUT_;
 
-	std::shared_ptr<Pet> body{};
+	std::shared_ptr<Pet> pet{};
 };
 
 /// <summary>

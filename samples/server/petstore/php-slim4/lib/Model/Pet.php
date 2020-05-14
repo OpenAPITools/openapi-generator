@@ -29,13 +29,13 @@ class Pet implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
+  "title" : "a Pet",
   "required" : [ "name", "photoUrls" ],
   "type" : "object",
   "properties" : {
     "id" : {
       "type" : "integer",
-      "format" : "int64",
-      "x-is-unique" : true
+      "format" : "int64"
     },
     "category" : {
       "$ref" : "#/components/schemas/Category"
@@ -70,6 +70,7 @@ class Pet implements ModelInterface
       "enum" : [ "available", "pending", "sold" ]
     }
   },
+  "description" : "A pet for sale in the pet store",
   "xml" : {
     "name" : "Pet"
   }

@@ -109,22 +109,22 @@ export class StoreApi {
     /**
      * 
      * @summary Place an order for a pet
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      */
-    public placeOrder (body: models.Order, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.Order> {
+    public placeOrder (order: models.Order, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.Order> {
         const localVarPath = this.basePath + '/store/order';
 
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
+        // verify required parameter 'order' is not null or undefined
+        if (order === null || order === undefined) {
+            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
 
         let httpRequestParams: ng.IRequestConfig = {
             method: 'POST',
             url: localVarPath,
-            data: body,
+            data: order,
             params: queryParameters,
             headers: headerParams
         };

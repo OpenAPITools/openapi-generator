@@ -3,10 +3,12 @@
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
+            [open-api-petstore.specs.inline-object :refer :all]
             [open-api-petstore.specs.tag :refer :all]
             [open-api-petstore.specs.category :refer :all]
             [open-api-petstore.specs.user :refer :all]
             [open-api-petstore.specs.pet :refer :all]
+            [open-api-petstore.specs.inline-object-1 :refer :all]
             [open-api-petstore.specs.order :refer :all]
             )
   (:import (java.io File)))
@@ -15,13 +17,13 @@
 (defn-spec add-pet-with-http-info any?
   "Add a new pet to the store"
   ([] (add-pet-with-http-info nil))
-  ([{:keys [body]} (s/map-of keyword? any?)]
+  ([{:keys [pet]} (s/map-of keyword? any?)]
    (call-api "/pet" :post
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    body
+              :body-param    pet
               :content-types ["application/json" "application/xml"]
               :accepts       []
               :auth-names    ["petstore_auth"]})))
@@ -137,13 +139,13 @@
 (defn-spec update-pet-with-http-info any?
   "Update an existing pet"
   ([] (update-pet-with-http-info nil))
-  ([{:keys [body]} (s/map-of keyword? any?)]
+  ([{:keys [pet]} (s/map-of keyword? any?)]
    (call-api "/pet" :put
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    body
+              :body-param    pet
               :content-types ["application/json" "application/xml"]
               :accepts       []
               :auth-names    ["petstore_auth"]})))

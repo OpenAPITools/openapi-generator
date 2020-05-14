@@ -21,6 +21,7 @@ class ApiClient {
   ApiClient({this.basePath: "http://petstore.swagger.io/v2"}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications['api_key'] = new ApiKeyAuth("header", "api_key");
+    _authentications['auth_cookie'] = new ApiKeyAuth("query", "AUTH_KEY");
     _authentications['petstore_auth'] = new OAuth();
   }
 
@@ -43,6 +44,10 @@ class ApiClient {
           return new ApiResponse.fromJson(value);
         case 'Category':
           return new Category.fromJson(value);
+        case 'InlineObject':
+          return new InlineObject.fromJson(value);
+        case 'InlineObject1':
+          return new InlineObject1.fromJson(value);
         case 'Order':
           return new Order.fromJson(value);
         case 'Pet':

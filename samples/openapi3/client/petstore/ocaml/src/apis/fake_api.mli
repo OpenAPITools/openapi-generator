@@ -6,6 +6,7 @@
  *)
 
 val fake_health_get : unit -> Health_check_result.t Lwt.t
+val fake_http_signature_test : pet_t:Pet.t -> ?query_1:string -> ?header_1:string -> unit -> unit Lwt.t
 val fake_outer_boolean_serialize : body:bool -> unit -> bool Lwt.t
 val fake_outer_composite_serialize : outer_composite_t:Outer_composite.t -> unit -> Outer_composite.t Lwt.t
 val fake_outer_number_serialize : body:float -> unit -> float Lwt.t
@@ -18,3 +19,4 @@ val test_enum_parameters : ?enum_header_string_array:Enums.enum_form_string_arra
 val test_group_parameters : required_string_group:int32 -> required_boolean_group:bool -> required_int64_group:int64 -> ?string_group:int32 -> ?boolean_group:bool -> ?int64_group:int64 -> unit -> unit Lwt.t
 val test_inline_additional_properties : request_body:(string * string) list -> unit Lwt.t
 val test_json_form_data : param:string -> param2:string -> unit Lwt.t
+val test_query_parameter_collection_format : pipe:string list -> ioutil:string list -> http:string list -> url:string list -> context:string list -> unit Lwt.t

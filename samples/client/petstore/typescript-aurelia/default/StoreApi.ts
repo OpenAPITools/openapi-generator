@@ -42,7 +42,7 @@ export interface IGetOrderByIdParams {
  * placeOrder - parameters interface
  */
 export interface IPlaceOrderParams {
-  body: Order;
+  order: Order;
 }
 
 /**
@@ -146,11 +146,11 @@ export class StoreApi extends Api {
 
   /**
    * Place an order for a pet
-   * @param params.body order placed for purchasing the pet
+   * @param params.order order placed for purchasing the pet
    */
   async placeOrder(params: IPlaceOrderParams): Promise<Order> {
     // Verify required parameters are set
-    this.ensureParamIsSet('placeOrder', params, 'body');
+    this.ensureParamIsSet('placeOrder', params, 'order');
 
     // Create URL to call
     const url = `${this.basePath}/store/order`;
@@ -160,7 +160,7 @@ export class StoreApi extends Api {
       .asPost()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['body'] || {}))
+      .withContent(JSON.stringify(params['order'] || {}))
 
       // Send the request
       .send();

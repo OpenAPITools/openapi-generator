@@ -21,7 +21,7 @@ input DeleteOrderInput {
 
 input PlaceOrderInput {
     # order placed for purchasing the pet
-    body: OrderInput
+    order: OrderInput
 }
 
 type Mutation {
@@ -31,7 +31,7 @@ type Mutation {
   # @return [Boolean]
   DeleteOrder(input: DeleteOrderInput!): Boolean
   # Place an order for a pet
-  # @param Order body order placed for purchasing the pet
+  # @param Order order order placed for purchasing the pet
   # @return [Order]
   PlaceOrder(input: PlaceOrderInput!): Order
 }

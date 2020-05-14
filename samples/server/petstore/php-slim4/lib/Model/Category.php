@@ -29,7 +29,7 @@ class Category implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
-  "required" : [ "name" ],
+  "title" : "Pet category",
   "type" : "object",
   "properties" : {
     "id" : {
@@ -37,10 +37,11 @@ class Category implements ModelInterface
       "format" : "int64"
     },
     "name" : {
-      "type" : "string",
-      "default" : "default-name"
+      "pattern" : "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$",
+      "type" : "string"
     }
   },
+  "description" : "A category for a pet",
   "xml" : {
     "name" : "Category"
   }

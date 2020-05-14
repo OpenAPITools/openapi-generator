@@ -3,10 +3,12 @@
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
+            [open-api-petstore.specs.inline-object :refer :all]
             [open-api-petstore.specs.tag :refer :all]
             [open-api-petstore.specs.category :refer :all]
             [open-api-petstore.specs.user :refer :all]
             [open-api-petstore.specs.pet :refer :all]
+            [open-api-petstore.specs.inline-object-1 :refer :all]
             [open-api-petstore.specs.order :refer :all]
             )
   (:import (java.io File)))
@@ -86,14 +88,14 @@
 (defn-spec place-order-with-http-info any?
   "Place an order for a pet"
   ([] (place-order-with-http-info nil))
-  ([{:keys [body]} (s/map-of keyword? any?)]
+  ([{:keys [order]} (s/map-of keyword? any?)]
    (call-api "/store/order" :post
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    body
-              :content-types []
+              :body-param    order
+              :content-types ["application/json"]
               :accepts       ["application/json" "application/xml"]
               :auth-names    []})))
 

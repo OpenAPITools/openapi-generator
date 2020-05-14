@@ -18,9 +18,17 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link{Pet}
+#' \item \emph{ @param } pet \link{Pet}
+#' \item \emph{ @returnType } \link{Pet} \cr
 #'
 #'
+#' \item status code : 200 | successful operation
+#'
+#' \item return type : Pet 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
 #' \item status code : 405 | Invalid input
 #'
 #'
@@ -130,9 +138,17 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link{Pet}
+#' \item \emph{ @param } pet \link{Pet}
+#' \item \emph{ @returnType } \link{Pet} \cr
 #'
 #'
+#' \item status code : 200 | successful operation
+#'
+#' \item return type : Pet 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
 #' \item status code : 400 | Invalid ID supplied
 #'
 #'
@@ -201,7 +217,7 @@
 #' ####################  AddPet  ####################
 #'
 #' library(petstore)
-#' var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var.pet <- Pet$new() # Pet | Pet object that needs to be added to the store
 #'
 #' #Add a new pet to the store
 #' api.instance <- PetApi$new()
@@ -209,7 +225,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$AddPet(var.body)
+#' result <- api.instance$AddPet(var.pet)
 #'
 #'
 #' ####################  DeletePet  ####################
@@ -272,7 +288,7 @@
 #' ####################  UpdatePet  ####################
 #'
 #' library(petstore)
-#' var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var.pet <- Pet$new() # Pet | Pet object that needs to be added to the store
 #'
 #' #Update an existing pet
 #' api.instance <- PetApi$new()
@@ -280,7 +296,7 @@
 #' # Configure OAuth2 access token for authorization: petstore_auth
 #' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 #'
-#' result <- api.instance$UpdatePet(var.body)
+#' result <- api.instance$UpdatePet(var.pet)
 #'
 #'
 #' ####################  UpdatePetWithForm  ####################
@@ -331,8 +347,8 @@ PetApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    AddPet = function(body, ...){
-      apiResponse <- self$AddPetWithHttpInfo(body, ...)
+    AddPet = function(pet, ...){
+      apiResponse <- self$AddPetWithHttpInfo(pet, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -345,17 +361,17 @@ PetApi <- R6::R6Class(
       }
     },
 
-    AddPetWithHttpInfo = function(body, ...){
+    AddPetWithHttpInfo = function(pet, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`pet`)) {
+        stop("Missing required parameter `pet`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`pet`)) {
+        body <- `pet`$toJSONString()
       } else {
         body <- NULL
       }
@@ -372,7 +388,13 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        ApiResponse$new(NULL, resp)
+        deserializedRespObj <- tryCatch(
+          self$apiClient$deserialize(resp, "Pet", loadNamespace("petstore")),
+          error = function(e){
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -591,8 +613,8 @@ PetApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    UpdatePet = function(body, ...){
-      apiResponse <- self$UpdatePetWithHttpInfo(body, ...)
+    UpdatePet = function(pet, ...){
+      apiResponse <- self$UpdatePetWithHttpInfo(pet, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -605,17 +627,17 @@ PetApi <- R6::R6Class(
       }
     },
 
-    UpdatePetWithHttpInfo = function(body, ...){
+    UpdatePetWithHttpInfo = function(pet, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`pet`)) {
+        stop("Missing required parameter `pet`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`pet`)) {
+        body <- `pet`$toJSONString()
       } else {
         body <- NULL
       }
@@ -632,7 +654,13 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        ApiResponse$new(NULL, resp)
+        deserializedRespObj <- tryCatch(
+          self$apiClient$deserialize(resp, "Pet", loadNamespace("petstore")),
+          error = function(e){
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserializedRespObj, resp)
       } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
         ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {

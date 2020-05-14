@@ -16,7 +16,7 @@
 
 input AddPetInput {
     # Pet object that needs to be added to the store
-    body: PetInput
+    pet: PetInput
 }
 
 input DeletePetInput {
@@ -28,7 +28,7 @@ input DeletePetInput {
 
 input UpdatePetInput {
     # Pet object that needs to be added to the store
-    body: PetInput
+    pet: PetInput
 }
 
 input UpdatePetWithFormInput {
@@ -51,18 +51,18 @@ input UploadFileInput {
 
 type Mutation {
   # Add a new pet to the store
-  # @param Pet body Pet object that needs to be added to the store
-  # @return [Boolean]
-  AddPet(input: AddPetInput!): Boolean
+  # @param Pet pet Pet object that needs to be added to the store
+  # @return [Pet]
+  AddPet(input: AddPetInput!): Pet
   # Deletes a pet
   # @param Int! petId Pet id to delete
   # @param String! apiKey 
   # @return [Boolean]
   DeletePet(input: DeletePetInput!): Boolean
   # Update an existing pet
-  # @param Pet body Pet object that needs to be added to the store
-  # @return [Boolean]
-  UpdatePet(input: UpdatePetInput!): Boolean
+  # @param Pet pet Pet object that needs to be added to the store
+  # @return [Pet]
+  UpdatePet(input: UpdatePetInput!): Pet
   # Updates a pet in the store with form data
   # @param Int! petId ID of pet that needs to be updated
   # @param String! name Updated name of the pet

@@ -22,21 +22,21 @@ import {
  * createUser - parameters interface
  */
 export interface ICreateUserParams {
-  body: User;
+  user: User;
 }
 
 /**
  * createUsersWithArrayInput - parameters interface
  */
 export interface ICreateUsersWithArrayInputParams {
-  body: Array<User>;
+  user: Array<User>;
 }
 
 /**
  * createUsersWithListInput - parameters interface
  */
 export interface ICreateUsersWithListInputParams {
-  body: Array<User>;
+  user: Array<User>;
 }
 
 /**
@@ -72,7 +72,7 @@ export interface ILogoutUserParams {
  */
 export interface IUpdateUserParams {
   username: string;
-  body: User;
+  user: User;
 }
 
 /**
@@ -94,11 +94,11 @@ export class UserApi extends Api {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param params.body Created user object
+   * @param params.user Created user object
    */
   async createUser(params: ICreateUserParams): Promise<any> {
     // Verify required parameters are set
-    this.ensureParamIsSet('createUser', params, 'body');
+    this.ensureParamIsSet('createUser', params, 'user');
 
     // Create URL to call
     const url = `${this.basePath}/user`;
@@ -108,8 +108,9 @@ export class UserApi extends Api {
       .asPost()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['body'] || {}))
+      .withContent(JSON.stringify(params['user'] || {}))
 
+      // Authentication 'auth_cookie' required
       // Send the request
       .send();
 
@@ -123,11 +124,11 @@ export class UserApi extends Api {
 
   /**
    * Creates list of users with given input array
-   * @param params.body List of user object
+   * @param params.user List of user object
    */
   async createUsersWithArrayInput(params: ICreateUsersWithArrayInputParams): Promise<any> {
     // Verify required parameters are set
-    this.ensureParamIsSet('createUsersWithArrayInput', params, 'body');
+    this.ensureParamIsSet('createUsersWithArrayInput', params, 'user');
 
     // Create URL to call
     const url = `${this.basePath}/user/createWithArray`;
@@ -137,8 +138,9 @@ export class UserApi extends Api {
       .asPost()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['body'] || {}))
+      .withContent(JSON.stringify(params['user'] || {}))
 
+      // Authentication 'auth_cookie' required
       // Send the request
       .send();
 
@@ -152,11 +154,11 @@ export class UserApi extends Api {
 
   /**
    * Creates list of users with given input array
-   * @param params.body List of user object
+   * @param params.user List of user object
    */
   async createUsersWithListInput(params: ICreateUsersWithListInputParams): Promise<any> {
     // Verify required parameters are set
-    this.ensureParamIsSet('createUsersWithListInput', params, 'body');
+    this.ensureParamIsSet('createUsersWithListInput', params, 'user');
 
     // Create URL to call
     const url = `${this.basePath}/user/createWithList`;
@@ -166,8 +168,9 @@ export class UserApi extends Api {
       .asPost()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['body'] || {}))
+      .withContent(JSON.stringify(params['user'] || {}))
 
+      // Authentication 'auth_cookie' required
       // Send the request
       .send();
 
@@ -196,6 +199,7 @@ export class UserApi extends Api {
       // Set HTTP method
       .asDelete()
 
+      // Authentication 'auth_cookie' required
       // Send the request
       .send();
 
@@ -280,6 +284,7 @@ export class UserApi extends Api {
       // Set HTTP method
       .asGet()
 
+      // Authentication 'auth_cookie' required
       // Send the request
       .send();
 
@@ -295,12 +300,12 @@ export class UserApi extends Api {
    * Updated user
    * This can only be done by the logged in user.
    * @param params.username name that need to be deleted
-   * @param params.body Updated user object
+   * @param params.user Updated user object
    */
   async updateUser(params: IUpdateUserParams): Promise<any> {
     // Verify required parameters are set
     this.ensureParamIsSet('updateUser', params, 'username');
-    this.ensureParamIsSet('updateUser', params, 'body');
+    this.ensureParamIsSet('updateUser', params, 'user');
 
     // Create URL to call
     const url = `${this.basePath}/user/{username}`
@@ -311,8 +316,9 @@ export class UserApi extends Api {
       .asPut()
       // Encode body parameter
       .withHeader('content-type', 'application/json')
-      .withContent(JSON.stringify(params['body'] || {}))
+      .withContent(JSON.stringify(params['user'] || {}))
 
+      // Authentication 'auth_cookie' required
       // Send the request
       .send();
 

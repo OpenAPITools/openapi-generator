@@ -296,7 +296,8 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
-            "call123TestSpecialTags[To test special tags]"             "createXmlItem[creates an XmlItem]" \
+            "call123TestSpecialTags[To test special tags]"             "fooGet[]"             "fakeHealthGet[Health check endpoint]" \
+            "fakeHttpSignatureTest[test http signature authentication]" \
             "fakeOuterBooleanSerialize[]" \
             "fakeOuterCompositeSerialize[]" \
             "fakeOuterNumberSerialize[]" \
@@ -305,9 +306,9 @@ case $state in
             "testBodyWithQueryParams[]" \
             "testClientModel[To test \"client\" model]" \
             "testEndpointParameters[Fake endpoint for testing various parameters
- 假端點
- 偽のエンドポイント
- 가짜 엔드 포인트]" \
+假端點
+偽のエンドポイント
+가짜 엔드 포인트]" \
             "testEnumParameters[To test enum parameters]" \
             "testGroupParameters[Fake endpoint to test group parameters (optional)]" \
             "testInlineAdditionalProperties[test inline additionalProperties]" \
@@ -343,10 +344,24 @@ case $state in
                               )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
-      createXmlItem)
+      fooGet)
         local -a _op_arguments
         _op_arguments=(
                               )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fakeHealthGet)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fakeHttpSignatureTest)
+        local -a _op_arguments
+        _op_arguments=(
+                    "query_1=:[QUERY] query parameter"
+          "header_1\::[HEADER] header parameter"
+)
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       fakeOuterBooleanSerialize)

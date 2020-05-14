@@ -53,14 +53,14 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store
-   * @return void
+   * @param pet Pet object that needs to be added to the store
+   * @return Pet
    */
-  public void  addPet (Pet body) throws ApiException {
-    Object localVarPostBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
+  public Pet  addPet (Pet pet) throws ApiException {
+    Object localVarPostBody = pet;
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+       throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
     }
 
     // create path and map variables
@@ -93,10 +93,10 @@ public class PetApi {
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
       if(localVarResponse != null){
-        return ;
+        return (Pet) ApiInvoker.deserialize(localVarResponse, "", Pet.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       throw ex;
@@ -317,14 +317,14 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store
-   * @return void
+   * @param pet Pet object that needs to be added to the store
+   * @return Pet
    */
-  public void  updatePet (Pet body) throws ApiException {
-    Object localVarPostBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
+  public Pet  updatePet (Pet pet) throws ApiException {
+    Object localVarPostBody = pet;
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+       throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
     }
 
     // create path and map variables
@@ -357,10 +357,10 @@ public class PetApi {
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
       if(localVarResponse != null){
-        return ;
+        return (Pet) ApiInvoker.deserialize(localVarResponse, "", Pet.class);
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       throw ex;

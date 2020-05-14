@@ -6,8 +6,8 @@
  *)
 
 type t = {
-        just_symbol: Enums.just_symbol option [@default None];
-        array_enum: Enums.array_enum list;
+    just_symbol: Enums.just_symbol option [@default None];
+    array_enum: Enums.array_enum list;
 } [@@deriving yojson { strict = false }, show ];;
 
 let create () : t = {

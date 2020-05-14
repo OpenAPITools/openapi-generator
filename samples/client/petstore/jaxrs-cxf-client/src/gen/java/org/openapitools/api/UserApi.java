@@ -35,10 +35,11 @@ public interface UserApi  {
      */
     @POST
     @Path("/user")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Create user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUser(User body);
+    public void createUser(User user);
 
     /**
      * Creates list of users with given input array
@@ -46,10 +47,11 @@ public interface UserApi  {
      */
     @POST
     @Path("/user/createWithArray")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithArrayInput(List<User> body);
+    public void createUsersWithArrayInput(List<User> user);
 
     /**
      * Creates list of users with given input array
@@ -57,10 +59,11 @@ public interface UserApi  {
      */
     @POST
     @Path("/user/createWithList")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithListInput(List<User> body);
+    public void createUsersWithListInput(List<User> user);
 
     /**
      * Delete user
@@ -122,10 +125,11 @@ public interface UserApi  {
      */
     @PUT
     @Path("/user/{username}")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Updated user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    public void updateUser(@PathParam("username") String username, User body);
+    public void updateUser(@PathParam("username") String username, User user);
 }
 

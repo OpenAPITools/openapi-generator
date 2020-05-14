@@ -87,8 +87,8 @@ private:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">order placed for purchasing the pet</param>
-    virtual void place_order(const Order &body, Pistache::Http::ResponseWriter &response) = 0;
+    /// <param name="order">order placed for purchasing the pet</param>
+    virtual void place_order(const Order &order, Pistache::Http::ResponseWriter &response) = 0;
 
 };
 

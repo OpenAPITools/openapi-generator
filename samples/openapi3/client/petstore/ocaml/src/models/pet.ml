@@ -12,7 +12,7 @@ type t = {
     photo_urls: string list;
     tags: Tag.t list;
     (* pet status in the store *)
-        status: Enums.pet_status option [@default None];
+    status: Enums.pet_status option [@default None];
 } [@@deriving yojson { strict = false }, show ];;
 
 let create (name : string) (photo_urls : string list) : t = {

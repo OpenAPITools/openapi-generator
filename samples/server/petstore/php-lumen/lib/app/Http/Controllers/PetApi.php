@@ -62,10 +62,10 @@ class PetApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling addPet');
+        if (!isset($input['pet'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet when calling addPet');
         }
-        $body = $input['body'];
+        $pet = $input['pet'];
 
 
         return response('How about implementing addPet as a post method ?');
@@ -86,10 +86,10 @@ class PetApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling updatePet');
+        if (!isset($input['pet'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet when calling updatePet');
         }
-        $body = $input['body'];
+        $pet = $input['pet'];
 
 
         return response('How about implementing updatePet as a put method ?');

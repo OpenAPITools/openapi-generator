@@ -52,14 +52,14 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param user Created user object
    * @return void
    */
-  public void  createUser (User body) throws ApiException {
-    Object localVarPostBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
+  public void  createUser (User user) throws ApiException {
+    Object localVarPostBody = user;
+    // verify the required parameter 'user' is set
+    if (user == null) {
+       throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
     }
 
     // create path and map variables
@@ -75,7 +75,7 @@ public class UserApi {
 
 
     String[] localVarContentTypes = {
-      
+      "application/json"
     };
     String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
@@ -104,14 +104,14 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param user List of user object
    * @return void
    */
-  public void  createUsersWithArrayInput (List<User> body) throws ApiException {
-    Object localVarPostBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
+  public void  createUsersWithArrayInput (List<User> user) throws ApiException {
+    Object localVarPostBody = user;
+    // verify the required parameter 'user' is set
+    if (user == null) {
+       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
     }
 
     // create path and map variables
@@ -127,7 +127,7 @@ public class UserApi {
 
 
     String[] localVarContentTypes = {
-      
+      "application/json"
     };
     String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
@@ -156,14 +156,14 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param user List of user object
    * @return void
    */
-  public void  createUsersWithListInput (List<User> body) throws ApiException {
-    Object localVarPostBody = body;
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
+  public void  createUsersWithListInput (List<User> user) throws ApiException {
+    Object localVarPostBody = user;
+    // verify the required parameter 'user' is set
+    if (user == null) {
+       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
     }
 
     // create path and map variables
@@ -179,7 +179,7 @@ public class UserApi {
 
 
     String[] localVarContentTypes = {
-      
+      "application/json"
     };
     String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
@@ -419,18 +419,18 @@ public class UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param user Updated user object
    * @return void
    */
-  public void  updateUser (String username, User body) throws ApiException {
-    Object localVarPostBody = body;
+  public void  updateUser (String username, User user) throws ApiException {
+    Object localVarPostBody = user;
     // verify the required parameter 'username' is set
     if (username == null) {
        throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
     }
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+       throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser");
     }
 
     // create path and map variables
@@ -446,7 +446,7 @@ public class UserApi {
 
 
     String[] localVarContentTypes = {
-      
+      "application/json"
     };
     String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 

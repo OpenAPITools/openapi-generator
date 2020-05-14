@@ -28,6 +28,12 @@ $router->get('/', function () use ($router) {
  */
 $router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags');
 /**
+ * get fooGet
+ * Summary: 
+ * Notes: 
+ */
+$router->get('/v2/foo', 'DefaultApi@fooGet');
+/**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
  * Notes: To test \&quot;client\&quot; model
@@ -35,8 +41,8 @@ $router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags'
 $router->patch('/v2/fake', 'FakeApi@testClientModel');
 /**
  * post testEndpointParameters
- * Summary: Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
- * Notes: Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+ * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+ * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
  */
 $router->post('/v2/fake', 'FakeApi@testEndpointParameters');
 /**
@@ -64,11 +70,17 @@ $router->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema')
  */
 $router->put('/v2/fake/body-with-query-params', 'FakeApi@testBodyWithQueryParams');
 /**
- * post createXmlItem
- * Summary: creates an XmlItem
- * Notes: this route creates an XmlItem
+ * get fakeHealthGet
+ * Summary: Health check endpoint
+ * Notes: 
  */
-$router->post('/v2/fake/create_xml_item', 'FakeApi@createXmlItem');
+$router->get('/v2/fake/health', 'FakeApi@fakeHealthGet');
+/**
+ * get fakeHttpSignatureTest
+ * Summary: test http signature authentication
+ * Notes: 
+ */
+$router->get('/v2/fake/http-signature-test', 'FakeApi@fakeHttpSignatureTest');
 /**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties

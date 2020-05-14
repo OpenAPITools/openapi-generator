@@ -74,7 +74,7 @@ private:
 	)> handler_POST_;
 
 
-	std::shared_ptr<User> body{};
+	std::shared_ptr<User> user{};
 };
 
 /// <summary>
@@ -103,7 +103,7 @@ private:
 	)> handler_POST_;
 
 
-	std::vector<std::shared_ptr<User>> body{};
+	std::vector<std::shared_ptr<User>> user{};
 };
 
 /// <summary>
@@ -132,7 +132,7 @@ private:
 	)> handler_POST_;
 
 
-	std::vector<std::shared_ptr<User>> body{};
+	std::vector<std::shared_ptr<User>> user{};
 };
 
 /// <summary>

@@ -119,6 +119,120 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'CreateUser' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = ,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "AUTH_KEY",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'CreateUsersWithArrayInput' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = ,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "AUTH_KEY",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'CreateUsersWithListInput' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = ,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "AUTH_KEY",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'DeleteUser' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = ,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "AUTH_KEY",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'LogoutUser' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = ,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "AUTH_KEY",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id = 'UpdateUser' = OperationID,
+        logic_handler = LogicHandler
+    }
+) ->
+    From = ,
+    Result = openapi_auth:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        "AUTH_KEY",
+        Req0
+    ),
+    case Result of
+        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(Req, State) ->
     {true, Req, State}.
 

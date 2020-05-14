@@ -42,7 +42,7 @@ data class NullableClass (
     @Json(name = "date_prop")
     val dateProp: java.time.LocalDate? = null,
     @Json(name = "datetime_prop")
-    val datetimeProp: java.time.LocalDateTime? = null,
+    val datetimeProp: java.time.OffsetDateTime? = null,
     @Json(name = "array_nullable_prop")
     val arrayNullableProp: kotlin.Array<kotlin.Any>? = null,
     @Json(name = "array_and_items_nullable_prop")
@@ -55,12 +55,10 @@ data class NullableClass (
     val objectAndItemsNullableProp: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null,
     @Json(name = "object_items_nullable")
     val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
-) 
-: Serializable 
-
-{
+) : kotlin.mapOf&lt;String, kotlin.Any&gt;, Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

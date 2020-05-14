@@ -100,7 +100,7 @@ class InlineObject1
      *
      * @return UploadedFile|null
      */
-    public function getFile()
+    public function getFile(): ?UploadedFile
     {
         return $this->file;
     }

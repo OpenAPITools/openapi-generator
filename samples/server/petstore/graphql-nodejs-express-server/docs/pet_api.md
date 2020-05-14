@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="AddPet"></a>
 # **AddPet**
-> AddPet(body)
+> Pet AddPet(pet)
 
 Add a new pet to the store
 <a name="DeletePet"></a>
@@ -47,7 +47,7 @@ Find pet by ID
 Returns a single pet
 <a name="UpdatePet"></a>
 # **UpdatePet**
-> UpdatePet(body)
+> Pet UpdatePet(pet)
 
 Update an existing pet
 <a name="UpdatePetWithForm"></a>

@@ -137,12 +137,12 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 
 -- | Servant type-level API, generated from the OpenAPI spec for OpenAPIPetstore.
 type OpenAPIPetstoreAPI
-    =    "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] () -- 'addPet' route
+    =    "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] Pet -- 'addPet' route
     :<|> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] () -- 'deletePet' route
     :<|> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
     :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
     :<|> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
-    :<|> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] () -- 'updatePet' route
+    :<|> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] Pet -- 'updatePet' route
     :<|> "pet" :> Capture "petId" Integer :> ReqBody '[FormUrlEncoded] FormUpdatePetWithForm :> Verb 'POST 200 '[JSON] () -- 'updatePetWithForm' route
     :<|> "pet" :> Capture "petId" Integer :> "uploadImage" :> ReqBody '[FormUrlEncoded] FormUploadFile :> Verb 'POST 200 '[JSON] ApiResponse -- 'uploadFile' route
     :<|> "store" :> "order" :> Capture "orderId" Text :> Verb 'DELETE 200 '[JSON] () -- 'deleteOrder' route
@@ -177,12 +177,12 @@ newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ClientError
 -- is a backend that executes actions by sending HTTP requests (see @createOpenAPIPetstoreClient@). Alternatively, provided
 -- a backend, the API can be served using @runOpenAPIPetstoreMiddlewareServer@.
 data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
-  { addPet :: Pet -> m (){- ^  -}
+  { addPet :: Pet -> m Pet{- ^  -}
   , deletePet :: Integer -> Maybe Text -> m (){- ^  -}
   , findPetsByStatus :: Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
   , findPetsByTags :: Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
   , getPetById :: Integer -> m Pet{- ^ Returns a single pet -}
-  , updatePet :: Pet -> m (){- ^  -}
+  , updatePet :: Pet -> m Pet{- ^  -}
   , updatePetWithForm :: Integer -> FormUpdatePetWithForm -> m (){- ^  -}
   , uploadFile :: Integer -> FormUploadFile -> m ApiResponse{- ^  -}
   , deleteOrder :: Text -> m (){- ^ For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors -}

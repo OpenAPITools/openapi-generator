@@ -29,12 +29,12 @@ class User implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
+  "title" : "a User",
   "type" : "object",
   "properties" : {
     "id" : {
       "type" : "integer",
-      "format" : "int64",
-      "x-is-unique" : true
+      "format" : "int64"
     },
     "username" : {
       "type" : "string"
@@ -60,6 +60,7 @@ class User implements ModelInterface
       "format" : "int32"
     }
   },
+  "description" : "A User who is purchasing from the pet store",
   "xml" : {
     "name" : "User"
   }

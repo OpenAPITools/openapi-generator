@@ -18,6 +18,8 @@ export { UserApi } from './UserApi';
 export {
   ApiResponse,
   Category,
+  InlineObject,
+  InlineObject1,
   Order,
   Pet,
   Tag,

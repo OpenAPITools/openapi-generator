@@ -27,12 +27,10 @@ data class InlineObject (
     /* Updated status of the pet */
     @Json(name = "status")
     val status: kotlin.String? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

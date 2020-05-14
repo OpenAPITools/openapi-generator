@@ -30,6 +30,30 @@ export interface Category {
 }
 
 
+export interface InlineObject {
+  /**
+   * Updated name of the pet
+   */
+  name?: string;
+  /**
+   * Updated status of the pet
+   */
+  status?: string;
+}
+
+
+export interface InlineObject1 {
+  /**
+   * Additional data to pass to server
+   */
+  additionalMetadata?: string;
+  /**
+   * file to upload
+   */
+  file?: any;
+}
+
+
 /**
  * An order for a pets from the pet store
  */

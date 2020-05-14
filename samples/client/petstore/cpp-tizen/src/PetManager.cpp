@@ -51,21 +51,43 @@ static gpointer __PetManagerthreadFunc(gpointer data)
 static bool addPetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
+	void(* handler)(Pet, Error, void* )
+	= reinterpret_cast<void(*)(Pet, Error, void* )> (voidHandler);
 	
-	void(* handler)(Error, void* ) = reinterpret_cast<void(*)(Error, void* )> (voidHandler);
 	JsonNode* pJson;
 	char * data = p_chunk.memory;
 
 	
+	Pet out;
 
 	if (code >= 200 && code < 300) {
 		Error error(code, string("No Error"));
 
 
-		handler(error, userData);
+
+
+		if (isprimitive("Pet")) {
+			pJson = json_from_string(data, NULL);
+			jsonToValue(&out, pJson, "Pet", "Pet");
+			json_node_free(pJson);
+
+			if ("Pet" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
+		} else {
+			
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			
+		}
+		handler(out, error, userData);
 		return true;
-
-
+		//TODO: handle case where json parsing has an error
 
 	} else {
 		Error error;
@@ -76,15 +98,15 @@ static bool addPetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, v
 		} else {
 			error = Error(code, string("Unknown Error"));
 		}
-		handler(error, userData);
+		 handler(out, error, userData);
 		return false;
-	}
+			}
 }
 
 static bool addPetHelper(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData, bool isAsync)
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData, bool isAsync)
 {
 
 	//TODO: maybe delete headerList after its used to free up space?
@@ -105,10 +127,10 @@ static bool addPetHelper(char * accessToken,
 	JsonArray* json_array;
 
 	if (isprimitive("Pet")) {
-		node = converttoJson(&body, "Pet", "");
+		node = converttoJson(&pet, "Pet", "");
 	}
 	
-	char *jsonStr =  body.toJson();
+	char *jsonStr =  pet.toJson();
 	node = json_from_string(jsonStr, NULL);
 	g_free(static_cast<gpointer>(jsonStr));
 	
@@ -167,22 +189,22 @@ static bool addPetHelper(char * accessToken,
 
 
 bool PetManager::addPetAsync(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData)
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData)
 {
 	return addPetHelper(accessToken,
-	body, 
+	pet, 
 	handler, userData, true);
 }
 
 bool PetManager::addPetSync(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData)
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData)
 {
 	return addPetHelper(accessToken,
-	body, 
+	pet, 
 	handler, userData, false);
 }
 
@@ -765,21 +787,43 @@ bool PetManager::getPetByIdSync(char * accessToken,
 static bool updatePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
+	void(* handler)(Pet, Error, void* )
+	= reinterpret_cast<void(*)(Pet, Error, void* )> (voidHandler);
 	
-	void(* handler)(Error, void* ) = reinterpret_cast<void(*)(Error, void* )> (voidHandler);
 	JsonNode* pJson;
 	char * data = p_chunk.memory;
 
 	
+	Pet out;
 
 	if (code >= 200 && code < 300) {
 		Error error(code, string("No Error"));
 
 
-		handler(error, userData);
+
+
+		if (isprimitive("Pet")) {
+			pJson = json_from_string(data, NULL);
+			jsonToValue(&out, pJson, "Pet", "Pet");
+			json_node_free(pJson);
+
+			if ("Pet" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
+		} else {
+			
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			
+		}
+		handler(out, error, userData);
 		return true;
-
-
+		//TODO: handle case where json parsing has an error
 
 	} else {
 		Error error;
@@ -790,15 +834,15 @@ static bool updatePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg
 		} else {
 			error = Error(code, string("Unknown Error"));
 		}
-		handler(error, userData);
+		 handler(out, error, userData);
 		return false;
-	}
+			}
 }
 
 static bool updatePetHelper(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData, bool isAsync)
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData, bool isAsync)
 {
 
 	//TODO: maybe delete headerList after its used to free up space?
@@ -819,10 +863,10 @@ static bool updatePetHelper(char * accessToken,
 	JsonArray* json_array;
 
 	if (isprimitive("Pet")) {
-		node = converttoJson(&body, "Pet", "");
+		node = converttoJson(&pet, "Pet", "");
 	}
 	
-	char *jsonStr =  body.toJson();
+	char *jsonStr =  pet.toJson();
 	node = json_from_string(jsonStr, NULL);
 	g_free(static_cast<gpointer>(jsonStr));
 	
@@ -881,22 +925,22 @@ static bool updatePetHelper(char * accessToken,
 
 
 bool PetManager::updatePetAsync(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData)
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData)
 {
 	return updatePetHelper(accessToken,
-	body, 
+	pet, 
 	handler, userData, true);
 }
 
 bool PetManager::updatePetSync(char * accessToken,
-	Pet body, 
-	
-	void(* handler)(Error, void* ) , void* userData)
+	Pet pet, 
+	void(* handler)(Pet, Error, void* )
+	, void* userData)
 {
 	return updatePetHelper(accessToken,
-	body, 
+	pet, 
 	handler, userData, false);
 }
 

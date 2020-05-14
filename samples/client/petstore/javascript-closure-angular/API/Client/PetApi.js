@@ -47,11 +47,11 @@ API.Client.PetApi.$inject = ['$http', '$httpParamSerializer', '$injector'];
 /**
  * Add a new pet to the store
  * 
- * @param {!Pet} body Pet object that needs to be added to the store
+ * @param {!Pet} pet Pet object that needs to be added to the store
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
- * @return {!angular.$q.Promise}
+ * @return {!angular.$q.Promise<!API.Client.Pet>}
  */
-API.Client.PetApi.prototype.addPet = function(body, opt_extraHttpRequestParams) {
+API.Client.PetApi.prototype.addPet = function(pet, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/pet';
 
@@ -60,16 +60,16 @@ API.Client.PetApi.prototype.addPet = function(body, opt_extraHttpRequestParams) 
 
   /** @type {!Object} */
   var headerParams = angular.extend({}, this.defaultHeaders_);
-  // verify required parameter 'body' is set
-  if (!body) {
-    throw new Error('Missing required parameter body when calling addPet');
+  // verify required parameter 'pet' is set
+  if (!pet) {
+    throw new Error('Missing required parameter pet when calling addPet');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'POST',
     url: path,
     json: true,
-    data: body,
+    data: pet,
         params: queryParameters,
     headers: headerParams
   };
@@ -241,11 +241,11 @@ API.Client.PetApi.prototype.getPetById = function(petId, opt_extraHttpRequestPar
 /**
  * Update an existing pet
  * 
- * @param {!Pet} body Pet object that needs to be added to the store
+ * @param {!Pet} pet Pet object that needs to be added to the store
  * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
- * @return {!angular.$q.Promise}
+ * @return {!angular.$q.Promise<!API.Client.Pet>}
  */
-API.Client.PetApi.prototype.updatePet = function(body, opt_extraHttpRequestParams) {
+API.Client.PetApi.prototype.updatePet = function(pet, opt_extraHttpRequestParams) {
   /** @const {string} */
   var path = this.basePath_ + '/pet';
 
@@ -254,16 +254,16 @@ API.Client.PetApi.prototype.updatePet = function(body, opt_extraHttpRequestParam
 
   /** @type {!Object} */
   var headerParams = angular.extend({}, this.defaultHeaders_);
-  // verify required parameter 'body' is set
-  if (!body) {
-    throw new Error('Missing required parameter body when calling updatePet');
+  // verify required parameter 'pet' is set
+  if (!pet) {
+    throw new Error('Missing required parameter pet when calling updatePet');
   }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'PUT',
     url: path,
     json: true,
-    data: body,
+    data: pet,
         params: queryParameters,
     headers: headerParams
   };

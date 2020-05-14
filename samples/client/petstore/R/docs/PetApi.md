@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **AddPet**
-> AddPet(body)
+> Pet AddPet(pet)
 
 Add a new pet to the store
 
@@ -23,24 +23,25 @@ Add a new pet to the store
 ```R
 library(petstore)
 
-var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
+var.pet <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$AddPet(var.body)
+result <- api.instance$AddPet(var.pet)
+dput(result)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -49,11 +50,12 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 # **DeletePet**
@@ -240,7 +242,7 @@ Name | Type | Description  | Notes
 | **404** | Pet not found |  -  |
 
 # **UpdatePet**
-> UpdatePet(body)
+> Pet UpdatePet(pet)
 
 Update an existing pet
 
@@ -248,24 +250,25 @@ Update an existing pet
 ```R
 library(petstore)
 
-var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
+var.pet <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$UpdatePet(var.body)
+result <- api.instance$UpdatePet(var.pet)
+dput(result)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -274,11 +277,12 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |

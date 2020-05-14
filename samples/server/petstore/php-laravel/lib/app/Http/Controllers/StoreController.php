@@ -2,7 +2,7 @@
 
 /**
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -65,10 +65,10 @@ class StoreController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling placeOrder');
+        if (!isset($input['order'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $order when calling placeOrder');
         }
-        $body = $input['body'];
+        $order = $input['order'];
 
 
         return response('How about implementing placeOrder as a post method ?');

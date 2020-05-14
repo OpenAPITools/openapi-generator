@@ -111,10 +111,14 @@ void PetApiPetResource::POST_method_handler(const std::shared_ptr<restbed::Sessi
 			if (handler_POST_)
 			{
 				std::tie(status_code, result) = handler_POST_(
-					body
+					pet
 				);
 			}
 
+			if (status_code == 200) {
+				session->close(200, result.empty() ? "successful operation" : std::move(result), { {"Connection", "close"} });
+				return;
+			}
 			if (status_code == 405) {
 				session->close(405, result.empty() ? "Invalid input" : std::move(result), { {"Connection", "close"} });
 				return;
@@ -145,10 +149,15 @@ void PetApiPetResource::PUT_method_handler(const std::shared_ptr<restbed::Sessio
 			if (handler_PUT_)
 			{
 				std::tie(status_code, result) = handler_PUT_(
-					body
+					pet
 				);
 			}
 
+			if (status_code == 200) {
+				std::shared_ptr<Pet> response = NULL;
+				session->close(200, result.empty() ? "successful operation" : std::move(result), { {"Connection", "close"} });
+				return;
+			}
 			if (status_code == 400) {
 				session->close(400, result.empty() ? "Invalid ID supplied" : std::move(result), { {"Connection", "close"} });
 				return;

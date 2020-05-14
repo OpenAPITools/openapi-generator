@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -60,6 +61,54 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+<a name="fakeHttpSignatureTest"></a>
+# **fakeHttpSignatureTest**
+> fakeHttpSignatureTest(pet, query1, header1)
+
+test http signature authentication
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val pet : Pet =  // Pet | Pet object that needs to be added to the store
+val query1 : kotlin.String = query1_example // kotlin.String | query parameter
+val header1 : kotlin.String = header1_example // kotlin.String | header parameter
+try {
+    apiInstance.fakeHttpSignatureTest(pet, query1, header1)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#fakeHttpSignatureTest")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#fakeHttpSignatureTest")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **query1** | **kotlin.String**| query parameter | [optional]
+ **header1** | **kotlin.String**| header parameter | [optional]
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
 
 <a name="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
@@ -414,7 +463,7 @@ val float : kotlin.Float = 3.4 // kotlin.Float | None
 val string : kotlin.String = string_example // kotlin.String | None
 val binary : java.io.File = BINARY_DATA_HERE // java.io.File | None
 val date : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | None
-val dateTime : java.time.LocalDateTime = 2013-10-20T19:20:30+01:00 // java.time.LocalDateTime | None
+val dateTime : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | None
 val password : kotlin.String = password_example // kotlin.String | None
 val paramCallback : kotlin.String = paramCallback_example // kotlin.String | None
 try {
@@ -443,7 +492,7 @@ Name | Type | Description  | Notes
  **string** | **kotlin.String**| None | [optional]
  **binary** | **java.io.File**| None | [optional]
  **date** | **java.time.LocalDate**| None | [optional]
- **dateTime** | **java.time.LocalDateTime**| None | [optional]
+ **dateTime** | **java.time.OffsetDateTime**| None | [optional]
  **password** | **kotlin.String**| None | [optional]
  **paramCallback** | **kotlin.String**| None | [optional]
 
@@ -502,13 +551,13 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
- **enumHeaderString** | **kotlin.String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;] [enum: _abc, -efg, (xyz)]
+ **enumHeaderString** | **kotlin.String**| Header parameter enum test (string) | [optional] [default to &quot;-efg&quot;] [enum: _abc, -efg, (xyz)]
  **enumQueryStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
- **enumQueryString** | **kotlin.String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;] [enum: _abc, -efg, (xyz)]
+ **enumQueryString** | **kotlin.String**| Query parameter enum test (string) | [optional] [default to &quot;-efg&quot;] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **kotlin.Int**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **kotlin.Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;] [enum: >, $]
- **enumFormString** | **kotlin.String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;] [enum: _abc, -efg, (xyz)]
+ **enumFormStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Form parameter enum test (string array) | [optional] [default to &quot;$&quot;] [enum: >, $]
+ **enumFormString** | **kotlin.String**| Form parameter enum test (string) | [optional] [default to &quot;-efg&quot;] [enum: _abc, -efg, (xyz)]
 
 ### Return type
 
