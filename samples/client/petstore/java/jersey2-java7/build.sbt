@@ -1,7 +1,7 @@
 lazy val root = (project in file(".")).
   settings(
     organization := "org.openapitools",
-    name := "petstore-jersey2",
+    name := "petstore-jersey2-java7",
     version := "1.0.0",
     scalaVersion := "2.11.4",
     scalacOptions ++= Seq("-feature"),

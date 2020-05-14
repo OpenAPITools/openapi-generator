@@ -22,25 +22,46 @@ h3. addPet
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/pet{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
 ----
 h4. Parameters
 
 h5. Body Parameter
         ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |body |Pet object that needs to be added to the store | Pet | (/) | |  |  |
+        |Pet |Pet object that needs to be added to the store | Pet | (/) | |  |  |
 
 
 ----
 h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | Pet |
+    	|| Response Model | [Pet Model|#PetModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+}{code} |
+       
+
 
     	|| Status Code | {status:colour=Green|title=405|subtle=false} |
     	|| Message | Invalid input |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid input",
-  "content" : { }
+  "description" : "Invalid input"
 }{code} |
        
 
@@ -77,8 +98,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid pet value",
-  "content" : { }
+  "description" : "Invalid pet value"
 }{code} |
        
 
@@ -140,8 +160,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid status value",
-  "content" : { }
+  "description" : "Invalid status value"
 }{code} |
        
 
@@ -203,8 +222,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid tag value",
-  "content" : { }
+  "description" : "Invalid tag value"
 }{code} |
        
 
@@ -260,8 +278,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid ID supplied",
-  "content" : { }
+  "description" : "Invalid ID supplied"
 }{code} |
        
 
@@ -271,8 +288,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Pet not found",
-  "content" : { }
+  "description" : "Pet not found"
 }{code} |
        
 
@@ -289,25 +305,46 @@ h3. updatePet
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/pet{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    
+    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
 ----
 h4. Parameters
 
 h5. Body Parameter
         ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |body |Pet object that needs to be added to the store | Pet | (/) | |  |  |
+        |Pet |Pet object that needs to be added to the store | Pet | (/) | |  |  |
 
 
 ----
 h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | successful operation |
+    	|| Response Type | Pet |
+    	|| Response Model | [Pet Model|#PetModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+}{code} |
+       
+
 
     	|| Status Code | {status:colour=Green|title=400|subtle=false} |
     	|| Message | Invalid ID supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid ID supplied",
-  "content" : { }
+  "description" : "Invalid ID supplied"
 }{code} |
        
 
@@ -317,8 +354,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Pet not found",
-  "content" : { }
+  "description" : "Pet not found"
 }{code} |
        
 
@@ -328,8 +364,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Validation exception",
-  "content" : { }
+  "description" : "Validation exception"
 }{code} |
        
 
@@ -363,8 +398,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid input",
-  "content" : { }
+  "description" : "Invalid input"
 }{code} |
        
 
@@ -439,8 +473,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid ID supplied",
-  "content" : { }
+  "description" : "Invalid ID supplied"
 }{code} |
        
 
@@ -450,8 +483,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Order not found",
-  "content" : { }
+  "description" : "Order not found"
 }{code} |
        
 
@@ -549,8 +581,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid ID supplied",
-  "content" : { }
+  "description" : "Invalid ID supplied"
 }{code} |
        
 
@@ -560,8 +591,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Order not found",
-  "content" : { }
+  "description" : "Order not found"
 }{code} |
        
 
@@ -584,7 +614,7 @@ h4. Parameters
 
 h5. Body Parameter
         ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |body |order placed for purchasing the pet | Order | (/) | |  |  |
+        |Order |order placed for purchasing the pet | Order | (/) | |  |  |
 
 
 ----
@@ -617,8 +647,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid Order",
-  "content" : { }
+  "description" : "Invalid Order"
 }{code} |
        
 
@@ -641,7 +670,7 @@ h4. Parameters
 
 h5. Body Parameter
         ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |body |Created user object | User | (/) | |  |  |
+        |User |Created user object | User | (/) | |  |  |
 
 
 ----
@@ -652,8 +681,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "successful operation",
-  "content" : { }
+  "description" : "successful operation"
 }{code} |
        
 
@@ -676,7 +704,7 @@ h4. Parameters
 
 h5. Body Parameter
         ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |body |List of user object | array[User] | (/) | |  |  |
+        |User |List of user object | array[User] | (/) | |  |  |
 
 
 ----
@@ -687,8 +715,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "successful operation",
-  "content" : { }
+  "description" : "successful operation"
 }{code} |
        
 
@@ -711,7 +738,7 @@ h4. Parameters
 
 h5. Body Parameter
         ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |body |List of user object | array[User] | (/) | |  |  |
+        |User |List of user object | array[User] | (/) | |  |  |
 
 
 ----
@@ -722,8 +749,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "successful operation",
-  "content" : { }
+  "description" : "successful operation"
 }{code} |
        
 
@@ -757,8 +783,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid username supplied",
-  "content" : { }
+  "description" : "Invalid username supplied"
 }{code} |
        
 
@@ -768,8 +793,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "User not found",
-  "content" : { }
+  "description" : "User not found"
 }{code} |
        
 
@@ -825,8 +849,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid username supplied",
-  "content" : { }
+  "description" : "Invalid username supplied"
 }{code} |
        
 
@@ -836,8 +859,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "User not found",
-  "content" : { }
+  "description" : "User not found"
 }{code} |
        
 
@@ -862,7 +884,7 @@ h4. Parameters
 
 h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
-        |username |The user name for login | String | (/) |null |  |  ||password |The password for login in clear text | String | (/) |null |  |  |
+        |username |The user name for login | String | (/) |null | /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/ |  ||password |The password for login in clear text | String | (/) |null |  |  |
 ----
 h4. Responses
 
@@ -873,8 +895,19 @@ h4. Responses
     	|| Response Schema | {code:collapse=true}{
   "description" : "successful operation",
   "headers" : {
+    "Set-Cookie" : {
+      "description" : "Cookie authentication key for use with the `auth_cookie` apiKey authentication.",
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string",
+        "example" : "AUTH_KEY=abcde12345; Path=/; HttpOnly"
+      }
+    },
     "X-Rate-Limit" : {
       "description" : "calls per hour allowed by the user",
+      "style" : "simple",
+      "explode" : false,
       "schema" : {
         "type" : "integer",
         "format" : "int32"
@@ -882,6 +915,8 @@ h4. Responses
     },
     "X-Expires-After" : {
       "description" : "date in UTC when toekn expires",
+      "style" : "simple",
+      "explode" : false,
       "schema" : {
         "type" : "string",
         "format" : "date-time"
@@ -909,8 +944,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid username/password supplied",
-  "content" : { }
+  "description" : "Invalid username/password supplied"
 }{code} |
        
 
@@ -941,8 +975,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "successful operation",
-  "content" : { }
+  "description" : "successful operation"
 }{code} |
        
 
@@ -968,7 +1001,7 @@ h5. Path Parameters
 
 h5. Body Parameter
         ||Name||Description||Type||Required||Default||Pattern||Enum||
-        |body |Updated user object | User | (/) | |  |  |
+        |User |Updated user object | User | (/) | |  |  |
 
 
 ----
@@ -979,8 +1012,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "Invalid user supplied",
-  "content" : { }
+  "description" : "Invalid user supplied"
 }{code} |
        
 
@@ -990,8 +1022,7 @@ h4. Responses
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
-  "description" : "User not found",
-  "content" : { }
+  "description" : "User not found"
 }{code} |
        
 
@@ -1018,6 +1049,22 @@ h2. Models
         ||Field Name||Required||Type||Description||Enum||
          |id |(x) |{noformat:nopanel=true}Long{noformat} | |  |
  |name |(x) |{noformat:nopanel=true}String{noformat} | |  |
+        {anchor:InlineObjectModelAnchor}
+        h3. InlineObject
+
+        
+
+        ||Field Name||Required||Type||Description||Enum||
+         |name |(x) |{noformat:nopanel=true}String{noformat} |Updated name of the pet |  |
+ |status |(x) |{noformat:nopanel=true}String{noformat} |Updated status of the pet |  |
+        {anchor:InlineObject1ModelAnchor}
+        h3. InlineObject1
+
+        
+
+        ||Field Name||Required||Type||Description||Enum||
+         |additionalMetadata |(x) |{noformat:nopanel=true}String{noformat} |Additional data to pass to server |  |
+ |file |(x) |{noformat:nopanel=true}File{noformat} |file to upload |  |
         {anchor:OrderModelAnchor}
         h3. Order
 

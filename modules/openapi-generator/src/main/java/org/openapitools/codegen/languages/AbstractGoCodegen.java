@@ -119,6 +119,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("file", "*os.File");
         typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("null", "nil");
         // A 'type: object' OAS schema without any declared property is
         // (per JSON schema specification) "an unordered set of properties
         // mapping a string to an instance".
@@ -638,6 +639,18 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         imports.add(createMapping("import", "os"));
                         addedOSImport = true;
                     }
+                }
+
+                // if oneOf contains "null" type
+                if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
+                    model.isNullable = true;
+                    model.oneOf.remove("nil");
+                }
+
+                // if anyOf contains "null" type
+                if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
+                    model.isNullable = true;
+                    model.anyOf.remove("nil");
                 }
             }
         }

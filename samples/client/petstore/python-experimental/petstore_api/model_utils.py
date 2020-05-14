@@ -1138,6 +1138,31 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
     return input_value
 
 
+def is_valid_type(input_class_simple, valid_classes):
+    """
+    Args:
+        input_class_simple (class): the class of the input_value that we are
+            checking
+        valid_classes (tuple): the valid classes that the current item
+            should be
+    Returns:
+        bool
+    """
+    valid_type = input_class_simple in valid_classes
+    if not valid_type and issubclass(input_class_simple, OpenApiModel):
+        for valid_class in valid_classes:
+            if not valid_class.discriminator:
+                continue
+            discr_propertyname_py = list(valid_class.discriminator.keys())[0]
+            discriminator_classes = (
+                valid_class.discriminator[discr_propertyname_py].values()
+            )
+            valid_type = is_valid_type(input_class_simple, discriminator_classes)
+            if valid_type:
+                return True
+    return valid_type
+
+
 def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                                from_server, _check_type, configuration=None):
     """Raises a TypeError is there is a problem, otherwise returns value
@@ -1170,7 +1195,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     valid_classes, child_req_types_by_current_type = results
 
     input_class_simple = get_simple_class(input_value)
-    valid_type = input_class_simple in set(valid_classes)
+    valid_type = is_valid_type(input_class_simple, valid_classes)
     if not valid_type:
         if configuration:
             # if input_value is not valid_type try to convert it
@@ -1419,7 +1444,7 @@ def get_oneof_instance(self, model_args, constant_args):
             and path to item.
 
     Returns
-        oneof_instance (instance/None)
+        oneof_instance (instance)
     """
     if len(self._composed_schemas['oneOf']) == 0:
         return None
@@ -1428,6 +1453,13 @@ def get_oneof_instance(self, model_args, constant_args):
     # Iterate over each oneOf schema and determine if the input data
     # matches the oneOf schemas.
     for oneof_class in self._composed_schemas['oneOf']:
+        # The composed oneOf schema allows the 'null' type and the input data
+        # is the null value. This is a OAS >= 3.1 feature.
+        if oneof_class is none_type:
+            # skip none_types because we are deserializing dict data.
+            # none_type deserialization is handled in the __new__ method
+            continue
+
         # transform js keys from input data to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
             model_args, oneof_class)
@@ -1473,9 +1505,11 @@ def get_anyof_instances(self, model_args, constant_args):
     Args:
         self: the class we are handling
         model_args (dict): var_name to var_value
-            used to make instances
+            The input data, e.g. the payload that must match at least one
+            anyOf child schema in the OpenAPI document.
         constant_args (dict): var_name to var_value
-            used to make instances
+            args that every model requires, including configuration, server
+            and path to item.
 
     Returns
         anyof_instances (list)
@@ -1485,6 +1519,13 @@ def get_anyof_instances(self, model_args, constant_args):
         return anyof_instances
 
     for anyof_class in self._composed_schemas['anyOf']:
+        # The composed oneOf schema allows the 'null' type and the input data
+        # is the null value. This is a OAS >= 3.1 feature.
+        if anyof_class is none_type:
+            # skip none_types because we are deserializing dict data.
+            # none_type deserialization is handled in the __new__ method
+            continue
+
         # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(model_args, anyof_class)
 

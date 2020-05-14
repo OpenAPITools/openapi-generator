@@ -8,7 +8,14 @@ type {{classname}} struct {
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	var err error
-{{#anyOf}}
+	{{#isNullable}}
+	// this object is nullable so check if the payload is null or empty string
+	if string(data) == "" || string(data) == "{}" {
+		return nil
+	}
+
+	{{/isNullable}}
+	{{#anyOf}}
 	// try to unmarshal JSON data into {{{.}}}
 	err = json.Unmarshal(data, &dst.{{{.}}});
 	if err == nil {
@@ -22,7 +29,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 		dst.{{{.}}} = nil
 	}
 
-{{/anyOf}}
+	{{/anyOf}}
 	return fmt.Errorf("Data failed to match schemas in anyOf({{classname}})")
 }
 
