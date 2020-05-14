@@ -323,16 +323,11 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-<<<<<<< HEAD:samples/client/petstore/java/jersey2/src/main/java/org/openapitools/client/api/PetApi.java
     GenericType<Set<Pet>> localVarReturnType = new GenericType<Set<Pet>>() {};
-    return apiClient.invokeAPI("PetApi.findPetsByTags", localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-=======
-    GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
 
     return apiClient.invokeAPI("PetApi.findPetsByTags", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
                                localVarAuthNames, localVarReturnType, null);
->>>>>>> 2dd5477c24e539a221bfe4c9797ff4d49d4d5386:samples/client/petstore/java/jersey2-java7/src/main/java/org/openapitools/client/api/PetApi.java
   }
   /**
    * Find pet by ID

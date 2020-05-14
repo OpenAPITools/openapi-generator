@@ -91,13 +91,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() throws ApiException {
-<<<<<<< HEAD:samples/client/petstore/java/jersey2/src/test/java/org/openapitools/client/api/PetApiTest.java
-        Set<String> tags = null;
-        Set<Pet> response = api.findPetsByTags(tags);
-=======
         //List<String> tags = null;
         //List<Pet> response = api.findPetsByTags(tags);
->>>>>>> 2dd5477c24e539a221bfe4c9797ff4d49d4d5386:samples/client/petstore/java/jersey2-java7/src/test/java/org/openapitools/client/api/PetApiTest.java
         // TODO: test validations
     }
     
