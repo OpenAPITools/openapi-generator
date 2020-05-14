@@ -38,6 +38,10 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public static final String OPTIONAL_EXTERNAL_LIB_DESC = "Add the Possibility to fetch and compile external Libraries needed by this Framework.";
     public static final String HELPERS_PACKAGE_NAME = "helpersPackage";
     public static final String HELPERS_PACKAGE_NAME_DESC = "Specify the package name to be used for the helpers (e.g. org.openapitools.server.helpers).";
+    public static final String MODELS_PACKAGE_NAME = "modelPackage";
+    public static final String MODELS_PACKAGE_NAME_DESC = "Specify the package name to be used for the model (e.g. org.openapitools.server.model).";
+    public static final String API_PACKAGE_NAME = "apiPackage";
+    public static final String API_PACKAGE_NAME_DESC = "Specify the package name to be used for the api (e.g. org.openapitools.server.api).";
     protected final String PREFIX = "";
     protected String helpersPackage = "";
     @Override
@@ -78,6 +82,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         cliOptions.clear();
         addSwitch(OPTIONAL_EXTERNAL_LIB, OPTIONAL_EXTERNAL_LIB_DESC, this.isAddExternalLibs);
         addOption(HELPERS_PACKAGE_NAME, HELPERS_PACKAGE_NAME_DESC, this.helpersPackage);
+        addOption(MODELS_PACKAGE_NAME, MODELS_PACKAGE_NAME_DESC, this.modelPackage);
+        addOption(API_PACKAGE_NAME, API_PACKAGE_NAME_DESC, this.apiPackage);
 
         reservedWords = new HashSet<>();
 
