@@ -64,7 +64,7 @@ class AdditionalPropertiesObject(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = ({str: (bool, date, datetime, dict, float, int, list, str,)},)  # noqa: E501
+    additional_properties_type = ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)},)  # noqa: E501
 
     @cached_property
     def openapi_types():

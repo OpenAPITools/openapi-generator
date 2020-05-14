@@ -64,7 +64,7 @@ class NullableClass(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
+    additional_properties_type = ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type,)  # noqa: E501
 
     @cached_property
     def openapi_types():
@@ -83,12 +83,12 @@ class NullableClass(ModelNormal):
             'string_prop': (str, none_type,),  # noqa: E501
             'date_prop': (date, none_type,),  # noqa: E501
             'datetime_prop': (datetime, none_type,),  # noqa: E501
-            'array_nullable_prop': ([bool, date, datetime, dict, float, int, list, str], none_type,),  # noqa: E501
-            'array_and_items_nullable_prop': ([bool, date, datetime, dict, float, int, list, str, none_type], none_type,),  # noqa: E501
-            'array_items_nullable': ([bool, date, datetime, dict, float, int, list, str, none_type],),  # noqa: E501
-            'object_nullable_prop': ({str: (bool, date, datetime, dict, float, int, list, str,)}, none_type,),  # noqa: E501
-            'object_and_items_nullable_prop': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type,),  # noqa: E501
-            'object_items_nullable': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'array_nullable_prop': ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}], none_type,),  # noqa: E501
+            'array_and_items_nullable_prop': ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type], none_type,),  # noqa: E501
+            'array_items_nullable': ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type],),  # noqa: E501
+            'object_nullable_prop': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)}, none_type,),  # noqa: E501
+            'object_and_items_nullable_prop': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}, none_type,),  # noqa: E501
+            'object_items_nullable': ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)},),  # noqa: E501
         }
 
     @cached_property
@@ -160,12 +160,12 @@ class NullableClass(ModelNormal):
             string_prop (str, none_type): [optional]  # noqa: E501
             date_prop (date, none_type): [optional]  # noqa: E501
             datetime_prop (datetime, none_type): [optional]  # noqa: E501
-            array_nullable_prop ([bool, date, datetime, dict, float, int, list, str], none_type): [optional]  # noqa: E501
-            array_and_items_nullable_prop ([bool, date, datetime, dict, float, int, list, str, none_type], none_type): [optional]  # noqa: E501
-            array_items_nullable ([bool, date, datetime, dict, float, int, list, str, none_type]): [optional]  # noqa: E501
-            object_nullable_prop ({str: (bool, date, datetime, dict, float, int, list, str,)}, none_type): [optional]  # noqa: E501
-            object_and_items_nullable_prop ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type): [optional]  # noqa: E501
-            object_items_nullable ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
+            array_nullable_prop ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}], none_type): [optional]  # noqa: E501
+            array_and_items_nullable_prop ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type], none_type): [optional]  # noqa: E501
+            array_items_nullable ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type]): [optional]  # noqa: E501
+            object_nullable_prop ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)}, none_type): [optional]  # noqa: E501
+            object_and_items_nullable_prop ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}, none_type): [optional]  # noqa: E501
+            object_items_nullable ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type)}): [optional]  # noqa: E501
         """
 
         self._data_store = {}
