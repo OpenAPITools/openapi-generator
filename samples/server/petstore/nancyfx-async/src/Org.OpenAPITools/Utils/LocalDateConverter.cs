@@ -1,0 +1,55 @@
+using Nancy.Bootstrapper;
+using Nancy.Json;
+using NodaTime;
+using NodaTime.Text;
+using System;
+using System.Collections.Generic;
+
+namespace Org.OpenAPITools._v2.Utils
+{
+    /// <summary>
+    /// (De)serializes a <see cref="NodaTime.LocalDate"/> to a string using 
+    /// the <a href="https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14">RFC3339</a> 
+    /// <code>full-date</code> format.
+    /// </summary>
+    public class LocalDateConverter : JavaScriptPrimitiveConverter, IApplicationStartup
+    {
+        public override IEnumerable<Type> SupportedTypes
+        {
+            get
+            {
+                yield return typeof(LocalDate);
+                yield return typeof(LocalDate?);
+            }
+        }
+
+        public void Initialize(IPipelines pipelines)
+        {
+            JsonSettings.PrimitiveConverters.Add(new LocalDateConverter());
+        }
+
+
+        public override object Serialize(object obj, JavaScriptSerializer serializer)
+        {
+            if (obj is LocalDate)
+            {
+                LocalDate localDate = (LocalDate)obj;
+                return LocalDatePattern.IsoPattern.Format(localDate);
+            }
+            return null;
+        }
+
+        public override object Deserialize(object primitiveValue, Type type, JavaScriptSerializer serializer)
+        {
+            if ((type == typeof(LocalDate) || type == typeof(LocalDate?)) && primitiveValue is string)
+            {
+                try
+                {
+                    return LocalDatePattern.IsoPattern.Parse(primitiveValue as string).GetValueOrThrow();
+                }
+                catch { }
+            }
+            return null;
+        }
+    }
+}
