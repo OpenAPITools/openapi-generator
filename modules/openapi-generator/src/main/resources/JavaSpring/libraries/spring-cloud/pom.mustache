@@ -9,7 +9,7 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <swagger-core-version>1.5.18</swagger-core-version>
+        <swagger-core-version>2.1.1</swagger-core-version>
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -45,7 +45,7 @@
 {{/parentOverridden}}
     <dependencies>
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
 {{^parentOverridden}}
             <version>${swagger-core-version}</version>

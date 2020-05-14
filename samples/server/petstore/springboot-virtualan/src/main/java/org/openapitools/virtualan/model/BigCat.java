@@ -4,10 +4,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.virtualan.model.BigCatAllOf;
 import org.openapitools.virtualan.model.Cat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -68,7 +67,7 @@ public class BigCat extends Cat  {
    * Get kind
    * @return kind
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public KindEnum getKind() {

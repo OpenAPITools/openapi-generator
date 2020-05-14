@@ -3,9 +3,8 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -27,7 +26,7 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 

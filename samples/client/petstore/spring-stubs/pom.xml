@@ -10,6 +10,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <springfox-version>2.8.0</springfox-version>
+        <swagger-annotations-version>2.1.1</swagger-annotations-version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -34,6 +35,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
+        </dependency>
+        <dependency>
+          <groupId>io.swagger.core.v3</groupId>
+          <artifactId>swagger-annotations</artifactId>
+          <version>${swagger-annotations-version}</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
