@@ -813,4 +813,22 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp9.isFreeFormObject);
         Assert.assertFalse(cp9.isAnyType);
     }
+
+    @Test
+    public void testOneOfWithASingleVariant() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf-single-variant.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("Enum");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel cm1 = codegen.fromModel("Enum", test1);
+        Assert.assertEquals(cm1.getClassname(), "ModelEnum");
+
+        // check that the discriminator property exists
+        Assert.assertEquals(cm1.vars.size(), 1);
+        final CodegenProperty property1 = cm1.vars.get(0);
+        Assert.assertEquals(property1.baseName, "type");
+        Assert.assertEquals(property1.dataType, "String");
+        Assert.assertTrue(property1.isPrimitiveType);
+    }
 }

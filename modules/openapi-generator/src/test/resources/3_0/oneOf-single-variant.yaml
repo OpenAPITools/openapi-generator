@@ -1,0 +1,34 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /endpoint:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enum"
+components:
+  schemas:
+    Enum:
+      oneOf:
+        - $ref: '#/components/schemas/Variant'
+      discriminator:
+        propertyName: type
+        mapping:
+          unit: '#/components/schemas/Variant'
+
+    Variant:
+      properties:
+        type:
+          type: string
+      required:
+        - type
