@@ -23,9 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import org.hibernate.validator.constraints.*;
 
 /**
  * Model for testing model name same as property name
@@ -60,7 +57,6 @@ public class Name {
    * Get name
    * @return name
   **/
-  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public Integer getName() {
