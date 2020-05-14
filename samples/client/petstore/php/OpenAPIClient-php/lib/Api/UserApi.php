@@ -1487,14 +1487,14 @@ class UserApi
             $username = ObjectSerializer::serializeCollection($username, '', true);
         }
         if ($username !== null) {
-            $queryParams['username'] = $username;
+            $queryParams['username'] = ObjectSerializer::toQueryValue($username, null);
         }
         // query params
         if (is_array($password)) {
             $password = ObjectSerializer::serializeCollection($password, '', true);
         }
         if ($password !== null) {
-            $queryParams['password'] = $password;
+            $queryParams['password'] = ObjectSerializer::toQueryValue($password, null);
         }
 
 
