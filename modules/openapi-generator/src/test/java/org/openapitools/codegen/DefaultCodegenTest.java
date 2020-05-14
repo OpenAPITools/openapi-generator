@@ -1187,6 +1187,8 @@ public class DefaultCodegenTest {
         // check that the model's children contain the x-discriminator-values
         modelName = "BaseObj";
         cm = getModel(allModels, modelName);
+        Assert.assertNotNull(cm);
+        Assert.assertNotNull(cm.children);
         List<String> excpectedDiscriminatorValues = new ArrayList<>(Arrays.asList("daily", "sub-obj"));
         ArrayList<String> xDiscriminatorValues = new ArrayList<>();
         for (CodegenModel child: cm.children) {
