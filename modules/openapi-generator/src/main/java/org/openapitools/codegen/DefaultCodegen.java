@@ -2352,6 +2352,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
+            // Composed schemas may use the 'additionalProperties' keyword.
+            addAdditionPropertiesToCodeGenModel(m, schema);
+            
             // end of code block for composed schema
         } else {
             m.dataType = getSchemaType(schema);
