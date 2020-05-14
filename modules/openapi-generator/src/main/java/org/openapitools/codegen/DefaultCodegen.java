@@ -176,7 +176,21 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
+
+    /**
+     * True if the code generator supports multiple class inheritance.
+     * This is used to model the parent hierarchy based on the 'allOf' composed schemas.
+     */
     protected boolean supportsMultipleInheritance;
+    /**
+     * True if the code generator supports class inheritance.
+     * This is used to model the parent hierarchy based on the 'allOf' composed schemas.
+     * Note: the single-class inheritance technique has inherent limitations because
+     * a 'allOf' composed schema may have multiple $ref child schemas, each one
+     * potentially representing a "parent" in the class inheritance hierarchy.
+     * Some language generators also use class inheritance to implement the `additionalProperties`
+     * keyword. For example, the Java code generator may generate 'extends HashMap'.
+     */"
     protected boolean supportsInheritance;
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
@@ -2353,7 +2367,8 @@ public class DefaultCodegen implements CodegenConfig {
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
             // Composed schemas may use the 'additionalProperties' keyword.
-            addAdditionPropertiesToCodeGenModel(m, schema);
+            // TODO: this wouldn't work with generators that use single
+            //addAdditionPropertiesToCodeGenModel(m, schema);
             
             // end of code block for composed schema
         } else {
