@@ -190,7 +190,7 @@ public class DefaultCodegen implements CodegenConfig {
      * potentially representing a "parent" in the class inheritance hierarchy.
      * Some language generators also use class inheritance to implement the `additionalProperties`
      * keyword. For example, the Java code generator may generate 'extends HashMap'.
-     */"
+     */
     protected boolean supportsInheritance;
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
