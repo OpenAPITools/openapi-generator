@@ -73,16 +73,13 @@ class RESTClientObject(object):
             ssl=ssl_context
         )
 
+        self.proxy = configuration.proxy
+        self.proxy_headers = configuration.proxy_headers
+
         # https pool manager
-        if configuration.proxy:
-            self.pool_manager = aiohttp.ClientSession(
-                connector=connector,
-                proxy=configuration.proxy
-            )
-        else:
-            self.pool_manager = aiohttp.ClientSession(
-                connector=connector
-            )
+        self.pool_manager = aiohttp.ClientSession(
+            connector=connector
+        )
 
     async def close(self):
         await self.pool_manager.close()
@@ -130,6 +127,11 @@ class RESTClientObject(object):
             "headers": headers
         }
 
+        if self.proxy:
+            args["proxy"] = self.proxy
+        if self.proxy_headers:
+            args["proxy_headers"] = self.proxy_headers
+
         if query_params:
             args["url"] += '?' + urlencode(query_params)
 
@@ -172,7 +174,7 @@ class RESTClientObject(object):
         r = await self.pool_manager.request(**args)
         if _preload_content:
 
-            data = await r.text()
+            data = await r.read()
             r = RESTResponse(r, data)
 
             # log response body

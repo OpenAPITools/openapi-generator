@@ -110,6 +110,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("npmignore", "", ".npmignore"));
 
         if (additionalProperties.containsKey(SEPARATE_MODELS_AND_API)) {
             boolean separateModelsAndApi = Boolean.parseBoolean(additionalProperties.get(SEPARATE_MODELS_AND_API).toString());
@@ -214,6 +215,15 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
         }
         return objs;
+    }
+
+    /**
+     * Overriding toRegularExpression() to avoid escapeText() being called,
+     * as it would return a broken regular expression if any escaped character / metacharacter were present.
+     */
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
     }
 
     @Override

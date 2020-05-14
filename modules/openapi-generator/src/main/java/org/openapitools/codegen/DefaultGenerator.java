@@ -156,7 +156,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return defaultValue;
     }
 
-    private void configureGeneratorProperties() {
+    void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
         generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
@@ -394,7 +394,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     @SuppressWarnings("unchecked")
-    private void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
+    void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
             LOGGER.info("Skipping generation of models.");
@@ -795,20 +795,30 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             config.postProcessFile(written, "supporting-mustache");
                         }
                     } else {
-                        InputStream in = null;
+                        if (Arrays.stream(templatingEngine.getFileExtensions()).anyMatch(templateFile::endsWith)) {
+                            String templateContent = templatingEngine.compileTemplate(this, bundle, support.templateFile);
+                            writeToFile(outputFilename, templateContent);
+                            File written = new File(outputFilename);
+                            files.add(written);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(written, "supporting-mustache");
+                            }
+                        } else {
+                            InputStream in = null;
 
-                        try {
-                            in = new FileInputStream(templateFile);
-                        } catch (Exception e) {
-                            // continue
-                        }
-                        if (in == null) {
-                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
-                        }
-                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
-                        files.add(outputFile);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(outputFile, "supporting-common");
+                            try {
+                                in = new FileInputStream(templateFile);
+                            } catch (Exception e) {
+                                // continue
+                            }
+                            if (in == null) {
+                                in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                            }
+                            File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
+                            files.add(outputFile);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(outputFile, "supporting-common");
+                            }
                         }
                     }
 

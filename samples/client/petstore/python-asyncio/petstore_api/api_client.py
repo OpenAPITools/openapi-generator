@@ -27,7 +27,7 @@ from six.moves.urllib.parse import quote
 from petstore_api.configuration import Configuration
 import petstore_api.models
 from petstore_api import rest
-from petstore_api.exceptions import ApiValueError
+from petstore_api.exceptions import ApiValueError, ApiException
 
 
 class ApiClient(object):
@@ -177,22 +177,38 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
-        # perform request and return response
-        response_data = await self.request(
-            method, url, query_params=query_params, headers=header_params,
-            post_params=post_params, body=body,
-            _preload_content=_preload_content,
-            _request_timeout=_request_timeout)
+        try:
+            # perform request and return response
+            response_data = await self.request(
+                method, url, query_params=query_params, headers=header_params,
+                post_params=post_params, body=body,
+                _preload_content=_preload_content,
+                _request_timeout=_request_timeout)
+        except ApiException as e:
+            e.body = e.body.decode('utf-8') if six.PY3 else e.body
+            raise e
+
+        content_type = response_data.getheader('content-type')
 
         self.last_response = response_data
 
         return_data = response_data
-        if _preload_content:
-            # deserialize response data
-            if response_type:
-                return_data = self.deserialize(response_data, response_type)
-            else:
-                return_data = None
+
+        if not _preload_content:
+            return return_data
+
+        if six.PY3 and response_type not in ["file", "bytes"]:
+            match = None
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+            encoding = match.group(1) if match else "utf-8"
+            response_data.data = response_data.data.decode(encoding)
+
+        # deserialize response data
+        if response_type:
+            return_data = self.deserialize(response_data, response_type)
+        else:
+            return_data = None
 
         if _return_http_data_only:
             return (return_data)
@@ -625,9 +641,12 @@ class ApiClient(object):
         :param klass: class literal.
         :return: model object.
         """
+        has_discriminator = False
+        if (hasattr(klass, 'get_real_child_model')
+                and klass.discriminator_value_class_map):
+            has_discriminator = True
 
-        if not klass.openapi_types and not hasattr(klass,
-                                                   'get_real_child_model'):
+        if not klass.openapi_types and has_discriminator is False:
             return data
 
         kwargs = {}
@@ -641,7 +660,7 @@ class ApiClient(object):
 
         instance = klass(**kwargs)
 
-        if hasattr(instance, 'get_real_child_model'):
+        if has_discriminator:
             klass_name = instance.get_real_child_model(data)
             if klass_name:
                 instance = self.__deserialize(data, klass_name)

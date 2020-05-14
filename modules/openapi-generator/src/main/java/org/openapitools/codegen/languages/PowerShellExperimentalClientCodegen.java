@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -614,6 +615,9 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Private", apiNamePrefix + "ApiClient.ps1"));
         supportingFiles.add(new SupportingFile("Get-CommonParameters.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Get-CommonParameters.ps1"));
         supportingFiles.add(new SupportingFile("Out-DebugParameter.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Out-DebugParameter.ps1"));
+        supportingFiles.add(new SupportingFile("http_signature_auth.mustache", infrastructureFolder + "Private", apiNamePrefix + "HttpSignatureAuth.ps1"));
+        supportingFiles.add(new SupportingFile("rsa_provider.mustache", infrastructureFolder + "Private", apiNamePrefix + "RSAEncryptionProvider.cs"));
+        
 
         // en-US
         supportingFiles.add(new SupportingFile("about_Org.OpenAPITools.help.txt.mustache", infrastructureFolder + File.separator + "en-US" + File.separator + "about_" + packageName + ".help.txt"));
@@ -622,6 +626,29 @@ public class PowerShellExperimentalClientCodegen extends DefaultCodegen implemen
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
     }
 
+    @SuppressWarnings("static-method")
+    @Override
+    public String escapeText(String input) {
+        
+        if (input == null) {
+            return input;
+        }
+
+        // remove \t, \n, \r
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        return escapeUnsafeCharacters(
+                StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                        .replaceAll("[\\t\\n\\r]", " ")
+                        .replace("\\", "\\\\")
+                        .replace("\"", "\"\""));
+        
+    }
+    
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("#>", "#_>").replace("<#", "<_#");

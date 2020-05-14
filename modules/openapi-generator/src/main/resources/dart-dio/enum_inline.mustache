@@ -1,0 +1,19 @@
+class {{classname}}{{nameInCamelCase}} extends EnumClass {
+
+  {{#allowableValues}}
+    {{#enumVars}}
+      {{#description}}
+  /// {{description}}
+      {{/description}}
+  @BuiltValueEnumConst(wireName: {{{value}}})
+  static const {{classname}}{{nameInCamelCase}} {{name}} = _${{name}};
+    {{/enumVars}}
+  {{/allowableValues}}
+
+  static Serializer<{{classname}}{{nameInCamelCase}}> get serializer => _${{classVarName}}{{nameInCamelCase}}Serializer;
+
+  const {{classname}}{{nameInCamelCase}}._(String name): super(name);
+
+  static BuiltSet<{{classname}}{{nameInCamelCase}}> get values => _${{classVarName}}{{nameInCamelCase}}Values;
+  static {{classname}}{{nameInCamelCase}} valueOf(String name) => _${{classVarName}}{{nameInCamelCase}}ValueOf(name);
+}

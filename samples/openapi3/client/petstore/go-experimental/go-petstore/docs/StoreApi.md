@@ -19,6 +19,31 @@ Delete purchase order by ID
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    orderId := "orderId_example" // string | ID of the order that needs to be deleted
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StoreApi.DeleteOrder(context.Background(), orderId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.DeleteOrder``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
 ### Path Parameters
 
 
@@ -62,6 +87,32 @@ Returns pet inventories by status
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StoreApi.GetInventory(context.Background(), ).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetInventory``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetInventory`: map[string]int32
+    fmt.Fprintf(os.Stdout, "Response from `StoreApi.GetInventory`: %v\n", resp)
+}
+```
+
 ### Path Parameters
 
 This endpoint does not need any parameter.
@@ -96,6 +147,33 @@ Other parameters are passed through a pointer to a apiGetInventoryRequest struct
 Find purchase order by ID
 
 
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    orderId := 987 // int64 | ID of pet that needs to be fetched
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StoreApi.GetOrderById(context.Background(), orderId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetOrderById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetOrderById`: Order
+    fmt.Fprintf(os.Stdout, "Response from `StoreApi.GetOrderById`: %v\n", resp)
+}
+```
 
 ### Path Parameters
 
@@ -137,6 +215,33 @@ No authorization required
 > Order PlaceOrder(ctx).Order(order).Execute()
 
 Place an order for a pet
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    order := openapiclient.Order{Id: int64(123), PetId: int64(123), Quantity: 123, ShipDate: "TODO", Status: "Status_example", Complete: false} // Order | order placed for purchasing the pet
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StoreApi.PlaceOrder(context.Background(), order).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.PlaceOrder``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `PlaceOrder`: Order
+    fmt.Fprintf(os.Stdout, "Response from `StoreApi.PlaceOrder`: %v\n", resp)
+}
+```
 
 ### Path Parameters
 

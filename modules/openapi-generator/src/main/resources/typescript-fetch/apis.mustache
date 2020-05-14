@@ -28,8 +28,8 @@ export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterIn
 {{#withInterfaces}}
 {{#operations}}
 /**
- * {{classname}} - interface{{#description}}
- * {{&description}}{{/description}}
+ * {{classname}} - interface
+ * {{#lambda.indented_1}}{{{unescapedDescription}}}{{/lambda.indented_1}}
  * @export
  * @interface {{classname}}Interface
  */
@@ -71,7 +71,7 @@ export interface {{classname}}Interface {
 {{/withInterfaces}}
 {{#operations}}
 /**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
  */
 {{#withInterfaces}}
 export class {{classname}} extends runtime.BaseAPI implements {{classname}}Interface {
@@ -122,7 +122,12 @@ export class {{classname}} extends runtime.BaseAPI {
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
             {{/isDate}}
             {{^isDate}}
+            {{#vendorExtensions.x-codegen-isDeepObject}}
+            queryParameters['{{baseName}}'] = runtime.querystring(requestParameters.{{paramName}} as unknown as runtime.HTTPQuery, '{{baseName}}');
+            {{/vendorExtensions.x-codegen-isDeepObject}}
+            {{^vendorExtensions.x-codegen-isDeepObject}}
             queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            {{/vendorExtensions.x-codegen-isDeepObject}}
             {{/isDate}}
             {{/isDateTime}}
         }
@@ -290,7 +295,12 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map({{returnBaseType}}FromJSON));
         {{/isListContainer}}
         {{^isListContainer}}
+        {{#isMapContainer}}
+        return new runtime.JSONApiResponse(response, (jsonValue) => runtime.mapValues(jsonValue, {{returnBaseType}}FromJSON));
+        {{/isMapContainer}}
+        {{^isMapContainer}}
         return new runtime.JSONApiResponse(response, (jsonValue) => {{returnBaseType}}FromJSON(jsonValue));
+        {{/isMapContainer}}
         {{/isListContainer}}
         {{/returnTypeIsPrimitive}}
         {{/isResponseFile}}

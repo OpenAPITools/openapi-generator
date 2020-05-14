@@ -40,14 +40,13 @@ The following generators are available:
 * [jmeter](generators/jmeter.md)  
 * [k6 (beta)](generators/k6.md)  
 * [kotlin](generators/kotlin.md)  
-* [lua](generators/lua.md)  
+* [lua (beta)](generators/lua.md)  
 * [nim (beta)](generators/nim.md)  
 * [objc](generators/objc.md)  
 * [ocaml](generators/ocaml.md)  
 * [perl](generators/perl.md)  
 * [php](generators/php.md)  
-* [powershell](generators/powershell.md)  
-* [powershell-experimental (beta)](generators/powershell-experimental.md)  
+* [powershell (beta)](generators/powershell.md)  
 * [python](generators/python.md)  
 * [python-experimental (experimental)](generators/python-experimental.md)  
 * [r](generators/r.md)  
@@ -109,7 +108,7 @@ The following generators are available:
 * [nodejs-server-deprecated (deprecated)](generators/nodejs-server-deprecated.md)  
 * [php-laravel](generators/php-laravel.md)  
 * [php-lumen](generators/php-lumen.md)  
-* [php-silex](generators/php-silex.md)  
+* [php-silex-deprecated (deprecated)](generators/php-silex-deprecated.md)  
 * [php-slim-deprecated (deprecated)](generators/php-slim-deprecated.md)  
 * [php-slim4](generators/php-slim4.md)  
 * [php-symfony](generators/php-symfony.md)  
@@ -137,6 +136,7 @@ The following generators are available:
 * [markdown (beta)](generators/markdown.md)  
 * [openapi](generators/openapi.md)  
 * [openapi-yaml](generators/openapi-yaml.md)  
+* [plantuml](generators/plantuml.md)  
 
 
 ## SCHEMA generators

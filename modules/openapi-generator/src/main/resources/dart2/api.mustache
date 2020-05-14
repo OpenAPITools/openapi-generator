@@ -46,10 +46,10 @@ class {{classname}} {
 
     List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [{{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       {{#formParams}}
@@ -85,7 +85,7 @@ class {{classname}} {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }

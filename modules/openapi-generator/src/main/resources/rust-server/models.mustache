@@ -1,23 +1,9 @@
-#![allow(unused_imports, unused_qualifications, unused_extern_crates)]
-extern crate chrono;
+#![allow(unused_qualifications)]
 
-{{#usesXml}}
-use serde_xml_rs;
-{{/usesXml}}
-use serde::ser::Serializer;
-
-{{#usesXml}}
-use std::collections::{HashMap, BTreeMap};
-{{/usesXml}}
-{{^usesXml}}
-use std::collections::HashMap;
-{{/usesXml}}
-use models;
-use swagger;
-use std::string::ParseError;
-{{#apiUsesUuid}}
-use uuid;
-{{/apiUsesUuid}}
+use crate::models;
+#[cfg(any(feature = "client", feature = "server"))]
+use crate::header;
+{{! Don't "use" structs here - they can conflict with the names of models, and mean that the code won't compile }}
 
 {{#models}}{{#model}}
 {{#description}}/// {{{description}}}
@@ -26,28 +12,33 @@ use uuid;
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]{{#xmlName}}
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]{{#xmlName}}
 #[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
 pub enum {{{classname}}} { {{#allowableValues}}{{#enumVars}}
     #[serde(rename = {{{value}}})]
     {{{name}}},{{/enumVars}}{{/allowableValues}}
 }
 
-impl ::std::fmt::Display for {{{classname}}} {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self { {{#allowableValues}}{{#enumVars}}
             {{{classname}}}::{{{name}}} => write!(f, "{}", {{{value}}}),{{/enumVars}}{{/allowableValues}}
         }
     }
 }
 
-impl ::std::str::FromStr for {{{classname}}} {
-    type Err = ();
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+impl std::str::FromStr for {{{classname}}} {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-{{#allowableValues}}{{#enumVars}}            {{{value}}} => Ok({{{classname}}}::{{{name}}}),
-{{/enumVars}}{{/allowableValues}}            _ => Err(()),
+{{#allowableValues}}
+  {{#enumVars}}
+            {{{value}}} => std::result::Result::Ok({{{classname}}}::{{{name}}}),
+  {{/enumVars}}
+{{/allowableValues}}
+            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
 }
@@ -55,136 +46,251 @@ impl ::std::str::FromStr for {{{classname}}} {
 {{^isEnum}}
 {{#dataType}}
 {{#isMapModel}}
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 {{/isMapModel}}
 {{^isMapModel}}
-#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 {{/isMapModel}}
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{xmlName}}}")]
 {{/xmlName}}
 pub struct {{{classname}}}({{{dataType}}});
 
-impl ::std::convert::From<{{{dataType}}}> for {{{classname}}} {
+impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
     fn from(x: {{{dataType}}}) -> Self {
         {{{classname}}}(x)
     }
 }
 
 {{#vendorExtensions.x-is-string}}
+impl std::string::ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+       self.0.to_string()
+    }
+}
+
 impl std::str::FromStr for {{{classname}}} {
-    type Err = ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok({{{classname}}}(x.to_string()))
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok({{{classname}}}(x.to_string()))
     }
 }
 {{/vendorExtensions.x-is-string}}
 
-impl ::std::convert::From<{{{classname}}}> for {{{dataType}}} {
+impl std::convert::From<{{{classname}}}> for {{{dataType}}} {
     fn from(x: {{{classname}}}) -> Self {
         x.0
     }
 }
 
-impl ::std::ops::Deref for {{{classname}}} {
+impl std::ops::Deref for {{{classname}}} {
     type Target = {{{dataType}}};
     fn deref(&self) -> &{{{dataType}}} {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for {{{classname}}} {
+impl std::ops::DerefMut for {{{classname}}} {
     fn deref_mut(&mut self) -> &mut {{{dataType}}} {
         &mut self.0
     }
 }
 
-{{/dataType}}{{^dataType}}{{#arrayModelType}}{{#vendorExtensions}}{{#itemXmlName}}// Utility function for wrapping list elements when serializing xml
+{{#additionalPropertiesType}}
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        // Skipping additionalProperties in query parameter serialization
+        "".to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for {{{classname}}} {
+    type Err = &'static str;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Err("Parsing additionalProperties for {{{classname}}} is not supported")
+    }
+}
+{{/additionalPropertiesType}}
+{{/dataType}}
+{{^dataType}}
+// Methods for converting between header::IntoHeaderValue<{{{classname}}}> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<{{{classname}}}>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<{{{classname}}}>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for {{classname}} - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<{{{classname}}}> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <{{{classname}}} as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into {{classname}} - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+{{#arrayModelType}}{{#vendorExtensions}}{{#itemXmlName}}// Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_{{{itemXmlName}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> Result<S::Ok, S::Error>
+fn wrap_in_{{{itemXmlName}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
-    S: Serializer,
+    S: serde::ser::Serializer,
 {
     serde_xml_rs::wrap_primitives(item, serializer, "{{{itemXmlName}}}")
 }
 
-{{/itemXmlName}}{{/vendorExtensions}}{{! vec}}#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-pub struct {{{classname}}}({{#vendorExtensions}}{{#itemXmlName}}#[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]{{/itemXmlName}}{{/vendorExtensions}}Vec<{{{arrayModelType}}}>);
+{{/itemXmlName}}
+{{/vendorExtensions}}
+{{! vec}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct {{{classname}}}(
+{{#vendorExtensions}}
+{{#itemXmlName}}
+    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]
+{{/itemXmlName}}
+{{/vendorExtensions}}
+    Vec<{{{arrayModelType}}}>
+);
 
-impl ::std::convert::From<Vec<{{{arrayModelType}}}>> for {{{classname}}} {
+impl std::convert::From<Vec<{{{arrayModelType}}}>> for {{{classname}}} {
     fn from(x: Vec<{{{arrayModelType}}}>) -> Self {
         {{{classname}}}(x)
     }
 }
 
-impl ::std::convert::From<{{{classname}}}> for Vec<{{{arrayModelType}}}> {
+impl std::convert::From<{{{classname}}}> for Vec<{{{arrayModelType}}}> {
     fn from(x: {{{classname}}}) -> Self {
         x.0
     }
 }
 
-impl ::std::iter::FromIterator<{{{arrayModelType}}}> for {{{classname}}} {
+impl std::iter::FromIterator<{{{arrayModelType}}}> for {{{classname}}} {
     fn from_iter<U: IntoIterator<Item={{{arrayModelType}}}>>(u: U) -> Self {
         {{{classname}}}(Vec::<{{{arrayModelType}}}>::from_iter(u))
     }
 }
 
-impl ::std::iter::IntoIterator for {{{classname}}} {
+impl std::iter::IntoIterator for {{{classname}}} {
     type Item = {{{arrayModelType}}};
-    type IntoIter = ::std::vec::IntoIter<{{{arrayModelType}}}>;
+    type IntoIter = std::vec::IntoIter<{{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a {{{classname}}} {
+impl<'a> std::iter::IntoIterator for &'a {{{classname}}} {
     type Item = &'a {{{arrayModelType}}};
-    type IntoIter = ::std::slice::Iter<'a, {{{arrayModelType}}}>;
+    type IntoIter = std::slice::Iter<'a, {{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
     }
 }
 
-impl<'a> ::std::iter::IntoIterator for &'a mut {{{classname}}} {
+impl<'a> std::iter::IntoIterator for &'a mut {{{classname}}} {
     type Item = &'a mut {{{arrayModelType}}};
-    type IntoIter = ::std::slice::IterMut<'a, {{{arrayModelType}}}>;
+    type IntoIter = std::slice::IterMut<'a, {{{arrayModelType}}}>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
     }
 }
 
-impl ::std::ops::Deref for {{{classname}}} {
+impl std::ops::Deref for {{{classname}}} {
     type Target = Vec<{{{arrayModelType}}}>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-impl ::std::ops::DerefMut for {{{classname}}} {
+impl std::ops::DerefMut for {{{classname}}} {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
 }
 
-{{/arrayModelType}}{{^arrayModelType}}{{! general struct}}#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]{{#xmlName}}
-#[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for {{{classname}}} {
+    type Err = <{{{arrayModelType}}} as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok({{{classname}}}(items))
+    }
+}
+
+{{/arrayModelType}}{{^arrayModelType}}{{! general struct}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+{{#xmlName}}
+#[serde(rename = "{{{xmlName}}}")]
+{{/xmlName}}
 pub struct {{{classname}}} {
 {{#vars}}{{#description}}    /// {{{description}}}
 {{/description}}{{#isEnum}}    // Note: inline enums are not fully supported by openapi-generator
-{{/isEnum}}    #[serde(rename = "{{{baseName}}}")]{{#vendorExtensions}}{{#itemXmlName}}
-    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]{{/itemXmlName}}{{/vendorExtensions}}{{#required}}
+{{/isEnum}}
+    #[serde(rename = "{{{baseName}}}")]
+{{#vendorExtensions}}
+{{#itemXmlName}}
+    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]
+{{/itemXmlName}}
+{{/vendorExtensions}}
+{{#required}}
     pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
-{{/required}}{{^required}}{{#isNullable}}
+{{/required}}
+{{^required}}
+{{#isNullable}}
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
-    #[serde(default = "swagger::nullable_format::default_optional_nullable")]{{/isNullable}}
+    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+{{/isNullable}}
     #[serde(skip_serializing_if="Option::is_none")]
-    pub {{{name}}}: Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{#isListContainer}}Vec<{{#items}}{{{dataType}}}{{/items}}>{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}{{#isNullable}}>{{/isNullable}}>,
+    pub {{{name}}}: Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
 {{/required}}
 
 {{/vars}}
@@ -198,6 +304,147 @@ impl {{{classname}}} {
         }
     }
 }
+
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+{{#vars}}
+{{#isByteArray}}
+        // Skipping {{baseName}} in query parameter serialization
+{{/isByteArray}}
+{{#isBinary}}
+        // Skipping {{baseName}} in query parameter serialization
+{{/isBinary}}
+{{#isMapContainer}}
+        // Skipping {{baseName}} in query parameter serialization
+{{/isMapContainer}}
+{{^isPrimitiveType}}
+        // Skipping {{baseName}} in query parameter serialization
+{{/isPrimitiveType}}
+{{^isByteArray}}{{^isBinary}}{{^isMapContainer}}{{#isPrimitiveType}}
+{{#required}}
+        params.push("{{{baseName}}}".to_string());
+{{^isListContainer}}
+{{#isNullable}}
+        params.push(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
+{{/isNullable}}
+{{^isNullable}}
+        params.push(self.{{{name}}}.to_string());
+{{/isNullable}}
+{{/isListContainer}}
+{{#isListContainer}}
+{{#isNullable}}
+        params.push(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
+{{/isNullable}}
+{{^isNullable}}
+        params.push(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+{{/isNullable}}
+{{/isListContainer}}
+{{/required}}
+{{^required}}
+        if let Some(ref {{{name}}}) = self.{{{name}}} {
+            params.push("{{{baseName}}}".to_string());
+{{^isListContainer}}
+{{#isNullable}}
+            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
+{{/isNullable}}
+{{^isNullable}}
+            params.push({{{name}}}.to_string());
+{{/isNullable}}
+{{/isListContainer}}
+{{#isListContainer}}
+{{#isNullable}}
+            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
+{{/isNullable}}
+{{^isNullable}}
+            params.push({{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+{{/isNullable}}
+{{/isListContainer}}
+        }
+{{/required}}
+{{/isPrimitiveType}}{{/isMapContainer}}{{/isBinary}}{{/isByteArray}}
+{{/vars}}
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for {{{classname}}} {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            {{#vars}}
+            pub {{{name}}}: Vec<{{{dataType}}}>,
+            {{/vars}}
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing {{{classname}}}".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+          {{#vars}}
+            {{#isBinary}}
+                    "{{{baseName}}}" => return std::result::Result::Err("Parsing binary data in this style is not supported in {{{classname}}}".to_string()),
+            {{/isBinary}}
+            {{^isBinary}}
+              {{#isByteArray}}
+                    "{{{baseName}}}" => return std::result::Result::Err("Parsing binary data in this style is not supported in {{{classname}}}".to_string()),
+              {{/isByteArray}}
+              {{^isByteArray}}
+                {{#isContainer}}
+                    "{{{baseName}}}" => return std::result::Result::Err("Parsing a container in this style is not supported in {{{classname}}}".to_string()),
+                {{/isContainer}}
+                {{^isContainer}}
+                  {{#isNullable}}
+                    "{{{baseName}}}" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in {{{classname}}}".to_string()),
+                  {{/isNullable}}
+                  {{^isNullable}}
+                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push({{{dataType}}}::from_str(val).map_err(|x| format!("{}", x))?),
+                  {{/isNullable}}
+                {{/isContainer}}
+              {{/isByteArray}}
+            {{/isBinary}}
+          {{/vars}}
+                    _ => return std::result::Result::Err("Unexpected key while parsing {{{classname}}}".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok({{{classname}}} {
+            {{#vars}}
+            {{#isNullable}}
+            {{{name}}}: std::result::Result::Err("Nullable types not supported in {{{classname}}}".to_string())?,
+            {{/isNullable}}
+            {{^isNullable}}
+            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or("{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
+            {{/isNullable}}
+            {{/vars}}
+        })
+    }
+}
+
 {{/arrayModelType}}
 {{/dataType}}
 {{/isEnum}}
@@ -219,7 +466,7 @@ impl {{{classname}}} {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         {{#xmlNamespace}}
-        let mut namespaces = BTreeMap::new();
+        let mut namespaces = std::collections::BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
         namespaces.insert("".to_string(), Self::NAMESPACE.to_string());
         serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
