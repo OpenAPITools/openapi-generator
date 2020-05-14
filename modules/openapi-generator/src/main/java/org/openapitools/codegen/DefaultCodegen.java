@@ -4517,14 +4517,13 @@ public class DefaultCodegen implements CodegenConfig {
      * Sets the value of the 'model.parent' property in CodegenModel, based on the value
      * of the 'additionalProperties' keyword. Some language generator use class inheritance
      * to implement additional properties. For example, in Java the generated model class
-     * has 'extends HashMap<String, V>' to represent the additional properties.
+     * has 'extends HashMap' to represent the additional properties.
      * 
      * TODO: it's not a good idea to use single class inheritance to implement
      * additionalProperties. That may work for non-composed schemas, but that does not
      * work for composed 'allOf' schemas. For example, in Java, if additionalProperties
      * is set to true (which it should be by default, per OAS spec), then the generated
-     * code has extends HashMap<String, V>. That clearly won't work for composed 'allOf'
-     * schemas.
+     * code has extends HashMap. That wouldn't work for composed 'allOf' schemas.
      * 
      * @param model the codegen representation of the OAS schema.
      * @param name the name of the model.
