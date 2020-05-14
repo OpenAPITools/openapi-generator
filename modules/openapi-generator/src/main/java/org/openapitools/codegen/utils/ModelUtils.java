@@ -1102,7 +1102,12 @@ public class ModelUtils {
         if (schema.getAdditionalProperties() == null ||
             (schema.getAdditionalProperties() instanceof Boolean &&
                 (Boolean) schema.getAdditionalProperties())) {
-            return new ObjectSchema();
+            // Return ObjectSchema to specify any object (map) value is allowed.
+            // Set nullable to specify the value of additional properties may be
+            // the null value.
+            // Free-form additionalProperties don't need to have an inner
+            // additional properties, the type is already free-form.
+            return new ObjectSchema().additionalProperties(Boolean.FALSE).nullable(Boolean.TRUE);
         }
         return null;
     }
