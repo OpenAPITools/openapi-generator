@@ -179,7 +179,9 @@ class DeserializationTests(unittest.TestCase):
 
     def test_deserialize_with_additional_properties(self):
         """
-        deserialize data.
+        Deserialize data with schemas that have the additionalProperties keyword.
+        Test conditions when additional properties are allowed, not allowed, have
+        specific types...
         """
 
         # Dog is allOf with two child schemas.
@@ -240,3 +242,27 @@ class DeserializationTests(unittest.TestCase):
             self.assertEqual(type(deserialized), petstore_api.BananaReq)
             self.assertEqual(deserialized.lengthCm, 21)
             self.assertEqual(deserialized.p1, True)
+
+    def test_deserialize_with_additional_properties_and_reference(self):
+        """
+        Deserialize data with schemas that has the additionalProperties keyword
+        and the schema is specified as a reference ($ref).
+        """
+        data = {
+            'main_shape': {
+                'shape_type': 'Triangle',
+                'triangle_type': 'EquilateralTriangle',
+            },
+            'shapes': [
+                {
+                    'shape_type': 'Triangle',
+                    'triangle_type': 'IsoscelesTriangle',
+                },
+                {
+                    'shape_type': 'Quadrilateral',
+                    'quadrilateral_type': 'ComplexQuadrilateral',
+                },
+            ],
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Drawing,), True)
