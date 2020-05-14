@@ -192,6 +192,12 @@ public class DefaultCodegen implements CodegenConfig {
      * keyword. For example, the Java code generator may generate 'extends HashMap'.
      */
     protected boolean supportsInheritance;
+    /**
+     * True if the language generator supports the 'additionalProperties' keyword
+     * as sibling of a composed (allOf/anyOf/oneOf) schema.
+     * Note: all language generators should support this to comply with the OAS specification.
+     */
+    protected boolean supportsAdditionalPropertiesWithComposedSchema;
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library;
@@ -2367,15 +2373,17 @@ public class DefaultCodegen implements CodegenConfig {
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
             // Per OAS specification, composed schemas may use the 'additionalProperties' keyword.
-            if (!supportsInheritance) {
+            if (supportsAdditionalPropertiesWithComposedSchema) {
                 // Process the schema specified with the 'additionalProperties' keyword.
-                // This will set the 'CodegenModel.additionalPropertiesType' field.
+                // This will set the 'CodegenModel.additionalPropertiesType' field
+                // and potentially 'Codegen.parent'.
                 //
-                // Code generators that use single class inheritance sometimes use
-                // the 'Codegen.parent' field to implement the 'additionalProperties' keyword.
-                // However, that is in conflict with 'allOf' composed schemas,
-                // because these code generators also want to set 'Codegen.parent' to the first
-                // child schema of the 'allOf' schema.
+                // Note: it's not a good idea to use single class inheritance to implement
+                // the 'additionalProperties' keyword. Code generators that use single class
+                // inheritance sometimes use the 'Codegen.parent' field to implement the
+                // 'additionalProperties' keyword. However, that would be in conflict with
+                // 'allOf' composed schemas, because these code generators also want to set
+                // 'Codegen.parent' to the first child schema of the 'allOf' schema.
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
             // end of code block for composed schema

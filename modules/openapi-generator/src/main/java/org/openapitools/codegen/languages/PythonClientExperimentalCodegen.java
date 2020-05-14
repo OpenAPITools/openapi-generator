@@ -53,7 +53,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
-        supportsInheritance = false;
+        supportsAdditionalPropertiesWithComposedSchema = true;
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -973,9 +973,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         Schema addProps = ModelUtils.getAdditionalProperties(schema);
         if (addProps != null && addProps.get$ref() == null) {
-            // if AdditionalProperties exists and is an inline definition, get its datatype and store it in m.parent
-            String typeString = getTypeDeclaration(addProps);
-            codegenModel.additionalPropertiesType = typeString;
+            // if AdditionalProperties exists and is an inline definition, get its datatype and
+            // store it in codegenModel.additionalPropertiesType.
+            codegenModel.additionalPropertiesType = getTypeDeclaration(addProps);;
         } else {
             addParentContainer(codegenModel, codegenModel.name, schema);
         }
