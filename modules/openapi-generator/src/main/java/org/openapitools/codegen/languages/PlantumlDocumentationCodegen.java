@@ -1,13 +1,30 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PlantumlDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String ALL_OF_SUFFIX = "AllOf";
@@ -29,6 +46,10 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
     public PlantumlDocumentationCodegen() {
         super();
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
         outputFolder = "generated-code" + File.separator + "plantuml";
         embeddedTemplateDir = templateDir = "plantuml-documentation";
         supportingFiles.add(new SupportingFile("schemas.mustache", "", "schemas.plantuml"));
@@ -41,7 +62,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         List<Object> modelsList = (List<Object>) models;
         List<CodegenModel> codegenModelList = modelsList.stream()
                 .filter(listItem -> listItem instanceof HashMap<?, ?>)
-                .map(listItem -> (CodegenModel)((HashMap<?, ?>)listItem).get("model"))
+                .map(listItem -> (CodegenModel) ((HashMap<?, ?>) listItem).get("model"))
                 .collect(Collectors.toList());
 
         List<CodegenModel> inlineAllOfCodegenModelList = codegenModelList.stream()
@@ -118,8 +139,8 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
 
     @SuppressWarnings("unchecked")
     private List<Map<String, Object>> calculateCompositionRelationshipsFrom(List<Map<String, Object>> entities) {
-        Map<String, List<Map<String, Object>>> entityFieldsMap =  entities.stream()
-                .collect(Collectors.toMap(entity -> (String)entity.get("name"), entity -> (List<Map<String, Object>>)entity.get("fields")));
+        Map<String, List<Map<String, Object>>> entityFieldsMap = entities.stream()
+                .collect(Collectors.toMap(entity -> (String) entity.get("name"), entity -> (List<Map<String, Object>>) entity.get("fields")));
 
         return entityFieldsMap.entrySet().stream()
                 .map(entry -> createRelationshipsFor(entry.getKey(), entry.getValue()))

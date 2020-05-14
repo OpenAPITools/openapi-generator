@@ -885,6 +885,7 @@ Here is a list of template creators:
    * AsciiDoc: @man-at-home
    * HTML Doc 2: @jhitchcock
    * Confluence Wiki: @jhitchcock
+   * PlantUML: @pburls
  * Configuration
    * Apache2: @stkrwork
    * k6: @mostafa
