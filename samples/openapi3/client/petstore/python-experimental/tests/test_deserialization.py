@@ -202,12 +202,12 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized.class_name, 'Dog')
         self.assertEqual(deserialized.breed, 'golden retriever')
 
-        # The 'appleReq' schema allows additional properties by explicitly setting
+        # The 'zebra' schema allows additional properties by explicitly setting
         # additionalProperties: true.
         # This is equivalent to 'additionalProperties' not being present.
         data = {
-            'cultivar': 'Golden Delicious',
-            'mealy': False,
+            'class_name': 'zebra',
+            'type': 'plains',
             # Below are additional, undeclared properties
             'group': 'abc',
             'size': 3,
@@ -215,24 +215,25 @@ class DeserializationTests(unittest.TestCase):
             'p2': [ 'a', 'b', 123],
         }
         response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (petstore_api.AppleReq,), True)
-        self.assertEqual(type(deserialized), petstore_api.AppleReq)
-        self.assertEqual(deserialized.cultivar, 'Golden Delicious')
+        deserialized = self.deserialize(response, (petstore_api.Mammal,), True)
+        self.assertEqual(type(deserialized), petstore_api.Zebra)
+        self.assertEqual(deserialized.class_name, 'zebra')
+        self.assertEqual(deserialized.type, 'plains')
         self.assertEqual(deserialized.p1, True)
 
         # The 'bananaReq' schema disallows additional properties by explicitly setting
         # additionalProperties: false
-        err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
+        err_msg = ("{} has no attribute '{}' at ")
         with self.assertRaisesRegexp(
             petstore_api.exceptions.ApiAttributeError,
-            err_msg.format("origin", "[^`]*")
+            err_msg.format("BananaReq", "unknown-group")
         ):
             data = {
                 'lengthCm': 21.2,
                 'sweet': False,
                 # Below are additional, undeclared properties. They are not allowed,
                 # an exception must be raised.
-                'group': 'abc',
+                'unknown-group': 'abc',
             }
             response = MockResponse(data=json.dumps(data))
             deserialized = self.deserialize(response, (petstore_api.BananaReq,), True)

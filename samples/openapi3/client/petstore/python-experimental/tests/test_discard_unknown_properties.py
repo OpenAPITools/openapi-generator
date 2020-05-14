@@ -38,7 +38,7 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
 
     def test_deserialize_banana_req_do_not_discard_unknown_properties(self):
         """
-        deserialize str, bananaReq) with unknown properties.
+        deserialize bananaReq with unknown properties.
         Strict validation is enabled.
         Simple (non-composed) schema scenario.
         """
@@ -62,7 +62,7 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
 
     def test_deserialize_isosceles_triangle_do_not_discard_unknown_properties(self):
         """
-        deserialize str, IsoscelesTriangle) with unknown properties
+        deserialize IsoscelesTriangle with unknown properties.
         Strict validation is enabled.
         Composed schema scenario.
         """
@@ -85,7 +85,10 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
 
 
     def test_deserialize_banana_req_discard_unknown_properties(self):
-        """ deserialize str, bananaReq) with unknown properties, discard unknown properties """
+        """
+        Deserialize bananaReq with unknown properties.
+        Discard unknown properties.
+        """
         config = Configuration(discard_unknown_keys=True)
         api_client = petstore_api.ApiClient(config)
         data = {
@@ -109,7 +112,10 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         self.assertNotIn("more-unknown", deserialized.to_dict().keys())
 
     def test_deserialize_cat_do_not_discard_unknown_properties(self):
-        """ deserialize str, Cat) with unknown properties, strict validation is enabled """
+        """
+        Deserialize Cat with unknown properties.
+        Strict validation is enabled.
+        """
         config = Configuration(discard_unknown_keys=False)
         api_client = petstore_api.ApiClient(config)
         data = {
@@ -129,15 +135,18 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         self.assertEqual(deserialized['color'], 'black')
 
     def test_deserialize_cat_discard_unknown_properties(self):
-        """ deserialize str, Cat) with unknown properties.
+        """
+        Deserialize Cat with unknown properties.
         Request to discard unknown properties, but Cat is composed schema
-        with one inner schema that has 'additionalProperties' set to true. """
+        with one inner schema that has 'additionalProperties' set to true.
+        """
         config = Configuration(discard_unknown_keys=True)
         api_client = petstore_api.ApiClient(config)
         data = {
             "class_name": "Cat",
             "color": "black",
             "declawed": True,
+            # Below are additional (undeclared) properties.
             "my_additional_property": 123,
         }
         # The 'my_additional_property' is undeclared, but 'Cat' has a 'Address' type through

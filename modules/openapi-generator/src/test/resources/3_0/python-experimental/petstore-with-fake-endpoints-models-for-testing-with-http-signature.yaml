@@ -1863,6 +1863,7 @@ components:
           type: string
       required:
         - className
+      additionalProperties: true
     gmFruit:
        properties:
           color:
@@ -1886,8 +1887,7 @@ components:
           type: boolean
       required:
         - cultivar
-      # The keyword below has the same effect as if it had not been specified.
-      additionalProperties: true
+      additionalProperties: false
     bananaReq:
       type: object
       properties:
