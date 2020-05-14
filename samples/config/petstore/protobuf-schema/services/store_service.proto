@@ -44,7 +44,7 @@ message GetOrderByIdRequest {
 
 message PlaceOrderRequest {
   // order placed for purchasing the pet
-  Order body = 1;
+  Order order = 1;
 
 }
 

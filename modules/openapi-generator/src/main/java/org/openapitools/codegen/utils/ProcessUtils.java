@@ -10,10 +10,12 @@ import java.util.Map;
 
 public class ProcessUtils {
 
+    private static Boolean hasOAuthMethods;
+
     /**
      * Add x-index extension to the model's properties
      *
-     * @param models List of models
+     * @param models       List of models
      * @param initialIndex starting index to use
      */
     public static void addIndexToProperties(List<Object> models, int initialIndex) {
@@ -66,7 +68,6 @@ public class ProcessUtils {
                 }
             }
         }
-
         return false;
     }
 
@@ -97,34 +98,34 @@ public class ProcessUtils {
     /**
      * Returns true if the specified OAS model has at least one operation with the HTTP basic
      * security scheme.
-     * 
+     *
      * @param authMethods List of auth methods.
      * @return True if at least one operation has HTTP basic security scheme defined
      */
     public static boolean hasHttpBasicMethods(List<CodegenSecurity> authMethods) {
         if (authMethods != null && !authMethods.isEmpty()) {
-          for (CodegenSecurity cs : authMethods) {
-              if (Boolean.TRUE.equals(cs.isBasicBasic)) {
-                  return true;
-              }
-          }
+            for (CodegenSecurity cs : authMethods) {
+                if (Boolean.TRUE.equals(cs.isBasicBasic)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     /**
      * Returns true if the specified OAS model has at least one operation with API keys.
-     * 
+     *
      * @param authMethods List of auth methods.
      * @return True if at least one operation has API key security scheme defined
      */
     public static boolean hasApiKeyMethods(List<CodegenSecurity> authMethods) {
         if (authMethods != null && !authMethods.isEmpty()) {
-          for (CodegenSecurity cs : authMethods) {
-              if (Boolean.TRUE.equals(cs.isApiKey)) {
-                  return true;
-              }
-          }
+            for (CodegenSecurity cs : authMethods) {
+                if (Boolean.TRUE.equals(cs.isApiKey)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -133,17 +134,17 @@ public class ProcessUtils {
      * Returns true if the specified OAS model has at least one operation with the HTTP signature
      * security scheme.
      * The HTTP signature scheme is defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-     * 
+     *
      * @param authMethods List of auth methods.
      * @return True if at least one operation has HTTP signature security scheme defined
      */
     public static boolean hasHttpSignatureMethods(List<CodegenSecurity> authMethods) {
         if (authMethods != null && !authMethods.isEmpty()) {
-          for (CodegenSecurity cs : authMethods) {
-              if (Boolean.TRUE.equals(cs.isHttpSignature)) {
-                  return true;
-              }
-          }
+            for (CodegenSecurity cs : authMethods) {
+                if (Boolean.TRUE.equals(cs.isHttpSignature)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
