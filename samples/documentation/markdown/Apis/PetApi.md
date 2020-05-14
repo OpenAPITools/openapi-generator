@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(body)
+> Pet addPet(pet)
 
 Add a new pet to the store
 
@@ -24,11 +24,11 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-null (empty response body)
+[**Pet**](..//Models/Pet.md)
 
 ### Authorization
 
@@ -37,7 +37,7 @@ null (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+- **Accept**: application/xml, application/json
 
 <a name="deletePet"></a>
 # **deletePet**
@@ -148,7 +148,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(body)
+> Pet updatePet(pet)
 
 Update an existing pet
 
@@ -156,11 +156,11 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-null (empty response body)
+[**Pet**](..//Models/Pet.md)
 
 ### Authorization
 
@@ -169,7 +169,7 @@ null (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+- **Accept**: application/xml, application/json
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
