@@ -183,7 +183,8 @@ class DeserializationTests(unittest.TestCase):
         """
 
         # Dog is allOf with two child schemas.
-        # The OAS document for Dog does not specify the 'additionalProperties' keyword. 
+        # The OAS document for Dog does not specify the 'additionalProperties' keyword,
+        # which means that by default, the Dog schema must allow undeclared properties.
         # The additionalProperties keyword is used to control the handling of extra stuff,
         # that is, properties whose names are not listed in the properties keyword.
         # By default any additional properties are allowed.
@@ -191,7 +192,7 @@ class DeserializationTests(unittest.TestCase):
             'className': 'Dog',
             'color': 'brown',
             'breed': 'golden retriever',
-            # Below are additional, undeclared properties
+            # Below are additional, undeclared properties.
             'group': 'Terrier Group',
             'size': 'medium',
         }
@@ -202,7 +203,8 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized.breed, 'golden retriever')
 
         # The 'appleReq' schema allows additional properties by explicitly setting
-        # additionalProperties: true
+        # additionalProperties: true.
+        # This is equivalent to 'additionalProperties' not being present.
         data = {
             'cultivar': 'Golden Delicious',
             'mealy': False,
@@ -222,18 +224,18 @@ class DeserializationTests(unittest.TestCase):
         # additionalProperties: false
         err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
         with self.assertRaisesRegexp(
-            petstore_api.ApiValueError,
+            petstore_api.exceptions.ApiAttributeError,
             err_msg.format("origin", "[^`]*")
         ):
             data = {
-                'lengthCm': 21,
+                'lengthCm': 21.2,
                 'sweet': False,
                 # Below are additional, undeclared properties. They are not allowed,
-                # an exception should be raised.
+                # an exception must be raised.
                 'group': 'abc',
             }
             response = MockResponse(data=json.dumps(data))
-            deserialized = self.deserialize(response, (petstore_api.AppleReq,), True)
-            self.assertEqual(type(deserialized), petstore_api.AppleReq)
+            deserialized = self.deserialize(response, (petstore_api.BananaReq,), True)
+            self.assertEqual(type(deserialized), petstore_api.BananaReq)
             self.assertEqual(deserialized.lengthCm, 21)
             self.assertEqual(deserialized.p1, True)

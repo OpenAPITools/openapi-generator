@@ -1813,6 +1813,9 @@ components:
       oneOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
+      # Below additionalProperties is set to false to validate the use
+      # case when a composed schema has additionalProperties set to false.
+      #additionalProperties: false
     apple:
       type: object
       properties:
