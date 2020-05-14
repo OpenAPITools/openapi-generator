@@ -51,7 +51,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
                 .build();
 
         outputFolder = "generated-code" + File.separator + "plantuml";
-        embeddedTemplateDir = templateDir = "plantuml-documentation";
+        embeddedTemplateDir = templateDir = "plantuml";
         supportingFiles.add(new SupportingFile("schemas.mustache", "", "schemas.plantuml"));
     }
 

@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate  --artifact-id "plantuml-petstore-documentation" -t modules\openapi-generator\src\main\resources\plantuml-documentation -i modules\openapi-generator\src\test\resources\3_0\petstore.yaml -g plantuml -o samples\documentation\petstore\plantuml
+set ags=generate -t modules\openapi-generator\src\main\resources\plantuml-documentation -i modules\openapi-generator\src\test\resources\3_0\petstore.yaml -g plantuml -o samples\documentation\petstore\plantuml
 
 java %JAVA_OPTS% -jar %executable% %ags%
