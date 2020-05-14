@@ -2366,10 +2366,18 @@ public class DefaultCodegen implements CodegenConfig {
 
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
-            // Composed schemas may use the 'additionalProperties' keyword.
-            // TODO: this wouldn't work with generators that use single
-            //addAdditionPropertiesToCodeGenModel(m, schema);
-            
+            // Per OAS specification, composed schemas may use the 'additionalProperties' keyword.
+            if (!supportsInheritance) {
+                // Process the schema specified with the 'additionalProperties' keyword.
+                // This will set the 'CodegenModel.additionalPropertiesType' field.
+                //
+                // Code generators that use single class inheritance sometimes use
+                // the 'Codegen.parent' field to implement the 'additionalProperties' keyword.
+                // However, that is in conflict with 'allOf' composed schemas,
+                // because these code generators also want to set 'Codegen.parent' to the first
+                // child schema of the 'allOf' schema.
+                addAdditionPropertiesToCodeGenModel(m, schema);
+            }
             // end of code block for composed schema
         } else {
             m.dataType = getSchemaType(schema);
