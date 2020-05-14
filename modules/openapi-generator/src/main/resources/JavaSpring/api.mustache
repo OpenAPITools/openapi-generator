@@ -7,7 +7,23 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.Explode;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.ParameterStyle;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 {{#jdk8-no-delegate}}
 {{#virtualService}}
 import io.virtualan.annotation.ApiVirtual;
@@ -61,7 +77,7 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
-@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
+@Tag(name = "{{{baseName}}}", description = "the {{{baseName}}} API")
 {{#operations}}
 {{#virtualService}}
 @VirtualService
@@ -107,15 +123,15 @@ public interface {{classname}} {
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
-    @ApiOperation(value = "{{{summary}}}", nickname = "{{{operationId}}}", notes = "{{{notes}}}"{{#returnBaseType}}, response = {{{returnBaseType}}}.class{{/returnBaseType}}{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
-        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
+    @Operation(summary = "{{{summary}}}", operationId = "{{{operationId}}}" {{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, security = {
+        {{#authMethods}}@SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = {
             {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
             {{/hasMore}}{{/scopes}}
             }{{/isOAuth}}){{#hasMore}},
         {{/hasMore}}{{/authMethods}}
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
+       @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}" {{#baseType}}, content = { @Content({{#containerType}} mediaType = "{{{containerType}}}", {{/containerType}} schema = @Schema(implementation = {{{baseType}}}.class{{/baseType}})) }){{#hasMore}},{{/hasMore}}{{/responses}} })
     {{#implicitHeaders}}
     @ApiImplicitParams({
     {{#headerParams}}

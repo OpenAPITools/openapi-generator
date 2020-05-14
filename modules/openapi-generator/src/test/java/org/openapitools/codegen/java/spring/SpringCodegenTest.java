@@ -281,7 +281,7 @@ public class SpringCodegenTest {
         // Check that the api handles the array
         final String multipartArrayApi = files.get("/src/main/java/org/openapitools/api/MultipartArrayApi.java");
         Assert.assertTrue(multipartArrayApi.contains("List<MultipartFile> files"));
-        Assert.assertTrue(multipartArrayApi.contains("@ApiParam(value = \"Many files\")"));
+        Assert.assertTrue(multipartArrayApi.contains("@Parameter(value = \"Many files\")"));
         Assert.assertTrue(multipartArrayApi.contains("@RequestPart(value = \"files\", required = false)"));
 
         // Check that the delegate handles the single file
@@ -291,7 +291,7 @@ public class SpringCodegenTest {
         // Check that the api handles the single file
         final String multipartSingleApi = files.get("/src/main/java/org/openapitools/api/MultipartSingleApi.java");
         Assert.assertTrue(multipartSingleApi.contains("MultipartFile file"));
-        Assert.assertTrue(multipartSingleApi.contains("@ApiParam(value = \"One file\")"));
+        Assert.assertTrue(multipartSingleApi.contains("@Parameter(value = \"One file\")"));
         Assert.assertTrue(multipartSingleApi.contains("@RequestPart(value = \"file\", required = false)"));
 
         // Check that api validates mixed multipart request
@@ -578,4 +578,47 @@ public class SpringCodegenTest {
                 "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)",
                 "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)");
     }
+
+    @Test
+    public void shouldGenerateOas3AnnotationsInApi_5803() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_5803-oas3-api-annotations.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "@Tag(name = ");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "@Operation(summary = ");
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "exampleClientQueryGet(@Parameter(description = \"\") @Valid @RequestParam(value = \"requestId\"");
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "exampleClientFormTestnameGet(@Parameter(description = \"Updated name of the pet\",required=true) @PathVariable(\"testname\") ");
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "exampleClientHeaderGet(@Parameter(description = \"\" ) @RequestHeader(value=\"api_key\"");
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "exampleClientCookieGet(@Parameter(description = \"\") @CookieValue(\"cookieId\")");
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "@ApiResponse(responseCode = ");
+
+    }
+
 }

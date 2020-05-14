@@ -1,0 +1,109 @@
+openapi: 3.0.2
+info:
+  title: info
+  description: info
+  version: 0.1.0
+
+components:
+
+  schemas:
+
+    Client:
+      type: object
+      description: Client
+      properties:
+        firstName:
+          type: string
+          maxLength: 50
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+
+  parameters:
+    requiredQueryParam:
+      description: set query
+      in: query
+      name: query
+      required: true
+      schema:
+        type: string
+
+
+paths:
+
+  /example/clientQuery:
+    get:
+      summary: summary
+      description: description
+      parameters:
+        - name: requestId
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+
+  /example/clientForm/{testname}:
+    get:
+      summary: summary
+      description: description
+      parameters:
+        - name: testname
+          in: path
+          description: Updated name of the pet
+          required: true
+          schema:
+            type: integer
+            format: int64
+            nullable: true
+      responses:
+        200:
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+
+  /example/clientHeader:
+    get:
+      summary: summary
+      description: description
+      parameters:
+        - name: api_key
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+
+  /example/clientCookie:
+    get:
+      summary: summary
+      description: description
+      parameters:
+        - name: cookieId
+          in: cookie
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
