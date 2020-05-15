@@ -1177,7 +1177,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             String innerType = getTypeDeclaration(inner);
             return typeMapping.get("array") + "<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
             typeDeclaration.append(innerType).append(">");
@@ -1211,7 +1211,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
             return null;
@@ -1274,7 +1274,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("usesXmlNamespaces", true);
         }
 
-        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(this.openAPI, model);
 
         if (additionalProperties != null) {
             mdl.additionalPropertiesType = getSchemaType(additionalProperties);

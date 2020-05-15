@@ -389,7 +389,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
 

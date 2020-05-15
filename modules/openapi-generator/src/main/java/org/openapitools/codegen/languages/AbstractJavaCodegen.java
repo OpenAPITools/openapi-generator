@@ -804,11 +804,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else {
                 pattern = "new HashMap<%s>()";
             }
-            if (ModelUtils.getAdditionalProperties(schema) == null) {
+            if (ModelUtils.getAdditionalProperties(this.openAPI, schema) == null) {
                 return null;
             }
 
-            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(schema)));
+            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(this.openAPI, schema)));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
@@ -1642,7 +1642,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
 
         // See https://github.com/OpenAPITools/openapi-generator/pull/1729#issuecomment-449937728
-        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(this.openAPI, schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 }

@@ -186,7 +186,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isBinarySchema(p)) {
             return getSchemaType(p);
@@ -222,7 +222,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
             return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

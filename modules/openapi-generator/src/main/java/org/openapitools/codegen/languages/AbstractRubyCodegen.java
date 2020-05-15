@@ -110,7 +110,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
             Schema inner = ((ArraySchema) schema).getItems();
             return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = ModelUtils.getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, schema);
             return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
 

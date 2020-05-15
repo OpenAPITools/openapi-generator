@@ -647,7 +647,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);
@@ -669,7 +669,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
+            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(this.openAPI, p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //

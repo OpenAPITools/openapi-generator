@@ -909,18 +909,18 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
-        if (ModelUtils.isAnyTypeSchema(p)) {
+        if (ModelUtils.isAnyTypeSchema(this.openAPI, p)) {
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
+        if (ModelUtils.isFreeFormObject(this.openAPI, p) && ModelUtils.getAdditionalProperties(this.openAPI, p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && ModelUtils.getAdditionalProperties(p) != null) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && ModelUtils.getAdditionalProperties(this.openAPI, p) != null) {
+            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
             return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -971,7 +971,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        Schema addProps = ModelUtils.getAdditionalProperties(schema);
+        Schema addProps = ModelUtils.getAdditionalProperties(this.openAPI, schema);
         if (addProps != null) {
             if (StringUtils.isNotEmpty(addProps.get$ref())) {
                 // Resolve reference
@@ -983,7 +983,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 codegenModel.additionalPropertiesType = getTypeDeclaration(addProps);
             }
         }
-        // If addProps is null, that means the value of the 'additionalProperties' keyword is set
+        // If addProps is null, the value of the 'additionalProperties' keyword is set
         // to false, i.e. no additional properties are allowed.
     }
 
