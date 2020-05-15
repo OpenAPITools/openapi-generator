@@ -2,7 +2,7 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Model.FormatTest do
+defmodule OpenapiPetstore.Model.InlineObject3 do
   @moduledoc """
   
   """
@@ -16,14 +16,13 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"float",
     :"double",
     :"string",
+    :"pattern_without_delimiter",
     :"byte",
     :"binary",
     :"date",
     :"dateTime",
-    :"uuid",
     :"password",
-    :"pattern_with_digits",
-    :"pattern_with_digits_and_delimiter"
+    :"callback"
   ]
 
   @type t :: %__MODULE__{
@@ -32,20 +31,19 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"int64" => integer() | nil,
     :"number" => float(),
     :"float" => float() | nil,
-    :"double" => float() | nil,
+    :"double" => float(),
     :"string" => String.t | nil,
+    :"pattern_without_delimiter" => String.t,
     :"byte" => binary(),
     :"binary" => String.t | nil,
-    :"date" => Date.t,
+    :"date" => Date.t | nil,
     :"dateTime" => DateTime.t | nil,
-    :"uuid" => String.t | nil,
-    :"password" => String.t,
-    :"pattern_with_digits" => String.t | nil,
-    :"pattern_with_digits_and_delimiter" => String.t | nil
+    :"password" => String.t | nil,
+    :"callback" => String.t | nil
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.FormatTest do
+defimpl Poison.Decoder, for: OpenapiPetstore.Model.InlineObject3 do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value

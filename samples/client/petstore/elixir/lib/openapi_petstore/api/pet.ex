@@ -17,7 +17,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Pet): Pet object that needs to be added to the store
+  - pet (Pet): Pet object that needs to be added to the store
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -25,15 +25,14 @@ defmodule OpenapiPetstore.Api.Pet do
   {:error, info} on failure
   """
   @spec add_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def add_pet(connection, body, _opts \\ []) do
+  def add_pet(connection, pet, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/pet")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, pet)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false},
       { 405, false}
     ])
   end
@@ -64,7 +63,6 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false},
       { 400, false}
     ])
   end
@@ -159,7 +157,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Pet): Pet object that needs to be added to the store
+  - pet (Pet): Pet object that needs to be added to the store
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -167,15 +165,14 @@ defmodule OpenapiPetstore.Api.Pet do
   {:error, info} on failure
   """
   @spec update_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def update_pet(connection, body, _opts \\ []) do
+  def update_pet(connection, pet, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/pet")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, pet)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false},
       { 400, false},
       { 404, false},
       { 405, false}

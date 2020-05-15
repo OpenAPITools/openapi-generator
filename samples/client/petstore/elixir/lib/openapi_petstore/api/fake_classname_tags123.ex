@@ -18,7 +18,7 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Client): client model
+  - client (Client): client model
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -26,11 +26,11 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
   {:error, info} on failure
   """
   @spec test_classname(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def test_classname(connection, body, _opts \\ []) do
+  def test_classname(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/fake_classname_test")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, client)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

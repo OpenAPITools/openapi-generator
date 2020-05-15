@@ -97,7 +97,7 @@ defmodule OpenapiPetstore.Api.Store do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Order): order placed for purchasing the pet
+  - order (Order): order placed for purchasing the pet
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -105,11 +105,11 @@ defmodule OpenapiPetstore.Api.Store do
   {:error, info} on failure
   """
   @spec place_order(Tesla.Env.client, OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
-  def place_order(connection, body, _opts \\ []) do
+  def place_order(connection, order, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/store/order")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, order)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

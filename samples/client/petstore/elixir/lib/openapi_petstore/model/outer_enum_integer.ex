@@ -2,22 +2,22 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Model.AdditionalPropertiesBoolean do
+defmodule OpenapiPetstore.Model.OuterEnumInteger do
   @moduledoc """
   
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"name"
+    
   ]
 
   @type t :: %__MODULE__{
-    :"name" => String.t | nil
+    
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesBoolean do
+defimpl Poison.Decoder, for: OpenapiPetstore.Model.OuterEnumInteger do
   def decode(value, _options) do
     value
   end

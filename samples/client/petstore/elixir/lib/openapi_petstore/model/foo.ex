@@ -2,22 +2,22 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Model.BigCatAllOf do
+defmodule OpenapiPetstore.Model.Foo do
   @moduledoc """
   
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"kind"
+    :"bar"
   ]
 
   @type t :: %__MODULE__{
-    :"kind" => String.t | nil
+    :"bar" => String.t | nil
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.BigCatAllOf do
+defimpl Poison.Decoder, for: OpenapiPetstore.Model.Foo do
   def decode(value, _options) do
     value
   end
