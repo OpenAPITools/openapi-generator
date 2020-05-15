@@ -13,6 +13,10 @@ import (
 	"encoding/json"
 )
 
+import (
+    "fmt"
+)
+
 // OuterEnumInteger the model 'OuterEnumInteger'
 type OuterEnumInteger int32
 
@@ -22,6 +26,23 @@ const (
 	OUTERENUMINTEGER__1 OuterEnumInteger = 1
 	OUTERENUMINTEGER__2 OuterEnumInteger = 2
 )
+
+func (v *OuterEnumInteger) UnmarshalJSON(src []byte) error {
+    var value int32
+    err := json.Unmarshal(src, &value)
+    if err != nil {
+        return err
+    }
+    enumTypeValue := OuterEnumInteger(value)
+    for _, existing := range []OuterEnumInteger{ 0, 1, 2,   } {
+        if existing == enumTypeValue {
+            *v = enumTypeValue
+            return nil
+        }
+    }
+
+    return fmt.Errorf("%+v is not a valid OuterEnumInteger", *v)
+}
 
 // Ptr returns reference to OuterEnumInteger value
 func (v OuterEnumInteger) Ptr() *OuterEnumInteger {
