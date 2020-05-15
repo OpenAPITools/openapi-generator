@@ -973,12 +973,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         Schema addProps = ModelUtils.getAdditionalProperties(schema);
         if (addProps != null) {
-            if (addProps.get$ref() == null) {
-                // if AdditionalProperties exists and is an inline definition, get its datatype and
+            if (addProps.get$ref() != null) {
+                // Resolve the schema reference.
+                addProps = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(addProps.get$ref()));
+            }
+            if (addProps != null) {
+                // if AdditionalProperties exists, get its datatype and
                 // store it in codegenModel.additionalPropertiesType.
-                codegenModel.additionalPropertiesType = getTypeDeclaration(addProps);;
-            } else {
-                addParentContainer(codegenModel, codegenModel.name, schema);
+                codegenModel.additionalPropertiesType = getTypeDeclaration(addProps);
             }
         }
         // If addProps is null, that means the value of the 'additionalProperties' keyword is set
