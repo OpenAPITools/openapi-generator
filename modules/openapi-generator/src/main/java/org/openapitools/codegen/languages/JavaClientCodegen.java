@@ -776,13 +776,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return objs;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModels(objs);
         List<Object> models = (List<Object>) objs.get("models");
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !JERSEY1.equals(getLibrary())) {
             List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
@@ -794,7 +792,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
                     // only add JsonNullable and related imports to optional and nullable values
                     addImports |= isOptionalNullable;
-                    var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable); // TODO: 5.0 Remove
                     var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
                 }
                 if (addImports) {
@@ -817,10 +814,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());  // TODO: 5.0 Remove
-            cm.getVendorExtensions().putIfAbsent("x-implements", cm.getVendorExtensions().get("implements"));
-            //List<String> impl = (List<String>) cm.getVendorExtensions().get("x-implements");
-            if (JERSEY2.equals(getLibrary())) {
+
+            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            if (JERSEY2_EXPERIMENTAL.equals(getLibrary())) {
                 cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {

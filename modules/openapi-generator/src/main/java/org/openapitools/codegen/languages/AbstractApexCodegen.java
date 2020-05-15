@@ -456,13 +456,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
         }
 
-        // TODO: 5.0: Remove this block and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-        cm.vendorExtensions.put("hasPropertyMappings", !propertyMappings.isEmpty()); // TODO: 5.0 Remove
-        cm.vendorExtensions.put("hasDefaultValues", hasDefaultValues);  // TODO: 5.0 Remove
-        cm.vendorExtensions.put("propertyMappings", propertyMappings);  // TODO: 5.0 Remove
-
-
         cm.vendorExtensions.put("x-has-property-mappings", !propertyMappings.isEmpty());
         cm.vendorExtensions.put("x-has-default-values", hasDefaultValues);
         cm.vendorExtensions.put("x-property-mappings", propertyMappings);

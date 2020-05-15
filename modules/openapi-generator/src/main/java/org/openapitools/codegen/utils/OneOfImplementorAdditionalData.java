@@ -103,18 +103,13 @@ public class OneOfImplementorAdditionalData {
      * @param implImports imports of the implementing model
      * @param addInterfaceImports whether or not to add the interface model as import (will vary by language)
      */
+    @SuppressWarnings("unchecked")
     public void addToImplementor(CodegenConfig cc, CodegenModel implcm, List<Map<String, String>> implImports, boolean addInterfaceImports) {
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
-
-        implcm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>()); // TODO: 5.0 Remove
-        implcm.getVendorExtensions().putIfAbsent("x-implements", implcm.getVendorExtensions().get("implements"));
+        implcm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
 
         // Add implemented interfaces
         for (String intf : additionalInterfaces) {
-            List<String> impl = (List<String>) implcm.getVendorExtensions().get("implements");
+            List<String> impl = (List<String>) implcm.getVendorExtensions().get("x-implements");
             impl.add(intf);
             if (addInterfaceImports) {
                 // Add imports for interfaces

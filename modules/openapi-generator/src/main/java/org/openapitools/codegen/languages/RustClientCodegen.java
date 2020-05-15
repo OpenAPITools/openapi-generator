@@ -195,9 +195,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -226,9 +223,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                     // TODO: figure out how to properly have the original property type that didn't go through toVarName
                     String vendorExtensionTagName = cm.discriminator.getPropertyName().replace("_", "");
-                    cm.vendorExtensions.put("tagName", vendorExtensionTagName); // TODO: 5.0 Remove
                     cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
-                    cm.vendorExtensions.put("mappedModels", discriminatorVars); // TODO: 5.0 Remove
                     cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
                 }
             }

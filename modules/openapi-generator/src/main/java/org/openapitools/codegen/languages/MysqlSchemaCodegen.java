@@ -29,10 +29,10 @@ import java.io.File;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+@SuppressWarnings("unchecked")
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
 
-    public static final String CODEGEN_VENDOR_EXTENSION_KEY = "x-mysqlSchema"; // TODO: 5.0 Remove
     public static final String VENDOR_EXTENSION_MYSQL_SCHEMA = "x-mysql-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
@@ -271,12 +271,11 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 modelDescription = (modelDescription == null || modelDescription.isEmpty()) ? commentExtra : modelDescription + ". " + commentExtra;
             }
 
-            if (modelVendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
+            if (modelVendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
                 // user already specified schema values
                 LOGGER.info("Found vendor extension in '" + modelName + "' model, autogeneration skipped");
-                continue;
             } else {
-                modelVendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
+                modelVendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
                 mysqlSchema.put("tableDefinition", tableDefinition);
                 tableDefinition.put("tblName", tableName);
                 tableDefinition.put("tblComment", modelDescription);
@@ -335,15 +334,15 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String description = property.getDescription();
         String minimum = property.getMinimum();
         String maximum = property.getMaximum();
-        Boolean exclusiveMinimum = property.getExclusiveMinimum();
-        Boolean exclusiveMaximum = property.getIExclusiveMaximum();
+        boolean exclusiveMinimum = property.getExclusiveMinimum();
+        boolean exclusiveMaximum = property.getIExclusiveMaximum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        Boolean unsigned = false;
+        boolean unsigned = false;
         Boolean isUuid = property.isUuid;
         Boolean isEnum = property.isEnum;
 
-        if (vendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
+        if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
             LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
             return;
@@ -355,7 +354,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
         vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -363,7 +361,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            for (Integer i = 0; i < enumValues.size(); i++) {
+            for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
                     break;
@@ -379,8 +377,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             } else {
                 Long min = (minimum != null) ? Long.parseLong(minimum) : null;
                 Long max = (maximum != null) ? Long.parseLong(maximum) : null;
-                if (exclusiveMinimum == true && min != null) min += 1;
-                if (exclusiveMaximum == true && max != null) max -= 1;
+                if (exclusiveMinimum && min != null) min += 1;
+                if (exclusiveMaximum && max != null) max -= 1;
                 if (min != null && min >= 0) {
                     unsigned = true;
                 }
@@ -424,14 +422,14 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String description = property.getDescription();
         String minimum = property.getMinimum();
         String maximum = property.getMaximum();
-        Boolean exclusiveMinimum = property.getExclusiveMinimum();
-        Boolean exclusiveMaximum = property.getIExclusiveMaximum();
+        boolean exclusiveMinimum = property.getExclusiveMinimum();
+        boolean exclusiveMaximum = property.getIExclusiveMaximum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
-        Boolean unsigned = false;
+        boolean unsigned = false;
         Boolean isEnum = property.isEnum;
 
-        if (vendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
+        if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
             LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
             return;
@@ -443,7 +441,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
         vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -451,7 +448,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            for (Integer i = 0; i < enumValues.size(); i++) {
+            for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
                     break;
@@ -464,8 +461,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         } else {
             Float min = (minimum != null) ? Float.valueOf(minimum) : null;
             Float max = (maximum != null) ? Float.valueOf(maximum) : null;
-            if (exclusiveMinimum == true && min != null) min += 1;
-            if (exclusiveMaximum == true && max != null) max -= 1;
+            if (exclusiveMinimum && min != null) min += 1;
+            if (exclusiveMaximum && max != null) max -= 1;
             if (min != null && min >= 0) {
                 unsigned = true;
             }
@@ -510,7 +507,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
 
-        if (vendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
+        if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
             LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
             return;
@@ -522,7 +519,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
         vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -569,7 +565,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Boolean required = property.getRequired();
         Boolean isEnum = property.isEnum;
 
-        if (vendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
+        if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
             LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
             return;
@@ -581,7 +577,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
         vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -591,7 +586,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-            for (Integer i = 0; i < enumValues.size(); i++) {
+            for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
                     break;
@@ -644,7 +639,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
 
-        if (vendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
+        if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
             LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
             return;
@@ -656,7 +651,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
         vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -696,7 +690,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
 
-        if (vendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
+        if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
             LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
             return;
@@ -708,7 +702,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
         vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -751,7 +744,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
 
-        if (vendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
+        if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
             LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
             return;
@@ -763,7 +756,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
         vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -902,10 +894,10 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public String getMysqlMatchedIntegerDataType(Long minimum, Long maximum, Boolean unsigned) {
         // we can choose fit mysql data type
         // ref: https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
-        Long min = (minimum != null) ? minimum : -2147483648L;
-        Long max = (maximum != null) ? maximum : 2147483647L;
-        Long actualMin = Math.min(min, max); // sometimes min and max values can be mixed up
-        Long actualMax = Math.max(min, max); // sometimes only minimum specified and it can be pretty high
+        long min = (minimum != null) ? minimum : -2147483648L;
+        long max = (maximum != null) ? maximum : 2147483647L;
+        long actualMin = Math.min(min, max); // sometimes min and max values can be mixed up
+        long actualMax = Math.max(min, max); // sometimes only minimum specified and it can be pretty high
         if (minimum != null && maximum != null && minimum > maximum) {
             LOGGER.warn("Codegen property 'minimum' cannot be greater than 'maximum'");
         }
@@ -948,8 +940,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public String getMysqlMatchedStringDataType(Integer minLength, Integer maxLength) {
         // we can choose fit mysql data type
         // ref: https://dev.mysql.com/doc/refman/8.0/en/string-type-overview.html
-        Integer min = (minLength != null && minLength >= 0) ? minLength : 0;
-        Integer max = (maxLength != null && maxLength >= 0) ? maxLength : 65535;
+        int min = (minLength != null && minLength >= 0) ? minLength : 0;
+        int max = (maxLength != null && maxLength >= 0) ? maxLength : 65535;
         Integer actualMin = Math.min(min, max); // sometimes minLength and maxLength values can be mixed up
         Integer actualMax = Math.max(min, max); // sometimes only minLength specified and it can be pretty high
         if (minLength != null && maxLength != null && minLength > maxLength) {
@@ -1139,7 +1131,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void setDefaultDatabaseName(String databaseName) {
         String escapedName = toDatabaseName(databaseName);
-        if (escapedName.equals(databaseName) == false) {
+        if (!escapedName.equals(databaseName)) {
             LOGGER.error("Invalid database name. '" + databaseName + "' cannot be used as MySQL identifier. Escaped value '" + escapedName + "' will be used instead.");
         }
         this.defaultDatabaseName = escapedName;

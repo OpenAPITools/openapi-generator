@@ -291,9 +291,6 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
@@ -320,11 +317,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
                 if (operation.returnType != null) {
                     if (operation.returnType.equals("Boolean")) {
-                        operation.vendorExtensions.put("missingReturnInfoIfNeeded", "true"); // TODO: 5.0 Remove
                         operation.vendorExtensions.put("x-missing-return-info-if-needed", "true");
                     }
                     if (operation.returnType.equals("BigDecimal")) {
-                        operation.vendorExtensions.put("missingReturnInfoIfNeeded", "1.0"); // TODO: 5.0 Remove
                         operation.vendorExtensions.put("x-missing-return-info-if-needed", "1.0");
                     }
                     if (operation.returnType.startsWith("List")) {
