@@ -75,11 +75,11 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
             try {
                 tempFile = writeToFileRaw(tempFilename, contents);
                 if (!filesEqual(tempFile, outputFile)) {
-                    LOGGER.info("writing file " + filename);
+                    LOGGER.debug("writing file " + filename);
                     Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     tempFile = null;
                 } else {
-                    LOGGER.info("skipping unchanged file " + filename);
+                    LOGGER.debug("skipping unchanged file " + filename);
                 }
             } finally {
                 if (tempFile != null && tempFile.exists()) {
@@ -92,7 +92,7 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
             }
             return outputFile;
         } else {
-            LOGGER.info("writing file " + filename);
+            LOGGER.debug("writing file " + filename);
             return writeToFileRaw(filename, contents);
         }
     }
