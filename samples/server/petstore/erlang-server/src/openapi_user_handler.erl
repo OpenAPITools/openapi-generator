@@ -126,12 +126,12 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-    From = ,
+    From = header,
     Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
-        "AUTH_KEY",
+        "api_key",
         Req0
     ),
     case Result of
@@ -145,12 +145,12 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-    From = ,
+    From = header,
     Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
-        "AUTH_KEY",
+        "api_key",
         Req0
     ),
     case Result of
@@ -164,12 +164,12 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-    From = ,
+    From = header,
     Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
-        "AUTH_KEY",
+        "api_key",
         Req0
     ),
     case Result of
@@ -183,12 +183,12 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-    From = ,
+    From = header,
     Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
-        "AUTH_KEY",
+        "api_key",
         Req0
     ),
     case Result of
@@ -202,12 +202,12 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-    From = ,
+    From = header,
     Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
-        "AUTH_KEY",
+        "api_key",
         Req0
     ),
     case Result of
@@ -221,12 +221,12 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-    From = ,
+    From = header,
     Result = openapi_auth:authorize_api_key(
         LogicHandler,
         OperationID,
         From,
-        "AUTH_KEY",
+        "api_key",
         Req0
     ),
     case Result of
