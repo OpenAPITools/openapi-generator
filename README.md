@@ -406,15 +406,15 @@ Please see the [project's README](https://github.com/openapitools/openapi-genera
 Install it globally to get the CLI available on the command line:
 
 ```sh
-pip install openapigenerator
+pip install openapi-generator-cli
 openapi-generator version
 ```
 
 <!-- RELEASE_VERSION -->
-Or install a particular OpenAPI Generator version (e.g. v4.2.0):
+Or install a particular OpenAPI Generator version (e.g. v4.3.1):
 
 ```sh
-pip install openapigenerator==4.2.0
+pip install openapi-generator-cli==4.3.1
 ```
 <!-- /RELEASE_VERSION -->
 
