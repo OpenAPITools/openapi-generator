@@ -8,8 +8,6 @@
 import Foundation
 import PromiseKit
 
-
-
 open class PetAPI {
     /**
      Add a new pet to the store

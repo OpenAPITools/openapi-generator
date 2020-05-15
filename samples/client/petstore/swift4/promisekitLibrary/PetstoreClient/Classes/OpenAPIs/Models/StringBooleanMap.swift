@@ -7,12 +7,9 @@
 
 import Foundation
 
+public struct StringBooleanMap: Codable {
 
-public struct StringBooleanMap: Codable { 
-
-
-
-    public var additionalProperties: [String:Bool] = [:]
+    public var additionalProperties: [String: Bool] = [:]
 
     public subscript(key: String) -> Bool? {
         get {
