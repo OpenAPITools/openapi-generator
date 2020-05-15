@@ -223,6 +223,96 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAdditionalPropertiesV2Spec() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
+        Assert.assertEquals(schema.getAdditionalProperties(), null);
+
+        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Assert.assertNull(addProps);
+        CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+        Assert.assertEquals(cm.getAdditionalPropertiesType(), "");
+
+        Map<String, Schema> m = schema.getProperties();
+        Schema child = m.get("map_string");
+        // This property has the following inline schema.
+        // additionalProperties:
+        //   type: string
+        Assert.assertNotNull(child);
+        Assert.assertNotNull(child.getAdditionalProperties());
+
+        child = m.get("map_with_additional_properties");
+        // This property has the following inline schema.
+        // additionalProperties: true
+        Assert.assertNotNull(child);
+        // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
+        // We cannot differentiate between 'additionalProperties' not present and
+        // additionalProperties: true.
+        Assert.assertNull(child.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(addProps);
+        cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+        Assert.assertEquals(cm.getAdditionalPropertiesType(), "");
+
+        child = m.get("map_without_additional_properties");
+        // This property has the following inline schema.
+        // additionalProperties: false
+        Assert.assertNotNull(child);
+        // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
+        // We cannot differentiate between 'additionalProperties' not present and
+        // additionalProperties: false.
+        Assert.assertNull(child.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(addProps);
+        cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+        Assert.assertEquals(cm.getAdditionalPropertiesType(), "");
+    }
+
+    @Test
+    public void testAdditionalPropertiesV3Spec() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
+        Assert.assertEquals(schema.getAdditionalProperties(), null);
+
+        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Assert.assertEquals(addProps, null);
+        CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+        Assert.assertEquals(cm.getAdditionalPropertiesType(), "");
+
+        Map<String, Schema> m = schema.getProperties();
+        Schema child = m.get("map_string");
+        // This property has the following inline schema.
+        // additionalProperties:
+        //   type: string
+        Assert.assertNotNull(child);
+        Assert.assertNotNull(child.getAdditionalProperties());
+
+        child = m.get("map_with_additional_properties");
+        // This property has the following inline schema.
+        // additionalProperties: true
+        Assert.assertNotNull(child);
+        // Unlike the V2 spec, in V3 we CAN differentiate between 'additionalProperties' not present and
+        // additionalProperties: true.
+        Assert.assertNotNull(child.getAdditionalProperties());
+        Assert.assertEquals(child.getAdditionalProperties(), Boolean.TRUE);
+
+        child = m.get("map_without_additional_properties");
+        // This property has the following inline schema.
+        // additionalProperties: false
+        Assert.assertNotNull(child);
+        // Unlike the V2 spec, in V3 we CAN differentiate between 'additionalProperties' not present and
+        // additionalProperties: false.
+        Assert.assertNotNull(child.getAdditionalProperties());
+        Assert.assertEquals(child.getAdditionalProperties(), Boolean.FALSE);
+    }
+
+    @Test
     public void testEnsureNoDuplicateProduces() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/two-responses.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
