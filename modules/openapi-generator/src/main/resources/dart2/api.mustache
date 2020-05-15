@@ -92,6 +92,10 @@ class {{classname}} {
 
   /// {{summary}}
   ///
+  {{#allParams}}
+  ///{{dataType}} {{paramName}} {{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}:
+  ///    {{#description}} {{{description}}}{{/description}}
+  {{/allParams}}
   /// {{notes}}
   {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     Response response = await {{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
