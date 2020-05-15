@@ -11,6 +11,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         {{#useSpringfox}}
         <springfox-version>2.8.0</springfox-version>
+        <openapi.ui.version>1.2.32</openapi.ui.version>
         {{/useSpringfox}}
     </properties>
 {{#parentOverridden}}
@@ -93,6 +94,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${openapi.ui.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
