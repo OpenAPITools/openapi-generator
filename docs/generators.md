@@ -136,7 +136,7 @@ The following generators are available:
 * [markdown (beta)](generators/markdown.md)  
 * [openapi](generators/openapi.md)  
 * [openapi-yaml](generators/openapi-yaml.md)  
-* [plantuml](generators/plantuml.md)  
+* [plantuml (beta)](generators/plantuml.md)  
 
 
 ## SCHEMA generators
