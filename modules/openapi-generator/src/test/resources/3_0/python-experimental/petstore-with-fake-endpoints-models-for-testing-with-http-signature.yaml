@@ -1911,6 +1911,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Shape'
+      additionalProperties:
+        # Here the additional properties are specified using a referenced schema.
+        # This is just to validate the generated code works when using $ref
+        # under 'additionalProperties'.
+        $ref: '#/components/schemas/fruit' 
     Shape:
       oneOf:
         - $ref: '#/components/schemas/Triangle'
