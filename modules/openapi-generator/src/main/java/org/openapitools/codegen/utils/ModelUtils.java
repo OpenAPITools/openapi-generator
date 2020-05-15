@@ -677,13 +677,13 @@ public class ModelUtils {
      * @param schema the OAS schema.
      * @return true if the schema value can be an arbitrary type.
      */
-    public static boolean isAnyTypeSchema(Schema schema) {
+    public static boolean isAnyTypeSchema(OpenAPI openAPI, Schema schema) {
         if (schema == null) {
             once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
             return false;
         }
 
-        if (isFreeFormObject(schema)) {
+        if (isFreeFormObject(openAPI, schema)) {
             // make sure it's not free form object
             return false;
         }
@@ -729,7 +729,7 @@ public class ModelUtils {
      * @param schema potentially containing a '$ref'
      * @return true if it's a free-form object
      */
-    public static boolean isFreeFormObject(Schema schema) {
+    public static boolean isFreeFormObject(OpenAPI openAPI, Schema schema) {
         if (schema == null) {
             // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
             once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
@@ -749,7 +749,7 @@ public class ModelUtils {
         if ("object".equals(schema.getType())) {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
-                Schema addlProps = getAdditionalProperties(schema);
+                Schema addlProps = getAdditionalProperties(openAPI, schema);
                 // additionalProperties not defined
                 if (addlProps == null) {
                     return true;
@@ -1091,17 +1091,28 @@ public class ModelUtils {
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
      * 
+     * @param openAPI the object that encapsulates the OAS document.
      * @param schema the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
      *         properties are allowed.
      */
-    public static Schema getAdditionalProperties(Schema schema) {
-        if (schema.getAdditionalProperties() instanceof Schema) {
-            return (Schema) schema.getAdditionalProperties();
+    public static Schema getAdditionalProperties(OpenAPI openAPI, Schema schema) {
+        Object addProps = schema.getAdditionalProperties();
+        if (addProps instanceof Schema) {
+            return (Schema) addProps;
         }
-        if (schema.getAdditionalProperties() == null ||
-            (schema.getAdditionalProperties() instanceof Boolean &&
-                (Boolean) schema.getAdditionalProperties())) {
+        if (addProps == null) {
+            SemVer version = new SemVer(openAPI.getOpenapi());
+            if (version.major == 2) {
+                // The OAS version 2 parser sets Schema.additionalProperties to the null value
+                // even if the OAS document has additionalProperties: true|false
+                // So we are unable to determine if additional properties are allowed or not.
+                // The original behavior was to assume additionalProperties had been set to false,
+                // we retain that behavior.
+                return null;
+            }    
+        }
+        if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
             // Return ObjectSchema to specify any object (map) value is allowed.
             // Set nullable to specify the value of additional properties may be
             // the null value.
