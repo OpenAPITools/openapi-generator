@@ -1,11 +1,51 @@
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+@JsonDeserialize(using={{classname}}.{{classname}}Deserializer.class)
 public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+    public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
+        public {{classname}}Deserializer() {
+            this({{classname}}.class);
+        }
+
+        public {{classname}}Deserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            JsonNode tree = jp.readValueAsTree();
+
+            int match = 0;
+            Object deserialized = null;
+            {{#oneOf}}
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                match++;
+            } catch (Exception e) {
+                // deserialization failed, continue
+            }
+            {{/oneOf}}
+            if (match == 1) {
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                return ret;
+            }
+            throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+        }
+    }
 
     // store a list of schema names defined in oneOf
     public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
@@ -13,6 +53,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
+
+    {{#oneOf}}
+    public {{classname}}({{{.}}} o) {
+        super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+        setActualInstance(o);
+    }
+    {{/oneOf}}
 
     static {
         {{#oneOf}}
