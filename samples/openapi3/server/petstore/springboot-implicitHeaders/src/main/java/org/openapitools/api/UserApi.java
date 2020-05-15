@@ -65,8 +65,6 @@ public interface UserApi {
     }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/user",
         consumes = { "application/json" },
         method = RequestMethod.POST)
@@ -87,8 +85,6 @@ public interface UserApi {
     }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/user/createWithArray",
         consumes = { "application/json" },
         method = RequestMethod.POST)
@@ -109,8 +105,6 @@ public interface UserApi {
     }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/user/createWithList",
         consumes = { "application/json" },
         method = RequestMethod.POST)
@@ -134,8 +128,6 @@ public interface UserApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
@@ -157,8 +149,6 @@ public interface UserApi {
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = User.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -194,8 +184,6 @@ public interface UserApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = String.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid username/password supplied" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -215,8 +203,6 @@ public interface UserApi {
     }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/user/logout",
         method = RequestMethod.GET)
     default ResponseEntity<Void> logoutUser() {
@@ -240,8 +226,6 @@ public interface UserApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid user supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/user/{username}",
         consumes = { "application/json" },
         method = RequestMethod.PUT)

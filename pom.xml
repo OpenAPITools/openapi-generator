@@ -1468,9 +1468,9 @@
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/spring-mvc-j8-async</module>
-                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/openapi3/server/petstore/spring-mvc</module>
+                <module>samples/openapi3/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/openapi3/server/petstore/spring-mvc-j8-localdatetime</module>
             </modules>
         </profile>
         <!-- test with JDK11 in drone.io -->
@@ -1514,11 +1514,11 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift5/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift5/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/promisekitLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/rxswiftLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift4/promisekitLibrary/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift4/rxswiftLibrary/SwaggerClientTests</module>
                 <!-- swift 1.x, 3.x client generators have been deprecated
                 <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>

@@ -70,8 +70,6 @@ public interface PetApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "405", description = "Invalid input" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/pet",
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/json", "application/xml" },
@@ -110,9 +108,6 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid pet value" ) })
-    @ApiImplicitParams({
-    @ApiImplicitParam(name = "apiKey", value = "",  dataType = "String", paramType = "header")
-    })
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId) {
@@ -137,8 +132,6 @@ public interface PetApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "List",  schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid status value" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -179,8 +172,6 @@ public interface PetApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "List",  schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid tag value" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -220,8 +211,6 @@ public interface PetApi {
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Pet not found" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -265,8 +254,6 @@ public interface PetApi {
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Pet not found" ),
        @ApiResponse(responseCode = "405", description = "Validation exception" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/pet",
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/json", "application/xml" },
@@ -307,8 +294,6 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "405", description = "Invalid input" ) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
@@ -334,8 +319,6 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = ModelApiResponse.class)) }) })
-    @ApiImplicitParams({
-    })
     @RequestMapping(value = "/pet/{petId}/uploadImage",
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },

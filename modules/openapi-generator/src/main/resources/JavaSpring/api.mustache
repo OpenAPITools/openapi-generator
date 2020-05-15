@@ -132,13 +132,6 @@ public interface {{classname}} {
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
        @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}" {{#baseType}}, content = { @Content({{#containerType}} mediaType = "{{{containerType}}}", {{/containerType}} schema = @Schema(implementation = {{{baseType}}}.class)) }{{/baseType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
-    {{#implicitHeaders}}
-    @ApiImplicitParams({
-    {{#headerParams}}
-    {{>implicitHeader}}
-    {{/headerParams}}
-    })
-    {{/implicitHeaders}}
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}{{#hasProduces}}
         produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}
         consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}

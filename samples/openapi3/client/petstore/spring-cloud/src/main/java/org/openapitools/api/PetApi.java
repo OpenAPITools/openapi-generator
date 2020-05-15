@@ -206,7 +206,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@Parameter(description = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
 
 
     /**
@@ -229,6 +229,6 @@ public interface PetApi {
         produces = "application/json", 
         consumes = "multipart/form-data",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @RequestParam("file") MultipartFile file);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@Parameter(description = "file to upload") @RequestParam("file") MultipartFile file);
 
 }
