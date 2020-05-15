@@ -816,7 +816,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-            if (JERSEY2_EXPERIMENTAL.equals(getLibrary())) {
+            if (JERSEY2.equals(getLibrary())) {
                 cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
