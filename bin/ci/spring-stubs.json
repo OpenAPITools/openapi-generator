@@ -1,8 +1,8 @@
 {
   "generatorName": "spring",
   "artifactId": "spring-stubs",
-  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
-  "outputDir": "samples/client/petstore/spring-stubs",
+  "inputSpec": "modules/openapi-generator/src/test/resources/3_0/petstore_oas3_test.yaml",
+  "outputDir": "samples/openapi3/client/petstore/spring-stubs",
   "additionalProperties": {
     "interfaceOnly": true,
     "singleContentTypes": true,
