@@ -59,7 +59,7 @@ The following generators are available:
 * [scalaz](generators/scalaz.md)  
 * [swift2-deprecated (deprecated)](generators/swift2-deprecated.md)  
 * [swift3-deprecated (deprecated)](generators/swift3-deprecated.md)  
-* [swift4](generators/swift4.md)  
+* [swift4-deprecated (deprecated)](generators/swift4-deprecated.md)  
 * [swift5 (beta)](generators/swift5.md)  
 * [typescript-angular](generators/typescript-angular.md)  
 * [typescript-angularjs](generators/typescript-angularjs.md)  
@@ -136,7 +136,7 @@ The following generators are available:
 * [markdown (beta)](generators/markdown.md)  
 * [openapi](generators/openapi.md)  
 * [openapi-yaml](generators/openapi-yaml.md)  
-* [plantuml](generators/plantuml.md)  
+* [plantuml (beta)](generators/plantuml.md)  
 
 
 ## SCHEMA generators
