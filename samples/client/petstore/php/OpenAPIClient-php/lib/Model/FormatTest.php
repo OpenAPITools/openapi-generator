@@ -66,7 +66,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'string' => 'string',
         'byte' => 'string',
         'binary' => '\SplFileObject',
-        'date' => '\DateTime',
+        'date' => 'date',
         'date_time' => '\DateTime',
         'uuid' => 'string',
         'password' => 'string',
