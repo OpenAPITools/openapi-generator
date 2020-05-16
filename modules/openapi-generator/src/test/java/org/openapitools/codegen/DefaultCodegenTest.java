@@ -225,6 +225,10 @@ public class DefaultCodegenTest {
     @Test
     public void testAdditionalPropertiesV2Spec() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        // The extension below is to track the original swagger version.
+        // See https://github.com/swagger-api/swagger-parser/pull/1374
+        // Also see https://github.com/swagger-api/swagger-parser/issues/1369.
+        openAPI.addExtension("x-original-swagger-version", "2.0");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -232,9 +236,14 @@ public class DefaultCodegenTest {
         Assert.assertEquals(schema.getAdditionalProperties(), null);
 
         Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        // The petstore-with-fake-endpoints-models-for-testing.yaml does not set the
+        // 'additionalProperties' keyword for this model, hence assert the value to be null.
         Assert.assertNull(addProps);
         CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
-        Assert.assertEquals(cm.getAdditionalPropertiesType(), "");
+        // When the 'additionalProperties' keyword is not present, the model
+        // should allow undeclared properties. However, due to bug
+        // https://github.com/swagger-api/swagger-parser/issues/1369, the swagger
+        // converter does not retain the value of the additionalProperties.
 
         Map<String, Schema> m = schema.getProperties();
         Schema child = m.get("map_string");
@@ -254,8 +263,6 @@ public class DefaultCodegenTest {
         Assert.assertNull(child.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, child);
         Assert.assertNull(addProps);
-        cm = codegen.fromModel("AdditionalPropertiesClass", schema);
-        Assert.assertEquals(cm.getAdditionalPropertiesType(), "");
 
         child = m.get("map_without_additional_properties");
         // This property has the following inline schema.
@@ -267,8 +274,6 @@ public class DefaultCodegenTest {
         Assert.assertNull(child.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, child);
         Assert.assertNull(addProps);
-        cm = codegen.fromModel("AdditionalPropertiesClass", schema);
-        Assert.assertEquals(cm.getAdditionalPropertiesType(), "");
     }
 
     @Test
@@ -278,12 +283,14 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
-        Assert.assertEquals(schema.getAdditionalProperties(), null);
+        Assert.assertNull(schema.getAdditionalProperties());
 
+        // When the 'additionalProperties' keyword is not present, the schema may be
+        // extended with any undeclared properties.
         Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
-        Assert.assertEquals(addProps, null);
+        Assert.assertNotNull(addProps);
+        Assert.assertTrue(addProps instanceof ObjectSchema);
         CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
-        Assert.assertEquals(cm.getAdditionalPropertiesType(), "");
 
         Map<String, Schema> m = schema.getProperties();
         Schema child = m.get("map_string");
@@ -301,6 +308,9 @@ public class DefaultCodegenTest {
         // additionalProperties: true.
         Assert.assertNotNull(child.getAdditionalProperties());
         Assert.assertEquals(child.getAdditionalProperties(), Boolean.TRUE);
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(addProps);
+        Assert.assertTrue(addProps instanceof ObjectSchema);
 
         child = m.get("map_without_additional_properties");
         // This property has the following inline schema.
@@ -310,6 +320,8 @@ public class DefaultCodegenTest {
         // additionalProperties: false.
         Assert.assertNotNull(child.getAdditionalProperties());
         Assert.assertEquals(child.getAdditionalProperties(), Boolean.FALSE);
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(addProps);
     }
 
     @Test
