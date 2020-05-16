@@ -15,29 +15,28 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * FileSchemaTestClass
  */
-@JsonPropertyOrder({
-  FileSchemaTestClass.JSON_PROPERTY_FILE,
-  FileSchemaTestClass.JSON_PROPERTY_FILES
-})
 
 public class FileSchemaTestClass {
-  public static final String JSON_PROPERTY_FILE = "file";
+  public static final String SERIALIZED_NAME_FILE = "file";
+  @SerializedName(SERIALIZED_NAME_FILE)
   private java.io.File file;
 
-  public static final String JSON_PROPERTY_FILES = "files";
+  public static final String SERIALIZED_NAME_FILES = "files";
+  @SerializedName(SERIALIZED_NAME_FILES)
   private List<java.io.File> files = null;
 
 
@@ -53,8 +52,6 @@ public class FileSchemaTestClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_FILE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public java.io.File getFile() {
     return file;
@@ -74,7 +71,7 @@ public class FileSchemaTestClass {
 
   public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<>();
+      this.files = new ArrayList<java.io.File>();
     }
     this.files.add(filesItem);
     return this;
@@ -86,8 +83,6 @@ public class FileSchemaTestClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_FILES)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<java.io.File> getFiles() {
     return files;

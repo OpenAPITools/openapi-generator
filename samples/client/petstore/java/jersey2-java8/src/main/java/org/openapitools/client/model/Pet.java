@@ -15,49 +15,48 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Pet
  */
-@JsonPropertyOrder({
-  Pet.JSON_PROPERTY_ID,
-  Pet.JSON_PROPERTY_CATEGORY,
-  Pet.JSON_PROPERTY_NAME,
-  Pet.JSON_PROPERTY_PHOTO_URLS,
-  Pet.JSON_PROPERTY_TAGS,
-  Pet.JSON_PROPERTY_STATUS
-})
 
 public class Pet {
-  public static final String JSON_PROPERTY_ID = "id";
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
-  public static final String JSON_PROPERTY_CATEGORY = "category";
+  public static final String SERIALIZED_NAME_CATEGORY = "category";
+  @SerializedName(SERIALIZED_NAME_CATEGORY)
   private Category category;
 
-  public static final String JSON_PROPERTY_NAME = "name";
+  public static final String SERIALIZED_NAME_NAME = "name";
+  @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  private List<String> photoUrls = new ArrayList<>();
+  public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
+  @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
+  private List<String> photoUrls = new ArrayList<String>();
 
-  public static final String JSON_PROPERTY_TAGS = "tags";
+  public static final String SERIALIZED_NAME_TAGS = "tags";
+  @SerializedName(SERIALIZED_NAME_TAGS)
   private List<Tag> tags = null;
 
   /**
    * pet status in the store
    */
+  @JsonAdapter(StatusEnum.Adapter.class)
   public enum StatusEnum {
     AVAILABLE("available"),
     
@@ -71,7 +70,6 @@ public class Pet {
       this.value = value;
     }
 
-    @JsonValue
     public String getValue() {
       return value;
     }
@@ -81,7 +79,6 @@ public class Pet {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
         if (b.value.equals(value)) {
@@ -90,9 +87,23 @@ public class Pet {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
+
+    public static class Adapter extends TypeAdapter<StatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return StatusEnum.fromValue(value);
+      }
+    }
   }
 
-  public static final String JSON_PROPERTY_STATUS = "status";
+  public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
 
@@ -108,8 +119,6 @@ public class Pet {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
     return id;
@@ -133,8 +142,6 @@ public class Pet {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Category getCategory() {
     return category;
@@ -157,8 +164,6 @@ public class Pet {
    * @return name
   **/
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
     return name;
@@ -186,8 +191,6 @@ public class Pet {
    * @return photoUrls
   **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -207,7 +210,7 @@ public class Pet {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<>();
+      this.tags = new ArrayList<Tag>();
     }
     this.tags.add(tagsItem);
     return this;
@@ -219,8 +222,6 @@ public class Pet {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_TAGS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Tag> getTags() {
     return tags;
@@ -244,8 +245,6 @@ public class Pet {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "pet status in the store")
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
     return status;

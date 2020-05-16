@@ -25,7 +25,7 @@ public class OpenAPIDocumentationConfig {
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
             .title("OpenAPI Petstore")
-            .description("This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.")
+            .description("A test spec based on the Petstore spec with OAS3 related test cases such as nullable")
             .license("Apache-2.0")
             .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("")
@@ -35,7 +35,7 @@ public class OpenAPIDocumentationConfig {
     }
 
     @Bean
-    public Docket customImplementation(ServletContext servletContext, @Value("${openapi.openAPIPetstore.base-path:/}") String basePath) {
+    public Docket customImplementation(ServletContext servletContext, @Value("${openapi.openAPIPetstore.base-path:/v2}") String basePath) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.openapitools.api"))

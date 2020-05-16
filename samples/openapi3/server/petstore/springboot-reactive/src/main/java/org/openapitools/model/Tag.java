@@ -10,9 +10,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * A tag for a pet
+ * Tag
  */
-@ApiModel(description = "A tag for a pet")
 
 public class Tag   {
   @JsonProperty("id")

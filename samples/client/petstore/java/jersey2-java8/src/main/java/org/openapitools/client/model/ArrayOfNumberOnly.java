@@ -15,26 +15,25 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * ArrayOfNumberOnly
  */
-@JsonPropertyOrder({
-  ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
-})
 
 public class ArrayOfNumberOnly {
-  public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
+  public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
+  @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
   private List<BigDecimal> arrayNumber = null;
 
 
@@ -46,7 +45,7 @@ public class ArrayOfNumberOnly {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<>();
+      this.arrayNumber = new ArrayList<BigDecimal>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;
@@ -58,8 +57,6 @@ public class ArrayOfNumberOnly {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;

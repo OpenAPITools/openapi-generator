@@ -10,9 +10,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Describes the result of uploading an image resource
+ * ModelApiResponse
  */
-@ApiModel(description = "Describes the result of uploading an image resource")
 
 public class ModelApiResponse   {
   @JsonProperty("code")

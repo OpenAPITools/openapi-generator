@@ -12,9 +12,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * An order for a pets from the pet store
+ * Order
  */
-@ApiModel(description = "An order for a pets from the pet store")
 
 public class Order   {
   @JsonProperty("id")

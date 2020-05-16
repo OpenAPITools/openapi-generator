@@ -25,9 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.DogAllOf;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import org.hibernate.validator.constraints.*;
 
 /**
  * Dog

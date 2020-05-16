@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/}")
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class StoreApiController implements StoreApi {
 
     private final NativeWebRequest request;

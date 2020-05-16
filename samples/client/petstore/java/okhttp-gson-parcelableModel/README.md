@@ -1,4 +1,4 @@
-# petstore-okhttp-gson-parcelableModel
+# petstore-okhttp-gson
 
 OpenAPI Petstore
 - API version: 1.0.0
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>petstore-okhttp-gson-parcelableModel</artifactId>
+  <artifactId>petstore-okhttp-gson</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -49,7 +49,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-okhttp-gson-parcelableModel:1.0.0"
+compile "org.openapitools:petstore-okhttp-gson:1.0.0"
 ```
 
 ### Others
@@ -62,7 +62,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/petstore-okhttp-gson-parcelableModel-1.0.0.jar`
+* `target/petstore-okhttp-gson-1.0.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started

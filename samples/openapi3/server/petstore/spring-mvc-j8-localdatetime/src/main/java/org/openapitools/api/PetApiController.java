@@ -6,7 +6,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/}")
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class PetApiController implements PetApi {
 
     private final NativeWebRequest request;

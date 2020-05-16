@@ -28,7 +28,7 @@ public interface StoreApiDelegate {
     }
 
     /**
-     * DELETE /store/order/{orderId} : Delete purchase order by ID
+     * DELETE /store/order/{order_id} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @param orderId ID of the order that needs to be deleted (required)
@@ -59,7 +59,7 @@ public interface StoreApiDelegate {
     }
 
     /**
-     * GET /store/order/{orderId} : Find purchase order by ID
+     * GET /store/order/{order_id} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
@@ -91,12 +91,12 @@ public interface StoreApiDelegate {
     /**
      * POST /store/order : Place an order for a pet
      *
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
+    default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

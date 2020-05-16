@@ -52,11 +52,10 @@ public class PetApiController implements PetApi {
      * POST /pet : Add a new pet to the store
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return successful operation (status code 200)
-     *         or Invalid input (status code 405)
+     * @return Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    public ResponseEntity<Pet> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
+    public ResponseEntity<Void> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
         return delegate.addPet(pet);
     }
 
@@ -117,13 +116,12 @@ public class PetApiController implements PetApi {
      * PUT /pet : Update an existing pet
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return successful operation (status code 200)
-     *         or Invalid ID supplied (status code 400)
+     * @return Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      * @see PetApi#updatePet
      */
-    public ResponseEntity<Pet> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
+    public ResponseEntity<Void> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
         return delegate.updatePet(pet);
     }
 

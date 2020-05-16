@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/}")
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class PetApiController implements PetApi {
 
     private final NativeWebRequest request;
@@ -54,23 +54,10 @@ public class PetApiController implements PetApi {
      * POST /pet : Add a new pet to the store
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return successful operation (status code 200)
-     *         or Invalid input (status code 405)
+     * @return Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    public ResponseEntity<Pet> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
-                ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Pet> <id>123456789</id> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> </tags> <status>aeiou</status> </Pet>";
-                ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                break;
-            }
-        }
+    public ResponseEntity<Void> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -172,25 +159,12 @@ public class PetApiController implements PetApi {
      * PUT /pet : Update an existing pet
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return successful operation (status code 200)
-     *         or Invalid ID supplied (status code 400)
+     * @return Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      * @see PetApi#updatePet
      */
-    public ResponseEntity<Pet> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
-                ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Pet> <id>123456789</id> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> </tags> <status>aeiou</status> </Pet>";
-                ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                break;
-            }
-        }
+    public ResponseEntity<Void> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

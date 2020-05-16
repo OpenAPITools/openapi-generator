@@ -18,7 +18,7 @@ public class InlineObject   {
   private String name;
 
   @JsonProperty("status")
-  private String status;
+  private JsonNullable<String> status = JsonNullable.undefined();
 
   public InlineObject name(String name) {
     this.name = name;
@@ -41,7 +41,7 @@ public class InlineObject   {
   }
 
   public InlineObject status(String status) {
-    this.status = status;
+    this.status = JsonNullable.of(status);
     return this;
   }
 
@@ -52,11 +52,11 @@ public class InlineObject   {
   @ApiModelProperty(value = "Updated status of the pet")
 
 
-  public String getStatus() {
+  public JsonNullable<String> getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(JsonNullable<String> status) {
     this.status = status;
   }
 

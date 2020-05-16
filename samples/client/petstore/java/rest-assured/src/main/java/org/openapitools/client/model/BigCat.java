@@ -25,9 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import org.hibernate.validator.constraints.*;
 
 /**
  * BigCat

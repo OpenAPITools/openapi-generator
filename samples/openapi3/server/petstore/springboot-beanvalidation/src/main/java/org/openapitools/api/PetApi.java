@@ -50,8 +50,7 @@ public interface PetApi {
      * POST /pet : Add a new pet to the store
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return successful operation (status code 200)
-     *         or Invalid input (status code 405)
+     * @return Invalid input (status code 405)
      */
     @Operation(summary = "Add a new pet to the store", operationId = "addPet" , security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
@@ -60,13 +59,11 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
-       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "405", description = "Invalid input" ) })
     @RequestMapping(value = "/pet",
-        produces = { "application/xml", "application/json" }, 
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
-    ResponseEntity<Pet> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
+    ResponseEntity<Void> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
 
 
     /**
@@ -99,6 +96,7 @@ public interface PetApi {
      */
     @Operation(summary = "Finds Pets by status", operationId = "findPetsByStatus" , security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
+            "write:pets",
             "read:pets"
             })
     }, tags={ "pet", })
@@ -122,6 +120,7 @@ public interface PetApi {
      */
     @Operation(summary = "Finds Pets by tags", operationId = "findPetsByTags" , security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
+            "write:pets",
             "read:pets"
             })
     }, tags={ "pet", })
@@ -160,8 +159,7 @@ public interface PetApi {
      * PUT /pet : Update an existing pet
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return successful operation (status code 200)
-     *         or Invalid ID supplied (status code 400)
+     * @return Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      */
@@ -172,15 +170,13 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
-       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Pet not found" ),
        @ApiResponse(responseCode = "405", description = "Validation exception" ) })
     @RequestMapping(value = "/pet",
-        produces = { "application/xml", "application/json" }, 
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
-    ResponseEntity<Pet> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
+    ResponseEntity<Void> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
 
 
     /**
