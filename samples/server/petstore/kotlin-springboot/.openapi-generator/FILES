@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 build.gradle.kts
 pom.xml
@@ -21,3 +22,6 @@ src/main/kotlin/org/openapitools/model/Pet.kt
 src/main/kotlin/org/openapitools/model/Tag.kt
 src/main/kotlin/org/openapitools/model/User.kt
 src/main/resources/application.yaml
+src/test/kotlin/org/openapitools/api/PetApiTest.kt
+src/test/kotlin/org/openapitools/api/StoreApiTest.kt
+src/test/kotlin/org/openapitools/api/UserApiTest.kt
