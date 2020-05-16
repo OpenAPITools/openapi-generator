@@ -107,8 +107,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * Used in map like objects, including composed schemas.
      * 
      * In most programming languages, the additional (undeclared) properties are stored
-     * in a map data structure, such as HashMap in Java, map[string]interface{}
-     * in golang, or a dict in Python.
+     * in a map data structure, such as HashMap in Java, map in golang, or a dict in Python.
      * There are multiple ways to implement the additionalProperties keyword, depending
      * on the programming language and mustache template.
      * One way is to use class inheritance. For example in the generated Java code, the
