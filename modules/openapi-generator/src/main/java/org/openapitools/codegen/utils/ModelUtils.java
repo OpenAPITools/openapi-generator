@@ -1102,15 +1102,25 @@ public class ModelUtils {
             return (Schema) addProps;
         }
         if (addProps == null) {
-            SemVer version = new SemVer(openAPI.getOpenapi());
-            if (version.major == 2) {
-                // The OAS version 2 parser sets Schema.additionalProperties to the null value
-                // even if the OAS document has additionalProperties: true|false
-                // So we are unable to determine if additional properties are allowed or not.
-                // The original behavior was to assume additionalProperties had been set to false,
-                // we retain that behavior.
-                return null;
-            }    
+            Map<String, Object> extensions = openAPI.getExtensions();
+            if (extensions != null) {
+                // Get original swagger version from OAS extension.
+                // Note openAPI.getOpenapi() is always set to 3.x even when the document
+                // is converted from a OAS/Swagger 2.0 document.
+                // https://github.com/swagger-api/swagger-parser/pull/1374
+                Object ext = extensions.get("x-original-swagger-version");
+                if (ext instanceof String) {
+                    SemVer version = new SemVer((String)ext);
+                    if (version.major == 2) {
+                        // The OAS version 2 parser sets Schema.additionalProperties to the null value
+                        // even if the OAS document has additionalProperties: true|false
+                        // So we are unable to determine if additional properties are allowed or not.
+                        // The original behavior was to assume additionalProperties had been set to false,
+                        // we retain that behavior.
+                        return null;
+                    }    
+                }
+            }
         }
         if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
             // Return ObjectSchema to specify any object (map) value is allowed.
