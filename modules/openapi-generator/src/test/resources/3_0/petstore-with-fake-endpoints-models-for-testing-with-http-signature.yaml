@@ -1533,6 +1533,10 @@ components:
         map_without_additional_properties:
           type: object
           additionalProperties: false
+        map_string:
+          type: object
+          additionalProperties:
+            type: string
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
