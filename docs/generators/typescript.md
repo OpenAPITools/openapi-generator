@@ -20,8 +20,12 @@ When this flag is set to true:
 - The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.
 Note to developers supporting a language generator in OpenAPITools: to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.| |true|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
+|npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
+|npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
+|npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
 |platform|Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
