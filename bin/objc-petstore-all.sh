@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # default setting
 source ./bin/objc-petstore.sh 1>/dev/null

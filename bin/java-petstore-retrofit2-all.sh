@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/java-petstore-retrofit2-play24.sh 1>/dev/null
 source ./bin/java-petstore-retrofit2-play25.sh 1>/dev/null

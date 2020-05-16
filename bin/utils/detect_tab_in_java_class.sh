@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # grep for \t in the generators
 RESULT=`find modules -name "*.java" | xargs grep $'\t'`

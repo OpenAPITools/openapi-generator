@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/kotlin-client-gson.sh 1>/dev/null
 source ./bin/kotlin-client-jackson.sh 1>/dev/null

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # grep for \r in the templates
 grep -RUIl $'\r$' modules/openapi-generator/src/main/resources/*

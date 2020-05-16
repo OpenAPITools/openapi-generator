@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # A script to test all generators to ensure there's no Java exception when running it with OAS 2.0, 3.0 fake petstore spec
 #

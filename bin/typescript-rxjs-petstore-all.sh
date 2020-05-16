@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/typescript-rxjs-petstore-target-es6.sh 1>/dev/null
 source ./bin/typescript-rxjs-petstore-with-npm-version.sh 1>/dev/null

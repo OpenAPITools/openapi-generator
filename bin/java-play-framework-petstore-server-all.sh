@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/java-play-framework-petstore-server.sh 1>/dev/null
 source ./bin/java-play-framework-petstore-server-controller-only.sh 1>/dev/null

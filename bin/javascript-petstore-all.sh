@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/javascript-petstore.sh 1>/dev/null
 source ./bin/javascript-promise-petstore.sh 1>/dev/null

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/typescript-axios-petstore-target-es6.sh 1>/dev/null
 source ./bin/typescript-axios-petstore-with-npm-version.sh 1>/dev/null

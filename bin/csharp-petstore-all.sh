@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # C# Petstore API client (.NET 3.5)
 source ./bin/csharp-petstore.sh 1>/dev/null

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to run all generators extending AbstractJavaJAXRSServerCodegen
 
 source ./bin/jaxrs-petstore-server-datelib-j8.sh 1>/dev/null

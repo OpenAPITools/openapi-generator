@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # update python petstore clients
 
 source ./bin/python-asyncio-petstore.sh 1>/dev/null

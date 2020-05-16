@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/swift5-petstore.sh 1>/dev/null
 source ./bin/swift5-petstore-promisekit.sh 1>/dev/null

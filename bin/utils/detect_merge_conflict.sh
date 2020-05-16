@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # grep for '<<<<<<< HEAD' in openapi-generator
 grep -RUIl '<<<<<<< HEAD' modules/openapi-generator/src

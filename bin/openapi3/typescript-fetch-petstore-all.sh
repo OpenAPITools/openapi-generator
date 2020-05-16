@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/openapi3/typescript-fetch-petstore-target-es6.sh 1>/dev/null
 source ./bin/openapi3/typescript-fetch-petstore-with-npm-version.sh 1>/dev/null

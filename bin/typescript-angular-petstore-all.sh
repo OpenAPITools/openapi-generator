@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/typescript-angular-v2-petstore.sh 1>/dev/null
 source ./bin/typescript-angular-v2-petstore-with-npm.sh 1>/dev/null

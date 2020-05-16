@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # update java petstore clients for all supported http libraries
 
 source ./bin/java-petstore-feign-10x.sh 1>/dev/null

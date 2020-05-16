@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # this bash script runs the scripts for the 'mature' generators by default.
 # Supports --batch option which will compile all generators defined under bin/ci/*.json
 # it ensures that all changes are committed into the 'samples/' folder
@@ -110,7 +110,7 @@ if [ "true" = "$batch_mode" ]; then
   java $JAVA_OPTS -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- "${root}"/bin/ci/*
 else
   for script in "${samples[@]}"; do
-    if env JAVA_OPTS="${JAVA_OPTS}" /bin/bash -c ". $script" > /dev/null 2>&1; then
+    if env JAVA_OPTS="${JAVA_OPTS}" /usr/bin/env bash -c ". $script" > /dev/null 2>&1; then
       echo "Executed $script successfully!"
     else
       echo "ERROR: Failed to run $script"
@@ -120,7 +120,7 @@ else
 fi
 
 for i in "${always_iterate[@]}"; do
-    if env JAVA_OPTS="${JAVA_OPTS}" /bin/bash -c ". $i" > /dev/null 2>&1; then
+    if env JAVA_OPTS="${JAVA_OPTS}" /usr/bin/env bash -c ". $i" > /dev/null 2>&1; then
       echo "Executed $i successfully!"
     else
       echo "ERROR: Failed to run $i"

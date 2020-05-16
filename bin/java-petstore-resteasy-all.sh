@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source ./bin/java-petstore-resteasy.sh 1>/dev/null
 source ./bin/jaxrs-resteasy-eap-petstore-server.sh 1>/dev/null

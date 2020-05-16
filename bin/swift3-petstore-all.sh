@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "#### Petstore Swift API client (default) ####"
 source ./bin/swift3-petstore.sh 1>/dev/null
