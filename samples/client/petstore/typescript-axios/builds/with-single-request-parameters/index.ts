@@ -1,3 +1,4 @@
+// tslint:disable
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -11,25 +12,5 @@
  */
 
 
-/**
- * An order for a pets from the pet store
- */
-export interface Order { 
-    id?: number;
-    petId?: number;
-    quantity?: number;
-    shipDate?: string;
-    /**
-     * Order Status
-     */
-    status?: OrderStatusEnum;
-    complete?: boolean;
-}
-export enum OrderStatusEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-};
-
-
-
+export * from "./api";
+export * from "./configuration";
