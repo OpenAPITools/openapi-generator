@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.google.common.hash.Hashing;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -51,7 +50,6 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
