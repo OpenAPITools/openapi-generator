@@ -69,7 +69,7 @@ class Drawing(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = (one_ofapplebanana.OneOfapplebanana,)  # noqa: E501
+    additional_properties_type = (fruit.Fruit,)  # noqa: E501
 
     @cached_property
     def openapi_types():
