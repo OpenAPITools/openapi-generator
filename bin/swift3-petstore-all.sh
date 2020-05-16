@@ -1,16 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "#### Petstore Swift API client (default) ####"
-./bin/swift3-petstore.sh
+source ./bin/swift3-petstore.sh 1>/dev/null
 
 echo "#### Petstore Swift API client (promisekit) ####"
-./bin/swift3-petstore-promisekit.sh
+source ./bin/swift3-petstore-promisekit.sh 1>/dev/null
 
 echo "#### Petstore Swift API client (rxswift) ####"
-./bin/swift3-petstore-rxswift.sh
+source ./bin/swift3-petstore-rxswift.sh 1>/dev/null
 
 echo "#### Petstore Swift API client (unwraprequired) ####"
-./bin/swift3-petstore-unwraprequired.sh
+source ./bin/swift3-petstore-unwraprequired.sh 1>/dev/null
 
 echo "#### Petstore Swift API client (objcCompatible) ####"
-./bin/swift3-petstore-objcCompatible.sh
+source ./bin/swift3-petstore-objcCompatible.sh 1>/dev/null

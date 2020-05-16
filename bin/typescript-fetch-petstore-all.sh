@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-./bin/typescript-fetch-petstore-target-es6.sh
-./bin/typescript-fetch-petstore-with-npm-version.sh
-./bin/typescript-fetch-petstore-interfaces.sh
-./bin/typescript-fetch-petstore.sh
-./bin/typescript-fetch-petstore-multiple-parameters.sh
-./bin/typescript-fetch-petstore-prefix-parameter-interfaces.sh
-./bin/typescript-fetch-petstore-typescript-three-plus.sh
+source ./bin/typescript-fetch-petstore-target-es6.sh 1>/dev/null
+source ./bin/typescript-fetch-petstore-with-npm-version.sh 1>/dev/null
+source ./bin/typescript-fetch-petstore-interfaces.sh 1>/dev/null
+source ./bin/typescript-fetch-petstore.sh 1>/dev/null
+source ./bin/typescript-fetch-petstore-multiple-parameters.sh 1>/dev/null
+source ./bin/typescript-fetch-petstore-prefix-parameter-interfaces.sh 1>/dev/null
+source ./bin/typescript-fetch-petstore-typescript-three-plus.sh 1>/dev/null

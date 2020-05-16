@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-./bin/javascript-petstore.sh
-./bin/javascript-promise-petstore.sh
-./bin/javascript-es6-petstore.sh
-./bin/javascript-promise-es6-petstore.sh
+source ./bin/javascript-petstore.sh 1>/dev/null
+source ./bin/javascript-promise-petstore.sh 1>/dev/null
+source ./bin/javascript-es6-petstore.sh 1>/dev/null
+source ./bin/javascript-promise-es6-petstore.sh 1>/dev/null

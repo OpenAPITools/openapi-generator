@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-./bin/typescript-rxjs-petstore-target-es6.sh
-./bin/typescript-rxjs-petstore-with-npm-version.sh
-./bin/typescript-rxjs-petstore-interfaces.sh
-./bin/typescript-rxjs-petstore.sh
+source ./bin/typescript-rxjs-petstore-target-es6.sh 1>/dev/null
+source ./bin/typescript-rxjs-petstore-with-npm-version.sh 1>/dev/null
+source ./bin/typescript-rxjs-petstore-interfaces.sh 1>/dev/null
+source ./bin/typescript-rxjs-petstore.sh 1>/dev/null

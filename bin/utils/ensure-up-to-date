@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # this bash script runs the scripts for the 'mature' generators by default.
 # Supports --batch option which will compile all generators defined under bin/ci/*.json
 # it ensures that all changes are committed into the 'samples/' folder
@@ -100,7 +100,7 @@ declare -a always_iterate=(
 "${root}/bin/utils/export_generators_readme.sh"
 )
 
-export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.defaultLogLevel=warn"
+export JAVA_OPTS="${JAVA_OPTS} -server -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.defaultLogLevel=warn"
 if [ "true" = "$batch_mode" ]; then
   if [ ! -f "$executable" ]; then
     (cd "${root}" && mvn -B clean package -DskipTests=true -Dmaven.javadoc.skip=true)
@@ -110,7 +110,7 @@ if [ "true" = "$batch_mode" ]; then
   java $JAVA_OPTS -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- "${root}"/bin/ci/*
 else
   for script in "${samples[@]}"; do
-    if eval "$script" > /dev/null 2>&1; then
+    if env JAVA_OPTS="${JAVA_OPTS}" /bin/bash -c ". $script" > /dev/null 2>&1; then
       echo "Executed $script successfully!"
     else
       echo "ERROR: Failed to run $script"
@@ -120,7 +120,7 @@ else
 fi
 
 for i in "${always_iterate[@]}"; do
-    if eval "$i" > /dev/null 2>&1; then
+    if env JAVA_OPTS="${JAVA_OPTS}" /bin/bash -c ". $i" > /dev/null 2>&1; then
       echo "Executed $i successfully!"
     else
       echo "ERROR: Failed to run $i"

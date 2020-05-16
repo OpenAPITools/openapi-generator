@@ -3,7 +3,7 @@
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
 
-while [ -h "$SCRIPT" ] ; do
+while [ -L "$SCRIPT" ] ; do
   ls=`ls -ld "$SCRIPT"`
   link=`expr "$ls" : '.*-> \(.*\)$'`
   if expr "$link" : '/.*' > /dev/null; then

@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
 
-while [ -h "$SCRIPT" ] ; do
+while [ -L "$SCRIPT" ] ; do
   ls=`ls -ld "$SCRIPT"`
   link=`expr "$ls" : '.*-> \(.*\)$'`
   if expr "$link" : '/.*' > /dev/null; then
@@ -38,4 +38,4 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -t modules/openapi-generator/src/main/resources/go-gin-server -i $SPEC -g $GENERATOR -o $STUB_DIR --additional-properties packageName=petstoreserver --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags
-#!/usr/bin/env bash
+#!/bin/bash

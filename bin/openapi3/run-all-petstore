@@ -10,12 +10,12 @@ sleep 10
 
 successes=0
 failures=0
-export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.defaultLogLevel=warn"
+export JAVA_OPTS="${JAVA_OPTS} -server -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.defaultLogLevel=warn"
 for SCRIPT in $(ls -l ./bin/openapi3/*.sh | grep -v all)
 do
     if [ -f ${SCRIPT} -a -x ${SCRIPT} ]; then
         echo "Running $SCRIPT (output to /dev/null)"
-        ${SCRIPT} 2>&1 > /dev/null
+        env JAVA_OPTS="${JAVA_OPTS}" bash -c "${SCRIPT}" 1>/dev/null 2>&1
         rc=$?
         if [[ ${rc} != 0 ]]; then
             >&2 echo "ERROR!! FAILED TO RUN ${SCRIPT}"

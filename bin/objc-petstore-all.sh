@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # default setting
-./bin/objc-petstore.sh
+source ./bin/objc-petstore.sh 1>/dev/null
 
 # coredata support
-./bin/objc-petstore-coredata.sh
+source ./bin/objc-petstore-coredata.sh 1>/dev/null
 

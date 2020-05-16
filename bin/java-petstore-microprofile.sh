@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
 
-while [ -h "$SCRIPT" ] ; do
+while [ -L "$SCRIPT" ] ; do
   ls=`ls -ld "$SCRIPT"`
   link=`expr "$ls" : '.*-> \(.*\)$'`
   if expr "$link" : '/.*' > /dev/null; then
@@ -26,7 +26,7 @@ then
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate --artifact-id "microprofile-rest-client" -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g java --library microprofile -o samples/client/petstore/java/microprofile-rest-client $@"
 
 echo "Removing files and folders under samples/client/petstore/java/microprofile-rest-client/src/main"

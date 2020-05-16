@@ -1,17 +1,17 @@
-#!/bin/sh
+#!/bin/bash
 
 # C# Petstore API client (.NET 3.5)
-./bin/csharp-petstore.sh
+source ./bin/csharp-petstore.sh 1>/dev/null
 
 # C# Petstore API client with PropertyChanged
-./bin/csharp-property-changed-petstore.sh
+source ./bin/csharp-property-changed-petstore.sh 1>/dev/null
 
 # C# Petstore API client (v5.0 for .net standarnd 1.3+)
-./bin/csharp-petstore-net-standard.sh
+source ./bin/csharp-petstore-net-standard.sh 1>/dev/null
 
 # C# Petstore API client (.NET 4.0)
-./bin/csharp-petstore-net-40.sh
+source ./bin/csharp-petstore-net-40.sh 1>/dev/null
 
 # C# Petstore API client (.NET 3.5)
-./bin/csharp-petstore-net-35.sh
+source ./bin/csharp-petstore-net-35.sh 1>/dev/null
 

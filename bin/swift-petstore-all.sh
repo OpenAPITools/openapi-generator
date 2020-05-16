@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ./bin/swift-petstore.sh
 ./bin/swift-petstore-promisekit.sh

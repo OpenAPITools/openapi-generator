@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-./bin/openapi3/android-petstore-httpclient.sh
-./bin/openapi3/android-petstore-volley.sh
+source ./bin/openapi3/android-petstore-httpclient.sh 1>/dev/null
+source ./bin/openapi3/android-petstore-volley.sh 1>/dev/null
 

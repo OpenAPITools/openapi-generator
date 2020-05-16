@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 # update python petstore clients
 
-./bin/python-asyncio-petstore.sh
-./bin/python-petstore.sh
-./bin/python-experimental-petstore.sh
-./bin/python-tornado-petstore.sh
+source ./bin/python-asyncio-petstore.sh 1>/dev/null
+source ./bin/python-petstore.sh 1>/dev/null
+source ./bin/python-experimental-petstore.sh 1>/dev/null
+source ./bin/python-tornado-petstore.sh 1>/dev/null

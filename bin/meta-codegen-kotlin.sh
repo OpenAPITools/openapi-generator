@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"

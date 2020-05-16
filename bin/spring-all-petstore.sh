@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Generate clients:
 ./bin/spring-cloud-feign-petstore.sh

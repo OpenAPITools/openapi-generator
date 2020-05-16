@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 # C# Petstore API client .NET Standard 2.0
-./bin/csharp-netcore-petstore.sh
+source ./bin/csharp-netcore-petstore.sh 1>/dev/null
 
 # C# Petstore API client .NET Core 2.0
-./bin/csharp-netcore-petstore-netcore.sh
+source ./bin/csharp-netcore-petstore-netcore.sh 1>/dev/null

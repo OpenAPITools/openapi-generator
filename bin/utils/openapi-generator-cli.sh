@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 ####
 # Save as openapi-generator-cli on your PATH. chmod u+x. Enjoy.
 #
