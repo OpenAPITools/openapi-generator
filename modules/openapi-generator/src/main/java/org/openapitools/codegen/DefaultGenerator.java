@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import com.google.common.hash.Hashing;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -49,6 +50,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -57,6 +60,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
 public class DefaultGenerator extends AbstractGenerator implements Generator {
+    private static final String METADATA_DIR = ".openapi-generator";
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
     protected CodegenConfig config;
     protected ClientOptInput opts;
@@ -860,7 +864,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             ));
         }
 
-        String versionMetadata = config.outputFolder() + File.separator + ".openapi-generator" + File.separator + "VERSION";
+        String versionMetadata = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "VERSION";
         if (generateMetadata) {
             File versionMetadataFile = new File(versionMetadata);
             try {
@@ -1057,6 +1061,28 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             sb.append(System.lineSeparator());
 
             System.err.println(sb.toString());
+        } else {
+            if (generateMetadata) {
+                StringBuilder sb = new StringBuilder();
+                File outDir = new File(this.config.getOutputDir());
+                files.stream()
+                        .map(File::toPath)
+                        .sorted(Path::compareTo)
+                        .forEach(f -> {
+                    String relativePath = java.nio.file.Paths.get(outDir.toURI()).relativize(f).toString();
+                    if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
+                        sb.append(relativePath).append(System.lineSeparator());
+                    }
+                });
+
+                String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
+                try {
+                    File filesFile = writeToFile(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
+                    files.add(filesFile);
+                } catch (IOException e) {
+                    LOGGER.warn("Failed to write FILES metadata to track generated files.");
+                }
+            }
         }
 
         // reset GlobalSettings, so that the running thread can be reused for another generator-run
