@@ -809,35 +809,34 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
-        List<String> types = composedSchema.getAnyOf().stream().map(schema -> {
-            String schemaType = getSchemaType(schema);
-            if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                Schema inner = ap.getItems();
-                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
-            }
-            return schemaType;
-        }).distinct().collect(Collectors.toList());
+        List<String> types = getTypesFromSchemas(composedSchema.getAnyOf());
+
         return String.join(" | ", types);
     }
 
     @Override
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
-        List<String> types = composedSchema.getOneOf().stream().map(schema -> {
-            String schemaType = getSchemaType(schema);
-            if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                Schema inner = ap.getItems();
-                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
-            }
-            return schemaType;
-        }).distinct().collect(Collectors.toList());
+        List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
+
         return String.join(" | ", types);
     }
 
     @Override
     public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
-        List<String> types = composedSchema.getAllOf().stream().map(schema -> {
+        List<String> types = getTypesFromSchemas(composedSchema.getAllOf());
+
+        return String.join(" & ", types);
+    }
+
+    /**
+     * Extracts the list of type names from a list of schemas.
+     * Excludes `AnyType` if there are other valid types extracted.
+     *
+     * @param schema list of schemas
+     * @return list of types
+     */
+    protected List<String> getTypesFromSchemas(List<Schema> schemas) {
+        List<String> types = schemas.stream().map(schema -> {
             String schemaType = getSchemaType(schema);
             if (ModelUtils.isArraySchema(schema)) {
                 ArraySchema ap = (ArraySchema) schema;
@@ -846,6 +845,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
             return schemaType;
         }).distinct().collect(Collectors.toList());
-        return String.join(" & ", types);
+
+        if (types.size() > 1 && types.contains("any")) {
+            types.remove("any");
+        }
+
+        return types;
     }
 }
