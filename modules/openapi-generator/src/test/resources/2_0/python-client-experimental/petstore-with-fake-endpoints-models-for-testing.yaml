@@ -1356,6 +1356,8 @@ definitions:
         properties:
           breed:
             type: string
+        additionalProperties: false
+    additionalProperties: false
   Cat:
     allOf:
       - $ref: '#/definitions/Animal'
@@ -1374,6 +1376,7 @@ definitions:
       color:
         type: string
         default: 'red'
+    additionalProperties: false
   AnimalFarm:
     type: array
     items:
@@ -2070,6 +2073,7 @@ definitions:
         properties:
           interNet:
             type: boolean
+    additionalProperties: false
   GrandparentAnimal:
     type: object
     required:
