@@ -30,7 +30,7 @@ declare -a samples=(
 "${root}/bin/java-jaxrs-petstore-server-all.sh"
 "${root}/bin/java-msf4j-petstore-server.sh"
 "${root}/bin/openapi3/jaxrs-jersey-petstore.sh"
-"${root}/bin/spring-all-petstore.sh"
+"${root}/bin/openapi3/spring-all-petstore.sh"
 "${root}/bin/javascript-petstore-all.sh"
 "${root}/bin/kotlin-client-all.sh"
 "${root}/bin/kotlin-server-petstore.sh"
