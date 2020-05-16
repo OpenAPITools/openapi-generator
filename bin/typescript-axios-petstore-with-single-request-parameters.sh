@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/erlang-proper --additional-properties packageName=petstore -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g erlang-proper -o samples/client/petstore/erlang-proper $@"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-axios -o samples/client/petstore/typescript-axios/builds/with-single-request-parameters --additional-properties useSingleRequestParameter=true $@"
 
 java $JAVA_OPTS -jar $executable $ags

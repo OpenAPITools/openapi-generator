@@ -1,21 +1,35 @@
 ---
-title: Config Options for typescript-angularjs
-sidebar_label: typescript-angularjs
+title: Config Options for swift4-deprecated
+sidebar_label: swift4-deprecated
 ---
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |legacyDiscriminatorBehavior|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
-|nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
+|lenientTypeCast|Accept and cast values for simple types (string-&gt;bool, string-&gt;int, int-&gt;string)| |false|
+|nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
+|objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
+|podAuthors|Authors used for Podspec| |null|
+|podDescription|Description used for Podspec| |null|
+|podDocsetURL|Docset URL used for Podspec| |null|
+|podDocumentationURL|Documentation URL used for Podspec| |null|
+|podHomepage|Homepage used for Podspec| |null|
+|podLicense|License used for Podspec| |null|
+|podScreenshots|Screenshots used for Podspec| |null|
+|podSocialMediaURL|Social Media URL used for Podspec| |null|
+|podSource|Source information used for Podspec| |null|
+|podSummary|Summary used for Podspec| |null|
+|podVersion|Version used for Podspec| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|projectName|Project name in Xcode| |null|
+|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result are available.| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|supportsES6|Generate code that conforms to ES6.| |false|
+|swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
+|unwrapRequired|Treat 'required' properties in response as non-optional (which would crash the app if api returns null as opposed to required option specified in json schema| |null|
 
 ## IMPORT MAPPING
 
@@ -27,103 +41,171 @@ sidebar_label: typescript-angularjs
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|Array|
 
 
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>Array</li>
-<li>Boolean</li>
+<li>Any</li>
+<li>AnyObject</li>
+<li>Bool</li>
+<li>Character</li>
+<li>Data</li>
 <li>Date</li>
+<li>Decimal</li>
 <li>Double</li>
-<li>Error</li>
-<li>File</li>
 <li>Float</li>
-<li>Integer</li>
-<li>Long</li>
-<li>Map</li>
-<li>Object</li>
-<li>ReadonlyArray</li>
+<li>Int</li>
+<li>Int32</li>
+<li>Int64</li>
 <li>String</li>
-<li>any</li>
-<li>boolean</li>
-<li>number</li>
-<li>object</li>
-<li>string</li>
+<li>URL</li>
+<li>UUID</li>
+<li>Void</li>
 </ul>
 
 ## RESERVED WORDS
 
 <ul class="column-ul">
-<li>abstract</li>
-<li>await</li>
-<li>boolean</li>
+<li>#available</li>
+<li>#colorLiteral</li>
+<li>#column</li>
+<li>#else</li>
+<li>#elseif</li>
+<li>#endif</li>
+<li>#file</li>
+<li>#fileLiteral</li>
+<li>#function</li>
+<li>#if</li>
+<li>#imageLiteral</li>
+<li>#line</li>
+<li>#selector</li>
+<li>#sourceLocation</li>
+<li>Any</li>
+<li>AnyObject</li>
+<li>Array</li>
+<li>Bool</li>
+<li>COLUMN</li>
+<li>Character</li>
+<li>Class</li>
+<li>ClosedRange</li>
+<li>Codable</li>
+<li>CountableClosedRange</li>
+<li>CountableRange</li>
+<li>Data</li>
+<li>Decodable</li>
+<li>Dictionary</li>
+<li>Double</li>
+<li>Encodable</li>
+<li>Error</li>
+<li>ErrorResponse</li>
+<li>FILE</li>
+<li>FUNCTION</li>
+<li>Float</li>
+<li>Float32</li>
+<li>Float64</li>
+<li>Float80</li>
+<li>Int</li>
+<li>Int16</li>
+<li>Int32</li>
+<li>Int64</li>
+<li>Int8</li>
+<li>LINE</li>
+<li>OptionSet</li>
+<li>Optional</li>
+<li>Protocol</li>
+<li>Range</li>
+<li>Response</li>
+<li>Self</li>
+<li>Set</li>
+<li>StaticString</li>
+<li>String</li>
+<li>Type</li>
+<li>UInt</li>
+<li>UInt16</li>
+<li>UInt32</li>
+<li>UInt64</li>
+<li>UInt8</li>
+<li>URL</li>
+<li>Unicode</li>
+<li>Void</li>
+<li>_</li>
+<li>as</li>
+<li>associatedtype</li>
+<li>associativity</li>
 <li>break</li>
-<li>byte</li>
 <li>case</li>
 <li>catch</li>
-<li>char</li>
 <li>class</li>
-<li>const</li>
 <li>continue</li>
-<li>debugger</li>
+<li>convenience</li>
 <li>default</li>
-<li>delete</li>
+<li>defer</li>
+<li>deinit</li>
+<li>didSet</li>
 <li>do</li>
-<li>double</li>
+<li>dynamic</li>
+<li>dynamicType</li>
 <li>else</li>
 <li>enum</li>
-<li>export</li>
-<li>extends</li>
+<li>extension</li>
+<li>fallthrough</li>
 <li>false</li>
+<li>fileprivate</li>
 <li>final</li>
-<li>finally</li>
-<li>float</li>
 <li>for</li>
-<li>formParams</li>
-<li>function</li>
-<li>goto</li>
-<li>headerParams</li>
+<li>func</li>
+<li>get</li>
+<li>guard</li>
 <li>if</li>
-<li>implements</li>
 <li>import</li>
 <li>in</li>
-<li>instanceof</li>
-<li>int</li>
-<li>interface</li>
+<li>indirect</li>
+<li>infix</li>
+<li>init</li>
+<li>inout</li>
+<li>internal</li>
+<li>is</li>
+<li>lazy</li>
+<li>left</li>
 <li>let</li>
-<li>long</li>
-<li>native</li>
-<li>new</li>
-<li>null</li>
-<li>package</li>
+<li>mutating</li>
+<li>nil</li>
+<li>none</li>
+<li>nonmutating</li>
+<li>open</li>
+<li>operator</li>
+<li>optional</li>
+<li>override</li>
+<li>postfix</li>
+<li>precedence</li>
+<li>prefix</li>
 <li>private</li>
-<li>protected</li>
+<li>protocol</li>
 <li>public</li>
-<li>queryParameters</li>
-<li>requestOptions</li>
+<li>repeat</li>
+<li>required</li>
+<li>rethrows</li>
 <li>return</li>
-<li>short</li>
+<li>right</li>
+<li>self</li>
+<li>set</li>
 <li>static</li>
+<li>struct</li>
+<li>subscript</li>
 <li>super</li>
 <li>switch</li>
-<li>synchronized</li>
-<li>this</li>
 <li>throw</li>
-<li>transient</li>
+<li>throws</li>
 <li>true</li>
 <li>try</li>
-<li>typeof</li>
-<li>useFormData</li>
+<li>typealias</li>
+<li>unowned</li>
 <li>var</li>
-<li>varLocalDeferred</li>
-<li>varLocalPath</li>
-<li>void</li>
-<li>volatile</li>
+<li>weak</li>
+<li>where</li>
 <li>while</li>
-<li>with</li>
-<li>yield</li>
+<li>willSet</li>
 </ul>
 
 ## FEATURE SET
@@ -132,7 +214,7 @@ sidebar_label: typescript-angularjs
 ### Client Modification Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasePath|✓|ToolingExtension
+|BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
 
@@ -172,7 +254,7 @@ sidebar_label: typescript-angularjs
 ### Documentation Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Readme|✓|ToolingExtension
+|Readme|✗|ToolingExtension
 |Model|✓|ToolingExtension
 |Api|✓|ToolingExtension
 
@@ -204,7 +286,7 @@ sidebar_label: typescript-angularjs
 |Body|✓|OAS2
 |FormUnencoded|✓|OAS2
 |FormMultipart|✓|OAS2
-|Cookie|✓|OAS3
+|Cookie|✗|OAS3
 
 ### Schema Support Feature
 | Name | Supported | Defined By |
@@ -217,11 +299,11 @@ sidebar_label: typescript-angularjs
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
 |BearerToken|✗|OAS3
-|OAuth2_Implicit|✗|OAS2,OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
@@ -230,6 +312,6 @@ sidebar_label: typescript-angularjs
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |JSON|✓|OAS2,OAS3
-|XML|✓|OAS2,OAS3
+|XML|✗|OAS2,OAS3
 |PROTOBUF|✗|ToolingExtension
 |Custom|✗|OAS2,OAS3

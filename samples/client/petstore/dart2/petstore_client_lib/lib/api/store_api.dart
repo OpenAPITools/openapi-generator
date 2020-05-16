@@ -53,6 +53,8 @@ class StoreApi {
 
   /// Delete purchase order by ID
   ///
+  ///String orderId  (required):
+  ///     ID of the order that needs to be deleted
   /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
   Future deleteOrder(String orderId) async {
     Response response = await deleteOrderWithHttpInfo(orderId);
@@ -166,6 +168,8 @@ class StoreApi {
 
   /// Find purchase order by ID
   ///
+  ///int orderId  (required):
+  ///     ID of pet that needs to be fetched
   /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   Future<Order> getOrderById(int orderId) async {
     Response response = await getOrderByIdWithHttpInfo(orderId);
@@ -224,6 +228,8 @@ class StoreApi {
 
   /// Place an order for a pet
   ///
+  ///Order body  (required):
+  ///     order placed for purchasing the pet
   /// 
   Future<Order> placeOrder(Order body) async {
     Response response = await placeOrderWithHttpInfo(body);
