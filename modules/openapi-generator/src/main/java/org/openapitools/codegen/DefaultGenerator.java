@@ -53,6 +53,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -1063,7 +1064,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (generateMetadata) {
                 StringBuilder sb = new StringBuilder();
                 File outDir = new File(this.config.getOutputDir());
-                files.stream()
+                Optional.of(files)
+                        .map(Collection::stream)
+                        .orElseGet(Stream::empty)
+                        .filter(Objects::nonNull)
                         .map(File::toPath)
                         .sorted(Path::compareTo)
                         .forEach(f -> {
