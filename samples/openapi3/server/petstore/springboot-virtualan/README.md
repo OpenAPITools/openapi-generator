@@ -16,11 +16,3 @@ You can view the api documentation in swagger-ui by pointing to
 http://localhost:8080/
 
 Change default port value in application.properties
-
-## Virtualan :
-
-You can view Virtualan UI by pointing to  
-http://localhost:80//virtualan-ui.html.
-
-How to use guide available in the Virtualan wiki  
-https://github.com/elan-venture/virtualan/wiki

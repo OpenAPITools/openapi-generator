@@ -3,7 +3,7 @@
   "artifactId": "springboot-virtualan",
   "generatorName": "spring",
   "inputSpec": "modules/openapi-generator/src/test/resources/3_0/petstore_oas3_test.yaml",
-  "outputDir": "samples/opeanpi3/server/petstore/springboot-virtualan",
+  "outputDir": "samples/openapi3/server/petstore/springboot-virtualan",
   "templateDir": "modules/openapi-generator/src/main/resources/JavaSpring",
   "additionalProperties": {
     "hideGenerationTimestamp": true
