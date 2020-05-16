@@ -909,6 +909,15 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
+        if (StringUtils.isNotEmpty(p.get$ref())) {
+            // The input schema is a reference. If the resolved schema is
+            // a composed schema, convert the name to a Python class.
+            Schema s = ModelUtils.getReferencedSchema(this.openAPI, p);
+            if (s instanceof ComposedSchema) {
+                String modelName = ModelUtils.getSimpleRef(p.get$ref());
+                return prefix + toModelName(modelName) + fullSuffix;
+            }
+        }
         if (ModelUtils.isAnyTypeSchema(this.openAPI, p)) {
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
@@ -938,7 +947,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             } else {
                 return prefix + getTypeString(inner, "[", "]") + fullSuffix;
             }
-        }
+        } 
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
@@ -973,15 +982,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         Schema addProps = ModelUtils.getAdditionalProperties(this.openAPI, schema);
         if (addProps != null) {
-            if (StringUtils.isNotEmpty(addProps.get$ref())) {
-                // Resolve reference
-                addProps = ModelUtils.getReferencedSchema(this.openAPI, addProps);
-            }
-            if (addProps != null) {
-                // if AdditionalProperties exists, get its datatype and
-                // store it in codegenModel.additionalPropertiesType.
-                codegenModel.additionalPropertiesType = getTypeDeclaration(addProps);
-            }
+            // if AdditionalProperties exists, get its datatype and
+            // store it in codegenModel.additionalPropertiesType.
+            // The 'addProps' may be a reference, getTypeDeclaration will resolve
+            // the reference.
+            codegenModel.additionalPropertiesType = getTypeDeclaration(addProps);
         }
         // If addProps is null, the value of the 'additionalProperties' keyword is set
         // to false, i.e. no additional properties are allowed.
