@@ -949,6 +949,18 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (servers != null && !servers.isEmpty()) {
             bundle.put("servers", servers);
             bundle.put("hasServers", true);
+
+            if (!config.serverVariableOverrides().isEmpty()) {
+                List<Map<String, String>> keyValuePairs = new ArrayList<>();
+                for (Map.Entry<String, String> entry : config.serverVariableOverrides().entrySet()) {
+                    Map<String, String> keyValuePair = new HashMap<>();
+                    keyValuePair.put("key", entry.getKey());
+                    keyValuePair.put("value", entry.getValue());
+
+                    keyValuePairs.add(keyValuePair);
+                }
+                bundle.put("serverVariables", keyValuePairs);
+            }
         }
 
         if (openAPI.getExternalDocs() != null) {

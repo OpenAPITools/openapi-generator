@@ -59,7 +59,6 @@ import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
-import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -5979,7 +5978,7 @@ public class DefaultCodegen implements CodegenConfig {
         for (Server server : servers) {
             CodegenServer cs = new CodegenServer();
             cs.description = escapeText(server.getDescription());
-            cs.url = escapeText(URLPathUtils.getServerURL(server, this.serverVariables).toString()).replaceAll("/$", "");
+            cs.url = server.getUrl();
             cs.variables = this.fromServerVariables(server.getVariables());
             codegenServers.add(cs);
         }
