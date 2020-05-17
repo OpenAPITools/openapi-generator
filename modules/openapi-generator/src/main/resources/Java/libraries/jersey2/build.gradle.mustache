@@ -134,6 +134,10 @@ ext {
     {{#threetenbp}}
     threetenbp_version = "2.9.10"
     {{/threetenbp}}
+    {{#hasOAuthMethods}}
+    scribejava_apis_version = "6.9.0"
+    {{/hasOAuthMethods}}
+    tomitribe_http_signatures_version = "1.3"
 }
 
 dependencies {
@@ -152,6 +156,10 @@ dependencies {
     {{#java8}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
+    {{#hasOAuthMethods}}
+    compile "com.github.scribejava:scribejava-apis:$scribejava_apis_version"
+    {{/hasOAuthMethods}}
+    compile "org.tomitribe:tomitribe-http-signatures:$tomitribe_http_signatures_version"
     {{#supportJava6}}
     compile "commons-io:commons-io:$commons_io_version"
     compile "org.apache.commons:commons-lang3:$commons_lang3_version"
