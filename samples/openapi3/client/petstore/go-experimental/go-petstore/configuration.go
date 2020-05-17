@@ -104,7 +104,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "http://petstore.swagger.io:80/v2",
+				URL: "http://{server}.swagger.io:{port}/v2",
 				Description: "petstore server",
 				Variables: map[string]ServerVariable{
 					"server": ServerVariable{
@@ -127,7 +127,7 @@ func NewConfiguration() *Configuration {
 				},
 			},
 			{
-				URL: "https://localhost:8080/v2",
+				URL: "https://localhost:8080/{version}",
 				Description: "The local server",
 				Variables: map[string]ServerVariable{
 					"version": ServerVariable{

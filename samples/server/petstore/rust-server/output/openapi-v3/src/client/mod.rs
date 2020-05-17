@@ -956,7 +956,7 @@ impl<C, F> Api<C> for Client<F> where
         context: &C) -> Box<dyn Future<Item=OverrideServerGetResponse, Error=ApiError> + Send>
     {
         let mut uri = format!(
-            "{}http://localhost/override/override-server",
+            "{}/override/override-server",
             self.base_path
         );
 

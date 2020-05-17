@@ -468,7 +468,7 @@ conf = petstore_api.Configuration(
         """
         return [
             {
-                'url': "http://petstore.swagger.io:80/v2",
+                'url': "http://{server}.swagger.io:{port}/v2",
                 'description': "petstore server",
                 'variables': {
                     'server': {
@@ -491,7 +491,7 @@ conf = petstore_api.Configuration(
                     }
             },
             {
-                'url': "https://localhost:8080/v2",
+                'url': "https://localhost:8080/{version}",
                 'description': "The local server",
                 'variables': {
                     'version': {

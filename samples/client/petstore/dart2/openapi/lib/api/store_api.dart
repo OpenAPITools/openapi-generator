@@ -28,10 +28,10 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -46,15 +46,13 @@ class StoreApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Delete purchase order by ID
   ///
-  ///String orderId  (required):
-  ///     ID of the order that needs to be deleted
   /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
   Future deleteOrder(String orderId) async {
     Response response = await deleteOrderWithHttpInfo(orderId);
@@ -84,10 +82,10 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -102,7 +100,7 @@ class StoreApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
@@ -143,10 +141,10 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -161,15 +159,13 @@ class StoreApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Find purchase order by ID
   ///
-  ///int orderId  (required):
-  ///     ID of pet that needs to be fetched
   /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   Future<Order> getOrderById(int orderId) async {
     Response response = await getOrderByIdWithHttpInfo(orderId);
@@ -203,10 +199,10 @@ class StoreApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -221,15 +217,13 @@ class StoreApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Place an order for a pet
   ///
-  ///Order body  (required):
-  ///     order placed for purchasing the pet
   /// 
   Future<Order> placeOrder(Order body) async {
     Response response = await placeOrderWithHttpInfo(body);

@@ -28,10 +28,10 @@ class PetApi {
 
     List<String> contentTypes = ["application/json","application/xml"];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -46,15 +46,13 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Add a new pet to the store
   ///
-  ///Pet body  (required):
-  ///     Pet object that needs to be added to the store
   /// 
   Future addPet(Pet body) async {
     Response response = await addPetWithHttpInfo(body);
@@ -88,10 +86,10 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -106,17 +104,13 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Deletes a pet
   ///
-  ///int petId  (required):
-  ///     Pet id to delete
-  ///String apiKey :
-  ///    
   /// 
   Future deletePet(int petId, { String apiKey }) async {
     Response response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
@@ -150,10 +144,10 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -168,15 +162,13 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Finds Pets by status
   ///
-  ///List&lt;String&gt; status  (required):
-  ///     Status values that need to be considered for filter
   /// Multiple status values can be provided with comma separated strings
   Future<List<Pet>> findPetsByStatus(List<String> status) async {
     Response response = await findPetsByStatusWithHttpInfo(status);
@@ -211,10 +203,10 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -229,15 +221,13 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Finds Pets by tags
   ///
-  ///List&lt;String&gt; tags  (required):
-  ///     Tags to filter by
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
   Future<List<Pet>> findPetsByTags(List<String> tags) async {
     Response response = await findPetsByTagsWithHttpInfo(tags);
@@ -271,10 +261,10 @@ class PetApi {
 
     List<String> contentTypes = [];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["api_key"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -289,15 +279,13 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Find pet by ID
   ///
-  ///int petId  (required):
-  ///     ID of pet to return
   /// Returns a single pet
   Future<Pet> getPetById(int petId) async {
     Response response = await getPetByIdWithHttpInfo(petId);
@@ -331,10 +319,10 @@ class PetApi {
 
     List<String> contentTypes = ["application/json","application/xml"];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -349,15 +337,13 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Update an existing pet
   ///
-  ///Pet body  (required):
-  ///     Pet object that needs to be added to the store
   /// 
   Future updatePet(Pet body) async {
     Response response = await updatePetWithHttpInfo(body);
@@ -390,10 +376,10 @@ class PetApi {
 
     List<String> contentTypes = ["application/x-www-form-urlencoded"];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if (name != null) {
@@ -420,19 +406,13 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// Updates a pet in the store with form data
   ///
-  ///int petId  (required):
-  ///     ID of pet that needs to be updated
-  ///String name :
-  ///     Updated name of the pet
-  ///String status :
-  ///     Updated status of the pet
   /// 
   Future updatePetWithForm(int petId, { String name, String status }) async {
     Response response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
@@ -465,10 +445,10 @@ class PetApi {
 
     List<String> contentTypes = ["multipart/form-data"];
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
@@ -494,19 +474,13 @@ class PetApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             nullableContentType,
+                                             contentType,
                                              authNames);
     return response;
   }
 
   /// uploads an image
   ///
-  ///int petId  (required):
-  ///     ID of pet to update
-  ///String additionalMetadata :
-  ///     Additional data to pass to server
-  ///MultipartFile file :
-  ///     file to upload
   /// 
   Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
     Response response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
