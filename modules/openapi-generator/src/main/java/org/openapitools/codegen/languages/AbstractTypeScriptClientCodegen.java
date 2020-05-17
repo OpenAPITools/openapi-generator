@@ -832,11 +832,15 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * Extracts the list of type names from a list of schemas.
      * Excludes `AnyType` if there are other valid types extracted.
      *
-     * @param schema list of schemas
+     * @param schemas list of schemas
      * @return list of types
      */
     protected List<String> getTypesFromSchemas(List<Schema> schemas) {
-        List<String> types = schemas.stream().map(schema -> {
+        List<Schema> filteredSchemas = schemas.size() > 1
+            ? schemas.stream().filter(schema -> super.getSchemaType(schema) != "AnyType").collect(Collectors.toList())
+            : schemas;
+
+        return filteredSchemas.stream().map(schema -> {
             String schemaType = getSchemaType(schema);
             if (ModelUtils.isArraySchema(schema)) {
                 ArraySchema ap = (ArraySchema) schema;
@@ -845,11 +849,5 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
             return schemaType;
         }).distinct().collect(Collectors.toList());
-
-        if (types.size() > 1 && types.contains("any")) {
-            types.remove("any");
-        }
-
-        return types;
     }
 }
