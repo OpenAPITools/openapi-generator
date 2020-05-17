@@ -36,7 +36,7 @@ public class UserApi extends OpenApi {
     /*
      * Returns void 
      */
-    public function create_user (user: User): String {
+    public function create_user (body: User): String {
         // create path and map variables
         var path: String = "/user".replace(/{format}/g,"xml");
 
@@ -51,7 +51,7 @@ public class UserApi extends OpenApi {
 
         
         
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, user, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -66,7 +66,7 @@ public class UserApi extends OpenApi {
     /*
      * Returns void 
      */
-    public function create_users_with_array_input (user: Array): String {
+    public function create_users_with_array_input (body: Array): String {
         // create path and map variables
         var path: String = "/user/createWithArray".replace(/{format}/g,"xml");
 
@@ -81,7 +81,7 @@ public class UserApi extends OpenApi {
 
         
         
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, user, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -96,7 +96,7 @@ public class UserApi extends OpenApi {
     /*
      * Returns void 
      */
-    public function create_users_with_list_input (user: Array): String {
+    public function create_users_with_list_input (body: Array): String {
         // create path and map variables
         var path: String = "/user/createWithList".replace(/{format}/g,"xml");
 
@@ -111,7 +111,7 @@ public class UserApi extends OpenApi {
 
         
         
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, user, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
@@ -250,7 +250,7 @@ if("null" != String(password))
     /*
      * Returns void 
      */
-    public function update_user (username: String, user: User): String {
+    public function update_user (username: String, body: User): String {
         // create path and map variables
         var path: String = "/user/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
 
@@ -269,7 +269,7 @@ if("null" != String(password))
 
         
         
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, user, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 

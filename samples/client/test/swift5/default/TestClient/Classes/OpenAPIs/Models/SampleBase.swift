@@ -8,7 +8,8 @@
 import Foundation
 
 /** This is a base class object from which other classes will derive. */
-public struct SampleBase: Codable {
+public struct SampleBase: Codable { 
+
 
     public var baseClassStringProp: String?
     public var baseClassIntegerProp: Int?

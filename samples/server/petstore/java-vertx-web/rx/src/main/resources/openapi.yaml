@@ -26,7 +26,16 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        405:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -42,11 +51,20 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        400:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
-        405:
+        "405":
           description: Validation exception
       security:
       - petstore_auth:
@@ -78,7 +96,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -91,7 +109,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid status value
       security:
       - petstore_auth:
@@ -118,7 +136,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -131,7 +149,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid tag value
       security:
       - petstore_auth:
@@ -161,7 +179,7 @@ paths:
           type: integer
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -185,7 +203,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -194,9 +212,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
       security:
       - api_key: []
@@ -230,7 +248,7 @@ paths:
                   type: string
               type: object
       responses:
-        405:
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -269,7 +287,7 @@ paths:
                   type: string
               type: object
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -289,7 +307,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getInventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -315,7 +333,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -324,7 +342,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid Order
       summary: Place an order for a pet
       tags:
@@ -346,9 +364,9 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -371,7 +389,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -380,9 +398,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -403,7 +421,7 @@ paths:
         default:
           description: successful operation
       security:
-      - auth_cookie: []
+      - api_key: []
       summary: Create user
       tags:
       - user
@@ -418,7 +436,7 @@ paths:
         default:
           description: successful operation
       security:
-      - auth_cookie: []
+      - api_key: []
       summary: Creates list of users with given input array
       tags:
       - user
@@ -433,7 +451,7 @@ paths:
         default:
           description: successful operation
       security:
-      - auth_cookie: []
+      - api_key: []
       summary: Creates list of users with given input array
       tags:
       - user
@@ -461,7 +479,7 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -472,8 +490,8 @@ paths:
           description: successful operation
           headers:
             Set-Cookie:
-              description: Cookie authentication key for use with the `auth_cookie`
-                apiKey authentication.
+              description: Cookie authentication key for use with the `api_key` apiKey
+                authentication.
               explode: false
               schema:
                 example: AUTH_KEY=abcde12345; Path=/; HttpOnly
@@ -493,7 +511,7 @@ paths:
                 format: date-time
                 type: string
               style: simple
-        400:
+        "400":
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -506,7 +524,7 @@ paths:
         default:
           description: successful operation
       security:
-      - auth_cookie: []
+      - api_key: []
       summary: Logs out current logged in user session
       tags:
       - user
@@ -525,12 +543,12 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       security:
-      - auth_cookie: []
+      - api_key: []
       summary: Delete user
       tags:
       - user
@@ -547,7 +565,7 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -556,9 +574,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       summary: Get user by user name
       tags:
@@ -584,12 +602,12 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           description: Invalid user supplied
-        404:
+        "404":
           description: User not found
       security:
-      - auth_cookie: []
+      - api_key: []
       summary: Updated user
       tags:
       - user
@@ -830,8 +848,4 @@ components:
     api_key:
       in: header
       name: api_key
-      type: apiKey
-    auth_cookie:
-      in: cookie
-      name: AUTH_KEY
       type: apiKey

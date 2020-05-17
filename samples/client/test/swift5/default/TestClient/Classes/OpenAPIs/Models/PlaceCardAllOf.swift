@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct PlaceCardAllOf: Codable {
+
+public struct PlaceCardAllOf: Codable { 
+
 
     public var placeName: String?
     public var placeAddress: String?

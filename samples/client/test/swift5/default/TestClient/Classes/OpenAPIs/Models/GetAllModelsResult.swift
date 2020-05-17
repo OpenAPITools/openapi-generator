@@ -8,7 +8,8 @@
 import Foundation
 
 /** Response object containing AllPrimitives object */
-public struct GetAllModelsResult: Codable {
+public struct GetAllModelsResult: Codable { 
+
 
     public var myPrimitiveArray: [AllPrimitives]?
     public var myPrimitive: AllPrimitives?

@@ -52,11 +52,11 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 ///
 /// Add a new pet to the store
 /// 
-///  @param pet Pet object that needs to be added to the store (optional)
+///  @param body Pet object that needs to be added to the store (optional)
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) addPetWithPet: (SWGPet*) pet
+-(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
@@ -83,7 +83,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = pet;
+    bodyParam = body;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
@@ -193,7 +193,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if (status != nil) {
-        queryParams[@"status"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: status format: @"csv"];
+        queryParams[@"status"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: status format: @"multi"];
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
@@ -250,7 +250,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if (tags != nil) {
-        queryParams[@"tags"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: tags format: @"csv"];
+        queryParams[@"tags"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: tags format: @"multi"];
     }
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
@@ -363,11 +363,11 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 ///
 /// Update an existing pet
 /// 
-///  @param pet Pet object that needs to be added to the store (optional)
+///  @param body Pet object that needs to be added to the store (optional)
 ///
 ///  @returns void
 ///
--(NSURLSessionTask*) updatePetWithPet: (SWGPet*) pet
+-(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
@@ -394,7 +394,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    bodyParam = pet;
+    bodyParam = body;
 
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"PUT"

@@ -5887,7 +5887,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/user"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -5903,11 +5903,11 @@ public class UserApiExample {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
-        // Configure API key authorization: auth_cookie
-        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
-        auth_cookie.setApiKey("YOUR API KEY");
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //auth_cookie.setApiKeyPrefix("Token");
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi();
         User user = ; // User | 
@@ -5946,10 +5946,10 @@ public class UserApiExample {
                             <div class="tab-pane" id="examples-User-createUser-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
-// Configure API key authorization: (authentication scheme: auth_cookie)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 User *user = ; // 
 
@@ -5969,11 +5969,11 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
 
-// Configure API key authorization: auth_cookie
-var auth_cookie = defaultClient.authentications['auth_cookie'];
-auth_cookie.apiKey = "YOUR API KEY"
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
+//api_key.apiKeyPrefix['api_key'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {User} 
@@ -6006,10 +6006,10 @@ namespace Example
         public void main()
         {
             
-            // Configure API key authorization: auth_cookie
-            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
 
             var apiInstance = new UserApi();
             var user = new User(); // User | 
@@ -6033,10 +6033,10 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: auth_cookie
-OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // User | 
@@ -6054,10 +6054,10 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
-# Configure API key authorization: auth_cookie
-$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = WWW::OPenAPIClient::Object::User->new(); # User | 
@@ -6077,10 +6077,10 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Configure API key authorization: auth_cookie
-openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -6225,7 +6225,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUsersWithArrayInput-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user/createWithArray"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/user/createWithArray"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -6241,11 +6241,11 @@ public class UserApiExample {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
-        // Configure API key authorization: auth_cookie
-        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
-        auth_cookie.setApiKey("YOUR API KEY");
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //auth_cookie.setApiKeyPrefix("Token");
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi();
         array[User] user = ; // array[User] | 
@@ -6284,10 +6284,10 @@ public class UserApiExample {
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
-// Configure API key authorization: (authentication scheme: auth_cookie)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 array[User] *user = ; // 
 
@@ -6307,11 +6307,11 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
 
-// Configure API key authorization: auth_cookie
-var auth_cookie = defaultClient.authentications['auth_cookie'];
-auth_cookie.apiKey = "YOUR API KEY"
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
+//api_key.apiKeyPrefix['api_key'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {array[User]} 
@@ -6344,10 +6344,10 @@ namespace Example
         public void main()
         {
             
-            // Configure API key authorization: auth_cookie
-            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
 
             var apiInstance = new UserApi();
             var user = new array[User](); // array[User] | 
@@ -6371,10 +6371,10 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: auth_cookie
-OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // array[User] | 
@@ -6392,10 +6392,10 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
-# Configure API key authorization: auth_cookie
-$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = [WWW::OPenAPIClient::Object::array[User]->new()]; # array[User] | 
@@ -6415,10 +6415,10 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Configure API key authorization: auth_cookie
-openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -6566,7 +6566,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUsersWithListInput-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user/createWithList"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/user/createWithList"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -6582,11 +6582,11 @@ public class UserApiExample {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
-        // Configure API key authorization: auth_cookie
-        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
-        auth_cookie.setApiKey("YOUR API KEY");
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //auth_cookie.setApiKeyPrefix("Token");
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi();
         array[User] user = ; // array[User] | 
@@ -6625,10 +6625,10 @@ public class UserApiExample {
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
-// Configure API key authorization: (authentication scheme: auth_cookie)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 array[User] *user = ; // 
 
@@ -6648,11 +6648,11 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
 
-// Configure API key authorization: auth_cookie
-var auth_cookie = defaultClient.authentications['auth_cookie'];
-auth_cookie.apiKey = "YOUR API KEY"
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
+//api_key.apiKeyPrefix['api_key'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {array[User]} 
@@ -6685,10 +6685,10 @@ namespace Example
         public void main()
         {
             
-            // Configure API key authorization: auth_cookie
-            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
 
             var apiInstance = new UserApi();
             var user = new array[User](); // array[User] | 
@@ -6712,10 +6712,10 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: auth_cookie
-OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // array[User] | 
@@ -6733,10 +6733,10 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
-# Configure API key authorization: auth_cookie
-$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = [WWW::OPenAPIClient::Object::array[User]->new()]; # array[User] | 
@@ -6756,10 +6756,10 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Configure API key authorization: auth_cookie
-openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -6907,7 +6907,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-deleteUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/user/{username}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-deleteUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -6923,11 +6923,11 @@ public class UserApiExample {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
-        // Configure API key authorization: auth_cookie
-        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
-        auth_cookie.setApiKey("YOUR API KEY");
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //auth_cookie.setApiKeyPrefix("Token");
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | The name that needs to be deleted
@@ -6966,10 +6966,10 @@ public class UserApiExample {
                             <div class="tab-pane" id="examples-User-deleteUser-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
-// Configure API key authorization: (authentication scheme: auth_cookie)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 String *username = username_example; // The name that needs to be deleted (default to null)
 
@@ -6989,11 +6989,11 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
 
-// Configure API key authorization: auth_cookie
-var auth_cookie = defaultClient.authentications['auth_cookie'];
-auth_cookie.apiKey = "YOUR API KEY"
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
+//api_key.apiKeyPrefix['api_key'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var username = username_example; // {String} The name that needs to be deleted
@@ -7026,10 +7026,10 @@ namespace Example
         public void main()
         {
             
-            // Configure API key authorization: auth_cookie
-            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
 
             var apiInstance = new UserApi();
             var username = username_example;  // String | The name that needs to be deleted (default to null)
@@ -7053,10 +7053,10 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: auth_cookie
-OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | The name that needs to be deleted
@@ -7074,10 +7074,10 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
-# Configure API key authorization: auth_cookie
-$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | The name that needs to be deleted
@@ -7097,10 +7097,10 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Configure API key authorization: auth_cookie
-openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -7936,7 +7936,7 @@ The password for login in clear text
   "description" : "successful operation",
   "headers" : {
     "Set-Cookie" : {
-      "description" : "Cookie authentication key for use with the `auth_cookie` apiKey authentication.",
+      "description" : "Cookie authentication key for use with the `api_key` apiKey authentication.",
       "style" : "simple",
       "explode" : false,
       "schema" : {
@@ -8013,7 +8013,7 @@ The password for login in clear text
                                                   <td>SetMinusCookie</td>
                                                   <td>String</td>
                                                   <td></td>
-                                                  <td>Cookie authentication key for use with the &#x60;auth_cookie&#x60; apiKey authentication.</td>
+                                                  <td>Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication.</td>
                                               </tr>
                                               <tr>
                                                   <td>XMinusRateMinusLimit</td>
@@ -8088,7 +8088,7 @@ The password for login in clear text
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-logoutUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/logout"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/user/logout"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-logoutUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -8104,11 +8104,11 @@ public class UserApiExample {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
-        // Configure API key authorization: auth_cookie
-        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
-        auth_cookie.setApiKey("YOUR API KEY");
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //auth_cookie.setApiKeyPrefix("Token");
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi();
         try {
@@ -8145,10 +8145,10 @@ public class UserApiExample {
                             <div class="tab-pane" id="examples-User-logoutUser-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
-// Configure API key authorization: (authentication scheme: auth_cookie)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 
 UserApi *apiInstance = [[UserApi alloc] init];
@@ -8167,11 +8167,11 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
 
-// Configure API key authorization: auth_cookie
-var auth_cookie = defaultClient.authentications['auth_cookie'];
-auth_cookie.apiKey = "YOUR API KEY"
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
+//api_key.apiKeyPrefix['api_key'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var callback = function(error, data, response) {
@@ -8202,10 +8202,10 @@ namespace Example
         public void main()
         {
             
-            // Configure API key authorization: auth_cookie
-            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
 
             var apiInstance = new UserApi();
 
@@ -8228,10 +8228,10 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: auth_cookie
-OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 
@@ -8248,10 +8248,10 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
-# Configure API key authorization: auth_cookie
-$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 
@@ -8270,10 +8270,10 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Configure API key authorization: auth_cookie
-openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -8370,7 +8370,7 @@ pub fn main() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-updateUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "http://petstore.swagger.io/v2/user/{username}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-updateUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
@@ -8386,11 +8386,11 @@ public class UserApiExample {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         
-        // Configure API key authorization: auth_cookie
-        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
-        auth_cookie.setApiKey("YOUR API KEY");
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //auth_cookie.setApiKeyPrefix("Token");
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | name that need to be deleted
@@ -8431,10 +8431,10 @@ public class UserApiExample {
                             <div class="tab-pane" id="examples-User-updateUser-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
-// Configure API key authorization: (authentication scheme: auth_cookie)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Configure API key authorization: (authentication scheme: api_key)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 String *username = username_example; // name that need to be deleted (default to null)
 User *user = ; // 
@@ -8456,11 +8456,11 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
 
-// Configure API key authorization: auth_cookie
-var auth_cookie = defaultClient.authentications['auth_cookie'];
-auth_cookie.apiKey = "YOUR API KEY"
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
+//api_key.apiKeyPrefix['api_key'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var username = username_example; // {String} name that need to be deleted
@@ -8494,10 +8494,10 @@ namespace Example
         public void main()
         {
             
-            // Configure API key authorization: auth_cookie
-            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Configure API key authorization: api_key
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
 
             var apiInstance = new UserApi();
             var username = username_example;  // String | name that need to be deleted (default to null)
@@ -8522,10 +8522,10 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: auth_cookie
-OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Configure API key authorization: api_key
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | name that need to be deleted
@@ -8544,10 +8544,10 @@ try {
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
 
-# Configure API key authorization: auth_cookie
-$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# Configure API key authorization: api_key
+$WWW::OPenAPIClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | name that need to be deleted
@@ -8568,10 +8568,10 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Configure API key authorization: auth_cookie
-openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Configure API key authorization: api_key
+openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
+# openapi_client.configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()

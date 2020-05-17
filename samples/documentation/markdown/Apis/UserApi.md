@@ -34,7 +34,7 @@ null (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -59,7 +59,7 @@ null (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -84,7 +84,7 @@ null (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -111,7 +111,7 @@ null (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -184,7 +184,7 @@ null (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -212,7 +212,7 @@ null (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

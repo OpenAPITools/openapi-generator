@@ -32,7 +32,7 @@ petstore-cli createUser
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md) | Created user object |
+ **body** | [**User**](User.md) | Created user object |
 
 ### Return type
 
@@ -44,7 +44,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -65,7 +65,7 @@ petstore-cli createUsersWithArrayInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**array[User]**](User.md) | List of user object |
+ **body** | [**array[User]**](User.md) | List of user object |
 
 ### Return type
 
@@ -77,7 +77,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -98,7 +98,7 @@ petstore-cli createUsersWithListInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**array[User]**](User.md) | List of user object |
+ **body** | [**array[User]**](User.md) | List of user object |
 
 ### Return type
 
@@ -110,7 +110,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -266,7 +266,7 @@ petstore-cli updateUser username=value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string** | name that need to be deleted | [default to null]
- **user** | [**User**](User.md) | Updated user object |
+ **body** | [**User**](User.md) | Updated user object |
 
 ### Return type
 
@@ -278,7 +278,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

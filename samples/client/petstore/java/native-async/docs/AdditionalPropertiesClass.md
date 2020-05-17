@@ -14,9 +14,9 @@ Name | Type | Description | Notes
 **mapArrayAnytype** | [**Map&lt;String, List&lt;Object&gt;&gt;**](List.md) |  |  [optional]
 **mapMapString** | [**Map&lt;String, Map&lt;String, String&gt;&gt;**](Map.md) |  |  [optional]
 **mapMapAnytype** | [**Map&lt;String, Map&lt;String, Object&gt;&gt;**](Map.md) |  |  [optional]
-**anytype1** | [**Object**](.md) |  |  [optional]
-**anytype2** | [**Object**](.md) |  |  [optional]
-**anytype3** | [**Object**](.md) |  |  [optional]
+**anytype1** | **Object** |  |  [optional]
+**anytype2** | **Object** |  |  [optional]
+**anytype3** | **Object** |  |  [optional]
 
 
 
