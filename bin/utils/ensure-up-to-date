@@ -88,6 +88,7 @@ declare -a samples=(
 "${root}/bin/scala-akka-petstore.sh"
 "${root}/bin/openapi3/scala-akka-petstore.sh"
 "${root}/bin/openapi3/scala-sttp-petstore.sh"
+"${root}/bin/lua-petstore.sh"
 )
 
 # Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)

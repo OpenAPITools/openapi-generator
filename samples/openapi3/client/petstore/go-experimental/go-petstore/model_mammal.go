@@ -14,79 +14,75 @@ import (
 	"fmt"
 )
 
-// Mammal struct for Mammal
+// Mammal - struct for Mammal
 type Mammal struct {
-	MammalInterface interface { GetClassName() string }
+	Whale *Whale
+	Zebra *Zebra
 }
 
-func (s Mammal) MarshalJSON() ([]byte, error) {
-	return json.Marshal(s.MammalInterface)
-}
-
-func (s *Mammal) UnmarshalJSON(src []byte) error {
+// Unmarshl JSON data into one of the pointers in the struct
+func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
-	var unmarshaled map[string]interface{}
-	err = json.Unmarshal(src, &unmarshaled)
-	if err != nil {
-		return err
-	}
-	if v, ok := unmarshaled["className"]; ok {
-		switch v {
-			case "whale":
-				var result *Whale = &Whale{}
-				err = json.Unmarshal(src, result)
-				if err != nil {
-					return err
-				}
-				s.MammalInterface = result
-				return nil
-			case "zebra":
-				var result *Zebra = &Zebra{}
-				err = json.Unmarshal(src, result)
-				if err != nil {
-					return err
-				}
-				s.MammalInterface = result
-				return nil
-			default:
-				return fmt.Errorf("No oneOf model has 'className' equal to %s", v)
+	match := 0
+	// try to unmarshal data into Whale
+	err = json.Unmarshal(data, &dst.Whale);
+	if err == nil {
+		jsonWhale, _ := json.Marshal(dst.Whale)
+		if string(jsonWhale) == "{}" { // empty struct
+			dst.Whale = nil
+		} else {
+			match++
 		}
 	} else {
-		return fmt.Errorf("Discriminator property 'className' not found in unmarshaled payload: %+v", unmarshaled)
+		dst.Whale = nil
+	}
+
+	// try to unmarshal data into Zebra
+	err = json.Unmarshal(data, &dst.Zebra);
+	if err == nil {
+		jsonZebra, _ := json.Marshal(dst.Zebra)
+		if string(jsonZebra) == "{}" { // empty struct
+			dst.Zebra = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.Zebra = nil
+	}
+
+	if match > 1 { // more than 1 match
+		return fmt.Errorf("Data matches more than one schema in oneOf(Mammal)")
+	} else if match == 1 {
+		return nil // exactly one match
+	} else { // no match
+		return fmt.Errorf("Data failed to match schemas in oneOf(Mammal)")
 	}
 }
-type NullableMammal struct {
-	value *Mammal
-	isSet bool
+
+// Marshl data from the first non-nil pointers in the struct to JSON
+func (src *Mammal) MarshalJSON() ([]byte, error) {
+	if src.Whale != nil {
+		return json.Marshal(&src.Whale)
+	}
+
+	if src.Zebra != nil {
+		return json.Marshal(&src.Zebra)
+	}
+
+	return nil, nil // no data in oneOf schemas
 }
 
-func (v NullableMammal) Get() *Mammal {
-	return v.value
+// Get the actual instance
+func (obj *Mammal) GetActualInstance() (interface{}) {
+	if obj.Whale != nil {
+		return obj.Whale
+	}
+
+	if obj.Zebra != nil {
+		return obj.Zebra
+	}
+
+	// all schemas are nil
+	return nil
 }
 
-func (v *NullableMammal) Set(val *Mammal) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableMammal) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableMammal) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableMammal(val *Mammal) *NullableMammal {
-	return &NullableMammal{value: val, isSet: true}
-}
-
-func (v NullableMammal) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
-}
-
-func (v *NullableMammal) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
-}

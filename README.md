@@ -637,6 +637,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Vouchery.io](https://vouchery.io)
 - [Xero](https://www.xero.com/)
 - [Yahoo Japan](https://www.yahoo.co.jp/)
+- [Vonage](https://vonage.com)
 - [YITU Technology](https://www.yitutech.com/)
 - [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
@@ -744,6 +745,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-03-15 - [Load Testing Your API with Swagger/OpenAPI and k6](https://k6.io/blog/load-testing-your-api-with-swagger-openapi-and-k6)
 - 2020-04-13 - [俺的【OAS】との向き合い方 (爆速でOpenAPIと友達になろう)](https://tech-blog.optim.co.jp/entry/2020/04/13/100000) in [OPTim Blog](https://tech-blog.optim.co.jp/)
 - 2020-04-22 - [Introduction to OpenAPI Generator](https://nordicapis.com/introduction-to-openapi-generator/) by [Kristopher Sandoval](https://nordicapis.com/author/sandovaleffect/) in [Nordic APIs](https://nordicapis.com/)
+- 2020-05-09 - [OpenAPIでお手軽にモックAPIサーバーを動かす](https://qiita.com/kasa_le/items/97ca6a8dd4605695c25c) by [Sachie Kamba](https://qiita.com/kasa_le)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -758,6 +760,7 @@ OpenAPI Generator core team members are contributors who have been making signif
 * [@ackintosh](https://github.com/ackintosh) (2018/02) [:heart:](https://www.patreon.com/ackintosh/overview)
 * [@jmini](https://github.com/jmini) (2018/04)  [:heart:](https://www.patreon.com/jmini)
 * [@etherealjoy](https://github.com/etherealjoy) (2019/06)
+* [@spacether](https://github.com/spacether) (2020/05)
 
 :heart: = Link to support the contributor directly
 
@@ -883,6 +886,7 @@ Here is a list of template creators:
    * AsciiDoc: @man-at-home
    * HTML Doc 2: @jhitchcock
    * Confluence Wiki: @jhitchcock
+   * PlantUML: @pburls
  * Configuration
    * Apache2: @stkrwork
    * k6: @mostafa
@@ -934,7 +938,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C++               | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                     |
 | C#                | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) @frankyjuang (2019/09) @shibayan (2020/02)                                                                                             |
 | Clojure           |                                                                                                                                                                                                                                   |
-| Dart              | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @nickmeinhold (2019/09) @athornz (2019/12) @amondnet (2019/12)                                                                                                        |
+| Dart              | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @athornz (2019/12) @amondnet (2019/12)                                                                                                        |
 | Eiffel            | @jvelilla (2017/09)                                                                                                                                                                                                               |
 | Elixir            | @mrmstn (2018/12)                                                                                                                                                                                                                 |
 | Elm               | @eriktim (2018/09)                                                                                                                                                                                                                |
@@ -954,7 +958,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Perl              | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                               |
 | PHP               | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ackintosh (2017/09) [:heart:](https://www.patreon.com/ackintosh/overview), @ybelenko (2018/07), @renepardon (2018/12)                     |
 | PowerShell        |                                                                                                                                                                                                                                   |
-| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) @slash-arun (2019/11) @spacether (2019/11)                                                |
+| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) @arun-nalla (2019/11) @spacether (2019/11)                                                |
 | R                 | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                       |
 | Ruby              | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                             |
 | Rust              | @frol (2017/07) @farcaller (2017/08) @bjgill (2017/12) @richardwhiuk (2019/07) @paladinzh (2020/05)                                                                                                                               |

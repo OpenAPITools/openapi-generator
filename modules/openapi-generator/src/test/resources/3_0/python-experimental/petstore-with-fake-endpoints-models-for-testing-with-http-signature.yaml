@@ -1250,22 +1250,32 @@ components:
           type: integer
           format: int32
           description: User Status
-        arbitraryObject:
+        objectWithNoDeclaredProps:
           type: object
           description: test code generation for objects
             Value must be a map of strings to values. It cannot be the 'null' value.
-        arbitraryNullableObject:
+        objectWithNoDeclaredPropsNullable:
           type: object
           description: test code generation for nullable objects.
             Value must be a map of strings to values or the 'null' value.
           nullable: true
-        arbitraryTypeValue:
+        anyTypeProp:
           description: test code generation for any type
-            Value can be any type - string, number, boolean, array or object.
-        arbitraryNullableTypeValue:
+            Here the 'type' attribute is not specified, which means the value can be anything,
+            including the null value, string, number, boolean, array or object.
+            See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        # TODO: this should be supported, currently there are some issues in the code generation.
+        #anyTypeExceptNullProp:
+        #  description: any type except 'null'
+        #    Here the 'type' attribute is not specified, which means the value can be anything,
+        #    including the null value, string, number, boolean, array or object.
+        #  not:
+        #    type: 'null'
+        anyTypePropNullable:
           description: test code generation for any type
-            Value can be any type - string, number, boolean, array, object or
-            the 'null' value.
+            Here the 'type' attribute is not specified, which means the value can be anything,
+            including the null value, string, number, boolean, array or object.
+            The 'nullable' attribute does not change the allowed values.
           nullable: true
       xml:
         name: User
@@ -1808,6 +1818,10 @@ components:
       properties:
         cultivar:
           type: string
+          pattern: ^[a-zA-Z\s]*$
+        origin:
+          type: string
+          pattern: /^[A-Z\s]*$/i
     banana:
       type: object
       properties:
@@ -1855,6 +1869,7 @@ components:
           - $ref: '#/components/schemas/banana'
     fruitReq:
        oneOf:
+          - type: 'null'
           - $ref: '#/components/schemas/appleReq'
           - $ref: '#/components/schemas/bananaReq'
     appleReq:
@@ -1877,6 +1892,17 @@ components:
         - lengthCm
     # go-experimental is unable to make Triangle and Quadrilateral models
     # correctly https://github.com/OpenAPITools/openapi-generator/issues/6149
+    Drawing:
+      type: object
+      properties:
+        mainShape:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being define inline.
+          $ref: '#/components/schemas/Shape'
+        shapes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Shape'
     Shape:
       oneOf:
         - $ref: '#/components/schemas/Triangle'
@@ -1934,3 +1960,26 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
+    # The following hierarchy is used to test discriminators
+    # that require recursive lookups.
+    biology.Chordate:
+      type: object
+      discriminator:
+        propertyName: className
+      required:
+        - className
+      properties:
+        className:
+          type: string
+    biology.Reptile:
+      allOf:
+        - $ref: '#/components/schemas/biology.Chordate'
+    biology.Mammal:
+      allOf:
+        - $ref: '#/components/schemas/biology.Chordate'
+    biology.Primate:
+      allOf:
+        - $ref: '#/components/schemas/biology.Mammal'
+    biology.Hominid:
+      allOf:
+        - $ref: '#/components/schemas/biology.Primate'

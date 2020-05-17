@@ -45,6 +45,9 @@ extension {{projectName}}API {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "This operation is deprecated.")
+    {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}?,_ error: Error?) -> Void)) {
         {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
             switch result {
@@ -74,6 +77,9 @@ extension {{projectName}}API {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
      */
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "This operation is deprecated.")
+    {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}} {{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         let deferred = Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.pending()
         {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
@@ -102,6 +108,9 @@ extension {{projectName}}API {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
      */
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "This operation is deprecated.")
+    {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         return Observable.create { observer -> Disposable in
             {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
@@ -132,7 +141,12 @@ extension {{projectName}}API {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error>
      */
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "This operation is deprecated.")
+    {{/isDeprecated}}
+    {{^isDeprecated}}
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> AnyPublisher<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error> {
         return Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error>.init { promisse in
             {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
@@ -161,6 +175,9 @@ extension {{projectName}}API {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "This operation is deprecated.")
+    {{/isDeprecated}}
     open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error>) -> Void)) {
         {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
             switch result {
@@ -203,6 +220,9 @@ extension {{projectName}}API {
      {{/allParams}}
      - returns: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{description}}
      */
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "This operation is deprecated.")
+    {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{{path}}}"{{#pathParams}}
         let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}){{/isEnum}})"

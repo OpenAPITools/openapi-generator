@@ -249,7 +249,7 @@ public class CodegenConstants {
     public static final String RELEASE_NOTE_DESC = "Release note, default to 'Minor update'.";
 
     public static final String HTTP_USER_AGENT = "httpUserAgent";
-    public static final String HTTP_USER_AGENT_DESC = "HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}}/{language}'";
+    public static final String HTTP_USER_AGENT_DESC = "HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'";
 
     public static final String SUPPORTS_ES6 = "supportsES6";
     public static final String SUPPORTS_ES6_DESC = "Generate code that conforms to ES6.";
@@ -355,5 +355,8 @@ public class CodegenConstants {
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR = "legacyDiscriminatorBehavior";
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. " +
             "Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.";
+
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
+    public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
 
 }

@@ -218,5 +218,6 @@ class FruitReq(ModelComposed):
           'oneOf': [
               apple_req.AppleReq,
               banana_req.BananaReq,
+              none_type,
           ],
         }

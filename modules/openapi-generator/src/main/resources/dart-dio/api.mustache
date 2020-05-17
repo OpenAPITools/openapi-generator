@@ -21,7 +21,7 @@ class {{classname}} {
         /// {{summary}}
         ///
         /// {{notes}}
-        Future<Response{{#returnType}}<{{{returnType}}}>{{/returnType}}>{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response{{#returnType}}<{{{returnType}}}>{{/returnType}}>{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "{{{path}}}"{{#pathParams}}.replaceAll("{" r'{{baseName}}' "}", {{{paramName}}}.toString()){{/pathParams}};
 
@@ -80,6 +80,9 @@ class {{classname}} {
             data: bodyData,
             options: Options(
             method: '{{httpMethod}}'.toUpperCase(),
+            {{#isResponseFile}}
+            responseType: ResponseType.bytes,
+            {{/isResponseFile}}
             headers: headerParams,
             extra: {
                 'secure': [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}],
@@ -87,17 +90,24 @@ class {{classname}} {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ){{#returnType}}.then((response) {
 
-        {{#isListContainer}}
+        {{#isResponseFile}}
+            var data = response.data;
+        {{/isResponseFile}}
+        {{^isResponseFile}}
+            {{#isListContainer}}
                 final FullType type = const FullType(BuiltList, const [const FullType({{returnBaseType}})]);
                 BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
                 var data = dataList.toList();
-        {{/isListContainer}}
-        {{^isListContainer}}
-        var serializer = _serializers.serializerForType({{{returnType}}});
-        var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
-        {{/isListContainer}}
+            {{/isListContainer}}
+            {{^isListContainer}}
+                var serializer = _serializers.serializerForType({{{returnType}}});
+                var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            {{/isListContainer}}
+        {{/isResponseFile}}
 
             return Response<{{{returnType}}}>(
                 data: data,

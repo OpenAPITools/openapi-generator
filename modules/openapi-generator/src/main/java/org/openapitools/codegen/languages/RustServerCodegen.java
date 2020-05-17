@@ -211,6 +211,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "Vec");
         typeMapping.put("map", "std::collections::HashMap");
         typeMapping.put("object", "serde_json::Value");
+        typeMapping.put("AnyType", "serde_json::Value");
 
         importMapping = new HashMap<String, String>();
 
