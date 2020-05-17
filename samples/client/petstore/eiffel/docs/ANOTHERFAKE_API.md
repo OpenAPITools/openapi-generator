@@ -4,23 +4,23 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
-[**123_test_special_tags**](ANOTHERFAKE_API.md#123_test_special_tags) | **Patch** /another-fake/dummy | To test special tags
+[**test_special_tags**](ANOTHERFAKE_API.md#test_special_tags) | **Patch** /another-fake/dummy | To test special tags
 
 
-# **123_test_special_tags**
-> 123_test_special_tags (body: CLIENT ): detachable CLIENT
+# **test_special_tags**
+> test_special_tags (client: CLIENT ): detachable CLIENT
 	
 
 To test special tags
 
-To test special tags and operation ID starting with number
+To test special tags
 
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**CLIENT**](CLIENT.md)| client model | 
+ **client** | [**CLIENT**](CLIENT.md)| client model | 
 
 ### Return type
 

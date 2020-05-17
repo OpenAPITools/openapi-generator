@@ -1,3 +1,4 @@
+
 # JAX-RS CXF 3 server application
 
 ## Supported features
@@ -7,27 +8,29 @@
 * Swagger-UI can be included as Web-Jar automatically
 * WADL is accessible (CXF WADL-Generator)
 * Unit-tests include Gzip-Interceptors for demonstration
-* Options for generating a functional mock server returning static responses
 
-## URLs to access the REST API
-### URLs for Spring Boot
+
+## Urls to access the REST API
+### Urls for Spring Boot
 
 * Available services listing
- http://localhost:8080/
+http://localhost:8080/
 
-* OpenAPI  
+* Swagger API  
  http://localhost:8080/services/openapi.json
 
 * CXF WADL
  http://localhost:8080/services?_wadl
 
 
-### URLs if deployed to an Application Server
+### Urls if deployed to an AS 
 * Available services listing
- http://localhost:8080/swagger-cxf-server/rest/services/
+http://localhost:8080/swagger-cxf-server/rest/services/
 
-* OpenAPI  
+* Swagger API  
  http://localhost:8080/swagger-cxf-server/rest/services/swagger.json
 
 * CXF WADL
  http://localhost:8080/swagger-cxf-server/rest/services?_wadl
+ 
+ 

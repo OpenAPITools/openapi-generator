@@ -16,8 +16,6 @@ open class MapTest: JSONEncodable {
     }
     public var mapMapOfString: [String:[String:String]]?
     public var mapOfEnumString: [String:String]?
-    public var directMap: [String:Bool]?
-    public var indirectMap: [String:Bool]?
 
     public init() {}
 
@@ -25,8 +23,6 @@ open class MapTest: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["map_map_of_string"] = self.mapMapOfString?.encodeToJSON()//TODO: handle enum map scenario
-        nillableDictionary["direct_map"] = self.directMap?.encodeToJSON()
-        nillableDictionary["indirect_map"] = self.indirectMap?.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

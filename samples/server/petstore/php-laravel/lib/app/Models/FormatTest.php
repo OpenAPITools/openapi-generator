@@ -48,7 +48,4 @@ class FormatTest {
     /** @var string $password */
     private $password;
 
-    /** @var BigDecimal $bigDecimal */
-    private $bigDecimal;
-
 }

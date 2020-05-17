@@ -95,17 +95,16 @@ public enum ArrayEnumEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
-
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
-  }/**
+  }
+
+  /**
    **/
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
@@ -113,17 +112,15 @@ public enum ArrayEnumEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
-
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -164,7 +161,5 @@ public enum ArrayEnumEnum {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
 }
 

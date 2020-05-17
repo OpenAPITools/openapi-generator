@@ -1,7 +1,6 @@
 package org.openapitools.model;
 
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -15,7 +14,6 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 
 public class Dog extends Animal {
   

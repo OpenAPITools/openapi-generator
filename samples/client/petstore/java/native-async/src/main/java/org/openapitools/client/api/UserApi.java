@@ -99,13 +99,9 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          null
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
     } catch (IOException e) {
@@ -152,13 +148,9 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          null
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
     } catch (IOException e) {
@@ -205,13 +197,9 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          null
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
     } catch (IOException e) {
@@ -256,13 +244,9 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          null
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
   }
@@ -305,13 +289,9 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {})
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
   }
@@ -368,13 +348,9 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
   }
@@ -410,13 +386,9 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          null
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
   }
@@ -466,13 +438,9 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          null
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
     } catch (IOException e) {

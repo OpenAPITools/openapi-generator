@@ -29,8 +29,6 @@ module PetApiHandler =
           let serviceArgs = {     bodyParams=bodyParams } : AddPetArgs
           let result = PetApiService.AddPet ctx serviceArgs
           return! (match result with 
-                      | AddPetDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
                       | AddPetStatusCode405 resolved ->
                             setStatusCode 405 >=> text resolved.content 
           ) next ctx
@@ -131,8 +129,6 @@ module PetApiHandler =
           let serviceArgs = {     bodyParams=bodyParams } : UpdatePetArgs
           let result = PetApiService.UpdatePet ctx serviceArgs
           return! (match result with 
-                      | UpdatePetDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
                       | UpdatePetStatusCode400 resolved ->
                             setStatusCode 400 >=> text resolved.content 
                       | UpdatePetStatusCode404 resolved ->

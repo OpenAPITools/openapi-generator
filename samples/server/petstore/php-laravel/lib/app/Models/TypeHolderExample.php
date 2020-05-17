@@ -15,9 +15,6 @@ class TypeHolderExample {
     /** @var float $numberItem */
     private $numberItem;
 
-    /** @var float $floatItem */
-    private $floatItem;
-
     /** @var int $integerItem */
     private $integerItem;
 

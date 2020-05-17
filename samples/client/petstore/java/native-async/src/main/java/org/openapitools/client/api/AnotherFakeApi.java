@@ -100,13 +100,9 @@ public class AnotherFakeApi {
                   localVarResponse.body())
               );
           } else {
-               try {
-                  return CompletableFuture.completedFuture(
-                          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
+              return CompletableFuture.completedFuture(
+                      null
+              );
           }
       });
     } catch (IOException e) {

@@ -60,6 +60,7 @@ module AuthSchemes =
 
   let configureApiKeyAuth (settings:IConfiguration) services =
     buildApiKeyAuth "api_key" services
+    raise (NotImplementedException("API key security scheme outside of header has not yet been implemented"))
 
 
   let configureCookie (builder:AuthenticationBuilder) =

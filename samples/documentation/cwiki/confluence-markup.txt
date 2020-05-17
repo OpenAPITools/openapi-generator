@@ -896,7 +896,7 @@ h4. Responses
   "description" : "successful operation",
   "headers" : {
     "Set-Cookie" : {
-      "description" : "Cookie authentication key for use with the `api_key` apiKey authentication.",
+      "description" : "Cookie authentication key for use with the `auth_cookie` apiKey authentication.",
       "style" : "simple",
       "explode" : false,
       "schema" : {

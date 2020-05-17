@@ -9,15 +9,15 @@ import Foundation
 open class PetstoreClientAPI {
     public static var basePath = "http://petstore.swagger.io:80/v2"
     public static var credential: URLCredential?
-    public static var customHeaders: [String:String] = [:]
+    public static var customHeaders: [String: String] = [:]
     public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     public static var apiResponseQueue: DispatchQueue = .main
 }
 
 open class RequestBuilder<T> {
     var credential: URLCredential?
-    var headers: [String:String]
-    public let parameters: [String:Any]?
+    var headers: [String: String]
+    public let parameters: [String: Any]?
     public let isBody: Bool
     public let method: String
     public let URLString: String
@@ -25,9 +25,9 @@ open class RequestBuilder<T> {
     /// Optional block to obtain a reference to the request's progress instance when available.
     /// With the URLSession http client the request's progress only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0.
     /// If you need to get the request's progress in older OS versions, please use Alamofire http client.
-    public var onProgressReady: ((Progress) -> ())?
+    public var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String:Any]?, isBody: Bool, headers: [String:String] = [:]) {
+    required public init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
@@ -37,7 +37,7 @@ open class RequestBuilder<T> {
         addHeaders(PetstoreClientAPI.customHeaders)
     }
 
-    open func addHeaders(_ aHeaders:[String:String]) {
+    open func addHeaders(_ aHeaders: [String: String]) {
         for (header, value) in aHeaders {
             headers[header] = value
         }
@@ -60,5 +60,5 @@ open class RequestBuilder<T> {
 
 public protocol RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
-    func getBuilder<T:Decodable>() -> RequestBuilder<T>.Type
+    func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }

@@ -82,7 +82,7 @@ static bool addPetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, v
 }
 
 static bool addPetHelper(char * accessToken,
-	Pet body, 
+	Pet pet, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
 {
@@ -105,10 +105,10 @@ static bool addPetHelper(char * accessToken,
 	JsonArray* json_array;
 
 	if (isprimitive("Pet")) {
-		node = converttoJson(&body, "Pet", "");
+		node = converttoJson(&pet, "Pet", "");
 	}
 	
-	char *jsonStr =  body.toJson();
+	char *jsonStr =  pet.toJson();
 	node = json_from_string(jsonStr, NULL);
 	g_free(static_cast<gpointer>(jsonStr));
 	
@@ -167,22 +167,22 @@ static bool addPetHelper(char * accessToken,
 
 
 bool PetManager::addPetAsync(char * accessToken,
-	Pet body, 
+	Pet pet, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return addPetHelper(accessToken,
-	body, 
+	pet, 
 	handler, userData, true);
 }
 
 bool PetManager::addPetSync(char * accessToken,
-	Pet body, 
+	Pet pet, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return addPetHelper(accessToken,
-	body, 
+	pet, 
 	handler, userData, false);
 }
 
@@ -796,7 +796,7 @@ static bool updatePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg
 }
 
 static bool updatePetHelper(char * accessToken,
-	Pet body, 
+	Pet pet, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
 {
@@ -819,10 +819,10 @@ static bool updatePetHelper(char * accessToken,
 	JsonArray* json_array;
 
 	if (isprimitive("Pet")) {
-		node = converttoJson(&body, "Pet", "");
+		node = converttoJson(&pet, "Pet", "");
 	}
 	
-	char *jsonStr =  body.toJson();
+	char *jsonStr =  pet.toJson();
 	node = json_from_string(jsonStr, NULL);
 	g_free(static_cast<gpointer>(jsonStr));
 	
@@ -881,22 +881,22 @@ static bool updatePetHelper(char * accessToken,
 
 
 bool PetManager::updatePetAsync(char * accessToken,
-	Pet body, 
+	Pet pet, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return updatePetHelper(accessToken,
-	body, 
+	pet, 
 	handler, userData, true);
 }
 
 bool PetManager::updatePetSync(char * accessToken,
-	Pet body, 
+	Pet pet, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
 	return updatePetHelper(accessToken,
-	body, 
+	pet, 
 	handler, userData, false);
 }
 

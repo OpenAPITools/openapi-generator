@@ -79,7 +79,7 @@
         }
       },
       "testEndpointParameters" : {
-        "_double" : 91.68589154730603,
+        "_double" : 91.68589154730602421612164906388358076583244837820529937744140625,
         "patternWithoutDelimiter" : "^K᫢",
         "_byte" : "VA==",
         "integer" : 79,
@@ -118,13 +118,6 @@
       "testJsonFormData" : {
         "param" : "Gfe588Q6",
         "param2" : "QBx28IQ"
-      },
-      "testQueryParameterCollectionFormat" : {
-        "pipe" : [ "li1a3bzgZ" ],
-        "ioutil" : [ "v06WwH7" ],
-        "http" : [ "R65Pn1peQ" ],
-        "url" : [ "AN577zV" ],
-        "context" : [ "Vl7Ca" ]
       }
     },
     "FakeClassnameTags123Api" : {

@@ -35,9 +35,15 @@ namespace Org.OpenAPITools
         /// Constructor
         /// </summary>
         /// <param name="env"></param>
-        public Startup(IConfiguration configuration)
+        public Startup(IHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         /// <summary>
@@ -126,9 +132,12 @@ namespace Org.OpenAPITools
             }
 
             app.UseHttpsRedirection();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseSwagger(c =>
+            app
+                // TODO: Renable if you need MVC views as well as just the API
+                //.UseMvc()
+                .UseDefaultFiles()
+                .UseStaticFiles()
+                .UseSwagger(c =>
                 {
                     c.RouteTemplate = "swagger/{documentName}/openapi.json";
                 })
