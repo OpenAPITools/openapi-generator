@@ -1897,8 +1897,19 @@ components:
       properties:
         mainShape:
           # A property whose value is a 'oneOf' type, and the type is referenced instead
-          # of being define inline.
+          # of being defined inline. The value cannot be null.
           $ref: '#/components/schemas/Shape'
+        shapeOrNull:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being defined inline. The value may be null because ShapeOrNull has 'null'
+          # type as a child schema of 'oneOf'.
+          $ref: '#/components/schemas/ShapeOrNull'
+        nullableShape:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being defined inline. The value may be null because NullableShape has the
+          # 'nullable: true' attribute. For this specific scenario this is exactly the
+          # same thing as 'shapeOrNull'.
+          $ref: '#/components/schemas/NullableShape'
         shapes:
           type: array
           items:
@@ -1909,6 +1920,25 @@ components:
         - $ref: '#/components/schemas/Quadrilateral'
       discriminator:
         propertyName: shapeType
+    ShapeOrNull:
+      description: The value may be a shape or the 'null' value.
+        This is introduced in OAS schema >= 3.1.
+      oneOf:
+        - type: 'null'
+        - $ref: '#/components/schemas/Triangle'
+        - $ref: '#/components/schemas/Quadrilateral'
+      discriminator:
+        propertyName: shapeType
+    NullableShape:
+      description: The value may be a shape or the 'null' value.
+        The 'nullable' attribute was introduced in OAS schema >= 3.0
+        and has been deprecated in OAS schema >= 3.1.
+      oneOf:
+        - $ref: '#/components/schemas/Triangle'
+        - $ref: '#/components/schemas/Quadrilateral'
+      discriminator:
+        propertyName: shapeType
+      nullable: true
     ShapeInterface:
       properties:
         shapeType:

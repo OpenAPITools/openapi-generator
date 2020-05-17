@@ -1138,6 +1138,32 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
     return input_value
 
 
+def is_type_nullable(input_type):
+    """
+    Returns true if None is an allowed value for the specified input_type.
+
+    A type is nullable if at least one of the following conditions is true:
+    1. The OAS 'nullable' attribute has been specified,
+    1. The type is the 'null' type,
+    1. The type is a anyOf/oneOf composed schema, and a child schema is
+       the 'null' type.
+    Args:
+        input_type (type): the class of the input_value that we are
+            checking
+    Returns:
+        bool
+    """
+    if input_type is none_type:
+        return True
+    if issubclass(input_type, ModelComposed):
+        # If oneOf/anyOf, check if the 'null' type is one of the allowed types.            
+        for t in input_type._composed_schemas.get('oneOf', ()):
+            if is_type_nullable(t): return True
+        for t in input_type._composed_schemas.get('anyOf', ()):
+            if is_type_nullable(t): return True
+    return False
+
+
 def is_valid_type(input_class_simple, valid_classes):
     """
     Args:
@@ -1149,9 +1175,14 @@ def is_valid_type(input_class_simple, valid_classes):
         bool
     """
     valid_type = input_class_simple in valid_classes
-    if not valid_type and issubclass(input_class_simple, OpenApiModel):
+    if not valid_type and (
+            issubclass(input_class_simple, OpenApiModel) or
+            input_class_simple is none_type):
         for valid_class in valid_classes:
-            if not valid_class.discriminator:
+            if input_class_simple is none_type and is_type_nullable(valid_class):
+                # Schema is oneOf/anyOf and the 'null' type is one of the allowed types.            
+                return True
+            if not (issubclass(valid_class, OpenApiModel) and valid_class.discriminator):
                 continue
             discr_propertyname_py = list(valid_class.discriminator.keys())[0]
             discriminator_classes = (
