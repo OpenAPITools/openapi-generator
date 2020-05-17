@@ -4,7 +4,7 @@
 #[allow(unused_imports)]
 use futures::{future, Stream, stream};
 #[allow(unused_imports)]
-use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client, ContextWrapperExt,
+use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       TestSpecialTagsResponse,
                       Call123exampleResponse,
                       FakeOuterBooleanSerializeResponse,

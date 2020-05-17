@@ -4,7 +4,7 @@
 #[allow(unused_imports)]
 use futures::{future, Stream, stream};
 #[allow(unused_imports)]
-use ops_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+use ops_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       Op10GetResponse,
                       Op11GetResponse,
                       Op12GetResponse,

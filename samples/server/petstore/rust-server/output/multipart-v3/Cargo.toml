@@ -12,7 +12,7 @@ client = [
     "mime_0_2",
     "multipart", "multipart/client", "swagger/multipart",
     "hyper_0_10", "mime_multipart",
-    "hyper", "hyper-openssl", "native-tls", "openssl", "url"
+    "hyper", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
 server = [
     "mime_0_2",
@@ -24,6 +24,7 @@ conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-
 
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
 native-tls = { version = "0.2", optional = true }
+hyper-tls = { version = "0.4", optional = true }
 
 [target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dependencies]
 hyper-openssl = { version = "0.8", optional = true }

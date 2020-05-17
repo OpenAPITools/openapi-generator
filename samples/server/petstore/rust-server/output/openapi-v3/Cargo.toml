@@ -10,16 +10,17 @@ edition = "2018"
 default = ["client", "server"]
 client = [
     "serde_ignored", "regex", "percent-encoding", "lazy_static",
-    "hyper", "hyper-openssl", "native-tls", "openssl", "url"
+    "hyper", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
 server = [
-    "native-tls", "hyper-openssl", "openssl",
+    "native-tls", "hyper-openssl", "hyper-tls", "openssl",
    "serde_ignored", "hyper", "regex", "percent-encoding", "url", "lazy_static"
 ]
 conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-enum-derive"]
 
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
 native-tls = { version = "0.2", optional = true }
+hyper-tls = { version = "0.4", optional = true }
 
 [target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dependencies]
 hyper-openssl = { version = "0.8", optional = true }

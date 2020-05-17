@@ -4,7 +4,7 @@
 #[allow(unused_imports)]
 use futures::{future, Stream, stream};
 #[allow(unused_imports)]
-use no_example_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+use no_example_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       OpGetResponse,
                      };
 use clap::{App, Arg};

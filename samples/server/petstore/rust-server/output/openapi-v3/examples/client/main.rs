@@ -5,7 +5,7 @@ mod server;
 #[allow(unused_imports)]
 use futures::{future, Stream, stream};
 #[allow(unused_imports)]
-use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
                       EnumInPathPathParamGetResponse,

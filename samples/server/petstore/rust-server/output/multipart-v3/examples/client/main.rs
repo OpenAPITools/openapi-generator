@@ -4,7 +4,7 @@
 #[allow(unused_imports)]
 use futures::{future, Stream, stream};
 #[allow(unused_imports)]
-use multipart_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
+use multipart_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       MultipartRelatedRequestPostResponse,
                       MultipartRequestPostResponse,
                       MultipleIdenticalMimeTypesPostResponse,
