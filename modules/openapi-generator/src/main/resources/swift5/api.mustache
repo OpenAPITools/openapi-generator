@@ -144,9 +144,7 @@ extension {{projectName}}API {
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
-    {{^isDeprecated}}
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> AnyPublisher<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error> {
         return Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error>.init { promisse in
             {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
