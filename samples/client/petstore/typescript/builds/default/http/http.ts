@@ -123,11 +123,33 @@ export class RequestContext {
     }
 }
 
+export interface ResponseBody {
+    text(): Promise<string>;
+    binary(): Promise<Buffer>;
+}
+
+
+/**
+ * Helper class to generate a `ResponseBody` from binary data
+ */
+export class SelfDecodingBody implements ResponseBody {
+    constructor(private dataSource: Promise<Buffer>) {}
+
+    binary(): Promise<Buffer> {
+        return this.dataSource;
+    }
+
+    async text(): Promise<string> {
+        const data: Buffer = await this.dataSource;
+        return data.toString();
+    }
+}
+
 export class ResponseContext {
     public constructor(
         public httpStatusCode: number,
         public headers: { [key: string]: string },
-        public body: string
+        public body: ResponseBody
     ) {}
 
     /**
@@ -160,12 +182,10 @@ export class ResponseContext {
         return result;
     }
 
-    public getBodyAsFile(): HttpFile {
-        const contentDisposition = this.getParsedHeader("content-disposition");
-        return {
-            data: new Buffer(this.body),
-            name: contentDisposition["filename"] || ""
-        };
+    public async getBodyAsFile(): Promise<HttpFile> {
+        const data = await this.body.binary();
+        const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
+        return { data, name: fileName };
     }
 }
 

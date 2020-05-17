@@ -118,11 +118,44 @@ export class RequestContext {
     }
 }
 
+export interface ResponseBody {
+    text(): Promise<string>;
+    binary(): Promise<Blob>;
+}
+
+
+/**
+ * Helper class to generate a `ResponseBody` from binary data
+ */
+export class SelfDecodingBody implements ResponseBody {
+    constructor(private dataSource: Promise<Blob>) {}
+
+    binary(): Promise<Blob> {
+        return this.dataSource;
+    }
+
+    async text(): Promise<string> {
+        const data: Blob = await this.dataSource;
+        // @ts-ignore
+        if (data.text) {
+            // @ts-ignore
+            return data.text();
+        }
+
+        return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => resolve(reader.result));
+            reader.addEventListener("error", () => reject(reader.error));
+            reader.readAsText(data);
+        });
+    }
+}
+
 export class ResponseContext {
     public constructor(
         public httpStatusCode: number,
         public headers: { [key: string]: string },
-        public body: string
+        public body: ResponseBody
     ) {}
 
     /**
@@ -155,9 +188,19 @@ export class ResponseContext {
         return result;
     }
 
-    public getBodyAsFile(): HttpFile {
-        const contentDisposition = this.getParsedHeader("content-disposition");
-        return new File([this.body], contentDisposition["filename"] || "");
+    public async getBodyAsFile(): Promise<HttpFile> {
+        const data = await this.body.binary();
+        const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
+        const contentType = this.headers["content-type"] || "";
+        try {
+            return new File([data], fileName, { type: contentType });
+        } catch (error) {
+            /** Fallback for when the File constructor is not available */
+            return Object.assign(data, {
+                name: fileName,
+                type: contentType
+            });
+        }
     }
 }
 

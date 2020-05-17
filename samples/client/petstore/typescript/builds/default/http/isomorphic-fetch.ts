@@ -22,9 +22,11 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
               headers[name] = value;
             });
 
-            return resp.text().then((body: string) => {
-                return new ResponseContext(resp.status, headers, body)
-            });
+            const body = {
+              text: () => resp.text(),
+              binary: () => resp.buffer()
+            };
+            return new ResponseContext(resp.status, headers, body);
         });
 
         return from<Promise<ResponseContext>>(resultPromise);

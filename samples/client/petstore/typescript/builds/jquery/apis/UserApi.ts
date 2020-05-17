@@ -345,7 +345,7 @@ export class UserApiResponseProcessor {
      * @params response Response returned by the server for a request to createUser
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public createUser(response: ResponseContext):   void  {      
+     public async createUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
@@ -367,7 +367,7 @@ export class UserApiResponseProcessor {
      * @params response Response returned by the server for a request to createUsersWithArrayInput
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public createUsersWithArrayInput(response: ResponseContext):   void  {      
+     public async createUsersWithArrayInput(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
@@ -389,7 +389,7 @@ export class UserApiResponseProcessor {
      * @params response Response returned by the server for a request to createUsersWithListInput
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public createUsersWithListInput(response: ResponseContext):   void  {      
+     public async createUsersWithListInput(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
@@ -411,7 +411,7 @@ export class UserApiResponseProcessor {
      * @params response Response returned by the server for a request to deleteUser
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public deleteUser(response: ResponseContext):   void  {      
+     public async deleteUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid username supplied");
@@ -436,18 +436,13 @@ export class UserApiResponseProcessor {
      * @params response Response returned by the server for a request to getUserByName
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public getUserByName(response: ResponseContext):  User  {      
+     public async getUserByName(response: ResponseContext): Promise<User > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            let body: User;
-            if ("User" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as User;
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "User", ""
-                ) as User;
-            }
+            const body: User = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "User", ""
+            ) as User;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -459,15 +454,10 @@ export class UserApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            let body: User;
-            if ("User" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as User;
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "User", ""
-                ) as User;
-            }
+            const body: User = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "User", ""
+            ) as User;
             return body;
         }
 
@@ -482,18 +472,13 @@ export class UserApiResponseProcessor {
      * @params response Response returned by the server for a request to loginUser
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public loginUser(response: ResponseContext):  string  {      
+     public async loginUser(response: ResponseContext): Promise<string > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            let body: string;
-            if ("string" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as string;
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "string", ""
-                ) as string;
-            }
+            const body: string = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "string", ""
+            ) as string;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -502,15 +487,10 @@ export class UserApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            let body: string;
-            if ("string" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as string;
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "string", ""
-                ) as string;
-            }
+            const body: string = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "string", ""
+            ) as string;
             return body;
         }
 
@@ -525,7 +505,7 @@ export class UserApiResponseProcessor {
      * @params response Response returned by the server for a request to logoutUser
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public logoutUser(response: ResponseContext):   void  {      
+     public async logoutUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "successful operation");
@@ -547,7 +527,7 @@ export class UserApiResponseProcessor {
      * @params response Response returned by the server for a request to updateUser
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public updateUser(response: ResponseContext):   void  {      
+     public async updateUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid user supplied");

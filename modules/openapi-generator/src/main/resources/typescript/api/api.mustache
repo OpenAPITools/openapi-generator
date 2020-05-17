@@ -96,9 +96,9 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              {{#node}}
              localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
              {{/node}}
-             {{^node}}
+             {{#browser}}
              localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
-             {{/node}}
+             {{/browser}}
              {{/platforms}}
              {{/isFile}}
         }
@@ -152,20 +152,20 @@ export class {{classname}}ResponseProcessor {
      * @params response Response returned by the server for a request to {{nickname}}
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public {{nickname}}(response: ResponseContext): {{#returnType}} {{{returnType}}}{{/returnType}} {{^returnType}} void {{/returnType}} {      
+     public async {{nickname}}(response: ResponseContext): Promise<{{#returnType}}{{{returnType}}}{{/returnType}} {{^returnType}}void{{/returnType}}> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         {{#responses}}
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {
             {{#dataType}}
-            let body: {{{dataType}}};
-            if ("{{{dataType}}}" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as {{{returnType}}};
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "{{{dataType}}}", "{{returnFormat}}"
-                ) as {{{dataType}}};
-            }
+            {{#isBinary}}
+            const body: {{{dataType}}} = await response.getBodyAsFile() as any as {{{returnType}}};
+            {{/isBinary}}
+            {{^isBinary}}
+            const body: {{{dataType}}} = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{{{dataType}}}", "{{returnFormat}}"
+            ) as {{{dataType}}};
+            {{/isBinary}}
             {{#isSuccessCode}}
             return body;
             {{/isSuccessCode}}
@@ -187,15 +187,15 @@ export class {{classname}}ResponseProcessor {
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             {{#returnType}}
-            let body: {{{returnType}}};
-            if ("{{{returnType}}}" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as {{{returnType}}};
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "{{{returnType}}}", "{{returnFormat}}"
-                ) as {{{returnType}}};
-            }
+            {{#isBinary}}
+            const body: {{{returnType}}} = await response.getBodyAsFile() as any as {{{returnType}}};
+            {{/isBinary}}
+            {{^isBinary}}
+            const body: {{{returnType}}} = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{{{returnType}}}", "{{returnFormat}}"
+            ) as {{{returnType}}};
+            {{/isBinary}}
             return body;
             {{/returnType}}
             {{^returnType}}

@@ -173,7 +173,7 @@ export class StoreApiResponseProcessor {
      * @params response Response returned by the server for a request to deleteOrder
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public deleteOrder(response: ResponseContext):   void  {      
+     public async deleteOrder(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
@@ -198,32 +198,22 @@ export class StoreApiResponseProcessor {
      * @params response Response returned by the server for a request to getInventory
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public getInventory(response: ResponseContext):  { [key: string]: number; }  {      
+     public async getInventory(response: ResponseContext): Promise<{ [key: string]: number; } > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            let body: { [key: string]: number; };
-            if ("{ [key: string]: number; }" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as { [key: string]: number; };
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "{ [key: string]: number; }", "int32"
-                ) as { [key: string]: number; };
-            }
+            const body: { [key: string]: number; } = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{ [key: string]: number; }", "int32"
+            ) as { [key: string]: number; };
             return body;
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            let body: { [key: string]: number; };
-            if ("{ [key: string]: number; }" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as { [key: string]: number; };
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "{ [key: string]: number; }", "int32"
-                ) as { [key: string]: number; };
-            }
+            const body: { [key: string]: number; } = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{ [key: string]: number; }", "int32"
+            ) as { [key: string]: number; };
             return body;
         }
 
@@ -238,18 +228,13 @@ export class StoreApiResponseProcessor {
      * @params response Response returned by the server for a request to getOrderById
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public getOrderById(response: ResponseContext):  Order  {      
+     public async getOrderById(response: ResponseContext): Promise<Order > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            let body: Order;
-            if ("Order" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as Order;
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "Order", ""
-                ) as Order;
-            }
+            const body: Order = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Order", ""
+            ) as Order;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -261,15 +246,10 @@ export class StoreApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            let body: Order;
-            if ("Order" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as Order;
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "Order", ""
-                ) as Order;
-            }
+            const body: Order = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Order", ""
+            ) as Order;
             return body;
         }
 
@@ -284,18 +264,13 @@ export class StoreApiResponseProcessor {
      * @params response Response returned by the server for a request to placeOrder
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public placeOrder(response: ResponseContext):  Order  {      
+     public async placeOrder(response: ResponseContext): Promise<Order > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            let body: Order;
-            if ("Order" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as Order;
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "Order", ""
-                ) as Order;
-            }
+            const body: Order = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Order", ""
+            ) as Order;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -304,15 +279,10 @@ export class StoreApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            let body: Order;
-            if ("Order" as string === "HttpFile" as string) {
-                body = response.getBodyAsFile() as any as Order;
-            } else {
-                body = ObjectSerializer.deserialize(
-                    ObjectSerializer.parse(response.body, contentType),
-                    "Order", ""
-                ) as Order;
-            }
+            const body: Order = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Order", ""
+            ) as Order;
             return body;
         }
 

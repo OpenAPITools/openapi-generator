@@ -43,9 +43,9 @@ export type HttpFile = {
     name: string
 };
 {{/node}}
-{{^node}}
+{{#browser}}
 export type HttpFile = {{{fileContentDataType}}} & { readonly name: string };
-{{/node}}
+{{/browser}}
 {{/platforms}}
 
 
@@ -141,11 +141,51 @@ export class RequestContext {
     }
 }
 
+export interface ResponseBody {
+    text(): Promise<string>;
+    binary(): Promise<{{{fileContentDataType}}}>;
+}
+
+
+/**
+ * Helper class to generate a `ResponseBody` from binary data
+ */
+export class SelfDecodingBody implements ResponseBody {
+    constructor(private dataSource: Promise<{{{fileContentDataType}}}>) {}
+
+    binary(): Promise<{{{fileContentDataType}}}> {
+        return this.dataSource;
+    }
+
+    async text(): Promise<string> {
+        const data: {{{fileContentDataType}}} = await this.dataSource;
+        {{#platforms}}
+        {{#node}}
+        return data.toString();
+        {{/node}}
+        {{#browser}}
+        // @ts-ignore
+        if (data.text) {
+            // @ts-ignore
+            return data.text();
+        }
+
+        return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => resolve(reader.result));
+            reader.addEventListener("error", () => reject(reader.error));
+            reader.readAsText(data);
+        });
+        {{/browser}}
+        {{/platforms}}
+    }
+}
+
 export class ResponseContext {
     public constructor(
         public httpStatusCode: number,
         public headers: { [key: string]: string },
-        public body: string
+        public body: ResponseBody
     ) {}
 
     /**
@@ -178,18 +218,25 @@ export class ResponseContext {
         return result;
     }
 
-    public getBodyAsFile(): HttpFile {
-        const contentDisposition = this.getParsedHeader("content-disposition");
+    public async getBodyAsFile(): Promise<HttpFile> {
+        const data = await this.body.binary();
+        const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
         {{#platforms}}
         {{#node}}
-        return {
-            data: new {{{fileContentDataType}}}(this.body),
-            name: contentDisposition["filename"] || ""
-        };
+        return { data, name: fileName };
         {{/node}}
-        {{^node}}
-        return new File([this.body], contentDisposition["filename"] || "");
-        {{/node}}
+        {{#browser}}
+        const contentType = this.headers["content-type"] || "";
+        try {
+            return new File([data], fileName, { type: contentType });
+        } catch (error) {
+            /** Fallback for when the File constructor is not available */
+            return Object.assign(data, {
+                name: fileName,
+                type: contentType
+            });
+        }
+        {{/browser}}
         {{/platforms}}
     }
 }
