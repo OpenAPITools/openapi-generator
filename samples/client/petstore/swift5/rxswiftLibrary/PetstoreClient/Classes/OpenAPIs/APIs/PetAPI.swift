@@ -167,6 +167,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<[Pet]>
      */
+    @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
             findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
@@ -192,6 +193,7 @@ open class PetAPI {
      - parameter tags: (query) Tags to filter by 
      - returns: RequestBuilder<[Pet]> 
      */
+    @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTagsWithRequestBuilder(tags: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByTags"
         let URLString = PetstoreClientAPI.basePath + path
