@@ -5979,7 +5979,7 @@ public class DefaultCodegen implements CodegenConfig {
         for (Server server : servers) {
             CodegenServer cs = new CodegenServer();
             cs.description = escapeText(server.getDescription());
-            cs.url = URLPathUtils.getServerURL(server, this.serverVariables).toString();
+            cs.url = escapeText(URLPathUtils.getServerURL(server, this.serverVariables).toString()).replaceAll("/$", "");
             cs.variables = this.fromServerVariables(server.getVariables());
             codegenServers.add(cs);
         }
