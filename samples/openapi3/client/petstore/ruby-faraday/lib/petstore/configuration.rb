@@ -231,7 +231,7 @@ module Petstore
     def server_settings
       [
         {
-          url: "http://{server}.swagger.io:{port}/v2",
+          url: "http://petstore.swagger.io:80/v2",
           description: "petstore server",
           variables: {
             server: {
@@ -254,7 +254,7 @@ module Petstore
             }
         },
         {
-          url: "https://localhost:8080/{version}",
+          url: "https://localhost:8080/v2",
           description: "The local server",
           variables: {
             version: {
