@@ -112,7 +112,8 @@ class OpenApiModel(object):
             check_validations(
                 self.validations,
                 (name,),
-                value
+                value,
+                self._configuration
             )
         self.__dict__['_data_store'][name] = value
 
@@ -635,17 +636,50 @@ def check_allowed_values(allowed_values, input_variable_path, input_values):
         )
 
 
-def check_validations(validations, input_variable_path, input_values):
+def is_json_validation_enabled(schema_keyword, configuration=None):
+    """Returns true if JSON schema validation is enabled for the specified
+    validation keyword. This can be used to skip JSON schema structural validation
+    as requested in the configuration.
+
+    Args:
+        schema_keyword (string): the name of a JSON schema validation keyword.
+        configuration (Configuration): the configuration class.
+    """
+
+    return (configuration is None or
+        not hasattr(configuration, '_disabled_client_side_validations') or
+        schema_keyword not in configuration._disabled_client_side_validations)
+
+
+def check_validations(
+        validations, input_variable_path, input_values,
+        configuration=None):
     """Raises an exception if the input_values are invalid
 
     Args:
-        validations (dict): the validation dictionary
-        input_variable_path (tuple): the path to the input variable
+        validations (dict): the validation dictionary.
+        input_variable_path (tuple): the path to the input variable.
         input_values (list/str/int/float/date/datetime): the values that we
-            are checking
+            are checking.
+        configuration (Configuration): the configuration class.
     """
+
     current_validations = validations[input_variable_path]
-    if ('max_length' in current_validations and
+    if (is_json_validation_enabled('multipleOf', configuration) and
+            'multiple_of' in current_validations and
+            isinstance(input_values, (int, float)) and
+            not (float(input_values) / current_validations['multiple_of']).is_integer()):
+        # Note 'multipleOf' will be as good as the floating point arithmetic.
+        raise ApiValueError(
+            "Invalid value for `%s`, value must be a multiple of "
+            "`%s`" % (
+                input_variable_path[0],
+                current_validations['multiple_of']
+            )
+        )
+
+    if (is_json_validation_enabled('maxLength', configuration) and
+            'max_length' in current_validations and
             len(input_values) > current_validations['max_length']):
         raise ApiValueError(
             "Invalid value for `%s`, length must be less than or equal to "
@@ -655,7 +689,8 @@ def check_validations(validations, input_variable_path, input_values):
             )
         )
 
-    if ('min_length' in current_validations and
+    if (is_json_validation_enabled('minLength', configuration) and
+            'min_length' in current_validations and
             len(input_values) < current_validations['min_length']):
         raise ApiValueError(
             "Invalid value for `%s`, length must be greater than or equal to "
@@ -665,7 +700,8 @@ def check_validations(validations, input_variable_path, input_values):
             )
         )
 
-    if ('max_items' in current_validations and
+    if (is_json_validation_enabled('maxItems', configuration) and
+            'max_items' in current_validations and
             len(input_values) > current_validations['max_items']):
         raise ApiValueError(
             "Invalid value for `%s`, number of items must be less than or "
@@ -675,7 +711,8 @@ def check_validations(validations, input_variable_path, input_values):
             )
         )
 
-    if ('min_items' in current_validations and
+    if (is_json_validation_enabled('minItems', configuration) and
+            'min_items' in current_validations and
             len(input_values) < current_validations['min_items']):
         raise ValueError(
             "Invalid value for `%s`, number of items must be greater than or "
@@ -698,7 +735,8 @@ def check_validations(validations, input_variable_path, input_values):
             max_val = input_values
             min_val = input_values
 
-    if ('exclusive_maximum' in current_validations and
+    if (is_json_validation_enabled('exclusiveMaximum', configuration) and
+            'exclusive_maximum' in current_validations and
             max_val >= current_validations['exclusive_maximum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value less than `%s`" % (
@@ -707,7 +745,8 @@ def check_validations(validations, input_variable_path, input_values):
             )
         )
 
-    if ('inclusive_maximum' in current_validations and
+    if (is_json_validation_enabled('maximum', configuration) and
+            'inclusive_maximum' in current_validations and
             max_val > current_validations['inclusive_maximum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value less than or equal to "
@@ -717,7 +756,8 @@ def check_validations(validations, input_variable_path, input_values):
             )
         )
 
-    if ('exclusive_minimum' in current_validations and
+    if (is_json_validation_enabled('exclusiveMinimum', configuration) and
+            'exclusive_minimum' in current_validations and
             min_val <= current_validations['exclusive_minimum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value greater than `%s`" %
@@ -727,7 +767,8 @@ def check_validations(validations, input_variable_path, input_values):
             )
         )
 
-    if ('inclusive_minimum' in current_validations and
+    if (is_json_validation_enabled('minimum', configuration) and
+            'inclusive_minimum' in current_validations and
             min_val < current_validations['inclusive_minimum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value greater than or equal "
@@ -737,7 +778,8 @@ def check_validations(validations, input_variable_path, input_values):
             )
         )
     flags = current_validations.get('regex', {}).get('flags', 0)
-    if ('regex' in current_validations and
+    if (is_json_validation_enabled('pattern', configuration) and
+            'regex' in current_validations and
             not re.search(current_validations['regex']['pattern'],
                           input_values, flags=flags)):
         err_msg = r"Invalid value for `%s`, must match regular expression `%s`" % (

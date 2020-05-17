@@ -1426,6 +1426,7 @@ components:
           type: integer
           maximum: 100
           minimum: 10
+          multipleOf: 2
         int32:
           type: integer
           format: int32
@@ -1438,6 +1439,7 @@ components:
           maximum: 543.2
           minimum: 32.1
           type: number
+          multipleOf: 32.5 
         float:
           type: number
           format: float
