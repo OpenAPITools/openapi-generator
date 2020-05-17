@@ -10,3 +10,4 @@ source ./bin/swift5-petstore-urlsession.sh 1>/dev/null
 source ./bin/swift5-petstore-alamofire.sh 1>/dev/null
 source ./bin/swift5-petstore-combine.sh 1>/dev/null
 source ./bin/swift5-petstore-readonlyProperties.sh 1>/dev/null
+source ./bin/swift5-petstore-deprecated.sh 1>/dev/null
