@@ -9,6 +9,6 @@ If Not Exist %executable% (
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
 
 echo
-set ags=generate -i modules\openapi-generator\src\test\resources\3_0\allOf-without-properties.yaml -g typescript-axios -o samples\client\petstore\typescript-axios\builds\allOf-without-properties
+set ags=generate -i modules\openapi-generator\src\test\resources\3_0\composed-schemas.yaml -g typescript-axios -o samples\client\petstore\typescript-axios\builds\composed-schemas
 
 java %JAVA_OPTS% -jar %executable% %ags%

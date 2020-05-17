@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/allOf-without-properties.yaml -g typescript-axios -o samples/client/petstore/typescript-axios/builds/allOf-without-properties $@"
+ags="generate -i modules/openapi-generator/src/test/resources/3_0/composed-schemas.yaml -g typescript-axios -o samples/client/petstore/typescript-axios/builds/composed-schemas $@"
 
 java $JAVA_OPTS -jar $executable $ags

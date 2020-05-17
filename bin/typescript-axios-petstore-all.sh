@@ -6,5 +6,5 @@
 ./bin/typescript-axios-petstore-with-complex-headers.sh
 ./bin/typescript-axios-petstore-with-single-request-parameters.sh
 ./bin/typescript-axios-petstore-interfaces.sh
-./bin/typescript-axios-petstore-allOf-without-properties.sh
+./bin/typescript-axios-petstore-composed-schemas.sh
 ./bin/typescript-axios-petstore.sh
