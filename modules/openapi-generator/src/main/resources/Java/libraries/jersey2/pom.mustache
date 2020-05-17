@@ -347,7 +347,7 @@
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>
-            <version>6.9.0</version>
+            <version>${scribejava-apis-version}</version>
         </dependency>
         {{/hasOAuthMethods}}
         {{#useBeanValidation}}
@@ -386,5 +386,8 @@
         {{/threetenbp}}
         <junit-version>4.13</junit-version>
         <http-signature-version>1.3</http-signature-version>
+        {{#hasOAuthMethods}}
+        <scribejava-apis-version>6.9.0</scribejava-apis-version>
+        {{/hasOAuthMethods}}
     </properties>
 </project>
