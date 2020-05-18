@@ -578,4 +578,222 @@ public class SpringCodegenTest {
                 "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)",
                 "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)");
     }
+
+    @Test
+    public void testPreAuthorizeOnOauth() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/security-oauth.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
+        checkFileContains(generator, path,
+                "@PreAuthorize(\"(hasAuthority('write_pets') and hasAuthority('rw_pets')) or (hasAuthority('read_pets'))\")");
+    }
+
+    @Test
+    public void testPreAuthorizeOnGlobalOauth() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/security-oauth.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
+        checkFileContains(generator, path,
+                "@PreAuthorize(\"(hasAuthority('read_pets'))\")");
+    }
+
+    @Test
+    public void testDisableSpringSecurityForOauth() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/security-oauth.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
+        checkFileNotContains(generator, path,
+                "hasAuthority('write_pets'");
+        checkFileNotContains(generator, path, "hasAuthority('read_pets");
+        checkFileNotContains(generator, path, "@PreAuthorize(\"");
+        checkFileNotContains(generator, path, "import org.springframework.security.access.prepost.PreAuthorize;\n");
+    }
+
+    @Test
+    public void testPreAuthorizeOnJwtAuth() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/security-oauth-bearer.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
+        checkFileContains(generator, path,
+                "@PreAuthorize(\"(hasAuthority('scope:another')) or (hasAuthority('scope:specific'))\")");
+    }
+
+    @Test
+    public void testDisableSpringSecurityForJwtAuth() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/security-oauth-bearer.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
+        checkFileNotContains(generator, path,
+                "@PreAuthorize(\"hasAuthority('scope:another') or hasAuthority('scope:specific')\")");
+    }
+
+    @Test
+    public void testPreAuthorizeOnGlobalJwtAuth() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/security-oauth-bearer.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
+        checkFileContains(generator, path,
+                "@PreAuthorize(\"(hasAuthority('scope:global'))\")");
+    }
+
+    @Test
+    public void testTwoOauthScopes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/two-oauth-scopes.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
+        checkFileContains(generator, path,
+                "@PreAuthorize(\"(hasAuthority('user') and hasAuthority('admin'))\")");
+    }
+
+    @Test
+    public void noAuth() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/no-auth.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
+        checkFileContains(generator, path, "" +
+                "    @ApiOperation(value = \"Get the pet\", nickname = \"petsGet\", notes = \"\", tags={  })\n" +
+                "    @ApiResponses(value = {  })\n" +
+                "    @RequestMapping(value = \"/pets\",\n" +
+                "        method = RequestMethod.GET)\n" +
+                "    default ResponseEntity<Void> petsGet() {\n" +
+                "        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);\n" +
+                "\n" +
+                "    }");
+    }
 }
