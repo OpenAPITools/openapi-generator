@@ -757,21 +757,16 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 op.vendorExtensions.put(VENDOR_EXTENSION_X_HAS_OPTIONAL_PARAMS, true);
             }
 
-            if (typeMapping.containsKey(param.dataType)
-                    || param.isMapContainer || param.isListContainer
-                    || param.isPrimitiveType || param.isFile || param.isEnum) {
+            String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
 
-                String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
+            String paramNameType = toDedupedModelName(toTypeName("Param", param.paramName), dataType, !param.isEnum);
+            param.vendorExtensions.put(X_PARAM_NAME_TYPE, paramNameType); // TODO: 5.0 Remove
+            param.vendorExtensions.put(VENDOR_EXTENSION_X_PARAM_NAME_TYPE, paramNameType);
 
-                String paramNameType = toDedupedModelName(toTypeName("Param", param.paramName), dataType, !param.isEnum);
-                param.vendorExtensions.put(X_PARAM_NAME_TYPE, paramNameType); // TODO: 5.0 Remove
-                param.vendorExtensions.put(VENDOR_EXTENSION_X_PARAM_NAME_TYPE, paramNameType);
-
-                HashMap<String, Object> props = new HashMap<>();
-                props.put(X_IS_BODY_PARAM, param.isBodyParam);
-                addToUniques(X_NEWTYPE, paramNameType, dataType, props);
-            }
-        }
+            HashMap<String, Object> props = new HashMap<>();
+            props.put(X_IS_BODY_PARAM, param.isBodyParam);
+            addToUniques(X_NEWTYPE, paramNameType, dataType, props);
+    }
 
         processPathExpr(op);
 
