@@ -169,7 +169,7 @@ public class ProcessUtils {
         if (hasHttpBearerMethods == null) {
             processAuthMethods(openAPI);
         }
-        return hasHttpBearerMethods;
+        return Boolean.TRUE.equals(hasHttpBearerMethods);
     }
 
     /**
@@ -182,7 +182,7 @@ public class ProcessUtils {
         if (hasOAuthMethods == null) {
             processAuthMethods(openAPI);
         }
-        return hasOAuthMethods;
+        return Boolean.TRUE.equals(hasOAuthMethods);
     }
 
     /**
@@ -195,7 +195,7 @@ public class ProcessUtils {
         if (hasHttpBasicMethods == null) {
             processAuthMethods(openAPI);
         }
-        return hasHttpBasicMethods;
+        return Boolean.TRUE.equals(hasHttpBasicMethods);
     }
 
     /**
@@ -208,7 +208,7 @@ public class ProcessUtils {
         if (hasHttpSignatureMethods == null) {
             processAuthMethods(openAPI);
         }
-        return hasHttpSignatureMethods;
+        return Boolean.TRUE.equals(hasHttpSignatureMethods);
     }
 
     /**
@@ -221,7 +221,7 @@ public class ProcessUtils {
         if (hasApiKeyMethods == null) {
             processAuthMethods(openAPI);
         }
-        return hasApiKeyMethods;
+        return Boolean.TRUE.equals(hasApiKeyMethods);
     }
 
     /**
