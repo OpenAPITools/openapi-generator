@@ -16,19 +16,19 @@ import com.squareup.moshi.Json
 import java.io.Serializable
 /**
  * 
+ * @param number 
+ * @param byte 
+ * @param date 
+ * @param password 
  * @param integer 
  * @param int32 
  * @param int64 
- * @param number 
  * @param float 
  * @param double 
  * @param string 
- * @param byte 
  * @param binary 
- * @param date 
  * @param dateTime 
  * @param uuid 
- * @param password 
  * @param patternWithDigits A string that is a 10 digit number. Can have leading zeros.
  * @param patternWithDigitsAndDelimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
  */
@@ -57,7 +57,7 @@ data class FormatTest (
     @Json(name = "binary")
     val binary: java.io.File? = null,
     @Json(name = "dateTime")
-    val dateTime: java.time.LocalDateTime? = null,
+    val dateTime: java.time.OffsetDateTime? = null,
     @Json(name = "uuid")
     val uuid: java.util.UUID? = null,
     /* A string that is a 10 digit number. Can have leading zeros. */
@@ -66,12 +66,10 @@ data class FormatTest (
     /* A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. */
     @Json(name = "pattern_with_digits_and_delimiter")
     val patternWithDigitsAndDelimiter: kotlin.String? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

@@ -20,6 +20,17 @@ type Mammal struct {
 	Zebra *Zebra
 }
 
+// WhaleAsMammal is a convenience function that returns Whale wrapped in Mammal
+func WhaleAsMammal(v *Whale) Mammal {
+    return Mammal{ Whale: v}
+}
+
+// ZebraAsMammal is a convenience function that returns Zebra wrapped in Mammal
+func ZebraAsMammal(v *Zebra) Mammal {
+    return Mammal{ Zebra: v}
+}
+
+
 // Unmarshl JSON data into one of the pointers in the struct
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
