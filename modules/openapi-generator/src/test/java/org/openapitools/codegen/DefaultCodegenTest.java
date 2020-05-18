@@ -40,6 +40,7 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
 import org.openapitools.codegen.templating.mustache.UppercaseLambda;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.SemVer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -223,13 +224,25 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOriginalOpenApiDocumentVersion() {
+        // Test with OAS 2.0 document.
+        String location = "src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml";
+        OpenAPI openAPI = TestUtils.parseFlattenSpec(location);
+        SemVer version = ModelUtils.getOpenApiVersion(openAPI, location, null);
+        Assert.assertEquals(version, new SemVer("2.0.0"));
+
+        // Test with OAS 3.0 document.
+        location = "src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
+        openAPI = TestUtils.parseFlattenSpec(location);
+        version = ModelUtils.getOpenApiVersion(openAPI, location, null);
+        Assert.assertEquals(version, new SemVer("3.0.0"));
+    }
+
+    @Test
     public void testAdditionalPropertiesV2Spec() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
-        // The extension below is to track the original swagger version.
-        // See https://github.com/swagger-api/swagger-parser/pull/1374
-        // Also see https://github.com/swagger-api/swagger-parser/issues/1369.
-        openAPI.addExtension("x-original-swagger-version", "2.0");
         DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setLegacyAdditionalPropertiesBehavior(true);
         codegen.setOpenAPI(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
@@ -280,6 +293,7 @@ public class DefaultCodegenTest {
     public void testAdditionalPropertiesV3Spec() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setLegacyAdditionalPropertiesBehavior(false);
         codegen.setOpenAPI(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
@@ -321,6 +335,24 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(child.getAdditionalProperties());
         Assert.assertEquals(child.getAdditionalProperties(), Boolean.FALSE);
         addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(addProps);
+    }
+
+    @Test
+    public void testAdditionalPropertiesV3SpecLegacy() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setLegacyAdditionalPropertiesBehavior(true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
+        Assert.assertNull(schema.getAdditionalProperties());
+
+        // As per OAS spec, when the 'additionalProperties' keyword is not present, the schema may be
+        // extended with any undeclared properties.
+        // However, in legacy 'additionalProperties' mode, this is interpreted as
+        // 'no additional properties are allowed'.
+        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
         Assert.assertNull(addProps);
     }
 

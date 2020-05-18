@@ -565,7 +565,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
+            Schema inner = getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
@@ -835,8 +835,8 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (codegenModel != null && ModelUtils.getAdditionalProperties(this.openAPI, model) != null) {
-                String itemType = getSchemaType(ModelUtils.getAdditionalProperties(this.openAPI, model));
+            if (codegenModel != null && getAdditionalProperties(model) != null) {
+                String itemType = getSchemaType(getAdditionalProperties(model));
                 codegenModel.vendorExtensions.put("x-isMap", true); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-is-map", true);
                 codegenModel.vendorExtensions.put("x-itemType", itemType); // TODO: 5.0 Remove

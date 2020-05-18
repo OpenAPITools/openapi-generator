@@ -61,6 +61,7 @@ public class PhpSlim4ServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(PhpSlim4ServerCodegen.PSR7_IMPLEMENTATION, PSR7_IMPLEMENTATION_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
+                .put(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR, "false")
                 .build();
     }
 

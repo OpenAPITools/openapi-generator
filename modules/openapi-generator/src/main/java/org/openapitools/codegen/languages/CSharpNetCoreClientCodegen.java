@@ -917,7 +917,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = ModelUtils.getAdditionalProperties(this.openAPI, schema);
+            Schema additionalProperties = getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);

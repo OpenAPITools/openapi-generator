@@ -359,4 +359,16 @@ public class CodegenConstants {
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
 
+    // The reason this parameter exists is because there is a dependency
+    // on swagger-api/swagger-parser issue https://github.com/swagger-api/swagger-parser/issues/1369.
+    // When that issue is resolved, this parameter should be removed.
+    public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR = "legacyAdditionalPropertiesBehavior";
+    public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR_DESC = "If true, the 'additionalProperties' keyword is implemented as specified in the OAS and JSON schema specifications. " +
+        "This is currently not supported when the input document is based on the OpenAPI 2.0 schema. " +
+        "If false, codegen uses a legacy, non-compliant interpretation of the 'additionalProperties' keyword. " +
+        "In the non-compliant mode, codegen uses the following interpretation: " +
+        "1) In a OpenAPI 2.0 document, boolean values of the 'additionalProperties' keyword are ignored." +
+        "2) In a OpenAPI 3.x document, the non-compliance is when the 'additionalProperties' keyword is not present in a schema. " +
+        "If the 'additionalProperties' keyword is not present in a schema, it is interpreted as if additionalProperties had been set to false, i.e. no additional properties are allowed.";
+
 }

@@ -330,7 +330,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
                                                        Schema schema) {
 
-        final Schema additionalProperties = ModelUtils.getAdditionalProperties(this.openAPI, schema);
+        final Schema additionalProperties = getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -522,7 +522,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
+            Schema inner = getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -635,7 +635,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType(ModelUtils.getAdditionalProperties(this.openAPI, p));
+            return getSchemaType(getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());

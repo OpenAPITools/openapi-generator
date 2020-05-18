@@ -584,7 +584,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
             return getTypeDeclaration(inner) + " list";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
+            Schema inner = getAdditionalProperties(p);
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing map inner type to string");

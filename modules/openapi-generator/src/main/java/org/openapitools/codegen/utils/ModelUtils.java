@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -26,6 +28,10 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
+import io.swagger.v3.parser.util.ClasspathHelper;
+import io.swagger.v3.parser.ObjectMapperFactory;
+import io.swagger.v3.parser.util.RemoteUrl;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
@@ -33,11 +39,16 @@ import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.io.FileUtils;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -48,6 +59,15 @@ public class ModelUtils {
 
     private static final String generateAliasAsModelKey = "generateAliasAsModel";
 
+    private static final String openapiVersionExtension = "x-original-openapi-version";
+
+    private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
+
+    static {
+        JSON_MAPPER = ObjectMapperFactory.createJson();
+        YAML_MAPPER = ObjectMapperFactory.createYaml();
+    }
+    
     public static void setGenerateAliasAsModel(boolean value) {
         GlobalSettings.setProperty(generateAliasAsModelKey, Boolean.toString(value));
     }
@@ -658,122 +678,6 @@ public class ModelUtils {
     }
 
     /**
-     * Return true if the schema value can be any type, i.e. it can be
-     * the null value, integer, number, string, object or array.
-     * One use case is when the "type" attribute in the OAS schema is unspecified.
-     *
-     * Examples:
-     *
-     *     arbitraryTypeValue:
-     *       description: This is an arbitrary type schema.
-     *         It is not a free-form object.
-     *         The value can be any type except the 'null' value.
-     *     arbitraryTypeNullableValue:
-     *       description: This is an arbitrary type schema.
-     *         It is not a free-form object.
-     *         The value can be any type, including the 'null' value.
-     *       nullable: true
-     *
-     * @param schema the OAS schema.
-     * @return true if the schema value can be an arbitrary type.
-     */
-    public static boolean isAnyTypeSchema(OpenAPI openAPI, Schema schema) {
-        if (schema == null) {
-            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
-            return false;
-        }
-
-        if (isFreeFormObject(openAPI, schema)) {
-            // make sure it's not free form object
-            return false;
-        }
-
-        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
-                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
-                schema.getAdditionalProperties() == null && schema.getNot() == null &&
-                schema.getEnum() == null) {
-            return true;
-            // If and when type arrays are supported in a future OAS specification,
-            // we could return true if the type array includes all possible JSON schema types.
-        }
-        return false;
-    }
-
-    /**
-     * Check to see if the schema is a free form object.
-     *
-     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
-     * 1) Does not define properties, and
-     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
-     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
-     *
-     * Examples:
-     *
-     * components:
-     *   schemas:
-     *     arbitraryObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value cannot be 'null'.
-     *         It cannot be array, string, integer, number.
-     *     arbitraryNullableObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value can be 'null',
-     *         It cannot be array, string, integer, number.
-     *       nullable: true
-     *     arbitraryTypeValue:
-     *       description: This is NOT a free-form object.
-     *         The value can be any type except the 'null' value.
-     *
-     * @param schema potentially containing a '$ref'
-     * @return true if it's a free-form object
-     */
-    public static boolean isFreeFormObject(OpenAPI openAPI, Schema schema) {
-        if (schema == null) {
-            // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
-            once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
-            return false;
-        }
-
-        // not free-form if allOf, anyOf, oneOf is not empty
-        if (schema instanceof ComposedSchema) {
-            ComposedSchema cs = (ComposedSchema) schema;
-            List<Schema> interfaces = getInterfaces(cs);
-            if (interfaces != null && !interfaces.isEmpty()) {
-                return false;
-            }
-        }
-
-        // has at least one property
-        if ("object".equals(schema.getType())) {
-            // no properties
-            if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
-                Schema addlProps = getAdditionalProperties(openAPI, schema);
-                // additionalProperties not defined
-                if (addlProps == null) {
-                    return true;
-                } else {
-                    if (addlProps instanceof ObjectSchema) {
-                        ObjectSchema objSchema = (ObjectSchema) addlProps;
-                        // additionalProperties defined as {}
-                        if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
-                            return true;
-                        }
-                    } else if (addlProps instanceof Schema) {
-                        // additionalProperties defined as {}
-                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * If a Schema contains a reference to another Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
      *
      * @param openAPI specification being checked
@@ -1081,6 +985,79 @@ public class ModelUtils {
     }
 
     /**
+     * Check to see if the schema is a free form object.
+     *
+     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
+     * 1) Does not define properties, and
+     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
+     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
+     *
+     * Examples:
+     *
+     * components:
+     *   schemas:
+     *     arbitraryObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value cannot be 'null'.
+     *         It cannot be array, string, integer, number.
+     *     arbitraryNullableObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value can be 'null',
+     *         It cannot be array, string, integer, number.
+     *       nullable: true
+     *     arbitraryTypeValue:
+     *       description: This is NOT a free-form object.
+     *         The value can be any type except the 'null' value.
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a free-form object
+     */
+    public static boolean isFreeFormObject(OpenAPI openAPI, Schema schema) {
+        if (schema == null) {
+            // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
+            once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
+            return false;
+        }
+
+        // not free-form if allOf, anyOf, oneOf is not empty
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            List<Schema> interfaces = ModelUtils.getInterfaces(cs);
+            if (interfaces != null && !interfaces.isEmpty()) {
+                return false;
+            }
+        }
+
+        // has at least one property
+        if ("object".equals(schema.getType())) {
+            // no properties
+            if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
+                Schema addlProps = getAdditionalProperties(openAPI, schema);
+                // additionalProperties not defined
+                if (addlProps == null) {
+                    return true;
+                } else {
+                    if (addlProps instanceof ObjectSchema) {
+                        ObjectSchema objSchema = (ObjectSchema) addlProps;
+                        // additionalProperties defined as {}
+                        if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
+                            return true;
+                        }
+                    } else if (addlProps instanceof Schema) {
+                        // additionalProperties defined as {}
+                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Returns the additionalProperties Schema for the specified input schema.
      * 
      * The additionalProperties keyword is used to control the handling of additional, undeclared
@@ -1102,24 +1079,40 @@ public class ModelUtils {
             return (Schema) addProps;
         }
         if (addProps == null) {
+            // Because of the https://github.com/swagger-api/swagger-parser/issues/1369 issue,
+            // there is a problem processing the 'additionalProperties' keyword.
+            // * When OAS 2.0 documents are parsed, the 'additionalProperties' keyword is ignored
+            //   if the value is boolean. That means codegen is unable to determine whether
+            //   additional properties are allowed or not.
+            // * When OAS 3.0 documents are parsed, the 'additionalProperties' keyword is properly
+            //   parsed.
+            //
+            // The original behavior was to assume additionalProperties had been set to false.
             Map<String, Object> extensions = openAPI.getExtensions();
-            if (extensions != null) {
-                // Get original swagger version from OAS extension.
-                // Note openAPI.getOpenapi() is always set to 3.x even when the document
-                // is converted from a OAS/Swagger 2.0 document.
-                // https://github.com/swagger-api/swagger-parser/pull/1374
-                Object ext = extensions.get("x-original-swagger-version");
-                if (ext instanceof String) {
-                    SemVer version = new SemVer((String)ext);
-                    if (version.major == 2) {
-                        // The OAS version 2 parser sets Schema.additionalProperties to the null value
-                        // even if the OAS document has additionalProperties: true|false
-                        // So we are unable to determine if additional properties are allowed or not.
-                        // The original behavior was to assume additionalProperties had been set to false,
-                        // we retain that behavior.
-                        return null;
-                    }    
+            if (extensions != null && extensions.containsKey("x-is-legacy-additional-properties-behavior")) {
+                boolean isLegacyAdditionalPropertiesBehavior =
+                    Boolean.parseBoolean((String)extensions.get("x-is-legacy-additional-properties-behavior"));
+                if (isLegacyAdditionalPropertiesBehavior) {
+                    // Legacy, non-compliant mode. If the 'additionalProperties' keyword is not present in a OAS schema,
+                    // interpret as if the 'additionalProperties' keyword had been set to false.
+                    return null;
                 }
+            }
+            // The 'x-is-legacy-additional-properties-behavior' extension has been set to true,
+            // but for now that only works with OAS 3.0 documents.
+            // The new behavior does not work with OAS 2.0 documents because of the
+            // https://github.com/swagger-api/swagger-parser/issues/1369 issue.
+            if (extensions == null || !extensions.containsKey(openapiVersionExtension)) {
+                // Fallback to the legacy behavior.
+                return null;
+            }
+            // Get original swagger version from OAS extension.
+            // Note openAPI.getOpenapi() is always set to 3.x even when the document
+            // is converted from a OAS/Swagger 2.0 document.
+            // https://github.com/swagger-api/swagger-parser/pull/1374
+            SemVer version = new SemVer((String)extensions.get(openapiVersionExtension));
+            if (version.major != 3) {
+                return null;
             }
         }
         if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
@@ -1132,7 +1125,7 @@ public class ModelUtils {
         }
         return null;
     }
-
+    
     public static Header getReferencedHeader(OpenAPI openAPI, Header header) {
         if (header != null && StringUtils.isNotEmpty(header.get$ref())) {
             String name = getSimpleRef(header.get$ref());
@@ -1455,5 +1448,87 @@ public class ModelUtils {
             if (minProperties != null) target.setMinProperties(minProperties);
             if (maxProperties != null) target.setMaxProperties(maxProperties);
         }
+    }
+
+    private static ObjectMapper getRightMapper(String data) {
+        ObjectMapper mapper;
+        if(data.trim().startsWith("{")) {
+            mapper = JSON_MAPPER;
+        } else {
+            mapper = YAML_MAPPER;
+        }
+        return mapper;
+    }
+
+    /**
+     * Parse and return a JsonNode representation of the input OAS document.
+     * 
+     * @param location the URL of the OAS document.
+     * @param auths the list of authorization values to access the remote URL.
+     * 
+     * @return A JsonNode representation of the input OAS document.
+     */
+    public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
+        String data;
+        location = location.replaceAll("\\\\","/");
+        if (location.toLowerCase().startsWith("http")) {
+            data = RemoteUrl.urlToString(location, auths);
+        } else {
+            final String fileScheme = "file:";
+            Path path;
+            if (location.toLowerCase().startsWith(fileScheme)) {
+                path = Paths.get(URI.create(location));
+            } else {
+                path = Paths.get(location);
+            }
+            if (Files.exists(path)) {
+                data = FileUtils.readFileToString(path.toFile(), "UTF-8");
+            } else {
+                data = ClasspathHelper.loadFileFromClasspath(location);
+            }
+        }
+        return getRightMapper(data).readTree(data);
+    }
+
+    /**
+     * Return the version of the OAS document as specified in the source document.
+     * For OAS 2.0 documents, return the value of the 'swagger' attribute.
+     * For OAS 3.x documents, return the value of the 'openapi' attribute.
+     * 
+     * @param location the URL of the OAS document.
+     * @param auths the list of authorization values to access the remote URL.
+     */
+    public static SemVer getOpenApiVersion(OpenAPI openapi, String location, List<AuthorizationValue> auths) {
+        String version;
+        try {
+            JsonNode document = readWithInfo(location, auths);
+            JsonNode value = document.findValue("swagger");
+            if (value == null) {
+                // This is not a OAS 2.0 document.
+                // Note: we cannot simply return the value of the "openapi" attribute
+                // because the 2.0 to 3.0 converter always sets the value to '3.0'.
+                value = document.findValue("openapi");
+            }
+            version = value.asText();
+        } catch (Exception ex) {
+            // Fallback to using the 'openapi' attribute.
+            LOGGER.warn("Unable to read swagger/openapi attribute");
+            version = openapi.getOpenapi();
+        }
+        return new SemVer(version);
+    }
+
+    /**
+     * Get the original version of the OAS document as specified in the source document,
+     * and set the "x-original-openapi-version" with the original version.
+     * 
+     * @param openapi the OpenAPI document.
+     * @param location the URL of the OAS document.
+     * @param auths the list of authorization values to access the remote URL.
+     * @return
+     */
+    public static void addOpenApiVersionExtension(OpenAPI openapi, String location, List<AuthorizationValue> auths) {
+        SemVer version = getOpenApiVersion(openapi, location, auths);
+        openapi.addExtension(openapiVersionExtension, version.toString());
     }
 }

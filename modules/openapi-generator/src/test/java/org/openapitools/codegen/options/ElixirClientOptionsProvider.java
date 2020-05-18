@@ -44,6 +44,7 @@ public class ElixirClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PACKAGE_NAME, "yay_pets")
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
+                .put(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR, "false")
                 .build();
     }
 

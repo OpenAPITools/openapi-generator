@@ -355,7 +355,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
@@ -430,7 +430,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 return "\"\"";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(this.openAPI, p));
+            String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

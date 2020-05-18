@@ -18,6 +18,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 
 import java.io.File;
@@ -52,11 +53,19 @@ public class TestUtils {
      * @return A "raw" OpenAPI document
      */
     public static OpenAPI parseSpec(String specFilePath) {
-        return new OpenAPIParser().readLocation(specFilePath, null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = new OpenAPIParser().readLocation(specFilePath, null, new ParseOptions()).getOpenAPI();
+        // The extension below is to track the original swagger version.
+        // See https://github.com/swagger-api/swagger-parser/pull/1374
+        // Also see https://github.com/swagger-api/swagger-parser/issues/1369.
+        ModelUtils.addOpenApiVersionExtension(openAPI, specFilePath, null);
+        return openAPI;
     }
 
     public static OpenAPI parseContent(String jsonOrYaml) {
-        return new OpenAPIParser().readContents(jsonOrYaml, null, null).getOpenAPI();
+        OpenAPI openAPI = new OpenAPIParser().readContents(jsonOrYaml, null, null).getOpenAPI();
+        // The extension below is to track the original swagger version.
+        ModelUtils.addOpenApiVersionExtension(openAPI, jsonOrYaml, null);
+        return openAPI;
     }
 
     public static OpenAPI createOpenAPI() {

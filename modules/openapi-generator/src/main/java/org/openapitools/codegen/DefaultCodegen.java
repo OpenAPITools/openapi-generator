@@ -59,6 +59,7 @@ import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
+import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -238,6 +239,10 @@ public class DefaultCodegen implements CodegenConfig {
     // Support legacy logic for evaluating discriminators
     protected boolean legacyDiscriminatorBehavior = true;
 
+    // Support legacy logic for evaluating 'additionalProperties' keyword.
+    // See CodegenConstants.java for more details.
+    protected boolean legacyAdditionalPropertiesBehavior = true;
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -333,6 +338,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR)) {
             this.setLegacyDiscriminatorBehavior(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR).toString()));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR)) {
+            this.setLegacyAdditionalPropertiesBehavior(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR).toString()));
         }
     }
 
@@ -707,9 +716,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * Set the OpenAPI document.
+     * This method is invoked when the input OpenAPI document has been parsed and validated.
+     */
     @Override
     public void setOpenAPI(OpenAPI openAPI) {
         this.openAPI = openAPI;
+        this.openAPI.addExtension("x-is-legacy-additional-properties-behavior", Boolean.toString(getLegacyAdditionalPropertiesBehavior()));
     }
 
     // override with any special post-processing
@@ -806,7 +820,7 @@ public class DefaultCodegen implements CodegenConfig {
                         addOneOfInterfaceModel((ComposedSchema) items, nOneOf, openAPI);
                     }
                 } else if (ModelUtils.isMapSchema(s)) {
-                    Schema addProps = ModelUtils.getAdditionalProperties(this.openAPI, s);
+                    Schema addProps = getAdditionalProperties(s);
                     if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
                         addOneOfNameExtension((ComposedSchema) addProps, nOneOf);
                         addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf, openAPI);
@@ -1146,6 +1160,14 @@ public class DefaultCodegen implements CodegenConfig {
         this.legacyDiscriminatorBehavior = val;
     }
 
+    public Boolean getLegacyAdditionalPropertiesBehavior() {
+        return legacyAdditionalPropertiesBehavior;
+    }
+
+    public void setLegacyAdditionalPropertiesBehavior(boolean val) {
+        this.legacyAdditionalPropertiesBehavior = val;
+    }
+
     public Boolean getAllowUnicodeIdentifiers() {
         return allowUnicodeIdentifiers;
     }
@@ -1470,6 +1492,23 @@ public class DefaultCodegen implements CodegenConfig {
         legacyDiscriminatorBehaviorOpt.setEnum(legacyDiscriminatorBehaviorOpts);
         cliOptions.add(legacyDiscriminatorBehaviorOpt);
 
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption legacyAdditionalPropertiesBehaviorOpt = CliOption.newBoolean(
+            CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR,
+            CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> legacyAdditionalPropertiesBehaviorOpts = new HashMap<>();
+        legacyAdditionalPropertiesBehaviorOpts.put("true",
+            "The 'additionalProperties' keyword is implemented as specified in the OAS and JSON schema specifications. " +
+            "This is currently not supported when the input document is based on the OpenAPI 2.0 schema.");
+        legacyAdditionalPropertiesBehaviorOpts.put("false",
+            "Use a legacy, non-compliant interpretation of the 'additionalProperties' keyword. " +
+            "1) In a OpenAPI 2.0 document, boolean values of the 'additionalProperties' keyword are ignored." +
+            "2) In a OpenAPI 3.x document, the non-compliance is when the 'additionalProperties' keyword is not present in a schema. " +
+            "If the 'additionalProperties' keyword is not present in a schema, it is interpreted as if additionalProperties had been set to false, i.e. no additional properties are allowed.");
+        legacyAdditionalPropertiesBehaviorOpt.setEnum(legacyAdditionalPropertiesBehaviorOpts);
+        cliOptions.add(legacyAdditionalPropertiesBehaviorOpt);
+        this.setLegacyAdditionalPropertiesBehavior(false);
+        
         // initialize special character mapping
         initalizeSpecialCharacterMapping();
 
@@ -1602,7 +1641,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = ModelUtils.getAdditionalProperties(this.openAPI, schema);
+            Schema additionalProperties = getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
@@ -1854,7 +1893,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected Schema<?> getSchemaAdditionalProperties(Schema schema) {
-        Schema<?> inner = ModelUtils.getAdditionalProperties(this.openAPI, schema);
+        Schema<?> inner = getAdditionalProperties(schema);
         if (inner == null) {
             LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", schema.getName());
             inner = new StringSchema().description("TODO default missing map inner type to string");
@@ -2013,13 +2052,13 @@ public class DefaultCodegen implements CodegenConfig {
                 return schema.getFormat();
             }
             return "string";
-        } else if (ModelUtils.isFreeFormObject(this.openAPI, schema)) {
+        } else if (isFreeFormObject(schema)) {
             // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
             // it must be a map of string to values.
             return "object";
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
-        } else if (ModelUtils.isAnyTypeSchema(this.openAPI, schema)) {
+        } else if (isAnyTypeSchema(schema)) {
             return "AnyType";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
             LOGGER.warn("Unknown type found in the schema: " + schema.getType());
@@ -2200,7 +2239,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-        if (ModelUtils.isAnyTypeSchema(this.openAPI, schema)) {
+        if (isAnyTypeSchema(schema)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
             if (Boolean.FALSE.equals(schema.getNullable())) {
@@ -3078,9 +3117,9 @@ public class DefaultCodegen implements CodegenConfig {
                 property.hasValidation = true;
             }
 
-        } else if (ModelUtils.isFreeFormObject(this.openAPI, p)) {
+        } else if (isFreeFormObject(p)) {
             property.isFreeFormObject = true;
-        } else if (ModelUtils.isAnyTypeSchema(this.openAPI, p)) {
+        } else if (isAnyTypeSchema(p)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
             if (Boolean.FALSE.equals(p.getNullable())) {
@@ -3093,7 +3132,7 @@ public class DefaultCodegen implements CodegenConfig {
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getSchemaItems(arraySchema), importMapping);
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(this.openAPI, p),
+            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getAdditionalProperties(p),
                     importMapping);
             if (innerSchema == null) {
                 LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
@@ -3182,7 +3221,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.maxItems = p.getMaxProperties();
 
             // handle inner property
-            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(this.openAPI, p),
+            Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, getAdditionalProperties(p),
                     importMapping);
             if (innerSchema == null) {
                 LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
@@ -3191,13 +3230,13 @@ public class DefaultCodegen implements CodegenConfig {
             }
             CodegenProperty cp = fromProperty("inner", innerSchema);
             updatePropertyForMap(property, cp);
-        } else if (ModelUtils.isFreeFormObject(this.openAPI, p)) {
+        } else if (isFreeFormObject(p)) {
             property.isFreeFormObject = true;
             property.baseType = getSchemaType(p);
             if (languageSpecificPrimitives.contains(property.dataType)) {
                 property.isPrimitiveType = true;
             }
-        } else if (ModelUtils.isAnyTypeSchema(this.openAPI, p)) {
+        } else if (isAnyTypeSchema(p)) {
             property.isAnyType = true;
             property.baseType = getSchemaType(p);
             if (languageSpecificPrimitives.contains(property.dataType)) {
@@ -3433,7 +3472,7 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as));
                 op.returnBaseType = innerProperty.baseType;
             } else if (ModelUtils.isMapSchema(responseSchema)) {
-                CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(this.openAPI, responseSchema));
+                CodegenProperty innerProperty = fromProperty("response", getAdditionalProperties(responseSchema));
                 op.returnBaseType = innerProperty.baseType;
             } else {
                 if (cm.complexType != null) {
@@ -4098,7 +4137,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 
             } else if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
-                CodegenProperty codegenProperty = fromProperty("inner", ModelUtils.getAdditionalProperties(this.openAPI, parameterSchema));
+                CodegenProperty codegenProperty = fromProperty("inner", getAdditionalProperties(parameterSchema));
                 codegenParameter.items = codegenProperty;
                 codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
                 codegenParameter.baseType = codegenProperty.dataType;
@@ -5811,7 +5850,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
             } else {
-                Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, schema);
+                Schema inner = getAdditionalProperties(schema);
                 if (inner == null) {
                     LOGGER.error("No inner type supplied for map parameter `{}`. Default to type:string", schema.getName());
                     inner = new StringSchema().description("//TODO automatically added by openapi-generator");
@@ -5893,7 +5932,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenProperty = codegenProperty.items;
                 }
             }
-        } else if (ModelUtils.isFreeFormObject(this.openAPI, schema)) {
+        } else if (isFreeFormObject(schema)) {
             // HTTP request body is free form object
             CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
             if (codegenProperty != null) {
@@ -6290,4 +6329,147 @@ public class DefaultCodegen implements CodegenConfig {
             return Objects.hash(getName(), getRemoveCharRegEx(), getExceptions());
         }
     }
+
+    /**
+     * Return true if the schema value can be any type, i.e. it can be
+     * the null value, integer, number, string, object or array.
+     * One use case is when the "type" attribute in the OAS schema is unspecified.
+     *
+     * Examples:
+     *
+     *     arbitraryTypeValue:
+     *       description: This is an arbitrary type schema.
+     *         It is not a free-form object.
+     *         The value can be any type except the 'null' value.
+     *     arbitraryTypeNullableValue:
+     *       description: This is an arbitrary type schema.
+     *         It is not a free-form object.
+     *         The value can be any type, including the 'null' value.
+     *       nullable: true
+     *
+     * @param schema the OAS schema.
+     * @return true if the schema value can be an arbitrary type.
+     */
+    public boolean isAnyTypeSchema(Schema schema) {
+        if (schema == null) {
+            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
+            return false;
+        }
+
+        if (isFreeFormObject(schema)) {
+            // make sure it's not free form object
+            return false;
+        }
+
+        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
+                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                schema.getAdditionalProperties() == null && schema.getNot() == null &&
+                schema.getEnum() == null) {
+            return true;
+            // If and when type arrays are supported in a future OAS specification,
+            // we could return true if the type array includes all possible JSON schema types.
+        }
+        return false;
+    }
+
+    /**
+     * Check to see if the schema is a free form object.
+     *
+     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
+     * 1) Does not define properties, and
+     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
+     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
+     *
+     * Examples:
+     *
+     * components:
+     *   schemas:
+     *     arbitraryObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value cannot be 'null'.
+     *         It cannot be array, string, integer, number.
+     *     arbitraryNullableObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value can be 'null',
+     *         It cannot be array, string, integer, number.
+     *       nullable: true
+     *     arbitraryTypeValue:
+     *       description: This is NOT a free-form object.
+     *         The value can be any type except the 'null' value.
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a free-form object
+     */
+    protected boolean isFreeFormObject(Schema schema) {
+        return ModelUtils.isFreeFormObject(this.openAPI, schema);
+    }
+
+    /**
+     * Returns the additionalProperties Schema for the specified input schema.
+     * 
+     * The additionalProperties keyword is used to control the handling of additional, undeclared
+     * properties, that is, properties whose names are not listed in the properties keyword.
+     * The additionalProperties keyword may be either a boolean or an object.
+     * If additionalProperties is a boolean and set to false, no additional properties are allowed.
+     * By default when the additionalProperties keyword is not specified in the input schema,
+     * any additional properties are allowed. This is equivalent to setting additionalProperties
+     * to the boolean value True or setting additionalProperties: {}
+     * 
+     * @param openAPI the object that encapsulates the OAS document.
+     * @param schema the input schema that may or may not have the additionalProperties keyword.
+     * @return the Schema of the additionalProperties. The null value is returned if no additional
+     *         properties are allowed.
+     */
+    protected Schema getAdditionalProperties(Schema schema) {
+        ModelUtils.getAdditionalProperties(openAPI, schema);
+        Object addProps = schema.getAdditionalProperties();
+        if (addProps instanceof Schema) {
+            return (Schema) addProps;
+        }
+        if (this.getLegacyAdditionalPropertiesBehavior()) {
+            // Legacy, non-compliant mode. If the 'additionalProperties' keyword is not present in a OAS schema,
+            // interpret as if the 'additionalProperties' keyword had been set to false.
+            if (addProps instanceof Boolean && (Boolean) addProps) {
+                // Return ObjectSchema to specify any object (map) value is allowed.
+                // Set nullable to specify the value of additional properties may be
+                // the null value.
+                // Free-form additionalProperties don't need to have an inner
+                // additional properties, the type is already free-form.
+                return new ObjectSchema().additionalProperties(Boolean.FALSE).nullable(Boolean.TRUE);
+            }
+        }
+        if (addProps == null) {
+            Map<String, Object> extensions = openAPI.getExtensions();
+            if (extensions != null) {
+                // Get original swagger version from OAS extension.
+                // Note openAPI.getOpenapi() is always set to 3.x even when the document
+                // is converted from a OAS/Swagger 2.0 document.
+                // https://github.com/swagger-api/swagger-parser/pull/1374
+                Object ext = extensions.get("x-original-openapi-version");
+                if (ext instanceof String) {
+                    SemVer version = new SemVer((String)ext);
+                    if (version.major == 2) {
+                        // The OAS version 2 parser sets Schema.additionalProperties to the null value
+                        // even if the OAS document has additionalProperties: true|false
+                        // So we are unable to determine if additional properties are allowed or not.
+                        // The original behavior was to assume additionalProperties had been set to false,
+                        // we retain that behavior.
+                        return null;
+                    }    
+                }
+            }
+        }
+        if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
+            // Return ObjectSchema to specify any object (map) value is allowed.
+            // Set nullable to specify the value of additional properties may be
+            // the null value.
+            // Free-form additionalProperties don't need to have an inner
+            // additional properties, the type is already free-form.
+            return new ObjectSchema().additionalProperties(Boolean.FALSE).nullable(Boolean.TRUE);
+        }
+        return null;
+    }
+
 }

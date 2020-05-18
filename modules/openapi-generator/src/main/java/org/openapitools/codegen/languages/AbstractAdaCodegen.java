@@ -347,7 +347,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             return getTypeDeclaration(inner) + "_Vectors.Vector";
         }
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
+            Schema inner = getAdditionalProperties(p);
             String name = getTypeDeclaration(inner) + "_Map";
             if (name.startsWith("Swagger.")) {
                 return name;

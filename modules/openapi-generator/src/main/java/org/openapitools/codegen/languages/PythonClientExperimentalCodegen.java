@@ -918,18 +918,18 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 return prefix + toModelName(modelName) + fullSuffix;
             }
         }
-        if (ModelUtils.isAnyTypeSchema(this.openAPI, p)) {
+        if (isAnyTypeSchema(p)) {
             return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (ModelUtils.isFreeFormObject(this.openAPI, p) && ModelUtils.getAdditionalProperties(this.openAPI, p) == null) {
+        if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && ModelUtils.getAdditionalProperties(this.openAPI, p) != null) {
-            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
+        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
+            Schema inner = getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -980,7 +980,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        Schema addProps = ModelUtils.getAdditionalProperties(this.openAPI, schema);
+        Schema addProps = getAdditionalProperties(schema);
         if (addProps != null) {
             // if AdditionalProperties exists, get its datatype and
             // store it in codegenModel.additionalPropertiesType.

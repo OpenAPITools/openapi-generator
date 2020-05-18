@@ -195,7 +195,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(this.openAPI, p);
+            Schema inner = getAdditionalProperties(p);
 
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined");
@@ -228,11 +228,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
-            if (ModelUtils.getAdditionalProperties(this.openAPI, ap) == null) {
+            if (getAdditionalProperties(ap) == null) {
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(this.openAPI, ap))));
+            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -365,7 +365,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(ModelUtils.getAdditionalProperties(this.openAPI, p)) + "}";
+            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(getAdditionalProperties(p)) + "}";
 
         } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
