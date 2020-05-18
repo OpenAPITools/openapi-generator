@@ -46,6 +46,9 @@ class <&classname> extends ApiClient {
       let headerParams = {<#headerParams>
         '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></headerParams>
       };
+      <#hasFormParams><^multipartFormData>headerParams['Content-Type'] = 'application/x-www-form-urlencoded';</multipartFormData><#multipartFormData>headerParams['Content-Type'] = 'multipart/form-data';</multipartFormData></hasFormParams><#bodyParam>
+      <^consumes>headerParams['Content-Type'] = 'application/json';</consumes><#consumes.0>headerParams['Content-Type'] = '<mediaType>';</consumes.0></bodyParam>
+
       let formParams = this.compactObject({<#formParams>
         '<baseName>': <#collectionFormat>this.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></formParams>
       });
