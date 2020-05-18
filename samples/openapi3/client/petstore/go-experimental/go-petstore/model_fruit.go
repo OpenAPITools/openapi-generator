@@ -20,6 +20,17 @@ type Fruit struct {
 	Banana *Banana
 }
 
+// AppleAsFruit is a convenience function that returns Apple wrapped in Fruit
+func AppleAsFruit(v *Apple) Fruit {
+    return Fruit{ Apple: v}
+}
+
+// BananaAsFruit is a convenience function that returns Banana wrapped in Fruit
+func BananaAsFruit(v *Banana) Fruit {
+    return Fruit{ Banana: v}
+}
+
+
 // Unmarshl JSON data into one of the pointers in the struct
 func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	var err error

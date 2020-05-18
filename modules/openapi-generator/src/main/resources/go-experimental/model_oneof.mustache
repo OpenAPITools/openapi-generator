@@ -5,6 +5,14 @@ type {{classname}} struct {
 	{{/oneOf}}
 }
 
+{{#oneOf}}
+// {{{.}}}As{{classname}} is a convenience function that returns {{{.}}} wrapped in {{classname}}
+func {{{.}}}As{{classname}}(v *{{{.}}}) {{classname}} {
+    return {{classname}}{ {{{.}}}: v}
+}
+
+{{/oneOf}}
+
 // Unmarshl JSON data into one of the pointers in the struct
 func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	var err error
