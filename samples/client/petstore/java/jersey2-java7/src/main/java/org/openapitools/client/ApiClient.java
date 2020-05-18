@@ -168,7 +168,9 @@ public class ApiClient {
   }
 
   private void updateBasePath() {
-    setBasePath(servers.get(serverIndex).URL(serverVariables));
+    if (serverIndex != null) {
+        setBasePath(servers.get(serverIndex).URL(serverVariables));
+    }
   }
 
   private void setOauthBasePath(String basePath) {
@@ -937,7 +939,7 @@ public class ApiClient {
     // Not using `.target(targetURL).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
-    if (operationServers.containsKey(operation)) {
+    if (serverIndex != null && operationServers.containsKey(operation)) {
       Integer index = operationServerIndex.containsKey(operation) ? operationServerIndex.get(operation) : serverIndex;
       Map<String, String> variables = operationServerVariables.containsKey(operation) ?
         operationServerVariables.get(operation) : serverVariables;

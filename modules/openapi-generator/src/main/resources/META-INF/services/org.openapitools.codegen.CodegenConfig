@@ -114,8 +114,6 @@ org.openapitools.codegen.languages.SpringCodegen
 org.openapitools.codegen.languages.StaticDocCodegen
 org.openapitools.codegen.languages.StaticHtmlGenerator
 org.openapitools.codegen.languages.StaticHtml2Generator
-org.openapitools.codegen.languages.SwiftClientCodegen
-org.openapitools.codegen.languages.Swift3Codegen
 org.openapitools.codegen.languages.Swift4Codegen
 org.openapitools.codegen.languages.Swift5ClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen

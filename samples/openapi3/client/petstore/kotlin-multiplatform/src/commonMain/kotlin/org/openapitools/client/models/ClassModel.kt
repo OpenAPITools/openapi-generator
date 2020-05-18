@@ -21,7 +21,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class ClassModel (
     @SerialName(value = "_class") val propertyClass: kotlin.String? = null
-) 
-
-
+)
 

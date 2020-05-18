@@ -13,6 +13,10 @@ import (
 	"encoding/json"
 )
 
+import (
+    "fmt"
+)
+
 // OuterEnum the model 'OuterEnum'
 type OuterEnum string
 
@@ -22,6 +26,23 @@ const (
 	APPROVED OuterEnum = "approved"
 	DELIVERED OuterEnum = "delivered"
 )
+
+func (v *OuterEnum) UnmarshalJSON(src []byte) error {
+    var value string
+    err := json.Unmarshal(src, &value)
+    if err != nil {
+        return err
+    }
+    enumTypeValue := OuterEnum(value)
+    for _, existing := range []OuterEnum{ "placed", "approved", "delivered",   } {
+        if existing == enumTypeValue {
+            *v = enumTypeValue
+            return nil
+        }
+    }
+
+    return fmt.Errorf("%+v is not a valid OuterEnum", *v)
+}
 
 // Ptr returns reference to OuterEnum value
 func (v OuterEnum) Ptr() *OuterEnum {

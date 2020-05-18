@@ -27,16 +27,14 @@ data class MapTest (
     @SerialName(value = "map_of_enum_string") val mapOfEnumString: MapTest.MapOfEnumString? = null,
     @SerialName(value = "direct_map") val directMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null,
     @SerialName(value = "indirect_map") val indirectMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null
-) 
+) {
 
-
-{
     /**
     * 
     * Values: uPPER,lower
     */
     @Serializable(with = MapOfEnumString.Serializer::class)
-    enum class MapOfEnumString(val value: kotlin.collections.Map<kotlin.String, kotlin.String>){
+    enum class MapOfEnumString(val value: kotlin.String){
         uPPER("UPPER"),
         lower("lower");
 

@@ -31,19 +31,17 @@ data class MapTest (
     val directMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null,
     @Json(name = "indirect_map")
     val indirectMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
     /**
     * 
     * Values: uPPER,lower
     */
     
-    enum class MapOfEnumString(val value: kotlin.collections.Map<kotlin.String, kotlin.String>){
+    enum class MapOfEnumString(val value: kotlin.String){
         @Json(name = "UPPER") uPPER("UPPER"),
         @Json(name = "lower") lower("lower");
     }

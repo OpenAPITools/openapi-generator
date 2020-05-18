@@ -20,8 +20,8 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
 /**
  * 
- * @param enumString 
  * @param enumStringRequired 
+ * @param enumString 
  * @param enumInteger 
  * @param enumNumber 
  * @param outerEnum 
@@ -39,22 +39,8 @@ data class EnumTest (
     @SerialName(value = "outerEnumInteger") val outerEnumInteger: OuterEnumInteger? = null,
     @SerialName(value = "outerEnumDefaultValue") val outerEnumDefaultValue: OuterEnumDefaultValue? = null,
     @SerialName(value = "outerEnumIntegerDefaultValue") val outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue? = null
-) 
+) {
 
-
-{
-    /**
-    * 
-    * Values: uPPER,lower,eMPTY
-    */
-    @Serializable(with = EnumString.Serializer::class)
-    enum class EnumString(val value: kotlin.String){
-        uPPER("UPPER"),
-        lower("lower"),
-        eMPTY("");
-
-        object Serializer : CommonEnumSerializer<EnumString>("EnumString", values(), values().map { it.value.toString() }.toTypedArray())
-    }
     /**
     * 
     * Values: uPPER,lower,eMPTY
@@ -66,6 +52,18 @@ data class EnumTest (
         eMPTY("");
 
         object Serializer : CommonEnumSerializer<EnumStringRequired>("EnumStringRequired", values(), values().map { it.value.toString() }.toTypedArray())
+    }
+    /**
+    * 
+    * Values: uPPER,lower,eMPTY
+    */
+    @Serializable(with = EnumString.Serializer::class)
+    enum class EnumString(val value: kotlin.String){
+        uPPER("UPPER"),
+        lower("lower"),
+        eMPTY("");
+
+        object Serializer : CommonEnumSerializer<EnumString>("EnumString", values(), values().map { it.value.toString() }.toTypedArray())
     }
     /**
     * 

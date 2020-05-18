@@ -4,8 +4,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**enumString** | [**inline**](#EnumStringEnum) |  |  [optional]
 **enumStringRequired** | [**inline**](#EnumStringRequiredEnum) |  | 
+**enumString** | [**inline**](#EnumStringEnum) |  |  [optional]
 **enumInteger** | [**inline**](#EnumIntegerEnum) |  |  [optional]
 **enumNumber** | [**inline**](#EnumNumberEnum) |  |  [optional]
 **outerEnum** | [**OuterEnum**](OuterEnum.md) |  |  [optional]
@@ -14,18 +14,18 @@ Name | Type | Description | Notes
 **outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  |  [optional]
 
 
-<a name="EnumStringEnum"></a>
-## Enum: enum_string
-Name | Value
----- | -----
-enumString | UPPER, lower, 
-
-
 <a name="EnumStringRequiredEnum"></a>
 ## Enum: enum_string_required
 Name | Value
 ---- | -----
 enumStringRequired | UPPER, lower, 
+
+
+<a name="EnumStringEnum"></a>
+## Enum: enum_string
+Name | Value
+---- | -----
+enumString | UPPER, lower, 
 
 
 <a name="EnumIntegerEnum"></a>

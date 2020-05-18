@@ -21,7 +21,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class Return (
     @SerialName(value = "return") val `return`: kotlin.Int? = null
-) 
-
-
+)
 

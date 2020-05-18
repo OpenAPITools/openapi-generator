@@ -16,15 +16,15 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
 /**
  * 
+ * @param number None
+ * @param double None
+ * @param patternWithoutDelimiter None
+ * @param byte None
  * @param integer None
  * @param int32 None
  * @param int64 None
- * @param number None
  * @param float None
- * @param double None
  * @param string None
- * @param patternWithoutDelimiter None
- * @param byte None
  * @param binary None
  * @param date None
  * @param dateTime None
@@ -61,7 +61,5 @@ data class InlineObject3 (
     @SerialName(value = "password") val password: kotlin.String? = null,
     /* None */
     @SerialName(value = "callback") val callback: kotlin.String? = null
-) 
-
-
+)
 

@@ -20,10 +20,9 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  * @param color 
  */
 @Serializable
-data class Animal (
-    @SerialName(value = "className") @Required val className: kotlin.String,
-    @SerialName(value = "color") val color: kotlin.String? = null
-) 
+interface Animal {
 
-
+    @SerialName(value = "className") @Required val className: kotlin.String
+    @SerialName(value = "color") val color: kotlin.String?
+}
 
