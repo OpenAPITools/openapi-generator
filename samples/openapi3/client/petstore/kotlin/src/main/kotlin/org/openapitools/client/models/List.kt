@@ -22,12 +22,10 @@ import java.io.Serializable
 data class List (
     @Json(name = "123-list")
     val `123minusList`: kotlin.String? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

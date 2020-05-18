@@ -16,8 +16,8 @@ import com.squareup.moshi.Json
 import java.io.Serializable
 /**
  * 
- * @param id 
  * @param name 
+ * @param id 
  */
 
 data class Category (
@@ -25,12 +25,10 @@ data class Category (
     val name: kotlin.String,
     @Json(name = "id")
     val id: kotlin.Long? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 
