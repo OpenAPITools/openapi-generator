@@ -22,8 +22,7 @@ package org.openapitools.codegen.api;
  * implementers might take into account the -t cli option,
  * look in the resources for a language specific template, etc
  *
- * @deprecated as of 5.0, replaced by {@link TemplatingExecutor}
- * @apiNote Deprecation is considered low-impact breaking change because tooling only supports internal implementations.
+ * @deprecated as of 5.0, replaced by {@link TemplatingExecutor}.
  */
 @Deprecated()
 public interface TemplatingGenerator extends TemplatingExecutor {
