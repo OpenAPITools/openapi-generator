@@ -1,3 +1,5 @@
+import 'es6-promise/auto';
+
 export * from './http/http';
 export * from './auth/auth';
 export * from './models/all';

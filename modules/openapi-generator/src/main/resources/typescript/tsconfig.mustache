@@ -16,7 +16,14 @@
     "sourceMap": true,
     "outDir": "./dist",
     "noLib": false,
+    {{#platforms}}
+    {{#node}}
+    "lib": [ "es6" ]
+    {{/node}}
+    {{#browser}}
     "lib": [ "es6", "dom" ]
+    {{/browser}}
+    {{/platforms}}
   },
   "exclude": [
   	"dist",

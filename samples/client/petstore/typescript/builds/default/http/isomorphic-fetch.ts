@@ -1,9 +1,6 @@
-declare var fetch: any;
-
 import {HttpLibrary, RequestContext, ResponseContext} from './http';
-import 'es6-promise/auto';
 import { from, Observable } from '../rxjsStub';
-import 'isomorphic-fetch';
+import fetch from "node-fetch";
 
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
@@ -15,7 +12,6 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
             method: method,
             body: body as any,
             headers: request.getHeaders(),
-            credentials: "same-origin"
         }).then((resp: any) => {
             const headers: { [name: string]: string } = {};
             resp.headers.forEach((value: string, name: string) => {
