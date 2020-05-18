@@ -165,6 +165,7 @@ open class PetAPI {
      - returns: AnyPublisher<[Pet], Error>
      */
     @available(*, deprecated, message: "This operation is deprecated.")
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
         return Future<[Pet], Error>.init { promisse in
             findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
