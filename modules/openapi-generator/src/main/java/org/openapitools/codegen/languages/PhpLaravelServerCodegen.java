@@ -122,7 +122,10 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("package.json", outputFolder, "package.json"));
         supportingFiles.add(new SupportingFile("phpunit.xml", outputFolder, "phpunit.xml"));
         supportingFiles.add(new SupportingFile("webpack.mix.js", outputFolder, "webpack.mix.js"));
+        supportingFiles.add(new SupportingFile(".editorconfig", outputFolder, "editorconfig"));
         supportingFiles.add(new SupportingFile(".env.example", outputFolder, ".env.example"));
+        supportingFiles.add(new SupportingFile(".gitattributes", outputFolder, ".gitattributes"));
+        supportingFiles.add(new SupportingFile(".styleci.yml", outputFolder, ".styleci.yml"));
         supportingFiles.add(new SupportingFile("server.php", outputFolder, "server.php"));
 
         supportingFiles.add(new SupportingFile("bootstrap/cache/gitignore", outputFolder + File.separator + "bootstrap" + File.separator + "cache", ".gitignore"));
@@ -147,6 +150,8 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         /* /app/Http/Controllers/ */
         supportingFiles.add(new SupportingFile("app/Http/Kernel.php", outputFolder + File.separator + "app" + File.separator + "Http", "Kernel.php"));
         supportingFiles.add(new SupportingFile("app/Http/Controllers/Controller.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Controllers", "Controller.php"));
+        supportingFiles.add(new SupportingFile("app/Http/Middleware/Authenticate.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "Authenticate.php"));
+        supportingFiles.add(new SupportingFile("app/Http/Middleware/CheckForMaintenanceMode.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "CheckForMaintenanceMode.php"));
         supportingFiles.add(new SupportingFile("app/Http/Middleware/EncryptCookies.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "EncryptCookies.php"));
         supportingFiles.add(new SupportingFile("app/Http/Middleware/RedirectIfAuthenticated.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "RedirectIfAuthenticated.php"));
         supportingFiles.add(new SupportingFile("app/Http/Middleware/TrimStrings.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "TrimStrings.php"));
@@ -163,6 +168,8 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("app/Providers/BroadcastServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "BroadcastServiceProvider.php"));
         supportingFiles.add(new SupportingFile("app/Providers/EventServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "EventServiceProvider.php"));
         supportingFiles.add(new SupportingFile("app/Providers/RouteServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "RouteServiceProvider.php"));
+        // /app/
+        supportingFiles.add(new SupportingFile("app/User.php", outputFolder + File.separator + "app", "RouteServiceProvider.php"));
 
         // /database/
         supportingFiles.add(new SupportingFile("database/factories/UserFactory.php", outputFolder + File.separator + "database" + File.separator + "factories", "UserFactory.php"));
@@ -176,6 +183,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("config/auth.php", outputFolder + File.separator + "config", "auth.php"));
         supportingFiles.add(new SupportingFile("config/broadcasting.php", outputFolder + File.separator + "config", "broadcasting.php"));
         supportingFiles.add(new SupportingFile("config/cache.php", outputFolder + File.separator + "config", "cache.php"));
+        supportingFiles.add(new SupportingFile("config/cors.php", outputFolder + File.separator + "config", "cors.php"));
         supportingFiles.add(new SupportingFile("config/database.php", outputFolder + File.separator + "config", "database.php"));
         supportingFiles.add(new SupportingFile("config/filesystems.php", outputFolder + File.separator + "config", "filesystems.php"));
         supportingFiles.add(new SupportingFile("config/hashing.php", outputFolder + File.separator + "config", "hashing.php"));
@@ -186,12 +194,13 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("config/session.php", outputFolder + File.separator + "config", "session.php"));
         supportingFiles.add(new SupportingFile("config/view.php", outputFolder + File.separator + "config", "view.php"));
 
+        // /database/
+        supportingFiles.add(new SupportingFile("database/migrations/2019_08_19_000000_create_failed_jobs_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2019_08_19_000000_create_failed_jobs_table.php"));
+
         // /resources/
-        supportingFiles.add(new SupportingFile("resources/assets/js/components/ExampleComponent.vue", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js" + File.separator + "components", "ExampleComponent.vue"));
-        supportingFiles.add(new SupportingFile("resources/assets/js/app.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "app.js"));
-        supportingFiles.add(new SupportingFile("resources/assets/js/bootstrap.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "bootstrap.js"));
-        supportingFiles.add(new SupportingFile("resources/assets/sass/_variables.scss", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "sass", "_variables.scss"));
-        supportingFiles.add(new SupportingFile("resources/assets/sass/app.scss", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "sass", "app.scss"));
+        supportingFiles.add(new SupportingFile("resources/js/app.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "app.js"));
+        supportingFiles.add(new SupportingFile("resources/js/bootstrap.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "bootstrap.js"));
+        supportingFiles.add(new SupportingFile("resources/sass/app.scss", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "sass", "app.scss"));
         supportingFiles.add(new SupportingFile("resources/lang/en/auth.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "auth.php"));
         supportingFiles.add(new SupportingFile("resources/lang/en/pagination.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "pagination.php"));
         supportingFiles.add(new SupportingFile("resources/lang/en/passwords.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "passwords.php"));
