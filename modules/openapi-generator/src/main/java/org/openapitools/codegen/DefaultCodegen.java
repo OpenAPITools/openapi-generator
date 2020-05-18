@@ -4093,22 +4093,23 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
 
-        Schema s;
+        Schema parameterSchema;
         if (parameter.getSchema() != null) {
-            s = parameter.getSchema();
+            parameterSchema = parameter.getSchema();
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
             if (content.size() > 1) {
                 once(LOGGER).warn("Multiple schemas found in content, returning only the first one");
             }
-            MediaType mediaType = content.values().iterator().next();
-            s = mediaType.getSchema();
+            Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
+            codegenParameter.contentType = entry.getKey();
+            parameterSchema = entry.getValue().getSchema();
         } else {
-            s = null;
+            parameterSchema = null;
         }
 
-        if (s != null) {
-            Schema parameterSchema = ModelUtils.unaliasSchema(this.openAPI, s, importMapping);
+        if (parameterSchema != null) {
+            parameterSchema = ModelUtils.unaliasSchema(this.openAPI, parameterSchema);
             if (parameterSchema == null) {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
