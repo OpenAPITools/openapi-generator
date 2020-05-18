@@ -258,14 +258,14 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 0);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "Children");
+        Assert.assertNull(property1.complexType);
         Assert.assertEquals(property1.getter, "getChildren");
         Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.dataType, "Map[String, Children]");
+        Assert.assertEquals(property1.dataType, "Any");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "Map[String, Children].empty ");
         Assert.assertEquals(property1.baseType, "Map");

@@ -543,22 +543,22 @@ public class JavaClientCodegenTest {
         Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm1 = codegen.fromModel("MapTest1", test1);
-        Assert.assertEquals(cm1.getDataType(), "Map");
-        Assert.assertEquals(cm1.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm1.getDataType(), "Object");
+        Assert.assertNull(cm1.getParent());
         Assert.assertEquals(cm1.getClassname(), "MapTest1");
 
         Schema test2 = openAPI.getComponents().getSchemas().get("MapTest2");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm2 = codegen.fromModel("MapTest2", test2);
-        Assert.assertEquals(cm2.getDataType(), "Map");
-        Assert.assertEquals(cm2.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm2.getDataType(), "Object");
+        Assert.assertNull(cm2.getParent());
         Assert.assertEquals(cm2.getClassname(), "MapTest2");
 
         Schema test3 = openAPI.getComponents().getSchemas().get("MapTest3");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm3 = codegen.fromModel("MapTest3", test3);
-        Assert.assertEquals(cm3.getDataType(), "Map");
-        Assert.assertEquals(cm3.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm3.getDataType(), "Object");
+        Assert.assertNull(cm3.getParent());
         Assert.assertEquals(cm3.getClassname(), "MapTest3");
 
         Schema other = openAPI.getComponents().getSchemas().get("OtherObj");
@@ -748,34 +748,34 @@ public class JavaClientCodegenTest {
         // map
         final CodegenProperty cp4 = cm2.vars.get(3);
         Assert.assertEquals(cp4.baseName, "map_any_value");
-        Assert.assertEquals(cp4.dataType, "Map<String, Object>");
+        Assert.assertEquals(cp4.dataType, "Object");
         Assert.assertTrue(cp4.hasMore);
         Assert.assertFalse(cp4.required);
         Assert.assertTrue(cp4.isPrimitiveType);
-        Assert.assertTrue(cp4.isContainer);
-        Assert.assertTrue(cp4.isMapContainer);
+        Assert.assertFalse(cp4.isContainer);
+        Assert.assertFalse(cp4.isMapContainer);
         Assert.assertTrue(cp4.isFreeFormObject);
         Assert.assertFalse(cp4.isAnyType);
 
         final CodegenProperty cp5 = cm2.vars.get(4);
         Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
-        Assert.assertEquals(cp5.dataType, "Map<String, Object>");
+        Assert.assertEquals(cp5.dataType, "Object");
         Assert.assertTrue(cp5.hasMore);
         Assert.assertFalse(cp5.required);
         Assert.assertTrue(cp5.isPrimitiveType);
-        Assert.assertTrue(cp5.isContainer);
-        Assert.assertTrue(cp5.isMapContainer);
+        Assert.assertFalse(cp5.isContainer);
+        Assert.assertFalse(cp5.isMapContainer);
         Assert.assertTrue(cp5.isFreeFormObject);
         Assert.assertFalse(cp5.isAnyType);
 
         final CodegenProperty cp6 = cm2.vars.get(5);
         Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
-        Assert.assertEquals(cp6.dataType, "Map<String, Object>");
+        Assert.assertEquals(cp6.dataType, "Object");
         Assert.assertTrue(cp6.hasMore);
         Assert.assertFalse(cp6.required);
         Assert.assertTrue(cp6.isPrimitiveType);
-        Assert.assertTrue(cp6.isContainer);
-        Assert.assertTrue(cp6.isMapContainer);
+        Assert.assertFalse(cp6.isContainer);
+        Assert.assertFalse(cp6.isMapContainer);
         Assert.assertTrue(cp6.isFreeFormObject);
         Assert.assertFalse(cp6.isAnyType);
 
