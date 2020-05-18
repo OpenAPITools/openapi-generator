@@ -160,7 +160,7 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if the specified OAS model has at least one operation with HTTP bearer.
+     * Returns true if the specified OAS model has at least one operation with HTTP bearer authentication.
      *
      * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has HTTP bearer security scheme defined
@@ -173,10 +173,10 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if at least one operation has OAuth security schema defined
+     * Returns true if the specified OAS model has at least one operation with OAuth authentication.
      *
      * @param openAPI An instance of OpenAPI
-     * @return True if at least one operation has OAuth security schema defined
+     * @return True if at least one operation has OAuth security scheme defined
      */
     public static boolean hasOAuthMethods(OpenAPI openAPI) {
         if (hasOAuthMethods == null) {
@@ -186,10 +186,10 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if at least one operation has HTTP basic security schema defined
+     * Returns true if the specified OAS model has at least one operation with HTTP basic authentication.
      *
      * @param openAPI An instance of OpenAPI
-     * @return True if at least one operation has HTTP basic security schema defined
+     * @return True if at least one operation has HTTP basic security scheme defined
      */
     public static boolean hasHttpBasicMethods(OpenAPI openAPI) {
         if (hasHttpBasicMethods == null) {
@@ -199,10 +199,10 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if at least one operation has HTTP signature security schema defined
+     * Returns true if the specified OAS model has at least one operation with HTTP signature authentication.
      *
      * @param openAPI An instance of OpenAPI
-     * @return True if at least one operation has HTTP signature security schema defined
+     * @return True if at least one operation has HTTP signature security scheme defined
      */
     public static boolean hasHttpSignatureMethods(OpenAPI openAPI) {
         if (hasHttpSignatureMethods == null) {
@@ -212,39 +212,52 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if at least one operation has API key security schema defined
+     * Returns true if the specified OAS model has at least one operation with API key authentication.
      *
      * @param openAPI An instance of OpenAPI
-     * @return True if at least one operation has API key security schema defined
+     * @return True if at least one operation has API key security scheme defined
+     */
+    public static boolean hasApiKeyMethods(OpenAPI openAPI) {
+        if (hasApiKeyMethods == null) {
+            processAuthMethods(openAPI);
+        }
+        return hasApiKeyMethods;
+    }
+
+    /**
+     * Update various static variables to indicate whether the spec contains certain security definitions.
+     *
+     * @param openAPI An instance of OpenAPI
      */
     private static void processAuthMethods(OpenAPI openAPI) {
         if (openAPI != null) {
             final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+            if (securitySchemes != null) {
+                for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                    switch (scheme.getValue().getType()) {
+                        case OAUTH2:
+                            hasOAuthMethods = true;
+                            break;
+                        case HTTP:
+                            if ("basic".equals(scheme.getValue().getScheme())) {
+                                hasHttpBasicMethods = true;
+                            } else if ("signature".equals(scheme.getValue().getScheme())) {
+                                hasHttpSignatureMethods = true;
+                            } else if ("bearer".equals(scheme.getValue().getScheme())) {
+                                hasHttpBearerMethods = true;
+                            } else {
+                                throw new RuntimeException("Unknown HTTP security definition type: " + scheme.getValue().getScheme());
+                            }
+                            break;
+                        case APIKEY:
+                            hasApiKeyMethods = true;
+                            break;
+                        case OPENIDCONNECT:
+                            throw new RuntimeException("OPENIDCONNECT security scheme not yet supported. Please report the issue to OpenAPI Generator.");
+                        default:
+                            throw new RuntimeException("Security scheme type not yet supported: " + scheme.getValue().getType());
 
-            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                switch (scheme.getValue().getType()) {
-                    case OAUTH2:
-                        hasOAuthMethods = true;
-                        break;
-                    case HTTP:
-                        if ("basic".equals(scheme.getValue().getScheme())) {
-                            hasHttpBasicMethods = true;
-                        } else if ("signature".equals(scheme.getValue().getScheme())) {
-                            hasHttpSignatureMethods = true;
-                        } else if ("bearer".equals(scheme.getValue().getScheme())) {
-                            hasHttpBearerMethods = true;
-                        } else {
-                            throw new RuntimeException("Unknown HTTP security definition type: " + scheme.getValue().getScheme());
-                        }
-                        break;
-                    case APIKEY:
-                        hasApiKeyMethods = true;
-                        break;
-                    case OPENIDCONNECT:
-                        throw new RuntimeException("OPENIDCONNECT security scheme not yet supported. Please report the issue to OpenAPI Generator.");
-                    default:
-                        throw new RuntimeException("Security scheme type not yet supported: " + scheme.getValue().getType());
-
+                    }
                 }
             }
         }
