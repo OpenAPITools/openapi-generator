@@ -23,12 +23,10 @@ import java.io.Serializable
 data class InlineResponseDefault (
     @Json(name = "string")
     val string: Foo? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 
