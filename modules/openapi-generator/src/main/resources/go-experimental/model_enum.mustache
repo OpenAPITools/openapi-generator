@@ -1,7 +1,3 @@
-import (
-    "fmt"
-)
-
 // {{{classname}}} {{#description}}{{{.}}}{{/description}}{{^description}}the model '{{{classname}}}'{{/description}}
 type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
 
@@ -17,20 +13,20 @@ const (
 )
 
 func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
-    var value {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
-    err := json.Unmarshal(src, &value)
-    if err != nil {
-        return err
-    }
-    enumTypeValue := {{{classname}}}(value)
-    for _, existing := range []{{classname}}{ {{#allowableValues}}{{#enumVars}}{{{value}}}, {{/enumVars}} {{/allowableValues}} } {
-        if existing == enumTypeValue {
-            *v = enumTypeValue
-            return nil
-        }
-    }
+	var value {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := {{{classname}}}(value)
+	for _, existing := range []{{classname}}{ {{#allowableValues}}{{#enumVars}}{{{value}}}, {{/enumVars}} {{/allowableValues}} } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
 
-    return fmt.Errorf("%+v is not a valid {{classname}}", *v)
+	return fmt.Errorf("%+v is not a valid {{classname}}", *v)
 }
 
 // Ptr returns reference to {{{name}}} value
