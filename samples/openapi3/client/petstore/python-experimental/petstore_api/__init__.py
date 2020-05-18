@@ -95,6 +95,7 @@ from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
+from petstore_api.models.nullable_shape import NullableShape
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite
@@ -109,6 +110,7 @@ from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.scalene_triangle import ScaleneTriangle
 from petstore_api.models.shape import Shape
 from petstore_api.models.shape_interface import ShapeInterface
+from petstore_api.models.shape_or_null import ShapeOrNull
 from petstore_api.models.simple_quadrilateral import SimpleQuadrilateral
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.string_boolean_map import StringBooleanMap

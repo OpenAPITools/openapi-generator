@@ -20,6 +20,17 @@ type FruitReq struct {
 	BananaReq *BananaReq
 }
 
+// AppleReqAsFruitReq is a convenience function that returns AppleReq wrapped in FruitReq
+func AppleReqAsFruitReq(v *AppleReq) FruitReq {
+    return FruitReq{ AppleReq: v}
+}
+
+// BananaReqAsFruitReq is a convenience function that returns BananaReq wrapped in FruitReq
+func BananaReqAsFruitReq(v *BananaReq) FruitReq {
+    return FruitReq{ BananaReq: v}
+}
+
+
 // Unmarshl JSON data into one of the pointers in the struct
 func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 	var err error

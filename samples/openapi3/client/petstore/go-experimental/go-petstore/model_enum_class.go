@@ -13,6 +13,10 @@ import (
 	"encoding/json"
 )
 
+import (
+    "fmt"
+)
+
 // EnumClass the model 'EnumClass'
 type EnumClass string
 
@@ -22,6 +26,23 @@ const (
 	ENUMCLASS_EFG EnumClass = "-efg"
 	ENUMCLASS_XYZ EnumClass = "(xyz)"
 )
+
+func (v *EnumClass) UnmarshalJSON(src []byte) error {
+    var value string
+    err := json.Unmarshal(src, &value)
+    if err != nil {
+        return err
+    }
+    enumTypeValue := EnumClass(value)
+    for _, existing := range []EnumClass{ "_abc", "-efg", "(xyz)",   } {
+        if existing == enumTypeValue {
+            *v = enumTypeValue
+            return nil
+        }
+    }
+
+    return fmt.Errorf("%+v is not a valid EnumClass", *v)
+}
 
 // Ptr returns reference to EnumClass value
 func (v EnumClass) Ptr() *EnumClass {
