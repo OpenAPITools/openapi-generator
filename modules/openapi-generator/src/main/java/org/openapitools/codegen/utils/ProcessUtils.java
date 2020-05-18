@@ -1,7 +1,8 @@
 package org.openapitools.codegen.utils;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenSecurity;
 
@@ -10,6 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ProcessUtils {
+
+    private static Boolean hasOAuthMethods;
+    private static Boolean hasHttpBasicMethods;
+    private static Boolean hasHttpSignatureMethods;
+    private static Boolean hasHttpBearerMethods;
+    private static Boolean hasApiKeyMethods;
 
     /**
      * Add x-index extension to the model's properties
@@ -103,6 +110,23 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns true if the specified OAS model has at least one operation with HTTP bearer.
+     *
+     * @param authMethods List of auth methods.
+     * @return True if at least one operation has HTTP bearer security scheme defined
+     */
+    public static boolean hasHttpBearerMethods(List<CodegenSecurity> authMethods) {
+        if (authMethods != null && !authMethods.isEmpty()) {
+            for (CodegenSecurity cs : authMethods) {
+                if (Boolean.TRUE.equals(cs.isBasicBasic)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns true if the specified OAS model has at least one operation with OAuth.
      *
      * @param authMethods List of auth methods.
@@ -138,134 +162,92 @@ public class ProcessUtils {
     /**
      * Returns true if the specified OAS model has at least one operation with HTTP bearer.
      *
-     * @param authMethods List of auth methods.
+     * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has HTTP bearer security scheme defined
      */
-    public static boolean hasHttpBearerMethods(List<CodegenSecurity> authMethods) {
-        if (authMethods != null && !authMethods.isEmpty()) {
-            for (CodegenSecurity cs : authMethods) {
-                if (Boolean.TRUE.equals(cs.isBasicBasic)) {
-                    return true;
-                }
-            }
+    public static boolean hasHttpBearerMethods(OpenAPI openAPI) {
+        if (hasHttpBearerMethods == null) {
+            processAuthMethods(openAPI);
         }
-        return false;
+        return hasHttpBearerMethods;
     }
 
     /**
      * Returns true if at least one operation has OAuth security schema defined
      *
-     * @param objs Map of operations
+     * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has OAuth security schema defined
      */
-    public static boolean hasOAuthMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isOAuth)) {
-
-                            return true;
-                        }
-                    }
-                }
-            }
+    public static boolean hasOAuthMethods(OpenAPI openAPI) {
+        if (hasOAuthMethods == null) {
+            processAuthMethods(openAPI);
         }
-
-        return false;
-    }
-
-    /**
-     * Returns true if at least one operation has Bearer security schema defined
-     *
-     * @param objs Map of operations
-     * @return True if at least one operation has Bearer security schema defined
-     */
-    public static boolean hasHttpBearerMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isBasicBearer)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
+        return hasOAuthMethods;
     }
 
     /**
      * Returns true if at least one operation has HTTP basic security schema defined
      *
-     * @param objs Map of operations
+     * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has HTTP basic security schema defined
      */
-    public static boolean hasHttpBasicMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isBasicBearer)) {
-                            return true;
-                        }
-                    }
-                }
-            }
+    public static boolean hasHttpBasicMethods(OpenAPI openAPI) {
+        if (hasHttpBasicMethods == null) {
+            processAuthMethods(openAPI);
         }
-        return false;
+        return hasHttpBasicMethods;
     }
 
     /**
      * Returns true if at least one operation has HTTP signature security schema defined
      *
-     * @param objs Map of operations
+     * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has HTTP signature security schema defined
      */
-    public static boolean hasHttpSignatureMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isHttpSignature)) {
-                            return true;
-                        }
-                    }
-                }
-            }
+    public static boolean hasHttpSignatureMethods(OpenAPI openAPI) {
+        if (hasHttpSignatureMethods == null) {
+            processAuthMethods(openAPI);
         }
-        return false;
+        return hasHttpSignatureMethods;
     }
 
     /**
      * Returns true if at least one operation has API key security schema defined
      *
-     * @param objs Map of operations
+     * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has API key security schema defined
      */
-    public static boolean hasApiKeyAuthMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isApiKey)) {
-                            return true;
+    private static void processAuthMethods(OpenAPI openAPI) {
+        if (openAPI != null) {
+            final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                switch (scheme.getValue().getType()) {
+                    case OAUTH2:
+                        hasOAuthMethods = true;
+                        break;
+                    case HTTP:
+                        if ("basic".equals(scheme.getValue().getScheme())) {
+                            hasHttpBasicMethods = true;
+                        } else if ("signature".equals(scheme.getValue().getScheme())) {
+                            hasHttpSignatureMethods = true;
+                        } else if ("bearer".equals(scheme.getValue().getScheme())) {
+                            hasHttpBearerMethods = true;
+                        } else {
+                            throw new RuntimeException("Unknown HTTP security definition type: " + scheme.getValue().getScheme());
                         }
-                    }
+                        break;
+                    case APIKEY:
+                        hasApiKeyMethods = true;
+                        break;
+                    case OPENIDCONNECT:
+                        throw new RuntimeException("OPENIDCONNECT security scheme not yet supported. Please report the issue to OpenAPI Generator.");
+                    default:
+                        throw new RuntimeException("Security scheme type not yet supported: " + scheme.getValue().getType());
+
                 }
             }
         }
-        return false;
     }
 }
+
