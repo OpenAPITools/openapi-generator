@@ -107,7 +107,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 if(Array.isArray({{paramName}}))
-                    {{paramName}}={{paramName}}.map((param)=>(typeof param =="object")?JSON.stringify(param):param) as any;
+                    {{paramName}}={{paramName}}.map((param)=> (typeof param === "object" ?JSON.stringify(param) : param) as any;
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
