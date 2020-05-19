@@ -44,6 +44,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public static final String WRAP_CALLS = "wrapCalls";
     public static final String USE_SWAGGER_UI = "useSwaggerUI";
     public static final String SUPPORT_ASYNC = "supportAsync";
+    public static final String USE_MODEL_BUILDER = "useModelBuilder";
 
     protected String title = "openapi-java-playframework";
     protected String configPackage = "org.openapitools.configuration";
@@ -55,6 +56,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     protected boolean wrapCalls = true;
     protected boolean useSwaggerUI = true;
     protected boolean supportAsync = false;
+    protected boolean useModelBuilder = false;
 
     public JavaPlayFrameworkCodegen() {
         super();
@@ -96,11 +98,13 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         cliOptions.add(createBooleanCliWithDefault(WRAP_CALLS, "Add a wrapper to each controller function to handle things like metrics, response modification, etc..", wrapCalls));
         cliOptions.add(createBooleanCliWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI));
         cliOptions.add(createBooleanCliWithDefault(SUPPORT_ASYNC, "Support Async operations", supportAsync));
+        cliOptions.add(createBooleanCliWithDefault(USE_MODEL_BUILDER, "Use builder pattern for models", useModelBuilder));
     }
 
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
+
     }
 
     @Override
@@ -173,6 +177,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
         }
         writePropertyBack(SUPPORT_ASYNC, supportAsync);
+        if (additionalProperties.containsKey(USE_MODEL_BUILDER)) {
+          this.setUseModelBuilder(convertPropertyToBoolean(USE_MODEL_BUILDER));
+        }
+        writePropertyBack(USE_MODEL_BUILDER, useModelBuilder);
 
         //We don't use annotation anymore
         importMapping.remove("ApiModelProperty");
@@ -229,6 +237,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
 
         importMapping.put("InputStream", "java.io.InputStream");
+        //needed for the immutable models if setting is set
+        importMapping.put("Collections", "java.util.Collections");
         typeMapping.put("file", "InputStream");
     }
 
@@ -239,6 +249,21 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         //We don't use annotation anymore
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
+        // needed for the immutable models if setting is set
+        // the following could be done much prettier with java 8, but I'm
+        // not sure if this code is supposed to run on earlier versions.
+        boolean isContainerPresent=false;
+        for(CodegenProperty var:model.getAllVars()) {
+          if(var.isContainer) {
+            isContainerPresent=true;
+            break;
+          }
+        }
+        //Java 8 version would look like this:
+        // boolean isContainerPresent=model.getAllVars().stream().matchAny(var->var.isContainer)
+        if(isContainerPresent && useModelBuilder) {
+          model.imports.add("Collections");
+        }
     }
 
     @Override
@@ -280,6 +305,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setUseModelBuilder(boolean useModelBuilder) {
+      this.useModelBuilder = useModelBuilder;
     }
 
     public void setHandleExceptions(boolean handleExceptions) {
