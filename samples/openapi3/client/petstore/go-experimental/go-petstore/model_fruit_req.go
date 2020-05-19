@@ -22,12 +22,12 @@ type FruitReq struct {
 
 // AppleReqAsFruitReq is a convenience function that returns AppleReq wrapped in FruitReq
 func AppleReqAsFruitReq(v *AppleReq) FruitReq {
-    return FruitReq{ AppleReq: v}
+	return FruitReq{ AppleReq: v}
 }
 
 // BananaReqAsFruitReq is a convenience function that returns BananaReq wrapped in FruitReq
 func BananaReqAsFruitReq(v *BananaReq) FruitReq {
-    return FruitReq{ BananaReq: v}
+	return FruitReq{ BananaReq: v}
 }
 
 
@@ -62,6 +62,10 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 	}
 
 	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.AppleReq = nil
+		dst.BananaReq = nil
+
 		return fmt.Errorf("Data matches more than one schema in oneOf(FruitReq)")
 	} else if match == 1 {
 		return nil // exactly one match
