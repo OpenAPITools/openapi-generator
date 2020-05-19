@@ -1,0 +1,188 @@
+import java.util.Objects;
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
+/**
+ * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ */
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+{{>enumClass}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+{{>enumClass}} 
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
+  {{#jackson}}
+  @JsonProperty("{{baseName}}")
+  {{/jackson}}
+  {{#gson}}
+  @SerializedName("{{baseName}}")
+  {{/gson}}
+  private final {{{datatypeWithEnum}}} {{name}};
+
+  {{/vars}}
+
+  {{#vars}}
+  /**
+  {{#description}}
+   * {{{description}}}
+  {{/description}}
+  {{^description}}
+   * Get {{name}}
+  {{/description}}
+  {{#minimum}}
+   * minimum: {{minimum}}
+  {{/minimum}}
+  {{#maximum}}
+   * maximum: {{maximum}}
+  {{/maximum}}
+   * @return {{name}}
+   */
+ {{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+  {{/vendorExtensions.x-extra-annotation}}
+  {{#useBeanValidation}}{{>beanValidation}}  {{/useBeanValidation}}public {{{datatypeWithEnum}}} {{getter}}() {
+    {{#isListContainer}}
+    return Collections.unmodifiableList({{name}});
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    return Collections.unmodifiableMap({{name}});
+    {{/isMapContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    return {{name}};
+    {{/isMapContainer}}
+    {{/isListContainer}}
+  }
+
+  {{/vars}}
+  private {{classname}} ({{#vars}}{{{datatypeWithEnum}}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}){
+    {{#vars}}
+    this.{{name}}={{name}};
+    {{/vars}}
+  }
+
+  public static {{classname}}Builder builder(){
+    return new {{classname}}Builder();
+  }
+
+  public static {{classname}}Builder builder({{classname}} o){
+    return new {{classname}}Builder(o);
+  }
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }{{#hasVars}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
+        {{/hasMore}}{{/vars}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return true;{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+  }
+
+  @SuppressWarnings("StringBufferReplaceableByString")
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
+    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    {{/vars}}sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+  
+  public static class {{classname}}Builder {
+    
+  {{#vars}}
+    {{#isContainer}}
+    private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+    {{/isContainer}}
+    {{^isContainer}}
+    private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+    {{/isContainer}}
+  {{/vars}}
+
+    public {{classname}}Builder(final {{classname}} o){
+      if (o == null) {
+        throw new NullPointerException("Cannot create a copy of {{classname}} from null");
+      }
+      {{#vars}}
+      this.{{name}} = o.{{getter}}();
+      {{/vars}}
+    }
+    
+    public {{classname}}Builder(){
+    }
+    
+    {{#vars}}
+    public {{classname}}Builder with{{nameInCamelCase}}(final {{{datatypeWithEnum}}} {{name}}) {
+      this.{{name}} = {{name}};
+      return this;
+    }
+
+    public {{classname}}Builder with{{nameInCamelCase}}IfNotNull(final {{{datatypeWithEnum}}} {{name}}) {
+      if({{name}} == null){
+        return this;
+      } else {
+        return with{{nameInCamelCase}}({{name}});
+      }
+    }
+    {{#isListContainer}}
+
+    public {{classname}}Builder add{{nameInCamelCase}}(final {{{items.datatypeWithEnum}}} {{name}}Item) {
+      {{^required}}
+      if ({{name}} == null) {
+        {{name}} = {{{defaultValue}}};
+      }
+      {{/required}}
+      {{name}}.add({{name}}Item);
+      return this;
+    }
+    {{/isListContainer}}
+    {{#isMapContainer}}
+
+    public {{classname}}Builder put{{nameInCamelCase}}(final String key, final {{{items.datatypeWithEnum}}} {{name}}Item) {
+      {{^required}}
+      if (this.{{name}} == null) {
+        this.{{name}} = {{{defaultValue}}};
+      }
+      {{/required}}
+      this.{{name}}.put(key, {{name}}Item);
+      return this;
+    }
+    {{/isMapContainer}}
+    {{/vars}}
+
+    public {{classname}} build(){
+      return new {{classname}}({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}});
+    }
+  } 
+}
