@@ -2004,6 +2004,16 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Output the type declaration of a given array schema
+     *
+     * @param name name
+     * @return a string presentation of the type
+     */
+    public String getArraySchemaTypeDeclaration(ArraySchema arraySchema, String name) {
+        return getTypeDeclaration(arraySchema);
+    }
+
+    /**
      * Determine the type alias for the given type if it exists. This feature
      * was originally developed for Java because the language does not have an aliasing
      * mechanism of its own but later extends to handle other languages
@@ -5403,6 +5413,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
         }
+
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
         ModelUtils.syncValidationProperties(schema, codegenParameter);
@@ -5480,7 +5491,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
                 codegenParameter.items = codegenProperty.items;
                 codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                codegenParameter.dataType = getTypeDeclaration(arraySchema);
+                codegenParameter.dataType = getArraySchemaTypeDeclaration(arraySchema, name);
                 codegenParameter.baseType = getSchemaType(inner);
                 codegenParameter.isContainer = Boolean.TRUE;
                 codegenParameter.isListContainer = Boolean.TRUE;

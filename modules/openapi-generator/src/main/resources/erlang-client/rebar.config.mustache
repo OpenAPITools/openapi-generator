@@ -1,5 +1,20 @@
-{erl_opts, [debug_info, warnings_as_errors, warn_untyped_record]}.
+{erl_opts, [
+    {parse_transform, ct_expand}
+]}.
 
-{deps, [ctx, jsx, hackney]}.
-
-{shell, [{apps, [{{packageName}}]}]}.
+{deps, [
+    {hackney,     "1.15.1"},
+    {parse_trans,
+        {git, "https://github.com/uwiger/parse_trans.git",
+            {ref, "76abb347c3c1d00fb0ccf9e4b43e22b3d2288484"}
+        }
+    },
+    {jsx,
+        {git, "https://github.com/talentdeficit/jsx.git", {tag, "2.9.0"}}
+    },
+    {jesse,
+        {git, "https://github.com/rbkmoney/jesse.git",
+            {ref, "600cc8318c685de60a1ceee055b3f69bc884800d"}
+        }
+    }
+]}.

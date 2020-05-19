@@ -17,10 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.serializer.SerializerUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -104,29 +110,30 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         instantiationTypes.clear();
 
         typeMapping.clear();
-        typeMapping.put("enum", "binary");
-        typeMapping.put("date", "date");
-        typeMapping.put("datetime", "datetime");
-        typeMapping.put("boolean", "boolean");
-        typeMapping.put("string", "binary");
-        typeMapping.put("integer", "integer");
-        typeMapping.put("int", "integer");
-        typeMapping.put("float", "integer");
-        typeMapping.put("long", "integer");
-        typeMapping.put("double", "float");
-        typeMapping.put("array", "list");
-        typeMapping.put("map", "map");
-        typeMapping.put("number", "integer");
-        typeMapping.put("bigdecimal", "float");
-        typeMapping.put("List", "list");
-        typeMapping.put("object", "object");
-        typeMapping.put("file", "file");
-        typeMapping.put("binary", "binary");
-        typeMapping.put("bytearray", "binary");
-        typeMapping.put("byte", "binary");
-        typeMapping.put("uuid", "binary");
-        typeMapping.put("uri", "binary");
-        typeMapping.put("password", "binary");
+        typeMapping.put("enum",         "binary");
+        typeMapping.put("date",         "binary");
+        typeMapping.put("DateTime",     "binary");
+        typeMapping.put("string",       "binary");
+        typeMapping.put("char",         "binary");
+        typeMapping.put("binary",       "binary");
+        typeMapping.put("UUID",         "binary");
+        typeMapping.put("password",     "binary");
+        typeMapping.put("boolean",      "boolean");
+        typeMapping.put("integer",      "integer");
+        typeMapping.put("long",         "integer");
+        typeMapping.put("float",        "float");
+        typeMapping.put("double",       "float");
+        typeMapping.put("number",       "float");
+        typeMapping.put("array",        "list");
+        typeMapping.put("List",         "list");
+        typeMapping.put("map",          "map");
+        typeMapping.put("object",       "object");
+        typeMapping.put("file",         "file");
+        typeMapping.put("ByteArray",    "byte");
+        typeMapping.put("int",          "integer");
+        typeMapping.put("bigdecimal",   "float");
+        typeMapping.put("byte",         "binary");
+        typeMapping.put("uri",          "binary");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang package name (convention: lowercase).")
@@ -166,14 +173,20 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("rebar.config.mustache", "", "rebar.config"));
         supportingFiles.add(new SupportingFile("app.src.mustache", "", "src" + File.separator + this.packageName + ".app.src"));
         supportingFiles.add(new SupportingFile("router.mustache", "", toSourceFilePath("router", "erl")));
-        supportingFiles.add(new SupportingFile("api.mustache", "", toSourceFilePath("api", "erl")));
-        supportingFiles.add(new SupportingFile("server.mustache", "", toSourceFilePath("server", "erl")));
         supportingFiles.add(new SupportingFile("utils.mustache", "", toSourceFilePath("utils", "erl")));
-        supportingFiles.add(new SupportingFile("auth.mustache", "", toSourceFilePath("auth", "erl")));
-        supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath(this.openApiSpecName, "json")));
-        supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
+        supportingFiles.add(new SupportingFile("types.mustache", "", toPackageNameSrcFile("erl")));
+        supportingFiles.add(new SupportingFile("handler_api.mustache", "", toSourceFilePath("handler_api", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
+        supportingFiles.add(new SupportingFile("validation.mustache", "", toSourceFilePath("validation", "erl")));
+        supportingFiles.add(new SupportingFile("common_validator.mustache", "", toSourceFilePath("common_validator", "erl")));
+        supportingFiles.add(new SupportingFile("param_validator.mustache", "", toSourceFilePath("param_validator", "erl")));
+        supportingFiles.add(new SupportingFile("schema_validator.mustache", "", toSourceFilePath("schema_validator", "erl")));
+        supportingFiles.add(new SupportingFile("custom_validator.mustache", "", toSourceFilePath("custom_validator", "erl")));
+        supportingFiles.add(new SupportingFile("schema.mustache", "", toSourceFilePath("schema", "erl")));
+        supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath(this.openApiSpecName, "json")));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+
+        ModelUtils.setGenerateAliasAsModel(true);
     }
 
     @Override
@@ -238,6 +251,21 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     /**
+     * If the pattern contains "/" in the beginning or in the end
+     * remove those "/" symbols.
+     *
+     * @param pattern the pattern (regular expression)
+     * @return the pattern with delimiter
+     */
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (pattern != null) {
+            return pattern.replaceAll("^/","").replaceAll("/$","");
+        }
+        return pattern;
+    }
+
+    /**
      * Location to write api files.  You can use the apiPackage() as defined when the class is
      * instantiated
      */
@@ -285,6 +313,11 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         return super.postProcessSupportingFileData(objs);
     }
 
+    @Override
+    public String getArraySchemaTypeDeclaration(ArraySchema arraySchema, String name) {
+        return getTypeDeclaration(name);
+    }
+
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
@@ -311,6 +344,10 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     protected String toPrivFilePath(String name, String extension) {
         return "priv" + File.separator + name + "." + extension;
+    }
+
+    protected String toPackageNameSrcFile(String extension) {
+        return "src" + File.separator + this.packageName + "." + extension;
     }
 
     @Override

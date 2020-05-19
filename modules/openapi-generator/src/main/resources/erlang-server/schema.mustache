@@ -1,0 +1,238 @@
+%% -*- mode: erlang -*-
+-module({{packageName}}_schema).
+
+-export([get/0]).
+-export([get_raw/0]).
+-export([load_raw/0]).
+-export([enumerate_components/1]).
+
+-define(COMPONENTS, <<"components">>).
+
+-spec get() -> {{packageName}}:object().
+get() ->
+    ct_expand:term(enumerate_components(maps:with([?COMPONENTS], load_raw()))).
+
+-spec enumerate_components(Schema :: map()) ->
+    Schema :: map() | no_return().
+enumerate_components(Schema = #{?COMPONENTS := Components}) ->
+    %@NOTICE only parents within the same component type are supported
+    Schema#{?COMPONENTS => maps:map(fun enumerate_discriminator_children/2, Components)};
+enumerate_components(Schema) ->
+    Schema.
+
+-spec enumerate_discriminator_children(ComponentType :: binary(), Schema :: map()) ->
+    Schema :: map() | no_return().
+enumerate_discriminator_children(_ComponentType, Defs) ->
+    try
+        {Parents, _} = maps:fold(
+            fun(Name, Schema, Acc) ->
+                check_definition(Name, Schema, Acc)
+            end,
+            {#{}, #{}},
+            Defs
+        ),
+        maps:fold(
+            fun(Parent, Children, Schema) ->
+                correct_schema(Parent, Children, Schema)
+            end,
+            Defs,
+            Parents
+        )
+    catch
+        _:Error ->
+            handle_error(Error)
+    end.
+
+-spec handle_error(_) ->
+    no_return().
+handle_error(Error) ->
+    erlang:error({schema_invalid, Error}).
+
+check_definition(Name, Schema, Acc) ->
+    Acc1 = check_discriminator(Name, Schema, Acc),
+    check_backrefs(Name, Schema, Acc1).
+
+check_discriminator(Name, Schema, {Parents, Candidates}) ->
+    case maps:get(<<"discriminator">>, Schema, undefined) of
+        undefined ->
+            {Parents, Candidates};
+        _ ->
+            {
+                Parents#{Name => maps:get(Name, Candidates, [])},
+                maps:without([Name], Candidates)
+            }
+    end.
+
+check_backrefs(Name, Schema, Acc) ->
+    case maps:get(<<"allOf">>, Schema, undefined) of
+        undefined ->
+            Acc;
+        AllOf ->
+            lists:foldl(fun(E, A) -> check_allOf(E, Name, A) end, Acc, AllOf)
+    end.
+
+check_allOf(#{<<"$ref">> := RefPath}, Child, {Parents, Candidates}) ->
+    Parent = get_parent_from_ref(RefPath),
+    case maps:get(Parent, Parents, undefined) of
+        undefined ->
+            {Parents, update_candidates(Parent, Child, Candidates)};
+        Children ->
+            {Parents#{Parent => [Child | Children]}, Candidates}
+    end;
+check_allOf(_, _, Acc) ->
+    Acc.
+
+get_parent_from_ref(RefPath) ->
+    Split = binary:split(RefPath, [<<"/">>], [global]),
+    lists:last(Split).
+
+update_candidates(Parent, Child, Candidates) ->
+    case maps:get(Parent, Candidates, undefined) of
+        undefined ->
+            Candidates#{Parent => [Child]};
+        Children ->
+            Candidates#{Parent => [Child | Children]}
+    end.
+
+correct_schema(Parent, Children, Schema) ->
+    BasePath = [Parent],
+    Discr    = maps:get(<<"discriminator">>, get_sub_schema(BasePath, Schema)),
+    PropertyName = maps:get(<<"propertyName">>, Discr),
+    update_schema(Children, [<<"enum">>, PropertyName, <<"properties">> | BasePath], Schema).
+
+update_schema(Value, [], _Schema) ->
+    Value;
+update_schema(Value, [Key | Path], Schema) ->
+    SubSchema0 = get_sub_schema(Path, Schema),
+    SubSchema1 = update_sub_schema(Key, Value, SubSchema0),
+    update_schema(SubSchema1, Path, Schema).
+
+get_sub_schema(ReversedPath, Schema) ->
+    lists:foldr(fun(K, S) -> maps:get(K, S) end, Schema, ReversedPath).
+
+update_sub_schema(Key, Value, Schema) ->
+    Schema#{Key => Value}.
+
+-spec get_raw() -> map().
+get_raw() ->
+    ct_expand:term(load_raw()).
+
+-spec load_raw() -> map().
+load_raw() ->
+    {ok, Data} = file:read_file(get_openapi_path()),
+    jsx:decode(Data, [return_maps]).
+
+get_openapi_path() ->
+    filename:join(code:priv_dir({{packageName}}), "{{{openAPISpecName}}}.json").
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+-define(SCHEMA,
+<<"{\"components\": {
+    \"schemas\": {
+       \"Pet\": {
+         \"type\":          \"object\",
+         \"discriminator\": {
+            \"propertyName\": \"petType\"
+         },
+         \"properties\": {
+            \"name\":    {\"type\": \"string\"},
+            \"petType\": {\"type\": \"string\"}
+         },
+         \"required\": [\"name\", \"petType\"]
+       },
+       \"Cat\": {
+         \"description\": \"A representation of a cat\",
+         \"allOf\": [
+           {\"$ref\": \"#/components/schemas/Pet\"},
+           {
+             \"type\":       \"object\",
+             \"properties\": {
+               \"huntingSkill\": {
+                 \"type\":        \"string\",
+                 \"description\": \"The measured skill for hunting\",
+                 \"default\":     \"lazy\",
+                 \"enum\":        [\"clueless\", \"lazy\", \"adventurous\", \"aggressive\"]
+               }
+             },
+             \"required\": [\"huntingSkill\"]
+           }
+         ]
+       },
+       \"Dog\": {
+         \"description\": \"A representation of a dog\",
+         \"allOf\": [
+           {\"$ref\": \"#/components/schemas/Pet\"},
+           {
+             \"type\":       \"object\",
+             \"properties\": {
+               \"packSize\": {
+                 \"type\":        \"integer\",
+                 \"format\":      \"int32\",
+                 \"description\": \"the size of the pack the dog is from\",
+                 \"default\":     0,
+                 \"minimum\":     0
+               }
+             }
+           }
+         ],
+         \"required\": [\"packSize\"]
+       },
+       \"Person\": {
+         \"type\":          \"object\",
+         \"discriminator\": {
+            \"propertyName\": \"personType\"
+          },
+         \"properties\": {
+           \"name\": {\"type\": \"string\"},
+           \"sex\": {
+             \"type\": \"string\",
+             \"enum\": [\"male\", \"female\"]
+           },
+           \"personType\": {\"type\": \"string\"}
+         },
+         \"required\": [\"name\", \"sex\", \"personType\"]
+       },
+       \"WildMix\": {
+         \"allOf\": [
+           {\"$ref\": \"#/components/schemas/Pet\"},
+           {\"$ref\": \"#/components/schemas/Person\"}
+         ],
+       },
+       \"Dummy\": {
+         \"type\":          \"object\",
+         \"discriminator\": {
+            \"propertyName\": \"dummyType\"
+         },
+         \"properties\": {
+           \"name\":      {\"type\": \"string\"},
+           \"dummyType\": {\"type\": \"string\"}
+         },
+         \"required\": [\"name\", \"dummyType\"]
+       }
+    }
+}}">>).
+
+get_enum(Parent, Discr, ComponentType, Schema) ->
+    lists:sort(get_sub_schema([<<"enum">>, Discr, <<"properties">>, Parent, ComponentType, ?COMPONENTS], Schema)).
+
+-spec test() -> _.
+-spec enumerate_discriminator_children_test() -> _.
+enumerate_discriminator_children_test() ->
+    Schema      = jsx:decode(?SCHEMA, [return_maps]),
+    FixedSchema = enumerate_components(Schema),
+    ?assertEqual(
+        lists:sort([<<"Dog">>, <<"Cat">>, <<"WildMix">>]),
+        get_enum(<<"Pet">>, <<"petType">>, <<"schemas">>, FixedSchema)
+    ),
+    ?assertEqual([<<"WildMix">>], get_enum(<<"Person">>,  <<"personType">>, <<"schemas">>, FixedSchema)),
+    ?assertEqual([],              get_enum(<<"Dummy">>,   <<"dummyType">>,  <<"schemas">>, FixedSchema)).
+
+-spec get_test() -> _.
+get_test() ->
+    ?assertEqual(
+        enumerate_components(maps:with([?COMPONENTS], get_raw())),
+        ?MODULE:get()
+    ).
+-endif.
