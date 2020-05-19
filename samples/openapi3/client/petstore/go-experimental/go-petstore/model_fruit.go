@@ -20,6 +20,17 @@ type Fruit struct {
 	Banana *Banana
 }
 
+// AppleAsFruit is a convenience function that returns Apple wrapped in Fruit
+func AppleAsFruit(v *Apple) Fruit {
+	return Fruit{ Apple: v}
+}
+
+// BananaAsFruit is a convenience function that returns Banana wrapped in Fruit
+func BananaAsFruit(v *Banana) Fruit {
+	return Fruit{ Banana: v}
+}
+
+
 // Unmarshl JSON data into one of the pointers in the struct
 func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	var err error
@@ -51,6 +62,10 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	}
 
 	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.Apple = nil
+		dst.Banana = nil
+
 		return fmt.Errorf("Data matches more than one schema in oneOf(Fruit)")
 	} else if match == 1 {
 		return nil // exactly one match

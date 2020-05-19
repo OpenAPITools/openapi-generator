@@ -47,9 +47,9 @@ data class Pet (
     */
     
     enum class Status(val value: kotlin.String){
-        @JsonProperty(value="available") AVAILABLE("available"),
-        @JsonProperty(value="pending") PENDING("pending"),
-        @JsonProperty(value="sold") SOLD("sold");
+        @JsonProperty(value = "available") AVAILABLE("available"),
+        @JsonProperty(value = "pending") PENDING("pending"),
+        @JsonProperty(value = "sold") SOLD("sold");
     }
 }
 

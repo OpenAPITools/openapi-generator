@@ -27,6 +27,10 @@ class TestDrawing(unittest.TestCase):
         pass
 
     def test_deserialize_oneof_reference(self):
+        """
+        Validate the scenario when the type of a OAS property is 'oneOf', and the 'oneOf'
+        schema is specified as a reference ($ref), not an inline 'oneOf' schema.
+        """
         isosceles_triangle = petstore_api.Shape(
             shape_type="Triangle",
             triangle_type="IsoscelesTriangle"
@@ -63,6 +67,62 @@ class TestDrawing(unittest.TestCase):
         assert isinstance(inst.shapes[1], petstore_api.IsoscelesTriangle)
         assert isinstance(inst.shapes[2], petstore_api.EquilateralTriangle)
         assert isinstance(inst.shapes[3], petstore_api.ComplexQuadrilateral)
+
+        # Validate we cannot assign the None value to main_shape because the 'null' type
+        # is not one of the allowed types in the 'Shape' schema.
+        err_msg = ("Invalid type for variable '{}'. "
+            "Required value type is {} and passed type was {} at {}")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiTypeError,
+            err_msg.format("main_shape", "Shape", "NoneType", "\['main_shape'\]")
+        ):
+            inst = petstore_api.Drawing(
+                # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
+                # So the None value should not be allowed and an exception should be raised.
+                main_shape=None,
+            )
+
+
+    def test_deserialize_oneof_reference_with_null_type(self):
+        """
+        Validate the scenario when the type of a OAS property is 'oneOf', and the 'oneOf'
+        schema is specified as a reference ($ref), not an inline 'oneOf' schema.
+        Further, the 'oneOf' schema has a 'null' type child schema (as introduced in
+        OpenAPI 3.1).
+        """
+
+        # Validate we can assign the None value to shape_or_null, because the 'null' type
+        # is one of the allowed types in the 'ShapeOrNull' schema.
+        inst = petstore_api.Drawing(
+            # 'shape_or_null' has type 'ShapeOrNull', which is a oneOf [null, triangle, quadrilateral]
+            shape_or_null=None,
+        )
+        assert isinstance(inst, petstore_api.Drawing)
+        self.assertFalse(hasattr(inst, 'main_shape'))
+        self.assertTrue(hasattr(inst, 'shape_or_null'))
+        self.assertIsNone(inst.shape_or_null)
+
+
+    def test_deserialize_oneof_reference_with_nullable_type(self):
+        """
+        Validate the scenario when the type of a OAS property is 'oneOf', and the 'oneOf'
+        schema is specified as a reference ($ref), not an inline 'oneOf' schema.
+        Further, the 'oneOf' schema has the 'nullable' attribute (as introduced in
+        OpenAPI 3.0 and deprecated in 3.1).
+        """
+
+        # Validate we can assign the None value to nullable_shape, because the NullableShape
+        # has the 'nullable: true' attribute.
+        inst = petstore_api.Drawing(
+            # 'nullable_shape' has type 'NullableShape', which is a oneOf [triangle, quadrilateral]
+            # and the 'nullable: true' attribute. 
+            nullable_shape=None,
+        )
+        assert isinstance(inst, petstore_api.Drawing)
+        self.assertFalse(hasattr(inst, 'main_shape'))
+        self.assertTrue(hasattr(inst, 'nullable_shape'))
+        self.assertIsNone(inst.nullable_shape)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -33,10 +33,20 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
+    from petstore_api.models import nullable_shape
+except ImportError:
+    nullable_shape = sys.modules[
+        'petstore_api.models.nullable_shape']
+try:
     from petstore_api.models import shape
 except ImportError:
     shape = sys.modules[
         'petstore_api.models.shape']
+try:
+    from petstore_api.models import shape_or_null
+except ImportError:
+    shape_or_null = sys.modules[
+        'petstore_api.models.shape_or_null']
 
 
 class Drawing(ModelNormal):
@@ -83,6 +93,8 @@ class Drawing(ModelNormal):
         """
         return {
             'main_shape': (shape.Shape,),  # noqa: E501
+            'shape_or_null': (shape_or_null.ShapeOrNull,),  # noqa: E501
+            'nullable_shape': (nullable_shape.NullableShape, none_type,),  # noqa: E501
             'shapes': ([shape.Shape],),  # noqa: E501
         }
 
@@ -92,6 +104,8 @@ class Drawing(ModelNormal):
 
     attribute_map = {
         'main_shape': 'mainShape',  # noqa: E501
+        'shape_or_null': 'shapeOrNull',  # noqa: E501
+        'nullable_shape': 'nullableShape',  # noqa: E501
         'shapes': 'shapes',  # noqa: E501
     }
 
@@ -140,6 +154,8 @@ class Drawing(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             main_shape (shape.Shape): [optional]  # noqa: E501
+            shape_or_null (shape_or_null.ShapeOrNull): [optional]  # noqa: E501
+            nullable_shape (nullable_shape.NullableShape, none_type): [optional]  # noqa: E501
             shapes ([shape.Shape]): [optional]  # noqa: E501
         """
 

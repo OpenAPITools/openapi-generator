@@ -85,3 +85,87 @@ function Initialize-PSPet {
         return $PSO
     }
 }
+
+<#
+.SYNOPSIS
+
+Convert from JSON to Pet<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to Pet<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+Pet<PSCustomObject>
+#>
+function ConvertFrom-PSJsonToPet {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSPet' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        If ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") { # empty json
+            throw "Error! Empty JSON cannot be serialized due to the required property `name` missing."
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) {
+            throw "Error! JSON cannot be serialized due to the required property `name` missing." 
+        } else {
+            $Name = $JsonParameters.PSobject.Properties["name"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "photoUrls"))) {
+            throw "Error! JSON cannot be serialized due to the required property `photoUrls` missing." 
+        } else {
+            $PhotoUrls = $JsonParameters.PSobject.Properties["photoUrls"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+            $Id = $null
+        } else {
+            $Id = $JsonParameters.PSobject.Properties["id"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "category"))) { #optional property not found
+            $Category = $null
+        } else {
+            $Category = $JsonParameters.PSobject.Properties["category"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "tags"))) { #optional property not found
+            $Tags = $null
+        } else {
+            $Tags = $JsonParameters.PSobject.Properties["tags"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "status"))) { #optional property not found
+            $Status = $null
+        } else {
+            $Status = $JsonParameters.PSobject.Properties["status"].value
+        }
+
+        $PSO = [PSCustomObject]@{
+            "id" = ${Id}
+            "category" = ${Category}
+            "name" = ${Name}
+            "photoUrls" = ${PhotoUrls}
+            "tags" = ${Tags}
+            "status" = ${Status}
+        }
+
+        return $PSO
+    }
+
+}
+

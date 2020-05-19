@@ -89,7 +89,8 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         $RequestBody = $Body
     }
 
-# http signature authentication
+    {{#hasHttpSignatureMethods}}
+    # http signature authentication
     if ($null -ne $Configuration['ApiKey'] -and $Configuration['ApiKey'].Count -gt 0) {
         $httpSignHeaderArgument = @{
             Method     = $Method
@@ -104,6 +105,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         }
     }
 
+    {{/hasHttpSignatureMethods}}
     if ($SkipCertificateCheck -eq $true) {
         $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
                                   -Method $Method `

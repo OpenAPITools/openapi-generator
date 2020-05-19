@@ -25,13 +25,11 @@ data class EnumArrays (
     val justSymbol: EnumArrays.JustSymbol? = null,
     @Json(name = "array_enum")
     val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
     /**
     * 
     * Values: greaterThanEqual,dollar
