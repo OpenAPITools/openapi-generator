@@ -723,6 +723,9 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setOpenAPI(OpenAPI openAPI) {
         this.openAPI = openAPI;
+        // Set vendor extension such that helper functions can lookup the value
+        // of this CLI option. The code below can be removed when issues #1369 and #1371
+        // have been resolved at https://github.com/swagger-api/swagger-parser.
         this.openAPI.addExtension("x-is-legacy-additional-properties-behavior", Boolean.toString(getLegacyAdditionalPropertiesBehavior()));
     }
 

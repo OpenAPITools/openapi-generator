@@ -363,8 +363,10 @@ public class CodegenConstants {
     // on swagger-api/swagger-parser issue https://github.com/swagger-api/swagger-parser/issues/1369.
     // When that issue is resolved, this parameter should be removed.
     public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR = "legacyAdditionalPropertiesBehavior";
-    public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR_DESC = "If true, the 'additionalProperties' keyword is implemented as specified in the OAS and JSON schema specifications. " +
-        "This is currently not supported when the input document is based on the OpenAPI 2.0 schema. " +
+    public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR_DESC =
+        "If true, the 'additionalProperties' keyword is implemented as specified in the OAS and JSON schema specifications. " +
+        "Full compliance currently works with OAS 3.0 documents only. " +
+        "It is not supported for 2.0 documents until issues #1369 and #1371 have been resolved in the dependent swagger-parser project. " +
         "If false, codegen uses a legacy, non-compliant interpretation of the 'additionalProperties' keyword. " +
         "In the non-compliant mode, codegen uses the following interpretation: " +
         "1) In a OpenAPI 2.0 document, boolean values of the 'additionalProperties' keyword are ignored." +
