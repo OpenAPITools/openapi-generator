@@ -174,4 +174,16 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
             $Conf = Set-PSConfiguration -BaseURL "https://localhost:8080/api"
         }
     }
+
+    Context 'PSObject' {
+        It "Create Object from JSON tests" {
+            $Result = Create-PSPetFromJson '{"id": 345, "name": "json name test", "status": "available", "photoUrls": ["https://photo.test"]}'
+
+            $Result."id" | Should Be 345
+            $Result."name" | Should Be "json name test"
+            $Result."status" | Should Be "available"
+            $Result."photoUrls" | Should Be @("https://photo.test")
+
+        }
+    }
 }

@@ -55,3 +55,45 @@ function Initialize-PSApiResponse {
         return $PSO
     }
 }
+
+function ConvertFrom-PSJsonToApiResponse {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSApiResponse' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "code"))) { #optional property not found
+            $Code = $null
+        } else {
+            $Code = $JsonParameters.PSobject.Properties["code"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "type"))) { #optional property not found
+            $Type = $null
+        } else {
+            $Type = $JsonParameters.PSobject.Properties["type"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "message"))) { #optional property not found
+            $Message = $null
+        } else {
+            $Message = $JsonParameters.PSobject.Properties["message"].value
+        }
+
+        $PSO = [PSCustomObject]@{
+            "code" = ${Code}
+            "type" = ${Type}
+            "message" = ${Message}
+        }
+
+        return $PSO
+    }
+
+}
+

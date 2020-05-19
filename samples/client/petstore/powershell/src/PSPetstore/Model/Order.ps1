@@ -77,3 +77,66 @@ function Initialize-PSOrder {
         return $PSO
     }
 }
+
+function ConvertFrom-PSJsonToOrder {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSOrder' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+            $Id = $null
+        } else {
+            $Id = $JsonParameters.PSobject.Properties["id"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "petId"))) { #optional property not found
+            $PetId = $null
+        } else {
+            $PetId = $JsonParameters.PSobject.Properties["petId"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "quantity"))) { #optional property not found
+            $Quantity = $null
+        } else {
+            $Quantity = $JsonParameters.PSobject.Properties["quantity"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "shipDate"))) { #optional property not found
+            $ShipDate = $null
+        } else {
+            $ShipDate = $JsonParameters.PSobject.Properties["shipDate"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "status"))) { #optional property not found
+            $Status = $null
+        } else {
+            $Status = $JsonParameters.PSobject.Properties["status"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "complete"))) { #optional property not found
+            $Complete = $null
+        } else {
+            $Complete = $JsonParameters.PSobject.Properties["complete"].value
+        }
+
+        $PSO = [PSCustomObject]@{
+            "id" = ${Id}
+            "petId" = ${PetId}
+            "quantity" = ${Quantity}
+            "shipDate" = ${ShipDate}
+            "status" = ${Status}
+            "complete" = ${Complete}
+        }
+
+        return $PSO
+    }
+
+}
+

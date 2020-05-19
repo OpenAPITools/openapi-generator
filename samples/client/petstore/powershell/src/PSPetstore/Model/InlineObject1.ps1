@@ -48,3 +48,38 @@ function Initialize-PSInlineObject1 {
         return $PSO
     }
 }
+
+function ConvertFrom-PSJsonToInlineObject1 {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSInlineObject1' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "additionalMetadata"))) { #optional property not found
+            $AdditionalMetadata = $null
+        } else {
+            $AdditionalMetadata = $JsonParameters.PSobject.Properties["additionalMetadata"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "file"))) { #optional property not found
+            $File = $null
+        } else {
+            $File = $JsonParameters.PSobject.Properties["file"].value
+        }
+
+        $PSO = [PSCustomObject]@{
+            "additionalMetadata" = ${AdditionalMetadata}
+            "file" = ${File}
+        }
+
+        return $PSO
+    }
+
+}
+

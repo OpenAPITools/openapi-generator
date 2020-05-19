@@ -1,0 +1,56 @@
+<#
+.SYNOPSIS
+
+{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+
+.DESCRIPTION
+
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+
+.OUTPUTS
+
+{{{classname}}}<PSCustomObject>
+#>
+function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
+    [CmdletBinding()]
+    Param (
+        [AllowEmptyString()]
+        [string]$Json
+    ) 
+
+    Process {
+        $match = 0
+        $matchType = $null
+        $matchInstance = $null
+
+        {{#anyOf}}
+        if ($match -ne 0) { # no match yet
+            # try to match {{{.}}} defined in the anyOf schemas
+            try {
+                $matchInstance = ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{.}}} $Json
+
+                foreach($property in $matchInstance.PsObject.Properties) {
+                    if ($null -ne $property.Value) {
+                        $matchType = "Dog"
+                        $match++
+                        break
+                    }
+                }
+            } catch {
+                # fail to match the schema defined in anyOf, proceed to the next one
+            }
+        }
+
+        {{/anyOf}}
+        if ($match -eq 1) {
+            return [PSCustomObject]@{
+                "ActualType" = ${matchType}
+                "ActualInstance" = ${matchInstance}
+                "anyOfSchemas" = @({{#anyOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/anyOf}})
+            }
+        } else {
+            throw "Error! The JSON payload doesn't matches any type defined in anyOf schemas ({{{anyOf}}}). JSON Payload: $($Json)"
+        }
+    }
+}
+

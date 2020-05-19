@@ -91,3 +91,80 @@ function Initialize-PSUser {
         return $PSO
     }
 }
+
+function ConvertFrom-PSJsonToUser {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSUser' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+            $Id = $null
+        } else {
+            $Id = $JsonParameters.PSobject.Properties["id"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "username"))) { #optional property not found
+            $Username = $null
+        } else {
+            $Username = $JsonParameters.PSobject.Properties["username"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "firstName"))) { #optional property not found
+            $FirstName = $null
+        } else {
+            $FirstName = $JsonParameters.PSobject.Properties["firstName"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "lastName"))) { #optional property not found
+            $LastName = $null
+        } else {
+            $LastName = $JsonParameters.PSobject.Properties["lastName"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "email"))) { #optional property not found
+            $Email = $null
+        } else {
+            $Email = $JsonParameters.PSobject.Properties["email"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "password"))) { #optional property not found
+            $Password = $null
+        } else {
+            $Password = $JsonParameters.PSobject.Properties["password"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "phone"))) { #optional property not found
+            $Phone = $null
+        } else {
+            $Phone = $JsonParameters.PSobject.Properties["phone"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "userStatus"))) { #optional property not found
+            $UserStatus = $null
+        } else {
+            $UserStatus = $JsonParameters.PSobject.Properties["userStatus"].value
+        }
+
+        $PSO = [PSCustomObject]@{
+            "id" = ${Id}
+            "username" = ${Username}
+            "firstName" = ${FirstName}
+            "lastName" = ${LastName}
+            "email" = ${Email}
+            "password" = ${Password}
+            "phone" = ${Phone}
+            "userStatus" = ${UserStatus}
+        }
+
+        return $PSO
+    }
+
+}
+
