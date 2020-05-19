@@ -271,7 +271,9 @@
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        content <- httr::content(resp, "text", encoding = "UTF-8")
+        content <- httr::content(
+            resp, "text", encoding = "UTF-8", simplifyVector = FALSE
+        )
         ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
