@@ -1504,7 +1504,7 @@ public class ModelUtils {
      * 
      * @return the version of the OpenAPI document.
      */
-    public static SemVer getOpenApiVersion(OpenAPI openapi, String location, List<AuthorizationValue> auths) {
+    public static SemVer getOpenApiVersion(OpenAPI openAPI, String location, List<AuthorizationValue> auths) {
         String version;
         try {
             JsonNode document = readWithInfo(location, auths);
@@ -1519,7 +1519,7 @@ public class ModelUtils {
         } catch (Exception ex) {
             // Fallback to using the 'openapi' attribute.
             LOGGER.warn("Unable to read swagger/openapi attribute");
-            version = openapi.getOpenapi();
+            version = openAPI.getOpenapi();
         }
         return new SemVer(version);
     }
