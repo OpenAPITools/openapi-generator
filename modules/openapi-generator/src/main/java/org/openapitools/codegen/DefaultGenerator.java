@@ -913,7 +913,6 @@ public class DefaultGenerator implements Generator {
         return files;
     }
 
-
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         File target = new File(adjustedOutputFilename);
@@ -922,13 +921,12 @@ public class DefaultGenerator implements Generator {
                 return this.templateProcessor.write(templateData,templateName, target);
             } else {
                 this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));
+                return null;
             }
         } else {
             this.templateProcessor.ignore(target.toPath(), "Ignored by rule in ignore file.");
             return target;
         }
-
-        return target;
     }
 
     public Map<String, List<CodegenOperation>> processPaths(Paths paths) {

@@ -54,7 +54,7 @@ public class DryRunTemplateManager implements TemplateProcessor {
                     ));
         }
 
-        return null;
+        return target;
     }
 
     @Override

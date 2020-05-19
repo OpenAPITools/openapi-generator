@@ -595,7 +595,7 @@ public class JavaClientCodegenTest {
         generator.setGenerateMetadata(false);
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 2);
+        Assert.assertEquals(files.size(), 1);
         TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/ParentType.java");
 
         String parentTypeContents = "";
