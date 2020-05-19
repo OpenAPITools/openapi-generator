@@ -160,7 +160,7 @@ public class DefaultGeneratorTest {
             Files.write(testPath.toPath(), "some file contents".getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
             long createTime = testPath.lastModified();
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException ignored) {
 
             }

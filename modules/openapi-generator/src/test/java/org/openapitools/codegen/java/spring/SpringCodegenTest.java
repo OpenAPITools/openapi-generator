@@ -478,27 +478,27 @@ public class SpringCodegenTest {
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
         // Check that the delegate handles the array
-        final File multipartArrayApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartArrayApiDelegate.java");
+        final File multipartArrayApiDelegate = files.get("MultipartArrayApiDelegate.java");
         assertFileContains(multipartArrayApiDelegate.toPath(), "List<MultipartFile> files");
 
         // Check that the api handles the array
-        final File multipartArrayApi = files.get("/src/main/java/org/openapitools/api/MultipartArrayApi.java");
+        final File multipartArrayApi = files.get("MultipartArrayApi.java");
         assertFileContains(multipartArrayApi.toPath(), "List<MultipartFile> files",
                 "@ApiParam(value = \"Many files\")",
                 "@RequestPart(value = \"files\", required = false)");
 
         // Check that the delegate handles the single file
-        final File multipartSingleApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartSingleApiDelegate.java");
+        final File multipartSingleApiDelegate = files.get("MultipartSingleApiDelegate.java");
         assertFileContains(multipartSingleApiDelegate.toPath(), "MultipartFile file");
 
         // Check that the api handles the single file
-        final File multipartSingleApi = files.get("/src/main/java/org/openapitools/api/MultipartSingleApi.java");
+        final File multipartSingleApi = files.get("MultipartSingleApi.java");
         assertFileContains(multipartSingleApi.toPath(), "MultipartFile file",
                 "@ApiParam(value = \"One file\")",
                 "@RequestPart(value = \"file\", required = false)");
 
         // Check that api validates mixed multipart request
-        final File multipartMixedApi = files.get("/src/main/java/org/openapitools/api/MultipartMixedApi.java");
+        final File multipartMixedApi = files.get("MultipartMixedApi.java");
         assertFileContains(multipartMixedApi.toPath(), "MultipartFile file",
                 "@RequestPart(value = \"file\", required = true)",
                 "@Valid @RequestPart(value = \"marker\", required = false)");
@@ -521,7 +521,7 @@ public class SpringCodegenTest {
         final DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(input).generate();
 
-        return files.stream().collect(Collectors.toMap(e -> e.getAbsolutePath().replace(outputPath, ""), i -> i));
+        return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
     }
 
     @Test
@@ -533,13 +533,13 @@ public class SpringCodegenTest {
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
         // Check that the delegate handles the array and the file
-        final File multipartApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartApiDelegate.java");
+        final File multipartApiDelegate = files.get("MultipartApiDelegate.java");
         assertFileContains(multipartApiDelegate.toPath(),
                 "List<MultipartFile> files",
                 "MultipartFile file");
 
         // Check that the api handles the array and the file
-        final File multipartApi = files.get("/src/main/java/org/openapitools/api/MultipartApi.java");
+        final File multipartApi = files.get("MultipartApi.java");
         assertFileContains(multipartApi.toPath(),
                 "List<MultipartFile> files",
                 "MultipartFile file");
