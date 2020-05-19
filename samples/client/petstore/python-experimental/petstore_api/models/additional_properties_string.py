@@ -66,6 +66,8 @@ class AdditionalPropertiesString(ModelNormal):
 
     additional_properties_type = (str,)  # noqa: E501
 
+    _nullable = False
+
     @cached_property
     def openapi_types():
         """

@@ -66,6 +66,8 @@ class Address(ModelNormal):
 
     additional_properties_type = (int,)  # noqa: E501
 
+    _nullable = False
+
     @cached_property
     def openapi_types():
         """

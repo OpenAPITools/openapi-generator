@@ -86,6 +86,8 @@ class Drawing(ModelNormal):
 
     additional_properties_type = (fruit.Fruit,)  # noqa: E501
 
+    _nullable = False
+
     @cached_property
     def openapi_types():
         """

@@ -66,6 +66,8 @@ class AdditionalPropertiesNumber(ModelNormal):
 
     additional_properties_type = (float,)  # noqa: E501
 
+    _nullable = False
+
     @cached_property
     def openapi_types():
         """

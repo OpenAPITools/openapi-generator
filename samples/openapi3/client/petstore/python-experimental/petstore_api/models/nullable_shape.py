@@ -76,6 +76,8 @@ class NullableShape(ModelComposed):
 
     additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
+    _nullable = True
+
     @cached_property
     def openapi_types():
         """

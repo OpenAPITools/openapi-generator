@@ -86,6 +86,8 @@ class GrandparentAnimal(ModelNormal):
 
     additional_properties_type = None
 
+    _nullable = False
+
     @cached_property
     def openapi_types():
         """

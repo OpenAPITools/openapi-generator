@@ -928,7 +928,7 @@ def is_type_nullable(input_type):
     Returns:
         bool
     """
-    if input_type is none_type:
+    if input_type is none_type or input_type._nullable:
         return True
     if issubclass(input_type, ModelComposed):
         # If oneOf/anyOf, check if the 'null' type is one of the allowed types.            

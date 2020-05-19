@@ -76,6 +76,8 @@ class ComplexQuadrilateral(ModelComposed):
 
     additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
+    _nullable = False
+
     @cached_property
     def openapi_types():
         """

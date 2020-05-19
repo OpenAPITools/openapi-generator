@@ -2428,6 +2428,10 @@ public class DefaultCodegen implements CodegenConfig {
                 // 'Codegen.parent' to the first child schema of the 'allOf' schema.
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
+
+            if (Boolean.TRUE.equals(schema.getNullable())) {
+                m.isNullable = Boolean.TRUE;
+            }
             // end of code block for composed schema
         } else {
             m.dataType = getSchemaType(schema);
