@@ -575,7 +575,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey("commonVerbs")) {
-            String[] entries = ((String)additionalProperties.get("commonVerbs")).split(":");
+            String[] entries = ((String) additionalProperties.get("commonVerbs")).split(":");
             for (String entry : entries) {
                 String[] pair = entry.split("=");
                 if (pair.length == 2) {
@@ -617,7 +617,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("Out-DebugParameter.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Out-DebugParameter.ps1"));
         supportingFiles.add(new SupportingFile("http_signature_auth.mustache", infrastructureFolder + "Private", apiNamePrefix + "HttpSignatureAuth.ps1"));
         supportingFiles.add(new SupportingFile("rsa_provider.mustache", infrastructureFolder + "Private", apiNamePrefix + "RSAEncryptionProvider.cs"));
-        
+
 
         // en-US
         supportingFiles.add(new SupportingFile("about_Org.OpenAPITools.help.txt.mustache", infrastructureFolder + File.separator + "en-US" + File.separator + "about_" + packageName + ".help.txt"));
@@ -629,7 +629,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     @SuppressWarnings("static-method")
     @Override
     public String escapeText(String input) {
-        
+
         if (input == null) {
             return input;
         }
@@ -646,9 +646,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\"\""));
-        
+
     }
-    
+
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("#>", "#_>").replace("<#", "<_#");
@@ -854,6 +854,26 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         for (CodegenOperation operation : operationList) {
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-powershell-example", constructExampleCode(cp, modelMaps, processedModelMaps));
+            }
+        }
+
+        // check if return type is oneOf/anyeOf model
+        for (CodegenOperation op : operationList) {
+            if (op.returnType != null) {
+                // look up the model to see if it's anyOf/oneOf
+                if (modelMaps.containsKey(op.returnType) && modelMaps.get(op.returnType) != null) {
+                    CodegenModel cm = modelMaps.get(op.returnType);
+
+                    if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
+                        op.vendorExtensions.put("x-ps-return-type-one-of", true);
+                    }
+
+                    if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+                        op.vendorExtensions.put("x-ps-return-type-any-of", true);
+                    }
+                } else {
+                    //LOGGER.error("cannot lookup model " + op.returnType);
+                }
             }
         }
 
