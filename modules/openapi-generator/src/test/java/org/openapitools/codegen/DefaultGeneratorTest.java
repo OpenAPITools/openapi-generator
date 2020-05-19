@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -146,13 +148,16 @@ public class DefaultGeneratorTest {
         opts.setConfig(codegen);
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
-        File testPath = new File("temp/overwrite.test");
+
+        Path target = Files.createTempDirectory("test-defaultgenerator");
+        File temp = target.toFile();
         try {
+            File testPath = new File(temp, "overwrite.test");
             if (testPath.exists()) {
                 testPath.delete();
             }
 
-            Files.write(testPath.toPath(), "some file contents".getBytes(StandardCharsets.UTF_8));
+            Files.write(testPath.toPath(), "some file contents".getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
             long createTime = testPath.lastModified();
             try {
                 Thread.sleep(100);
@@ -162,10 +167,10 @@ public class DefaultGeneratorTest {
             Files.write(testPath.toPath(), "some file contents".getBytes(StandardCharsets.UTF_8));
 
             Assert.assertEquals(createTime, testPath.lastModified());
-            File testPathTmp = new File("temp/overwrite.test.tmp");
+            File testPathTmp = new File(temp, "overwrite.test.tmp");
             Assert.assertFalse(testPathTmp.exists());
         } finally {
-            testPath.delete();
+            temp.delete();
         }
     }
 
