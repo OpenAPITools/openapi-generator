@@ -86,6 +86,23 @@ function Initialize-PSPet {
     }
 }
 
+<#
+.SYNOPSIS
+
+Convert from JSON to Pet<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to Pet<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+Pet<PSCustomObject>
+#>
 function ConvertFrom-PSJsonToPet {
     Param(
         [AllowEmptyString()]

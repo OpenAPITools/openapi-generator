@@ -50,6 +50,23 @@ function Initialize-PSCategory {
     }
 }
 
+<#
+.SYNOPSIS
+
+Convert from JSON to Category<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to Category<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+Category<PSCustomObject>
+#>
 function ConvertFrom-PSJsonToCategory {
     Param(
         [AllowEmptyString()]

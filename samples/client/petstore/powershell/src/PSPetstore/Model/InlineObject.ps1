@@ -49,6 +49,23 @@ function Initialize-PSInlineObject {
     }
 }
 
+<#
+.SYNOPSIS
+
+Convert from JSON to InlineObject<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to InlineObject<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+InlineObject<PSCustomObject>
+#>
 function ConvertFrom-PSJsonToInlineObject {
     Param(
         [AllowEmptyString()]

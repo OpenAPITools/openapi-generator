@@ -78,6 +78,23 @@ function Initialize-PSOrder {
     }
 }
 
+<#
+.SYNOPSIS
+
+Convert from JSON to Order<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to Order<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+Order<PSCustomObject>
+#>
 function ConvertFrom-PSJsonToOrder {
     Param(
         [AllowEmptyString()]

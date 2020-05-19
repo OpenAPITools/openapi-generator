@@ -49,6 +49,23 @@ function Initialize-PSTag {
     }
 }
 
+<#
+.SYNOPSIS
+
+Convert from JSON to Tag<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to Tag<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+Tag<PSCustomObject>
+#>
 function ConvertFrom-PSJsonToTag {
     Param(
         [AllowEmptyString()]

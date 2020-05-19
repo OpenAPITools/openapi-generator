@@ -101,6 +101,23 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     }
 }
 
+<#
+.SYNOPSIS
+
+Convert from JSON to {{{classname}}}<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to {{{classname}}}<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+{{{classname}}}<PSCustomObject>
+#>
 function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
     Param(
         [AllowEmptyString()]

@@ -56,6 +56,23 @@ function Initialize-PSApiResponse {
     }
 }
 
+<#
+.SYNOPSIS
+
+Convert from JSON to ApiResponse<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to ApiResponse<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+ApiResponse<PSCustomObject>
+#>
 function ConvertFrom-PSJsonToApiResponse {
     Param(
         [AllowEmptyString()]

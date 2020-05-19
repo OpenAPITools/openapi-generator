@@ -92,6 +92,23 @@ function Initialize-PSUser {
     }
 }
 
+<#
+.SYNOPSIS
+
+Convert from JSON to User<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to User<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+User<PSCustomObject>
+#>
 function ConvertFrom-PSJsonToUser {
     Param(
         [AllowEmptyString()]

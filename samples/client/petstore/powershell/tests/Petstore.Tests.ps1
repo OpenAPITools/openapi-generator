@@ -177,7 +177,7 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
 
     Context 'PSObject' {
         It "Create Object from JSON tests" {
-            $Result = Create-PSPetFromJson '{"id": 345, "name": "json name test", "status": "available", "photoUrls": ["https://photo.test"]}'
+            $Result = ConvertFrom-PSJsonToPet '{"id": 345, "name": "json name test", "status": "available", "photoUrls": ["https://photo.test"]}'
 
             $Result."id" | Should Be 345
             $Result."name" | Should Be "json name test"
