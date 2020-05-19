@@ -139,42 +139,6 @@ public class DefaultGeneratorTest {
     }
 
     @Test
-    public void minimalUpdateTest() throws IOException {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
-        ClientOptInput opts = new ClientOptInput();
-        opts.setOpenAPI(openAPI);
-        DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setEnableMinimalUpdate(true);
-        opts.setConfig(codegen);
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.opts(opts);
-
-        Path target = Files.createTempDirectory("test-defaultgenerator");
-        File temp = target.toFile();
-        try {
-            File testPath = new File(temp, "overwrite.test");
-            if (testPath.exists()) {
-                testPath.delete();
-            }
-
-            Files.write(testPath.toPath(), "some file contents".getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
-            long createTime = testPath.lastModified();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ignored) {
-
-            }
-            Files.write(testPath.toPath(), "some file contents".getBytes(StandardCharsets.UTF_8));
-
-            Assert.assertEquals(createTime, testPath.lastModified());
-            File testPathTmp = new File(temp, "overwrite.test.tmp");
-            Assert.assertFalse(testPathTmp.exists());
-        } finally {
-            temp.delete();
-        }
-    }
-
-    @Test
     public void testNonStrictProcessPaths() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.setPaths(new Paths());
