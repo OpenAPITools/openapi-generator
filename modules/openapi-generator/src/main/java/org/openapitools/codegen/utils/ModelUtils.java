@@ -1011,6 +1011,7 @@ public class ModelUtils {
      *       description: This is NOT a free-form object.
      *         The value can be any type except the 'null' value.
      *
+     * @param openAPI the object that encapsulates the OAS document.
      * @param schema potentially containing a '$ref'
      * @return true if it's a free-form object
      */
@@ -1466,6 +1467,8 @@ public class ModelUtils {
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
      * 
+     * @throws java.lang.Exception if an error occurs while retrieving the OpenAPI document.
+     * 
      * @return A JsonNode representation of the input OAS document.
      */
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
@@ -1495,8 +1498,11 @@ public class ModelUtils {
      * For OAS 2.0 documents, return the value of the 'swagger' attribute.
      * For OAS 3.x documents, return the value of the 'openapi' attribute.
      * 
+     * @param openAPI the object that encapsulates the OAS document.
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
+     * 
+     * @return the version of the OpenAPI document.
      */
     public static SemVer getOpenApiVersion(OpenAPI openapi, String location, List<AuthorizationValue> auths) {
         String version;
@@ -1525,7 +1531,6 @@ public class ModelUtils {
      * @param openapi the OpenAPI document.
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
-     * @return
      */
     public static void addOpenApiVersionExtension(OpenAPI openapi, String location, List<AuthorizationValue> auths) {
         SemVer version = getOpenApiVersion(openapi, location, auths);

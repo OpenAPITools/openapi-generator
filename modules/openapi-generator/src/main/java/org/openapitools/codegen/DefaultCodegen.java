@@ -6417,7 +6417,6 @@ public class DefaultCodegen implements CodegenConfig {
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
      * 
-     * @param openAPI the object that encapsulates the OAS document.
      * @param schema the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
      *         properties are allowed.
