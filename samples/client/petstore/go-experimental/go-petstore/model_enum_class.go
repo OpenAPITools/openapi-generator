@@ -11,9 +11,6 @@ package petstore
 
 import (
 	"encoding/json"
-)
-
-import (
 	"fmt"
 )
 
