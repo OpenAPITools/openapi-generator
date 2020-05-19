@@ -50,6 +50,7 @@ sidebar_label: java-play-framework
 |title|server title name or client service name| |openapi-java-playframework|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useInterfaces|Makes the controllerImp implements an interface to facilitate automatic completion when updating from version x to y of your spec| |true|
+|useModelBuilder|Use builder pattern for models| |false|
 |useSwaggerUI|Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies| |true|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |wrapCalls|Add a wrapper to each controller function to handle things like metrics, response modification, etc..| |true|
