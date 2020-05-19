@@ -1539,6 +1539,12 @@ components:
             type: object
             additionalProperties:
               type: string
+        anytype_1:
+          type: object
+        anytype_2: {}
+        anytype_3:
+          type: object
+          properties: {}
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:

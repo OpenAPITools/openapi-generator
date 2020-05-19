@@ -94,7 +94,7 @@ class Drawing(ModelNormal):
         return {
             'main_shape': (shape.Shape,),  # noqa: E501
             'shape_or_null': (shape_or_null.ShapeOrNull,),  # noqa: E501
-            'nullable_shape': (nullable_shape.NullableShape, none_type,),  # noqa: E501
+            'nullable_shape': (nullable_shape.NullableShape,),  # noqa: E501
             'shapes': ([shape.Shape],),  # noqa: E501
         }
 
@@ -155,7 +155,7 @@ class Drawing(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             main_shape (shape.Shape): [optional]  # noqa: E501
             shape_or_null (shape_or_null.ShapeOrNull): [optional]  # noqa: E501
-            nullable_shape (nullable_shape.NullableShape, none_type): [optional]  # noqa: E501
+            nullable_shape (nullable_shape.NullableShape): [optional]  # noqa: E501
             shapes ([shape.Shape]): [optional]  # noqa: E501
         """
 

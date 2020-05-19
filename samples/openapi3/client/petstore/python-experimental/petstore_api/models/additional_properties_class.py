@@ -79,6 +79,9 @@ class AdditionalPropertiesClass(ModelNormal):
         return {
             'map_property': ({str: (str,)},),  # noqa: E501
             'map_of_map_property': ({str: ({str: (str,)},)},),  # noqa: E501
+            'anytype_1': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'anytype_2': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'anytype_3': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
         }
 
     @cached_property
@@ -88,6 +91,9 @@ class AdditionalPropertiesClass(ModelNormal):
     attribute_map = {
         'map_property': 'map_property',  # noqa: E501
         'map_of_map_property': 'map_of_map_property',  # noqa: E501
+        'anytype_1': 'anytype_1',  # noqa: E501
+        'anytype_2': 'anytype_2',  # noqa: E501
+        'anytype_3': 'anytype_3',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -136,6 +142,9 @@ class AdditionalPropertiesClass(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             map_property ({str: (str,)}): [optional]  # noqa: E501
             map_of_map_property ({str: ({str: (str,)},)}): [optional]  # noqa: E501
+            anytype_1 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
+            anytype_2 (bool, date, datetime, dict, float, int, list, str, none_type): [optional]  # noqa: E501
+            anytype_3 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
         """
 
         self._data_store = {}
