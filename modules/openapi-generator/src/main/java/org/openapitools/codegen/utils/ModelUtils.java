@@ -1474,12 +1474,12 @@ public class ModelUtils {
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
         String data;
         location = location.replaceAll("\\\\","/");
-        if (location.toLowerCase().startsWith("http")) {
+        if (location.toLowerCase(Locale.ROOT).startsWith("http")) {
             data = RemoteUrl.urlToString(location, auths);
         } else {
             final String fileScheme = "file:";
             Path path;
-            if (location.toLowerCase().startsWith(fileScheme)) {
+            if (location.toLowerCase(Locale.ROOT).startsWith(fileScheme)) {
                 path = Paths.get(URI.create(location));
             } else {
                 path = Paths.get(location);
