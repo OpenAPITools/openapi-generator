@@ -33,6 +33,11 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
+    from petstore_api.models import fruit
+except ImportError:
+    fruit = sys.modules[
+        'petstore_api.models.fruit']
+try:
     from petstore_api.models import nullable_shape
 except ImportError:
     nullable_shape = sys.modules[

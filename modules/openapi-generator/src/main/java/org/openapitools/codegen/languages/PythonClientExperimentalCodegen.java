@@ -50,6 +50,8 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
 
+    private static final String referencedModelNamesExtension = "x-python-referenced-model-names";
+
     public PythonClientExperimentalCodegen() {
         super();
 
@@ -361,7 +363,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    // override with any special post-processing for all models
+    /**
+     * Override with special post-processing for all models.
+     */ 
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // loop through all models and delete ones where type!=object and the model has no validations and enums
@@ -373,6 +377,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
+                // Make sure the models listed in 'additionalPropertiesType' are included in imports.
+                List<String> refModelNames = (List<String>) cm.vendorExtensions.get(referencedModelNamesExtension);
+                if (refModelNames != null) {
+                    for (String refModelName : refModelNames) {
+                        cm.imports.add(refModelName);
+                    }
+                }
+                
                 // make sure discriminator models are included in imports
                 CodegenDiscriminator discriminator = cm.discriminator;
                 if (discriminator != null) {
@@ -901,9 +913,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.
+     * @param referencedModelNames a list of models that are being referenced while generating the types,
+     *          may be used to generate imports.
      * @return a comma-separated string representation of the Python types
      */
-    private String getTypeString(Schema p, String prefix, String suffix) {
+    private String getTypeString(Schema p, String prefix, String suffix, List<String> referencedModelNames) {
         // this is used to set dataType, which defines a python tuple of classes
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
@@ -915,6 +929,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             Schema s = ModelUtils.getReferencedSchema(this.openAPI, p);
             if (s instanceof ComposedSchema) {
                 String modelName = ModelUtils.getSimpleRef(p.get$ref());
+                if (referencedModelNames != null) {
+                    referencedModelNames.add(modelName);
+                }
                 return prefix + toModelName(modelName) + fullSuffix;
             }
         }
@@ -930,7 +947,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
         if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
             Schema inner = getAdditionalProperties(p);
-            return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
+            return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
@@ -943,9 +960,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 //    "[bool, date, datetime, dict, float, int, list, str, none_type]"
                 // Using recursion to wrap the allowed python types in an array.
                 Schema anyType = new Schema(); // A Schema without any attribute represents 'any type'.
-                return getTypeString(anyType, "[", "]");
+                return getTypeString(anyType, "[", "]", referencedModelNames);
             } else {
-                return prefix + getTypeString(inner, "[", "]") + fullSuffix;
+                return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
             }
         } 
         if (ModelUtils.isFileSchema(p)) {
@@ -967,7 +984,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // in Python we will wrap this in () to make it a tuple but here we
         // will omit the parens so the generated documentaion will not include
         // them
-        return getTypeString(p, "", "");
+        return getTypeString(p, "", "", null);
     }
 
     @Override
@@ -986,7 +1003,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // store it in codegenModel.additionalPropertiesType.
             // The 'addProps' may be a reference, getTypeDeclaration will resolve
             // the reference.
-            codegenModel.additionalPropertiesType = getTypeDeclaration(addProps);
+            List<String> referencedModelNames = new ArrayList<String>();
+            codegenModel.additionalPropertiesType = getTypeString(addProps, "", "", referencedModelNames);
+            if (referencedModelNames.size() != 0) {
+                codegenModel.vendorExtensions.put(referencedModelNamesExtension, referencedModelNames);
+            }
         }
         // If addProps is null, the value of the 'additionalProperties' keyword is set
         // to false, i.e. no additional properties are allowed.
