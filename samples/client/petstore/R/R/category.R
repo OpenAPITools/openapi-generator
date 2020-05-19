@@ -52,8 +52,7 @@ Category <- R6::R6Class(
       CategoryObject
     },
     fromJSON = function(CategoryJson) {
-      CategoryObject <- jsonlite::fromJSON(CategoryJson,
-            simplifyVector = FALSE)
+      CategoryObject <- jsonlite::fromJSON(CategoryJson)
       if (!is.null(CategoryObject$`id`)) {
         self$`id` <- CategoryObject$`id`
       }
@@ -83,8 +82,7 @@ Category <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(CategoryJson) {
-      CategoryObject <- jsonlite::fromJSON(CategoryJson,
-            simplifyVector = FALSE)
+      CategoryObject <- jsonlite::fromJSON(CategoryJson)
       self$`id` <- CategoryObject$`id`
       self$`name` <- CategoryObject$`name`
       self

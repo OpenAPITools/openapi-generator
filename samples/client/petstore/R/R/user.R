@@ -118,8 +118,7 @@ User <- R6::R6Class(
       UserObject
     },
     fromJSON = function(UserJson) {
-      UserObject <- jsonlite::fromJSON(UserJson,
-            simplifyVector = FALSE)
+      UserObject <- jsonlite::fromJSON(UserJson)
       if (!is.null(UserObject$`id`)) {
         self$`id` <- UserObject$`id`
       }
@@ -209,8 +208,7 @@ User <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(UserJson) {
-      UserObject <- jsonlite::fromJSON(UserJson,
-            simplifyVector = FALSE)
+      UserObject <- jsonlite::fromJSON(UserJson)
       self$`id` <- UserObject$`id`
       self$`username` <- UserObject$`username`
       self$`firstName` <- UserObject$`firstName`

@@ -63,8 +63,7 @@ ModelApiResponse <- R6::R6Class(
       ModelApiResponseObject
     },
     fromJSON = function(ModelApiResponseJson) {
-      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson,
-            simplifyVector = FALSE)
+      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson)
       if (!is.null(ModelApiResponseObject$`code`)) {
         self$`code` <- ModelApiResponseObject$`code`
       }
@@ -104,8 +103,7 @@ ModelApiResponse <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(ModelApiResponseJson) {
-      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson,
-            simplifyVector = FALSE)
+      ModelApiResponseObject <- jsonlite::fromJSON(ModelApiResponseJson)
       self$`code` <- ModelApiResponseObject$`code`
       self$`type` <- ModelApiResponseObject$`type`
       self$`message` <- ModelApiResponseObject$`message`

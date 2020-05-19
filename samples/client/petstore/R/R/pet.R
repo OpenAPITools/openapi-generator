@@ -98,8 +98,7 @@ Pet <- R6::R6Class(
       PetObject
     },
     fromJSON = function(PetJson) {
-      PetObject <- jsonlite::fromJSON(PetJson,
-            simplifyVector = FALSE)
+      PetObject <- jsonlite::fromJSON(PetJson)
       if (!is.null(PetObject$`id`)) {
         self$`id` <- PetObject$`id`
       }
@@ -171,8 +170,7 @@ Pet <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(PetJson) {
-      PetObject <- jsonlite::fromJSON(PetJson,
-            simplifyVector = FALSE)
+      PetObject <- jsonlite::fromJSON(PetJson)
       self$`id` <- PetObject$`id`
       self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE, digits = NA))
       self$`name` <- PetObject$`name`

@@ -95,8 +95,7 @@ Order <- R6::R6Class(
       OrderObject
     },
     fromJSON = function(OrderJson) {
-      OrderObject <- jsonlite::fromJSON(OrderJson,
-            simplifyVector = FALSE)
+      OrderObject <- jsonlite::fromJSON(OrderJson)
       if (!is.null(OrderObject$`id`)) {
         self$`id` <- OrderObject$`id`
       }
@@ -166,8 +165,7 @@ Order <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(OrderJson) {
-      OrderObject <- jsonlite::fromJSON(OrderJson,
-            simplifyVector = FALSE)
+      OrderObject <- jsonlite::fromJSON(OrderJson)
       self$`id` <- OrderObject$`id`
       self$`petId` <- OrderObject$`petId`
       self$`quantity` <- OrderObject$`quantity`

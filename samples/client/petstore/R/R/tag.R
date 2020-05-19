@@ -52,8 +52,7 @@ Tag <- R6::R6Class(
       TagObject
     },
     fromJSON = function(TagJson) {
-      TagObject <- jsonlite::fromJSON(TagJson,
-            simplifyVector = FALSE)
+      TagObject <- jsonlite::fromJSON(TagJson)
       if (!is.null(TagObject$`id`)) {
         self$`id` <- TagObject$`id`
       }
@@ -83,8 +82,7 @@ Tag <- R6::R6Class(
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(TagJson) {
-      TagObject <- jsonlite::fromJSON(TagJson,
-            simplifyVector = FALSE)
+      TagObject <- jsonlite::fromJSON(TagJson)
       self$`id` <- TagObject$`id`
       self$`name` <- TagObject$`name`
       self

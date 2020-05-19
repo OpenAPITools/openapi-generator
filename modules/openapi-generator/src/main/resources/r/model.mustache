@@ -149,8 +149,7 @@
       {{classname}}Object
     },
     fromJSON = function({{classname}}Json) {
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json,
-            simplifyVector = FALSE)
+      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
       if (!is.null({{classname}}Object$`{{baseName}}`)) {
         {{#isContainer}}
@@ -232,8 +231,7 @@
       paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function({{classname}}Json) {
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json,
-            simplifyVector = FALSE)
+      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
       {{! AAPI - added condition for handling container type of parameters, map and array}}
       {{#isContainer}}
