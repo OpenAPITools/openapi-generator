@@ -386,6 +386,6 @@ public class PhpModelTest {
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Assert.assertEquals(op.returnType, "FooDate");
-        Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");
+        Assert.assertEquals(op.bodyParam.dataType, "FooDate");
     }
 }
