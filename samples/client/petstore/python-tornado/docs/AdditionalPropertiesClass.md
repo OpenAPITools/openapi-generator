@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **map_array_anytype** | **dict(str, list[object])** |  | [optional] 
 **map_map_string** | **dict(str, dict(str, str))** |  | [optional] 
 **map_map_anytype** | **dict(str, dict(str, object))** |  | [optional] 
+**map_with_additional_properties** | **object** |  | [optional] 
+**map_without_additional_properties** | **object** |  | [optional] 
 **anytype_1** | **object** |  | [optional] 
 **anytype_2** | **object** |  | [optional] 
 **anytype_3** | **object** |  | [optional] 

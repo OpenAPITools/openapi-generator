@@ -41,6 +41,8 @@ class AdditionalPropertiesClass(object):
         'map_array_anytype': 'dict(str, list[object])',
         'map_map_string': 'dict(str, dict(str, str))',
         'map_map_anytype': 'dict(str, dict(str, object))',
+        'map_with_additional_properties': 'object',
+        'map_without_additional_properties': 'object',
         'anytype_1': 'object',
         'anytype_2': 'object',
         'anytype_3': 'object'
@@ -55,12 +57,14 @@ class AdditionalPropertiesClass(object):
         'map_array_anytype': 'map_array_anytype',
         'map_map_string': 'map_map_string',
         'map_map_anytype': 'map_map_anytype',
+        'map_with_additional_properties': 'map_with_additional_properties',
+        'map_without_additional_properties': 'map_without_additional_properties',
         'anytype_1': 'anytype_1',
         'anytype_2': 'anytype_2',
         'anytype_3': 'anytype_3'
     }
 
-    def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, map_with_additional_properties=None, map_without_additional_properties=None, anytype_1=None, anytype_2=None, anytype_3=None, local_vars_configuration=None):  # noqa: E501
         """AdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -74,6 +78,8 @@ class AdditionalPropertiesClass(object):
         self._map_array_anytype = None
         self._map_map_string = None
         self._map_map_anytype = None
+        self._map_with_additional_properties = None
+        self._map_without_additional_properties = None
         self._anytype_1 = None
         self._anytype_2 = None
         self._anytype_3 = None
@@ -95,6 +101,10 @@ class AdditionalPropertiesClass(object):
             self.map_map_string = map_map_string
         if map_map_anytype is not None:
             self.map_map_anytype = map_map_anytype
+        if map_with_additional_properties is not None:
+            self.map_with_additional_properties = map_with_additional_properties
+        if map_without_additional_properties is not None:
+            self.map_without_additional_properties = map_without_additional_properties
         if anytype_1 is not None:
             self.anytype_1 = anytype_1
         if anytype_2 is not None:
@@ -269,6 +279,48 @@ class AdditionalPropertiesClass(object):
         """
 
         self._map_map_anytype = map_map_anytype
+
+    @property
+    def map_with_additional_properties(self):
+        """Gets the map_with_additional_properties of this AdditionalPropertiesClass.  # noqa: E501
+
+
+        :return: The map_with_additional_properties of this AdditionalPropertiesClass.  # noqa: E501
+        :rtype: object
+        """
+        return self._map_with_additional_properties
+
+    @map_with_additional_properties.setter
+    def map_with_additional_properties(self, map_with_additional_properties):
+        """Sets the map_with_additional_properties of this AdditionalPropertiesClass.
+
+
+        :param map_with_additional_properties: The map_with_additional_properties of this AdditionalPropertiesClass.  # noqa: E501
+        :type: object
+        """
+
+        self._map_with_additional_properties = map_with_additional_properties
+
+    @property
+    def map_without_additional_properties(self):
+        """Gets the map_without_additional_properties of this AdditionalPropertiesClass.  # noqa: E501
+
+
+        :return: The map_without_additional_properties of this AdditionalPropertiesClass.  # noqa: E501
+        :rtype: object
+        """
+        return self._map_without_additional_properties
+
+    @map_without_additional_properties.setter
+    def map_without_additional_properties(self, map_without_additional_properties):
+        """Sets the map_without_additional_properties of this AdditionalPropertiesClass.
+
+
+        :param map_without_additional_properties: The map_without_additional_properties of this AdditionalPropertiesClass.  # noqa: E501
+        :type: object
+        """
+
+        self._map_without_additional_properties = map_without_additional_properties
 
     @property
     def anytype_1(self):
