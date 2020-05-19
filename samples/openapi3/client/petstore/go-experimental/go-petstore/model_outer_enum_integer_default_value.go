@@ -14,7 +14,7 @@ import (
 )
 
 import (
-    "fmt"
+	"fmt"
 )
 
 // OuterEnumIntegerDefaultValue the model 'OuterEnumIntegerDefaultValue'
@@ -28,20 +28,20 @@ const (
 )
 
 func (v *OuterEnumIntegerDefaultValue) UnmarshalJSON(src []byte) error {
-    var value int32
-    err := json.Unmarshal(src, &value)
-    if err != nil {
-        return err
-    }
-    enumTypeValue := OuterEnumIntegerDefaultValue(value)
-    for _, existing := range []OuterEnumIntegerDefaultValue{ 0, 1, 2,   } {
-        if existing == enumTypeValue {
-            *v = enumTypeValue
-            return nil
-        }
-    }
+	var value int32
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := OuterEnumIntegerDefaultValue(value)
+	for _, existing := range []OuterEnumIntegerDefaultValue{ 0, 1, 2,   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
 
-    return fmt.Errorf("%+v is not a valid OuterEnumIntegerDefaultValue", *v)
+	return fmt.Errorf("%+v is not a valid OuterEnumIntegerDefaultValue", *v)
 }
 
 // Ptr returns reference to OuterEnumIntegerDefaultValue value
