@@ -101,3 +101,39 @@ func (obj *Mammal) GetActualInstance() (interface{}) {
 	return nil
 }
 
+type NullableMammal struct {
+	value *Mammal
+	isSet bool
+}
+
+func (v NullableMammal) Get() *Mammal {
+	return v.value
+}
+
+func (v *NullableMammal) Set(val *Mammal) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableMammal) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableMammal) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableMammal(val *Mammal) *NullableMammal {
+	return &NullableMammal{value: val, isSet: true}
+}
+
+func (v NullableMammal) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableMammal) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
