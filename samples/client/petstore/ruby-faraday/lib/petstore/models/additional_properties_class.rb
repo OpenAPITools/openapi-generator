@@ -30,10 +30,6 @@ module Petstore
 
     attr_accessor :map_map_anytype
 
-    attr_accessor :map_with_additional_properties
-
-    attr_accessor :map_without_additional_properties
-
     attr_accessor :anytype_1
 
     attr_accessor :anytype_2
@@ -51,8 +47,6 @@ module Petstore
         :'map_array_anytype' => :'map_array_anytype',
         :'map_map_string' => :'map_map_string',
         :'map_map_anytype' => :'map_map_anytype',
-        :'map_with_additional_properties' => :'map_with_additional_properties',
-        :'map_without_additional_properties' => :'map_without_additional_properties',
         :'anytype_1' => :'anytype_1',
         :'anytype_2' => :'anytype_2',
         :'anytype_3' => :'anytype_3'
@@ -70,8 +64,6 @@ module Petstore
         :'map_array_anytype' => :'Hash<String, Array<Object>>',
         :'map_map_string' => :'Hash<String, Hash<String, String>>',
         :'map_map_anytype' => :'Hash<String, Hash<String, Object>>',
-        :'map_with_additional_properties' => :'Object',
-        :'map_without_additional_properties' => :'Object',
         :'anytype_1' => :'Object',
         :'anytype_2' => :'Object',
         :'anytype_3' => :'Object'
@@ -147,14 +139,6 @@ module Petstore
         end
       end
 
-      if attributes.key?(:'map_with_additional_properties')
-        self.map_with_additional_properties = attributes[:'map_with_additional_properties']
-      end
-
-      if attributes.key?(:'map_without_additional_properties')
-        self.map_without_additional_properties = attributes[:'map_without_additional_properties']
-      end
-
       if attributes.key?(:'anytype_1')
         self.anytype_1 = attributes[:'anytype_1']
       end
@@ -194,8 +178,6 @@ module Petstore
           map_array_anytype == o.map_array_anytype &&
           map_map_string == o.map_map_string &&
           map_map_anytype == o.map_map_anytype &&
-          map_with_additional_properties == o.map_with_additional_properties &&
-          map_without_additional_properties == o.map_without_additional_properties &&
           anytype_1 == o.anytype_1 &&
           anytype_2 == o.anytype_2 &&
           anytype_3 == o.anytype_3
@@ -210,7 +192,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [map_string, map_number, map_integer, map_boolean, map_array_integer, map_array_anytype, map_map_string, map_map_anytype, map_with_additional_properties, map_without_additional_properties, anytype_1, anytype_2, anytype_3].hash
+      [map_string, map_number, map_integer, map_boolean, map_array_integer, map_array_anytype, map_map_string, map_map_anytype, anytype_1, anytype_2, anytype_3].hash
     end
 
     # Builds the object from hash
