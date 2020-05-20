@@ -56,6 +56,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         super();
 
         supportsAdditionalPropertiesWithComposedSchema = true;
+        this.setLegacyAdditionalPropertiesBehavior(false);
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)

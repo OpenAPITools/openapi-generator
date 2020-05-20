@@ -49,7 +49,7 @@ public class HaskellServantOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(HaskellServantCodegen.PROP_SERVE_STATIC, HaskellServantCodegen.PROP_SERVE_STATIC_DEFAULT.toString())
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
-                .put(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR, "false")
+                .put(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR, "true")
                 .build();
     }
 

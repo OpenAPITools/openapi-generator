@@ -39,7 +39,7 @@ public class GoGinServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, "true")
-                .put(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR, "false")
+                .put(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR, "true")
                 .build();
     }
 
