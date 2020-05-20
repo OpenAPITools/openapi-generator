@@ -241,7 +241,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     // Support legacy logic for evaluating 'additionalProperties' keyword.
     // See CodegenConstants.java for more details.
-    protected boolean legacyAdditionalPropertiesBehavior = true;
+    protected boolean legacyAdditionalPropertiesBehavior = false;
 
     // make openapi available to all methods
     protected OpenAPI openAPI;
