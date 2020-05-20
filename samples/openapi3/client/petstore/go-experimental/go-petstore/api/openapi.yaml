@@ -1621,6 +1621,16 @@ components:
               type: string
             type: object
           type: object
+        map_with_additional_properties:
+          additionalProperties: true
+          type: object
+        map_without_additional_properties:
+          additionalProperties: false
+          type: object
+        map_string:
+          additionalProperties:
+            type: string
+          type: object
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
       properties:
@@ -2168,3 +2178,5 @@ components:
     http_signature_test:
       scheme: signature
       type: http
+x-original-openapi-version: 3.0.0
+x-is-legacy-additional-properties-behavior: "false"

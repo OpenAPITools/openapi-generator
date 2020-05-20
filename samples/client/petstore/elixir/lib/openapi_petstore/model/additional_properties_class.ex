@@ -17,6 +17,8 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
     :"map_array_anytype",
     :"map_map_string",
     :"map_map_anytype",
+    :"map_with_additional_properties",
+    :"map_without_additional_properties",
     :"anytype_1",
     :"anytype_2",
     :"anytype_3"
@@ -31,6 +33,8 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
     :"map_array_anytype" => %{optional(String.t) => [Map]} | nil,
     :"map_map_string" => %{optional(String.t) => %{optional(String.t) => String.t}} | nil,
     :"map_map_anytype" => %{optional(String.t) => %{optional(String.t) => Map}} | nil,
+    :"map_with_additional_properties" => Map | nil,
+    :"map_without_additional_properties" => Map | nil,
     :"anytype_1" => Map | nil,
     :"anytype_2" => Map | nil,
     :"anytype_3" => Map | nil

@@ -1500,14 +1500,12 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR,
             CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString());
         Map<String, String> legacyAdditionalPropertiesBehaviorOpts = new HashMap<>();
-        legacyAdditionalPropertiesBehaviorOpts.put("true",
-            "The 'additionalProperties' keyword is implemented as specified in the OAS and JSON schema specifications. " +
-            "This is currently not supported when the input document is based on the OpenAPI 2.0 schema.");
         legacyAdditionalPropertiesBehaviorOpts.put("false",
+            "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        legacyAdditionalPropertiesBehaviorOpts.put("true",
             "Use a legacy, non-compliant interpretation of the 'additionalProperties' keyword. " +
-            "1) In a OpenAPI 2.0 document, boolean values of the 'additionalProperties' keyword are ignored." +
-            "2) In a OpenAPI 3.x document, the non-compliance is when the 'additionalProperties' keyword is not present in a schema. " +
-            "If the 'additionalProperties' keyword is not present in a schema, it is interpreted as if additionalProperties had been set to false, i.e. no additional properties are allowed.");
+            "When the 'additionalProperties' keyword is not present in a schema, " +
+            "it is interpreted as if additionalProperties had been set to false, i.e. no additional properties are allowed.");
         legacyAdditionalPropertiesBehaviorOpt.setEnum(legacyAdditionalPropertiesBehaviorOpts);
         cliOptions.add(legacyAdditionalPropertiesBehaviorOpt);
         this.setLegacyAdditionalPropertiesBehavior(false);

@@ -364,13 +364,16 @@ public class CodegenConstants {
     // When that issue is resolved, this parameter should be removed.
     public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR = "legacyAdditionalPropertiesBehavior";
     public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR_DESC =
-        "If true, the 'additionalProperties' keyword is implemented as specified in the OAS and JSON schema specifications. " +
-        "Full compliance currently works with OAS 3.0 documents only. " +
-        "It is not supported for 2.0 documents until issues #1369 and #1371 have been resolved in the dependent swagger-parser project. " +
-        "If false, codegen uses a legacy, non-compliant interpretation of the 'additionalProperties' keyword. " +
-        "In the non-compliant mode, codegen uses the following interpretation: " +
-        "1) In a OpenAPI 2.0 document, boolean values of the 'additionalProperties' keyword are ignored." +
-        "2) In a OpenAPI 3.x document, the non-compliance is when the 'additionalProperties' keyword is not present in a schema. " +
-        "If the 'additionalProperties' keyword is not present in a schema, it is interpreted as if additionalProperties had been set to false, i.e. no additional properties are allowed.";
+        "If false, the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. " +
+        "This is the default value.\n" +
+
+        "If true, codegen uses a legacy, non-compliant interpretation of the 'additionalProperties' keyword. " +
+        "When the 'additionalProperties' keyword is not present in a schema, " +
+        "it is interpreted as if additionalProperties had been set to false, i.e. no additional properties are allowed.\n" +
+
+        "This setting is currently ignored for OAS 2.0 documents: " +
+        " 1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed. " +
+        " 2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed." +
+        "Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.";
 
 }
