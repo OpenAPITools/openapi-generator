@@ -2133,14 +2133,6 @@
             },
             "type" : "object"
           },
-          "map_with_additional_properties" : {
-            "properties" : { },
-            "type" : "object"
-          },
-          "map_without_additional_properties" : {
-            "properties" : { },
-            "type" : "object"
-          },
           "anytype_1" : {
             "properties" : { },
             "type" : "object"
@@ -2883,5 +2875,5 @@
     }
   },
   "x-original-openapi-version" : "2.0.0",
-  "x-is-legacy-additional-properties-behavior" : "false"
+  "x-is-legacy-additional-properties-behavior" : "true"
 }

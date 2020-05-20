@@ -1039,5 +1039,5 @@
     }
   },
   "x-original-openapi-version" : "2.0.0",
-  "x-is-legacy-additional-properties-behavior" : "false"
+  "x-is-legacy-additional-properties-behavior" : "true"
 }
