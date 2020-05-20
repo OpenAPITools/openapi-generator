@@ -107,22 +107,6 @@ public class AdditionalPropertiesClassTest {
     }
 
     /**
-     * Test the property 'mapWithAdditionalProperties'
-     */
-    @Test
-    public void mapWithAdditionalPropertiesTest() {
-        // TODO: test mapWithAdditionalProperties
-    }
-
-    /**
-     * Test the property 'mapWithoutAdditionalProperties'
-     */
-    @Test
-    public void mapWithoutAdditionalPropertiesTest() {
-        // TODO: test mapWithoutAdditionalProperties
-    }
-
-    /**
      * Test the property 'anytype1'
      */
     @Test

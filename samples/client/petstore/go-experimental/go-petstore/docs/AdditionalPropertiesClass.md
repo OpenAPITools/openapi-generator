@@ -12,8 +12,6 @@ Name | Type | Description | Notes
 **MapArrayAnytype** | Pointer to [**map[string][]map[string]interface{}**](array.md) |  | [optional] 
 **MapMapString** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional] 
 **MapMapAnytype** | Pointer to [**map[string]map[string]map[string]interface{}**](map.md) |  | [optional] 
-**MapWithAdditionalProperties** | Pointer to **map[string]interface{}** |  | [optional] 
-**MapWithoutAdditionalProperties** | Pointer to **map[string]interface{}** |  | [optional] 
 **Anytype1** | Pointer to **map[string]interface{}** |  | [optional] 
 **Anytype2** | Pointer to **map[string]interface{}** |  | [optional] 
 **Anytype3** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -236,56 +234,6 @@ SetMapMapAnytype sets MapMapAnytype field to given value.
 `func (o *AdditionalPropertiesClass) HasMapMapAnytype() bool`
 
 HasMapMapAnytype returns a boolean if a field has been set.
-
-### GetMapWithAdditionalProperties
-
-`func (o *AdditionalPropertiesClass) GetMapWithAdditionalProperties() map[string]interface{}`
-
-GetMapWithAdditionalProperties returns the MapWithAdditionalProperties field if non-nil, zero value otherwise.
-
-### GetMapWithAdditionalPropertiesOk
-
-`func (o *AdditionalPropertiesClass) GetMapWithAdditionalPropertiesOk() (*map[string]interface{}, bool)`
-
-GetMapWithAdditionalPropertiesOk returns a tuple with the MapWithAdditionalProperties field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMapWithAdditionalProperties
-
-`func (o *AdditionalPropertiesClass) SetMapWithAdditionalProperties(v map[string]interface{})`
-
-SetMapWithAdditionalProperties sets MapWithAdditionalProperties field to given value.
-
-### HasMapWithAdditionalProperties
-
-`func (o *AdditionalPropertiesClass) HasMapWithAdditionalProperties() bool`
-
-HasMapWithAdditionalProperties returns a boolean if a field has been set.
-
-### GetMapWithoutAdditionalProperties
-
-`func (o *AdditionalPropertiesClass) GetMapWithoutAdditionalProperties() map[string]interface{}`
-
-GetMapWithoutAdditionalProperties returns the MapWithoutAdditionalProperties field if non-nil, zero value otherwise.
-
-### GetMapWithoutAdditionalPropertiesOk
-
-`func (o *AdditionalPropertiesClass) GetMapWithoutAdditionalPropertiesOk() (*map[string]interface{}, bool)`
-
-GetMapWithoutAdditionalPropertiesOk returns a tuple with the MapWithoutAdditionalProperties field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMapWithoutAdditionalProperties
-
-`func (o *AdditionalPropertiesClass) SetMapWithoutAdditionalProperties(v map[string]interface{})`
-
-SetMapWithoutAdditionalProperties sets MapWithoutAdditionalProperties field to given value.
-
-### HasMapWithoutAdditionalProperties
-
-`func (o *AdditionalPropertiesClass) HasMapWithoutAdditionalProperties() bool`
-
-HasMapWithoutAdditionalProperties returns a boolean if a field has been set.
 
 ### GetAnytype1
 

@@ -14,8 +14,6 @@ Name | Type | Description | Notes
 **mapArrayAnytype** | [**Map&lt;String, List&lt;Object&gt;&gt;**](List.md) |  |  [optional]
 **mapMapString** | [**Map&lt;String, Map&lt;String, String&gt;&gt;**](Map.md) |  |  [optional]
 **mapMapAnytype** | [**Map&lt;String, Map&lt;String, Object&gt;&gt;**](Map.md) |  |  [optional]
-**mapWithAdditionalProperties** | **Object** |  |  [optional]
-**mapWithoutAdditionalProperties** | **Object** |  |  [optional]
 **anytype1** | **Object** |  |  [optional]
 **anytype2** | **Object** |  |  [optional]
 **anytype3** | **Object** |  |  [optional]

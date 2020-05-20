@@ -23,8 +23,6 @@ type AdditionalPropertiesClass struct {
 	MapArrayAnytype *map[string][]map[string]interface{} `json:"map_array_anytype,omitempty"`
 	MapMapString *map[string]map[string]string `json:"map_map_string,omitempty"`
 	MapMapAnytype *map[string]map[string]map[string]interface{} `json:"map_map_anytype,omitempty"`
-	MapWithAdditionalProperties *map[string]interface{} `json:"map_with_additional_properties,omitempty"`
-	MapWithoutAdditionalProperties *map[string]interface{} `json:"map_without_additional_properties,omitempty"`
 	Anytype1 *map[string]interface{} `json:"anytype_1,omitempty"`
 	Anytype2 *map[string]interface{} `json:"anytype_2,omitempty"`
 	Anytype3 *map[string]interface{} `json:"anytype_3,omitempty"`
@@ -303,70 +301,6 @@ func (o *AdditionalPropertiesClass) SetMapMapAnytype(v map[string]map[string]map
 	o.MapMapAnytype = &v
 }
 
-// GetMapWithAdditionalProperties returns the MapWithAdditionalProperties field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapWithAdditionalProperties() map[string]interface{} {
-	if o == nil || o.MapWithAdditionalProperties == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return *o.MapWithAdditionalProperties
-}
-
-// GetMapWithAdditionalPropertiesOk returns a tuple with the MapWithAdditionalProperties field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapWithAdditionalPropertiesOk() (*map[string]interface{}, bool) {
-	if o == nil || o.MapWithAdditionalProperties == nil {
-		return nil, false
-	}
-	return o.MapWithAdditionalProperties, true
-}
-
-// HasMapWithAdditionalProperties returns a boolean if a field has been set.
-func (o *AdditionalPropertiesClass) HasMapWithAdditionalProperties() bool {
-	if o != nil && o.MapWithAdditionalProperties != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetMapWithAdditionalProperties gets a reference to the given map[string]interface{} and assigns it to the MapWithAdditionalProperties field.
-func (o *AdditionalPropertiesClass) SetMapWithAdditionalProperties(v map[string]interface{}) {
-	o.MapWithAdditionalProperties = &v
-}
-
-// GetMapWithoutAdditionalProperties returns the MapWithoutAdditionalProperties field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapWithoutAdditionalProperties() map[string]interface{} {
-	if o == nil || o.MapWithoutAdditionalProperties == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return *o.MapWithoutAdditionalProperties
-}
-
-// GetMapWithoutAdditionalPropertiesOk returns a tuple with the MapWithoutAdditionalProperties field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapWithoutAdditionalPropertiesOk() (*map[string]interface{}, bool) {
-	if o == nil || o.MapWithoutAdditionalProperties == nil {
-		return nil, false
-	}
-	return o.MapWithoutAdditionalProperties, true
-}
-
-// HasMapWithoutAdditionalProperties returns a boolean if a field has been set.
-func (o *AdditionalPropertiesClass) HasMapWithoutAdditionalProperties() bool {
-	if o != nil && o.MapWithoutAdditionalProperties != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetMapWithoutAdditionalProperties gets a reference to the given map[string]interface{} and assigns it to the MapWithoutAdditionalProperties field.
-func (o *AdditionalPropertiesClass) SetMapWithoutAdditionalProperties(v map[string]interface{}) {
-	o.MapWithoutAdditionalProperties = &v
-}
-
 // GetAnytype1 returns the Anytype1 field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetAnytype1() map[string]interface{} {
 	if o == nil || o.Anytype1 == nil {
@@ -488,12 +422,6 @@ func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
 	}
 	if o.MapMapAnytype != nil {
 		toSerialize["map_map_anytype"] = o.MapMapAnytype
-	}
-	if o.MapWithAdditionalProperties != nil {
-		toSerialize["map_with_additional_properties"] = o.MapWithAdditionalProperties
-	}
-	if o.MapWithoutAdditionalProperties != nil {
-		toSerialize["map_without_additional_properties"] = o.MapWithoutAdditionalProperties
 	}
 	if o.Anytype1 != nil {
 		toSerialize["anytype_1"] = o.Anytype1

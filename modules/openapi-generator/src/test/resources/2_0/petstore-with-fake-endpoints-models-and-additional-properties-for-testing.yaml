@@ -1493,6 +1493,12 @@ definitions:
           type: object
           additionalProperties:
             type: object
+      map_with_additional_properties:
+        type: object
+        additionalProperties: true
+      map_without_additional_properties:
+        type: object
+        additionalProperties: false
       anytype_1:
         type: object
       anytype_2: {}
