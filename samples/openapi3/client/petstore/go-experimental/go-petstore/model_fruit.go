@@ -101,3 +101,39 @@ func (obj *Fruit) GetActualInstance() (interface{}) {
 	return nil
 }
 
+type NullableFruit struct {
+	value *Fruit
+	isSet bool
+}
+
+func (v NullableFruit) Get() *Fruit {
+	return v.value
+}
+
+func (v *NullableFruit) Set(val *Fruit) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableFruit) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableFruit) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableFruit(val *Fruit) *NullableFruit {
+	return &NullableFruit{value: val, isSet: true}
+}
+
+func (v NullableFruit) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableFruit) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+
