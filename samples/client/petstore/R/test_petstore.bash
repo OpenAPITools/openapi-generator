@@ -2,7 +2,7 @@
 
 set -e
 
-REPO=http://cran.revolutionanalytics.com
+REPO=https://cloud.r-project.org
 
 export R_LIBS_USER=$HOME/R
 
