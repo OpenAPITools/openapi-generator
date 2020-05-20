@@ -49,6 +49,12 @@ public class AdditionalPropertiesClass  {
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   @ApiModelProperty(value = "")
+  private Object mapWithAdditionalProperties;
+
+  @ApiModelProperty(value = "")
+  private Object mapWithoutAdditionalProperties;
+
+  @ApiModelProperty(value = "")
   private Object anytype1;
 
   @ApiModelProperty(value = "")
@@ -241,6 +247,42 @@ public class AdditionalPropertiesClass  {
   }
 
  /**
+   * Get mapWithAdditionalProperties
+   * @return mapWithAdditionalProperties
+  **/
+  @JsonProperty("map_with_additional_properties")
+  public Object getMapWithAdditionalProperties() {
+    return mapWithAdditionalProperties;
+  }
+
+  public void setMapWithAdditionalProperties(Object mapWithAdditionalProperties) {
+    this.mapWithAdditionalProperties = mapWithAdditionalProperties;
+  }
+
+  public AdditionalPropertiesClass mapWithAdditionalProperties(Object mapWithAdditionalProperties) {
+    this.mapWithAdditionalProperties = mapWithAdditionalProperties;
+    return this;
+  }
+
+ /**
+   * Get mapWithoutAdditionalProperties
+   * @return mapWithoutAdditionalProperties
+  **/
+  @JsonProperty("map_without_additional_properties")
+  public Object getMapWithoutAdditionalProperties() {
+    return mapWithoutAdditionalProperties;
+  }
+
+  public void setMapWithoutAdditionalProperties(Object mapWithoutAdditionalProperties) {
+    this.mapWithoutAdditionalProperties = mapWithoutAdditionalProperties;
+  }
+
+  public AdditionalPropertiesClass mapWithoutAdditionalProperties(Object mapWithoutAdditionalProperties) {
+    this.mapWithoutAdditionalProperties = mapWithoutAdditionalProperties;
+    return this;
+  }
+
+ /**
    * Get anytype1
    * @return anytype1
   **/
@@ -308,6 +350,8 @@ public class AdditionalPropertiesClass  {
     sb.append("    mapArrayAnytype: ").append(toIndentedString(mapArrayAnytype)).append("\n");
     sb.append("    mapMapString: ").append(toIndentedString(mapMapString)).append("\n");
     sb.append("    mapMapAnytype: ").append(toIndentedString(mapMapAnytype)).append("\n");
+    sb.append("    mapWithAdditionalProperties: ").append(toIndentedString(mapWithAdditionalProperties)).append("\n");
+    sb.append("    mapWithoutAdditionalProperties: ").append(toIndentedString(mapWithoutAdditionalProperties)).append("\n");
     sb.append("    anytype1: ").append(toIndentedString(anytype1)).append("\n");
     sb.append("    anytype2: ").append(toIndentedString(anytype2)).append("\n");
     sb.append("    anytype3: ").append(toIndentedString(anytype3)).append("\n");
