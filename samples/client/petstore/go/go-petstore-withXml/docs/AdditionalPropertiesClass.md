@@ -12,8 +12,6 @@ Name | Type | Description | Notes
 **MapArrayAnytype** | [**map[string][]map[string]interface{}**](array.md) |  | [optional] 
 **MapMapString** | [**map[string]map[string]string**](map.md) |  | [optional] 
 **MapMapAnytype** | [**map[string]map[string]map[string]interface{}**](map.md) |  | [optional] 
-**MapWithAdditionalProperties** | **map[string]interface{}** |  | [optional] 
-**MapWithoutAdditionalProperties** | **map[string]interface{}** |  | [optional] 
 **Anytype1** | **map[string]interface{}** |  | [optional] 
 **Anytype2** | **map[string]interface{}** |  | [optional] 
 **Anytype3** | **map[string]interface{}** |  | [optional] 
