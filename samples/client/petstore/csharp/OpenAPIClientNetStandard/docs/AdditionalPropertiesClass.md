@@ -13,9 +13,11 @@ Name | Type | Description | Notes
 **MapArrayAnytype** | **Dictionary&lt;string, List&lt;Object&gt;&gt;** |  | [optional] 
 **MapMapString** | **Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt;** |  | [optional] 
 **MapMapAnytype** | **Dictionary&lt;string, Dictionary&lt;string, Object&gt;&gt;** |  | [optional] 
-**Anytype1** | [**Object**](.md) |  | [optional] 
-**Anytype2** | [**Object**](.md) |  | [optional] 
-**Anytype3** | [**Object**](.md) |  | [optional] 
+**MapWithAdditionalProperties** | **Object** |  | [optional] 
+**MapWithoutAdditionalProperties** | **Object** |  | [optional] 
+**Anytype1** | **Object** |  | [optional] 
+**Anytype2** | **Object** |  | [optional] 
+**Anytype3** | **Object** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

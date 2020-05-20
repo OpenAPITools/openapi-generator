@@ -19,6 +19,8 @@ type AdditionalPropertiesClass struct {
 	MapArrayAnytype map[string][]map[string]interface{} `json:"map_array_anytype,omitempty" xml:"map_array_anytype"`
 	MapMapString map[string]map[string]string `json:"map_map_string,omitempty" xml:"map_map_string"`
 	MapMapAnytype map[string]map[string]map[string]interface{} `json:"map_map_anytype,omitempty" xml:"map_map_anytype"`
+	MapWithAdditionalProperties map[string]interface{} `json:"map_with_additional_properties,omitempty" xml:"map_with_additional_properties"`
+	MapWithoutAdditionalProperties map[string]interface{} `json:"map_without_additional_properties,omitempty" xml:"map_without_additional_properties"`
 	Anytype1 map[string]interface{} `json:"anytype_1,omitempty" xml:"anytype_1"`
 	Anytype2 map[string]interface{} `json:"anytype_2,omitempty" xml:"anytype_2"`
 	Anytype3 map[string]interface{} `json:"anytype_3,omitempty" xml:"anytype_3"`

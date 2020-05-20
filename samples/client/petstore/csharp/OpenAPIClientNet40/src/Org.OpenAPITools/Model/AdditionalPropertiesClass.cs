@@ -41,10 +41,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapArrayAnytype">mapArrayAnytype.</param>
         /// <param name="mapMapString">mapMapString.</param>
         /// <param name="mapMapAnytype">mapMapAnytype.</param>
+        /// <param name="mapWithAdditionalProperties">mapWithAdditionalProperties.</param>
+        /// <param name="mapWithoutAdditionalProperties">mapWithoutAdditionalProperties.</param>
         /// <param name="anytype1">anytype1.</param>
         /// <param name="anytype2">anytype2.</param>
         /// <param name="anytype3">anytype3.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapString = default(Dictionary<string, string>), Dictionary<string, decimal> mapNumber = default(Dictionary<string, decimal>), Dictionary<string, int> mapInteger = default(Dictionary<string, int>), Dictionary<string, bool> mapBoolean = default(Dictionary<string, bool>), Dictionary<string, List<int>> mapArrayInteger = default(Dictionary<string, List<int>>), Dictionary<string, List<Object>> mapArrayAnytype = default(Dictionary<string, List<Object>>), Dictionary<string, Dictionary<string, string>> mapMapString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, Dictionary<string, Object>> mapMapAnytype = default(Dictionary<string, Dictionary<string, Object>>), Object anytype1 = default(Object), Object anytype2 = default(Object), Object anytype3 = default(Object))
+        public AdditionalPropertiesClass(Dictionary<string, string> mapString = default(Dictionary<string, string>), Dictionary<string, decimal> mapNumber = default(Dictionary<string, decimal>), Dictionary<string, int> mapInteger = default(Dictionary<string, int>), Dictionary<string, bool> mapBoolean = default(Dictionary<string, bool>), Dictionary<string, List<int>> mapArrayInteger = default(Dictionary<string, List<int>>), Dictionary<string, List<Object>> mapArrayAnytype = default(Dictionary<string, List<Object>>), Dictionary<string, Dictionary<string, string>> mapMapString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, Dictionary<string, Object>> mapMapAnytype = default(Dictionary<string, Dictionary<string, Object>>), Object mapWithAdditionalProperties = default(Object), Object mapWithoutAdditionalProperties = default(Object), Object anytype1 = default(Object), Object anytype2 = default(Object), Object anytype3 = default(Object))
         {
             this.MapString = mapString;
             this.MapNumber = mapNumber;
@@ -54,6 +56,8 @@ namespace Org.OpenAPITools.Model
             this.MapArrayAnytype = mapArrayAnytype;
             this.MapMapString = mapMapString;
             this.MapMapAnytype = mapMapAnytype;
+            this.MapWithAdditionalProperties = mapWithAdditionalProperties;
+            this.MapWithoutAdditionalProperties = mapWithoutAdditionalProperties;
             this.Anytype1 = anytype1;
             this.Anytype2 = anytype2;
             this.Anytype3 = anytype3;
@@ -108,6 +112,18 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, Dictionary<string, Object>> MapMapAnytype { get; set; }
 
         /// <summary>
+        /// Gets or Sets MapWithAdditionalProperties
+        /// </summary>
+        [DataMember(Name="map_with_additional_properties", EmitDefaultValue=false)]
+        public Object MapWithAdditionalProperties { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MapWithoutAdditionalProperties
+        /// </summary>
+        [DataMember(Name="map_without_additional_properties", EmitDefaultValue=false)]
+        public Object MapWithoutAdditionalProperties { get; set; }
+
+        /// <summary>
         /// Gets or Sets Anytype1
         /// </summary>
         [DataMember(Name="anytype_1", EmitDefaultValue=false)]
@@ -141,6 +157,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  MapArrayAnytype: ").Append(MapArrayAnytype).Append("\n");
             sb.Append("  MapMapString: ").Append(MapMapString).Append("\n");
             sb.Append("  MapMapAnytype: ").Append(MapMapAnytype).Append("\n");
+            sb.Append("  MapWithAdditionalProperties: ").Append(MapWithAdditionalProperties).Append("\n");
+            sb.Append("  MapWithoutAdditionalProperties: ").Append(MapWithoutAdditionalProperties).Append("\n");
             sb.Append("  Anytype1: ").Append(Anytype1).Append("\n");
             sb.Append("  Anytype2: ").Append(Anytype2).Append("\n");
             sb.Append("  Anytype3: ").Append(Anytype3).Append("\n");
@@ -227,6 +245,16 @@ namespace Org.OpenAPITools.Model
                     this.MapMapAnytype.SequenceEqual(input.MapMapAnytype)
                 ) && 
                 (
+                    this.MapWithAdditionalProperties == input.MapWithAdditionalProperties ||
+                    (this.MapWithAdditionalProperties != null &&
+                    this.MapWithAdditionalProperties.Equals(input.MapWithAdditionalProperties))
+                ) && 
+                (
+                    this.MapWithoutAdditionalProperties == input.MapWithoutAdditionalProperties ||
+                    (this.MapWithoutAdditionalProperties != null &&
+                    this.MapWithoutAdditionalProperties.Equals(input.MapWithoutAdditionalProperties))
+                ) && 
+                (
                     this.Anytype1 == input.Anytype1 ||
                     (this.Anytype1 != null &&
                     this.Anytype1.Equals(input.Anytype1))
@@ -268,6 +296,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.MapMapString.GetHashCode();
                 if (this.MapMapAnytype != null)
                     hashCode = hashCode * 59 + this.MapMapAnytype.GetHashCode();
+                if (this.MapWithAdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.MapWithAdditionalProperties.GetHashCode();
+                if (this.MapWithoutAdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.MapWithoutAdditionalProperties.GetHashCode();
                 if (this.Anytype1 != null)
                     hashCode = hashCode * 59 + this.Anytype1.GetHashCode();
                 if (this.Anytype2 != null)
