@@ -1442,6 +1442,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     List<String> opScopes = requirement.get(security.name);
                     if (opScopes != null) {
                         CodegenSecurity opSecurity = security.filterByScopeNames(Collections.emptyList());
+                        opSecurity.bearerFormat = security.bearerFormat;
+                        opSecurity.scheme = security.scheme;
                         Iterator<String> it = opScopes.iterator();
                         opSecurity.scopes = new ArrayList<>();
                         while(it.hasNext()){
