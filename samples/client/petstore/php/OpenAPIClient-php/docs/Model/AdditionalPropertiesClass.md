@@ -12,6 +12,8 @@ Name | Type | Description | Notes
 **map_array_anytype** | [**map[string,object[]]**](array.md) |  | [optional] 
 **map_map_string** | [**map[string,map[string,string]]**](map.md) |  | [optional] 
 **map_map_anytype** | [**map[string,map[string,object]]**](map.md) |  | [optional] 
+**map_with_additional_properties** | **object** |  | [optional] 
+**map_without_additional_properties** | **object** |  | [optional] 
 **anytype_1** | **object** |  | [optional] 
 **anytype_2** | **object** |  | [optional] 
 **anytype_3** | **object** |  | [optional] 

@@ -217,6 +217,20 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
+    'map_with_additional_properties' => {
+        datatype => 'object',
+        base_name => 'map_with_additional_properties',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'map_without_additional_properties' => {
+        datatype => 'object',
+        base_name => 'map_without_additional_properties',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     'anytype_1' => {
         datatype => 'object',
         base_name => 'anytype_1',
@@ -249,6 +263,8 @@ __PACKAGE__->openapi_types( {
     'map_array_anytype' => 'HASH[string,ARRAY[object]]',
     'map_map_string' => 'HASH[string,HASH[string,string]]',
     'map_map_anytype' => 'HASH[string,HASH[string,object]]',
+    'map_with_additional_properties' => 'object',
+    'map_without_additional_properties' => 'object',
     'anytype_1' => 'object',
     'anytype_2' => 'object',
     'anytype_3' => 'object'
@@ -263,6 +279,8 @@ __PACKAGE__->attribute_map( {
     'map_array_anytype' => 'map_array_anytype',
     'map_map_string' => 'map_map_string',
     'map_map_anytype' => 'map_map_anytype',
+    'map_with_additional_properties' => 'map_with_additional_properties',
+    'map_without_additional_properties' => 'map_without_additional_properties',
     'anytype_1' => 'anytype_1',
     'anytype_2' => 'anytype_2',
     'anytype_3' => 'anytype_3'

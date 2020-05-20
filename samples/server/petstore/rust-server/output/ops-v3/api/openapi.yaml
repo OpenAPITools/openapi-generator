@@ -192,4 +192,6 @@ paths:
           description: OK
 components:
   schemas: {}
+x-original-openapi-version: 3.0.1
+x-is-legacy-additional-properties-behavior: "false"
 

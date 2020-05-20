@@ -211,4 +211,6 @@ components:
           type: integer
       required:
       - required_thing
+x-original-openapi-version: 2.0.0
+x-is-legacy-additional-properties-behavior: "false"
 

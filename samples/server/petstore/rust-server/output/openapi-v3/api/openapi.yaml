@@ -591,4 +591,6 @@ components:
             test.write: Allowed to change state.
           tokenUrl: http://example.org
       type: oauth2
+x-original-openapi-version: 3.0.1
+x-is-legacy-additional-properties-behavior: "false"
 

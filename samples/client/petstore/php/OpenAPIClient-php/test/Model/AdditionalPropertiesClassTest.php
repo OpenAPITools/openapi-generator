@@ -135,6 +135,20 @@ class AdditionalPropertiesClassTest extends TestCase
     }
 
     /**
+     * Test attribute "map_with_additional_properties"
+     */
+    public function testPropertyMapWithAdditionalProperties()
+    {
+    }
+
+    /**
+     * Test attribute "map_without_additional_properties"
+     */
+    public function testPropertyMapWithoutAdditionalProperties()
+    {
+    }
+
+    /**
      * Test attribute "anytype_1"
      */
     public function testPropertyAnytype1()

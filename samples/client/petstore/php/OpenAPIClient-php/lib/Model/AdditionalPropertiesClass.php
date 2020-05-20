@@ -65,6 +65,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
         'map_array_anytype' => 'map[string,object[]]',
         'map_map_string' => 'map[string,map[string,string]]',
         'map_map_anytype' => 'map[string,map[string,object]]',
+        'map_with_additional_properties' => 'object',
+        'map_without_additional_properties' => 'object',
         'anytype_1' => 'object',
         'anytype_2' => 'object',
         'anytype_3' => 'object'
@@ -84,6 +86,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
         'map_array_anytype' => null,
         'map_map_string' => null,
         'map_map_anytype' => null,
+        'map_with_additional_properties' => null,
+        'map_without_additional_properties' => null,
         'anytype_1' => null,
         'anytype_2' => null,
         'anytype_3' => null
@@ -124,6 +128,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
         'map_array_anytype' => 'map_array_anytype',
         'map_map_string' => 'map_map_string',
         'map_map_anytype' => 'map_map_anytype',
+        'map_with_additional_properties' => 'map_with_additional_properties',
+        'map_without_additional_properties' => 'map_without_additional_properties',
         'anytype_1' => 'anytype_1',
         'anytype_2' => 'anytype_2',
         'anytype_3' => 'anytype_3'
@@ -143,6 +149,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
         'map_array_anytype' => 'setMapArrayAnytype',
         'map_map_string' => 'setMapMapString',
         'map_map_anytype' => 'setMapMapAnytype',
+        'map_with_additional_properties' => 'setMapWithAdditionalProperties',
+        'map_without_additional_properties' => 'setMapWithoutAdditionalProperties',
         'anytype_1' => 'setAnytype1',
         'anytype_2' => 'setAnytype2',
         'anytype_3' => 'setAnytype3'
@@ -162,6 +170,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
         'map_array_anytype' => 'getMapArrayAnytype',
         'map_map_string' => 'getMapMapString',
         'map_map_anytype' => 'getMapMapAnytype',
+        'map_with_additional_properties' => 'getMapWithAdditionalProperties',
+        'map_without_additional_properties' => 'getMapWithoutAdditionalProperties',
         'anytype_1' => 'getAnytype1',
         'anytype_2' => 'getAnytype2',
         'anytype_3' => 'getAnytype3'
@@ -235,6 +245,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
         $this->container['map_array_anytype'] = isset($data['map_array_anytype']) ? $data['map_array_anytype'] : null;
         $this->container['map_map_string'] = isset($data['map_map_string']) ? $data['map_map_string'] : null;
         $this->container['map_map_anytype'] = isset($data['map_map_anytype']) ? $data['map_map_anytype'] : null;
+        $this->container['map_with_additional_properties'] = isset($data['map_with_additional_properties']) ? $data['map_with_additional_properties'] : null;
+        $this->container['map_without_additional_properties'] = isset($data['map_without_additional_properties']) ? $data['map_without_additional_properties'] : null;
         $this->container['anytype_1'] = isset($data['anytype_1']) ? $data['anytype_1'] : null;
         $this->container['anytype_2'] = isset($data['anytype_2']) ? $data['anytype_2'] : null;
         $this->container['anytype_3'] = isset($data['anytype_3']) ? $data['anytype_3'] : null;
@@ -452,6 +464,54 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     public function setMapMapAnytype($map_map_anytype)
     {
         $this->container['map_map_anytype'] = $map_map_anytype;
+
+        return $this;
+    }
+
+    /**
+     * Gets map_with_additional_properties
+     *
+     * @return object|null
+     */
+    public function getMapWithAdditionalProperties()
+    {
+        return $this->container['map_with_additional_properties'];
+    }
+
+    /**
+     * Sets map_with_additional_properties
+     *
+     * @param object|null $map_with_additional_properties map_with_additional_properties
+     *
+     * @return $this
+     */
+    public function setMapWithAdditionalProperties($map_with_additional_properties)
+    {
+        $this->container['map_with_additional_properties'] = $map_with_additional_properties;
+
+        return $this;
+    }
+
+    /**
+     * Gets map_without_additional_properties
+     *
+     * @return object|null
+     */
+    public function getMapWithoutAdditionalProperties()
+    {
+        return $this->container['map_without_additional_properties'];
+    }
+
+    /**
+     * Sets map_without_additional_properties
+     *
+     * @param object|null $map_without_additional_properties map_without_additional_properties
+     *
+     * @return $this
+     */
+    public function setMapWithoutAdditionalProperties($map_without_additional_properties)
+    {
+        $this->container['map_without_additional_properties'] = $map_without_additional_properties;
 
         return $this;
     }

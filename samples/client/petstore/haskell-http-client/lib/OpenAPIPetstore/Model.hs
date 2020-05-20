@@ -323,6 +323,8 @@ data AdditionalPropertiesClass = AdditionalPropertiesClass
   , additionalPropertiesClassMapArrayAnytype :: !(Maybe (Map.Map String [A.Value])) -- ^ "map_array_anytype"
   , additionalPropertiesClassMapMapString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_string"
   , additionalPropertiesClassMapMapAnytype :: !(Maybe (Map.Map String (Map.Map String A.Value))) -- ^ "map_map_anytype"
+  , additionalPropertiesClassMapWithAdditionalProperties :: !(Maybe A.Value) -- ^ "map_with_additional_properties"
+  , additionalPropertiesClassMapWithoutAdditionalProperties :: !(Maybe A.Value) -- ^ "map_without_additional_properties"
   , additionalPropertiesClassAnytype1 :: !(Maybe A.Value) -- ^ "anytype_1"
   , additionalPropertiesClassAnytype2 :: !(Maybe A.Value) -- ^ "anytype_2"
   , additionalPropertiesClassAnytype3 :: !(Maybe A.Value) -- ^ "anytype_3"
@@ -340,6 +342,8 @@ instance A.FromJSON AdditionalPropertiesClass where
       <*> (o .:? "map_array_anytype")
       <*> (o .:? "map_map_string")
       <*> (o .:? "map_map_anytype")
+      <*> (o .:? "map_with_additional_properties")
+      <*> (o .:? "map_without_additional_properties")
       <*> (o .:? "anytype_1")
       <*> (o .:? "anytype_2")
       <*> (o .:? "anytype_3")
@@ -356,6 +360,8 @@ instance A.ToJSON AdditionalPropertiesClass where
       , "map_array_anytype" .= additionalPropertiesClassMapArrayAnytype
       , "map_map_string" .= additionalPropertiesClassMapMapString
       , "map_map_anytype" .= additionalPropertiesClassMapMapAnytype
+      , "map_with_additional_properties" .= additionalPropertiesClassMapWithAdditionalProperties
+      , "map_without_additional_properties" .= additionalPropertiesClassMapWithoutAdditionalProperties
       , "anytype_1" .= additionalPropertiesClassAnytype1
       , "anytype_2" .= additionalPropertiesClassAnytype2
       , "anytype_3" .= additionalPropertiesClassAnytype3
@@ -375,6 +381,8 @@ mkAdditionalPropertiesClass =
   , additionalPropertiesClassMapArrayAnytype = Nothing
   , additionalPropertiesClassMapMapString = Nothing
   , additionalPropertiesClassMapMapAnytype = Nothing
+  , additionalPropertiesClassMapWithAdditionalProperties = Nothing
+  , additionalPropertiesClassMapWithoutAdditionalProperties = Nothing
   , additionalPropertiesClassAnytype1 = Nothing
   , additionalPropertiesClassAnytype2 = Nothing
   , additionalPropertiesClassAnytype3 = Nothing

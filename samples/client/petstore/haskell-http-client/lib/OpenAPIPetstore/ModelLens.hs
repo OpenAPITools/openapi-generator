@@ -105,6 +105,16 @@ additionalPropertiesClassMapMapAnytypeL :: Lens_' AdditionalPropertiesClass (May
 additionalPropertiesClassMapMapAnytypeL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapMapAnytype -> AdditionalPropertiesClass { additionalPropertiesClassMapMapAnytype, ..} ) <$> f additionalPropertiesClassMapMapAnytype
 {-# INLINE additionalPropertiesClassMapMapAnytypeL #-}
 
+-- | 'additionalPropertiesClassMapWithAdditionalProperties' Lens
+additionalPropertiesClassMapWithAdditionalPropertiesL :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
+additionalPropertiesClassMapWithAdditionalPropertiesL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapWithAdditionalProperties -> AdditionalPropertiesClass { additionalPropertiesClassMapWithAdditionalProperties, ..} ) <$> f additionalPropertiesClassMapWithAdditionalProperties
+{-# INLINE additionalPropertiesClassMapWithAdditionalPropertiesL #-}
+
+-- | 'additionalPropertiesClassMapWithoutAdditionalProperties' Lens
+additionalPropertiesClassMapWithoutAdditionalPropertiesL :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
+additionalPropertiesClassMapWithoutAdditionalPropertiesL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapWithoutAdditionalProperties -> AdditionalPropertiesClass { additionalPropertiesClassMapWithoutAdditionalProperties, ..} ) <$> f additionalPropertiesClassMapWithoutAdditionalProperties
+{-# INLINE additionalPropertiesClassMapWithoutAdditionalPropertiesL #-}
+
 -- | 'additionalPropertiesClassAnytype1' Lens
 additionalPropertiesClassAnytype1L :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
 additionalPropertiesClassAnytype1L f AdditionalPropertiesClass{..} = (\additionalPropertiesClassAnytype1 -> AdditionalPropertiesClass { additionalPropertiesClassAnytype1, ..} ) <$> f additionalPropertiesClassAnytype1

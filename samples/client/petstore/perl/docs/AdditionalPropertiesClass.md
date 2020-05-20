@@ -16,6 +16,8 @@ Name | Type | Description | Notes
 **map_array_anytype** | **HASH[string,ARRAY[object]]** |  | [optional] 
 **map_map_string** | **HASH[string,HASH[string,string]]** |  | [optional] 
 **map_map_anytype** | **HASH[string,HASH[string,object]]** |  | [optional] 
+**map_with_additional_properties** | **object** |  | [optional] 
+**map_without_additional_properties** | **object** |  | [optional] 
 **anytype_1** | **object** |  | [optional] 
 **anytype_2** | **object** |  | [optional] 
 **anytype_3** | **object** |  | [optional] 
