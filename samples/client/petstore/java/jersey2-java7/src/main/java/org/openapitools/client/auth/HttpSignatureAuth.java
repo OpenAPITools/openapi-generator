@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.List;
+import java.security.spec.AlgorithmParameterSpec;
 
 import org.tomitribe.auth.signatures.*;
 
@@ -41,7 +42,13 @@ public class HttpSignatureAuth implements Authentication {
   private String keyId;
 
   // The HTTP signature algorithm.
+  private SigningAlgorithm signingAlgorithm;
+
+  // The HTTP cryptographic algorithm.
   private Algorithm algorithm;
+
+  // The cryptographic parameters.
+  private AlgorithmParameterSpec parameterSpec;
 
   // The list of HTTP headers that should be included in the HTTP signature.
   private List<String> headers;
@@ -53,14 +60,23 @@ public class HttpSignatureAuth implements Authentication {
    * Construct a new HTTP signature auth configuration object.
    *
    * @param keyId An opaque string that the server can use to look up the component they need to validate the signature.
-   * @param algorithm The signature algorithm.
+   * @param signingAlgorithm The signature algorithm.
+   * @param algorithm The cryptographic algorithm.
+   * @param digestAlgorithm The digest algorithm.
    * @param headers The list of HTTP headers that should be included in the HTTP signature.
    */
-  public HttpSignatureAuth(String keyId, Algorithm algorithm, List<String> headers) {
+  public HttpSignatureAuth(String keyId,
+                           SigningAlgorithm signingAlgorithm,
+                           Algorithm algorithm,
+                           String digestAlgorithm,
+                           AlgorithmParameterSpec parameterSpec,
+                           List<String> headers) {
     this.keyId = keyId;
+    this.signingAlgorithm = signingAlgorithm;
     this.algorithm = algorithm;
+    this.parameterSpec = parameterSpec;
+    this.digestAlgorithm = digestAlgorithm;
     this.headers = headers;
-    this.digestAlgorithm = "SHA-256";
   }
 
   /**
@@ -84,17 +100,49 @@ public class HttpSignatureAuth implements Authentication {
   /**
    * Returns the HTTP signature algorithm which is used to sign HTTP requests.
    */
-  public Algorithm getAlgorithm() {
-    return algorithm;
+  public SigningAlgorithm getSigningAlgorithm() {
+    return signingAlgorithm;
   }
 
   /**
    * Sets the HTTP signature algorithm which is used to sign HTTP requests.
    *
+   * @param signingAlgorithm The HTTP signature algorithm.
+   */
+  public void setSigningAlgorithm(SigningAlgorithm signingAlgorithm) {
+    this.signingAlgorithm = signingAlgorithm;
+  }
+
+  /**
+   * Returns the HTTP cryptographic algorithm which is used to sign HTTP requests.
+   */
+  public Algorithm getAlgorithm() {
+    return algorithm;
+  }
+
+  /**
+   * Sets the HTTP cryptographic algorithm which is used to sign HTTP requests.
+   *
    * @param algorithm The HTTP signature algorithm.
    */
   public void setAlgorithm(Algorithm algorithm) {
     this.algorithm = algorithm;
+  }
+
+  /**
+   * Returns the cryptographic parameters which are used to sign HTTP requests.
+   */
+  public AlgorithmParameterSpec getAlgorithmParameterSpec() {
+    return parameterSpec;
+  }
+
+  /**
+   * Sets the cryptographic parameters which are used to sign HTTP requests.
+   *
+   * @param parameterSpec The cryptographic parameters.
+   */
+  public void setAlgorithmParameterSpec(AlgorithmParameterSpec parameterSpec) {
+    this.parameterSpec = parameterSpec;
   }
 
   /**
@@ -138,10 +186,20 @@ public class HttpSignatureAuth implements Authentication {
     this.headers = headers;
   }
 
+  /**
+   * Returns the signer instance used to sign HTTP messages.
+   *
+   * @returrn the signer instance.
+   */
   public Signer getSigner() {
     return signer;
   }
 
+  /**
+   * Sets the signer instance used to sign HTTP messages.
+   *
+   * @param signer The signer instance to set.
+   */
   public void setSigner(Signer signer) {
     this.signer = signer;
   }
@@ -156,7 +214,7 @@ public class HttpSignatureAuth implements Authentication {
       throw new ApiException("Private key (java.security.Key) cannot be null");
     }
 
-    signer = new Signer(key, new Signature(keyId, algorithm, null, headers));
+    signer = new Signer(key, new Signature(keyId, signingAlgorithm, algorithm, parameterSpec, null, headers));
   }
 
   @Override
