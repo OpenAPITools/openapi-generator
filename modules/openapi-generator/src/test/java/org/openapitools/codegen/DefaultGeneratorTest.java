@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
@@ -30,6 +29,87 @@ import java.util.List;
 import java.util.Map;
 
 public class DefaultGeneratorTest {
+
+    @Test
+    public void testIgnoreFileProcessing() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            List<String> ignoreFile = Arrays.asList(
+                    ".travis.yml",
+                    "build.sbt",
+                    "src/main/AndroidManifest.xml",
+                    "pom.xml",
+                    "src/test/**",
+                    "src/main/java/org/openapitools/client/api/UserApi.java"
+            );
+            File ignorePath = new File(output, ".openapi-generator-ignore");
+            Files.write(ignorePath.toPath(),
+                    String.join(System.lineSeparator(), ignoreFile).getBytes(StandardCharsets.UTF_8),
+                    StandardOpenOption.CREATE);
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(files.size(), 43);
+
+            // Check expected generated files
+            // api sanity check
+            TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/api/PetApi.java");
+            Assert.assertTrue(new File(output, "src/main/java/org/openapitools/client/api/PetApi.java").exists());
+
+            // model sanity check
+            TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Category.java");
+            Assert.assertTrue(new File(output, "src/main/java/org/openapitools/client/model/Category.java").exists());
+
+            TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/ModelApiResponse.java");
+            Assert.assertTrue(new File(output, "src/main/java/org/openapitools/client/model/ModelApiResponse.java").exists());
+
+            // supporting files sanity check
+            TestUtils.ensureContainsFile(files, output, "build.gradle");
+            Assert.assertTrue(new File(output, "build.gradle").exists());
+
+            TestUtils.ensureContainsFile(files, output, "api/openapi.yaml");
+            Assert.assertTrue(new File(output, "build.gradle").exists());
+
+            // Check excluded files
+            TestUtils.ensureDoesNotContainsFile(files, output, ".travis.yml");
+            Assert.assertFalse(new File(output, ".travis.yml").exists());
+
+            TestUtils.ensureDoesNotContainsFile(files, output, "build.sbt");
+            Assert.assertFalse(new File(output, "build.sbt").exists());
+
+            TestUtils.ensureDoesNotContainsFile(files, output, "src/main/AndroidManifest.xml");
+            Assert.assertFalse(new File(output, "src/main/AndroidManifest.xml").exists());
+
+            TestUtils.ensureDoesNotContainsFile(files, output, "pom.xml");
+            Assert.assertFalse(new File(output, "pom.xml").exists());
+
+            TestUtils.ensureDoesNotContainsFile(files, output, "src/test/java/org/openapitools/client/model/CategoryTest.java");
+            Assert.assertFalse(new File(output, "src/test/java/org/openapitools/client/model/CategoryTest.java").exists());
+
+            TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/api/UserApi.java");
+            Assert.assertFalse(new File(output, "src/main/java/org/openapitools/client/api/UserApi.java").exists());
+        } finally {
+            output.delete();
+        }
+    }
 
     @Test
     public void dryRunWithApisOnly() throws IOException {

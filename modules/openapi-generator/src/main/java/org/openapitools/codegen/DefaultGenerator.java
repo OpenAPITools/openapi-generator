@@ -925,7 +925,7 @@ public class DefaultGenerator implements Generator {
             }
         } else {
             this.templateProcessor.ignore(target.toPath(), "Ignored by rule in ignore file.");
-            return target;
+            return null;
         }
     }
 
