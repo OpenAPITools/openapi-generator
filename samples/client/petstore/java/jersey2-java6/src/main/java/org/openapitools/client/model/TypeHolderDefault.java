@@ -14,42 +14,41 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * TypeHolderDefault
  */
-@JsonPropertyOrder({
-  TypeHolderDefault.JSON_PROPERTY_STRING_ITEM,
-  TypeHolderDefault.JSON_PROPERTY_NUMBER_ITEM,
-  TypeHolderDefault.JSON_PROPERTY_INTEGER_ITEM,
-  TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
-  TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
-})
 
 public class TypeHolderDefault {
-  public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
+  @SerializedName(SERIALIZED_NAME_STRING_ITEM)
   private String stringItem = "what";
 
-  public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
+  @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
   private BigDecimal numberItem;
 
-  public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
+  @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
   private Integer integerItem;
 
-  public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  public static final String SERIALIZED_NAME_BOOL_ITEM = "bool_item";
+  @SerializedName(SERIALIZED_NAME_BOOL_ITEM)
   private Boolean boolItem = true;
 
-  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
+  public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
+  @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
 
@@ -64,8 +63,6 @@ public class TypeHolderDefault {
    * @return stringItem
   **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getStringItem() {
     return stringItem;
@@ -88,8 +85,6 @@ public class TypeHolderDefault {
    * @return numberItem
   **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -112,8 +107,6 @@ public class TypeHolderDefault {
    * @return integerItem
   **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -136,8 +129,6 @@ public class TypeHolderDefault {
    * @return boolItem
   **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Boolean isBoolItem() {
     return boolItem;
@@ -165,8 +156,6 @@ public class TypeHolderDefault {
    * @return arrayItem
   **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public List<Integer> getArrayItem() {
     return arrayItem;

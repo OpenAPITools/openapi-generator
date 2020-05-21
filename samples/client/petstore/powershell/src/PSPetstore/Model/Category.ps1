@@ -49,3 +49,55 @@ function Initialize-PSCategory {
         return $PSO
     }
 }
+
+<#
+.SYNOPSIS
+
+Convert from JSON to Category<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to Category<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+Category<PSCustomObject>
+#>
+function ConvertFrom-PSJsonToCategory {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSCategory' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+            $Id = $null
+        } else {
+            $Id = $JsonParameters.PSobject.Properties["id"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) { #optional property not found
+            $Name = $null
+        } else {
+            $Name = $JsonParameters.PSobject.Properties["name"].value
+        }
+
+        $PSO = [PSCustomObject]@{
+            "id" = ${Id}
+            "name" = ${Name}
+        }
+
+        return $PSO
+    }
+
+}
+

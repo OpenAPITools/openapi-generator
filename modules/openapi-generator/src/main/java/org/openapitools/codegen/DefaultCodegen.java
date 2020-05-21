@@ -1378,8 +1378,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("array", "List");
+        typeMapping.put("set", "Set");
         typeMapping.put("map", "Map");
         typeMapping.put("List", "List");
+        typeMapping.put("Set", "Set");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");
         typeMapping.put("int", "Integer");
@@ -1418,6 +1420,7 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping.put("ArrayList", "java.util.ArrayList");
         importMapping.put("List", "java.util.*");
         importMapping.put("Set", "java.util.*");
+        importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
         importMapping.put("DateTime", "org.joda.time.*");
         importMapping.put("LocalDateTime", "org.joda.time.*");
         importMapping.put("LocalDate", "org.joda.time.*");
@@ -1588,7 +1591,13 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String inner = getSchemaType(getSchemaItems(arraySchema));
-            return instantiationTypes.get("array") + "<" + inner + ">";
+            String parentType;
+            if (ModelUtils.isSet(schema)) {
+                parentType = "set";
+            } else {
+                parentType = "array";
+            }
+            return instantiationTypes.get(parentType) + "<" + inner + ">";
         } else {
             return null;
         }
@@ -1979,7 +1988,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isMapSchema(schema)) {
             return "map";
         } else if (ModelUtils.isArraySchema(schema)) {
-            return "array";
+            if (ModelUtils.isSet(schema)) {
+                return "set";
+            } else {
+                return "array";
+            }
         } else if (ModelUtils.isUUIDSchema(schema)) {
             return "UUID";
         } else if (ModelUtils.isURISchema(schema)) {
@@ -2180,7 +2193,14 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-
+        if (ModelUtils.isAnyTypeSchema(schema)) {
+            // The 'null' value is allowed when the OAS schema is 'any type'.
+            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+            if (Boolean.FALSE.equals(schema.getNullable())) {
+                LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", name);
+            }
+            m.isNullable = true;
+        }
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
@@ -2553,36 +2573,60 @@ public class DefaultCodegen implements CodegenConfig {
             if (composedSchema.getOneOf() != null && composedSchema.getOneOf().size() != 0) {
                 // All oneOf definitions must contain the discriminator
                 Integer hasDiscriminatorCnt = 0;
+                Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
-                for (Schema oneOf : composedSchema.getOneOf()) {
+                for  (Schema oneOf: composedSchema.getOneOf()) {
+                    if (ModelUtils.isNullType(oneOf)) {
+                        // The null type does not have a discriminator. Skip.
+                        hasNullTypeCnt++;
+                        continue;
+                    }
                     foundDisc = recursiveGetDiscriminator(oneOf, openAPI);
                     if (foundDisc != null) {
                         discriminatorsPropNames.add(foundDisc.getPropertyName());
                         hasDiscriminatorCnt++;
                     }
                 }
-                if (hasDiscriminatorCnt == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
+                if (discriminatorsPropNames.size() > 1) {
+                    throw new RuntimeException("The oneOf schemas have conflicting discriminator property names. " +
+                        "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
+                }
+                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
                 }
+                // If the scenario when oneOf has two children and one of them is the 'null' type,
+                // there is no need for a discriminator.
             }
             if (composedSchema.getAnyOf() != null && composedSchema.getAnyOf().size() != 0) {
                 // All anyOf definitions must contain the discriminator because a min of one must be selected
                 Integer hasDiscriminatorCnt = 0;
+                Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
-                for (Schema anyOf : composedSchema.getAnyOf()) {
+                for  (Schema anyOf: composedSchema.getAnyOf()) {
+                    if (ModelUtils.isNullType(anyOf)) {
+                        // The null type does not have a discriminator. Skip.
+                        hasNullTypeCnt++;
+                        continue;
+                    }
                     foundDisc = recursiveGetDiscriminator(anyOf, openAPI);
                     if (foundDisc != null) {
                         discriminatorsPropNames.add(foundDisc.getPropertyName());
                         hasDiscriminatorCnt++;
                     }
                 }
-                if (hasDiscriminatorCnt == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
+                if (discriminatorsPropNames.size() > 1) {
+                    throw new RuntimeException("The anyOf schemas have conflicting discriminator property names. " +
+                        "anyOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
+                }
+                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
                 }
+                // If the scenario when anyOf has two children and one of them is the 'null' type,
+                // there is no need for a discriminator.
             }
         }
         return null;
@@ -2611,7 +2655,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (schemaList == null) {
                 continue;
             }
-            for (Schema sc : schemaList) {
+            for  (Schema sc: schemaList) {
+                if (ModelUtils.isNullType(sc)) {
+                    continue;
+                }
                 String ref = sc.get$ref();
                 if (ref == null) {
                     // for schemas with no ref, it is not possible to build the discriminator map
@@ -2922,10 +2969,13 @@ public class DefaultCodegen implements CodegenConfig {
             if (p.getExclusiveMaximum() != null) {
                 property.exclusiveMaximum = p.getExclusiveMaximum();
             }
+            if (p.getMultipleOf() != null) {
+                property.multipleOf = p.getMultipleOf();
+            }
 
             // check if any validation rule defined
             // exclusive* are noop without corresponding min/max
-            if (property.minimum != null || property.maximum != null)
+            if (property.minimum != null || property.maximum != null || p.getMultipleOf() != null)
                 property.hasValidation = true;
 
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
@@ -2997,12 +3047,19 @@ public class DefaultCodegen implements CodegenConfig {
 
             // check if any validation rule defined
             // exclusive* are noop without corresponding min/max
-            if (property.minimum != null || property.maximum != null)
+            if (property.minimum != null || property.maximum != null || p.getMultipleOf() != null) {
                 property.hasValidation = true;
+            }
 
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
         } else if (ModelUtils.isAnyTypeSchema(p)) {
+            // The 'null' value is allowed when the OAS schema is 'any type'.
+            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+            if (Boolean.FALSE.equals(p.getNullable())) {
+                LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
+            }
+            property.isNullable = true;
             property.isAnyType = true;
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
@@ -3066,7 +3123,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             property.isContainer = true;
             property.isListContainer = true;
-            property.containerType = "array";
+            if (ModelUtils.isSet(p)) {
+                property.containerType = "set";
+            } else {
+                property.containerType = "array";
+            }
             property.baseType = getSchemaType(p);
             if (p.getXml() != null) {
                 property.isXmlWrapped = p.getXml().getWrapped() == null ? false : p.getXml().getWrapped();
@@ -3386,6 +3447,8 @@ public class DefaultCodegen implements CodegenConfig {
                     op.isListContainer = true;
                 } else if ("array".equalsIgnoreCase(cm.containerType)) {
                     op.isListContainer = true;
+                } else if ("set".equalsIgnoreCase(cm.containerType)) {
+                    op.isListContainer = true;
                 }
             } else {
                 op.returnSimpleType = true;
@@ -3476,6 +3539,10 @@ public class DefaultCodegen implements CodegenConfig {
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
                     imports.add(r.baseType);
+                }
+                if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
+                    op.uniqueItems = true;
+                    imports.add(typeMapping.get(r.containerType));
                 }
                 r.isDefault = response == methodResponse;
                 op.responses.add(r);
@@ -3824,7 +3891,9 @@ public class DefaultCodegen implements CodegenConfig {
                 r.simpleType = false;
                 r.containerType = cp.containerType;
                 r.isMapContainer = "map".equals(cp.containerType);
-                r.isListContainer = "list".equalsIgnoreCase(cp.containerType) || "array".equalsIgnoreCase(cp.containerType);
+                r.isListContainer = "list".equalsIgnoreCase(cp.containerType) ||
+                    "array".equalsIgnoreCase(cp.containerType) ||
+                    "set".equalsIgnoreCase(cp.containerType);
             } else {
                 r.simpleType = true;
             }
@@ -4055,6 +4124,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isObjectSchema(parameterSchema)) {
                 codegenProperty.complexType = codegenParameter.dataType;
             }
+            if (ModelUtils.isSet(parameterSchema)) {
+                imports.add(codegenProperty.baseType);
+            }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
             codegenParameter.required = codegenProperty.required;
 
@@ -4111,7 +4183,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
                     codegenParameter.maxLength != null || codegenParameter.minLength != null ||
                     codegenParameter.maxItems != null || codegenParameter.minItems != null ||
-                    codegenParameter.pattern != null) {
+                    codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
                 codegenParameter.hasValidation = true;
             }
 
@@ -5589,7 +5661,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
                 codegenParameter.maxLength != null || codegenParameter.minLength != null ||
                 codegenParameter.maxItems != null || codegenParameter.minItems != null ||
-                codegenParameter.pattern != null) {
+                codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
             codegenParameter.hasValidation = true;
         }
 

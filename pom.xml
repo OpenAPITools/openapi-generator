@@ -691,7 +691,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client-jersey2</id>
+            <id>java-client-jersey2-java7</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -699,7 +699,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/jersey2</module>
+                <module>samples/client/petstore/java/jersey2-java7</module>
             </modules>
         </profile>
         <profile>
@@ -1303,9 +1303,7 @@
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/feign10x</module>
                 <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
-                <module>samples/client/petstore/java/jersey2-experimental</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
@@ -1398,8 +1396,7 @@
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
-                <module>samples/client/petstore/java/jersey2-experimental</module>
+                <module>samples/client/petstore/java/jersey2-java7</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
@@ -1601,9 +1598,9 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-core-version>2.1.1</swagger-core-version>
+        <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.19</swagger-parser-version>
+        <swagger-parser-version>2.0.20</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>

@@ -17,6 +17,7 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -295,7 +296,7 @@ public class FakeApiController extends Controller {
     public Result testEnumParameters() throws Exception {
         String[] enumQueryStringArrayArray = request().queryString().get("enum_query_string_array");
         List<String> enumQueryStringArrayList = OpenAPIUtils.parametersToList("csv", enumQueryStringArrayArray);
-        List<String> enumQueryStringArray = new ArrayList<String>();
+        List<String> enumQueryStringArray = new ArrayList<>();
         for (String curParam : enumQueryStringArrayList) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -325,7 +326,7 @@ public class FakeApiController extends Controller {
         }
         String[] enumFormStringArrayArray = request().body().asMultipartFormData().asFormUrlEncoded().get("enum_form_string_array");
         List<String> enumFormStringArrayList = OpenAPIUtils.parametersToList("csv", enumFormStringArrayArray);
-        List<String> enumFormStringArray = new ArrayList<String>();
+        List<String> enumFormStringArray = new ArrayList<>();
         for (String curParam : enumFormStringArrayList) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -341,7 +342,7 @@ public class FakeApiController extends Controller {
         }
         String[] enumHeaderStringArrayArray = request().headers().get("enum_header_string_array");
         List<String> enumHeaderStringArrayList = OpenAPIUtils.parametersToList("csv", enumHeaderStringArrayArray);
-        List<String> enumHeaderStringArray = new ArrayList<String>();
+        List<String> enumHeaderStringArray = new ArrayList<>();
         for (String curParam : enumHeaderStringArrayList) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -452,7 +453,7 @@ public class FakeApiController extends Controller {
             throw new IllegalArgumentException("'pipe' parameter is required");
         }
         List<String> pipeList = OpenAPIUtils.parametersToList("csv", pipeArray);
-        List<String> pipe = new ArrayList<String>();
+        List<String> pipe = new ArrayList<>();
         for (String curParam : pipeList) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -464,7 +465,7 @@ public class FakeApiController extends Controller {
             throw new IllegalArgumentException("'ioutil' parameter is required");
         }
         List<String> ioutilList = OpenAPIUtils.parametersToList("csv", ioutilArray);
-        List<String> ioutil = new ArrayList<String>();
+        List<String> ioutil = new ArrayList<>();
         for (String curParam : ioutilList) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -476,7 +477,7 @@ public class FakeApiController extends Controller {
             throw new IllegalArgumentException("'http' parameter is required");
         }
         List<String> httpList = OpenAPIUtils.parametersToList("space", httpArray);
-        List<String> http = new ArrayList<String>();
+        List<String> http = new ArrayList<>();
         for (String curParam : httpList) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -488,7 +489,7 @@ public class FakeApiController extends Controller {
             throw new IllegalArgumentException("'url' parameter is required");
         }
         List<String> urlList = OpenAPIUtils.parametersToList("csv", urlArray);
-        List<String> url = new ArrayList<String>();
+        List<String> url = new ArrayList<>();
         for (String curParam : urlList) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -500,7 +501,7 @@ public class FakeApiController extends Controller {
             throw new IllegalArgumentException("'context' parameter is required");
         }
         List<String> contextList = OpenAPIUtils.parametersToList("multi", contextArray);
-        List<String> context = new ArrayList<String>();
+        List<String> context = new ArrayList<>();
         for (String curParam : contextList) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation

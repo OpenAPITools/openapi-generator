@@ -16,6 +16,7 @@ package org.openapitools.client.api;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.api.PetApi;
 import io.restassured.builder.RequestSpecBuilder;
@@ -125,7 +126,7 @@ public class PetApiTest {
      */
     @Test
     public void shouldSee200AfterFindPetsByTags() {
-        List<String> tags = null;
+        Set<String> tags = null;
         api.findPetsByTags()
                 .tagsQuery(tags).execute(r -> r.prettyPeek());
         // TODO: test validations
@@ -136,7 +137,7 @@ public class PetApiTest {
      */
     @Test
     public void shouldSee400AfterFindPetsByTags() {
-        List<String> tags = null;
+        Set<String> tags = null;
         api.findPetsByTags()
                 .tagsQuery(tags).execute(r -> r.prettyPeek());
         // TODO: test validations

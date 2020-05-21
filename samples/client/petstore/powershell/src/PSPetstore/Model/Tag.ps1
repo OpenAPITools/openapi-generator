@@ -48,3 +48,55 @@ function Initialize-PSTag {
         return $PSO
     }
 }
+
+<#
+.SYNOPSIS
+
+Convert from JSON to Tag<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to Tag<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+Tag<PSCustomObject>
+#>
+function ConvertFrom-PSJsonToTag {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSTag' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+            $Id = $null
+        } else {
+            $Id = $JsonParameters.PSobject.Properties["id"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) { #optional property not found
+            $Name = $null
+        } else {
+            $Name = $JsonParameters.PSobject.Properties["name"].value
+        }
+
+        $PSO = [PSCustomObject]@{
+            "id" = ${Id}
+            "name" = ${Name}
+        }
+
+        return $PSO
+    }
+
+}
+

@@ -42,6 +42,7 @@ sidebar_label: javascript
 |array|Array|
 |list|Array|
 |map|Object|
+|set|Array|
 
 
 ## LANGUAGE PRIMITIVES

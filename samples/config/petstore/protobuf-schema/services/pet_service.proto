@@ -17,7 +17,7 @@ import public "models/api_response.proto";
 import public "models/pet.proto";
 
 service PetService {
-  rpc AddPet (AddPetRequest) returns (google.protobuf.Empty);
+  rpc AddPet (AddPetRequest) returns (Pet);
 
   rpc DeletePet (DeletePetRequest) returns (google.protobuf.Empty);
 
@@ -27,7 +27,7 @@ service PetService {
 
   rpc GetPetById (GetPetByIdRequest) returns (Pet);
 
-  rpc UpdatePet (UpdatePetRequest) returns (google.protobuf.Empty);
+  rpc UpdatePet (UpdatePetRequest) returns (Pet);
 
   rpc UpdatePetWithForm (UpdatePetWithFormRequest) returns (google.protobuf.Empty);
 
@@ -37,7 +37,7 @@ service PetService {
 
 message AddPetRequest {
   // Pet object that needs to be added to the store
-  Pet body = 1;
+  Pet pet = 1;
 
 }
 
@@ -76,7 +76,7 @@ message GetPetByIdRequest {
 
 message UpdatePetRequest {
   // Pet object that needs to be added to the store
-  Pet body = 1;
+  Pet pet = 1;
 
 }
 

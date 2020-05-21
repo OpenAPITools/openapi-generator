@@ -14,51 +14,50 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.IOException;
 
 /**
  * User
  */
-@JsonPropertyOrder({
-  User.JSON_PROPERTY_ID,
-  User.JSON_PROPERTY_USERNAME,
-  User.JSON_PROPERTY_FIRST_NAME,
-  User.JSON_PROPERTY_LAST_NAME,
-  User.JSON_PROPERTY_EMAIL,
-  User.JSON_PROPERTY_PASSWORD,
-  User.JSON_PROPERTY_PHONE,
-  User.JSON_PROPERTY_USER_STATUS
-})
 
 public class User {
-  public static final String JSON_PROPERTY_ID = "id";
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
-  public static final String JSON_PROPERTY_USERNAME = "username";
+  public static final String SERIALIZED_NAME_USERNAME = "username";
+  @SerializedName(SERIALIZED_NAME_USERNAME)
   private String username;
 
-  public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
+  public static final String SERIALIZED_NAME_FIRST_NAME = "firstName";
+  @SerializedName(SERIALIZED_NAME_FIRST_NAME)
   private String firstName;
 
-  public static final String JSON_PROPERTY_LAST_NAME = "lastName";
+  public static final String SERIALIZED_NAME_LAST_NAME = "lastName";
+  @SerializedName(SERIALIZED_NAME_LAST_NAME)
   private String lastName;
 
-  public static final String JSON_PROPERTY_EMAIL = "email";
+  public static final String SERIALIZED_NAME_EMAIL = "email";
+  @SerializedName(SERIALIZED_NAME_EMAIL)
   private String email;
 
-  public static final String JSON_PROPERTY_PASSWORD = "password";
+  public static final String SERIALIZED_NAME_PASSWORD = "password";
+  @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
 
-  public static final String JSON_PROPERTY_PHONE = "phone";
+  public static final String SERIALIZED_NAME_PHONE = "phone";
+  @SerializedName(SERIALIZED_NAME_PHONE)
   private String phone;
 
-  public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
+  public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
+  @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus;
 
 
@@ -74,8 +73,6 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
     return id;
@@ -99,8 +96,6 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_USERNAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getUsername() {
     return username;
@@ -124,8 +119,6 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFirstName() {
     return firstName;
@@ -149,8 +142,6 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_LAST_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getLastName() {
     return lastName;
@@ -174,8 +165,6 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_EMAIL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getEmail() {
     return email;
@@ -199,8 +188,6 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPassword() {
     return password;
@@ -224,8 +211,6 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PHONE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPhone() {
     return phone;
@@ -249,8 +234,6 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "User Status")
-  @JsonProperty(JSON_PROPERTY_USER_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getUserStatus() {
     return userStatus;

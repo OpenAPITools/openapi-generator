@@ -16,7 +16,7 @@ class UserApi {
         /// Create user
         ///
         /// This can only be done by the logged in user.
-        Future<Response>createUser(User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>createUser(User body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user";
 
@@ -47,12 +47,14 @@ class UserApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Creates list of users with given input array
         ///
         /// 
-        Future<Response>createUsersWithArrayInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>createUsersWithArrayInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/createWithArray";
 
@@ -84,12 +86,14 @@ class UserApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Creates list of users with given input array
         ///
         /// 
-        Future<Response>createUsersWithListInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>createUsersWithListInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/createWithList";
 
@@ -121,12 +125,14 @@ class UserApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Delete user
         ///
         /// This can only be done by the logged in user.
-        Future<Response>deleteUser(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>deleteUser(String username,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
@@ -154,12 +160,14 @@ class UserApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Get user by user name
         ///
         /// 
-        Future<Response<User>>getUserByName(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response<User>>getUserByName(String username,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
@@ -187,6 +195,8 @@ class UserApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
                 var serializer = _serializers.serializerForType(User);
@@ -206,7 +216,7 @@ class UserApi {
         /// Logs user into the system
         ///
         /// 
-        Future<Response<String>>loginUser(String username,String password,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response<String>>loginUser(String username,String password,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/login";
 
@@ -236,6 +246,8 @@ class UserApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
                 var serializer = _serializers.serializerForType(String);
@@ -255,7 +267,7 @@ class UserApi {
         /// Logs out current logged in user session
         ///
         /// 
-        Future<Response>logoutUser({ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>logoutUser({ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/logout";
 
@@ -283,12 +295,14 @@ class UserApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Updated user
         ///
         /// This can only be done by the logged in user.
-        Future<Response>updateUser(String username,User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>updateUser(String username,User body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
@@ -319,6 +333,8 @@ class UserApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         }

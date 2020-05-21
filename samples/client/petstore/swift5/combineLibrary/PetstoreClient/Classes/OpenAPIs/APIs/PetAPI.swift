@@ -164,6 +164,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: AnyPublisher<[Pet], Error>
      */
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
         return Future<[Pet], Error>.init { promisse in
@@ -188,6 +189,7 @@ open class PetAPI {
      - parameter tags: (query) Tags to filter by 
      - returns: RequestBuilder<[Pet]> 
      */
+    @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTagsWithRequestBuilder(tags: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByTags"
         let URLString = PetstoreClientAPI.basePath + path
