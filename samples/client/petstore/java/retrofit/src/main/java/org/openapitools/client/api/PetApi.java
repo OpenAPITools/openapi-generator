@@ -9,6 +9,7 @@ import retrofit.mime.*;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,11 +96,11 @@ public interface PetApi {
    * Sync method
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return List&lt;Pet&gt;
+   * @return Set&lt;Pet&gt;
    */
   
   @GET("/pet/findByTags")
-  List<Pet> findPetsByTags(
+  Set<Pet> findPetsByTags(
     @retrofit.http.Query("tags") CSVParams tags
   );
 
@@ -112,7 +113,7 @@ public interface PetApi {
   
   @GET("/pet/findByTags")
   void findPetsByTags(
-    @retrofit.http.Query("tags") CSVParams tags, Callback<List<Pet>> cb
+    @retrofit.http.Query("tags") CSVParams tags, Callback<Set<Pet>> cb
   );
   /**
    * Find pet by ID
