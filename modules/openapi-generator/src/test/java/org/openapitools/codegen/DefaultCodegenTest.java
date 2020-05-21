@@ -291,7 +291,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAdditionalPropertiesV3Spec() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
         codegen.setOpenAPI(openAPI);

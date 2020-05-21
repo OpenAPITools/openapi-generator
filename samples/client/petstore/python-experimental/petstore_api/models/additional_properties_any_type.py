@@ -64,7 +64,7 @@ class AdditionalPropertiesAnyType(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = (bool, date, datetime, dict, float, int, list, str,)  # noqa: E501
+    additional_properties_type = ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)  # noqa: E501
 
     _nullable = False
 

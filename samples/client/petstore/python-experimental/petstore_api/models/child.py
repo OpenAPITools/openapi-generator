@@ -74,7 +74,7 @@ class Child(ModelComposed):
     validations = {
     }
 
-    additional_properties_type = None
+    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
