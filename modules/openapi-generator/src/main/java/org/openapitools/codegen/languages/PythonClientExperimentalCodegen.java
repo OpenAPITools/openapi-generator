@@ -50,12 +50,20 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
 
+    // A private vendor extension to track the list of imports that are needed when
+    // schemas are referenced under the 'additionalProperties' keyword.
     private static final String referencedModelNamesExtension = "x-python-referenced-model-names";
 
     public PythonClientExperimentalCodegen() {
         super();
 
+        // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+        // In principle, this should be enabled by default for all code generators. However due to limitations
+        // in other code generators, support needs to be enabled on a case-by-case basis.
         supportsAdditionalPropertiesWithComposedSchema = true;
+
+        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
+        // undeclared properties. This is compliant with the JSON schema specification.
         this.setDisallowAdditionalPropertiesIfNotPresent(false);
 
         modifyFeatureSet(features -> features
@@ -378,7 +386,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
-                // Make sure the models listed in 'additionalPropertiesType' are included in imports.
+                // Models that are referenced in the 'additionalPropertiesType' keyword
+                // must be added to the imports.
                 List<String> refModelNames = (List<String>) cm.vendorExtensions.get(referencedModelNamesExtension);
                 if (refModelNames != null) {
                     for (String refModelName : refModelNames) {
