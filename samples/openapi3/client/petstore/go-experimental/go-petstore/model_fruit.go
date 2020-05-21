@@ -20,6 +20,17 @@ type Fruit struct {
 	Banana *Banana
 }
 
+// AppleAsFruit is a convenience function that returns Apple wrapped in Fruit
+func AppleAsFruit(v *Apple) Fruit {
+	return Fruit{ Apple: v}
+}
+
+// BananaAsFruit is a convenience function that returns Banana wrapped in Fruit
+func BananaAsFruit(v *Banana) Fruit {
+	return Fruit{ Banana: v}
+}
+
+
 // Unmarshl JSON data into one of the pointers in the struct
 func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	var err error
@@ -51,6 +62,10 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	}
 
 	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.Apple = nil
+		dst.Banana = nil
+
 		return fmt.Errorf("Data matches more than one schema in oneOf(Fruit)")
 	} else if match == 1 {
 		return nil // exactly one match
@@ -84,5 +99,41 @@ func (obj *Fruit) GetActualInstance() (interface{}) {
 
 	// all schemas are nil
 	return nil
+}
+
+type NullableFruit struct {
+	value *Fruit
+	isSet bool
+}
+
+func (v NullableFruit) Get() *Fruit {
+	return v.value
+}
+
+func (v *NullableFruit) Set(val *Fruit) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableFruit) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableFruit) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableFruit(val *Fruit) *NullableFruit {
+	return &NullableFruit{value: val, isSet: true}
+}
+
+func (v NullableFruit) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableFruit) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
 

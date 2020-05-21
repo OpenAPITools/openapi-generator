@@ -48,3 +48,55 @@ function Initialize-PSInlineObject {
         return $PSO
     }
 }
+
+<#
+.SYNOPSIS
+
+Convert from JSON to InlineObject<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to InlineObject<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+InlineObject<PSCustomObject>
+#>
+function ConvertFrom-PSJsonToInlineObject {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSInlineObject' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) { #optional property not found
+            $Name = $null
+        } else {
+            $Name = $JsonParameters.PSobject.Properties["name"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "status"))) { #optional property not found
+            $Status = $null
+        } else {
+            $Status = $JsonParameters.PSobject.Properties["status"].value
+        }
+
+        $PSO = [PSCustomObject]@{
+            "name" = ${Name}
+            "status" = ${Status}
+        }
+
+        return $PSO
+    }
+
+}
+

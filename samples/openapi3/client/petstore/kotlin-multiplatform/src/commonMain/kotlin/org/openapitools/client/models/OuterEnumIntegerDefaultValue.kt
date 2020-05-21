@@ -33,6 +33,14 @@ enum class OuterEnumIntegerDefaultValue(val value: kotlin.Int){
 
 
 
+	/**
+	This override toString avoids using the enum var name and uses the actual api value instead.
+	In cases the var name and value are different, the client would send incorrect enums to the server.
+	**/
+	override fun toString(): String {
+        return value.toString()
+    }
+
     object Serializer : CommonEnumSerializer<OuterEnumIntegerDefaultValue>("OuterEnumIntegerDefaultValue", values(), values().map { it.value.toString() }.toTypedArray())
 }
 

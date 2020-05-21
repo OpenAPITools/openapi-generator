@@ -3,6 +3,7 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import org.springframework.core.io.Resource;
+import java.util.Set;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -80,7 +81,7 @@ public class PetApiController implements PetApi {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
+    public ResponseEntity<Set<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags) {
         return delegate.findPetsByTags(tags);
     }
 

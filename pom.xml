@@ -1598,9 +1598,9 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-core-version>2.1.1</swagger-core-version>
+        <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.19</swagger-parser-version>
+        <swagger-parser-version>2.0.20</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
