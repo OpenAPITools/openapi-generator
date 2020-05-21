@@ -84,13 +84,6 @@ var routes = Routes{
 	},
 
 	{
-		"FakeHttpSignatureTest",
-		http.MethodGet,
-		"/v2/fake/http-signature-test",
-		FakeHttpSignatureTest,
-	},
-
-	{
 		"FakeOuterBooleanSerialize",
 		http.MethodPost,
 		"/v2/fake/outer/boolean",

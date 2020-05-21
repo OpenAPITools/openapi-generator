@@ -37,12 +37,6 @@ func (c *FakeApiController) Routes() Routes {
 			c.FakeHealthGet,
 		},
 		{
-			"FakeHttpSignatureTest",
-			strings.ToUpper("Get"),
-			"/v2/fake/http-signature-test",
-			c.FakeHttpSignatureTest,
-		},
-		{
 			"FakeOuterBooleanSerialize",
 			strings.ToUpper("Post"),
 			"/v2/fake/outer/boolean",
@@ -126,26 +120,6 @@ func (c *FakeApiController) Routes() Routes {
 // FakeHealthGet - Health check endpoint
 func (c *FakeApiController) FakeHealthGet(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.FakeHealthGet()
-	if err != nil {
-		w.WriteHeader(500)
-		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
-}
-
-// FakeHttpSignatureTest - test http signature authentication
-func (c *FakeApiController) FakeHttpSignatureTest(w http.ResponseWriter, r *http.Request) { 
-	query := r.URL.Query()
-	pet := &Pet{}
-	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
-		w.WriteHeader(500)
-		return
-	}
-	
-	query1 := query.Get("query1")
-	header1 := r.Header.Get("header1")
-	result, err := c.service.FakeHttpSignatureTest(*pet, query1, header1)
 	if err != nil {
 		w.WriteHeader(500)
 		return

@@ -20,11 +20,6 @@ func FakeHealthGet(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// FakeHttpSignatureTest - test http signature authentication
-func FakeHttpSignatureTest(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
 // FakeOuterBooleanSerialize - 
 func FakeOuterBooleanSerialize(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
