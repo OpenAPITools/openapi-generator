@@ -15,7 +15,7 @@ build:
     - rm /etc/apt/sources.list.d/jonathonf-ubuntu-backports-xenial.list 
     # 
     - java -version
-    - mvn clean package -DskipTests && java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -i modules/openapi-generator/src/test/resources/3_0/ping.yaml -g java -o /tmp/ping/
+    - mvn clean package -DskipTests && java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -i modules/openapi-generator/src/test/resources/3_0/ping.yaml -g java -o /tmp/ping/ --additional-properties java8=true
     - mvn --quiet clean install -Dmaven.javadoc.skip=true
     # ensure all modifications created by 'mature' generators are in the git repo
     # below move to CircleCI ./bin/utils/ensure-up-to-date
