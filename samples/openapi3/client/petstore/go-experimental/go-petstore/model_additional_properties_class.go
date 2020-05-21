@@ -17,9 +17,6 @@ import (
 type AdditionalPropertiesClass struct {
 	MapProperty *map[string]string `json:"map_property,omitempty"`
 	MapOfMapProperty *map[string]map[string]string `json:"map_of_map_property,omitempty"`
-	MapWithAdditionalProperties *map[string]map[string]interface{} `json:"map_with_additional_properties,omitempty"`
-	MapWithoutAdditionalProperties *map[string]interface{} `json:"map_without_additional_properties,omitempty"`
-	MapString *map[string]string `json:"map_string,omitempty"`
 }
 
 // NewAdditionalPropertiesClass instantiates a new AdditionalPropertiesClass object
@@ -103,102 +100,6 @@ func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v map[string]map[string]
 	o.MapOfMapProperty = &v
 }
 
-// GetMapWithAdditionalProperties returns the MapWithAdditionalProperties field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapWithAdditionalProperties() map[string]map[string]interface{} {
-	if o == nil || o.MapWithAdditionalProperties == nil {
-		var ret map[string]map[string]interface{}
-		return ret
-	}
-	return *o.MapWithAdditionalProperties
-}
-
-// GetMapWithAdditionalPropertiesOk returns a tuple with the MapWithAdditionalProperties field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapWithAdditionalPropertiesOk() (*map[string]map[string]interface{}, bool) {
-	if o == nil || o.MapWithAdditionalProperties == nil {
-		return nil, false
-	}
-	return o.MapWithAdditionalProperties, true
-}
-
-// HasMapWithAdditionalProperties returns a boolean if a field has been set.
-func (o *AdditionalPropertiesClass) HasMapWithAdditionalProperties() bool {
-	if o != nil && o.MapWithAdditionalProperties != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetMapWithAdditionalProperties gets a reference to the given map[string]map[string]interface{} and assigns it to the MapWithAdditionalProperties field.
-func (o *AdditionalPropertiesClass) SetMapWithAdditionalProperties(v map[string]map[string]interface{}) {
-	o.MapWithAdditionalProperties = &v
-}
-
-// GetMapWithoutAdditionalProperties returns the MapWithoutAdditionalProperties field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapWithoutAdditionalProperties() map[string]interface{} {
-	if o == nil || o.MapWithoutAdditionalProperties == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return *o.MapWithoutAdditionalProperties
-}
-
-// GetMapWithoutAdditionalPropertiesOk returns a tuple with the MapWithoutAdditionalProperties field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapWithoutAdditionalPropertiesOk() (*map[string]interface{}, bool) {
-	if o == nil || o.MapWithoutAdditionalProperties == nil {
-		return nil, false
-	}
-	return o.MapWithoutAdditionalProperties, true
-}
-
-// HasMapWithoutAdditionalProperties returns a boolean if a field has been set.
-func (o *AdditionalPropertiesClass) HasMapWithoutAdditionalProperties() bool {
-	if o != nil && o.MapWithoutAdditionalProperties != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetMapWithoutAdditionalProperties gets a reference to the given map[string]interface{} and assigns it to the MapWithoutAdditionalProperties field.
-func (o *AdditionalPropertiesClass) SetMapWithoutAdditionalProperties(v map[string]interface{}) {
-	o.MapWithoutAdditionalProperties = &v
-}
-
-// GetMapString returns the MapString field value if set, zero value otherwise.
-func (o *AdditionalPropertiesClass) GetMapString() map[string]string {
-	if o == nil || o.MapString == nil {
-		var ret map[string]string
-		return ret
-	}
-	return *o.MapString
-}
-
-// GetMapStringOk returns a tuple with the MapString field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AdditionalPropertiesClass) GetMapStringOk() (*map[string]string, bool) {
-	if o == nil || o.MapString == nil {
-		return nil, false
-	}
-	return o.MapString, true
-}
-
-// HasMapString returns a boolean if a field has been set.
-func (o *AdditionalPropertiesClass) HasMapString() bool {
-	if o != nil && o.MapString != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetMapString gets a reference to the given map[string]string and assigns it to the MapString field.
-func (o *AdditionalPropertiesClass) SetMapString(v map[string]string) {
-	o.MapString = &v
-}
-
 func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.MapProperty != nil {
@@ -206,15 +107,6 @@ func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
 	}
 	if o.MapOfMapProperty != nil {
 		toSerialize["map_of_map_property"] = o.MapOfMapProperty
-	}
-	if o.MapWithAdditionalProperties != nil {
-		toSerialize["map_with_additional_properties"] = o.MapWithAdditionalProperties
-	}
-	if o.MapWithoutAdditionalProperties != nil {
-		toSerialize["map_without_additional_properties"] = o.MapWithoutAdditionalProperties
-	}
-	if o.MapString != nil {
-		toSerialize["map_string"] = o.MapString
 	}
 	return json.Marshal(toSerialize)
 }

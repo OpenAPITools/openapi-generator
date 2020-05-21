@@ -1527,16 +1527,17 @@ components:
             type: object
             additionalProperties:
               type: string
-        map_with_additional_properties:
-          type: object
-          additionalProperties: true
-        map_without_additional_properties:
-          type: object
-          additionalProperties: false
-        map_string:
-          type: object
-          additionalProperties:
-            type: string
+        # TODO: enable to validate additionalProperties
+        #map_with_additional_properties:
+        #  type: object
+        #  additionalProperties: true
+        #map_without_additional_properties:
+        #  type: object
+        #  additionalProperties: false
+        #map_string:
+        #  type: object
+        #  additionalProperties:
+        #    type: string
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:

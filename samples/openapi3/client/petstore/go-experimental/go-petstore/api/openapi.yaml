@@ -1621,16 +1621,6 @@ components:
               type: string
             type: object
           type: object
-        map_with_additional_properties:
-          additionalProperties: true
-          type: object
-        map_without_additional_properties:
-          additionalProperties: false
-          type: object
-        map_string:
-          additionalProperties:
-            type: string
-          type: object
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
       properties:
