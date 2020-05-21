@@ -11,13 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ProcessUtils {
-
-    private static Boolean hasOAuthMethod;
-    private static Boolean hasHttpBasicMethod;
-    private static Boolean hasHttpSignatureMethod;
-    private static Boolean hasHttpBearerMethod;
-    private static Boolean hasApiKeyMethod;
-
     /**
      * Add x-index extension to the model's properties
      *
@@ -156,18 +149,6 @@ public class ProcessUtils {
         return oauthMethods;
     }
 
-    /**
-     * Returns true if the specified OAS model has at least one operation with HTTP bearer authentication.
-     *
-     * @param openAPI An instance of OpenAPI
-     * @return True if at least one operation has HTTP bearer security scheme defined
-     */
-    public static boolean hasHttpBearerMethods(OpenAPI openAPI) {
-        if (hasHttpBearerMethod == null) {
-            processAuthMethods(openAPI);
-        }
-        return Boolean.TRUE.equals(hasHttpBearerMethod);
-    }
 
     /**
      * Returns true if the specified OAS model has at least one operation with OAuth authentication.
@@ -176,10 +157,35 @@ public class ProcessUtils {
      * @return True if at least one operation has OAuth security scheme defined
      */
     public static boolean hasOAuthMethods(OpenAPI openAPI) {
-        if (hasOAuthMethod == null) {
-            processAuthMethods(openAPI);
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        if (securitySchemes != null) {
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                if (SecurityScheme.Type.OAUTH2.equals(scheme.getValue().getType())) {
+                    return true;
+                }
+            }
         }
-        return Boolean.TRUE.equals(hasOAuthMethod);
+
+        return false;
+    }
+
+    /**
+     * Returns true if the specified OAS model has at least one operation with HTTP bearer authentication.
+     *
+     * @param openAPI An instance of OpenAPI
+     * @return True if at least one operation has HTTP bearer security scheme defined
+     */
+    public static boolean hasHttpBearerMethods(OpenAPI openAPI) {
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        if (securitySchemes != null) {
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "bearer".equals(scheme.getValue().getScheme())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -189,10 +195,16 @@ public class ProcessUtils {
      * @return True if at least one operation has HTTP basic security scheme defined
      */
     public static boolean hasHttpBasicMethods(OpenAPI openAPI) {
-        if (hasHttpBasicMethod == null) {
-            processAuthMethods(openAPI);
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        if (securitySchemes != null) {
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "basic".equals(scheme.getValue().getScheme())) {
+                    return true;
+                }
+            }
         }
-        return Boolean.TRUE.equals(hasHttpBasicMethod);
+
+        return false;
     }
 
     /**
@@ -202,10 +214,16 @@ public class ProcessUtils {
      * @return True if at least one operation has HTTP signature security scheme defined
      */
     public static boolean hasHttpSignatureMethods(OpenAPI openAPI) {
-        if (hasHttpSignatureMethod == null) {
-            processAuthMethods(openAPI);
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        if (securitySchemes != null) {
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "signature".equals(scheme.getValue().getScheme())) {
+                    return true;
+                }
+            }
         }
-        return Boolean.TRUE.equals(hasHttpSignatureMethod);
+
+        return false;
     }
 
     /**
@@ -215,49 +233,16 @@ public class ProcessUtils {
      * @return True if at least one operation has API key security scheme defined
      */
     public static boolean hasApiKeyMethods(OpenAPI openAPI) {
-        if (hasApiKeyMethod == null) {
-            processAuthMethods(openAPI);
-        }
-        return Boolean.TRUE.equals(hasApiKeyMethod);
-    }
-
-    /**
-     * Update various static variables to indicate whether the spec contains certain security definitions.
-     *
-     * @param openAPI An instance of OpenAPI
-     */
-    private static void processAuthMethods(OpenAPI openAPI) {
-        if (openAPI != null) {
-            final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
-            if (securitySchemes != null) {
-                for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                    switch (scheme.getValue().getType()) {
-                        case OAUTH2:
-                            hasOAuthMethod = true;
-                            break;
-                        case HTTP:
-                            if ("basic".equals(scheme.getValue().getScheme())) {
-                                hasHttpBasicMethod = true;
-                            } else if ("signature".equals(scheme.getValue().getScheme())) {
-                                hasHttpSignatureMethod = true;
-                            } else if ("bearer".equals(scheme.getValue().getScheme())) {
-                                hasHttpBearerMethod = true;
-                            } else {
-                                throw new RuntimeException("Unknown HTTP security definition type: " + scheme.getValue().getScheme());
-                            }
-                            break;
-                        case APIKEY:
-                            hasApiKeyMethod = true;
-                            break;
-                        case OPENIDCONNECT:
-                            throw new RuntimeException("OPENIDCONNECT security scheme not yet supported. Please report the issue to OpenAPI Generator.");
-                        default:
-                            throw new RuntimeException("Security scheme type not yet supported: " + scheme.getValue().getType());
-
-                    }
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        if (securitySchemes != null) {
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                if (SecurityScheme.Type.APIKEY.equals(scheme.getValue().getType())) {
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 }
 
