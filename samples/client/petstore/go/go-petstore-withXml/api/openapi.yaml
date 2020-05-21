@@ -2120,4 +2120,4 @@ components:
       scheme: basic
       type: http
 x-original-openapi-version: 2.0.0
-x-is-legacy-additional-properties-behavior: "true"
+x-disallow-additional-properties-if-not-present: "true"
