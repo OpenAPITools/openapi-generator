@@ -22,6 +22,9 @@ sidebar_label: kotlin
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
+|useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
+|useRxJava|Whether to use the RxJava adapter with the retrofit2 library.| |false|
+|useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library.| |false|
 
 ## IMPORT MAPPING
 
@@ -43,9 +46,9 @@ sidebar_label: kotlin
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.arrayOf|
-|list|kotlin.arrayOf|
-|map|kotlin.mapOf|
+|array|kotlin.Array|
+|list|kotlin.collections.ArrayList|
+|map|kotlin.collections.HashMap|
 
 
 ## LANGUAGE PRIMITIVES

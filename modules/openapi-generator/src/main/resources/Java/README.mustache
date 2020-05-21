@@ -104,7 +104,24 @@ public class {{{classname}}}Example {
         //{{{name}}}.setApiKeyPrefix("Token");{{/isApiKey}}{{#isOAuth}}
         // Configure OAuth2 access token for authorization: {{{name}}}
         OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
-        {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
+        {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}{{#isHttpSignature}}
+        // Configure HTTP signature authorization: {{{name}}}
+        HttpSignatureAuth {{{name}}} = (HttpSignatureAuth) defaultClient.getAuthentication("{{{name}}}");
+        // All the HTTP signature parameters below should be customized to your environment.
+        // Configure the keyId
+        {{{name}}}.setKeyId("YOUR KEY ID");
+        // Configure the signature algorithm
+        {{{name}}}.setSigningAlgorithm(SigningAlgorithm.HS2019);
+        // Configure the specific cryptographic algorithm
+        {{{name}}}.setAlgorithm(Algorithm.ECDSA_SHA256);
+        // Configure the cryptographic algorithm parameters, if applicable
+        {{{name}}}.setAlgorithmParameterSpec(null);
+        // Set the cryptographic digest algorithm.
+        {{{name}}}.setDigestAlgorithm("SHA-256");
+        // Set the HTTP headers that should be included in the HTTP signature.
+        {{{name}}}.setHeaders(Arrays.asList("date", "host"));
+        // Set the private key used to sign the HTTP messages
+        {{{name}}}.setPrivateKey();{{/isHttpSignature}}
         {{/authMethods}}
         {{/hasAuthMethods}}
 

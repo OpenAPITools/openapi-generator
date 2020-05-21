@@ -25,12 +25,10 @@ data class ReadOnlyFirst (
     val bar: kotlin.String? = null,
     @Json(name = "baz")
     val baz: kotlin.String? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

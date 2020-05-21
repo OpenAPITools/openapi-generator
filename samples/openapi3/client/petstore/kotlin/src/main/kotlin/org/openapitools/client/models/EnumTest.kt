@@ -20,8 +20,8 @@ import com.squareup.moshi.Json
 import java.io.Serializable
 /**
  * 
- * @param enumString 
  * @param enumStringRequired 
+ * @param enumString 
  * @param enumInteger 
  * @param enumNumber 
  * @param outerEnum 
@@ -47,23 +47,11 @@ data class EnumTest (
     val outerEnumDefaultValue: OuterEnumDefaultValue? = null,
     @Json(name = "outerEnumIntegerDefaultValue")
     val outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
-    /**
-    * 
-    * Values: uPPER,lower,eMPTY
-    */
-    
-    enum class EnumString(val value: kotlin.String){
-        @Json(name = "UPPER") uPPER("UPPER"),
-        @Json(name = "lower") lower("lower"),
-        @Json(name = "") eMPTY("");
-    }
+
     /**
     * 
     * Values: uPPER,lower,eMPTY
@@ -76,12 +64,22 @@ data class EnumTest (
     }
     /**
     * 
+    * Values: uPPER,lower,eMPTY
+    */
+    
+    enum class EnumString(val value: kotlin.String){
+        @Json(name = "UPPER") uPPER("UPPER"),
+        @Json(name = "lower") lower("lower"),
+        @Json(name = "") eMPTY("");
+    }
+    /**
+    * 
     * Values: _1,minus1
     */
     
     enum class EnumInteger(val value: kotlin.Int){
-        @Json(name = 1) _1(1),
-        @Json(name = -1) minus1(-1);
+        @Json(name = "1") _1(1),
+        @Json(name = "-1") minus1(-1);
     }
     /**
     * 
@@ -89,8 +87,8 @@ data class EnumTest (
     */
     
     enum class EnumNumber(val value: kotlin.Double){
-        @Json(name = 1.1) _1period1(1.1),
-        @Json(name = -1.2) minus1Period2(-1.2);
+        @Json(name = "1.1") _1period1(1.1),
+        @Json(name = "-1.2") minus1Period2(-1.2);
     }
 }
 
