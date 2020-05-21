@@ -23,7 +23,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 
@@ -46,7 +48,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<String>();
+  private Set<String> photoUrls = new LinkedHashSet<String>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
@@ -174,7 +176,7 @@ public class Pet {
   }
 
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     
     this.photoUrls = photoUrls;
     return this;
@@ -191,12 +193,12 @@ public class Pet {
   **/
   @ApiModelProperty(required = true, value = "")
 
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 

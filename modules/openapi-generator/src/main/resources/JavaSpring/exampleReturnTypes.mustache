@@ -1,1 +1,1 @@
-{{#returnContainer}}{{#isMapContainer}}Map<String, {{/isMapContainer}}{{#isListContainer}}List<{{/isListContainer}}{{{returnType}}}>{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}
+{{#returnContainer}}{{#isMapContainer}}Map<String, {{/isMapContainer}}{{#isListContainer}}{{{returnContainer}}}<{{/isListContainer}}{{{returnType}}}>{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}

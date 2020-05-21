@@ -3,6 +3,7 @@ package org.openapitools.api;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import java.util.Set;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -69,9 +70,9 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "List") })
-    List<Pet> findPetsByTags(@QueryParam("tags") @NotNull   @ApiParam("Tags to filter by")  List<String> tags);
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
+        @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "Set") })
+    Set<Pet> findPetsByTags(@QueryParam("tags") @NotNull   @ApiParam("Tags to filter by")  Set<String> tags);
 
     @GET
     @Path("/{petId}")
