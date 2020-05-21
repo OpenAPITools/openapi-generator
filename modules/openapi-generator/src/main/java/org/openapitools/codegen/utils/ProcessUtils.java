@@ -157,7 +157,7 @@ public class ProcessUtils {
      * @return True if at least one operation has OAuth security scheme defined
      */
     public static boolean hasOAuthMethods(OpenAPI openAPI) {
-        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
                 if (SecurityScheme.Type.OAUTH2.equals(scheme.getValue().getType())) {
@@ -176,7 +176,7 @@ public class ProcessUtils {
      * @return True if at least one operation has HTTP bearer security scheme defined
      */
     public static boolean hasHttpBearerMethods(OpenAPI openAPI) {
-        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
                 if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "bearer".equals(scheme.getValue().getScheme())) {
@@ -195,7 +195,7 @@ public class ProcessUtils {
      * @return True if at least one operation has HTTP basic security scheme defined
      */
     public static boolean hasHttpBasicMethods(OpenAPI openAPI) {
-        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
                 if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "basic".equals(scheme.getValue().getScheme())) {
@@ -214,7 +214,7 @@ public class ProcessUtils {
      * @return True if at least one operation has HTTP signature security scheme defined
      */
     public static boolean hasHttpSignatureMethods(OpenAPI openAPI) {
-        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
                 if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "signature".equals(scheme.getValue().getScheme())) {
@@ -233,7 +233,7 @@ public class ProcessUtils {
      * @return True if at least one operation has API key security scheme defined
      */
     public static boolean hasApiKeyMethods(OpenAPI openAPI) {
-        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
                 if (SecurityScheme.Type.APIKEY.equals(scheme.getValue().getType())) {
@@ -243,6 +243,14 @@ public class ProcessUtils {
         }
 
         return false;
+    }
+
+    public static Map<String, SecurityScheme> getSecuritySchemes(OpenAPI openAPI) {
+        if (openAPI == null) {
+            return null;
+        } else {
+            return openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        }
     }
 }
 
