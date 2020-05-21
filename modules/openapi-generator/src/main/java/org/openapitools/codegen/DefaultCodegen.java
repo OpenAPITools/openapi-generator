@@ -239,9 +239,9 @@ public class DefaultCodegen implements CodegenConfig {
     // Support legacy logic for evaluating discriminators
     protected boolean legacyDiscriminatorBehavior = true;
 
-    // Support legacy logic for evaluating 'additionalProperties' keyword.
+    // Specify what to do if the 'additionalProperties' keyword is not present in a schema.
     // See CodegenConstants.java for more details.
-    protected boolean legacyAdditionalPropertiesBehavior = true;
+    protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
     // make openapi available to all methods
     protected OpenAPI openAPI;
@@ -339,9 +339,9 @@ public class DefaultCodegen implements CodegenConfig {
             this.setLegacyDiscriminatorBehavior(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR).toString()));
         }
-        if (additionalProperties.containsKey(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR)) {
-            this.setLegacyAdditionalPropertiesBehavior(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR).toString()));
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
     }
 
@@ -724,9 +724,9 @@ public class DefaultCodegen implements CodegenConfig {
     public void setOpenAPI(OpenAPI openAPI) {
         this.openAPI = openAPI;
         // Set vendor extension such that helper functions can lookup the value
-        // of this CLI option. The code below can be removed when issues #1369 and #1371
-        // have been resolved at https://github.com/swagger-api/swagger-parser.
-        this.openAPI.addExtension("x-is-legacy-additional-properties-behavior", Boolean.toString(getLegacyAdditionalPropertiesBehavior()));
+        // of this CLI option.
+        this.openAPI.addExtension(ModelUtils.EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+            Boolean.toString(getDisallowAdditionalPropertiesIfNotPresent()));
     }
 
     // override with any special post-processing
@@ -1163,12 +1163,12 @@ public class DefaultCodegen implements CodegenConfig {
         this.legacyDiscriminatorBehavior = val;
     }
 
-    public Boolean getLegacyAdditionalPropertiesBehavior() {
-        return legacyAdditionalPropertiesBehavior;
+    public Boolean getDisallowAdditionalPropertiesIfNotPresent() {
+        return disallowAdditionalPropertiesIfNotPresent;
     }
 
-    public void setLegacyAdditionalPropertiesBehavior(boolean val) {
-        this.legacyAdditionalPropertiesBehavior = val;
+    public void setDisallowAdditionalPropertiesIfNotPresent(boolean val) {
+        this.disallowAdditionalPropertiesIfNotPresent = val;
     }
 
     public Boolean getAllowUnicodeIdentifiers() {
@@ -1496,19 +1496,20 @@ public class DefaultCodegen implements CodegenConfig {
         cliOptions.add(legacyDiscriminatorBehaviorOpt);
 
         // option to change how we process + set the data in the 'additionalProperties' keyword.
-        CliOption legacyAdditionalPropertiesBehaviorOpt = CliOption.newBoolean(
-            CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR,
-            CodegenConstants.LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString());
-        Map<String, String> legacyAdditionalPropertiesBehaviorOpts = new HashMap<>();
-        legacyAdditionalPropertiesBehaviorOpts.put("false",
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+            CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+            CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
             "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
-        legacyAdditionalPropertiesBehaviorOpts.put("true",
-            "Use a legacy, non-compliant interpretation of the 'additionalProperties' keyword. " +
-            "When the 'additionalProperties' keyword is not present in a schema, " +
-            "it is interpreted as if additionalProperties had been set to false, i.e. no additional properties are allowed.");
-        legacyAdditionalPropertiesBehaviorOpt.setEnum(legacyAdditionalPropertiesBehaviorOpts);
-        cliOptions.add(legacyAdditionalPropertiesBehaviorOpt);
-        this.setLegacyAdditionalPropertiesBehavior(true);
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+            "when the 'additionalProperties' keyword is not present in a schema, " +
+            "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
+            "Note: this mode is not compliant with the JSON schema specification. " +
+            "This is the original openapi-generator behavior.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
         
         // initialize special character mapping
         initalizeSpecialCharacterMapping();

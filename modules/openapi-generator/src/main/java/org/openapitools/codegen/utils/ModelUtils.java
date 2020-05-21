@@ -59,7 +59,8 @@ public class ModelUtils {
 
     private static final String generateAliasAsModelKey = "generateAliasAsModel";
 
-    private static final String openapiVersionExtension = "x-original-openapi-version";
+    public static final String EXTENSION_OPENAPI_DOC_VERSION = "x-original-openapi-version";
+    public static final String EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "x-disallow-additional-properties-if-not-present";
 
     private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
 
@@ -1080,30 +1081,31 @@ public class ModelUtils {
             return (Schema) addProps;
         }
         if (addProps == null) {
-            // Because of the https://github.com/swagger-api/swagger-parser/issues/1369 issue,
-            // there is a problem processing the 'additionalProperties' keyword.
-            // * When OAS 2.0 documents are parsed, the 'additionalProperties' keyword is ignored
-            //   if the value is boolean. That means codegen is unable to determine whether
-            //   additional properties are allowed or not.
-            // * When OAS 3.0 documents are parsed, the 'additionalProperties' keyword is properly
-            //   parsed.
+            // When reaching this code path, this should indicate the 'additionalProperties' keyword is
+            // not present in the OAS schema. This is true for OAS 3.0 documents.
+            // However, the parsing logic is broken for OAS 2.0 documents because of the
+            // https://github.com/swagger-api/swagger-parser/issues/1369 issue.
+            // When OAS 2.0 documents are parsed, the swagger-v2-converter ignores the 'additionalProperties'
+            // keyword if the value is boolean. That means codegen is unable to determine whether
+            // additional properties are allowed or not.
             //
             // The original behavior was to assume additionalProperties had been set to false.
             Map<String, Object> extensions = openAPI.getExtensions();
-            if (extensions != null && extensions.containsKey("x-is-legacy-additional-properties-behavior")) {
-                boolean isLegacyAdditionalPropertiesBehavior =
-                    Boolean.parseBoolean((String)extensions.get("x-is-legacy-additional-properties-behavior"));
-                if (isLegacyAdditionalPropertiesBehavior) {
-                    // Legacy, non-compliant mode. If the 'additionalProperties' keyword is not present in a OAS schema,
+            if (extensions != null && extensions.containsKey(EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+                boolean disallowAdditionalPropertiesIfNotPresent =
+                    Boolean.parseBoolean((String)extensions.get(EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT));
+                if (disallowAdditionalPropertiesIfNotPresent) {
+                    // If the 'additionalProperties' keyword is not present in a OAS schema,
                     // interpret as if the 'additionalProperties' keyword had been set to false.
+                    // This is NOT compliant with the JSON schema specification. It is the original
+                    // 'openapi-generator' behavior.
                     return null;
                 }
             }
-            // The 'x-is-legacy-additional-properties-behavior' extension has been set to true,
+            // The ${EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT} extension has been set to true,
             // but for now that only works with OAS 3.0 documents.
-            // The new behavior does not work with OAS 2.0 documents because of the
-            // https://github.com/swagger-api/swagger-parser/issues/1369 issue.
-            if (extensions == null || !extensions.containsKey(openapiVersionExtension)) {
+            // The new behavior does not work with OAS 2.0 documents.
+            if (extensions == null || !extensions.containsKey(EXTENSION_OPENAPI_DOC_VERSION)) {
                 // Fallback to the legacy behavior.
                 return null;
             }
@@ -1111,7 +1113,7 @@ public class ModelUtils {
             // Note openAPI.getOpenapi() is always set to 3.x even when the document
             // is converted from a OAS/Swagger 2.0 document.
             // https://github.com/swagger-api/swagger-parser/pull/1374
-            SemVer version = new SemVer((String)extensions.get(openapiVersionExtension));
+            SemVer version = new SemVer((String)extensions.get(EXTENSION_OPENAPI_DOC_VERSION));
             if (version.major != 3) {
                 return null;
             }
@@ -1526,7 +1528,7 @@ public class ModelUtils {
 
     /**
      * Get the original version of the OAS document as specified in the source document,
-     * and set the "x-original-openapi-version" with the original version.
+     * and set the ${EXTENSION_OPENAPI_DOC_VERSION} with the original version.
      * 
      * @param openapi the OpenAPI document.
      * @param location the URL of the OAS document.
@@ -1534,6 +1536,6 @@ public class ModelUtils {
      */
     public static void addOpenApiVersionExtension(OpenAPI openapi, String location, List<AuthorizationValue> auths) {
         SemVer version = getOpenApiVersion(openapi, location, auths);
-        openapi.addExtension(openapiVersionExtension, version.toString());
+        openapi.addExtension(EXTENSION_OPENAPI_DOC_VERSION, version.toString());
     }
 }

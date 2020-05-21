@@ -242,8 +242,8 @@ public class DefaultCodegenTest {
     public void testAdditionalPropertiesV2Spec() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-and-additional-properties-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setLegacyAdditionalPropertiesBehavior(true);
         codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(true);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
         Assert.assertEquals(schema.getAdditionalProperties(), null);
@@ -293,7 +293,7 @@ public class DefaultCodegenTest {
     public void testAdditionalPropertiesV3Spec() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setLegacyAdditionalPropertiesBehavior(false);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
         codegen.setOpenAPI(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
@@ -342,7 +342,7 @@ public class DefaultCodegenTest {
     public void testAdditionalPropertiesV3SpecLegacy() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setLegacyAdditionalPropertiesBehavior(true);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(true);
         codegen.setOpenAPI(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");

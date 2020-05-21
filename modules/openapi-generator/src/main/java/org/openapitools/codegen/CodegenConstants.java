@@ -359,17 +359,16 @@ public class CodegenConstants {
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
 
-    // The reason this parameter exists is because there is a dependency
-    // on swagger-api/swagger-parser issue https://github.com/swagger-api/swagger-parser/issues/1369.
-    // When that issue is resolved, this parameter should be removed.
-    public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR = "legacyAdditionalPropertiesBehavior";
-    public static final String LEGACY_ADDITIONAL_PROPERTIES_BEHAVIOR_DESC =
-        "If false, the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. " +
-        "This is the default value.\n" +
+    public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
+    public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
+        "Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document\n" +
+        
+        "If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. " +
 
-        "If true, codegen uses a legacy, non-compliant interpretation of the 'additionalProperties' keyword. " +
-        "When the 'additionalProperties' keyword is not present in a schema, " +
-        "it is interpreted as if additionalProperties had been set to false, i.e. no additional properties are allowed.\n" +
+        "If true: when the 'additionalProperties' keyword is not present in a schema, " +
+        "the value of 'additionalProperties' is set to false, i.e. no additional properties are allowed. " +
+        "Note: this mode is not compliant with the JSON schema specification. " +
+        "This is the original openapi-generator behavior." +
 
         "This setting is currently ignored for OAS 2.0 documents: " +
         " 1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed. " +
