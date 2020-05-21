@@ -192,6 +192,4 @@ paths:
           description: OK
 components:
   schemas: {}
-x-original-swagger-version: 3.0.1
-x-disallow-additional-properties-if-not-present: "true"
 

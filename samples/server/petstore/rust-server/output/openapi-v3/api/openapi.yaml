@@ -591,6 +591,4 @@ components:
             test.write: Allowed to change state.
           tokenUrl: http://example.org
       type: oauth2
-x-original-swagger-version: 3.0.1
-x-disallow-additional-properties-if-not-present: "true"
 

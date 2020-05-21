@@ -38,6 +38,4 @@ components:
       required:
       - property
       type: object
-x-original-swagger-version: 3.0.1
-x-disallow-additional-properties-if-not-present: "true"
 

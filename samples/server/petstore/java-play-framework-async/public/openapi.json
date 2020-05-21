@@ -1037,7 +1037,5 @@
         "type" : "apiKey"
       }
     }
-  },
-  "x-original-swagger-version" : "2.0.0",
-  "x-disallow-additional-properties-if-not-present" : "true"
+  }
 }

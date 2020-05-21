@@ -2178,5 +2178,3 @@ components:
     http_signature_test:
       scheme: signature
       type: http
-x-original-swagger-version: 3.0.0
-x-disallow-additional-properties-if-not-present: "true"
