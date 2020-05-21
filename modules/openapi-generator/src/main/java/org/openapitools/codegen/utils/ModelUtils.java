@@ -690,6 +690,80 @@ public class ModelUtils {
     }
 
     /**
+     * Check to see if the schema is a free form object.
+     *
+     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
+     * 1) Does not define properties, and
+     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
+     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
+     *
+     * Examples:
+     *
+     * components:
+     *   schemas:
+     *     arbitraryObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value cannot be 'null'.
+     *         It cannot be array, string, integer, number.
+     *     arbitraryNullableObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value can be 'null',
+     *         It cannot be array, string, integer, number.
+     *       nullable: true
+     *     arbitraryTypeValue:
+     *       description: This is NOT a free-form object.
+     *         The value can be any type except the 'null' value.
+     *
+     * @param openAPI the object that encapsulates the OAS document.
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a free-form object
+     */
+    public static boolean isFreeFormObject(OpenAPI openAPI, Schema schema) {
+        if (schema == null) {
+            // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
+            once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
+            return false;
+        }
+
+        // not free-form if allOf, anyOf, oneOf is not empty
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            List<Schema> interfaces = ModelUtils.getInterfaces(cs);
+            if (interfaces != null && !interfaces.isEmpty()) {
+                return false;
+            }
+        }
+
+        // has at least one property
+        if ("object".equals(schema.getType())) {
+            // no properties
+            if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
+                Schema addlProps = getAdditionalProperties(openAPI, schema);
+                // additionalProperties not defined
+                if (addlProps == null) {
+                    return true;
+                } else {
+                    if (addlProps instanceof ObjectSchema) {
+                        ObjectSchema objSchema = (ObjectSchema) addlProps;
+                        // additionalProperties defined as {}
+                        if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
+                            return true;
+                        }
+                    } else if (addlProps instanceof Schema) {
+                        // additionalProperties defined as {}
+                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
      * If a Schema contains a reference to another Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
      *
      * @param openAPI specification being checked
@@ -996,80 +1070,6 @@ public class ModelUtils {
         return schema;
     }
 
-    /**
-     * Check to see if the schema is a free form object.
-     *
-     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
-     * 1) Does not define properties, and
-     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
-     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
-     *
-     * Examples:
-     *
-     * components:
-     *   schemas:
-     *     arbitraryObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value cannot be 'null'.
-     *         It cannot be array, string, integer, number.
-     *     arbitraryNullableObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value can be 'null',
-     *         It cannot be array, string, integer, number.
-     *       nullable: true
-     *     arbitraryTypeValue:
-     *       description: This is NOT a free-form object.
-     *         The value can be any type except the 'null' value.
-     *
-     * @param openAPI the object that encapsulates the OAS document.
-     * @param schema potentially containing a '$ref'
-     * @return true if it's a free-form object
-     */
-    public static boolean isFreeFormObject(OpenAPI openAPI, Schema schema) {
-        if (schema == null) {
-            // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
-            once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
-            return false;
-        }
-
-        // not free-form if allOf, anyOf, oneOf is not empty
-        if (schema instanceof ComposedSchema) {
-            ComposedSchema cs = (ComposedSchema) schema;
-            List<Schema> interfaces = ModelUtils.getInterfaces(cs);
-            if (interfaces != null && !interfaces.isEmpty()) {
-                return false;
-            }
-        }
-
-        // has at least one property
-        if ("object".equals(schema.getType())) {
-            // no properties
-            if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
-                Schema addlProps = getAdditionalProperties(openAPI, schema);
-                // additionalProperties not defined
-                if (addlProps == null) {
-                    return true;
-                } else {
-                    if (addlProps instanceof ObjectSchema) {
-                        ObjectSchema objSchema = (ObjectSchema) addlProps;
-                        // additionalProperties defined as {}
-                        if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
-                            return true;
-                        }
-                    } else if (addlProps instanceof Schema) {
-                        // additionalProperties defined as {}
-                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-    
     /**
      * Returns the additionalProperties Schema for the specified input schema.
      * 
