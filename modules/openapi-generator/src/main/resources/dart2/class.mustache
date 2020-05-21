@@ -93,7 +93,7 @@ class {{classname}} {
       json['{{baseName}}'] = {{name}} == null ? null : {{name}}.toUtc().toIso8601String();
       {{/isDateTime}}
       {{#isDate}}
-      json['{{baseName}}'] = {{name}} == null ? null : {{name}}.toUtc().toIso8601String();
+      json['{{baseName}}'] = {{name}} == null ? null : _dateFormatter.format({{name}}.toUtc());
       {{/isDate}}
       {{^isDateTime}}
       {{^isDate}}
