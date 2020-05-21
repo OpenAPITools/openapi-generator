@@ -723,10 +723,9 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setOpenAPI(OpenAPI openAPI) {
         this.openAPI = openAPI;
-        // Set vendor extension such that helper functions can lookup the value
-        // of this CLI option.
-        this.openAPI.addExtension(ModelUtils.EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
-            Boolean.toString(getDisallowAdditionalPropertiesIfNotPresent()));
+        // Set global settings such that helper functions in ModelUtils can lookup the value
+        // of the CLI option.
+        ModelUtils.setDisallowAdditionalPropertiesIfNotPresent(getDisallowAdditionalPropertiesIfNotPresent());
     }
 
     // override with any special post-processing

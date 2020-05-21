@@ -60,10 +60,10 @@ public class ModelUtils {
     private static final String generateAliasAsModelKey = "generateAliasAsModel";
 
     // A vendor extension to track the value of the 'swagger' field in a 2.0 doc, if applicable.
-    public static final String EXTENSION_OPENAPI_DOC_VERSION = "x-original-swagger-version";
-    
+    private static final String openapiDocVersion = "x-original-swagger-version";
+
     // A vendor extension to track the value of the 'disallowAdditionalPropertiesIfNotPresent' CLI
-    public static final String EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "x-disallow-additional-properties-if-not-present";
+    private static final String disallowAdditionalPropertiesIfNotPresent = "x-disallow-additional-properties-if-not-present";
 
     private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
 
@@ -72,6 +72,14 @@ public class ModelUtils {
         YAML_MAPPER = ObjectMapperFactory.createYaml();
     }
     
+    public static void setDisallowAdditionalPropertiesIfNotPresent(boolean value) {
+        GlobalSettings.setProperty(disallowAdditionalPropertiesIfNotPresent, Boolean.toString(value));
+    }
+
+    public static boolean isDisallowAdditionalPropertiesIfNotPresent() {
+        return Boolean.parseBoolean(GlobalSettings.getProperty(disallowAdditionalPropertiesIfNotPresent, "true"));
+    }
+
     public static void setGenerateAliasAsModel(boolean value) {
         GlobalSettings.setProperty(generateAliasAsModelKey, Boolean.toString(value));
     }
@@ -1093,19 +1101,15 @@ public class ModelUtils {
             // additional properties are allowed or not.
             //
             // The original behavior was to assume additionalProperties had been set to false.
-            Map<String, Object> extensions = openAPI.getExtensions();
-            if (extensions != null && extensions.containsKey(EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-                boolean disallowAdditionalPropertiesIfNotPresent =
-                    Boolean.parseBoolean((String)extensions.get(EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT));
-                if (disallowAdditionalPropertiesIfNotPresent) {
-                    // If the 'additionalProperties' keyword is not present in a OAS schema,
-                    // interpret as if the 'additionalProperties' keyword had been set to false.
-                    // This is NOT compliant with the JSON schema specification. It is the original
-                    // 'openapi-generator' behavior.
-                    return null;
-                }
+            if (isDisallowAdditionalPropertiesIfNotPresent()) {
+                // If the 'additionalProperties' keyword is not present in a OAS schema,
+                // interpret as if the 'additionalProperties' keyword had been set to false.
+                // This is NOT compliant with the JSON schema specification. It is the original
+                // 'openapi-generator' behavior.
+                return null;
             }
-            // The ${EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT} extension has been set to true,
+            /*
+            // The disallowAdditionalPropertiesIfNotPresent CLI option has been set to true,
             // but for now that only works with OAS 3.0 documents.
             // The new behavior does not work with OAS 2.0 documents.
             if (extensions == null || !extensions.containsKey(EXTENSION_OPENAPI_DOC_VERSION)) {
@@ -1120,6 +1124,7 @@ public class ModelUtils {
             if (version.major != 3) {
                 return null;
             }
+            */
         }
         if (addProps == null || (addProps instanceof Boolean && (Boolean) addProps)) {
             // Return ObjectSchema to specify any object (map) value is allowed.
@@ -1499,7 +1504,9 @@ public class ModelUtils {
     }
 
     /**
-     * Return the version of the OAS document as specified in the source document.
+     * Parse the OAS document at the specified location, get the swagger or openapi version
+     * as specified in the source document, and return the version.
+     * 
      * For OAS 2.0 documents, return the value of the 'swagger' attribute.
      * For OAS 3.x documents, return the value of the 'openapi' attribute.
      * 
@@ -1526,19 +1533,9 @@ public class ModelUtils {
             LOGGER.warn("Unable to read swagger/openapi attribute");
             version = openAPI.getOpenapi();
         }
-        return new SemVer(version);
-    }
+        // Cache the OAS version in global settings so it can be looked up in the helper functions.
+        //GlobalSettings.setProperty(openapiDocVersion, version);
 
-    /**
-     * Get the original version of the OAS document as specified in the source document,
-     * and set the ${EXTENSION_OPENAPI_DOC_VERSION} with the original version.
-     * 
-     * @param openapi the OpenAPI document.
-     * @param location the URL of the OAS document.
-     * @param auths the list of authorization values to access the remote URL.
-     */
-    public static void addOpenApiVersionExtension(OpenAPI openapi, String location, List<AuthorizationValue> auths) {
-        SemVer version = getOpenApiVersion(openapi, location, auths);
-        openapi.addExtension(EXTENSION_OPENAPI_DOC_VERSION, version.toString());
+        return new SemVer(version);
     }
 }
