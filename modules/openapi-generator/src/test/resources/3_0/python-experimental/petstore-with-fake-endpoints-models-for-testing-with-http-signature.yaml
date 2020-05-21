@@ -1252,10 +1252,14 @@ components:
           description: User Status
         objectWithNoDeclaredProps:
           type: object
+          # Note: the 'additionalProperties' keyword is not specified, which is
+          # equivalent to allowing undeclared properties of any type.
           description: test code generation for objects
             Value must be a map of strings to values. It cannot be the 'null' value.
         objectWithNoDeclaredPropsNullable:
           type: object
+          # Note: the 'additionalProperties' keyword is not specified, which is
+          # equivalent to allowing undeclared properties of any type.
           description: test code generation for nullable objects.
             Value must be a map of strings to values or the 'null' value.
           nullable: true
@@ -1979,6 +1983,8 @@ components:
         - $ref: '#/components/schemas/ScaleneTriangle'
       discriminator:
         propertyName: triangleType
+      # Note: the 'additionalProperties' keyword is not specified, which is
+      # equivalent to allowing undeclared properties of any type.
     EquilateralTriangle:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
