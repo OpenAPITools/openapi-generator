@@ -82,12 +82,6 @@
       if (data.hasOwnProperty('map_map_anytype')) {
         obj['map_map_anytype'] = ApiClient.convertToType(data['map_map_anytype'], {'String': {'String': Object}});
       }
-      if (data.hasOwnProperty('map_with_additional_properties')) {
-        obj['map_with_additional_properties'] = ApiClient.convertToType(data['map_with_additional_properties'], Object);
-      }
-      if (data.hasOwnProperty('map_without_additional_properties')) {
-        obj['map_without_additional_properties'] = ApiClient.convertToType(data['map_without_additional_properties'], Object);
-      }
       if (data.hasOwnProperty('anytype_1')) {
         obj['anytype_1'] = ApiClient.convertToType(data['anytype_1'], Object);
       }
@@ -133,14 +127,6 @@
    * @member {Object.<String, Object.<String, Object>>} map_map_anytype
    */
   exports.prototype['map_map_anytype'] = undefined;
-  /**
-   * @member {Object} map_with_additional_properties
-   */
-  exports.prototype['map_with_additional_properties'] = undefined;
-  /**
-   * @member {Object} map_without_additional_properties
-   */
-  exports.prototype['map_without_additional_properties'] = undefined;
   /**
    * @member {Object} anytype_1
    */

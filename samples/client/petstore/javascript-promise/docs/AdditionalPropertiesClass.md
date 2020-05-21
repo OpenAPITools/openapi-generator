@@ -12,8 +12,6 @@ Name | Type | Description | Notes
 **mapArrayAnytype** | **{String: [Object]}** |  | [optional] 
 **mapMapString** | **{String: {String: String}}** |  | [optional] 
 **mapMapAnytype** | **{String: {String: Object}}** |  | [optional] 
-**mapWithAdditionalProperties** | **Object** |  | [optional] 
-**mapWithoutAdditionalProperties** | **Object** |  | [optional] 
 **anytype1** | **Object** |  | [optional] 
 **anytype2** | **Object** |  | [optional] 
 **anytype3** | **Object** |  | [optional] 
