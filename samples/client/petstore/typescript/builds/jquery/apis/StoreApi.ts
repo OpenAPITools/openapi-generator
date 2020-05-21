@@ -149,7 +149,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Order" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body || "").toString(); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
     	// Apply auth methods
@@ -162,14 +162,14 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
 export class StoreApiResponseProcessor {
-	
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to deleteOrder
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public deleteOrder(response: ResponseContext):   void  {      
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
@@ -186,13 +186,13 @@ export class StoreApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to getInventory
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public getInventory(response: ResponseContext):  { [key: string]: number; }  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
@@ -210,13 +210,13 @@ export class StoreApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to getOrderById
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public getOrderById(response: ResponseContext):  Order  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
@@ -240,13 +240,13 @@ export class StoreApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to placeOrder
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public placeOrder(response: ResponseContext):  Order  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);

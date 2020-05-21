@@ -5,5 +5,11 @@ export { Configuration} from './configuration'
 export * from './apis/exception';
 export * from './servers';
 
+{{#useRxJS}}
+  export * from './types/ObservableAPI';
+  export { Middleware } from './middleware';
+{{/useRxJS}}
+{{^useRxJS}}
   export * from './types/PromiseAPI';
   export { PromiseMiddleware as Middleware } from './middleware';
+{{/useRxJS}}

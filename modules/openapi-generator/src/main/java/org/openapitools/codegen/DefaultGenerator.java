@@ -783,40 +783,40 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     continue;
                 }
 
-                if (ignoreProcessor.allowsFile(new File(outputFilename))) {
-                    // support.templateFile is the unmodified/original supporting file name (e.g. build.sh.mustache)
-                    // templatingEngine.templateExists dispatches resolution to this, performing template-engine specific inspect of support file extensions.
-                    if (templatingEngine.templateExists(this, support.templateFile)) {
-                        String templateContent = templatingEngine.compileTemplate(this, bundle, support.templateFile);
-                        writeToFile(outputFilename, templateContent);
-                        File written = new File(outputFilename);
-                        files.add(written);
-                        if (config.isEnablePostProcessFile()) {
-                            config.postProcessFile(written, "supporting-mustache");
-                        }
-                    } else {
-                        InputStream in = null;
-
-                        try {
-                            in = new FileInputStream(templateFile);
-                        } catch (Exception e) {
-                            // continue
-                        }
-                        if (in == null) {
-                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
-                        }
-                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
-                        files.add(outputFile);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(outputFile, "supporting-common");
-                        }
-                    }
-
-                } else {
+                if (!ignoreProcessor.allowsFile(new File(outputFilename))) {
                     if (dryRun) {
                         dryRunStatusMap.put(outputFilename, new DryRunStatus(java.nio.file.Paths.get(outputFilename), DryRunStatus.State.Ignored));
                     }
                     LOGGER.info("Skipped generation of {} due to rule in .openapi-generator-ignore", outputFilename);
+                    continue;
+                }
+
+                // support.templateFile is the unmodified/original supporting file name (e.g. build.sh.mustache)
+                // templatingEngine.templateExists dispatches resolution to this, performing template-engine specific inspect of support file extensions.
+                if (templatingEngine.templateExists(this, support.templateFile)) {
+                    String templateContent = templatingEngine.compileTemplate(this, bundle, support.templateFile);
+                    writeToFile(outputFilename, templateContent);
+                    File written = new File(outputFilename);
+                    files.add(written);
+                    if (config.isEnablePostProcessFile()) {
+                        config.postProcessFile(written, "supporting-mustache");
+                    }
+                } else {
+                    InputStream in = null;
+
+                    try {
+                        in = new FileInputStream(templateFile);
+                    } catch (Exception e) {
+                        // continue
+                    }
+                    if (in == null) {
+                        in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                    }
+                    File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
+                    files.add(outputFile);
+                    if (config.isEnablePostProcessFile() && !dryRun) {
+                        config.postProcessFile(outputFile, "supporting-common");
+                    }
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Could not generate supporting file '" + support + "'", e);

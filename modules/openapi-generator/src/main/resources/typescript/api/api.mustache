@@ -118,7 +118,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/consumes.0}}
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"{{dataType}}" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}}.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}} || "").toString(); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 	    {{/bodyParam}}
 		
@@ -144,15 +144,15 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 {{#operations}}
 
 export class {{classname}}ResponseProcessor {
-	
-	{{#operation}}
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to {{nicknam}} 
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+
+    {{#operation}}
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to {{nickname}}
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public {{nickname}}(response: ResponseContext): {{#returnType}} {{{returnType}}}{{/returnType}} {{^returnType}} void {{/returnType}} {      
         {{#responses}}
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {

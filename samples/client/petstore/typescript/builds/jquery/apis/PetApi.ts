@@ -45,7 +45,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body || "").toString(); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
 		let authMethod = null;
@@ -259,7 +259,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body || "").toString(); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
 		let authMethod = null;
@@ -385,14 +385,14 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 export class PetApiResponseProcessor {
-	
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to addPet
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public addPet(response: ResponseContext):   void  {      
         if (isCodeInRange("405", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid input");
@@ -406,13 +406,13 @@ export class PetApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to deletePet
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public deletePet(response: ResponseContext):   void  {      
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid pet value");
@@ -426,13 +426,13 @@ export class PetApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to findPetsByStatus
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public findPetsByStatus(response: ResponseContext):  Array<Pet>  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
@@ -453,13 +453,13 @@ export class PetApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to findPetsByTags
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public findPetsByTags(response: ResponseContext):  Array<Pet>  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
@@ -480,13 +480,13 @@ export class PetApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to getPetById
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public getPetById(response: ResponseContext):  Pet  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
@@ -510,13 +510,13 @@ export class PetApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to updatePet
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public updatePet(response: ResponseContext):   void  {      
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
@@ -536,13 +536,13 @@ export class PetApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to updatePetWithForm
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public updatePetWithForm(response: ResponseContext):   void  {      
         if (isCodeInRange("405", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid input");
@@ -556,13 +556,13 @@ export class PetApiResponseProcessor {
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
-	/**
-	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
-	 * to the expected objects
-	 * 
-	 * @params response Response returned by the server for a request to  
-	 * @throws ApiException if the response code was not in [200, 299]
-	 */
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to uploadFile
+     * @throws ApiException if the response code was not in [200, 299]
+     */
     public uploadFile(response: ResponseContext):  ApiResponse  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
