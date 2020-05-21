@@ -776,7 +776,7 @@ def get_discriminator_class(model_class,
             model_class._composed_schemas.get('allOf', ())
         for cls in composed_children:
             # Check if the schema has inherited discriminators.
-            if cls is not None and cls.discriminator is not None:
+            if hasattr(cls, 'discriminator') and cls.discriminator is not None:
                 used_model_class = get_discriminator_class(
                                     cls, discr_name, discr_value, cls_visited)
                 if used_model_class is not None:
