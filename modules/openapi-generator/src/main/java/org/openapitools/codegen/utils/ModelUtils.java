@@ -760,9 +760,10 @@ public class ModelUtils {
                 }
             }
         }
+
         return false;
     }
-    
+
     /**
      * If a Schema contains a reference to another Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
      *
