@@ -463,7 +463,7 @@ public class CodegenConfigurator {
         // TODO: Move custom validations to a separate type as part of a "Workflow"
         Set<String> validationMessages = new HashSet<>(result.getMessages());
         OpenAPI specification = result.getOpenAPI();
-        // The line below could be removed when at least one of the issue below has been resolved.
+        // TODO: The line below could be removed when at least one of the issue below has been resolved.
         // https://github.com/swagger-api/swagger-parser/issues/1369
         // https://github.com/swagger-api/swagger-parser/pull/1374
         ModelUtils.addOpenApiVersionExtension(specification, inputSpec, authorizationValues);
