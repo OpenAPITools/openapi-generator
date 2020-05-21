@@ -195,26 +195,6 @@ impl std::ops::DerefMut for AnotherXmlInner {
     }
 }
 
-/// Converts the AnotherXmlInner value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for AnotherXmlInner {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a AnotherXmlInner value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for AnotherXmlInner {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for AnotherXmlInner is not supported")
-    }
-}
 
 impl AnotherXmlInner {
     /// Helper function to allow us to convert this model to an XML string.
@@ -598,26 +578,6 @@ impl std::ops::DerefMut for Err {
     }
 }
 
-/// Converts the Err value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for Err {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a Err value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Err {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for Err is not supported")
-    }
-}
 
 impl Err {
     /// Helper function to allow us to convert this model to an XML string.
@@ -670,26 +630,6 @@ impl std::ops::DerefMut for Error {
     }
 }
 
-/// Converts the Error value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for Error {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a Error value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Error {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for Error is not supported")
-    }
-}
 
 impl Error {
     /// Helper function to allow us to convert this model to an XML string.
@@ -855,26 +795,6 @@ impl std::ops::DerefMut for MyId {
     }
 }
 
-/// Converts the MyId value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for MyId {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a MyId value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for MyId {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for MyId is not supported")
-    }
-}
 
 impl MyId {
     /// Helper function to allow us to convert this model to an XML string.
@@ -1796,26 +1716,6 @@ impl std::ops::DerefMut for Ok {
     }
 }
 
-/// Converts the Ok value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for Ok {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a Ok value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Ok {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for Ok is not supported")
-    }
-}
 
 impl Ok {
     /// Helper function to allow us to convert this model to an XML string.
@@ -1856,26 +1756,6 @@ impl std::ops::DerefMut for OptionalObjectHeader {
     }
 }
 
-/// Converts the OptionalObjectHeader value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for OptionalObjectHeader {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a OptionalObjectHeader value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for OptionalObjectHeader {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for OptionalObjectHeader is not supported")
-    }
-}
 
 impl OptionalObjectHeader {
     /// Helper function to allow us to convert this model to an XML string.
@@ -1916,26 +1796,6 @@ impl std::ops::DerefMut for RequiredObjectHeader {
     }
 }
 
-/// Converts the RequiredObjectHeader value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for RequiredObjectHeader {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a RequiredObjectHeader value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for RequiredObjectHeader {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for RequiredObjectHeader is not supported")
-    }
-}
 
 impl RequiredObjectHeader {
     /// Helper function to allow us to convert this model to an XML string.
@@ -1988,26 +1848,6 @@ impl std::ops::DerefMut for Result {
     }
 }
 
-/// Converts the Result value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for Result {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a Result value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for Result {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for Result is not supported")
-    }
-}
 
 impl Result {
     /// Helper function to allow us to convert this model to an XML string.
@@ -2104,26 +1944,6 @@ impl std::ops::DerefMut for StringObject {
     }
 }
 
-/// Converts the StringObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for StringObject {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a StringObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for StringObject {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for StringObject is not supported")
-    }
-}
 
 impl StringObject {
     /// Helper function to allow us to convert this model to an XML string.
@@ -2165,26 +1985,6 @@ impl std::ops::DerefMut for UuidObject {
     }
 }
 
-/// Converts the UuidObject value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for UuidObject {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a UuidObject value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for UuidObject {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for UuidObject is not supported")
-    }
-}
 
 impl UuidObject {
     /// Helper function to allow us to convert this model to an XML string.
@@ -2385,26 +2185,6 @@ impl std::ops::DerefMut for XmlInner {
     }
 }
 
-/// Converts the XmlInner value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl ::std::string::ToString for XmlInner {
-    fn to_string(&self) -> String {
-        // Skipping additionalProperties in query parameter serialization
-        "".to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a XmlInner value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl ::std::str::FromStr for XmlInner {
-    type Err = &'static str;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for XmlInner is not supported")
-    }
-}
 
 impl XmlInner {
     /// Helper function to allow us to convert this model to an XML string.

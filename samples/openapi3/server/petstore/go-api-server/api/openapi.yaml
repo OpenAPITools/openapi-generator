@@ -2090,5 +2090,5 @@ components:
     http_signature_test:
       scheme: signature
       type: http
-x-original-openapi-version: 3.0.0
-x-is-legacy-additional-properties-behavior: "true"
+x-original-swagger-version: 3.0.0
+x-disallow-additional-properties-if-not-present: "true"

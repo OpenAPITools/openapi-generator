@@ -1589,6 +1589,6 @@ components:
     http_basic_test:
       scheme: basic
       type: http
-x-original-openapi-version: 2.0.0
-x-is-legacy-additional-properties-behavior: "false"
+x-original-swagger-version: 2.0.0
+x-disallow-additional-properties-if-not-present: "true"
 

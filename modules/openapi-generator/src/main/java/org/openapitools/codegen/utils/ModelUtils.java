@@ -59,7 +59,10 @@ public class ModelUtils {
 
     private static final String generateAliasAsModelKey = "generateAliasAsModel";
 
-    public static final String EXTENSION_OPENAPI_DOC_VERSION = "x-original-openapi-version";
+    // A vendor extension to track the value of the 'swagger' field in a 2.0 doc, if applicable.
+    public static final String EXTENSION_OPENAPI_DOC_VERSION = "x-original-swagger-version";
+    
+    // A vendor extension to track the value of the 'disallowAdditionalPropertiesIfNotPresent' CLI
     public static final String EXTENSION_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "x-disallow-additional-properties-if-not-present";
 
     private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
