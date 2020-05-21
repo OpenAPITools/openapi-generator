@@ -40,9 +40,7 @@ public class ProcessUtils {
                 var.vendorExtensions.put("x-index", j);
                 j++;
             }
-
         }
-
     }
 
     /**
@@ -53,7 +51,6 @@ public class ProcessUtils {
     public static void addIndexToProperties(List<Object> models) {
         addIndexToProperties(models, 0);
     }
-
 
     /**
      * Returns true if the specified OAS model has at least one operation with the HTTP basic
