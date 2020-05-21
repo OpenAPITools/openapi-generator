@@ -84,12 +84,12 @@ class AdditionalPropertiesClass(ModelNormal):
             'map_integer': ({str: (int,)},),  # noqa: E501
             'map_boolean': ({str: (bool,)},),  # noqa: E501
             'map_array_integer': ({str: ([int],)},),  # noqa: E501
-            'map_array_anytype': ({str: ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}],)},),  # noqa: E501
+            'map_array_anytype': ({str: ([bool, date, datetime, dict, float, int, list, str],)},),  # noqa: E501
             'map_map_string': ({str: ({str: (str,)},)},),  # noqa: E501
-            'map_map_anytype': ({str: ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)},)},),  # noqa: E501
-            'anytype_1': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
-            'anytype_2': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
-            'anytype_3': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'map_map_anytype': ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)},),  # noqa: E501
+            'anytype_1': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'anytype_2': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'anytype_3': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
         }
 
     @cached_property
@@ -159,12 +159,12 @@ class AdditionalPropertiesClass(ModelNormal):
             map_integer ({str: (int,)}): [optional]  # noqa: E501
             map_boolean ({str: (bool,)}): [optional]  # noqa: E501
             map_array_integer ({str: ([int],)}): [optional]  # noqa: E501
-            map_array_anytype ({str: ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}],)}): [optional]  # noqa: E501
+            map_array_anytype ({str: ([bool, date, datetime, dict, float, int, list, str],)}): [optional]  # noqa: E501
             map_map_string ({str: ({str: (str,)},)}): [optional]  # noqa: E501
-            map_map_anytype ({str: ({str: ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)},)}): [optional]  # noqa: E501
-            anytype_1 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
-            anytype_2 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
-            anytype_3 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
+            map_map_anytype ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)}): [optional]  # noqa: E501
+            anytype_1 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
+            anytype_2 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
+            anytype_3 (bool, date, datetime, dict, float, int, list, str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
