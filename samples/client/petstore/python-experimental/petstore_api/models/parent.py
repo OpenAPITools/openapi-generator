@@ -161,7 +161,7 @@ class Parent(ModelComposed):
         constant_args = {
             '_check_type': _check_type,
             '_path_to_item': _path_to_item,
-            '_spec_property_naming': spec_property_naming,
+            '_spec_property_naming': _spec_property_naming,
             '_configuration': _configuration,
             '_visited_composed_classes': self._visited_composed_classes,
         }
