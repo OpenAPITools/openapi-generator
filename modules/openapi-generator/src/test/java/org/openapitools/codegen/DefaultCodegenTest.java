@@ -307,14 +307,32 @@ public class DefaultCodegenTest {
         CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
 
         Map<String, Schema> m = schema.getProperties();
-        Schema child = m.get("map_string");
+        Schema child = m.get("map_with_undeclared_properties_string");
         // This property has the following inline schema.
         // additionalProperties:
         //   type: string
         Assert.assertNotNull(child);
         Assert.assertNotNull(child.getAdditionalProperties());
 
-        child = m.get("map_with_additional_properties");
+        child = m.get("map_with_undeclared_properties_anytype_1");
+        // This property does not use the additionalProperties keyword,
+        // which means by default undeclared properties are allowed.
+        Assert.assertNotNull(child);
+        Assert.assertNull(child.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(addProps);
+        Assert.assertTrue(addProps instanceof ObjectSchema);
+
+        child = m.get("map_with_undeclared_properties_anytype_2");
+        // This property does not use the additionalProperties keyword,
+        // which means by default undeclared properties are allowed.
+        Assert.assertNotNull(child);
+        Assert.assertNull(child.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(addProps);
+        Assert.assertTrue(addProps instanceof ObjectSchema);
+
+        child = m.get("map_with_undeclared_properties_anytype_3");
         // This property has the following inline schema.
         // additionalProperties: true
         Assert.assertNotNull(child);
@@ -326,7 +344,7 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(addProps);
         Assert.assertTrue(addProps instanceof ObjectSchema);
 
-        child = m.get("map_without_additional_properties");
+        child = m.get("empty_map");
         // This property has the following inline schema.
         // additionalProperties: false
         Assert.assertNotNull(child);

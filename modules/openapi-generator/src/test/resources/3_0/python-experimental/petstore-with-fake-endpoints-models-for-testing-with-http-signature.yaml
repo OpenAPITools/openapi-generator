@@ -1543,19 +1543,21 @@ components:
             type: object
             additionalProperties:
               type: string
-        anytype_1:
+        anytype_1: {}
+        map_with_undeclared_properties_anytype_1:
           type: object
-        anytype_2: {}
-        anytype_3:
+        map_with_undeclared_properties_anytype_2:
           type: object
           properties: {}
-        map_with_additional_properties:
+        map_with_undeclared_properties_anytype_3:
           type: object
           additionalProperties: true
-        map_without_additional_properties:
+        empty_map:
           type: object
+          description: an object with no declared properties and no undeclared
+            properties, hence it's an empty map.
           additionalProperties: false
-        map_string:
+        map_with_undeclared_properties_string:
           type: object
           additionalProperties:
             type: string
