@@ -115,7 +115,7 @@ public class ApiClientTest {
         assertEquals("header", apiKeyAuth.getLocation());
         assertEquals("api_key", apiKeyAuth.getParamName());
 
-        Authentication auth = auths.get("petstore_auth");
+        auth = auths.get("petstore_auth");
         assertTrue(auth instanceof OAuth);
         assertSame(auth, apiClient.getAuthentication("petstore_auth"));
 
