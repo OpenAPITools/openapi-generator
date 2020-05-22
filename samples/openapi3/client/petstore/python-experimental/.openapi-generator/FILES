@@ -61,6 +61,7 @@ docs/Model200Response.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
+docs/NullableShape.md
 docs/NumberOnly.md
 docs/Order.md
 docs/OuterComposite.md
@@ -76,6 +77,7 @@ docs/ReadOnlyFirst.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
+docs/ShapeOrNull.md
 docs/SimpleQuadrilateral.md
 docs/SpecialModelName.md
 docs/StoreApi.md
@@ -157,6 +159,7 @@ petstore_api/models/model200_response.py
 petstore_api/models/model_return.py
 petstore_api/models/name.py
 petstore_api/models/nullable_class.py
+petstore_api/models/nullable_shape.py
 petstore_api/models/number_only.py
 petstore_api/models/order.py
 petstore_api/models/outer_composite.py
@@ -171,6 +174,7 @@ petstore_api/models/read_only_first.py
 petstore_api/models/scalene_triangle.py
 petstore_api/models/shape.py
 petstore_api/models/shape_interface.py
+petstore_api/models/shape_or_null.py
 petstore_api/models/simple_quadrilateral.py
 petstore_api/models/special_model_name.py
 petstore_api/models/string_boolean_map.py
