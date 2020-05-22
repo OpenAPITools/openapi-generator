@@ -115,8 +115,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "date");
-        typeMapping.put("Date", "date");
+        typeMapping.put("date", "string");
+        typeMapping.put("Date", "string");
         typeMapping.put("DateTime", "\\DateTime");
         typeMapping.put("file", "\\SplFileObject");
         typeMapping.put("map", "map");
