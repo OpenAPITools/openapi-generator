@@ -28,7 +28,9 @@ lazy val root = (project in file(".")).
       {{#hasOAuthMethods}}
       "com.github.scribejava" % "scribejava-apis" % "6.9.0" % "compile",
       {{/hasOAuthMethods}}
+      {{#hasHttpBasicMethods}}
       "org.tomitribe" % "tomitribe-http-signatures" % "1.3" % "compile",
+      {{/hasHttpBasicMethods}}
       {{^java8}}
       "com.brsanthu" % "migbase64" % "2.2",
       {{/java8}}
