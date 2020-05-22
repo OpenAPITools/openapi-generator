@@ -58,7 +58,7 @@ import {{invokerPackage}}.auth.HttpBasicAuth;
 {{/hasHttpBasicMethods}}
 {{#hasHttpBearerMethods}}
 import {{invokerPackage}}.auth.HttpBearerAuth;
-{{/hasBasicAuthMethods}}
+{{/hasHttpBearerMethods}}
 {{#hasApiKeyMethods}}
 import {{invokerPackage}}.auth.ApiKeyAuth;
 {{/hasApiKeyMethods}}
@@ -319,7 +319,7 @@ public class ApiClient {
     throw new RuntimeException("No HTTP basic authentication configured!");
   }
 
-  {{/hasBasicAuthMethods}}
+  {{/hasHttpBasicMethods}}
 
   {{#hasApiKeyMethods}}
   /**

@@ -102,9 +102,14 @@ public class ApiClientTest {
     public void testGetAuthentications() {
         Map<String, Authentication> auths = apiClient.getAuthentications();
 
-        assertNull(auths.get("api_key"));
+        Authentication auth = auths.get("api_key");
+        assertNotNull(auth);
+        assertTrue(auth instanceof ApiKeyAuth);
+        ApiKeyAuth apiKeyAuth = (ApiKeyAuth) auth;
+        assertEquals("header", apiKeyAuth.getLocation());
+        assertEquals("api_key", apiKeyAuth.getParamName());
 
-        Authentication auth = auths.get("petstore_auth");
+        auth = auths.get("petstore_auth");
         assertTrue(auth instanceof OAuth);
         assertSame(auth, apiClient.getAuthentication("petstore_auth"));
 
@@ -115,6 +120,50 @@ public class ApiClientTest {
             fail("the authentications returned should not be modifiable");
         } catch (UnsupportedOperationException e) {
         }
+    }
+
+    @Test
+    public void testSetUsernameAndPassword() {
+        HttpBasicAuth auth = null;
+        for (Authentication _auth : apiClient.getAuthentications().values()) {
+            if (_auth instanceof HttpBasicAuth) {
+                auth = (HttpBasicAuth) _auth;
+                break;
+            }
+        }
+        auth.setUsername(null);
+        auth.setPassword(null);
+
+        apiClient.setUsername("my-username");
+        apiClient.setPassword("my-password");
+        assertEquals("my-username", auth.getUsername());
+        assertEquals("my-password", auth.getPassword());
+
+        // reset values
+        auth.setUsername(null);
+        auth.setPassword(null);
+    }
+
+    @Test
+    public void testSetApiKeyAndPrefix() {
+        ApiKeyAuth auth = null;
+        for (Authentication _auth : apiClient.getAuthentications().values()) {
+            if (_auth instanceof ApiKeyAuth) {
+                auth = (ApiKeyAuth) _auth;
+                break;
+            }
+        }
+        auth.setApiKey(null);
+        auth.setApiKeyPrefix(null);
+
+        apiClient.setApiKey("my-api-key");
+        apiClient.setApiKeyPrefix("Token");
+        assertEquals("my-api-key", auth.getApiKey());
+        assertEquals("Token", auth.getApiKeyPrefix());
+
+        // reset values
+        auth.setApiKey(null);
+        auth.setApiKeyPrefix(null);
     }
 
     @Test
