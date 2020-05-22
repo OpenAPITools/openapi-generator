@@ -19,8 +19,15 @@
   "dependencies": {
     {{#frameworks}}
     {{#fetch-api}}
-    "isomorphic-fetch": "^2.2.1",
-    "@types/isomorphic-fetch": "0.0.34",
+    {{#platforms}}
+    {{#node}}
+    "node-fetch": "^2.6.0",
+    "@types/node-fetch": "^2.5.7",
+    {{/node}}
+    {{#browser}}
+    "whatwg-fetch": "^3.0.0",
+    {{/browser}}
+    {{/platforms}}
     {{/fetch-api}}
     {{#jquery}}
     "@types/jquery": "^3.3.29",

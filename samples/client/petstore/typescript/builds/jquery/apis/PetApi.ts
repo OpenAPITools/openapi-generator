@@ -32,7 +32,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -42,10 +42,16 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-        requestContext.setHeaderParam("Content-Type", "application/json");
-		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
-        const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body || "").toString(); // TODO: `toString` call is unnecessary
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json",
+        
+            "application/xml"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(body, "Pet", ""),
+            contentType
+        );
         requestContext.setBody(serializedBody);
 		
 		let authMethod = null;
@@ -79,7 +85,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -120,7 +126,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
         if (status !== undefined) {
@@ -163,7 +169,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
         if (tags !== undefined) {
@@ -207,7 +213,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -246,7 +252,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -256,10 +262,16 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-        requestContext.setHeaderParam("Content-Type", "application/json");
-		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
-        const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body || "").toString(); // TODO: `toString` call is unnecessary
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json",
+        
+            "application/xml"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(body, "Pet", ""),
+            contentType
+        );
         requestContext.setBody(serializedBody);
 		
 		let authMethod = null;
@@ -295,7 +307,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -349,7 +361,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 	
@@ -393,15 +405,17 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to addPet
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public addPet(response: ResponseContext):   void  {      
+     public async addPet(response: ResponseContext): Promise< void> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("405", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid input");
         }
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -413,15 +427,17 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to deletePet
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public deletePet(response: ResponseContext):   void  {      
+     public async deletePet(response: ResponseContext): Promise< void> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid pet value");
         }
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -433,22 +449,28 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to findPetsByStatus
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public findPetsByStatus(response: ResponseContext):  Array<Pet>  {      
+     public async findPetsByStatus(response: ResponseContext): Promise<Array<Pet> > {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const jsonBody = JSON.parse(response.body);
-            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>", "") as Array<Pet>;            
+            const body: Array<Pet> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<Pet>", ""
+            ) as Array<Pet>;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid status value");
         }
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const jsonBody = JSON.parse(response.body);
-            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>", "") as Array<Pet>;            
-			return body;        		
+            const body: Array<Pet> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<Pet>", ""
+            ) as Array<Pet>;
+            return body;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -460,22 +482,28 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to findPetsByTags
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public findPetsByTags(response: ResponseContext):  Array<Pet>  {      
+     public async findPetsByTags(response: ResponseContext): Promise<Array<Pet> > {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const jsonBody = JSON.parse(response.body);
-            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>", "") as Array<Pet>;            
+            const body: Array<Pet> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<Pet>", ""
+            ) as Array<Pet>;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid tag value");
         }
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const jsonBody = JSON.parse(response.body);
-            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>", "") as Array<Pet>;            
-			return body;        		
+            const body: Array<Pet> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<Pet>", ""
+            ) as Array<Pet>;
+            return body;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -487,10 +515,13 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to getPetById
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public getPetById(response: ResponseContext):  Pet  {      
+     public async getPetById(response: ResponseContext): Promise<Pet > {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const jsonBody = JSON.parse(response.body);
-            const body: Pet = ObjectSerializer.deserialize(jsonBody, "Pet", "") as Pet;            
+            const body: Pet = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Pet", ""
+            ) as Pet;
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -499,13 +530,16 @@ export class PetApiResponseProcessor {
         if (isCodeInRange("404", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Pet not found");
         }
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const jsonBody = JSON.parse(response.body);
-            const body: Pet = ObjectSerializer.deserialize(jsonBody, "Pet", "") as Pet;            
-			return body;        		
+            const body: Pet = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Pet", ""
+            ) as Pet;
+            return body;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -517,7 +551,8 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to updatePet
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public updatePet(response: ResponseContext):   void  {      
+     public async updatePet(response: ResponseContext): Promise< void> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
         }
@@ -527,11 +562,12 @@ export class PetApiResponseProcessor {
         if (isCodeInRange("405", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Validation exception");
         }
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -543,15 +579,17 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to updatePetWithForm
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public updatePetWithForm(response: ResponseContext):   void  {      
+     public async updatePetWithForm(response: ResponseContext): Promise< void> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("405", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid input");
         }
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	return;
+            return;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
@@ -563,19 +601,25 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to uploadFile
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public uploadFile(response: ResponseContext):  ApiResponse  {      
+     public async uploadFile(response: ResponseContext): Promise<ApiResponse > {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const jsonBody = JSON.parse(response.body);
-            const body: ApiResponse = ObjectSerializer.deserialize(jsonBody, "ApiResponse", "") as ApiResponse;            
+            const body: ApiResponse = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "ApiResponse", ""
+            ) as ApiResponse;
             return body;
         }
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const jsonBody = JSON.parse(response.body);
-            const body: ApiResponse = ObjectSerializer.deserialize(jsonBody, "ApiResponse", "") as ApiResponse;            
-			return body;        		
+            const body: ApiResponse = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "ApiResponse", ""
+            ) as ApiResponse;
+            return body;
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }

@@ -21,6 +21,12 @@ let primitives = [
                     "number",
                     "any"
                  ];
+
+const supportedMediaTypes: { [mediaType: string]: number } = {
+  "application/json": Infinity,
+  "application/octet-stream": 0
+}
+
                  
 let enumsMap: Set<string> = new Set<string>([
     {{#models}}
@@ -161,5 +167,74 @@ export class ObjectSerializer {
             }
             return instance;
         }
+    }
+
+
+    /**
+     * Normalize media type
+     *
+     * We currently do not handle any media types attributes, i.e. anything
+     * after a semicolon. All content is assumed to be UTF-8 compatible.
+     */
+    public static normalizeMediaType(mediaType: string | undefined): string | undefined {
+        if (mediaType === undefined) {
+            return undefined;
+        }
+        return mediaType.split(";")[0].trim().toLowerCase();
+    }
+
+    /**
+     * From a list of possible media types, choose the one we can handle best.
+     *
+     * The order of the given media types does not have any impact on the choice
+     * made.
+     */
+    public static getPreferredMediaType(mediaTypes: Array<string>): string {
+        /** According to OAS 3 we should default to json */
+        if (!mediaTypes) {
+            return "application/json";
+        }
+
+        const normalMediaTypes = mediaTypes.map(this.normalizeMediaType);
+        let selectedMediaType: string | undefined = undefined;
+        let selectedRank: number = -Infinity;
+        for (const mediaType of normalMediaTypes) {
+            if (supportedMediaTypes[mediaType!] > selectedRank) {
+                selectedMediaType = mediaType;
+                selectedRank = supportedMediaTypes[mediaType!];
+            }
+        }
+
+        if (selectedMediaType === undefined) {
+            throw new Error("None of the given media types are supported: " + mediaTypes.join(", "));
+        }
+
+        return selectedMediaType!;
+    }
+
+    /**
+     * Convert data to a string according the given media type
+     */
+    public static stringify(data: any, mediaType: string): string {
+        if (mediaType === "application/json") {
+            return JSON.stringify(data);
+        }
+
+        throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.stringify.");
+    }
+
+    /**
+     * Parse data from a string according to the given media type
+     */
+    public static parse(rawData: string, mediaType: string | undefined) {
+        if (mediaType === undefined) {
+            throw new Error("Cannot parse content. No Content-Type defined.");
+        }
+
+        if (mediaType === "application/json") {
+            return JSON.parse(rawData);
+        }
+
+        throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.parse.");
     }
 }

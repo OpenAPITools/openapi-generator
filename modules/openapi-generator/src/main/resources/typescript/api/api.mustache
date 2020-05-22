@@ -52,7 +52,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
-        requestContext.setHeaderParam("Accept", "application/json")
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
 		{{#queryParams}}
@@ -96,9 +96,9 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              {{#node}}
              localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
              {{/node}}
-             {{^node}}
+             {{#browser}}
              localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
-             {{/node}}
+             {{/browser}}
              {{/platforms}}
              {{/isFile}}
         }
@@ -110,15 +110,14 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
 	    {{#bodyParam}}
-        {{^consumes}}
-        requestContext.setHeaderParam("Content-Type", "application/json");
-        {{/consumes}}
-        {{#consumes.0}}
-        requestContext.setHeaderParam("Content-Type", "{{{mediaType}}}");
-        {{/consumes.0}}
-		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
-        const needsSerialization = (<any>"{{dataType}}" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}} || "").toString(); // TODO: `toString` call is unnecessary
+        const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
+            "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
+        {{/consumes}}]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"),
+            contentType
+        );
         requestContext.setBody(serializedBody);
 	    {{/bodyParam}}
 		
@@ -153,12 +152,20 @@ export class {{classname}}ResponseProcessor {
      * @params response Response returned by the server for a request to {{nickname}}
      * @throws ApiException if the response code was not in [200, 299]
      */
-    public {{nickname}}(response: ResponseContext): {{#returnType}} {{{returnType}}}{{/returnType}} {{^returnType}} void {{/returnType}} {      
+     public async {{nickname}}(response: ResponseContext): Promise<{{#returnType}}{{{returnType}}}{{/returnType}} {{^returnType}}void{{/returnType}}> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         {{#responses}}
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {
             {{#dataType}}
-            const jsonBody = JSON.parse(response.body);
-            const body: {{{dataType}}} = ObjectSerializer.deserialize(jsonBody, "{{{dataType}}}", "{{returnFormat}}") as {{{dataType}}};            
+            {{#isBinary}}
+            const body: {{{dataType}}} = await response.getBodyAsFile() as any as {{{returnType}}};
+            {{/isBinary}}
+            {{^isBinary}}
+            const body: {{{dataType}}} = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{{{dataType}}}", "{{returnFormat}}"
+            ) as {{{dataType}}};
+            {{/isBinary}}
             {{#isSuccessCode}}
             return body;
             {{/isSuccessCode}}
@@ -173,21 +180,29 @@ export class {{classname}}ResponseProcessor {
             {{^isSuccessCode}}
             throw new ApiException<string>(response.httpStatusCode, "{{message}}");
             {{/isSuccessCode}}
-            {{/dataType}}                        
+            {{/dataType}}
         }
         {{/responses}}
-        
-        // Work around for incorrect api specification in petstore.yaml
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-        	{{#returnType}}
-            const jsonBody = JSON.parse(response.body);
-            const body: {{{returnType}}} = ObjectSerializer.deserialize(jsonBody, "{{{returnType}}}", "{{returnFormat}}") as {{{returnType}}};            
-			return body;        		
-        	{{/returnType}}
-        	{{^returnType}}
-        	return;
-        	{{/returnType}}
+            {{#returnType}}
+            {{#isBinary}}
+            const body: {{{returnType}}} = await response.getBodyAsFile() as any as {{{returnType}}};
+            {{/isBinary}}
+            {{^isBinary}}
+            const body: {{{returnType}}} = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{{{returnType}}}", "{{returnFormat}}"
+            ) as {{{returnType}}};
+            {{/isBinary}}
+            return body;
+            {{/returnType}}
+            {{^returnType}}
+            return;
+            {{/returnType}}
         }
+
         let body = response.body || "";
     	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }

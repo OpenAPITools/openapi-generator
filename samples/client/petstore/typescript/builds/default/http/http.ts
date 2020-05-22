@@ -123,12 +123,70 @@ export class RequestContext {
     }
 }
 
-export class ResponseContext {
+export interface ResponseBody {
+    text(): Promise<string>;
+    binary(): Promise<Buffer>;
+}
 
-    public constructor(public httpStatusCode: number, 
-        public headers: { [key: string]: string }, public body: string) {
+
+/**
+ * Helper class to generate a `ResponseBody` from binary data
+ */
+export class SelfDecodingBody implements ResponseBody {
+    constructor(private dataSource: Promise<Buffer>) {}
+
+    binary(): Promise<Buffer> {
+        return this.dataSource;
     }
-    
+
+    async text(): Promise<string> {
+        const data: Buffer = await this.dataSource;
+        return data.toString();
+    }
+}
+
+export class ResponseContext {
+    public constructor(
+        public httpStatusCode: number,
+        public headers: { [key: string]: string },
+        public body: ResponseBody
+    ) {}
+
+    /**
+     * Parse header value in the form `value; param1="value1"`
+     *
+     * E.g. for Content-Type or Content-Disposition
+     * Parameter names are converted to lower case
+     * The first parameter is returned with the key `""`
+     */
+    public getParsedHeader(headerName: string): { [parameter: string]: string } {
+        const result: { [parameter: string]: string } = {};
+        if (!this.headers[headerName]) {
+            return result;
+        }
+
+        const parameters = this.headers[headerName].split(";");
+        for (const parameter of parameters) {
+            let [key, value] = parameter.split("=", 2);
+            key = key.toLowerCase().trim();
+            if (value === undefined) {
+                result[""] = key;
+            } else {
+                value = value.trim();
+                if (value.startsWith('"') && value.endsWith('"')) {
+                    value = value.substring(1, value.length - 1);
+                }
+                result[key] = value;
+            }
+        }
+        return result;
+    }
+
+    public async getBodyAsFile(): Promise<HttpFile> {
+        const data = await this.body.binary();
+        const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
+        return { data, name: fileName };
+    }
 }
 
 export interface HttpLibrary {

@@ -18,17 +18,15 @@ for (let libName in libs) {
             requestContext.addCookie("test-cookie", "cookie-value");
             lib.send(requestContext).toPromise().then((resp: petstore.ResponseContext) => {
                     expect(resp.httpStatusCode, "Expected status code to be 200").to.eq(200);
-                    let body = JSON.parse(resp.body);
+                    return resp.body.text();
+            }).then((bodyText: string) => {
+                    let body = JSON.parse(bodyText);
                     expect(body["headers"]).to.exist;
                     expect(body["headers"]["X-Test-Token"]).to.equal("Test-Token");
                     expect(body["headers"]["Cookie"]).to.equal("test-cookie=cookie-value;");
                     done();
-                },
-                (e: any) => {
-                    done(e);
-                }
-                )
-        })
+            }).catch(done)
+        });
 
         it("POST-Request", (done) => {
             let requestContext = new petstore.RequestContext("http://httpbin.org/post", petstore.HttpMethod.POST);
@@ -42,17 +40,16 @@ for (let libName in libs) {
             lib.send(requestContext).toPromise().then(
                     (resp: petstore.ResponseContext) => {
                     expect(resp.httpStatusCode, "Expected status code to be 200").to.eq(200);
-                    let body = JSON.parse(resp.body);
+                    return resp.body.text();
+            }).then((bodyText: string) => {
+                    let body = JSON.parse(bodyText);
                     expect(body["headers"]).to.exist;
                     expect(body["headers"]["X-Test-Token"]).to.equal("Test-Token");
                     expect(body["headers"]["Cookie"]).to.equal("test-cookie=cookie-value;");
                     expect(body["files"]["testFile"]).to.equal("abc");
                     expect(body["form"]["test"]).to.equal("test2");
                     done();
-                },
-                (e: any) => {
-                    done(e);
-                })            
+            }).catch(done)
         });
 
         it("Cookies-Request", (done) => {
@@ -62,13 +59,12 @@ for (let libName in libs) {
             lib.send(requestContext).toPromise().then(
                 (resp: petstore.ResponseContext) => {
                     expect(resp.httpStatusCode, "Expected status code to be 200").to.eq(200);
-                    let body = JSON.parse(resp.body);
+                    return resp.body.text();
+            }).then((bodyText: string) => {
+                    let body = JSON.parse(bodyText);
                     expect(body["cookies"]["test-cookie"]).to.equal("cookie-value");
                     done();
-                },
-                (e: any) => {
-                    done(e);
-                })            
+            }).catch(done)
         })
     })
 }

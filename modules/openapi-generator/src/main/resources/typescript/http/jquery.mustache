@@ -1,13 +1,9 @@
-import {HttpLibrary, RequestContext, ResponseContext, HttpException} from './http';
+import { HttpLibrary, RequestContext, ResponseContext, HttpException, SelfDecodingBody } from './http';
 import * as e6p from 'es6-promise'
 import { from, Observable } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
 e6p.polyfill();
 import * as $ from 'jquery';
-{{#platforms}}
-{{#node}}
-import * as FormData from "form-data";
-{{/node}}
-{{/platforms}}
+
 
 export class JQueryHttpLibrary implements HttpLibrary {
 
@@ -21,9 +17,19 @@ export class JQueryHttpLibrary implements HttpLibrary {
             type: method,
             headers: request.getHeaders(),
             processData: false,
-            xhrFields: { withCredentials: true }, 
+            xhrFields: { withCredentials: true },
             data: body
         };
+
+        /**
+         * Allow receiving binary data with jquery ajax
+         *
+         * Source: https://keyangxiang.com/2017/09/01/HTML5-XHR-download-binary-content-as-Blob/
+         */
+         requestOptions.beforeSend = (jqXHR: any, settings: any) => {
+             settings.xhr().responseType = "blob";
+         };
+
 
         if (request.getHeaders()['Content-Type']) {
             requestOptions.contentType = headerParams['Content-Type'];
@@ -48,9 +54,12 @@ export class JQueryHttpLibrary implements HttpLibrary {
         const sentRequest = $.ajax(requestOptions);
         
         const resultPromise = new Promise<ResponseContext>((resolve, reject) => {
-            sentRequest.done((resp, _, jqXHR) => {
-                const headers = this.getResponseHeaders(jqXHR)
-                const result = new ResponseContext(jqXHR.status, headers, JSON.stringify(resp));
+            sentRequest.done((data, _, jqXHR) => {
+                const result = new ResponseContext(
+                    jqXHR.status,
+                    this.getResponseHeaders(jqXHR),
+                    new SelfDecodingBody(Promise.resolve(data))
+                );
                 resolve(result);
             })
             sentRequest.fail((jqXHR: any) => {
