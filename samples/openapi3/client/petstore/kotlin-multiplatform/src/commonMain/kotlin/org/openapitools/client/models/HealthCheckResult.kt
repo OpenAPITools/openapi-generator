@@ -21,7 +21,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class HealthCheckResult (
     @SerialName(value = "NullableMessage") val nullableMessage: kotlin.String? = null
-) 
-
-
+)
 

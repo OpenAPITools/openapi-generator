@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.3.1-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -691,7 +691,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client-jersey2</id>
+            <id>java-client-jersey2-java7</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -699,7 +699,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/jersey2</module>
+                <module>samples/client/petstore/java/jersey2-java7</module>
             </modules>
         </profile>
         <profile>
@@ -1254,7 +1254,6 @@
                 <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
-                <!--<module>samples/client/petstore/elm-0.18</module>-->
                 <module>samples/client/petstore/rust</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
@@ -1310,7 +1309,7 @@
                 <module>samples/openapi3/client/petstore/go-experimental</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <!-- test java-related projects -->
-                <!--<module>samples/client/petstore/scala-akka</module>-->
+                <module>samples/openapi3/client/petstore/scala-akka</module>
                 <module>samples/openapi3/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
@@ -1318,9 +1317,7 @@
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/feign10x</module>
                 <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
-                <module>samples/client/petstore/java/jersey2-experimental</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
@@ -1406,15 +1403,14 @@
                 <!-- clients -->
                 <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
-                <!--<module>samples/client/petstore/scala-akka</module>-->
+                <module>samples/openapi3/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
-                <module>samples/client/petstore/java/jersey2-experimental</module>
+                <module>samples/client/petstore/java/jersey2-java7</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
@@ -1467,7 +1463,7 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/elm</module>
+                <module>samples/openapi3/client/elm</module>
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
@@ -1616,9 +1612,9 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-core-version>2.1.1</swagger-core-version>
+        <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.19</swagger-parser-version>
+        <swagger-parser-version>2.0.20</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
@@ -1627,10 +1623,10 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>3.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>
-        <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
+        <scala-maven-plugin-version>4.3.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
         <handlebars.java-version>4.1.2</handlebars.java-version>
-        <testng-version>6.14.3</testng-version>
+        <testng-version>7.1.0</testng-version>
         <surefire-version>3.0.0-M3</surefire-version>
         <reflections-version>0.9.10</reflections-version>
         <mockito-version>3.2.0</mockito-version>

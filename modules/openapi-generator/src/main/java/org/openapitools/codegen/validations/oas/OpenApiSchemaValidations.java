@@ -61,7 +61,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * <p>
      * Where the only examples of oneOf in OpenAPI Specification are used to define either/or type structures rather than validations.
      * Because of this ambiguity in the spec about what is non-standard about oneOf support, we'll warn as a recommendation that
-ne      * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
+     * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
      *
      * @param schemaWrapper An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}

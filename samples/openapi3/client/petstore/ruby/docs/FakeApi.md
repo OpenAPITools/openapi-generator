@@ -74,6 +74,9 @@ test http signature authentication
 ```ruby
 # load the gem
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+end
 
 api_instance = Petstore::FakeApi.new
 pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
@@ -105,7 +108,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 

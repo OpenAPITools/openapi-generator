@@ -61,17 +61,28 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client CallbackWithHeaderPost
+cargo run --example client ComplexQueryParamGet
+cargo run --example client MandatoryRequestHeaderGet
+cargo run --example client MergePatchJsonGet
 cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
+cargo run --example client OverrideServerGet
+cargo run --example client ParamgetGet
 cargo run --example client ReadonlyAuthSchemeGet
+cargo run --example client RegisterCallbackPost
 cargo run --example client RequiredOctetStreamPut
 cargo run --example client ResponsesWithHeadersGet
+cargo run --example client Rfc7807Get
+cargo run --example client UntypedPropertyGet
 cargo run --example client UuidGet
 cargo run --example client XmlExtraPost
 cargo run --example client XmlOtherPost
 cargo run --example client XmlOtherPut
 cargo run --example client XmlPost
 cargo run --example client XmlPut
+cargo run --example client CreateRepo
+cargo run --example client GetRepoInfo
 ```
 
 ### HTTPS
@@ -105,17 +116,29 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **POST** /callback-with-header | 
+[****](docs/default_api.md#) | **GET** /complex-query-param | 
+[****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
+[****](docs/default_api.md#) | **GET** /mandatory-request-header | 
+[****](docs/default_api.md#) | **GET** /merge-patch-json | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
+[****](docs/default_api.md#) | **GET** /override-server | 
+[****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
+[****](docs/default_api.md#) | **POST** /register-callback | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
+[****](docs/default_api.md#) | **GET** /rfc7807 | 
+[****](docs/default_api.md#) | **GET** /untyped_property | 
 [****](docs/default_api.md#) | **GET** /uuid | 
 [****](docs/default_api.md#) | **POST** /xml_extra | 
 [****](docs/default_api.md#) | **POST** /xml_other | 
 [****](docs/default_api.md#) | **PUT** /xml_other | 
 [****](docs/default_api.md#) | **POST** /xml | Post an array
 [****](docs/default_api.md#) | **PUT** /xml | 
+[**CreateRepo**](docs/repo_api.md#CreateRepo) | **POST** /repos | 
+[**GetRepoInfo**](docs/repo_api.md#GetRepoInfo) | **GET** /repos/{repoId} | 
 
 
 ## Documentation For Models
@@ -124,7 +147,23 @@ Method | HTTP request | Description
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
+ - [EnumWithStarObject](docs/EnumWithStarObject.md)
+ - [Err](docs/Err.md)
+ - [Error](docs/Error.md)
  - [InlineResponse201](docs/InlineResponse201.md)
+ - [MyId](docs/MyId.md)
+ - [MyIdList](docs/MyIdList.md)
+ - [NullableTest](docs/NullableTest.md)
+ - [ObjectHeader](docs/ObjectHeader.md)
+ - [ObjectParam](docs/ObjectParam.md)
+ - [ObjectUntypedProps](docs/ObjectUntypedProps.md)
+ - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
+ - [Ok](docs/Ok.md)
+ - [OptionalObjectHeader](docs/OptionalObjectHeader.md)
+ - [RequiredObjectHeader](docs/RequiredObjectHeader.md)
+ - [Result](docs/Result.md)
+ - [StringEnum](docs/StringEnum.md)
+ - [StringObject](docs/StringObject.md)
  - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)

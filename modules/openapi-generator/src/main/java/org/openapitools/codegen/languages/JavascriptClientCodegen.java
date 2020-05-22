@@ -139,10 +139,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
+        instantiationTypes.put("set", "Array");
         instantiationTypes.put("list", "Array");
         instantiationTypes.put("map", "Object");
         typeMapping.clear();
         typeMapping.put("array", "Array");
+        typeMapping.put("set", "Array");
         typeMapping.put("map", "Object");
         typeMapping.put("List", "Array");
         typeMapping.put("boolean", "Boolean");
@@ -923,7 +925,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
         if (Boolean.TRUE.equals(cp.isContainer)) {
-            if (cp.containerType.equals("array"))
+            if (cp.containerType.equals("array") || cp.containerType.equals("set"))
                 return "Array.<" + getJSDocType(cm, cp.items) + ">";
             else if (cp.containerType.equals("map"))
                 return "Object.<String, " + getJSDocType(cm, cp.items) + ">";

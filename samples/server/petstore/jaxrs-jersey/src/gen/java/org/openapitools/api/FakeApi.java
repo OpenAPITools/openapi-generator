@@ -80,7 +80,9 @@ public class FakeApi  {
     @Path("/http-signature-test")
     @Consumes({ "application/json", "application/xml" })
     
-    @io.swagger.annotations.ApiOperation(value = "test http signature authentication", notes = "", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "test http signature authentication", notes = "", response = Void.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "http_signature_test")
+    }, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "The instance started successfully", response = Void.class) })
     public Response fakeHttpSignatureTest(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet

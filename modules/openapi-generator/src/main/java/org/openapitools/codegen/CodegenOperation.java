@@ -29,7 +29,7 @@ public class CodegenOperation {
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
     public CodegenDiscriminator discriminator;
@@ -270,6 +270,7 @@ public class CodegenOperation {
         sb.append(", isRestful=").append(isRestful);
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", isCallbackRequest=").append(isCallbackRequest);
+        sb.append(", uniqueItems='").append(uniqueItems);
         sb.append(", path='").append(path).append('\'');
         sb.append(", operationId='").append(operationId).append('\'');
         sb.append(", returnType='").append(returnType).append('\'');
@@ -343,6 +344,7 @@ public class CodegenOperation {
                 isRestful == that.isRestful &&
                 isDeprecated == that.isDeprecated &&
                 isCallbackRequest == that.isCallbackRequest &&
+                uniqueItems == that.uniqueItems &&
                 Objects.equals(responseHeaders, that.responseHeaders) &&
                 Objects.equals(path, that.path) &&
                 Objects.equals(operationId, that.operationId) &&
@@ -393,9 +395,9 @@ public class CodegenOperation {
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
                 isListContainer, isMultipart, hasMore, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
-                isCallbackRequest, path, operationId, returnType, httpMethod, returnBaseType, returnContainer,
-                summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes, produces,
-                prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
+                isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
+                returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,
+                produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
                 headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
                 responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
                 nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase);

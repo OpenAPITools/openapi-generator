@@ -51,24 +51,40 @@ class TestFruit(unittest.TestCase):
         )
         # setting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             fruit['invalid_variable'] = 'some value'
+
+        # Assert that we can call the builtin hasattr() function.
+        # hasattr should return False for non-existent attribute.
+        # Internally hasattr catches the AttributeError exception.
+        self.assertFalse(hasattr(fruit, 'invalid_variable'))
+
+        # Assert that we can call the builtin hasattr() function.
+        # hasattr should return True for existent attribute.
+        self.assertTrue(hasattr(fruit, 'color'))
+
         # with setattr
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             setattr(fruit, 'invalid_variable', 'some value')
 
         # getting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             invalid_variable = fruit['cultivar']
         # with getattr
-        with self.assertRaises(petstore_api.ApiKeyError):
-            invalid_variable = getattr(fruit, 'cultivar', 'some value')
+        # Per Python doc, if the named attribute does not exist,
+        # default is returned if provided.
+        self.assertEquals(getattr(fruit, 'cultivar', 'some value'), 'some value')
+
+        # Per Python doc, if the named attribute does not exist,
+        # default is returned if provided, otherwise AttributeError is raised.
+        with self.assertRaises(AttributeError):
+          getattr(fruit, 'cultivar')
 
         # make sure that the ModelComposed class properties are correct
-        # model.composed_schemas() stores the anyOf/allOf/oneOf info
+        # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas(),
+            fruit._composed_schemas,
             {
                 'anyOf': [],
                 'allOf': [],
@@ -79,7 +95,7 @@ class TestFruit(unittest.TestCase):
             }
         )
         # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
+        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == petstore_api.Banana:
                 banana_instance = composed_instance
@@ -95,6 +111,7 @@ class TestFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit, banana_instance],
                 'cultivar': [fruit],
+                'origin': [fruit],
             }
         )
         # model._additional_properties_model_instances stores a list of
@@ -147,7 +164,7 @@ class TestFruit(unittest.TestCase):
         )
 
         # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
+        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == petstore_api.Apple:
                 apple_instance = composed_instance
@@ -163,6 +180,7 @@ class TestFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit],
                 'cultivar': [fruit, apple_instance],
+                'origin': [fruit, apple_instance],
             }
         )
         # model._additional_properties_model_instances stores a list of

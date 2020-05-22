@@ -85,7 +85,7 @@ class PetApiInterfaceTest extends WebTestCase
 
         $path = '/pet';
 
-        $crawler = $client->request('POST', $path);
+        $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     /**
@@ -166,7 +166,7 @@ class PetApiInterfaceTest extends WebTestCase
 
         $path = '/pet';
 
-        $crawler = $client->request('PUT', $path);
+        $crawler = $client->request('PUT', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     /**

@@ -81,7 +81,7 @@ declare -a samples=(
 "${root}/bin/dart-petstore.sh"
 "${root}/bin/dart2-petstore.sh"
 "${root}/bin/java-play-framework-petstore-server-all.sh"
-#"${root}/bin/elm-petstore-all.sh"
+"${root}/bin/openapi3/elm.sh"
 "${root}/bin/typescript-redux-query-petstore-with-npm-version.sh"
 "${root}/bin/cpp-restsdk-petstore.sh"
 "${root}/bin/cpp-qt5-qhttpengine-server-petstore.sh"
@@ -89,6 +89,7 @@ declare -a samples=(
 "${root}/bin/scala-akka-petstore.sh"
 "${root}/bin/openapi3/scala-akka-petstore.sh"
 "${root}/bin/openapi3/scala-sttp-petstore.sh"
+"${root}/bin/lua-petstore.sh"
 )
 
 # Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)

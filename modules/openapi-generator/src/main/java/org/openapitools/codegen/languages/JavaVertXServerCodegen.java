@@ -155,10 +155,13 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
                 sourceFolder + File.separator + rootPackage.replace(".", File.separator),
                 "MainApiException.java"));
 
-        writeOptional(outputFolder, new SupportingFile("vertx-default-jul-logging.mustache",
-                resourceFolder, "vertx-default-jul-logging.properties"));
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("vertx-default-jul-logging.mustache",
+                resourceFolder, "vertx-default-jul-logging.properties")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
     }
 
     @Override

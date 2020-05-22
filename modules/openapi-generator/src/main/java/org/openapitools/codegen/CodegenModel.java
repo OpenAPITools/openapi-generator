@@ -22,6 +22,9 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
 
+/**
+ * CodegenModel represents a schema object in a OpenAPI document.
+ */
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel implements IJsonSchemaValidationProperties {
     // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
@@ -74,7 +77,26 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel, isDeprecated;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum;
+    /**
+     * Indicates the OAS schema specifies "nullable: true".
+     */
+    public boolean isNullable;
+    /**
+     * Indicates the type has at least one required property.
+     */
+    public boolean hasRequired;
+    /**
+     * Indicates the type has at least one optional property.
+     */
+    public boolean hasOptional;
+    public boolean isArrayModel;
+    public boolean hasChildren;
+    public boolean isMapModel;
+    /**
+     * Indicates the OAS schema specifies "deprecated: true".
+     */
+    public boolean isDeprecated;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -201,6 +223,45 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.description = description;
     }
 
+    /**
+     * Returns the discriminator for this schema object, or null if no discriminator has been specified.
+     * 
+     * The list of all possible schema discriminator mapping values is obtained
+     * from explicit discriminator mapping values in the OpenAPI document, and from
+     * inherited discriminators through oneOf, allOf, anyOf.
+     * For example, a discriminator may be defined in a 'Pet' schema as shown below.
+     * The Dog and Cat schemas inherit the discriminator through the allOf reference.
+     * In the 'Pet' schema, the supported discriminator mapping values for the
+     * 'objectType' properties are 'Dog' and 'Cat'.
+     * The allowed discriminator mapping value for the Dog schema is 'Dog'.
+     * The allowed discriminator mapping value for the Cat schema is 'Dog'.
+     * 
+     * Pet:
+     *   type: object
+     *   discriminator:
+     *     propertyName: objectType
+     *   required:
+     *     - objectType
+     *   properties:
+     *     objectType:
+     *     type: string
+     * Dog:
+     *   allOf:
+     *   - $ref: '#/components/schemas/Pet'
+     *   - type: object
+     *     properties:
+     *       p1:
+     *         type: string
+     * Cat:
+     *   allOf:
+     *   - $ref: '#/components/schemas/Pet'
+     *   - type: object
+     *     properties:
+     *       p2:
+     *         type: string
+     * 
+     * @return the discriminator.
+     */
     public CodegenDiscriminator getDiscriminator() {
         return discriminator;
     }
@@ -209,6 +270,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.discriminator = discriminator;
     }
 
+    /**
+     * Returns the name of the discriminator property for this schema in the OpenAPI document.
+     * In the OpenAPI document, the discriminator may be specified in the local schema or
+     * it may be inherited, such as through a 'allOf' schema which references another schema
+     * that has a discriminator, recursively.
+     * 
+     * @return the name of the discriminator property.
+     */
     public String getDiscriminatorName() {
         return discriminator == null ? null : discriminator.getPropertyName();
     }

@@ -1001,6 +1001,24 @@ paths:
           description: Success
       tags:
       - fake
+  /fake/operation-with-numeric-id:
+    get:
+      operationId: 123example
+      responses:
+        "200":
+          content: {}
+          description: success
+      tags:
+      - fake
+  /fake/response-with-numerical-description:
+    get:
+      operationId: fake_response_with_numerical_description
+      responses:
+        "200":
+          content: {}
+          description: "1234"
+      tags:
+      - fake
 components:
   schemas:
     Order:
@@ -1363,6 +1381,15 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/Animal'
           type: object
+      type: object
+    ObjectContainingObjectWithOnlyAdditionalProperties:
+      properties:
+        inner:
+          $ref: '#/components/schemas/ObjectWithOnlyAdditionalProperties'
+      type: object
+    ObjectWithOnlyAdditionalProperties:
+      additionalProperties:
+        type: string
       type: object
     List:
       properties:
