@@ -994,12 +994,12 @@ def deserialize_primitive(data, klass, path_to_item):
             return converted_value
     except (OverflowError, ValueError) as ex:
         # parse can raise OverflowError
-        raise ApiValueError(
+        six.raise_from(ApiValueError(
             "{0}Failed to parse {1} as {2}".format(
                 additional_message, repr(data), get_py3_class_name(klass)
             ),
             path_to_item=path_to_item
-        ) from ex
+        ), ex)
 
 
 def get_discriminator_class(model_class,
@@ -1487,7 +1487,7 @@ def get_allof_instances(self, model_args, constant_args):
             allof_instance = allof_class(**kwargs)
             composed_instances.append(allof_instance)
         except Exception as ex:
-            raise ApiValueError(
+            six.raise_from(ApiValueError(
                 "Invalid inputs given to generate an instance of '%s'. The "
                 "input data was invalid for the allOf schema '%s' in the composed "
                 "schema '%s'. Error=%s" % (
@@ -1496,7 +1496,7 @@ def get_allof_instances(self, model_args, constant_args):
                     self.__class__.__name__,
                     str(ex)
                 )
-            ) from ex
+            ), ex)
     return composed_instances
 
 
