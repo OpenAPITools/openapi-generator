@@ -324,20 +324,18 @@ public class DefaultGenerator implements Generator {
             String suffix = config.modelTestTemplateFiles().get(templateName);
             String filename = config.modelTestFileFolder() + File.separator + config.toModelTestFilename(modelName) + suffix;
 
-            // TODO: Verify logic to never allow overwriting of tests.
-
             if (generateModelTests) {
                 // do not overwrite test file that already exists (regardless of config's skipOverwrite setting)
-                if (new File(filename).exists()) {
-                    LOGGER.info("File exists. Skipped overwriting {}", filename);
-                    this.templateProcessor.skip(java.nio.file.Paths.get(filename), "Test files never overwrite an existing file of the same name.");
-                    continue;
-                }
-                File written = processTemplateToFile(models, templateName, filename, generateModelTests, CodegenConstants.MODEL_TESTS);
-                if (written != null) {
-                    files.add(written);
-                    if (config.isEnablePostProcessFile() && !dryRun) {
-                        config.postProcessFile(written, "model-test");
+                File modelTestFile = new File(filename);
+                if (modelTestFile.exists()) {
+                    this.templateProcessor.skip(modelTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
+                } else {
+                    File written = processTemplateToFile(models, templateName, filename, generateModelTests, CodegenConstants.MODEL_TESTS);
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "model-test");
+                        }
                     }
                 }
             } else if (dryRun) {
@@ -629,11 +627,17 @@ public class DefaultGenerator implements Generator {
                 // to generate api test files
                 for (String templateName : config.apiTestTemplateFiles().keySet()) {
                     String filename = config.apiTestFilename(templateName, tag);
-                    File written = processTemplateToFile(operation, templateName, filename, generateApiTests, CodegenConstants.API_TESTS);
-                    if (written != null) {
-                        files.add(written);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(written, "api-test");
+                    File apiTestFile = new File(filename);
+                    // do not overwrite test file that already exists
+                    if (apiTestFile.exists()) {
+                        this.templateProcessor.skip(apiTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
+                    } else {
+                        File written = processTemplateToFile(operation, templateName, filename, generateApiTests, CodegenConstants.API_TESTS);
+                        if (written != null) {
+                            files.add(written);
+                            if (config.isEnablePostProcessFile() && !dryRun) {
+                                config.postProcessFile(written, "api-test");
+                            }
                         }
                     }
                 }

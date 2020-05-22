@@ -111,6 +111,71 @@ public class DefaultGeneratorTest {
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Test
+    public void testFilesAreNeverOverwritten() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            // Create "existing" files
+            String apiTestRelativePath = "src/test/java/org/openapitools/client/api/PetApiTest.java";
+            String modelTestRelativePath = "src/test/java/org/openapitools/client/model/CategoryTest.java";
+
+            File apiTestFile = new File(output, apiTestRelativePath);
+            new File(apiTestFile.getParent()).mkdirs();
+            Files.write(apiTestFile.toPath(),
+                    "empty".getBytes(StandardCharsets.UTF_8),
+                    StandardOpenOption.CREATE);
+
+            File modelTestFile = new File(output, modelTestRelativePath);
+            new File(modelTestFile.getParent()).mkdirs();
+            Files.write(modelTestFile.toPath(),
+                    "empty".getBytes(StandardCharsets.UTF_8),
+                    StandardOpenOption.CREATE);
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "true");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(files.size(), 20);
+
+            // Check API is written and Test is not
+            TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/api/PetApi.java");
+            Assert.assertTrue(new File(output, "src/main/java/org/openapitools/client/api/PetApi.java").exists());
+
+            TestUtils.ensureDoesNotContainsFile(files, output, apiTestRelativePath);
+            Assert.assertTrue(apiTestFile.exists());
+            String apiTestContents = Files.readAllLines(apiTestFile.toPath()).get(0);
+            Assert.assertEquals(apiTestContents, "empty", "Expected test file to retain original contents.");
+
+            // Check Model is written and Test is not
+            TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Category.java");
+            Assert.assertTrue(new File(output, "src/test/java/org/openapitools/client/model/CategoryTest.java").exists());
+
+            TestUtils.ensureDoesNotContainsFile(files, output, modelTestRelativePath);
+            Assert.assertTrue(modelTestFile.exists());
+            String modelTestContents = Files.readAllLines(modelTestFile.toPath()).get(0);
+            Assert.assertEquals(modelTestContents, "empty", "Expected test file to retain original contents.");
+        } finally {
+            output.delete();
+        }
+    }
+
     @Test
     public void dryRunWithApisOnly() throws IOException {
         Path target = Files.createTempDirectory("test");
