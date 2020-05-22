@@ -66,6 +66,7 @@ class {{classname}}(object):
 {{/notes}}
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.{{operationId}}({{#requiredParams}}{{^defaultValue}}{{paramName}}, {{/defaultValue}}{{/requiredParams}}{{#requiredParams}}{{#defaultValue}}{{paramName}}={{{defaultValue}}}, {{/defaultValue}}{{/requiredParams}}async_req=True)
             >>> result = thread.get()
 
