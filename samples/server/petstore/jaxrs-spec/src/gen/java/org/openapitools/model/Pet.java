@@ -3,7 +3,9 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import java.io.Serializable;
@@ -23,7 +25,7 @@ public class Pet  implements Serializable {
   private @Valid Long id;
   private @Valid Category category;
   private @Valid String name;
-  private @Valid List<String> photoUrls = new ArrayList<String>();
+  private @Valid Set<String> photoUrls = new LinkedHashSet<String>();
   private @Valid List<Tag> tags = new ArrayList<Tag>();
 
 public enum StatusEnum {
@@ -68,16 +70,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
-  }
-
-  /**
+  }/**
    **/
   public Pet category(Category category) {
     this.category = category;
@@ -85,21 +88,24 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
+
   public void setCategory(Category category) {
     this.category = category;
-  }
-
-  /**
+  }/**
    **/
   public Pet name(String name) {
     this.name = name;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
@@ -108,29 +114,29 @@ public enum StatusEnum {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
-  }
-
-  /**
+  }/**
    **/
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
   @NotNull
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
-  public void setPhotoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
-  }
 
-  /**
+  public void setPhotoUrls(Set<String> photoUrls) {
+    this.photoUrls = photoUrls;
+  }/**
    **/
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
@@ -138,16 +144,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
   }
+
   public void setTags(List<Tag> tags) {
     this.tags = tags;
-  }
-
-  /**
+  }/**
    * pet status in the store
    **/
   public Pet status(StatusEnum status) {
@@ -156,15 +163,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
+
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -213,5 +222,7 @@ public enum StatusEnum {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

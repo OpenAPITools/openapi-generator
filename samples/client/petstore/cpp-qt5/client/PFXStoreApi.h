@@ -19,6 +19,7 @@
 #include <QString>
 
 #include <QObject>
+#include <QNetworkAccessManager>
 
 namespace test_namespace {
 
@@ -35,6 +36,7 @@ public:
     void setBasePath(const QString &basePath);
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
+    void setNetworkAccessManager(QNetworkAccessManager* manager);
     void addHeaders(const QString &key, const QString &value);
     void enableRequestCompression();
     void enableResponseCompression();
@@ -51,6 +53,7 @@ private:
     QString _basePath;
     int _timeOut;
     QString _workingDirectory;
+    QNetworkAccessManager* _manager;
     QMap<QString, QString> defaultHeaders;
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;

@@ -14,23 +14,22 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.IOException;
 
 /**
  * Client
  */
-@JsonPropertyOrder({
-  Client.JSON_PROPERTY_CLIENT
-})
 
 public class Client {
-  public static final String JSON_PROPERTY_CLIENT = "client";
+  public static final String SERIALIZED_NAME_CLIENT = "client";
+  @SerializedName(SERIALIZED_NAME_CLIENT)
   private String client;
 
 
@@ -46,8 +45,6 @@ public class Client {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_CLIENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getClient() {
     return client;

@@ -25,10 +25,14 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * BigCat
  */
+
 
 public class BigCat extends Cat {
   /**
@@ -86,6 +90,9 @@ public class BigCat extends Cat {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
+  public BigCat() {
+    this.className = this.getClass().getSimpleName();
+  }
 
   public BigCat kind(KindEnum kind) {
     

@@ -1,29 +1,6 @@
+{{> partial_header}}
 {{#models}}
 {{#model}}
-function New-{{{classname}}} {
-    [CmdletBinding()]
-    Param (
-{{#vars}}
-        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
-        [{{#isString}}{{{dataType}}}{{/isString}}{{^isString}}{{#isListContainer}}{{{dataType}}}{{/isListContainer}}{{^isListContainer}}{{#isPrimitiveType}}{{^required}}System.Nullable[{{/required}}{{dataType}}{{^required}}]{{/required}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{dataType}}{{/isPrimitiveType}}{{/isListContainer}}{{/isString}}]
-        {{=<% %>=}}
-        ${<%name%>}<%^-last%>,<%/-last%>
-        <%={{ }}=%>
-{{/vars}}
-    )
-
-    Process {
-        'Creating object: {{{packageName}}}.Model.{{{classname}}}' | Write-Verbose
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
-
-        New-Object -TypeName {{{packageName}}}.Model.{{{classname}}} -ArgumentList @(
-{{#vars}}
-            {{=<% %>=}}
-            ${<%name%>}<%^-last%>,<%/-last%>
-            <%={{ }}=%>
-{{/vars}}
-        )
-    }
-}
+{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>model_anyof}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>model_simple}}{{/anyOf}}{{/oneOf}}
 {{/model}}
 {{/models}}

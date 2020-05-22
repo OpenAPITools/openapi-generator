@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * MapTest
@@ -115,6 +118,7 @@ public class MapTest {
    * @return mapMapOfString
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, Map<String, String>> getMapMapOfString() {

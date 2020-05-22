@@ -24,10 +24,6 @@ class {{unescapedDescription}}(ModelNormal):
 {{/optionalVars}}
     }
 
-    @staticmethod
-    def _composed_schemas():
-        return None
+    _composed_schemas = {}
 
-{{> python-experimental/model_templates/method_init_normal}}{{#discriminator}}
-
-{{> python-experimental/model_templates/method_discriminator }}{{/discriminator}}
+{{> python-experimental/model_templates/method_init_normal}}

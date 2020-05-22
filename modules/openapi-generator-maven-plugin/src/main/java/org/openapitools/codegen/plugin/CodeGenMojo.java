@@ -70,7 +70,7 @@ import com.google.common.io.Files;
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
  */
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
@@ -403,10 +403,17 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * Add the output directory to the project as a source root, so that the generated java types
-     * are compiled and included in the project artifact.
+     * are compiled and included in the project artifact. Mutually exclusive with {@link #addTestCompileSourceRoot}.
      */
     @Parameter(defaultValue = "true", property = "openapi.generator.maven.plugin.addCompileSourceRoot")
     private boolean addCompileSourceRoot = true;
+
+    /**
+     * Add the output directory to the project as a test source root, so that the generated java types
+     * are compiled only for the test classpath of the project. Mutually exclusive with {@link #addCompileSourceRoot}.
+     */
+    @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
+    private boolean addTestCompileSourceRoot = false;
 
     // TODO: Rename to global properties in version 5.0
     @Parameter
@@ -431,6 +438,7 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         File inputSpecFile = new File(inputSpec);
+        resetEnvironmentVariables();
         addCompileSourceRootIfConfigured();
 
         try {
@@ -848,17 +856,28 @@ public class CodeGenMojo extends AbstractMojo {
         final Object sourceFolderObject =
                 configOptions == null ? null : configOptions
                         .get(CodegenConstants.SOURCE_FOLDER);
-        final String sourceFolder =
-                sourceFolderObject == null ? "src/main/java" : sourceFolderObject.toString();
+        final String sourceFolder;
+        if (sourceFolderObject != null) {
+            sourceFolder = sourceFolderObject.toString();
+        } else {
+            sourceFolder = addTestCompileSourceRoot ? "src/test/java" : "src/main/java";
+        }
 
         return output.toString() + "/" + sourceFolder;
     }
 
-    private void addCompileSourceRootIfConfigured() {
+    private void addCompileSourceRootIfConfigured() throws MojoExecutionException {
         if (addCompileSourceRoot) {
+            if (addTestCompileSourceRoot) {
+                throw new MojoExecutionException("Either 'addCompileSourceRoot' or 'addTestCompileSourceRoot' may be active, not both.");
+            }
             project.addCompileSourceRoot(getCompileSourceRoot());
+        } else if (addTestCompileSourceRoot) {
+            project.addTestCompileSourceRoot(getCompileSourceRoot());
         }
+    }
 
+    private void resetEnvironmentVariables() {
         // Reset all environment variables to their original value. This prevents unexpected
         // behaviour
         // when running the plugin multiple consecutive times with different configurations.

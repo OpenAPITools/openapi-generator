@@ -141,7 +141,7 @@
 {{/operation}}
 #' }
 #' @importFrom R6 R6Class
-#' @importFrom caTools base64encode
+#' @importFrom base64enc base64encode
 {{#useRlangExceptionHandling}}
 #' @importFrom rlang abort
 {{/useRlangExceptionHandling}}
@@ -239,7 +239,7 @@
       {{#isBasic}}
       {{#isBasicBasic}}
       # HTTP basic auth
-      headerParams['Authorization'] <- paste("Basic", caTools::base64encode(paste(self$apiClient$username, self$apiClient$password, sep=":")), sep=" ")
+      headerParams['Authorization'] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$apiClient$username, self$apiClient$password, sep=":"))))
       {{/isBasicBasic}}
       {{/isBasic}}
       {{#isApiKey}}

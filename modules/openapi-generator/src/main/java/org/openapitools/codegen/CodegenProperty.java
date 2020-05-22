@@ -134,7 +134,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isUri;
     public boolean isEmail;
     /**
-     * The type is a free-form object, i.e. it is a map of string to values with no declared properties
+     * The type is a free-form object, i.e. it is a map of string to values with no declared properties.
+     * A OAS free-form schema may include the 'additionalProperties' attribute, which puts a constraint
+     * on the type of the undeclared properties.
      */
     public boolean isFreeFormObject;
     /**
@@ -150,14 +152,19 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isNullable;
     public boolean isSelfReference;
     public boolean isCircularReference;
+    public boolean isDiscriminator;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
+    // If 'additionalProperties' is not set, items is null.
+    // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
+    // the undeclared properties. 
     public CodegenProperty items;
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public boolean isInherited;
     public String discriminatorValue;
+    public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case
     public String nameInSnakeCase; // property name in upper snake case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
@@ -460,6 +467,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.vendorExtensions = vendorExtensions;
     }
 
+    public String getNameInLowerCase() {
+        return nameInLowerCase;
+    }
+
+    public void setNameInLowerCase(String nameInLowerCase) {
+        this.nameInLowerCase = nameInLowerCase;
+    }
+
     public String getNameInCamelCase() {
         return nameInCamelCase;
     }
@@ -651,6 +666,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isNullable=").append(isNullable);
         sb.append(", isSelfReference=").append(isSelfReference);
         sb.append(", isCircularReference=").append(isCircularReference);
+        sb.append(", isDiscriminator=").append(isDiscriminator);
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
@@ -717,6 +733,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isNullable == that.isNullable &&
                 isSelfReference == that.isSelfReference &&
                 isCircularReference == that.isCircularReference &&
+                isDiscriminator == that.isDiscriminator &&
                 hasValidation == that.hasValidation &&
                 isInherited == that.isInherited &&
                 isXmlAttribute == that.isXmlAttribute &&
@@ -775,7 +792,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
                 isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
-                isSelfReference, isCircularReference, _enum, allowableValues, items, mostInnerItems,
+                isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues, items, mostInnerItems,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped);

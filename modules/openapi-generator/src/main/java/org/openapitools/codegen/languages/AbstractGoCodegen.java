@@ -119,6 +119,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("file", "*os.File");
         typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("null", "nil");
         // A 'type: object' OAS schema without any declared property is
         // (per JSON schema specification) "an unordered set of properties
         // mapping a string to an instance".
@@ -130,6 +131,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
         typeMapping.put("interface{}", "interface{}");
+        typeMapping.put("AnyType", "interface{}");
 
         numberTypes = new HashSet<String>(
                 Arrays.asList(
@@ -327,7 +329,20 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
+            // In OAS 3.0.x, the array "items" attribute is required.
+            // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
+            // specification is aligned with the JSON schema specification.
+            // When "items" is not specified, the elements of the array may be anything at all.
+            if (inner != null) {
+                inner = ModelUtils.unaliasSchema(this.openAPI, inner);
+            }
+            String typDecl;
+            if (inner != null) {
+                typDecl = getTypeDeclaration(inner);
+            } else {
+                typDecl = "interface{}";
+            }
+            return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
@@ -624,6 +639,22 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         imports.add(createMapping("import", "os"));
                         addedOSImport = true;
                     }
+                }
+
+                if (this instanceof GoClientExperimentalCodegen && model.isEnum) {
+                    imports.add(createMapping("import", "fmt"));
+                }
+
+                // if oneOf contains "null" type
+                if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
+                    model.isNullable = true;
+                    model.oneOf.remove("nil");
+                }
+
+                // if anyOf contains "null" type
+                if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
+                    model.isNullable = true;
+                    model.anyOf.remove("nil");
                 }
             }
         }

@@ -62,6 +62,7 @@ export interface UploadFileRequest {
 
 /**
  * PetApi - interface
+ * 
  * @export
  * @interface PetApiInterface
  */
@@ -197,7 +198,7 @@ export interface PetApiInterface {
 }
 
 /**
- * no description
+ * 
  */
 export class PetApi extends runtime.BaseAPI implements PetApiInterface {
 

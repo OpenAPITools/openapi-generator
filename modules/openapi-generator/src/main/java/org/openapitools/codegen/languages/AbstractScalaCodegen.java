@@ -563,4 +563,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         return operationId;
     }
 
+    public void setInvokerPackage(String invokerPackage) {
+        this.invokerPackage = invokerPackage;
+    }
+
 }

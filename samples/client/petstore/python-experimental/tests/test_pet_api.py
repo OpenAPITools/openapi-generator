@@ -329,7 +329,7 @@ class PetApiTests(unittest.TestCase):
         http_response = HTTPResponse(
             status=200,
             reason='OK',
-            data=json.dumps(api_respponse),
+            data=json.dumps(api_respponse).encode('utf-8'),
             getheaders=get_headers,
             getheader=get_header
         )

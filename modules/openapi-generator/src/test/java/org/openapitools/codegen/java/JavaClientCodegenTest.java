@@ -267,7 +267,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 34);
+        Assert.assertEquals(generatedFiles.size(), 37);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -294,6 +294,11 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ServerConfiguration.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ServerVariable.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
+        //TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuth.java");
+        //TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuthFlow.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/Configuration.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/GzipRequestInterceptor.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/JSON.java");
@@ -338,7 +343,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 37);
+        Assert.assertEquals(generatedFiles.size(), 40);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -366,6 +371,9 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ServerConfiguration.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ServerVariable.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/Authentication.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/ApiKeyAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBasicAuth.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBearerAuth.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/Configuration.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/GzipRequestInterceptor.java");
         TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/JSON.java");
@@ -417,6 +425,45 @@ public class JavaClientCodegenTest {
         assertTrue(defaultApiContent.contains("import java.net.http.HttpClient;"));
         assertTrue(defaultApiContent.contains("import java.net.http.HttpRequest;"));
         assertTrue(defaultApiContent.contains("import java.net.http.HttpResponse;"));
+
+        String apiClientFilename = new File(output, "src/main/java/xyz/abcdef/ApiClient.java").getAbsolutePath().replace("\\", "/");
+        String apiClientContent = generatedFiles.get(apiClientFilename);
+        assertTrue(apiClientContent.contains("public class ApiClient"));
+        assertTrue(apiClientContent.contains("import java.net.http.HttpClient;"));
+        assertTrue(apiClientContent.contains("import java.net.http.HttpRequest;"));
+    }
+
+    @Test
+    public void testJdkHttpAsyncClient() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.ASYNC_NATIVE, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 29);
+        validateJavaSourceFiles(generatedFiles);
+        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/PingApi.java").getAbsolutePath().replace("\\", "/");
+        String defaultApiContent = generatedFiles.get(defaultApiFilename);
+        assertTrue(defaultApiContent.contains("public class PingApi"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpClient;"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpRequest;"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpResponse;"));
+        assertTrue(defaultApiContent.contains("import java.util.concurrent.CompletableFuture;"));
 
         String apiClientFilename = new File(output, "src/main/java/xyz/abcdef/ApiClient.java").getAbsolutePath().replace("\\", "/");
         String apiClientContent = generatedFiles.get(apiClientFilename);
@@ -622,5 +669,148 @@ public class JavaClientCodegenTest {
         assertEquals("_default", codegen.toApiVarName("Default"));
         assertEquals("_int", codegen.toApiVarName("int"));
         assertEquals("pony", codegen.toApiVarName("pony"));
+    }
+
+    @Test
+    public void testAnyType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/any_type.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("AnyValueModel");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel cm1 = codegen.fromModel("AnyValueModel", test1);
+        Assert.assertEquals(cm1.getClassname(), "AnyValueModel");
+
+        final CodegenProperty property1 = cm1.allVars.get(0);
+        Assert.assertEquals(property1.baseName, "any_value");
+        Assert.assertEquals(property1.dataType, "Object");
+        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertFalse(property1.isContainer);
+        Assert.assertFalse(property1.isFreeFormObject);
+        Assert.assertTrue(property1.isAnyType);
+
+        final CodegenProperty property2 = cm1.allVars.get(1);
+        Assert.assertEquals(property2.baseName, "any_value_with_desc");
+        Assert.assertEquals(property2.dataType, "Object");
+        Assert.assertTrue(property2.hasMore);
+        Assert.assertFalse(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertFalse(property2.isContainer);
+        Assert.assertFalse(property2.isFreeFormObject);
+        Assert.assertTrue(property2.isAnyType);
+
+        final CodegenProperty property3 = cm1.allVars.get(2);
+        Assert.assertEquals(property3.baseName, "any_value_nullable");
+        Assert.assertEquals(property3.dataType, "Object");
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
+        Assert.assertTrue(property3.isPrimitiveType);
+        Assert.assertFalse(property3.isContainer);
+        Assert.assertFalse(property3.isFreeFormObject);
+        Assert.assertTrue(property3.isAnyType);
+
+        Schema test2 = openAPI.getComponents().getSchemas().get("AnyValueModelInline");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel cm2 = codegen.fromModel("AnyValueModelInline", test2);
+        Assert.assertEquals(cm2.getClassname(), "AnyValueModelInline");
+
+        final CodegenProperty cp1 = cm2.vars.get(0);
+        Assert.assertEquals(cp1.baseName, "any_value");
+        Assert.assertEquals(cp1.dataType, "Object");
+        Assert.assertTrue(cp1.hasMore);
+        Assert.assertFalse(cp1.required);
+        Assert.assertTrue(cp1.isPrimitiveType);
+        Assert.assertFalse(cp1.isContainer);
+        Assert.assertFalse(cp1.isFreeFormObject);
+        Assert.assertTrue(cp1.isAnyType);
+
+        final CodegenProperty cp2 = cm2.vars.get(1);
+        Assert.assertEquals(cp2.baseName, "any_value_with_desc");
+        Assert.assertEquals(cp2.dataType, "Object");
+        Assert.assertTrue(cp2.hasMore);
+        Assert.assertFalse(cp2.required);
+        Assert.assertTrue(cp2.isPrimitiveType);
+        Assert.assertFalse(cp2.isContainer);
+        Assert.assertFalse(cp2.isFreeFormObject);
+        Assert.assertTrue(cp2.isAnyType);
+
+        final CodegenProperty cp3 = cm2.vars.get(2);
+        Assert.assertEquals(cp3.baseName, "any_value_nullable");
+        Assert.assertEquals(cp3.dataType, "Object");
+        Assert.assertTrue(cp3.hasMore);
+        Assert.assertFalse(cp3.required);
+        Assert.assertTrue(cp3.isPrimitiveType);
+        Assert.assertFalse(cp3.isContainer);
+        Assert.assertFalse(cp3.isFreeFormObject);
+        Assert.assertTrue(cp3.isAnyType);
+
+        // map
+        final CodegenProperty cp4 = cm2.vars.get(3);
+        Assert.assertEquals(cp4.baseName, "map_any_value");
+        Assert.assertEquals(cp4.dataType, "Map<String, Object>");
+        Assert.assertTrue(cp4.hasMore);
+        Assert.assertFalse(cp4.required);
+        Assert.assertTrue(cp4.isPrimitiveType);
+        Assert.assertTrue(cp4.isContainer);
+        Assert.assertTrue(cp4.isMapContainer);
+        Assert.assertTrue(cp4.isFreeFormObject);
+        Assert.assertFalse(cp4.isAnyType);
+
+        final CodegenProperty cp5 = cm2.vars.get(4);
+        Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
+        Assert.assertEquals(cp5.dataType, "Map<String, Object>");
+        Assert.assertTrue(cp5.hasMore);
+        Assert.assertFalse(cp5.required);
+        Assert.assertTrue(cp5.isPrimitiveType);
+        Assert.assertTrue(cp5.isContainer);
+        Assert.assertTrue(cp5.isMapContainer);
+        Assert.assertTrue(cp5.isFreeFormObject);
+        Assert.assertFalse(cp5.isAnyType);
+
+        final CodegenProperty cp6 = cm2.vars.get(5);
+        Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
+        Assert.assertEquals(cp6.dataType, "Map<String, Object>");
+        Assert.assertTrue(cp6.hasMore);
+        Assert.assertFalse(cp6.required);
+        Assert.assertTrue(cp6.isPrimitiveType);
+        Assert.assertTrue(cp6.isContainer);
+        Assert.assertTrue(cp6.isMapContainer);
+        Assert.assertTrue(cp6.isFreeFormObject);
+        Assert.assertFalse(cp6.isAnyType);
+
+        // array
+        final CodegenProperty cp7 = cm2.vars.get(6);
+        Assert.assertEquals(cp7.baseName, "array_any_value");
+        Assert.assertEquals(cp7.dataType, "List<Object>");
+        Assert.assertTrue(cp7.hasMore);
+        Assert.assertFalse(cp7.required);
+        Assert.assertTrue(cp7.isPrimitiveType);
+        Assert.assertTrue(cp7.isContainer);
+        Assert.assertTrue(cp7.isListContainer);
+        Assert.assertFalse(cp7.isFreeFormObject);
+        Assert.assertFalse(cp7.isAnyType);
+
+        final CodegenProperty cp8 = cm2.vars.get(7);
+        Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
+        Assert.assertEquals(cp8.dataType, "List<Object>");
+        Assert.assertTrue(cp8.hasMore);
+        Assert.assertFalse(cp8.required);
+        Assert.assertTrue(cp8.isPrimitiveType);
+        Assert.assertTrue(cp8.isContainer);
+        Assert.assertTrue(cp8.isListContainer);
+        Assert.assertFalse(cp8.isFreeFormObject);
+        Assert.assertFalse(cp8.isAnyType);
+
+        final CodegenProperty cp9 = cm2.vars.get(8);
+        Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
+        Assert.assertEquals(cp9.dataType, "List<Object>");
+        Assert.assertFalse(cp9.hasMore);
+        Assert.assertFalse(cp9.required);
+        Assert.assertTrue(cp9.isPrimitiveType);
+        Assert.assertTrue(cp9.isContainer);
+        Assert.assertTrue(cp9.isListContainer);
+        Assert.assertFalse(cp9.isFreeFormObject);
+        Assert.assertFalse(cp9.isAnyType);
     }
 }

@@ -391,7 +391,7 @@ paths:
         default:
           description: successful operation
       security:
-        - auth_cookie: []
+        - api_key: []
       requestBody:
         content:
           application/json:
@@ -410,7 +410,7 @@ paths:
         default:
           description: successful operation
       security:
-        - auth_cookie: []
+        - api_key: []
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
   /user/createWithList:
@@ -424,7 +424,7 @@ paths:
         default:
           description: successful operation
       security:
-        - auth_cookie: []
+        - api_key: []
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
   /user/login:
@@ -454,7 +454,7 @@ paths:
           headers:
             Set-Cookie:
               description: >-
-                Cookie authentication key for use with the `auth_cookie`
+                Cookie authentication key for use with the `api_key`
                 apiKey authentication.
               schema:
                 type: string
@@ -489,7 +489,7 @@ paths:
         default:
           description: successful operation
       security:
-        - auth_cookie: []
+        - api_key: []
   '/user/{username}':
     get:
       tags:
@@ -537,7 +537,7 @@ paths:
         '404':
           description: User not found
       security:
-        - auth_cookie: []
+        - api_key: []
       requestBody:
         content:
           application/json:
@@ -564,7 +564,7 @@ paths:
         '404':
           description: User not found
       security:
-        - auth_cookie: []
+        - api_key: []
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -602,10 +602,6 @@ components:
       type: apiKey
       name: api_key
       in: header
-    auth_cookie:
-      type: apiKey
-      name: AUTH_KEY
-      in: cookie
   schemas:
     Order:
       title: Pet Order

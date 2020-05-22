@@ -1,24 +1,35 @@
 controllerPackage: org.openapitools.controllers
 modelPackage:  org.openapitools.model
-swaggerUrl: ./src/main/swagger/swagger.yaml
+swaggerUrl: ./src/main/openapi/openapi.yaml
 modelMappings:
   # to enable explicit mappings, use this syntax:
   DefinitionFromSwaggerSpecification: fully.qualified.path.to.Model
-  AdditionalPropertiesClass : org.openapitools.model.AdditionalPropertiesClass
+  AdditionalPropertiesAnyType : org.openapitools.model.AdditionalPropertiesAnyType
+AdditionalPropertiesArray : org.openapitools.model.AdditionalPropertiesArray
+AdditionalPropertiesBoolean : org.openapitools.model.AdditionalPropertiesBoolean
+AdditionalPropertiesClass : org.openapitools.model.AdditionalPropertiesClass
+AdditionalPropertiesInteger : org.openapitools.model.AdditionalPropertiesInteger
+AdditionalPropertiesNumber : org.openapitools.model.AdditionalPropertiesNumber
+AdditionalPropertiesObject : org.openapitools.model.AdditionalPropertiesObject
+AdditionalPropertiesString : org.openapitools.model.AdditionalPropertiesString
 Animal : org.openapitools.model.Animal
-AnimalFarm : org.openapitools.model.AnimalFarm
 ArrayOfArrayOfNumberOnly : org.openapitools.model.ArrayOfArrayOfNumberOnly
 ArrayOfNumberOnly : org.openapitools.model.ArrayOfNumberOnly
 ArrayTest : org.openapitools.model.ArrayTest
+BigCat : org.openapitools.model.BigCat
+BigCatAllOf : org.openapitools.model.BigCatAllOf
 Capitalization : org.openapitools.model.Capitalization
 Cat : org.openapitools.model.Cat
+CatAllOf : org.openapitools.model.CatAllOf
 Category : org.openapitools.model.Category
 ClassModel : org.openapitools.model.ClassModel
 Client : org.openapitools.model.Client
 Dog : org.openapitools.model.Dog
+DogAllOf : org.openapitools.model.DogAllOf
 EnumArrays : org.openapitools.model.EnumArrays
 EnumClass : org.openapitools.model.EnumClass
 EnumTest : org.openapitools.model.EnumTest
+FileSchemaTestClass : org.openapitools.model.FileSchemaTestClass
 FormatTest : org.openapitools.model.FormatTest
 HasOnlyReadOnly : org.openapitools.model.HasOnlyReadOnly
 MapTest : org.openapitools.model.MapTest
@@ -29,16 +40,16 @@ ModelReturn : org.openapitools.model.ModelReturn
 Name : org.openapitools.model.Name
 NumberOnly : org.openapitools.model.NumberOnly
 Order : org.openapitools.model.Order
-OuterBoolean : org.openapitools.model.OuterBoolean
 OuterComposite : org.openapitools.model.OuterComposite
 OuterEnum : org.openapitools.model.OuterEnum
-OuterNumber : org.openapitools.model.OuterNumber
-OuterString : org.openapitools.model.OuterString
 Pet : org.openapitools.model.Pet
 ReadOnlyFirst : org.openapitools.model.ReadOnlyFirst
 SpecialModelName : org.openapitools.model.SpecialModelName
 Tag : org.openapitools.model.Tag
+TypeHolderDefault : org.openapitools.model.TypeHolderDefault
+TypeHolderExample : org.openapitools.model.TypeHolderExample
 User : org.openapitools.model.User
+XmlItem : org.openapitools.model.XmlItem
 
 entityProcessors:
   - json

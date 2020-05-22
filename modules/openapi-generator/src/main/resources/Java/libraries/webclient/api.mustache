@@ -15,10 +15,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -56,19 +55,19 @@ public class {{classname}} {
 {{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}
 {{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
 {{/allParams}}{{#returnType}}     * @return {{returnType}}
-{{/returnType}}     * @throws RestClientException if an error occurs while attempting to invoke the API
+{{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
 {{#externalDocs}}
     * {{description}}
     * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
      */
-    public {{#returnType}}{{#isListContainer}}Flux<{{{returnBaseType}}}>{{/isListContainer}}{{^isListContainer}}Mono<{{{returnType}}}>{{/isListContainer}} {{/returnType}}{{^returnType}}Mono<Void> {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws RestClientException {
+    public {{#returnType}}{{#isListContainer}}Flux<{{{returnBaseType}}}>{{/isListContainer}}{{^isListContainer}}Mono<{{{returnType}}}>{{/isListContainer}} {{/returnType}}{{^returnType}}Mono<Void> {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws WebClientResponseException {
         Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+            throw new WebClientResponseException("Missing the required parameter '{{paramName}}' when calling {{operationId}}", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         {{/required}}
         {{/allParams}}
