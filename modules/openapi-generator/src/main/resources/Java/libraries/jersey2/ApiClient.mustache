@@ -162,7 +162,7 @@ public class ApiClient {
   /**
    * Constructs a new ApiClient with the specified authentication parameters.
    *
-   * @param auth A hash map containing authentication parameters.
+   * @param authMap A hash map containing authentication parameters.
    */
   public ApiClient(Map<String, Authentication> authMap) {
     json = new JSON();
@@ -175,15 +175,15 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
+    Authentication auth = null;
     {{#authMethods}}
-    Authentication auth;
     if (authMap != null) {
       auth = authMap.get("{{name}}");
     }
     {{#isBasic}}
     {{#isBasicBasic}}
     if (auth instanceof HttpBasicAuth) {
-      authentications.put("{{name}}", auth));
+      authentications.put("{{name}}", auth);
     } else {
       authentications.put("{{name}}", new HttpBasicAuth());
     }
@@ -205,7 +205,7 @@ public class ApiClient {
     {{/isBasic}}
     {{#isApiKey}}
     if (auth instanceof ApiKeyAuth) {
-      authentications.put("{{name}}", auth));
+      authentications.put("{{name}}", auth);
     } else {
       authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
     }
