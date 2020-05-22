@@ -45,7 +45,7 @@ class TestDrawing(unittest.TestCase):
               'shapeType': "Triangle",
               'triangleType': "IsoscelesTriangle"
         }
-        inst = petstore_api.Shape(**data, _json_variable_naming=True)
+        inst = petstore_api.Shape(_json_variable_naming=True, **data)
         assert isinstance(inst, petstore_api.IsoscelesTriangle)
 
     def test_deserialize_oneof_reference(self):
