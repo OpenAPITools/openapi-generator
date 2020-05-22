@@ -67,6 +67,7 @@ If false: the 'additionalProperties' implementation is compliant with the OAS an
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |LocalDate|org.joda.time.*|
 |LocalDateTime|org.joda.time.*|
@@ -84,6 +85,7 @@ If false: the 'additionalProperties' implementation is compliant with the OAS an
 | ---------- | --------------- |
 |array|ArrayList|
 |map|HashMap|
+|set|LinkedHashSet|
 
 
 ## LANGUAGE PRIMITIVES

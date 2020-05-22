@@ -1422,8 +1422,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("array", "List");
+        typeMapping.put("set", "Set");
         typeMapping.put("map", "Map");
         typeMapping.put("List", "List");
+        typeMapping.put("Set", "Set");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");
         typeMapping.put("int", "Integer");
@@ -1462,6 +1464,7 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping.put("ArrayList", "java.util.ArrayList");
         importMapping.put("List", "java.util.*");
         importMapping.put("Set", "java.util.*");
+        importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
         importMapping.put("DateTime", "org.joda.time.*");
         importMapping.put("LocalDateTime", "org.joda.time.*");
         importMapping.put("LocalDate", "org.joda.time.*");
@@ -1648,7 +1651,13 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String inner = getSchemaType(getSchemaItems(arraySchema));
-            return instantiationTypes.get("array") + "<" + inner + ">";
+            String parentType;
+            if (ModelUtils.isSet(schema)) {
+                parentType = "set";
+            } else {
+                parentType = "array";
+            }
+            return instantiationTypes.get(parentType) + "<" + inner + ">";
         } else {
             return null;
         }
@@ -2039,7 +2048,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isMapSchema(schema)) {
             return "map";
         } else if (ModelUtils.isArraySchema(schema)) {
-            return "array";
+            if (ModelUtils.isSet(schema)) {
+                return "set";
+            } else {
+                return "array";
+            }
         } else if (ModelUtils.isUUIDSchema(schema)) {
             return "UUID";
         } else if (ModelUtils.isURISchema(schema)) {
@@ -3194,7 +3207,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             property.isContainer = true;
             property.isListContainer = true;
-            property.containerType = "array";
+            if (ModelUtils.isSet(p)) {
+                property.containerType = "set";
+            } else {
+                property.containerType = "array";
+            }
             property.baseType = getSchemaType(p);
             if (p.getXml() != null) {
                 property.isXmlWrapped = p.getXml().getWrapped() == null ? false : p.getXml().getWrapped();
@@ -3514,6 +3531,8 @@ public class DefaultCodegen implements CodegenConfig {
                     op.isListContainer = true;
                 } else if ("array".equalsIgnoreCase(cm.containerType)) {
                     op.isListContainer = true;
+                } else if ("set".equalsIgnoreCase(cm.containerType)) {
+                    op.isListContainer = true;
                 }
             } else {
                 op.returnSimpleType = true;
@@ -3604,6 +3623,10 @@ public class DefaultCodegen implements CodegenConfig {
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
                     imports.add(r.baseType);
+                }
+                if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
+                    op.uniqueItems = true;
+                    imports.add(typeMapping.get(r.containerType));
                 }
                 r.isDefault = response == methodResponse;
                 op.responses.add(r);
@@ -3952,7 +3975,9 @@ public class DefaultCodegen implements CodegenConfig {
                 r.simpleType = false;
                 r.containerType = cp.containerType;
                 r.isMapContainer = "map".equals(cp.containerType);
-                r.isListContainer = "list".equalsIgnoreCase(cp.containerType) || "array".equalsIgnoreCase(cp.containerType);
+                r.isListContainer = "list".equalsIgnoreCase(cp.containerType) ||
+                    "array".equalsIgnoreCase(cp.containerType) ||
+                    "set".equalsIgnoreCase(cp.containerType);
             } else {
                 r.simpleType = true;
             }
@@ -4182,6 +4207,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (ModelUtils.isObjectSchema(parameterSchema)) {
                 codegenProperty.complexType = codegenParameter.dataType;
+            }
+            if (ModelUtils.isSet(parameterSchema)) {
+                imports.add(codegenProperty.baseType);
             }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
             codegenParameter.required = codegenProperty.required;

@@ -24,6 +24,7 @@ If false: the 'additionalProperties' implementation is compliant with the OAS an
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |LocalDate|org.joda.time.*|
 |LocalDateTime|org.joda.time.*|

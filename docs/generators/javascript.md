@@ -44,6 +44,7 @@ If false: the 'additionalProperties' implementation is compliant with the OAS an
 |array|Array|
 |list|Array|
 |map|Object|
+|set|Array|
 
 
 ## LANGUAGE PRIMITIVES
