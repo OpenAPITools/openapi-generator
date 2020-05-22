@@ -84,16 +84,6 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         return Paths.get(getFullTemplateFile(name));
     }
 
-    public String readResourceContents(String resourceFilePath) {
-        StringBuilder sb = new StringBuilder();
-        Scanner scanner = new Scanner(this.getClass().getResourceAsStream(getCPResourcePath(resourceFilePath)), "UTF-8");
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            sb.append(line).append('\n');
-        }
-        return sb.toString();
-    }
-
     /**
      * Gets a normalized classpath resource location according to OS-specific file separator
      *
