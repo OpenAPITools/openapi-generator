@@ -46,102 +46,6 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if at least one operation has OAuth security schema defined
-     *
-     * @param objs Map of operations
-     * @return True if at least one operation has OAuth security schema defined
-     */
-    public static boolean hasBasicAuthMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isBasic)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns true if at least one operation has OAuth security schema defined
-     *
-     * @param objs Map of operations
-     * @return True if at least one operation has OAuth security schema defined
-     */
-    public static boolean hasApiKeyAuthMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isApiKey)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns true if at least one operation has OAuth security schema defined
-     *
-     * @param objs Map of operations
-     * @return True if at least one operation has OAuth security schema defined
-     */
-    public static boolean hasOAuthMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isOAuth)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns true if at least one operation has Bearer security schema defined
-     *
-     * @param objs Map of operations
-     * @return True if at least one operation has Bearer security schema defined
-     */
-    public static boolean hasBearerMethods(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation operation : ops) {
-                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
-                    for (CodegenSecurity cs : operation.authMethods) {
-                        if (Boolean.TRUE.equals(cs.isBasicBearer)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Returns true if the specified OAS model has at least one operation with the HTTP basic
      * security scheme.
      *
@@ -204,7 +108,7 @@ public class ProcessUtils {
     public static boolean hasHttpBearerMethods(List<CodegenSecurity> authMethods) {
         if (authMethods != null && !authMethods.isEmpty()) {
             for (CodegenSecurity cs : authMethods) {
-                if (Boolean.TRUE.equals(cs.isBasicBasic)) {
+                if (Boolean.TRUE.equals(cs.isBasicBearer)) {
                     return true;
                 }
             }
