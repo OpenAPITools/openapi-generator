@@ -45,7 +45,7 @@ class TestDrawing(unittest.TestCase):
               'shapeType': "Triangle",
               'triangleType': "IsoscelesTriangle"
         }
-        inst = petstore_api.Shape(_json_variable_naming=True, **data)
+        inst = petstore_api.Shape(**data, _spec_property_naming=True)
         assert isinstance(inst, petstore_api.IsoscelesTriangle)
 
     def test_deserialize_oneof_reference(self):
@@ -96,7 +96,7 @@ class TestDrawing(unittest.TestCase):
             "Required value type is {} and passed type was {} at {}")
         with self.assertRaisesRegexp(
             petstore_api.ApiTypeError,
-            err_msg.format("main_shape", "Shape", "NoneType", "\['main_shape'\]")
+            err_msg.format("main_shape", "Shape", "NoneType", r"['main_shape']")
         ):
             inst = petstore_api.Drawing(
                 # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
