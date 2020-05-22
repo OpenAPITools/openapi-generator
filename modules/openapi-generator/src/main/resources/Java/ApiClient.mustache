@@ -53,13 +53,15 @@ import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 
 import {{invokerPackage}}.auth.Authentication;
-{{#hasBasicAuthMethods}}
+{{#hasHttpBasicMethods}}
 import {{invokerPackage}}.auth.HttpBasicAuth;
+{{/hasHttpBasicMethods}}
+{{#hasHttpBearerMethods}}
 import {{invokerPackage}}.auth.HttpBearerAuth;
 {{/hasBasicAuthMethods}}
-{{#hasApiKeyAuthMethods}}
+{{#hasApiKeyMethods}}
 import {{invokerPackage}}.auth.ApiKeyAuth;
-{{/hasApiKeyAuthMethods}}
+{{/hasApiKeyMethods}}
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
@@ -138,11 +140,11 @@ public class ApiClient {
     setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#hasBasicAuthMethods}}{{#isBasic}}{{#isBasicBasic}}
+    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
     authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{/hasBasicAuthMethods}}{{#hasApiKeyAuthMethods}}{{#isApiKey}}
-    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{/hasApiKeyAuthMethods}}{{#hasOAuthMethods}}{{#isOAuth}}
-    authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/hasOAuthMethods}}{{/authMethods}}
+    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
+    authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
@@ -271,7 +273,7 @@ public class ApiClient {
     return authentications.get(authName);
   }
 
-  {{#hasBasicAuthMethods}}
+  {{#hasHttpBearerMethods}}
   /**
    * Helper method to set access token for the first Bearer authentication.
    * @param bearerToken Bearer token
@@ -286,6 +288,9 @@ public class ApiClient {
     throw new RuntimeException("No Bearer authentication configured!");
   }
 
+  {{/hasHttpBearerMethods}}
+
+  {{#hasHttpBasicMethods}}
   /**
    * Helper method to set username for the first HTTP basic authentication.
    * @param username Username
@@ -316,7 +321,7 @@ public class ApiClient {
 
   {{/hasBasicAuthMethods}}
 
-  {{#hasApiKeyAuthMethods}}
+  {{#hasApiKeyMethods}}
   /**
    * Helper method to set API key value for the first API key authentication.
    * @param apiKey the API key
@@ -345,7 +350,7 @@ public class ApiClient {
     throw new RuntimeException("No API key authentication configured!");
   }
 
-  {{/hasApiKeyAuthMethods}}
+  {{/hasApiKeyMethods}}
 
   {{#hasOAuthMethods}}
   /**
