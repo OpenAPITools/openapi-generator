@@ -182,7 +182,7 @@ public class ProcessUtils {
                 if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "bearer".equals(scheme.getValue().getScheme())) {
                     return true;
                 }
-            }SpringCodegenTest
+            }
         }
 
         return false;
