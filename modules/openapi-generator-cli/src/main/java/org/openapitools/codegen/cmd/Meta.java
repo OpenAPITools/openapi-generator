@@ -146,7 +146,7 @@ public class Meta extends OpenApiGeneratorCommand {
                     File destinationFolder =
                             new File(new File(targetDir.getAbsolutePath()), support.folder);
                     File outputFile = new File(destinationFolder, support.destinationFilename);
-                    
+
                     String template =((TemplateManager)generator.getTemplateProcessor()).readTemplate(new File(TEMPLATE_DIR_CLASSPATH,
                             support.templateFile).getPath());
 

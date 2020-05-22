@@ -4,7 +4,7 @@
   "generatorName": "java",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
   "outputDir": "samples/client/petstore/java/okhttp-gson-parcelableModel",
-  "templateDir": "modules/openapi-generator/src/main/resources/Java/libraries/okhttp-gson",
+  "templateDir": "modules/openapi-generator/src/main/resources/Java",
   "additionalProperties": {
     "hideGenerationTimestamp": true,
     "parcelableModel": true
