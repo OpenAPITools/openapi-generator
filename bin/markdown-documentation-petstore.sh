@@ -26,6 +26,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/markdown-documentation -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g markdown -o samples/documentation/markdown $@"
+ags="generate -t modules/openapi-generator/src/main/resources/markdown-documentation -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g markdown -o samples/documentation/markdown $@"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}

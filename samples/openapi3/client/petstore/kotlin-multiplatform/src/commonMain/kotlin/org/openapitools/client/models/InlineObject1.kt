@@ -25,7 +25,5 @@ data class InlineObject1 (
     @SerialName(value = "additionalMetadata") val additionalMetadata: kotlin.String? = null,
     /* file to upload */
     @SerialName(value = "file") val file: org.openapitools.client.infrastructure.OctetByteArray? = null
-) 
-
-
+)
 

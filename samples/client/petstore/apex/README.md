@@ -1,11 +1,11 @@
 # OpenAPI Petstore API Client
 
+
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
 ## Requirements
 
 - [Salesforce DX](https://www.salesforce.com/products/platform/products/salesforce-dx/)
-
 
 If everything is set correctly:
 
@@ -15,27 +15,27 @@ If everything is set correctly:
   sfdx-cli/5.7.5-05549de (darwin-amd64) go1.7.5 sfdxstable
   ```
 
-
 ## Installation
 
 1. Copy the output into your Salesforce DX folder - or alternatively deploy the output directly into the workspace.
 2. Deploy the code via Salesforce DX to your Scratch Org
 
    ```bash
-   $ sfdx force:source:push
+      sfdx force:source:push
    ```
+
 3. If the API needs authentication update the Named Credential in Setup.
 4. Run your Apex tests using
 
-    ```bash
-    $ sfdx sfdx force:apex:test:run
-    ```
+   ```bash
+       sfdx sfdx force:apex:test:run
+   ```
+
 5. Retrieve the job id from the console and check the test results.
 
   ```bash
-  $ sfdx force:apex:test:report -i theJobId
+  sfdx force:apex:test:report -i theJobId
   ```
-
 
 ## Getting Started
 
@@ -47,7 +47,7 @@ OASClient client = api.getClient();
 
 
 Map<String, Object> params = new Map<String, Object>{
-    'oaSPet' => OASPet.getExample()
+    'body' => ''
 };
 
 try {
@@ -100,6 +100,7 @@ Class | Method | HTTP request | Description
 
 Authentication schemes defined for the API:
 ### api_key
+
 
 - **Type**: API key
 - **API key parameter name**: api_key

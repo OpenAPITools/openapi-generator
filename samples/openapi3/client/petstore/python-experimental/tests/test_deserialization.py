@@ -92,6 +92,41 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized.color, color)
         self.assertEqual(deserialized.breed, breed)
 
+    def test_regex_constraint(self):
+        """
+        Test regex pattern validation.
+        """
+
+        # Test with valid regex pattern.
+        inst = petstore_api.Apple(
+            cultivar="Akane"
+        )
+        assert isinstance(inst, petstore_api.Apple)
+
+        inst = petstore_api.Apple(
+            origin="cHiLe"
+        )
+        assert isinstance(inst, petstore_api.Apple)
+
+        # Test with invalid regex pattern.
+        err_msg = ("Invalid value for `{}`, must match regular expression `{}`$")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiValueError,
+            err_msg.format("cultivar", "[^`]*")
+        ):
+            inst = petstore_api.Apple(
+                cultivar="!@#%@$#Akane"
+            )
+
+        err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
+        with self.assertRaisesRegexp(
+            petstore_api.ApiValueError,
+            err_msg.format("origin", "[^`]*")
+        ):
+            inst = petstore_api.Apple(
+                origin="!@#%@$#Chile"
+            )
+
     def test_deserialize_mammal(self):
         """
         deserialize mammal
@@ -126,3 +161,39 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized, petstore_api.Zebra))
         self.assertEqual(deserialized.type, zebra_type)
         self.assertEqual(deserialized.class_name, class_name)
+
+    def test_deserialize_float_value(self):
+        """
+        Deserialize floating point values.
+        """
+        data = {
+          'lengthCm': 3.1415
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Banana,), True)
+        self.assertTrue(isinstance(deserialized, petstore_api.Banana))
+        self.assertEqual(deserialized.length_cm, 3.1415)
+
+        # Float value is serialized without decimal point
+        data = {
+          'lengthCm': 3
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Banana,), True)
+        self.assertTrue(isinstance(deserialized, petstore_api.Banana))
+        self.assertEqual(deserialized.length_cm, 3.0)
+
+    def test_deserialize_fruit_null_value(self):
+        """
+        deserialize fruit with null value.
+        fruitReq is a oneOf composed schema model with discriminator, including 'null' type.
+        """
+
+        # Unmarshal 'null' value
+        data = None
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.FruitReq, type(None)), True)
+        self.assertEqual(type(deserialized), type(None))
+
+        inst = petstore_api.FruitReq(None)
+        self.assertIsNone(inst)

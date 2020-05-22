@@ -2054,7 +2054,8 @@ class Endpoint(object):
                 check_validations(
                     self.validations,
                     (param,),
-                    kwargs[param]
+                    kwargs[param],
+                    configuration=self.api_client.configuration
                 )
 
         if kwargs['_check_input_type'] is False:

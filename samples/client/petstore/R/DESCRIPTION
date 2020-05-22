@@ -10,5 +10,5 @@ Encoding: UTF-8
 License: Apache-2.0
 LazyData: true
 Suggests: testthat
-Imports: jsonlite, httr, R6, caTools
+Imports: jsonlite, httr, R6, base64enc
 RoxygenNote: 6.0.1.9000

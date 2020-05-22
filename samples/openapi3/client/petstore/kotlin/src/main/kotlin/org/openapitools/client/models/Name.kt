@@ -31,12 +31,10 @@ data class Name (
     val property: kotlin.String? = null,
     @Json(name = "123Number")
     val `123number`: kotlin.Int? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

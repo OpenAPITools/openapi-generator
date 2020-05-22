@@ -9,8 +9,9 @@
         if name in self.openapi_types:
             required_types_mixed = self.openapi_types[name]
         elif self.additional_properties_type is None:
-            raise ApiKeyError(
-                "{0} has no key '{1}'".format(type(self).__name__, name),
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
                 path_to_item
             )
         elif self.additional_properties_type is not None:
@@ -44,6 +45,7 @@
             check_validations(
                 self.validations,
                 (name,),
-                value
+                value,
+                self._configuration
             )
         self.__dict__['_data_store'][name] = value

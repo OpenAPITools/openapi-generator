@@ -22,19 +22,19 @@ public class UserController  {
    **/
 
   /*
-    public ResponseContext createUser(RequestContext request , User user) {
+    public ResponseContext createUser(RequestContext request , User body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext createUsersWithArrayInput(RequestContext request , List<User> user) {
+    public ResponseContext createUsersWithArrayInput(RequestContext request , List<User> body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext createUsersWithListInput(RequestContext request , List<User> user) {
+    public ResponseContext createUsersWithListInput(RequestContext request , List<User> body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
@@ -64,7 +64,7 @@ public class UserController  {
   */
 
   /*
-    public ResponseContext updateUser(RequestContext request , String username, User user) {
+    public ResponseContext updateUser(RequestContext request , String username, User body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

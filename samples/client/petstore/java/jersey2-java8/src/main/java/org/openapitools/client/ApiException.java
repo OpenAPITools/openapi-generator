@@ -16,6 +16,9 @@ package org.openapitools.client;
 import java.util.Map;
 import java.util.List;
 
+/**
+ * API Exception
+ */
 
 public class ApiException extends Exception {
     private int code = 0;

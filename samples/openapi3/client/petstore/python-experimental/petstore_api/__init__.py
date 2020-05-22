@@ -51,6 +51,11 @@ from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.banana import Banana
 from petstore_api.models.banana_req import BananaReq
+from petstore_api.models.biology_chordate import BiologyChordate
+from petstore_api.models.biology_hominid import BiologyHominid
+from petstore_api.models.biology_mammal import BiologyMammal
+from petstore_api.models.biology_primate import BiologyPrimate
+from petstore_api.models.biology_reptile import BiologyReptile
 from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat import Cat
 from petstore_api.models.cat_all_of import CatAllOf
@@ -60,6 +65,7 @@ from petstore_api.models.client import Client
 from petstore_api.models.complex_quadrilateral import ComplexQuadrilateral
 from petstore_api.models.dog import Dog
 from petstore_api.models.dog_all_of import DogAllOf
+from petstore_api.models.drawing import Drawing
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_test import EnumTest
@@ -89,6 +95,7 @@ from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
+from petstore_api.models.nullable_shape import NullableShape
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite
@@ -103,6 +110,7 @@ from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.scalene_triangle import ScaleneTriangle
 from petstore_api.models.shape import Shape
 from petstore_api.models.shape_interface import ShapeInterface
+from petstore_api.models.shape_or_null import ShapeOrNull
 from petstore_api.models.simple_quadrilateral import SimpleQuadrilateral
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.string_boolean_map import StringBooleanMap

@@ -19,6 +19,5 @@ abstract class Category implements Built<Category, CategoryBuilder> {
 
     factory Category([updates(CategoryBuilder b)]) = _$Category;
     static Serializer<Category> get serializer => _$categorySerializer;
-
 }
 

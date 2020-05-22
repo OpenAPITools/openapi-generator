@@ -795,20 +795,30 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             config.postProcessFile(written, "supporting-mustache");
                         }
                     } else {
-                        InputStream in = null;
+                        if (Arrays.stream(templatingEngine.getFileExtensions()).anyMatch(templateFile::endsWith)) {
+                            String templateContent = templatingEngine.compileTemplate(this, bundle, support.templateFile);
+                            writeToFile(outputFilename, templateContent);
+                            File written = new File(outputFilename);
+                            files.add(written);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(written, "supporting-mustache");
+                            }
+                        } else {
+                            InputStream in = null;
 
-                        try {
-                            in = new FileInputStream(templateFile);
-                        } catch (Exception e) {
-                            // continue
-                        }
-                        if (in == null) {
-                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
-                        }
-                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
-                        files.add(outputFile);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(outputFile, "supporting-common");
+                            try {
+                                in = new FileInputStream(templateFile);
+                            } catch (Exception e) {
+                                // continue
+                            }
+                            if (in == null) {
+                                in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                            }
+                            File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
+                            files.add(outputFile);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(outputFile, "supporting-common");
+                            }
                         }
                     }
 
@@ -916,13 +926,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
 
-            if (hasOAuthMethods(authMethods)) {
+            if (ProcessUtils.hasOAuthMethods(authMethods)) {
                 bundle.put("hasOAuthMethods", true);
-                bundle.put("oauthMethods", getOAuthMethods(authMethods));
+                bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
             }
 
-            if (hasBearerMethods(authMethods)) {
-                bundle.put("hasBearerMethods", true);
+            if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
+                bundle.put("hasHttpBearerMethods", true);
             }
             if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
                 bundle.put("hasHttpSignatureMethods", true);
@@ -1435,37 +1445,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return result;
     }
 
-    private boolean hasOAuthMethods(List<CodegenSecurity> authMethods) {
-        for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isOAuth)) {
-                return true;
-            }
-        }
 
-        return false;
-    }
-
-    private boolean hasBearerMethods(List<CodegenSecurity> authMethods) {
-        for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isBasicBearer)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private List<CodegenSecurity> getOAuthMethods(List<CodegenSecurity> authMethods) {
-        List<CodegenSecurity> oauthMethods = new ArrayList<>();
-
-        for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isOAuth)) {
-                oauthMethods.add(cs);
-            }
-        }
-
-        return oauthMethods;
-    }
 
     protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws IOException {
         if (in != null) {
