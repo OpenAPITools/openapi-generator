@@ -189,5 +189,24 @@ class TestFruit(unittest.TestCase):
             fruit._additional_properties_model_instances, []
         )
 
+    def testFruitNullValue(self):
+        # Since 'apple' is nullable, validate we can create an apple with the 'null' value.
+        apple = petstore_api.Apple(None)
+        self.assertIsNone(apple)
+
+        # But 'banana' is not nullable.
+        banana = petstore_api.Banana(None)
+        # TODO: this does not seem right. Shouldn't this raise an exception?
+        assert isinstance(banana, petstore_api.Banana)
+
+        # Since 'fruit' has oneOf 'apple', 'banana' and 'apple' is nullable,
+        # validate we can create a fruit with the 'null' value.
+        fruit = petstore_api.Fruit(None)
+        self.assertIsNone(fruit)
+ 
+        # Redo the same thing, this time passing a null Apple to the Fruit constructor.
+        fruit = petstore_api.Fruit(petstore_api.Apple(None))
+        self.assertIsNone(fruit)
+
 if __name__ == '__main__':
     unittest.main()

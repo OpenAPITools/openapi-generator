@@ -1849,6 +1849,7 @@ components:
         origin:
           type: string
           pattern: /^[A-Z\s]*$/i
+      nullable: true
     banana:
       type: object
       properties:

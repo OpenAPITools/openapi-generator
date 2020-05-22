@@ -138,16 +138,8 @@ class OpenApiModel(object):
         # pick a new schema/class to instantiate because a discriminator
         # propertyName value was passed in
 
-        # Build a list containing all oneOf and anyOf descendants.
-        oneof_anyof_classes = None
-        if cls._composed_schemas is not None:
-            oneof_anyof_classes = (
-                cls._composed_schemas.get('oneOf', ()) +
-                cls._composed_schemas.get('anyOf', ()))
-        if (oneof_anyof_classes and none_type in oneof_anyof_classes and
-                len(args) == 1 and args[0] is None):
-            # The input data is the 'null' value AND one of the oneOf/anyOf children
-            # is the 'null' type (which is introduced in OAS schema >= 3.1).
+        if len(args) == 1 and args[0] is None and is_type_nullable(cls):
+            # The input data is the 'null' value and the type is nullable.
             return None
 
         visited_composed_classes = kwargs.get('_visited_composed_classes', ())
@@ -216,6 +208,12 @@ class OpenApiModel(object):
             # if we are coming from the chosen new_cls use cls instead
             return super(OpenApiModel, cls).__new__(cls)
 
+        # Build a list containing all oneOf and anyOf descendants.
+        oneof_anyof_classes = None
+        if cls._composed_schemas is not None:
+            oneof_anyof_classes = (
+                cls._composed_schemas.get('oneOf', ()) +
+                cls._composed_schemas.get('anyOf', ()))
         oneof_anyof_child = new_cls in oneof_anyof_classes
         kwargs['_visited_composed_classes'] = visited_composed_classes + (cls,)
 
@@ -1201,7 +1199,7 @@ def is_type_nullable(input_type):
     if issubclass(input_type, OpenApiModel) and input_type._nullable:
         return True
     if issubclass(input_type, ModelComposed):
-        # If oneOf/anyOf, check if the 'null' type is one of the allowed types.            
+        # If oneOf/anyOf, check if the 'null' type is one of the allowed types.          
         for t in input_type._composed_schemas.get('oneOf', ()):
             if is_type_nullable(t): return True
         for t in input_type._composed_schemas.get('anyOf', ()):
