@@ -118,7 +118,7 @@ class GmMammal(ModelComposed):
     required_properties = set([
         '_data_store',
         '_check_type',
-        '_from_server',
+        '_json_variable_naming',
         '_path_to_item',
         '_configuration',
         '_composed_instances',
@@ -126,7 +126,7 @@ class GmMammal(ModelComposed):
         '_additional_properties_model_instances',
     ])
 
-    def __init__(self, class_name, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+    def __init__(self, class_name, _check_type=True, _json_variable_naming=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """gm_mammal.GmMammal - a model defined in OpenAPI
 
         Args:
@@ -140,7 +140,7 @@ class GmMammal(ModelComposed):
             _path_to_item (tuple/list): This is a list of keys or values to
                                 drill down to the model in received_data
                                 when deserializing a response
-            _from_server (bool): True if the data is from the server
+            _json_variable_naming (bool): True if the data is from the server
                                 False if the data is from the client (default)
             _configuration (Configuration): the instance to use when
                                 deserializing a file_type parameter.
@@ -154,14 +154,14 @@ class GmMammal(ModelComposed):
 
         self._data_store = {}
         self._check_type = _check_type
-        self._from_server = _from_server
+        self._json_variable_naming = _json_variable_naming
         self._path_to_item = _path_to_item
         self._configuration = _configuration
 
         constant_args = {
             '_check_type': _check_type,
             '_path_to_item': _path_to_item,
-            '_from_server': _from_server,
+            '_json_variable_naming': _json_variable_naming,
             '_configuration': _configuration,
         }
         model_args = {
@@ -199,12 +199,12 @@ class GmMammal(ModelComposed):
         }
 
     @classmethod
-    def get_discriminator_class(cls, from_server, data):
+    def get_discriminator_class(cls, json_variable_naming, data):
         """Returns the child class specified by the discriminator"""
         discriminator = cls.discriminator()
         discr_propertyname_py = list(discriminator.keys())[0]
         discr_propertyname_js = cls.attribute_map[discr_propertyname_py]
-        if from_server:
+        if json_variable_naming:
             class_name = data[discr_propertyname_js]
         else:
             class_name = data[discr_propertyname_py]
