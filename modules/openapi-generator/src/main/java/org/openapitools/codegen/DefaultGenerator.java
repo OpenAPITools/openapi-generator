@@ -854,6 +854,8 @@ public class DefaultGenerator implements Generator {
         configureGeneratorProperties();
         configureOpenAPIInfo();
 
+        config.processOpenAPI(openAPI);
+
         List<File> files = new ArrayList<>();
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
@@ -866,7 +868,6 @@ public class DefaultGenerator implements Generator {
         // supporting files
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
-        config.processOpenAPI(openAPI);
 
         if(dryRun) {
             boolean verbose = Boolean.parseBoolean(GlobalSettings.getProperty("verbose"));
