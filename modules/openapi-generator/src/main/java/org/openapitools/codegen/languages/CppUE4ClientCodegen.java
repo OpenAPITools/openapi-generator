@@ -119,7 +119,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         additionalProperties().put("modelNamePrefix", modelNamePrefix);
         additionalProperties().put("modelPackage", modelPackage);
         additionalProperties().put("apiPackage", apiPackage);
-        additionalProperties().put("dllapi", unrealModuleName.toUpperCase() + "_API");
+        additionalProperties().put("dllapi", unrealModuleName.toUpperCase(Locale.ROOT) + "_API");
         additionalProperties().put("unrealModuleName", unrealModuleName);
 
         // Write defaults namespace in properties so that it can be accessible in templates.
@@ -205,7 +205,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         boolean updateSupportingFiles = false;
         if (additionalProperties.containsKey("unrealModuleName")) {
             unrealModuleName = (String) additionalProperties.get("unrealModuleName");
-            additionalProperties().put("dllapi", unrealModuleName.toUpperCase() + "_API");
+            additionalProperties().put("dllapi", unrealModuleName.toUpperCase(Locale.ROOT) + "_API");
             modelNamePrefix = unrealModuleName;
             updateSupportingFiles = true;
         }
@@ -493,7 +493,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+            name = name.toLowerCase(Locale.ROOT);
         }
 
         // for reserved word or word starting with number, append _
