@@ -50,10 +50,6 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
 
-    // A private vendor extension to track the list of imports that are needed when
-    // schemas are referenced under the 'additionalProperties' keyword.
-    private static final String referencedModelNamesExtension = "x-python-referenced-model-names";
-
     public PythonClientExperimentalCodegen() {
         super();
 
@@ -386,15 +382,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
-                // Models that are referenced in the 'additionalPropertiesType' keyword
-                // must be added to the imports.
-                List<String> refModelNames = (List<String>) cm.vendorExtensions.get(referencedModelNamesExtension);
-                if (refModelNames != null) {
-                    for (String refModelName : refModelNames) {
-                        cm.imports.add(refModelName);
-                    }
-                }
-                
                 // make sure discriminator models are included in imports
                 CodegenDiscriminator discriminator = cm.discriminator;
                 if (discriminator != null) {
@@ -1016,7 +1003,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             List<String> referencedModelNames = new ArrayList<String>();
             codegenModel.additionalPropertiesType = getTypeString(addProps, "", "", referencedModelNames);
             if (referencedModelNames.size() != 0) {
-                codegenModel.vendorExtensions.put(referencedModelNamesExtension, referencedModelNames);
+                // Models that are referenced in the 'additionalPropertiesType' keyword
+                // must be added to the imports.
+                codegenModel.imports.addAll(referencedModelNames);
             }
         }
         // If addProps is null, the value of the 'additionalProperties' keyword is set
