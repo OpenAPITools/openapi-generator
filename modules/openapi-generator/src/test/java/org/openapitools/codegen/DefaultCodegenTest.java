@@ -240,7 +240,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testAdditionalPropertiesV2Spec() {
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-and-additional-properties-for-testing.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/additional-properties-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.setDisallowAdditionalPropertiesIfNotPresent(true);
