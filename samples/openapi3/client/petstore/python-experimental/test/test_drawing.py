@@ -26,6 +26,28 @@ class TestDrawing(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_create_instances(self):
+        """
+        Validate instance can be created using pythonic name or OAS names.
+        """
+
+        # Validate object can be created using pythonic names.
+        inst = petstore_api.Shape(
+            shape_type="Triangle",
+            triangle_type="IsoscelesTriangle"
+        )
+        assert isinstance(inst, petstore_api.IsoscelesTriangle)
+
+        # Validate object can be created using OAS names.
+        # For example, this can be used to construct objects on the client
+        # when the input data is available as JSON documents.
+        data =  {
+              'shapeType': "Triangle",
+              'triangleType': "IsoscelesTriangle"
+        }
+        inst = petstore_api.Shape(**data, _from_server=True)
+        assert isinstance(inst, petstore_api.IsoscelesTriangle)
+
     def test_deserialize_oneof_reference(self):
         """
         Validate the scenario when the type of a OAS property is 'oneOf', and the 'oneOf'
