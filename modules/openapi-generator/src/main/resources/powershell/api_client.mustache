@@ -91,13 +91,14 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
 
     {{#hasHttpSignatureMethods}}
     # http signature authentication
-    if ($null -ne $Configuration['ApiKey'] -and $Configuration['ApiKey'].Count -gt 0) {
+    $httpSigningConfig = Get-{{apiNamePrefix}}ConfigurationHttpSigning
+    if ($null -ne $httpSigningConfig) {
         $httpSignHeaderArgument = @{
             Method     = $Method
             UriBuilder = $UriBuilder
             Body       = $Body
         }
-        $signedHeader = Get-{{{apiNamePrefix}}}HttpSignedHeader @httpSignHeaderArgument
+        $signedHeader = Get-{{apiNamePrefix}}HttpSignedHeader @httpSignHeaderArgument
         if($null -ne $signedHeader -and $signedHeader.Count -gt 0){
             foreach($item in $signedHeader.GetEnumerator()){
                 $HeaderParameters[$item.Name] = $item.Value
