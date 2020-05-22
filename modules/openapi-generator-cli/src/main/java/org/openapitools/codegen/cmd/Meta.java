@@ -30,6 +30,7 @@ import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TemplateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,9 +147,9 @@ public class Meta extends OpenApiGeneratorCommand {
                             new File(new File(targetDir.getAbsolutePath()), support.folder);
                     File outputFile = new File(destinationFolder, support.destinationFilename);
 
-                    String template =
-                            generator.readTemplate(new File(TEMPLATE_DIR_CLASSPATH,
-                                    support.templateFile).getPath());
+                    String template =((TemplateManager)generator.getTemplateProcessor()).readTemplate(new File(TEMPLATE_DIR_CLASSPATH,
+                            support.templateFile).getPath());
+
                     String formatted = template;
 
                     if (support.templateFile.endsWith(MUSTACHE_EXTENSION)) {
@@ -180,7 +181,7 @@ public class Meta extends OpenApiGeneratorCommand {
         return new Mustache.TemplateLoader() {
             @Override
             public Reader getTemplate(String name) {
-                return generator.getTemplateReader(TEMPLATE_DIR_CLASSPATH + File.separator
+                return ((TemplateManager)generator.getTemplateProcessor()).getTemplateReader(TEMPLATE_DIR_CLASSPATH + File.separator
                         + name.concat(MUSTACHE_EXTENSION));
             }
         };

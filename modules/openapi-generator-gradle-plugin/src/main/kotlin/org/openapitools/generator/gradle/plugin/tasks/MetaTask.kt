@@ -24,10 +24,7 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.property
-import org.openapitools.codegen.CodegenConfig
-import org.openapitools.codegen.CodegenConstants
-import org.openapitools.codegen.DefaultGenerator
-import org.openapitools.codegen.SupportingFile
+import org.openapitools.codegen.*
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
@@ -90,8 +87,16 @@ open class MetaTask : DefaultTask() {
                 destinationFolder.mkdirs()
                 val outputFile = File(destinationFolder, it.destinationFilename)
 
-                val template = generator.readTemplate(File("codegen", it.templateFile).path)
+                val templateProcessor = generator.templateProcessor as TemplateManager
+
+                val template = templateProcessor.getFullTemplateContents(File("codegen", it.templateFile).path)
                 var formatted = template
+
+                val loader: (DefaultGenerator) -> Mustache.TemplateLoader = { g ->
+                        Mustache.TemplateLoader { name ->
+                            templateProcessor.getTemplateReader("codegen${File.separator}$name.mustache")
+                        }
+                }
 
                 if (it.templateFile.endsWith(".mustache")) {
                     formatted = Mustache.compiler()
@@ -113,12 +118,6 @@ open class MetaTask : DefaultTask() {
         }
         out.withStyle(StyledTextOutput.Style.Success)
         out.formatln("Created generator %s", klass)
-    }
-
-    private fun loader(generator: DefaultGenerator): Mustache.TemplateLoader {
-        return Mustache.TemplateLoader { name ->
-            generator.getTemplateReader("codegen${File.separator}$name.mustache")
-        }
     }
 
     private fun String.titleCasedTextOnly(): String =

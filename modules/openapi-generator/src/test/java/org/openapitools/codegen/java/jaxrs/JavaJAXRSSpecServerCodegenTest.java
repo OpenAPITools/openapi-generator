@@ -10,11 +10,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.MockDefaultGenerator;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
@@ -27,6 +23,8 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,12 +210,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        validateJavaSourceFiles(generatedFiles);
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/openapi/openapi.yaml");
+        validateJavaSourceFiles(files);
+
+        TestUtils.ensureContainsFile(files, output, "src/main/openapi/openapi.yaml");
 
         output.deleteOnExit();
     }
@@ -237,12 +235,11 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        validateJavaSourceFiles(generatedFiles);
-        TestUtils.ensureDoesNotContainsFile(generatedFiles, output, "src/main/openapi/openapi.yaml");
+        validateJavaSourceFiles(files);
+        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/openapi/openapi.yaml");
 
         output.deleteOnExit();
     }
@@ -262,12 +259,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        validateJavaSourceFiles(generatedFiles);
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/resources/META-INF/openapi.yaml");
+        validateJavaSourceFiles(files);
+
+        TestUtils.ensureContainsFile(files, output, "src/main/resources/META-INF/openapi.yaml");
 
         output.deleteOnExit();
     }
@@ -287,12 +284,11 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        validateJavaSourceFiles(generatedFiles);
-        TestUtils.ensureContainsFile(generatedFiles, output, "openapi.yml");
+        validateJavaSourceFiles(files);
+        TestUtils.ensureContainsFile(files, output, "openapi.yml");
 
         output.deleteOnExit();
     }
@@ -312,13 +308,13 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator(false);
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        validateJavaSourceFiles(generatedFiles);
-        TestUtils.ensureContainsFile(generatedFiles, output, "openapi.yml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
+        validateJavaSourceFiles(files);
+
+        TestUtils.ensureContainsFile(files, output, "openapi.yml");
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
 
         output.deleteOnExit();
     }
@@ -341,12 +337,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
             .openAPI(openAPI)
             .config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator(false);
         generator.opts(input).generate();
 
-        String path = outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java";
+        Path path = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java");
 
-        assertFileContains(generator, path, "\nimport java.util.Set;\n");
+        assertFileContains(path, "\nimport java.util.Set;\n");
     }
 
     @Test
@@ -366,11 +362,11 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
             .openAPI(openAPI)
             .config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        String path = outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java";
+        Path path = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java");
 
-        assertFileContains(generator, path, "\nimport java.util.Set;\n");
+        assertFileContains(path, "\nimport java.util.Set;\n");
     }
 }

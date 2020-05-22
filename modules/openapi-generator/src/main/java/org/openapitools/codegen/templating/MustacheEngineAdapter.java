@@ -19,7 +19,7 @@ package org.openapitools.codegen.templating;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
-import org.openapitools.codegen.api.TemplatingGenerator;
+import org.openapitools.codegen.api.TemplatingExecutor;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -42,18 +42,26 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     public String[] extensions = new String[]{"mustache"};
     Mustache.Compiler compiler = Mustache.compiler();
 
+    /**
+     * Compiles a template into a string
+     *
+     * @param executor    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
+     * @param bundle       The map of values to pass to the template
+     * @param templateFile The name of the template (e.g. model.mustache )
+     * @return the processed template result
+     * @throws IOException an error ocurred in the template processing
+     */
     @Override
-    public String compileTemplate(TemplatingGenerator generator, Map<String, Object> bundle,
-                                  String templateFile) throws IOException {
+    public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
         Template tmpl = compiler
-                .withLoader(name -> findTemplate(generator, name))
+                .withLoader(name -> findTemplate(executor, name))
                 .defaultValue("")
-                .compile(generator.getFullTemplateContents(templateFile));
+                .compile(executor.getFullTemplateContents(templateFile));
 
         return tmpl.execute(bundle);
     }
 
-    public Reader findTemplate(TemplatingGenerator generator, String name) {
+    public Reader findTemplate(TemplatingExecutor generator, String name) {
         for (String extension : extensions) {
             try {
                 return new StringReader(generator.getFullTemplateContents(name + "." + extension));

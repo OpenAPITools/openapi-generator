@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -32,8 +33,10 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings({"UnstableApiUsage", "OptionalGetWithoutIsPresent"})
 public class ScalaAkkaClientCodegenTest {
 
     private ScalaAkkaClientCodegen scalaAkkaClientCodegen;
@@ -353,15 +356,26 @@ public class ScalaAkkaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 14);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
-        final String someObjFilename = new File(output, "src/main/scala/hello/world/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 1);
+
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
+
+        File someObj = files.stream().filter(f -> f.getName().equals("SomeObj.scala"))
+                .findFirst().get();
+
+        byte[] fileContents = Files.readAllBytes(someObj.toPath());
         Assert.assertEquals(
-                generatedFiles.get(someObjFilename),
+                new String(fileContents, StandardCharsets.UTF_8),
                 Resources.toString(Resources.getResource("codegen/scala/SomeObj.scala.txt"), StandardCharsets.UTF_8));
     }
 
@@ -383,15 +397,26 @@ public class ScalaAkkaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 14);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
-        final String someObjFilename = new File(output, "src/main/scala/hello/world/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 1);
+
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
+
+        File someObj = files.stream().filter(f -> f.getName().equals("SomeObj.scala"))
+                .findFirst().get();
+
+        byte[] fileContents = Files.readAllBytes(someObj.toPath());
         Assert.assertEquals(
-                generatedFiles.get(someObjFilename),
+                new String(fileContents, StandardCharsets.UTF_8),
                 Resources.toString(Resources.getResource("codegen/scala/JavaTimeObj.scala.txt"), StandardCharsets.UTF_8));
     }
 
@@ -436,18 +461,22 @@ public class ScalaAkkaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator(false);
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
         Generator gen = generator.opts(clientOptInput);
-        gen.generate();
+        List<File> files = gen.generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 14);
+        Assert.assertEquals(files.size(), 14);
 
-        String outputPath = output.getAbsolutePath().replace("\\", "/");
-
-        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/model/SomeObj.scala"));
-        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/core/ApiSettings.scala"));
-        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/api/PingApi.scala"));
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/core/ApiSettings.scala");
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/api/PingApi.scala");
     }
 
     @Test(description = "override api packages")
@@ -469,17 +498,21 @@ public class ScalaAkkaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
         Generator gen = generator.opts(clientOptInput);
-        gen.generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 14);
+        List<File> files = gen.generate();
+        Assert.assertEquals(files.size(), 14);
 
-        String outputPath = output.getAbsolutePath().replace("\\", "/");
-
-        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/model/package/SomeObj.scala"), "Model package is correct");
-        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/package/invoker/ApiSettings.scala"), "Invoker package is correct");
-        Assert.assertTrue(generatedFiles.containsKey(outputPath + "/src/main/scala/hello/world/api/package/PingApi.scala"), "Api package is correct");
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/package/SomeObj.scala");
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/package/invoker/ApiSettings.scala");
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/api/package/PingApi.scala");
     }
 }

@@ -21,7 +21,12 @@ import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.testng.Assert;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -83,6 +88,17 @@ public class TestUtils {
         return openAPI;
     }
 
+    /**
+     * Extract file from {@link MockDefaultGenerator}
+     *
+     * @param generator Generator
+     * @param root root path
+     * @param filename filename under root
+     *
+     * @return a {@link WrittenTemplateBasedFile}
+     * @deprecated Since 5.0. Please avoid this method and usage of {@link MockDefaultGenerator}, prefer {@link DefaultGenerator#DefaultGenerator(Boolean)} with dryRun=true.
+     */
+    @Deprecated
     public static WrittenTemplateBasedFile getTemplateBasedFile(MockDefaultGenerator generator, File root, String filename) {
         String defaultApiFilename = new File(root, filename).getAbsolutePath().replace("\\", "/");
         Optional<WrittenTemplateBasedFile> optional = generator.getTemplateBasedFiles().stream().filter(f -> defaultApiFilename.equals(f.getOutputFilename())).findFirst();
@@ -90,24 +106,14 @@ public class TestUtils {
         return optional.get();
     }
 
-    public static void ensureContainsFile(Map<String, String> generatedFiles, File root, String filename) {
-        File file = new File(root, filename);
-        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
-        if (!generatedFiles.containsKey(absoluteFilename)) {
-            fail("Could not find '" + absoluteFilename + "' file in list:\n" +
-                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
-        }
-        assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not found in the list of generated files");
+    public static void ensureContainsFile(List<File> generatedFiles, File root, String filename) {
+        Path path = root.toPath().resolve(filename);
+        assertTrue(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath().toString() + "' was not found in the list of generated files");
     }
 
-    public static void ensureDoesNotContainsFile(Map<String, String> generatedFiles, File root, String filename) {
-        File file = new File(root, filename);
-        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
-        if (generatedFiles.containsKey(absoluteFilename)) {
-            fail("File '" + absoluteFilename + "' exists in file in list:\n" +
-                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
-        }
-        assertFalse(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was found in the list of generated files");
+    public static void ensureDoesNotContainsFile(List<File> generatedFiles, File root, String filename) {
+        Path path = root.toPath().resolve(filename);
+        assertFalse(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath().toString() + "' was found in the list of generated files");
     }
 
     public static void validateJavaSourceFiles(Map<String, String> fileMap) {
@@ -116,6 +122,22 @@ public class TestUtils {
                     assertValidJavaSourceCode(fileContents, fileName);
                 }
             }
+        );
+    }
+
+    public static void validateJavaSourceFiles(List<File> files) {
+        files.forEach( f -> {
+                    String fileName = f.getName();
+                    if (fileName.endsWith(".java")) {
+                        String fileContents = "";
+                        try {
+                            fileContents = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
+                        } catch (IOException ignored) {
+
+                        }
+                        assertValidJavaSourceCode(fileContents, fileName);
+                    }
+                }
         );
     }
 
@@ -129,24 +151,30 @@ public class TestUtils {
         }
     }
 
-
-    public static void assertFileContains(MockDefaultGenerator generator, String path, String... lines) {
-        final String generatedFile = generator.getFiles().get(path);
-        if (null == generatedFile) {
-            fail("File " + path +  " not found in " + generator.getFiles().keySet());
+    public static void assertFileContains(Path path, String... lines) {
+        try {
+            String generatedFile = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            String file = linearize(generatedFile);
+            assertNotNull(file);
+            for (String line : lines)
+                assertTrue(file.contains(linearize(line)));
+        } catch (IOException e) {
+            fail("Unable to evaluate file " + path.toString());
         }
-        String file = linearize(generatedFile);
-        assertNotNull(file);
-        for (String line : lines)
-            assertTrue(file.contains(linearize(line)));
     }
 
     private static String linearize(String target) {
         return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
     }
 
-    public static void assertFileNotContains(MockDefaultGenerator generator, String path, String... lines) {
-        String file = linearize(generator.getFiles().get(path));
+    public static void assertFileNotContains(Path path, String... lines) {
+        String generatedFile = null;
+        try {
+            generatedFile = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            fail("Unable to evaluate file " + path.toString());
+        }
+        String file = linearize(generatedFile);
         assertNotNull(file);
         for (String line : lines)
             assertFalse(file.contains(linearize(line)));
