@@ -5,6 +5,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -12,7 +14,7 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class UE4CPPGenerator extends AbstractCppCodegen {
+public class CppUE4ClientCodegen extends AbstractCppCodegen {
     public static final String CPP_NAMESPACE = "cppNamespace";
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
     public static final String UNREAL_MODULE_NAME = "unrealModuleName";
@@ -33,14 +35,18 @@ public class UE4CPPGenerator extends AbstractCppCodegen {
     protected boolean optionalProjectFileFlag = true;
 
 
-    public UE4CPPGenerator() {
+    public CppUE4ClientCodegen() {
         super();
 
-        // set the output folder here
-        outputFolder = "generated-code/ue4cpp";
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
-        // set modelNamePrefix as default for UE4CPP
-        if (modelNamePrefix == "") {
+        // set the output folder here
+        outputFolder = "generated-code/cpp-ue4";
+
+        // set modelNamePrefix as default for cpp-ue4
+        if ("".equals(modelNamePrefix)) {
             modelNamePrefix = unrealModuleName;
         }
 
@@ -83,7 +89,7 @@ public class UE4CPPGenerator extends AbstractCppCodegen {
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "ue4cpp";
+        embeddedTemplateDir = templateDir = "cpp-ue4";
 
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
@@ -139,8 +145,8 @@ public class UE4CPPGenerator extends AbstractCppCodegen {
 
         super.typeMapping = new HashMap<String, String>();
 
-        // Maps C++ types during call to getSwaggertype, see DefaultCodegen.getSwaggerType and not the types/formats defined in openapi specification
-        // "array" is also used explicitly in the generator for containers
+        // Maps C++ types during call to getSchemaType, see DefaultCodegen.getSchemaType and not the types/formats
+        // defined in openapi specification "array" is also used explicitly in the generator for containers
         typeMapping.clear();
         typeMapping.put("integer", "int32");
         typeMapping.put("long", "int64");
@@ -240,7 +246,7 @@ public class UE4CPPGenerator extends AbstractCppCodegen {
      */
     @Override
     public String getName() {
-        return "ue4cpp";
+        return "cpp-ue4";
     }
 
     /**
@@ -333,7 +339,7 @@ public class UE4CPPGenerator extends AbstractCppCodegen {
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         String folder = privateFolder;
-        if (suffix == ".h") {
+        if (".h".equals(suffix)) {
             folder = publicFolder;
         }
 
@@ -427,7 +433,7 @@ public class UE4CPPGenerator extends AbstractCppCodegen {
     }
 
     /**
-     * Optional - swagger type conversion.  This is used to map swagger types in a `Property` into
+     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Property` into
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
