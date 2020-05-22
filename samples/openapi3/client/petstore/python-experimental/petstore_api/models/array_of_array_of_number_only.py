@@ -93,14 +93,14 @@ class ArrayOfArrayOfNumberOnly(ModelNormal):
     required_properties = set([
         '_data_store',
         '_check_type',
-        '_from_server',
+        '_json_variable_naming',
         '_path_to_item',
         '_configuration',
         '_visited_composed_classes',
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, _check_type=True, _json_variable_naming=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """array_of_array_of_number_only.ArrayOfArrayOfNumberOnly - a model defined in OpenAPI
 
         Keyword Args:
@@ -111,8 +111,10 @@ class ArrayOfArrayOfNumberOnly(ModelNormal):
             _path_to_item (tuple/list): This is a list of keys or values to
                                 drill down to the model in received_data
                                 when deserializing a response
-            _from_server (bool): True if the data is from the server
-                                False if the data is from the client (default)
+            _json_variable_naming (bool): True if the variable names in the input data
+                                are JSON names, as listed in the OpenAPI document.
+                                False if the variable names in the input data
+                                are pythonic names, e.g. snake case (default)
             _configuration (Configuration): the instance to use when
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
@@ -137,7 +139,7 @@ class ArrayOfArrayOfNumberOnly(ModelNormal):
 
         self._data_store = {}
         self._check_type = _check_type
-        self._from_server = _from_server
+        self._json_variable_naming = _json_variable_naming
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)

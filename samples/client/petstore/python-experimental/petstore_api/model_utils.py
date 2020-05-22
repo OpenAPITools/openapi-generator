@@ -100,7 +100,7 @@ class OpenApiModel(object):
 
         if self._check_type:
             value = validate_and_convert_types(
-                value, required_types_mixed, path_to_item, self._from_server,
+                value, required_types_mixed, path_to_item, self._json_variable_naming,
                 self._check_type, configuration=self._configuration)
         if (name,) in self.allowed_values:
             check_allowed_values(
@@ -830,15 +830,17 @@ def order_response_types(required_types):
     return sorted_types
 
 
-def remove_uncoercible(required_types_classes, current_item, from_server,
+def remove_uncoercible(required_types_classes, current_item, json_variable_naming,
                        must_convert=True):
     """Only keeps the type conversions that are possible
 
     Args:
         required_types_classes (tuple): tuple of classes that are required
                           these should be ordered by COERCION_INDEX_BY_TYPE
-        from_server (bool): a boolean of whether the data is from the server
-                          if false, the data is from the client
+        json_variable_naming (bool): True if the variable names in the input
+            data are JSON names, i.e. as serialized.
+            False if the variables names in the input data are python
+            variable names in PEP-8 snake case.
         current_item (any): the current item (input data) to be converted
 
     Keyword Args:
@@ -868,7 +870,7 @@ def remove_uncoercible(required_types_classes, current_item, from_server,
             continue
 
         class_pair = (current_type_simple, required_type_class_simplified)
-        if must_convert and class_pair in COERCIBLE_TYPE_PAIRS[from_server]:
+        if must_convert and class_pair in COERCIBLE_TYPE_PAIRS[json_variable_naming]:
             results_classes.append(required_type_class)
         elif class_pair in UPCONVERSION_TYPE_PAIRS:
             results_classes.append(required_type_class)
@@ -1052,7 +1054,7 @@ def get_discriminator_class(model_class,
 
 
 def deserialize_model(model_data, model_class, path_to_item, check_type,
-                      configuration, from_server):
+                      configuration, json_variable_naming):
     """Deserializes model_data to model instance.
 
     Args:
@@ -1062,8 +1064,10 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
         check_type (bool): whether to check the data tupe for the values in
             the model
         configuration (Configuration): the instance to use to convert files
-        from_server (bool): True if the data is from the server
-            False if the data is from the client
+        json_variable_naming (bool): True if the variable names in the input
+            data are JSON names, i.e. as serialized.
+            False if the variables names in the input data are python
+            variable names in PEP-8 snake case.
 
     Returns:
         model instance
@@ -1077,7 +1081,7 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
     kw_args = dict(_check_type=check_type,
                    _path_to_item=path_to_item,
                    _configuration=configuration,
-                   _from_server=from_server)
+                   _json_variable_naming=json_variable_naming)
 
     if issubclass(model_class, ModelSimple):
         instance = model_class(value=model_data, **kw_args)
@@ -1128,7 +1132,7 @@ def deserialize_file(response_data, configuration, content_disposition=None):
 
 
 def attempt_convert_item(input_value, valid_classes, path_to_item,
-                         configuration, from_server, key_type=False,
+                         configuration, json_variable_naming, key_type=False,
                          must_convert=False, check_type=True):
     """
     Args:
@@ -1136,8 +1140,10 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
         valid_classes (any): the classes that are valid
         path_to_item (list): the path to the item to convert
         configuration (Configuration): the instance to use to convert files
-        from_server (bool): True if data is from the server, False is data is
-            from the client
+        json_variable_naming (bool): True if the variable names in the input
+            data are JSON names, i.e. as serialized.
+            False if the variables names in the input data are python
+            variable names in PEP-8 snake case.
         key_type (bool): if True we need to convert a key type (not supported)
         must_convert (bool): if True we must convert
         check_type (bool): if True we check the type or the returned data in
@@ -1153,7 +1159,7 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
     """
     valid_classes_ordered = order_response_types(valid_classes)
     valid_classes_coercible = remove_uncoercible(
-        valid_classes_ordered, input_value, from_server)
+        valid_classes_ordered, input_value, json_variable_naming)
     if not valid_classes_coercible or key_type:
         # we do not handle keytype errors, json will take care
         # of this for us
@@ -1165,7 +1171,7 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
             if issubclass(valid_class, OpenApiModel):
                 return deserialize_model(input_value, valid_class,
                                          path_to_item, check_type,
-                                         configuration, from_server)
+                                         configuration, json_variable_naming)
             elif valid_class == file_type:
                 return deserialize_file(input_value, configuration)
             return deserialize_primitive(input_value, valid_class,
@@ -1237,7 +1243,7 @@ def is_valid_type(input_class_simple, valid_classes):
 
 
 def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
-                               from_server, _check_type, configuration=None):
+                               json_variable_naming, _check_type, configuration=None):
     """Raises a TypeError is there is a problem, otherwise returns value
 
     Args:
@@ -1248,8 +1254,10 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
         path_to_item: (list) the path to the data being validated
             this stores a list of keys or indices to get to the data being
             validated
-        from_server (bool): True if data is from the server
-            False if data is from the client
+        json_variable_naming (bool): True if the variable names in the input
+            data are JSON names, i.e. as serialized.
+            False if the variables names in the input data are python
+            variable names in PEP-8 snake case.
         _check_type: (boolean) if true, type will be checked and conversion
             will be attempted.
         configuration: (Configuration): the configuration class to use
@@ -1277,7 +1285,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                 valid_classes,
                 path_to_item,
                 configuration,
-                from_server,
+                json_variable_naming,
                 key_type=False,
                 must_convert=True
             )
@@ -1290,14 +1298,14 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     if len(valid_classes) > 1 and configuration:
         # there are valid classes which are not the current class
         valid_classes_coercible = remove_uncoercible(
-            valid_classes, input_value, from_server, must_convert=False)
+            valid_classes, input_value, json_variable_naming, must_convert=False)
         if valid_classes_coercible:
             converted_instance = attempt_convert_item(
                 input_value,
                 valid_classes_coercible,
                 path_to_item,
                 configuration,
-                from_server,
+                json_variable_naming,
                 key_type=False,
                 must_convert=False
             )
@@ -1324,7 +1332,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                 inner_value,
                 inner_required_types,
                 inner_path,
-                from_server,
+                json_variable_naming,
                 _check_type,
                 configuration=configuration
             )
@@ -1342,7 +1350,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
                 inner_val,
                 inner_required_types,
                 inner_path,
-                from_server,
+                json_variable_naming,
                 _check_type,
                 configuration=configuration
             )
@@ -1448,8 +1456,8 @@ def convert_js_args_to_python_args(fn):
     from functools import wraps
     @wraps(fn)
     def wrapped_init(self, *args, **kwargs):
-        from_server = kwargs.get('_from_server', False)
-        if from_server:
+        json_variable_naming = kwargs.get('_json_variable_naming', False)
+        if json_variable_naming:
             kwargs = change_keys_js_to_python(kwargs, self.__class__)
         return fn(self, *args, **kwargs)
     return wrapped_init
