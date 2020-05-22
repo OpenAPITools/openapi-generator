@@ -298,7 +298,6 @@ public class SpringCodegenTest {
         final String multipartMixedApi = files.get("/src/main/java/org/openapitools/api/MultipartMixedApi.java");
         Assert.assertTrue(multipartMixedApi.contains("MultipartFile file"));
         Assert.assertTrue(multipartMixedApi.contains("@RequestPart(value = \"file\", required = true)"));
-        System.out.println(multipartMixedApi);
         Assert.assertTrue(multipartMixedApi.contains("@Valid @RequestPart(value = \"marker\", required = false)"));
     }
 
