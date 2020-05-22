@@ -42,10 +42,11 @@ class FakeClassnameTags123Api(object):
         To test class name in snake case  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_classname(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param Client body: client model (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -67,10 +68,11 @@ class FakeClassnameTags123Api(object):
         To test class name in snake case  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_classname_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param Client body: client model (required)
         :param _return_http_data_only: response data without head status code
                                        and headers

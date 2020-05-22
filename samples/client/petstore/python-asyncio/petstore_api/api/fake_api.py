@@ -42,10 +42,11 @@ class FakeApi(object):
         this route creates an XmlItem  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.create_xml_item(xml_item, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param XmlItem xml_item: XmlItem Body (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -67,10 +68,11 @@ class FakeApi(object):
         this route creates an XmlItem  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.create_xml_item_with_http_info(xml_item, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param XmlItem xml_item: XmlItem Body (required)
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -156,10 +158,11 @@ class FakeApi(object):
         Test serialization of outer boolean types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.fake_outer_boolean_serialize(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param bool body: Input boolean as post body
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -181,10 +184,11 @@ class FakeApi(object):
         Test serialization of outer boolean types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.fake_outer_boolean_serialize_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param bool body: Input boolean as post body
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -266,10 +270,11 @@ class FakeApi(object):
         Test serialization of object with outer number type  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.fake_outer_composite_serialize(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param OuterComposite body: Input composite as post body
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -291,10 +296,11 @@ class FakeApi(object):
         Test serialization of object with outer number type  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.fake_outer_composite_serialize_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param OuterComposite body: Input composite as post body
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -376,10 +382,11 @@ class FakeApi(object):
         Test serialization of outer number types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.fake_outer_number_serialize(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param float body: Input number as post body
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -401,10 +408,11 @@ class FakeApi(object):
         Test serialization of outer number types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.fake_outer_number_serialize_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param float body: Input number as post body
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -486,10 +494,11 @@ class FakeApi(object):
         Test serialization of outer string types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.fake_outer_string_serialize(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param str body: Input string as post body
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -511,10 +520,11 @@ class FakeApi(object):
         Test serialization of outer string types  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.fake_outer_string_serialize_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param str body: Input string as post body
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -596,10 +606,11 @@ class FakeApi(object):
         For this test, the body for this request much reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_body_with_file_schema(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param FileSchemaTestClass body: (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -621,10 +632,11 @@ class FakeApi(object):
         For this test, the body for this request much reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_body_with_file_schema_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param FileSchemaTestClass body: (required)
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -709,10 +721,11 @@ class FakeApi(object):
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_body_with_query_params(query, body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param str query: (required)
         :param User body: (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -734,10 +747,11 @@ class FakeApi(object):
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_body_with_query_params_with_http_info(query, body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param str query: (required)
         :param User body: (required)
         :param _return_http_data_only: response data without head status code
@@ -831,10 +845,11 @@ class FakeApi(object):
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_client_model(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param Client body: client model (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -856,10 +871,11 @@ class FakeApi(object):
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_client_model_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param Client body: client model (required)
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -949,10 +965,11 @@ class FakeApi(object):
         Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param float number: None (required)
         :param float double: None (required)
         :param str pattern_without_delimiter: None (required)
@@ -987,10 +1004,11 @@ class FakeApi(object):
         Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param float number: None (required)
         :param float double: None (required)
         :param str pattern_without_delimiter: None (required)
@@ -1168,10 +1186,11 @@ class FakeApi(object):
         To test enum parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_enum_parameters(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param list[str] enum_header_string_array: Header parameter enum test (string array)
         :param str enum_header_string: Header parameter enum test (string)
         :param list[str] enum_query_string_array: Query parameter enum test (string array)
@@ -1200,10 +1219,11 @@ class FakeApi(object):
         To test enum parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_enum_parameters_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param list[str] enum_header_string_array: Header parameter enum test (string array)
         :param str enum_header_string: Header parameter enum test (string)
         :param list[str] enum_query_string_array: Query parameter enum test (string array)
@@ -1316,10 +1336,11 @@ class FakeApi(object):
         Fake endpoint to test group parameters (optional)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param int required_string_group: Required String in group parameters (required)
         :param bool required_boolean_group: Required Boolean in group parameters (required)
         :param int required_int64_group: Required Integer in group parameters (required)
@@ -1346,10 +1367,11 @@ class FakeApi(object):
         Fake endpoint to test group parameters (optional)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param int required_string_group: Required String in group parameters (required)
         :param bool required_boolean_group: Required Boolean in group parameters (required)
         :param int required_int64_group: Required Integer in group parameters (required)
@@ -1458,10 +1480,11 @@ class FakeApi(object):
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_inline_additional_properties(param, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param dict(str, str) param: request body (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -1482,10 +1505,11 @@ class FakeApi(object):
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_inline_additional_properties_with_http_info(param, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param dict(str, str) param: request body (required)
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -1570,10 +1594,11 @@ class FakeApi(object):
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_json_form_data(param, param2, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param str param: field1 (required)
         :param str param2: field2 (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -1595,10 +1620,11 @@ class FakeApi(object):
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_json_form_data_with_http_info(param, param2, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param str param: field1 (required)
         :param str param2: field2 (required)
         :param _return_http_data_only: response data without head status code
@@ -1692,10 +1718,11 @@ class FakeApi(object):
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param list[str] pipe: (required)
         :param list[str] ioutil: (required)
         :param list[str] http: (required)
@@ -1721,10 +1748,11 @@ class FakeApi(object):
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param list[str] pipe: (required)
         :param list[str] ioutil: (required)
         :param list[str] http: (required)

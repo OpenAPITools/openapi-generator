@@ -42,10 +42,11 @@ class StoreApi(object):
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.delete_order(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param str order_id: ID of the order that needs to be deleted (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -67,10 +68,11 @@ class StoreApi(object):
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.delete_order_with_http_info(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param str order_id: ID of the order that needs to be deleted (required)
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -152,10 +154,11 @@ class StoreApi(object):
         Returns a map of status codes to quantities  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.get_inventory(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -176,10 +179,11 @@ class StoreApi(object):
         Returns a map of status codes to quantities  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.get_inventory_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param _return_http_data_only: response data without head status code
                                        and headers
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -257,10 +261,11 @@ class StoreApi(object):
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.get_order_by_id(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param int order_id: ID of pet that needs to be fetched (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -282,10 +287,11 @@ class StoreApi(object):
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.get_order_by_id_with_http_info(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param int order_id: ID of pet that needs to be fetched (required)
         :param _return_http_data_only: response data without head status code
                                        and headers
@@ -374,10 +380,11 @@ class StoreApi(object):
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.place_order(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param Order body: order placed for purchasing the pet (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -398,10 +405,11 @@ class StoreApi(object):
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.place_order_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param Order body: order placed for purchasing the pet (required)
         :param _return_http_data_only: response data without head status code
                                        and headers

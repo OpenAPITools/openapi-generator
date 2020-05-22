@@ -42,10 +42,11 @@ class AnotherFakeApi(object):
         To test special tags and operation ID starting with number  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.call_123_test_special_tags(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param Client body: client model (required)
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
@@ -67,10 +68,11 @@ class AnotherFakeApi(object):
         To test special tags and operation ID starting with number  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.call_123_test_special_tags_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
+        :param bool async_req: execute request asynchronously
         :param Client body: client model (required)
         :param _return_http_data_only: response data without head status code
                                        and headers
