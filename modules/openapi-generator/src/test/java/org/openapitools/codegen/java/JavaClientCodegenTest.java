@@ -269,9 +269,10 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 37);
+        Assert.assertEquals(files.size(), 38);
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
         TestUtils.ensureContainsFile(files, output, ".travis.yml");
         TestUtils.ensureContainsFile(files, output, "build.gradle");
@@ -299,8 +300,6 @@ public class JavaClientCodegenTest {
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
-        //TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/OAuth.java");
-        //TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/OAuthFlow.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/Configuration.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/GzipRequestInterceptor.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/JSON.java");
@@ -339,9 +338,10 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 40);
+        Assert.assertEquals(files.size(), 41);
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
         TestUtils.ensureContainsFile(files, output, ".travis.yml");
         TestUtils.ensureContainsFile(files, output, "build.gradle");
@@ -410,7 +410,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 26);
+        Assert.assertEquals(files.size(), 27);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
@@ -446,7 +446,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 29);
+        Assert.assertEquals(files.size(), 30);
         validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java");

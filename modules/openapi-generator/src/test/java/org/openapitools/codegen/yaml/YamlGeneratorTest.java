@@ -50,10 +50,11 @@ public class YamlGeneratorTest {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
-        Assert.assertEquals(files.size(), 4);
+        Assert.assertEquals(files.size(), 5);
         TestUtils.ensureContainsFile(files, output, "openapi/openapi.yaml");
         TestUtils.ensureContainsFile(files, output, "README.md");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
 
         output.deleteOnExit();
@@ -77,10 +78,11 @@ public class YamlGeneratorTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 4);
+        Assert.assertEquals(files.size(), 5);
         TestUtils.ensureContainsFile(files, output, "ping.yaml");
         TestUtils.ensureContainsFile(files, output, "README.md");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
 
         output.deleteOnExit();
