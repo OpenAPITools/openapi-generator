@@ -21,22 +21,22 @@ class UserApi(
   lazy val route: Route =
     path("user") { 
       post {  
-            entity(as[User]){ body =>
-              userService.createUser(body = body)
+            entity(as[User]){ user =>
+              userService.createUser(user = user)
             }
       }
     } ~
     path("user" / "createWithArray") { 
       post {  
-            entity(as[Seq[User]]){ body =>
-              userService.createUsersWithArrayInput(body = body)
+            entity(as[Seq[User]]){ user =>
+              userService.createUsersWithArrayInput(user = user)
             }
       }
     } ~
     path("user" / "createWithList") { 
       post {  
-            entity(as[Seq[User]]){ body =>
-              userService.createUsersWithListInput(body = body)
+            entity(as[Seq[User]]){ user =>
+              userService.createUsersWithListInput(user = user)
             }
       }
     } ~
@@ -64,8 +64,8 @@ class UserApi(
     } ~
     path("user" / Segment) { (username) => 
       put {  
-            entity(as[User]){ body =>
-              userService.updateUser(username = username, body = body)
+            entity(as[User]){ user =>
+              userService.updateUser(username = username, user = user)
             }
       }
     }
@@ -79,21 +79,21 @@ trait UserApiService {
   /**
    * Code: 0, Message: successful operation
    */
-  def createUser(body: User): Route
+  def createUser(user: User): Route
 
   def createUsersWithArrayInputDefault(statusCode: Int): Route =
     complete((statusCode, "successful operation"))
   /**
    * Code: 0, Message: successful operation
    */
-  def createUsersWithArrayInput(body: Seq[User]): Route
+  def createUsersWithArrayInput(user: Seq[User]): Route
 
   def createUsersWithListInputDefault(statusCode: Int): Route =
     complete((statusCode, "successful operation"))
   /**
    * Code: 0, Message: successful operation
    */
-  def createUsersWithListInput(body: Seq[User]): Route
+  def createUsersWithListInput(user: Seq[User]): Route
 
   def deleteUser400: Route =
     complete((400, "Invalid username supplied"))
@@ -144,7 +144,7 @@ trait UserApiService {
    * Code: 400, Message: Invalid user supplied
    * Code: 404, Message: User not found
    */
-  def updateUser(username: String, body: User): Route
+  def updateUser(username: String, user: User): Route
 
 }
 

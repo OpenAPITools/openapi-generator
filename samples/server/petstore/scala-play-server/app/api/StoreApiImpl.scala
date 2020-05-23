@@ -37,7 +37,7 @@ class StoreApiImpl extends StoreApi {
   /**
     * @inheritdoc
     */
-  override def placeOrder(body: Order): Order = {
+  override def placeOrder(order: Order): Order = {
     // TODO: Implement better logic
 
     Order(None, None, None, None, None, None)

@@ -7,21 +7,21 @@ trait UserApi {
   /**
     * Create user
     * This can only be done by the logged in user.
-    * @param body Created user object
+    * @param user Created user object
     */
-  def createUser(body: User): Unit
+  def createUser(user: User): Unit
 
   /**
     * Creates list of users with given input array
-    * @param body List of user object
+    * @param user List of user object
     */
-  def createUsersWithArrayInput(body: List[User]): Unit
+  def createUsersWithArrayInput(user: List[User]): Unit
 
   /**
     * Creates list of users with given input array
-    * @param body List of user object
+    * @param user List of user object
     */
-  def createUsersWithListInput(body: List[User]): Unit
+  def createUsersWithListInput(user: List[User]): Unit
 
   /**
     * Delete user
@@ -52,7 +52,7 @@ trait UserApi {
     * Updated user
     * This can only be done by the logged in user.
     * @param username name that need to be deleted
-    * @param body Updated user object
+    * @param user Updated user object
     */
-  def updateUser(username: String, body: User): Unit
+  def updateUser(username: String, user: User): Unit
 }
