@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.comparator.PathFileComparator;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -53,7 +54,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -1061,26 +1061,33 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             System.err.println(sb.toString());
         } else {
             if (generateMetadata) {
-                StringBuilder sb = new StringBuilder();
-                File outDir = new File(this.config.getOutputDir());
-                Optional.of(files)
-                        .map(Collection::stream)
-                        .orElseGet(Stream::empty)
-                        .filter(Objects::nonNull)
-                        .map(File::toPath)
-                        .sorted(Path::compareTo)
-                        .forEach(f -> {
-                    String relativePath = java.nio.file.Paths.get(outDir.toURI()).relativize(f).toString();
-                    if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
-                        sb.append(relativePath).append(System.lineSeparator());
-                    }
-                });
-
-                String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
                 try {
+                    StringBuilder sb = new StringBuilder();
+                    File outDir = new File(this.config.getOutputDir());
+
+                    List<File> filesToSort = new ArrayList<>();
+
+                    // Avoid side-effecting sort in this path when generateMetadata=true
+                    files.forEach(f -> {
+                        // We have seen NPE on CI for getPath() returning null, so guard against this (to be fixed in 5.0 template management refactor)
+                        //noinspection ConstantConditions
+                        if (f != null && f.getPath() != null) {
+                            filesToSort.add(f);
+                        }
+                    });
+
+                    filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
+                    filesToSort.forEach(f -> {
+                        String relativePath = outDir.toPath().relativize(f.toPath()).toString();
+                        if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
+                            sb.append(relativePath).append(System.lineSeparator());
+                        }
+                    });
+
+                    String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
                     File filesFile = writeToFile(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
                     files.add(filesFile);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     LOGGER.warn("Failed to write FILES metadata to track generated files.");
                 }
             }
