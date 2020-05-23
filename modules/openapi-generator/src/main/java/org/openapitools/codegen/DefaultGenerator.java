@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.comparator.PathFileComparator;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -1062,23 +1063,20 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             System.err.println(sb.toString());
         } else {
             if (generateMetadata) {
-                StringBuilder sb = new StringBuilder();
-                File outDir = new File(this.config.getOutputDir());
-                Optional.of(files)
-                        .map(Collection::stream)
-                        .orElseGet(Stream::empty)
-                        .filter(Objects::nonNull)
-                        .map(File::toPath)
-                        .sorted(Path::compareTo)
-                        .forEach(f -> {
-                    String relativePath = java.nio.file.Paths.get(outDir.toURI()).relativize(f).toString();
-                    if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
-                        sb.append(relativePath).append(System.lineSeparator());
-                    }
-                });
-
-                String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
                 try {
+                    StringBuilder sb = new StringBuilder();
+                    File outDir = new File(this.config.getOutputDir());
+
+                    files.sort(PathFileComparator.PATH_COMPARATOR);
+
+                    files.forEach(f -> {
+                        String relativePath = outDir.toPath().relativize(f.toPath()).toString();
+                        if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
+                            sb.append(relativePath).append(System.lineSeparator());
+                        }
+                    });
+
+                    String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
                     File filesFile = writeToFile(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
                     files.add(filesFile);
                 } catch (IOException e) {
