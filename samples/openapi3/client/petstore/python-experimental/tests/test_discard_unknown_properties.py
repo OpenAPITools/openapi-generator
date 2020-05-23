@@ -47,7 +47,9 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         data = {
             'lengthCm': 21.3,
             'sweet': False,
-            # Below are additional (undeclared) properties not specified in the bananaReq schema.
+            # Below is an unknown property not explicitly declared in the OpenAPI document.
+            # It should not be in the payload because additional properties (undeclared) are
+            # not allowed in the bananaReq schema (additionalProperties: false).
             'unknown_property': 'a-value'
         }
         response = MockResponse(data=json.dumps(data))
@@ -71,7 +73,9 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         data = {
             'shape_type': 'Triangle',
             'triangle_type': 'EquilateralTriangle',
-            # Below are additional (undeclared) properties not specified in the bananaReq schema.
+            # Below is an unknown property not explicitly declared in the OpenAPI document.
+            # It should not be in the payload because additional properties (undeclared) are
+            # not allowed in the schema (additionalProperties: false).
             'unknown_property': 'a-value'
         }
         response = MockResponse(data=json.dumps(data))
