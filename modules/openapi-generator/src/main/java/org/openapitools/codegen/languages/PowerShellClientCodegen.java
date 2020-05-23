@@ -888,12 +888,25 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // add x-data-type to store powershell type
         for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+            Map<String, Object> _model = (Map<String, Object>) _mo;
+            CodegenModel model = (CodegenModel) _model.get("model");
 
-            for (CodegenProperty cp : cm.allVars) {
+            for (CodegenProperty cp : model.allVars) {
                 cp.vendorExtensions.put("x-powershell-data-type", getPSDataType(cp));
             }
+
+            // if oneOf contains "null" type
+            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("ModelNull")) {
+                model.isNullable = true;
+                model.oneOf.remove("ModelNull");
+            }
+
+            // if anyOf contains "null" type
+            if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("ModelNull")) {
+                model.isNullable = true;
+                model.anyOf.remove("ModelNull");
+            }
+
         }
 
         return objs;

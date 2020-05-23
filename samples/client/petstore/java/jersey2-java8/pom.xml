@@ -274,11 +274,6 @@
             <version>${jackson-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.tomitribe</groupId>
-            <artifactId>tomitribe-http-signatures</artifactId>
-            <version>${http-signature-version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>
             <version>${scribejava-apis-version}</version>
@@ -299,7 +294,6 @@
         <jackson-databind-version>2.10.4</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <junit-version>4.13</junit-version>
-        <http-signature-version>1.4</http-signature-version>
         <scribejava-apis-version>6.9.0</scribejava-apis-version>
     </properties>
 </project>
