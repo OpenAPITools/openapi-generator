@@ -25,6 +25,11 @@ import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.*
+import org.openapitools.codegen.api.TemplatePathLocator
+import org.openapitools.codegen.templating.CommonTemplateContentLocator
+import org.openapitools.codegen.templating.GeneratorTemplateContentLocator
+import org.openapitools.codegen.templating.MustacheEngineAdapter
+import org.openapitools.codegen.templating.TemplateManagerOptions
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
@@ -80,27 +85,28 @@ open class MetaTask : DefaultTask() {
                 "fullyQualifiedGeneratorClass" to "${packageName.get()}.$klass",
                 "openapiGeneratorVersion" to currentVersion)
 
-        val generator = DefaultGenerator()
         supportingFiles.map {
             try {
                 val destinationFolder = File(File(dir.absolutePath), it.folder)
                 destinationFolder.mkdirs()
                 val outputFile = File(destinationFolder, it.destinationFilename)
 
-                val templateProcessor = generator.templateProcessor as TemplateManager
+                val templateProcessor = TemplateManager(
+                    TemplateManagerOptions(false, false),
+                    MustacheEngineAdapter(),
+                    arrayOf(CommonTemplateContentLocator("codegen"))
+                )
 
-                val template = templateProcessor.getFullTemplateContents(File("codegen", it.templateFile).path)
+                val template = templateProcessor.getFullTemplateContents(it.templateFile)
                 var formatted = template
 
-                val loader: (DefaultGenerator) -> Mustache.TemplateLoader = { g ->
-                        Mustache.TemplateLoader { name ->
-                            templateProcessor.getTemplateReader("codegen${File.separator}$name.mustache")
-                        }
+                val loader = Mustache.TemplateLoader { name ->
+                    templateProcessor.getTemplateReader("$name.mustache")
                 }
 
                 if (it.templateFile.endsWith(".mustache")) {
                     formatted = Mustache.compiler()
-                            .withLoader(loader(generator))
+                            .withLoader(loader)
                             .defaultValue("")
                             .compile(template).execute(data)
                 }

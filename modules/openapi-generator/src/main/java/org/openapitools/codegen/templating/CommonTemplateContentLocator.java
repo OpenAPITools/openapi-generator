@@ -11,6 +11,24 @@ import java.net.URL;
  * Locates generator-agnostic templates from a common built-in location.
  */
 public class CommonTemplateContentLocator implements TemplatePathLocator {
+    private String resourceLocation = "_common";
+
+    /**
+     * Constructs a new instance of {@link CommonTemplateContentLocator} defaulting to _common resource location.
+     */
+    public CommonTemplateContentLocator() {
+
+    }
+
+    /**
+     * Constructs a new instance of {@link CommonTemplateContentLocator} for a targeted common location.
+     *
+     * @param resourceLocation A custom common file location.
+     */
+    public CommonTemplateContentLocator(String resourceLocation) {
+        this.resourceLocation = resourceLocation;
+    }
+
     /**
      * Get the full path to a relative template file.
      *
@@ -21,7 +39,7 @@ public class CommonTemplateContentLocator implements TemplatePathLocator {
     @Override
     public String getFullTemplatePath(String relativeTemplateFile) {
         if (StringUtils.isNotEmpty(relativeTemplateFile)) {
-            String loc = "_common" + File.separator + relativeTemplateFile;
+            String loc = this.resourceLocation + File.separator + relativeTemplateFile;
             try {
                 URL url = Resources.getResource(loc);
                 if (url != null) {

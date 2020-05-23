@@ -83,13 +83,21 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     }
 
     public TemplateSource findTemplate(TemplatingExecutor generator, String templateFile) {
-        for (String file : getModifiedFileLocation(templateFile)) {
+        String[] possibilities = getModifiedFileLocation(templateFile);
+        for (String file : possibilities) {
             try {
                 return new StringTemplateSource(file, generator.getFullTemplateContents(file));
             } catch (Exception ignored) {
             }
         }
-        throw new TemplateNotFoundException(templateFile);
+
+        // allow lookup of files without extension modification (such as .openapi-generator-ignore, README.md, etc)
+        try {
+            return new StringTemplateSource(templateFile, generator.getFullTemplateContents(templateFile));
+        } catch (Exception ignored) {
+        }
+
+        throw new TemplateNotFoundException(String.join(", ", possibilities));
     }
 
     @Override
