@@ -933,7 +933,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 bundle.put("hasOAuthMethods", true);
                 bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
             }
-
             if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
                 bundle.put("hasHttpBearerMethods", true);
             }
@@ -1479,8 +1478,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         return result;
     }
-
-
 
     protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws IOException {
         if (in != null) {
