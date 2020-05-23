@@ -166,20 +166,20 @@ export class {{classname}}ResponseProcessor {
                 "{{{dataType}}}", "{{returnFormat}}"
             ) as {{{dataType}}};
             {{/isBinary}}
-            {{#isSuccessCode}}
+            {{#is2xx}}
             return body;
-            {{/isSuccessCode}}
-            {{^isSuccessCode}}
+            {{/is2xx}}
+            {{^is2xx}}
             throw new ApiException<{{{dataType}}}>({{code}}, body);
-            {{/isSuccessCode}}
+            {{/is2xx}}
             {{/dataType}}
             {{^dataType}}
-            {{#isSuccessCode}}
+            {{#is2xx}}
             return;
-            {{/isSuccessCode}}
-            {{^isSuccessCode}}
+            {{/is2xx}}
+            {{^is2xx}}
             throw new ApiException<string>(response.httpStatusCode, "{{message}}");
-            {{/isSuccessCode}}
+            {{/is2xx}}
             {{/dataType}}
         }
         {{/responses}}

@@ -318,7 +318,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         boolean addVoid = false;
         for (CodegenResponse response: responses) {
             // TODO: we should probably catch an exception here
-            if (response.isSuccessCode) {
+            if (response.is2xx) {
                 if (response.dataType != null) {
                     if (!firstReturnType) {
                         returnType.append(" | ");

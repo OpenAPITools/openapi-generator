@@ -28,7 +28,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean is4xx;
     public boolean is5xx;
     public String message;
-    public boolean isSuccessCode;
     public boolean hasMore;
     public List<Map<String, Object>> examples;
     public String dataType;
