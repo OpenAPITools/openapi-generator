@@ -785,7 +785,6 @@ public class DefaultGenerator implements Generator {
                 bundle.put("hasOAuthMethods", true);
                 bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
             }
-
             if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
                 bundle.put("hasHttpBearerMethods", true);
             }
