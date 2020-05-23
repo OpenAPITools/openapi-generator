@@ -31,7 +31,7 @@ func BananaAsFruit(v *Banana) Fruit {
 }
 
 
-// Unmarshl JSON data into one of the pointers in the struct
+// Unmarshal JSON data into one of the pointers in the struct
 func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
@@ -74,8 +74,8 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// Marshl data from the first non-nil pointers in the struct to JSON
-func (src *Fruit) MarshalJSON() ([]byte, error) {
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src Fruit) MarshalJSON() ([]byte, error) {
 	if src.Apple != nil {
 		return json.Marshal(&src.Apple)
 	}

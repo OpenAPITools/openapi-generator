@@ -31,7 +31,7 @@ func ZebraAsMammal(v *Zebra) Mammal {
 }
 
 
-// Unmarshl JSON data into one of the pointers in the struct
+// Unmarshal JSON data into one of the pointers in the struct
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
@@ -74,8 +74,8 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// Marshl data from the first non-nil pointers in the struct to JSON
-func (src *Mammal) MarshalJSON() ([]byte, error) {
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src Mammal) MarshalJSON() ([]byte, error) {
 	if src.Whale != nil {
 		return json.Marshal(&src.Whale)
 	}

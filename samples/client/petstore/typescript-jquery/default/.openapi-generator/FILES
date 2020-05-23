@@ -1,0 +1,15 @@
+api/PetApi.ts
+api/StoreApi.ts
+api/UserApi.ts
+api/api.ts
+configuration.ts
+git_push.sh
+index.ts
+model/ApiResponse.ts
+model/Category.ts
+model/Order.ts
+model/Pet.ts
+model/Tag.ts
+model/User.ts
+model/models.ts
+variables.ts
