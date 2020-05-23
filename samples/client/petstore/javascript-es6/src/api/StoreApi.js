@@ -166,15 +166,15 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
-     * @param {module:model/Order} body order placed for purchasing the pet
+     * @param {module:model/Order} order order placed for purchasing the pet
      * @param {module:api/StoreApi~placeOrderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Order}
      */
-    placeOrder(body, callback) {
-      let postBody = body;
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling placeOrder");
+    placeOrder(order, callback) {
+      let postBody = order;
+      // verify the required parameter 'order' is set
+      if (order === undefined || order === null) {
+        throw new Error("Missing the required parameter 'order' when calling placeOrder");
       }
 
       let pathParams = {
@@ -187,7 +187,7 @@ export default class StoreApi {
       };
 
       let authNames = [];
-      let contentTypes = [];
+      let contentTypes = ['application/json'];
       let accepts = ['application/xml', 'application/json'];
       let returnType = Order;
       return this.apiClient.callApi(

@@ -43,6 +43,7 @@ class ApiClient {
         this.authentications = {
             'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
             'api_key_query': {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
+            'bearer_test': {type: 'bearer'}, // JWT
             'http_basic_test': {type: 'basic'},
             'petstore_auth': {type: 'oauth2'}
         }
@@ -362,7 +363,7 @@ class ApiClient {
     * @param {Array.<String>} accepts An array of acceptable response MIME types.
     * @param {(String|Array|ObjectFunction)} returnType The required type to return; can be a string for simple types or the
     * constructor for a complex type.
-    * @param {String} apiBasePath base path defined in the operation/path level to override the default one
+    * @param {String} apiBasePath base path defined in the operation/path level to override the default one 
     * @param {module:ApiClient~callApiCallback} callback The callback function.
     * @returns {Object} The SuperAgent request object.
     */
@@ -557,8 +558,41 @@ class ApiClient {
     hostSettings() {
         return [
             {
-              'url': "http://petstore.swagger.io:80/v2",
-              'description': "No description provided",
+              'url': "http://{server}.swagger.io:{port}/v2",
+              'description': "petstore server",
+              'variables': {
+                server: {
+                    'description': "No description provided",
+                    'default_value': "petstore",
+                    'enum_values': [
+                      "petstore",
+                      "qa-petstore",
+                      "dev-petstore"
+                    ]
+                  },
+                port: {
+                    'description': "No description provided",
+                    'default_value': "80",
+                    'enum_values': [
+                      "80",
+                      "8080"
+                    ]
+                  }
+                }
+            },
+            {
+              'url': "https://localhost:8080/{version}",
+              'description': "The local server",
+              'variables': {
+                version: {
+                    'description': "No description provided",
+                    'default_value': "v2",
+                    'enum_values': [
+                      "v1",
+                      "v2"
+                    ]
+                  }
+                }
             }
       ];
     }
