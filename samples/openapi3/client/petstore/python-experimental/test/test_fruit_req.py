@@ -57,7 +57,7 @@ class TestFruitReq(unittest.TestCase):
         with self.assertRaises(AttributeError):
             invalid_variable = fruit['cultivar']
         # with getattr
-        self.assertEquals(getattr(fruit, 'cultivar', 'some value'), 'some value')
+        self.assertEqual(getattr(fruit, 'cultivar', 'some value'), 'some value')
 
         with self.assertRaises(AttributeError):
             getattr(fruit, 'cultivar')

@@ -109,7 +109,7 @@ class FruitReq(ModelComposed):
     required_properties = set([
         '_data_store',
         '_check_type',
-        '_from_server',
+        '_spec_property_naming',
         '_path_to_item',
         '_configuration',
         '_visited_composed_classes',
@@ -119,7 +119,7 @@ class FruitReq(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, cultivar=nulltype.Null, length_cm=nulltype.Null, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, cultivar=nulltype.Null, length_cm=nulltype.Null, _check_type=True, _spec_property_naming=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """fruit_req.FruitReq - a model defined in OpenAPI
 
         Args:
@@ -134,8 +134,10 @@ class FruitReq(ModelComposed):
             _path_to_item (tuple/list): This is a list of keys or values to
                                 drill down to the model in received_data
                                 when deserializing a response
-            _from_server (bool): True if the data is from the server
-                                False if the data is from the client (default)
+            _spec_property_naming (bool): True if the variable names in the input data
+                                are serialized names, as specified in the OpenAPI document.
+                                False if the variable names in the input data
+                                are pythonic names, e.g. snake case (default)
             _configuration (Configuration): the instance to use when
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
@@ -161,7 +163,7 @@ class FruitReq(ModelComposed):
 
         self._data_store = {}
         self._check_type = _check_type
-        self._from_server = _from_server
+        self._spec_property_naming = _spec_property_naming
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
@@ -169,7 +171,7 @@ class FruitReq(ModelComposed):
         constant_args = {
             '_check_type': _check_type,
             '_path_to_item': _path_to_item,
-            '_from_server': _from_server,
+            '_spec_property_naming': _spec_property_naming,
             '_configuration': _configuration,
             '_visited_composed_classes': self._visited_composed_classes,
         }
