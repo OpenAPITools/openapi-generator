@@ -733,24 +733,11 @@ public class DefaultGenerator implements Generator {
             } catch (Exception e) {
                 throw new RuntimeException("Could not generate supporting file '" + ignoreFileNameTarget + "'", e);
             }
+        } else {
+            this.templateProcessor.skip(ignoreFile.toPath(), "Skipped by generateMetadata option supplied by user.");
         }
 
-        String versionMetadata = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "VERSION";
-        if (generateMetadata) {
-            File versionMetadataFile = new File(versionMetadata);
-            try {
-                this.templateProcessor.writeToFile(versionMetadata, ImplementationVersion.read().getBytes(StandardCharsets.UTF_8));
-                files.add(versionMetadataFile);
-                if (config.isEnablePostProcessFile() && !dryRun) {
-                    config.postProcessFile(ignoreFile, "openapi-generator-version");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException("Could not generate supporting file '" + versionMetadata + "'", e);
-            }
-        } else {
-            Path metadata = java.nio.file.Paths.get(versionMetadata);
-            this.templateProcessor.skip(metadata, "Skipped by generateMetadata option supplied by user.");
-        }
+        generateVersionMetadata(files);
     }
 
     @SuppressWarnings("unchecked")
@@ -912,39 +899,9 @@ public class DefaultGenerator implements Generator {
 
             System.err.println(sb.toString());
         } else {
-            if (generateMetadata) {
-                try {
-                    StringBuilder sb = new StringBuilder();
-                    File outDir = new File(this.config.getOutputDir());
-
-                    List<File> filesToSort = new ArrayList<>();
-
-                    // Avoid side-effecting sort in this path when generateMetadata=true
-                    files.forEach(f -> {
-                        // We have seen NPE on CI for getPath() returning null, so guard against this (to be fixed in 5.0 template management refactor)
-                        //noinspection ConstantConditions
-                        if (f != null && f.getPath() != null) {
-                            filesToSort.add(f);
-                        }
-                    });
-
-                    filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
-                    filesToSort.forEach(f -> {
-                        String relativePath = outDir.toPath().relativize(f.toPath()).toString();
-                        if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
-                            sb.append(relativePath).append(System.lineSeparator());
-                        }
-                    });
-
-                    String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
-
-                    File filesFile = this.templateProcessor.writeToFile(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
-                    if (filesFile != null) {
-                        files.add(filesFile);
-                    }
-                } catch (Exception e) {
-                    LOGGER.warn("Failed to write FILES metadata to track generated files.");
-                }
+            // This exists here rather than in the method which generates supporting files to avoid accidentally adding files after this metadata.
+            if (generateSupportingFiles) {
+                generateFilesMetadata(files);
             }
         }
 
@@ -1316,4 +1273,74 @@ public class DefaultGenerator implements Generator {
 
         return result;
     }
+
+    /**
+     * Generates a file at .openapi-generator/VERSION to track the version of user's latest run.
+     *
+     * @param files The list tracking generated files
+     */
+    private void generateVersionMetadata(List<File> files) {
+        String versionMetadata = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "VERSION";
+        if (generateMetadata) {
+            File versionMetadataFile = new File(versionMetadata);
+            try {
+                File written = this.templateProcessor.writeToFile(versionMetadata, ImplementationVersion.read().getBytes(StandardCharsets.UTF_8));
+                if (written != null) {
+                    files.add(versionMetadataFile);
+                    if (config.isEnablePostProcessFile() && !dryRun) {
+                        config.postProcessFile(written, "openapi-generator-version");
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Could not generate supporting file '" + versionMetadata + "'", e);
+            }
+        } else {
+            Path metadata = java.nio.file.Paths.get(versionMetadata);
+            this.templateProcessor.skip(metadata, "Skipped by generateMetadata option supplied by user.");
+        }
+    }
+
+    /**
+     * Generates a file at .openapi-generator/FILES to track the files created by the user's latest run.
+     * This is ideal for CI and regeneration of code without stale/unused files from older generations.
+     *
+     * @param files The list tracking generated files
+     */
+    private void generateFilesMetadata(List<File> files) {
+        if (generateMetadata) {
+            try {
+                StringBuilder sb = new StringBuilder();
+                File outDir = new File(this.config.getOutputDir());
+
+                List<File> filesToSort = new ArrayList<>();
+
+                // Avoid side-effecting sort in this path when generateMetadata=true
+                files.forEach(f -> {
+                    // We have seen NPE on CI for getPath() returning null, so guard against this (to be fixed in 5.0 template management refactor)
+                    //noinspection ConstantConditions
+                    if (f != null && f.getPath() != null) {
+                        filesToSort.add(f);
+                    }
+                });
+
+                filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
+                filesToSort.forEach(f -> {
+                    String relativePath = outDir.toPath().relativize(f.toPath()).toString();
+                    if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
+                        sb.append(relativePath).append(System.lineSeparator());
+                    }
+                });
+
+                String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
+
+                File filesFile = this.templateProcessor.writeToFile(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
+                if (filesFile != null) {
+                    files.add(filesFile);
+                }
+            } catch (Exception e) {
+                LOGGER.warn("Failed to write FILES metadata to track generated files.");
+            }
+        }
+    }
+
 }
