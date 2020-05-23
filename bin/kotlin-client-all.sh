@@ -12,3 +12,4 @@
 ./bin/kotlin-client-nullable.sh
 ./bin/kotlin-client-retrofit2.sh
 ./bin/kotlin-client-json-request-string.sh
+./bin/kotlin-client-petstore-okhttp-coroutines.sh
