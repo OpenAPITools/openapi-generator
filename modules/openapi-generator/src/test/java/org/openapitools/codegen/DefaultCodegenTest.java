@@ -934,11 +934,6 @@ public class DefaultCodegenTest {
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
-        // inline anyOf with inline anyOf model doesn't work because we have null $refs and we throw an exception
-        final String fmodelName = "FruitInlineInlineDisc";
-        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
-
         // ref anyOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
         sc = openAPI.getComponents().getSchemas().get(modelName);
@@ -1018,11 +1013,6 @@ public class DefaultCodegenTest {
         mn = "FruitInlineDisc_oneOf_1";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
-
-        // inline oneOf with inline oneOf model doesn't work because we have null $refs and we throw an exception
-        final String fmodelName = "FruitInlineInlineDisc";
-        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
 
         // ref oneOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
