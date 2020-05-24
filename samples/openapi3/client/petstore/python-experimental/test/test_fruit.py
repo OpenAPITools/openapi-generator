@@ -194,10 +194,9 @@ class TestFruit(unittest.TestCase):
         apple = petstore_api.Apple(None)
         self.assertIsNone(apple)
 
-        # But 'banana' is not nullable.
-        banana = petstore_api.Banana(None)
-        # TODO: this does not seem right. Shouldn't this raise an exception?
-        assert isinstance(banana, petstore_api.Banana)
+        # 'banana' is not nullable.
+        with self.assertRaises(petstore_api.ApiTypeError):
+            banana = petstore_api.Banana(None)
 
         # Since 'fruit' has oneOf 'apple', 'banana' and 'apple' is nullable,
         # validate we can create a fruit with the 'null' value.
