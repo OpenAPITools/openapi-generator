@@ -4,6 +4,8 @@ import { Configuration} from '../configuration'
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';
+import { InlineObject } from '../models/InlineObject';
+import { InlineObject1 } from '../models/InlineObject1';
 import { Order } from '../models/Order';
 import { Pet } from '../models/Pet';
 import { Tag } from '../models/Tag';
@@ -21,10 +23,10 @@ export class PromisePetApi {
 
     /**
      * Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public addPet(body: Pet, options?: Configuration): Promise<void> {
-    	const result = this.api.addPet(body, options);
+    public addPet(pet: Pet, options?: Configuration): Promise<Pet> {
+    	const result = this.api.addPet(pet, options);
         return result.toPromise();
     }
 	
@@ -70,10 +72,10 @@ export class PromisePetApi {
 	
     /**
      * Update an existing pet
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public updatePet(body: Pet, options?: Configuration): Promise<void> {
-    	const result = this.api.updatePet(body, options);
+    public updatePet(pet: Pet, options?: Configuration): Promise<Pet> {
+    	const result = this.api.updatePet(pet, options);
         return result.toPromise();
     }
 	
@@ -146,10 +148,10 @@ export class PromiseStoreApi {
 	
     /**
      * Place an order for a pet
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      */
-    public placeOrder(body: Order, options?: Configuration): Promise<Order> {
-    	const result = this.api.placeOrder(body, options);
+    public placeOrder(order: Order, options?: Configuration): Promise<Order> {
+    	const result = this.api.placeOrder(order, options);
         return result.toPromise();
     }
 	
@@ -172,28 +174,28 @@ export class PromiseUserApi {
     /**
      * This can only be done by the logged in user.
      * Create user
-     * @param body Created user object
+     * @param user Created user object
      */
-    public createUser(body: User, options?: Configuration): Promise<void> {
-    	const result = this.api.createUser(body, options);
+    public createUser(user: User, options?: Configuration): Promise<void> {
+    	const result = this.api.createUser(user, options);
         return result.toPromise();
     }
 	
     /**
      * Creates list of users with given input array
-     * @param body List of user object
+     * @param user List of user object
      */
-    public createUsersWithArrayInput(body: Array<User>, options?: Configuration): Promise<void> {
-    	const result = this.api.createUsersWithArrayInput(body, options);
+    public createUsersWithArrayInput(user: Array<User>, options?: Configuration): Promise<void> {
+    	const result = this.api.createUsersWithArrayInput(user, options);
         return result.toPromise();
     }
 	
     /**
      * Creates list of users with given input array
-     * @param body List of user object
+     * @param user List of user object
      */
-    public createUsersWithListInput(body: Array<User>, options?: Configuration): Promise<void> {
-    	const result = this.api.createUsersWithListInput(body, options);
+    public createUsersWithListInput(user: Array<User>, options?: Configuration): Promise<void> {
+    	const result = this.api.createUsersWithListInput(user, options);
         return result.toPromise();
     }
 	
@@ -238,10 +240,10 @@ export class PromiseUserApi {
      * This can only be done by the logged in user.
      * Updated user
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      */
-    public updateUser(username: string, body: User, options?: Configuration): Promise<void> {
-    	const result = this.api.updateUser(username, body, options);
+    public updateUser(username: string, user: User, options?: Configuration): Promise<void> {
+    	const result = this.api.updateUser(username, user, options);
         return result.toPromise();
     }
 	

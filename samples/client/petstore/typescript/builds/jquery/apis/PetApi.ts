@@ -16,14 +16,14 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 	
     /**
      * Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public addPet(body: Pet, options?: Configuration): RequestContext {
+    public addPet(pet: Pet, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new RequiredError('Required parameter body was null or undefined when calling addPet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new RequiredError('Required parameter pet was null or undefined when calling addPet.');
         }
 
 		
@@ -49,7 +49,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "Pet", ""),
+            ObjectSerializer.serialize(pet, "Pet", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -236,14 +236,14 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 			
     /**
      * Update an existing pet
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public updatePet(body: Pet, options?: Configuration): RequestContext {
+    public updatePet(pet: Pet, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new RequiredError('Required parameter body was null or undefined when calling updatePet.');
+        // verify required parameter 'pet' is not null or undefined
+        if (pet === null || pet === undefined) {
+            throw new RequiredError('Required parameter pet was null or undefined when calling updatePet.');
         }
 
 		
@@ -269,7 +269,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "Pet", ""),
+            ObjectSerializer.serialize(pet, "Pet", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -405,15 +405,26 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to addPet
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async addPet(response: ResponseContext): Promise< void> {
+     public async addPet(response: ResponseContext): Promise<Pet > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Pet = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Pet", ""
+            ) as Pet;
+            return body;
+        }
         if (isCodeInRange("405", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid input");
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            return;
+            const body: Pet = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Pet", ""
+            ) as Pet;
+            return body;
         }
 
         let body = response.body || "";
@@ -551,8 +562,15 @@ export class PetApiResponseProcessor {
      * @params response Response returned by the server for a request to updatePet
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async updatePet(response: ResponseContext): Promise< void> {
+     public async updatePet(response: ResponseContext): Promise<Pet > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Pet = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Pet", ""
+            ) as Pet;
+            return body;
+        }
         if (isCodeInRange("400", response.httpStatusCode)) {
             throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
         }
@@ -565,7 +583,11 @@ export class PetApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            return;
+            const body: Pet = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Pet", ""
+            ) as Pet;
+            return body;
         }
 
         let body = response.body || "";

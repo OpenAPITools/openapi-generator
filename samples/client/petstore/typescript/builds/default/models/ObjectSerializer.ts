@@ -1,5 +1,7 @@
 export * from './ApiResponse';
 export * from './Category';
+export * from './InlineObject';
+export * from './InlineObject1';
 export * from './Order';
 export * from './Pet';
 export * from './Tag';
@@ -7,6 +9,8 @@ export * from './User';
 
 import { ApiResponse } from './ApiResponse';
 import { Category } from './Category';
+import { InlineObject } from './InlineObject';
+import { InlineObject1 } from './InlineObject1';
 import { Order    , OrderStatusEnum    } from './Order';
 import { Pet     , PetStatusEnum   } from './Pet';
 import { Tag } from './Tag';
@@ -38,6 +42,8 @@ let enumsMap: Set<string> = new Set<string>([
 let typeMap: {[index: string]: any} = {
     "ApiResponse": ApiResponse,
     "Category": Category,
+    "InlineObject": InlineObject,
+    "InlineObject1": InlineObject1,
     "Order": Order,
     "Pet": Pet,
     "Tag": Tag,

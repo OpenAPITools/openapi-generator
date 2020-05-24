@@ -16,14 +16,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * This can only be done by the logged in user.
      * Create user
-     * @param body Created user object
+     * @param user Created user object
      */
-    public createUser(body: User, options?: Configuration): RequestContext {
+    public createUser(user: User, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new RequiredError('Required parameter body was null or undefined when calling createUser.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new RequiredError('Required parameter user was null or undefined when calling createUser.');
         }
 
 		
@@ -42,29 +42,36 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([]);
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "User", ""),
+            ObjectSerializer.serialize(user, "User", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
 		
+		let authMethod = null;
     	// Apply auth methods
+    	authMethod = config.authMethods["api_key"]
+    	if (authMethod) {
+    		authMethod.applySecurityAuthentication(requestContext);
+    	}
     	
     	return requestContext;
     }
 			
     /**
      * Creates list of users with given input array
-     * @param body List of user object
+     * @param user List of user object
      */
-    public createUsersWithArrayInput(body: Array<User>, options?: Configuration): RequestContext {
+    public createUsersWithArrayInput(user: Array<User>, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new RequiredError('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
 
 		
@@ -83,29 +90,36 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([]);
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "Array<User>", ""),
+            ObjectSerializer.serialize(user, "Array<User>", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
 		
+		let authMethod = null;
     	// Apply auth methods
+    	authMethod = config.authMethods["api_key"]
+    	if (authMethod) {
+    		authMethod.applySecurityAuthentication(requestContext);
+    	}
     	
     	return requestContext;
     }
 			
     /**
      * Creates list of users with given input array
-     * @param body List of user object
+     * @param user List of user object
      */
-    public createUsersWithListInput(body: Array<User>, options?: Configuration): RequestContext {
+    public createUsersWithListInput(user: Array<User>, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new RequiredError('Required parameter body was null or undefined when calling createUsersWithListInput.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
 
 		
@@ -124,15 +138,22 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([]);
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "Array<User>", ""),
+            ObjectSerializer.serialize(user, "Array<User>", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
 		
+		let authMethod = null;
     	// Apply auth methods
+    	authMethod = config.authMethods["api_key"]
+    	if (authMethod) {
+    		authMethod.applySecurityAuthentication(requestContext);
+    	}
     	
     	return requestContext;
     }
@@ -168,7 +189,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
 		
+		let authMethod = null;
     	// Apply auth methods
+    	authMethod = config.authMethods["api_key"]
+    	if (authMethod) {
+    		authMethod.applySecurityAuthentication(requestContext);
+    	}
     	
     	return requestContext;
     }
@@ -277,7 +303,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
 		
+		let authMethod = null;
     	// Apply auth methods
+    	authMethod = config.authMethods["api_key"]
+    	if (authMethod) {
+    		authMethod.applySecurityAuthentication(requestContext);
+    	}
     	
     	return requestContext;
     }
@@ -286,9 +317,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * This can only be done by the logged in user.
      * Updated user
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      */
-    public updateUser(username: string, body: User, options?: Configuration): RequestContext {
+    public updateUser(username: string, user: User, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
         // verify required parameter 'username' is not null or undefined
@@ -297,9 +328,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 		
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-            throw new RequiredError('Required parameter body was null or undefined when calling updateUser.');
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new RequiredError('Required parameter user was null or undefined when calling updateUser.');
         }
 
 		
@@ -319,15 +350,22 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([]);
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "User", ""),
+            ObjectSerializer.serialize(user, "User", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
 		
+		let authMethod = null;
     	// Apply auth methods
+    	authMethod = config.authMethods["api_key"]
+    	if (authMethod) {
+    		authMethod.applySecurityAuthentication(requestContext);
+    	}
     	
     	return requestContext;
     }

@@ -6,6 +6,8 @@ import {mergeMap, map} from  '../rxjsStub';
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';
+import { InlineObject } from '../models/InlineObject';
+import { InlineObject1 } from '../models/InlineObject1';
 import { Order } from '../models/Order';
 import { Pet } from '../models/Pet';
 import { Tag } from '../models/Tag';
@@ -25,10 +27,10 @@ export class ObservablePetApi {
 
     /**
      * Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public addPet(body: Pet, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.addPet(body, options);
+    public addPet(pet: Pet, options?: Configuration): Observable<Pet> {
+    	const requestContext = this.requestFactory.addPet(pet, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -144,10 +146,10 @@ export class ObservablePetApi {
 	
     /**
      * Update an existing pet
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      */
-    public updatePet(body: Pet, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.updatePet(body, options);
+    public updatePet(pet: Pet, options?: Configuration): Observable<Pet> {
+    	const requestContext = this.requestFactory.updatePet(pet, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -306,10 +308,10 @@ export class ObservableStoreApi {
 	
     /**
      * Place an order for a pet
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      */
-    public placeOrder(body: Order, options?: Configuration): Observable<Order> {
-    	const requestContext = this.requestFactory.placeOrder(body, options);
+    public placeOrder(order: Order, options?: Configuration): Observable<Order> {
+    	const requestContext = this.requestFactory.placeOrder(order, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -348,10 +350,10 @@ export class ObservableUserApi {
     /**
      * This can only be done by the logged in user.
      * Create user
-     * @param body Created user object
+     * @param user Created user object
      */
-    public createUser(body: User, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUser(body, options);
+    public createUser(user: User, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.createUser(user, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -371,10 +373,10 @@ export class ObservableUserApi {
 	
     /**
      * Creates list of users with given input array
-     * @param body List of user object
+     * @param user List of user object
      */
-    public createUsersWithArrayInput(body: Array<User>, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUsersWithArrayInput(body, options);
+    public createUsersWithArrayInput(user: Array<User>, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.createUsersWithArrayInput(user, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -394,10 +396,10 @@ export class ObservableUserApi {
 	
     /**
      * Creates list of users with given input array
-     * @param body List of user object
+     * @param user List of user object
      */
-    public createUsersWithListInput(body: Array<User>, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUsersWithListInput(body, options);
+    public createUsersWithListInput(user: Array<User>, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.createUsersWithListInput(user, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -512,10 +514,10 @@ export class ObservableUserApi {
      * This can only be done by the logged in user.
      * Updated user
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      */
-    public updateUser(username: string, body: User, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.updateUser(username, body, options);
+    public updateUser(username: string, user: User, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.updateUser(username, user, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
