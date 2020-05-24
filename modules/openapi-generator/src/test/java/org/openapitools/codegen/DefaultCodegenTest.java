@@ -1367,25 +1367,35 @@ public class DefaultCodegenTest {
                         .getContent()
                         .get("application/json")
                         .getSchema()
-                        .getExtensions()
-                        .get("x-oneOf-name"),
-                "CreateState"
+                        .get$ref(),
+                "#/components/schemas/createStateBody"
         );
         Assert.assertEquals(
-                openAPI.getPaths()
-                        .get("/state")
-                        .getGet()
-                        .getResponses()
-                        .get("200")
-                        .getContent()
-                        .get("application/json")
-                        .getSchema()
+                openAPI.getComponents()
+                        .getSchemas()
+                        .get("createStateBody")
                         .getExtensions()
                         .get("x-oneOf-name"),
-                "GetState200"
+                "CreateStateBody"
+        );
+        Assert.assertEquals(
+                openAPI.getComponents()
+                        .getSchemas()
+                        .get("getStateResponse")
+                        .getExtensions()
+                        .get("x-oneOf-name"),
+                "GetStateResponse"
         );
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
-        Assert.assertEquals(items.getExtensions().get("x-oneOf-name"), "CustomOneOfArraySchemaOneOf");
+        Assert.assertEquals(items.get$ref(), "#/components/schemas/CustomOneOfArraySchemaItems");
+        Assert.assertEquals(
+                openAPI.getComponents()
+                    .getSchemas()
+                    .get("CustomOneOfArraySchemaItems")
+                    .getExtensions()
+                    .get("x-oneOf-name"),
+                "CustomOneOfArraySchemaItems"
+        );
     }
 }
