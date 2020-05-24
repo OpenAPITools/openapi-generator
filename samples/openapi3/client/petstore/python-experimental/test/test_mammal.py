@@ -29,7 +29,7 @@ class TestMammal(unittest.TestCase):
     def testMammal(self):
         """Test Mammal"""
 
-        # tests that we can make a BasquePig by traveling through descendant discriminators in Pig
+        # tests that we can make a BasquePig by traveling through descendant discriminator in Pig
         model = petstore_api.Mammal(class_name="BasquePig")
         assert isinstance(model, petstore_api.BasquePig)
 
