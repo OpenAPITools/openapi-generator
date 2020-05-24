@@ -135,13 +135,13 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - mvn --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test maven plugin
-  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test gradle plugin
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)

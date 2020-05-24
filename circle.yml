@@ -66,7 +66,7 @@ jobs:
     - run: sleep 30
     - run: cat /etc/hosts
     # Test
-    - run: mvn --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+    - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
     - run: ./CI/circle_parallel.sh 
     # Save dependency cache
     - save_cache:
