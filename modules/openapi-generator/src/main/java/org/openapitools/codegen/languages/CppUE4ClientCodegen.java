@@ -481,8 +481,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
                 languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            type = sanitizeName(type);
-            return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1);
+            return modelNamePrefix + camelize(sanitizeName(type), false);
         }
     }
 
@@ -524,7 +523,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiName(String type) {
-        return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
+        return modelNamePrefix + camelize(type, false) + "Api";
     }
 
     @Override
@@ -536,14 +535,6 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-    @Override
-    public String sanitizeName(String name) {
-        name = super.sanitizeName(name);
-        // TODO: This could be moved to AbstractCPPGenerator, C++ does not support "." in symbol names
-        name = name.replace(".", "_");
-        return name;
     }
 
     public String toBooleanGetter(String name) {
