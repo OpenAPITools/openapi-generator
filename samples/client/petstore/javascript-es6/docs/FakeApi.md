@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -17,6 +18,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
 
@@ -57,6 +59,56 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+
+## fakeHttpSignatureTest
+
+> fakeHttpSignatureTest(pet, opts)
+
+test http signature authentication
+
+### Example
+
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+let defaultClient = OpenApiPetstore.ApiClient.instance;
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+let opts = {
+  'query1': "query1_example", // String | query parameter
+  'header1': "header1_example" // String | header parameter
+};
+apiInstance.fakeHttpSignatureTest(pet, opts, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **query1** | **String**| query parameter | [optional] 
+ **header1** | **String**| header parameter | [optional] 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[http_signature_test](../README.md#http_signature_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 
 ## fakeOuterBooleanSerialize
@@ -667,5 +719,58 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
+
+
+## testQueryParameterCollectionFormat
+
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let pipe = ["null"]; // [String] | 
+let ioutil = ["null"]; // [String] | 
+let http = ["null"]; // [String] | 
+let url = ["null"]; // [String] | 
+let context = ["null"]; // [String] | 
+apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**[String]**](String.md)|  | 
+ **ioutil** | [**[String]**](String.md)|  | 
+ **http** | [**[String]**](String.md)|  | 
+ **url** | [**[String]**](String.md)|  | 
+ **context** | [**[String]**](String.md)|  | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
