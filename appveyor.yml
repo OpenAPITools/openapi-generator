@@ -50,7 +50,7 @@ build_script:
   # install openapi-generator locally
   - mvn clean install --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # run the locally installed openapi-generator-gradle-plugin
-  - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
+  - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --stacktrace
 test_script:
   # restore test-related files
   - copy /b/v/y CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
