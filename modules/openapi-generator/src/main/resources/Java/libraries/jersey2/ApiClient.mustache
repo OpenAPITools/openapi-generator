@@ -59,7 +59,9 @@ import java.util.regex.Pattern;
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
+{{#hasHttpSignatureMethods}}
 import {{invokerPackage}}.auth.HttpSignatureAuth;
+{{/hasHttpSignatureMethods}}
 import {{invokerPackage}}.auth.ApiKeyAuth;
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
@@ -152,7 +154,19 @@ public class ApiClient {
 
   protected DateFormat dateFormat;
 
+  /**
+   * Constructs a new ApiClient with default parameters.
+   */
   public ApiClient() {
+    this(null);
+  }
+
+  /**
+   * Constructs a new ApiClient with the specified authentication parameters.
+   *
+   * @param authMap A hash map containing authentication parameters.
+   */
+  public ApiClient(Map<String, Authentication> authMap) {
     json = new JSON();
     httpClient = buildHttpClient(debugging);
 
@@ -163,23 +177,47 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
+    Authentication auth = null;
     {{#authMethods}}
+    if (authMap != null) {
+      auth = authMap.get("{{name}}");
+    }
     {{#isBasic}}
     {{#isBasicBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());
+    if (auth instanceof HttpBasicAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", new HttpBasicAuth());
+    }
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));
+    if (auth instanceof HttpBearerAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));
+    }
     {{/isBasicBearer}}
     {{#isHttpSignature}}
-    authentications.put("{{name}}", new HttpSignatureAuth("{{name}}", null, null));
+    if (auth instanceof HttpSignatureAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", null);
+    }
     {{/isHttpSignature}}
     {{/isBasic}}
     {{#isApiKey}}
-    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
+    if (auth instanceof ApiKeyAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
+    }
     {{/isApiKey}}
     {{#isOAuth}}
-    authentications.put("{{name}}", new OAuth(basePath, "{{tokenUrl}}"));
+    if (auth instanceof OAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", new OAuth(basePath, "{{tokenUrl}}"));
+    }
     {{/isOAuth}}
     {{/authMethods}}
     // Prevent the authentications from being modified.
