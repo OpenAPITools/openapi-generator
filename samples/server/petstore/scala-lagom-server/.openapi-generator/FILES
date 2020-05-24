@@ -1,0 +1,14 @@
+.gitignore
+README.md
+build.sbt
+project/build.properties
+project/plugins.sbt
+src/main/scala/io/swagger/client/api/PetApi.scala
+src/main/scala/io/swagger/client/api/StoreApi.scala
+src/main/scala/io/swagger/client/api/UserApi.scala
+src/main/scala/io/swagger/client/model/ApiResponse.scala
+src/main/scala/io/swagger/client/model/Category.scala
+src/main/scala/io/swagger/client/model/Order.scala
+src/main/scala/io/swagger/client/model/Pet.scala
+src/main/scala/io/swagger/client/model/Tag.scala
+src/main/scala/io/swagger/client/model/User.scala
