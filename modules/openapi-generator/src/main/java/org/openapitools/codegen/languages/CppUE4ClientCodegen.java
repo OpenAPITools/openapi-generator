@@ -505,13 +505,6 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // TODO: This could be moved to AbstractCPPGenerator, as model enums are virtually unusable without
-        objs = super.postProcessModels(objs);
-        return postProcessModelsEnum(objs);
-    }
-
-    @Override
     public String toEnumVarName(String name, String datatype) {
         return toVarName(name);
     }
