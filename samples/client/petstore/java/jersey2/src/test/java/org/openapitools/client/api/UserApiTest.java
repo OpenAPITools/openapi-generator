@@ -44,6 +44,7 @@ public class UserApiTest {
     public void createUserTest() throws ApiException {
         User body = null;
         api.createUser(body);
+
         // TODO: test validations
     }
     
@@ -59,6 +60,7 @@ public class UserApiTest {
     public void createUsersWithArrayInputTest() throws ApiException {
         List<User> body = null;
         api.createUsersWithArrayInput(body);
+
         // TODO: test validations
     }
     
@@ -74,6 +76,7 @@ public class UserApiTest {
     public void createUsersWithListInputTest() throws ApiException {
         List<User> body = null;
         api.createUsersWithListInput(body);
+
         // TODO: test validations
     }
     
@@ -89,6 +92,7 @@ public class UserApiTest {
     public void deleteUserTest() throws ApiException {
         String username = null;
         api.deleteUser(username);
+
         // TODO: test validations
     }
     
@@ -104,6 +108,7 @@ public class UserApiTest {
     public void getUserByNameTest() throws ApiException {
         String username = null;
         User response = api.getUserByName(username);
+
         // TODO: test validations
     }
     
@@ -120,6 +125,7 @@ public class UserApiTest {
         String username = null;
         String password = null;
         String response = api.loginUser(username, password);
+
         // TODO: test validations
     }
     
@@ -134,6 +140,7 @@ public class UserApiTest {
     @Test
     public void logoutUserTest() throws ApiException {
         api.logoutUser();
+
         // TODO: test validations
     }
     
@@ -150,6 +157,7 @@ public class UserApiTest {
         String username = null;
         User body = null;
         api.updateUser(username, body);
+
         // TODO: test validations
     }
     

@@ -21,6 +21,8 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -78,6 +80,10 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
                         ParameterFeature.Cookie
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+            .stability(Stability.BETA)
+            .build();
 
         outputFolder = "generated-code/lua";
         modelTemplateFiles.put("model.mustache", ".lua");

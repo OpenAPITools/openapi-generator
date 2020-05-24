@@ -14,24 +14,23 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.math.BigDecimal;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * NumberOnly
  */
-@JsonPropertyOrder({
-  NumberOnly.JSON_PROPERTY_JUST_NUMBER
-})
 
 public class NumberOnly {
-  public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
+  public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
+  @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber;
 
 
@@ -47,8 +46,6 @@ public class NumberOnly {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getJustNumber() {
     return justNumber;

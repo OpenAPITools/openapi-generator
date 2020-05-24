@@ -5,77 +5,59 @@ All URIs are relative to *{{{basePath}}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{vendorExtensions.x-powershell-method-name}}**]({{classname}}.md#{{vendorExtensions.x-powershell-method-name-lowercase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
-<a name="{{{operationIdLowerCase}}}"></a>
-# **{{{operationId}}}**
-> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+<a name="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
+# **{{{vendorExtensions.x-powershell-method-name}}}**
+> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}<br>
+{{#allParams}}
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-{{paramName}}] <{{{vendorExtensions.x-powershell-data-type}}}><br>
+{{/allParams}}
 
 {{{summary}}}{{#notes}}
 
 {{{notes}}}{{/notes}}
 
 ### Example
-```csharp
-using System;
-using System.Diagnostics;
-using {{packageName}}.{{apiPackage}};
-using {{packageName}}.Client;
-using {{packageName}}.{{modelPackage}};
+```powershell
+Import-Module -Name {{{packageName}}}
 
-namespace Example
-{
-    public class {{operationId}}Example
-    {
-        public void main()
-        {
-            {{#hasAuthMethods}}
-            {{#authMethods}}
-            {{#isBasic}}
-            // Configure HTTP basic authorization: {{{name}}}
-            Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";
-            {{/isBasic}}
-            {{#isApiKey}}
-            // Configure API key authorization: {{{name}}}
-            Configuration.Default.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");
-            {{/isApiKey}}
-            {{#isOAuth}}
-            // Configure OAuth2 access token for authorization: {{{name}}}
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-            {{/isOAuth}}
-            {{/authMethods}}
+{{#hasAuthMethods}}
+$Configuration = Get-{{{packageName}}}Configuration
+{{#authMethods}}
+{{#isBasic}}
+# Configure HTTP basic authorization: {{{name}}}
+$Configuration["Username"] = "YOUR_USERNAME";
+$Configuration["Password"] = "YOUR_PASSWORD";
+{{/isBasic}}
+{{#isApiKey}}
+# Configure API key authorization: {{{name}}}
+$Configuration["ApiKey"]["{{{keyParamName}}}"] = "YOUR_API_KEY"
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$Configuration["ApiKeyPrefix"]["{{{keyParamName}}}"] = "Bearer"
+{{/isApiKey}}
+{{#isOAuth}}
+# Configure OAuth2 access token for authorization: {{{name}}}
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
+{{/isOAuth}}
+{{/authMethods}}
 
-            {{/hasAuthMethods}}
-            var apiInstance = new {{classname}}();
-            {{#allParams}}
-            {{#isPrimitiveType}}
-            var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-            {{/isPrimitiveType}}
-            {{/allParams}}
+{{/hasAuthMethods}}
+{{#allParams}}
+${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/allParams}}
 
-            try
-            {
-                {{#summary}}
-                // {{{.}}}
-                {{/summary}}
-                {{#returnType}}{{returnType}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
-                Debug.WriteLine(result);{{/returnType}}
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
-            }
-        }
-    }
+{{#summary}}
+# {{{.}}}
+{{/summary}}
+try {
+    {{#returnType}}{{returnType}} $Result = {{/returnType}}{{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
+} catch {
+    Write-Host ("Exception occured when calling {{{vendorExtensions.x-powershell-method-name}}}: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
 

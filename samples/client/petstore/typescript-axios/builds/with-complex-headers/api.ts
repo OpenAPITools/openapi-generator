@@ -1041,7 +1041,6 @@ export class PetApi extends BaseAPI {
     public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 
@@ -1368,7 +1367,6 @@ export class StoreApi extends BaseAPI {
     public placeOrder(order: Order, options?: any) {
         return StoreApiFp(this.configuration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 
@@ -2008,7 +2006,6 @@ export class UserApi extends BaseAPI {
     public updateUser(username: string, user: User, options?: any) {
         return UserApiFp(this.configuration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

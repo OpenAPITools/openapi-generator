@@ -21,7 +21,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class ArrayOfNumberOnly (
     @SerialName(value = "ArrayNumber") val arrayNumber: kotlin.Array<kotlin.Double>? = null
-) 
-
-
+)
 

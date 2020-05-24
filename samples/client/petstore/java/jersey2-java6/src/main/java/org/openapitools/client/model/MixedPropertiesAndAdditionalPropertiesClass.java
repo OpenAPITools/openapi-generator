@@ -14,37 +14,36 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import org.threeten.bp.OffsetDateTime;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@JsonPropertyOrder({
-  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_UUID,
-  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
-  MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
-})
 
 public class MixedPropertiesAndAdditionalPropertiesClass {
-  public static final String JSON_PROPERTY_UUID = "uuid";
+  public static final String SERIALIZED_NAME_UUID = "uuid";
+  @SerializedName(SERIALIZED_NAME_UUID)
   private UUID uuid;
 
-  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
+  @SerializedName(SERIALIZED_NAME_DATE_TIME)
   private OffsetDateTime dateTime;
 
-  public static final String JSON_PROPERTY_MAP = "map";
+  public static final String SERIALIZED_NAME_MAP = "map";
+  @SerializedName(SERIALIZED_NAME_MAP)
   private Map<String, Animal> map = null;
 
 
@@ -60,8 +59,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_UUID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public UUID getUuid() {
     return uuid;
@@ -85,8 +82,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -118,8 +113,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MAP)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Animal> getMap() {
     return map;

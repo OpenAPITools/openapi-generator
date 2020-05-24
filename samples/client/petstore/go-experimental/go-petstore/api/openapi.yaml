@@ -134,6 +134,7 @@ paths:
           items:
             type: string
           type: array
+          uniqueItems: true
         style: form
       responses:
         "200":
@@ -143,11 +144,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
+                uniqueItems: true
             application/json:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
                 type: array
+                uniqueItems: true
           description: successful operation
         "400":
           content: {}
@@ -1167,6 +1170,7 @@ components:
           items:
             type: string
           type: array
+          uniqueItems: true
           xml:
             name: photoUrl
             wrapped: true

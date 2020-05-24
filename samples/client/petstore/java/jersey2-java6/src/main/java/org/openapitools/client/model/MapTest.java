@@ -14,34 +14,31 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * MapTest
  */
-@JsonPropertyOrder({
-  MapTest.JSON_PROPERTY_MAP_MAP_OF_STRING,
-  MapTest.JSON_PROPERTY_MAP_OF_ENUM_STRING,
-  MapTest.JSON_PROPERTY_DIRECT_MAP,
-  MapTest.JSON_PROPERTY_INDIRECT_MAP
-})
 
 public class MapTest {
-  public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
+  public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
+  @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
    * Gets or Sets inner
    */
+  @JsonAdapter(InnerEnum.Adapter.class)
   public enum InnerEnum {
     UPPER("UPPER"),
     
@@ -53,7 +50,6 @@ public class MapTest {
       this.value = value;
     }
 
-    @JsonValue
     public String getValue() {
       return value;
     }
@@ -63,7 +59,6 @@ public class MapTest {
       return String.valueOf(value);
     }
 
-    @JsonCreator
     public static InnerEnum fromValue(String value) {
       for (InnerEnum b : InnerEnum.values()) {
         if (b.value.equals(value)) {
@@ -72,15 +67,31 @@ public class MapTest {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
+
+    public static class Adapter extends TypeAdapter<InnerEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final InnerEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public InnerEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return InnerEnum.fromValue(value);
+      }
+    }
   }
 
-  public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
+  public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
+  @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
   private Map<String, InnerEnum> mapOfEnumString = null;
 
-  public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
+  public static final String SERIALIZED_NAME_DIRECT_MAP = "direct_map";
+  @SerializedName(SERIALIZED_NAME_DIRECT_MAP)
   private Map<String, Boolean> directMap = null;
 
-  public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
+  public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
+  @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
   private Map<String, Boolean> indirectMap = null;
 
 
@@ -104,8 +115,6 @@ public class MapTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -137,8 +146,6 @@ public class MapTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -170,8 +177,6 @@ public class MapTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -203,8 +208,6 @@ public class MapTest {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;

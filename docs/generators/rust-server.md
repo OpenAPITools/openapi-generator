@@ -165,7 +165,7 @@ sidebar_label: rust-server
 |MultiServer|✗|OAS3
 |ParameterizedServer|✗|OAS3
 |ParameterStyling|✗|OAS3
-|Callbacks|✗|OAS3
+|Callbacks|✓|OAS3
 |LinkObjects|✗|OAS3
 
 ### Parameter Feature

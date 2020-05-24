@@ -16,14 +16,12 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
 /**
  * 
- * @param id 
  * @param name 
+ * @param id 
  */
 @Serializable
 data class Category (
     @SerialName(value = "name") @Required val name: kotlin.String,
     @SerialName(value = "id") val id: kotlin.Long? = null
-) 
-
-
+)
 

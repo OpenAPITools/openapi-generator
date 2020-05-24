@@ -43,3 +43,30 @@ paths:
       responses:
         '204':
           description: Successful operation
+  /multipart-mixed:
+    post:
+      tags:
+        - multipart
+      description: Mixed MultipartFile test
+      operationId: multipartMixed
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                marker:
+                  description: "additional object"
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                file:
+                  description: "a file"
+                  type: string
+                  format: binary
+      responses:
+        '204':
+          description: Successful operation

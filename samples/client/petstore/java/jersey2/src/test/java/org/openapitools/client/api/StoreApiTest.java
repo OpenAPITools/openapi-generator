@@ -44,6 +44,7 @@ public class StoreApiTest {
     public void deleteOrderTest() throws ApiException {
         String orderId = null;
         api.deleteOrder(orderId);
+
         // TODO: test validations
     }
     
@@ -58,6 +59,7 @@ public class StoreApiTest {
     @Test
     public void getInventoryTest() throws ApiException {
         Map<String, Integer> response = api.getInventory();
+
         // TODO: test validations
     }
     
@@ -73,6 +75,7 @@ public class StoreApiTest {
     public void getOrderByIdTest() throws ApiException {
         Long orderId = null;
         Order response = api.getOrderById(orderId);
+
         // TODO: test validations
     }
     
@@ -88,6 +91,7 @@ public class StoreApiTest {
     public void placeOrderTest() throws ApiException {
         Order body = null;
         Order response = api.placeOrder(body);
+
         // TODO: test validations
     }
     

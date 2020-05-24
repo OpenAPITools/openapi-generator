@@ -11,6 +11,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // EnumClass the model 'EnumClass'
@@ -23,11 +24,27 @@ const (
 	ENUM_CLASS_XYZ EnumClass = "(xyz)"
 )
 
+func (v *EnumClass) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumClass(value)
+	for _, existing := range []EnumClass{ "_abc", "-efg", "(xyz)",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumClass", *v)
+}
+
 // Ptr returns reference to EnumClass value
 func (v EnumClass) Ptr() *EnumClass {
 	return &v
 }
-
 
 type NullableEnumClass struct {
 	value *EnumClass
@@ -64,3 +81,4 @@ func (v *NullableEnumClass) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+

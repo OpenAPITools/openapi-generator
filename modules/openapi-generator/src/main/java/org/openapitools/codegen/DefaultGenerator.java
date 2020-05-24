@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.comparator.PathFileComparator;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -49,6 +50,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -57,6 +59,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
 public class DefaultGenerator extends AbstractGenerator implements Generator {
+    private static final String METADATA_DIR = ".openapi-generator";
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
     protected CodegenConfig config;
     protected ClientOptInput opts;
@@ -156,7 +159,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return defaultValue;
     }
 
-    private void configureGeneratorProperties() {
+    void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
         generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
@@ -394,7 +397,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     @SuppressWarnings("unchecked")
-    private void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
+    void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
             LOGGER.info("Skipping generation of models.");
@@ -795,20 +798,30 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             config.postProcessFile(written, "supporting-mustache");
                         }
                     } else {
-                        InputStream in = null;
+                        if (Arrays.stream(templatingEngine.getFileExtensions()).anyMatch(templateFile::endsWith)) {
+                            String templateContent = templatingEngine.compileTemplate(this, bundle, support.templateFile);
+                            writeToFile(outputFilename, templateContent);
+                            File written = new File(outputFilename);
+                            files.add(written);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(written, "supporting-mustache");
+                            }
+                        } else {
+                            InputStream in = null;
 
-                        try {
-                            in = new FileInputStream(templateFile);
-                        } catch (Exception e) {
-                            // continue
-                        }
-                        if (in == null) {
-                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
-                        }
-                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
-                        files.add(outputFile);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(outputFile, "supporting-common");
+                            try {
+                                in = new FileInputStream(templateFile);
+                            } catch (Exception e) {
+                                // continue
+                            }
+                            if (in == null) {
+                                in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                            }
+                            File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
+                            files.add(outputFile);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(outputFile, "supporting-common");
+                            }
                         }
                     }
 
@@ -850,7 +863,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             ));
         }
 
-        String versionMetadata = config.outputFolder() + File.separator + ".openapi-generator" + File.separator + "VERSION";
+        String versionMetadata = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "VERSION";
         if (generateMetadata) {
             File versionMetadataFile = new File(versionMetadata);
             try {
@@ -916,13 +929,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
 
-            if (hasOAuthMethods(authMethods)) {
+            if (ProcessUtils.hasOAuthMethods(authMethods)) {
                 bundle.put("hasOAuthMethods", true);
-                bundle.put("oauthMethods", getOAuthMethods(authMethods));
+                bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
             }
-
-            if (hasBearerMethods(authMethods)) {
-                bundle.put("hasBearerMethods", true);
+            if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
+                bundle.put("hasHttpBearerMethods", true);
             }
             if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
                 bundle.put("hasHttpSignatureMethods", true);
@@ -1048,6 +1060,38 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             sb.append(System.lineSeparator());
 
             System.err.println(sb.toString());
+        } else {
+            if (generateMetadata) {
+                try {
+                    StringBuilder sb = new StringBuilder();
+                    File outDir = new File(this.config.getOutputDir());
+
+                    List<File> filesToSort = new ArrayList<>();
+
+                    // Avoid side-effecting sort in this path when generateMetadata=true
+                    files.forEach(f -> {
+                        // We have seen NPE on CI for getPath() returning null, so guard against this (to be fixed in 5.0 template management refactor)
+                        //noinspection ConstantConditions
+                        if (f != null && f.getPath() != null) {
+                            filesToSort.add(f);
+                        }
+                    });
+
+                    filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
+                    filesToSort.forEach(f -> {
+                        String relativePath = outDir.toPath().relativize(f.toPath()).toString();
+                        if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
+                            sb.append(relativePath).append(System.lineSeparator());
+                        }
+                    });
+
+                    String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
+                    File filesFile = writeToFile(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
+                    files.add(filesFile);
+                } catch (Exception e) {
+                    LOGGER.warn("Failed to write FILES metadata to track generated files.");
+                }
+            }
         }
 
         // reset GlobalSettings, so that the running thread can be reused for another generator-run
@@ -1434,38 +1478,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         return result;
-    }
-
-    private boolean hasOAuthMethods(List<CodegenSecurity> authMethods) {
-        for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isOAuth)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean hasBearerMethods(List<CodegenSecurity> authMethods) {
-        for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isBasicBearer)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private List<CodegenSecurity> getOAuthMethods(List<CodegenSecurity> authMethods) {
-        List<CodegenSecurity> oauthMethods = new ArrayList<>();
-
-        for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isOAuth)) {
-                oauthMethods.add(cs);
-            }
-        }
-
-        return oauthMethods;
     }
 
     protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws IOException {

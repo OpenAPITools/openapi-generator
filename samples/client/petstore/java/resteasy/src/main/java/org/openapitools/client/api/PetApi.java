@@ -10,6 +10,7 @@ import javax.ws.rs.core.GenericType;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -172,12 +173,12 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return a {@code List<Pet>}
+   * @return a {@code Set<Pet>}
    * @throws ApiException if fails to make API call
    * @deprecated
    */
   @Deprecated
-  public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
+  public Set<Pet> findPetsByTags(Set<String> tags) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'tags' is set
@@ -211,7 +212,7 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-    GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
+    GenericType<Set<Pet>> localVarReturnType = new GenericType<Set<Pet>>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**

@@ -30,6 +30,41 @@ paths:
           description: OK
         "400":
           description: Bad Request
+  /paramget:
+    get:
+      parameters:
+      - description: The stuff to get
+        explode: false
+        in: query
+        name: uuid
+        required: false
+        schema:
+          $ref: '#/components/schemas/UuidObject'
+        style: form
+      - description: Some object to pass as query parameter
+        explode: false
+        in: query
+        name: someObject
+        required: false
+        schema:
+          $ref: '#/components/schemas/ObjectParam'
+        style: form
+      - description: Some list to pass as query parameter
+        explode: false
+        in: query
+        name: someList
+        required: false
+        schema:
+          $ref: '#/components/schemas/MyIDList'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: JSON rsp
+      summary: Get some stuff with parameters.
   /multiget:
     get:
       responses:
@@ -43,7 +78,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/InlineResponse201'
+                $ref: '#/components/schemas/inline_response_201'
           description: XML rsp
         "202":
           content:
@@ -154,6 +189,16 @@ paths:
       - authScheme:
         - test.read
         - test.write
+  /untyped_property:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectUntypedProps'
+      responses:
+        "200":
+          description: Check that untyped properties works
   /responses_with_headers:
     get:
       responses:
@@ -169,6 +214,16 @@ paths:
               schema:
                 type: String
               style: simple
+            Bool-Header:
+              explode: false
+              schema:
+                type: bool
+              style: simple
+            Object-Header:
+              explode: false
+              schema:
+                $ref: '#/components/schemas/ObjectHeader'
+              style: simple
         "412":
           description: Precondition Failed
           headers:
@@ -182,8 +237,184 @@ paths:
               schema:
                 type: String
               style: simple
+  /mandatory-request-header:
+    get:
+      parameters:
+      - explode: false
+        in: header
+        name: X-Header
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Success
+  /register-callback:
+    post:
+      callbacks:
+        callback:
+          '{$request.query.url}/callback':
+            post:
+              operationId: callback_CallbackPost
+              responses:
+                "204":
+                  description: OK
+              x-callback-request: true
+      parameters:
+      - explode: true
+        in: query
+        name: url
+        required: true
+        schema:
+          format: uri
+          type: string
+        style: form
+      responses:
+        "204":
+          description: OK
+  /callback-with-header:
+    post:
+      callbacks:
+        callback:
+          '{$request.query.url}/callback-with-header':
+            post:
+              operationId: callback_CallbackWithHeaderPost
+              parameters:
+              - explode: false
+                in: header
+                name: Information
+                required: false
+                schema:
+                  type: string
+                style: simple
+              responses:
+                "204":
+                  description: OK
+              x-callback-request: true
+      parameters:
+      - explode: true
+        in: query
+        name: url
+        required: true
+        schema:
+          format: uri
+          type: string
+        style: form
+      responses:
+        "204":
+          description: OK
+  /rfc7807:
+    get:
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+          description: OK
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+          description: NotFound
+        "406":
+          content:
+            application/problem+xml:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+          description: NotAcceptable
+  /merge-patch-json:
+    get:
+      responses:
+        "200":
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: merge-patch+json-encoded response
+  /enum_in_path/{path_param}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: path_param
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringEnum'
+        style: simple
+      responses:
+        "200":
+          description: Success
+  /override-server:
+    get:
+      responses:
+        "204":
+          description: Success.
+      servers:
+      - url: /override
+  /complex-query-param:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: list-of-strings
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/StringObject'
+          type: array
+        style: form
+      responses:
+        "200":
+          description: Success
+  /repos/{repoId}:
+    get:
+      operationId: GetRepoInfo
+      parameters:
+      - explode: false
+        in: path
+        name: repoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringObject'
+          description: OK
+      tags:
+      - Repo
+      - Info
+  /repos:
+    post:
+      operationId: CreateRepo
+      requestBody:
+        content:
+          application/json:
+            example:
+              requiredParam: true
+            schema:
+              $ref: '#/components/schemas/ObjectParam'
+        required: true
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Repo
 components:
   schemas:
+    EnumWithStarObject:
+      description: Test a model containing a special character in the enum
+      enum:
+      - FOO
+      - BAR
+      - '*'
+      type: string
     UuidObject:
       description: Test a model containing a UUID
       format: uuid
@@ -246,11 +477,110 @@ components:
       xml:
         name: snake_another_xml_object
         namespace: http://foo.bar
-    InlineResponse201:
+    ObjectWithArrayOfObjects:
+      example:
+        objectArray:
+        - null
+        - null
+      properties:
+        objectArray:
+          items:
+            $ref: '#/components/schemas/StringObject'
+          type: array
+      type: object
+    StringObject:
+      type: string
+    MyIDList:
+      items:
+        $ref: '#/components/schemas/MyID'
+      type: array
+    MyID:
+      type: integer
+    ObjectUntypedProps:
+      example:
+        not_required_untyped_nullable: ""
+        required_untyped: ""
+        required_untyped_nullable: ""
+        not_required_untyped: ""
+      properties:
+        required_untyped:
+          nullable: false
+        required_untyped_nullable:
+          nullable: true
+        not_required_untyped:
+          nullable: false
+        not_required_untyped_nullable:
+          nullable: false
+      required:
+      - required_untyped
+      - required_untyped_nullable
+      type: object
+    ObjectParam:
+      example:
+        requiredParam: true
+        optionalParam: 0
+      properties:
+        requiredParam:
+          type: boolean
+        optionalParam:
+          type: integer
+      required:
+      - requiredParam
+      type: object
+    ObjectHeader:
+      properties:
+        requiredObjectHeader:
+          type: boolean
+        optionalObjectHeader:
+          type: integer
+      required:
+      - requiredObjectHeader
+      type: object
+    RequiredObjectHeader:
+      type: boolean
+    OptionalObjectHeader:
+      type: integer
+    NullableTest:
+      properties:
+        nullable:
+          nullable: true
+          type: string
+        nullableWithNullDefault:
+          default: "null"
+          nullable: true
+          type: string
+        nullableWithPresentDefault:
+          default: default
+          nullable: true
+          type: string
+        nullableWithNoDefault:
+          nullable: true
+          type: string
+        nullableArray:
+          items:
+            type: string
+          nullable: true
+          type: array
+      required:
+      - nullable
+      type: object
+    StringEnum:
+      enum:
+      - FOO
+      - BAR
+      type: string
+    Ok:
+      type: string
+    Error:
+      type: string
+    Err:
+      type: string
+    Result:
+      type: string
+    inline_response_201:
       properties:
         foo:
           type: string
-      type: object
   securitySchemes:
     authScheme:
       flows:

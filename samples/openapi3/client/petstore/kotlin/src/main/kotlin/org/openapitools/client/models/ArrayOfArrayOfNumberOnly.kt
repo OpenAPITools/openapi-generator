@@ -22,12 +22,10 @@ import java.io.Serializable
 data class ArrayOfArrayOfNumberOnly (
     @Json(name = "ArrayArrayNumber")
     val arrayArrayNumber: kotlin.Array<kotlin.Array<java.math.BigDecimal>>? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

@@ -12,6 +12,7 @@ sidebar_label: java
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-java-client|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
+|asyncNative|If true, async handlers will be used, instead of the sync version| |false|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |caseInsensitiveResponseHeaders|Make API response's headers case-insensitive. Available on okhttp-gson, jersey2 libraries| |false|
@@ -28,7 +29,8 @@ sidebar_label: java
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.client|
-|java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|false|
+|java8|Use Java8 classes instead of third party equivalents. Starting in 5.x, JDK8 is the default and the support for JDK7, JDK6 has been dropped|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|true|
+|legacyDiscriminatorBehavior|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |library|library template (sub-template) to use|<dl><dt>**jersey1**</dt><dd>HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.</dd><dt>**jersey2**</dt><dd>HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x</dd><dt>**feign**</dt><dd>HTTP client: OpenFeign 9.x (deprecated) or 10.x (default). JSON processing: Jackson 2.9.x.</dd><dt>**okhttp-gson**</dt><dd>[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.</dd><dt>**retrofit**</dt><dd>HTTP client: OkHttp 2.x. JSON processing: Gson 2.x (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.</dd><dt>**retrofit2**</dt><dd>HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)</dd><dt>**resttemplate**</dt><dd>HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x</dd><dt>**webclient**</dt><dd>HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x</dd><dt>**resteasy**</dt><dd>HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**vertx**</dt><dd>HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**google-api-client**</dt><dd>HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x</dd><dt>**rest-assured**</dt><dd>HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8</dd><dt>**native**</dt><dd>HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+</dd><dt>**microprofile**</dt><dd>HTTP client: Microprofile client X.x. JSON processing: Jackson 2.9.x</dd></dl>|okhttp-gson|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
@@ -49,7 +51,7 @@ sidebar_label: java
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
-|supportJava6|Whether to support Java6 with the Jersey1 library.| |false|
+|supportJava6|Whether to support Java6 with the Jersey1 library. This option has been deprecated and will be removed in the 5.x release| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
@@ -70,6 +72,7 @@ sidebar_label: java
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |LocalDate|org.joda.time.*|
 |LocalDateTime|org.joda.time.*|
@@ -87,6 +90,7 @@ sidebar_label: java
 | ---------- | --------------- |
 |array|ArrayList|
 |map|HashMap|
+|set|LinkedHashSet|
 
 
 ## LANGUAGE PRIMITIVES

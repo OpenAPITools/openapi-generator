@@ -21,7 +21,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class List (
     @SerialName(value = "123-list") val `123minusList`: kotlin.String? = null
-) 
-
-
+)
 

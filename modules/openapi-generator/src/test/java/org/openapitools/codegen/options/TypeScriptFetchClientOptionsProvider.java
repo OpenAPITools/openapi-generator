@@ -66,6 +66,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptFetchClientCodegen.TYPESCRIPT_THREE_PLUS, TYPESCRIPT_THREE_PLUS)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .build();
     }
 

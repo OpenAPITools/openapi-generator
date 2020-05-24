@@ -14,138 +14,137 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * XmlItem
  */
-@JsonPropertyOrder({
-  XmlItem.JSON_PROPERTY_ATTRIBUTE_STRING,
-  XmlItem.JSON_PROPERTY_ATTRIBUTE_NUMBER,
-  XmlItem.JSON_PROPERTY_ATTRIBUTE_INTEGER,
-  XmlItem.JSON_PROPERTY_ATTRIBUTE_BOOLEAN,
-  XmlItem.JSON_PROPERTY_WRAPPED_ARRAY,
-  XmlItem.JSON_PROPERTY_NAME_STRING,
-  XmlItem.JSON_PROPERTY_NAME_NUMBER,
-  XmlItem.JSON_PROPERTY_NAME_INTEGER,
-  XmlItem.JSON_PROPERTY_NAME_BOOLEAN,
-  XmlItem.JSON_PROPERTY_NAME_ARRAY,
-  XmlItem.JSON_PROPERTY_NAME_WRAPPED_ARRAY,
-  XmlItem.JSON_PROPERTY_PREFIX_STRING,
-  XmlItem.JSON_PROPERTY_PREFIX_NUMBER,
-  XmlItem.JSON_PROPERTY_PREFIX_INTEGER,
-  XmlItem.JSON_PROPERTY_PREFIX_BOOLEAN,
-  XmlItem.JSON_PROPERTY_PREFIX_ARRAY,
-  XmlItem.JSON_PROPERTY_PREFIX_WRAPPED_ARRAY,
-  XmlItem.JSON_PROPERTY_NAMESPACE_STRING,
-  XmlItem.JSON_PROPERTY_NAMESPACE_NUMBER,
-  XmlItem.JSON_PROPERTY_NAMESPACE_INTEGER,
-  XmlItem.JSON_PROPERTY_NAMESPACE_BOOLEAN,
-  XmlItem.JSON_PROPERTY_NAMESPACE_ARRAY,
-  XmlItem.JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY,
-  XmlItem.JSON_PROPERTY_PREFIX_NS_STRING,
-  XmlItem.JSON_PROPERTY_PREFIX_NS_NUMBER,
-  XmlItem.JSON_PROPERTY_PREFIX_NS_INTEGER,
-  XmlItem.JSON_PROPERTY_PREFIX_NS_BOOLEAN,
-  XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
-  XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
-})
 
 public class XmlItem {
-  public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
+  public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
+  @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
   private String attributeString;
 
-  public static final String JSON_PROPERTY_ATTRIBUTE_NUMBER = "attribute_number";
+  public static final String SERIALIZED_NAME_ATTRIBUTE_NUMBER = "attribute_number";
+  @SerializedName(SERIALIZED_NAME_ATTRIBUTE_NUMBER)
   private BigDecimal attributeNumber;
 
-  public static final String JSON_PROPERTY_ATTRIBUTE_INTEGER = "attribute_integer";
+  public static final String SERIALIZED_NAME_ATTRIBUTE_INTEGER = "attribute_integer";
+  @SerializedName(SERIALIZED_NAME_ATTRIBUTE_INTEGER)
   private Integer attributeInteger;
 
-  public static final String JSON_PROPERTY_ATTRIBUTE_BOOLEAN = "attribute_boolean";
+  public static final String SERIALIZED_NAME_ATTRIBUTE_BOOLEAN = "attribute_boolean";
+  @SerializedName(SERIALIZED_NAME_ATTRIBUTE_BOOLEAN)
   private Boolean attributeBoolean;
 
-  public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
+  public static final String SERIALIZED_NAME_WRAPPED_ARRAY = "wrapped_array";
+  @SerializedName(SERIALIZED_NAME_WRAPPED_ARRAY)
   private List<Integer> wrappedArray = null;
 
-  public static final String JSON_PROPERTY_NAME_STRING = "name_string";
+  public static final String SERIALIZED_NAME_NAME_STRING = "name_string";
+  @SerializedName(SERIALIZED_NAME_NAME_STRING)
   private String nameString;
 
-  public static final String JSON_PROPERTY_NAME_NUMBER = "name_number";
+  public static final String SERIALIZED_NAME_NAME_NUMBER = "name_number";
+  @SerializedName(SERIALIZED_NAME_NAME_NUMBER)
   private BigDecimal nameNumber;
 
-  public static final String JSON_PROPERTY_NAME_INTEGER = "name_integer";
+  public static final String SERIALIZED_NAME_NAME_INTEGER = "name_integer";
+  @SerializedName(SERIALIZED_NAME_NAME_INTEGER)
   private Integer nameInteger;
 
-  public static final String JSON_PROPERTY_NAME_BOOLEAN = "name_boolean";
+  public static final String SERIALIZED_NAME_NAME_BOOLEAN = "name_boolean";
+  @SerializedName(SERIALIZED_NAME_NAME_BOOLEAN)
   private Boolean nameBoolean;
 
-  public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
+  public static final String SERIALIZED_NAME_NAME_ARRAY = "name_array";
+  @SerializedName(SERIALIZED_NAME_NAME_ARRAY)
   private List<Integer> nameArray = null;
 
-  public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
+  public static final String SERIALIZED_NAME_NAME_WRAPPED_ARRAY = "name_wrapped_array";
+  @SerializedName(SERIALIZED_NAME_NAME_WRAPPED_ARRAY)
   private List<Integer> nameWrappedArray = null;
 
-  public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
+  public static final String SERIALIZED_NAME_PREFIX_STRING = "prefix_string";
+  @SerializedName(SERIALIZED_NAME_PREFIX_STRING)
   private String prefixString;
 
-  public static final String JSON_PROPERTY_PREFIX_NUMBER = "prefix_number";
+  public static final String SERIALIZED_NAME_PREFIX_NUMBER = "prefix_number";
+  @SerializedName(SERIALIZED_NAME_PREFIX_NUMBER)
   private BigDecimal prefixNumber;
 
-  public static final String JSON_PROPERTY_PREFIX_INTEGER = "prefix_integer";
+  public static final String SERIALIZED_NAME_PREFIX_INTEGER = "prefix_integer";
+  @SerializedName(SERIALIZED_NAME_PREFIX_INTEGER)
   private Integer prefixInteger;
 
-  public static final String JSON_PROPERTY_PREFIX_BOOLEAN = "prefix_boolean";
+  public static final String SERIALIZED_NAME_PREFIX_BOOLEAN = "prefix_boolean";
+  @SerializedName(SERIALIZED_NAME_PREFIX_BOOLEAN)
   private Boolean prefixBoolean;
 
-  public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
+  public static final String SERIALIZED_NAME_PREFIX_ARRAY = "prefix_array";
+  @SerializedName(SERIALIZED_NAME_PREFIX_ARRAY)
   private List<Integer> prefixArray = null;
 
-  public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
+  public static final String SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
+  @SerializedName(SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY)
   private List<Integer> prefixWrappedArray = null;
 
-  public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
+  public static final String SERIALIZED_NAME_NAMESPACE_STRING = "namespace_string";
+  @SerializedName(SERIALIZED_NAME_NAMESPACE_STRING)
   private String namespaceString;
 
-  public static final String JSON_PROPERTY_NAMESPACE_NUMBER = "namespace_number";
+  public static final String SERIALIZED_NAME_NAMESPACE_NUMBER = "namespace_number";
+  @SerializedName(SERIALIZED_NAME_NAMESPACE_NUMBER)
   private BigDecimal namespaceNumber;
 
-  public static final String JSON_PROPERTY_NAMESPACE_INTEGER = "namespace_integer";
+  public static final String SERIALIZED_NAME_NAMESPACE_INTEGER = "namespace_integer";
+  @SerializedName(SERIALIZED_NAME_NAMESPACE_INTEGER)
   private Integer namespaceInteger;
 
-  public static final String JSON_PROPERTY_NAMESPACE_BOOLEAN = "namespace_boolean";
+  public static final String SERIALIZED_NAME_NAMESPACE_BOOLEAN = "namespace_boolean";
+  @SerializedName(SERIALIZED_NAME_NAMESPACE_BOOLEAN)
   private Boolean namespaceBoolean;
 
-  public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
+  public static final String SERIALIZED_NAME_NAMESPACE_ARRAY = "namespace_array";
+  @SerializedName(SERIALIZED_NAME_NAMESPACE_ARRAY)
   private List<Integer> namespaceArray = null;
 
-  public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
+  public static final String SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
+  @SerializedName(SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY)
   private List<Integer> namespaceWrappedArray = null;
 
-  public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
+  public static final String SERIALIZED_NAME_PREFIX_NS_STRING = "prefix_ns_string";
+  @SerializedName(SERIALIZED_NAME_PREFIX_NS_STRING)
   private String prefixNsString;
 
-  public static final String JSON_PROPERTY_PREFIX_NS_NUMBER = "prefix_ns_number";
+  public static final String SERIALIZED_NAME_PREFIX_NS_NUMBER = "prefix_ns_number";
+  @SerializedName(SERIALIZED_NAME_PREFIX_NS_NUMBER)
   private BigDecimal prefixNsNumber;
 
-  public static final String JSON_PROPERTY_PREFIX_NS_INTEGER = "prefix_ns_integer";
+  public static final String SERIALIZED_NAME_PREFIX_NS_INTEGER = "prefix_ns_integer";
+  @SerializedName(SERIALIZED_NAME_PREFIX_NS_INTEGER)
   private Integer prefixNsInteger;
 
-  public static final String JSON_PROPERTY_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
+  public static final String SERIALIZED_NAME_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
+  @SerializedName(SERIALIZED_NAME_PREFIX_NS_BOOLEAN)
   private Boolean prefixNsBoolean;
 
-  public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
+  public static final String SERIALIZED_NAME_PREFIX_NS_ARRAY = "prefix_ns_array";
+  @SerializedName(SERIALIZED_NAME_PREFIX_NS_ARRAY)
   private List<Integer> prefixNsArray = null;
 
-  public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
+  public static final String SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
+  @SerializedName(SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY)
   private List<Integer> prefixNsWrappedArray = null;
 
 
@@ -161,8 +160,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
-  @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAttributeString() {
     return attributeString;
@@ -186,8 +183,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
-  @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -211,8 +206,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
-  @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -236,8 +229,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
-  @JsonProperty(JSON_PROPERTY_ATTRIBUTE_BOOLEAN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean isAttributeBoolean() {
     return attributeBoolean;
@@ -269,8 +260,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -294,8 +283,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
-  @JsonProperty(JSON_PROPERTY_NAME_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getNameString() {
     return nameString;
@@ -319,8 +306,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
-  @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getNameNumber() {
     return nameNumber;
@@ -344,8 +329,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
-  @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getNameInteger() {
     return nameInteger;
@@ -369,8 +352,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
-  @JsonProperty(JSON_PROPERTY_NAME_BOOLEAN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean isNameBoolean() {
     return nameBoolean;
@@ -402,8 +383,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getNameArray() {
     return nameArray;
@@ -435,8 +414,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -460,8 +437,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPrefixString() {
     return prefixString;
@@ -485,8 +460,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -510,8 +483,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -535,8 +506,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_BOOLEAN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean isPrefixBoolean() {
     return prefixBoolean;
@@ -568,8 +537,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -601,8 +568,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -626,8 +591,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
-  @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getNamespaceString() {
     return namespaceString;
@@ -651,8 +614,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
-  @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -676,8 +637,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
-  @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -701,8 +660,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
-  @JsonProperty(JSON_PROPERTY_NAMESPACE_BOOLEAN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean isNamespaceBoolean() {
     return namespaceBoolean;
@@ -734,8 +691,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -767,8 +722,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -792,8 +745,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "string", value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPrefixNsString() {
     return prefixNsString;
@@ -817,8 +768,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "1.234", value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
@@ -842,8 +791,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "-2", value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
@@ -867,8 +814,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(example = "true", value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_NS_BOOLEAN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean isPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -900,8 +845,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -933,8 +876,6 @@ public class XmlItem {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
