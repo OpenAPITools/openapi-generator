@@ -125,7 +125,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".env.example", outputFolder, ".env.example"));
         supportingFiles.add(new SupportingFile("server.php", outputFolder, "server.php"));
 
-        supportingFiles.add(new SupportingFile("bootstrap/cache/.gitignore", outputFolder + File.separator + "bootstrap" + File.separator + "cache", ".gitignore"));
+        supportingFiles.add(new SupportingFile("bootstrap/cache/gitignore", outputFolder + File.separator + "bootstrap" + File.separator + "cache", ".gitignore"));
         supportingFiles.add(new SupportingFile("bootstrap/app.php", outputFolder + File.separator + "bootstrap", "app.php"));
         supportingFiles.add(new SupportingFile("bootstrap/testingAutoload.php", outputFolder + File.separator + "bootstrap", "testingAutoload.php"));
 
@@ -169,7 +169,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("database/migrations/2014_10_12_000000_create_users_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2014_10_12_000000_create_users_table.php"));
         supportingFiles.add(new SupportingFile("database/migrations/2014_10_12_100000_create_password_resets_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2014_10_12_100000_create_password_resets_table.php"));
         supportingFiles.add(new SupportingFile("database/seeds/DatabaseSeeder.php", outputFolder + File.separator + "database" + File.separator + "seeds", "DatabaseSeeder.php"));
-        supportingFiles.add(new SupportingFile("database/.gitignore", outputFolder + File.separator + "database", ".gitignore"));
+        supportingFiles.add(new SupportingFile("database/gitignore", outputFolder + File.separator + "database", ".gitignore"));
 
         // /config/
         supportingFiles.add(new SupportingFile("config/app.php", outputFolder + File.separator + "config", "app.php"));
@@ -199,14 +199,14 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("resources/views/welcome.blade.php", outputFolder + File.separator + "resources" + File.separator + "views", "welcome.blade.php"));
 
         // /storage/
-        supportingFiles.add(new SupportingFile("storage/app/.gitignore", outputFolder + File.separator + "storage" + File.separator + "app", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/app/public/.gitignore", outputFolder + File.separator + "storage" + File.separator + "app" + File.separator + "public", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/cache/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/sessions/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "sessions", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/testing/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "testing", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/views/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "views", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/logs/.gitignore", outputFolder + File.separator + "storage" + File.separator + "logs", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/app/gitignore", outputFolder + File.separator + "storage" + File.separator + "app", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/app/public/gitignore", outputFolder + File.separator + "storage" + File.separator + "app" + File.separator + "public", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/cache/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/sessions/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "sessions", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/testing/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "testing", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/views/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "views", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/logs/gitignore", outputFolder + File.separator + "storage" + File.separator + "logs", ".gitignore"));
 
         // /tests/
         supportingFiles.add(new SupportingFile("tests/Feature/ExampleTest.php", outputFolder + File.separator + "tests" + File.separator + "Feature", "ExampleTest.php"));
