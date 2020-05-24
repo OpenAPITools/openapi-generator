@@ -225,6 +225,7 @@ class OpenApiModel(object):
             # but we know we know that we already have Dog
             # because it is in visited_composed_classes
             # so make Animal here
+            return super(OpenApiModel, cls).__new__(cls)
 
         oneof_anyof_child = new_cls in oneof_anyof_classes
         kwargs['_visited_composed_classes'] = visited_composed_classes + (cls,)
