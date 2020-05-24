@@ -28,7 +28,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new OpenApiPetstore.AdditionalPropertiesAnyType();
+    //instance = new OpenApiPetstore.AdditionalPropertiesAnyType();
   });
 
   var getProperty = function(object, getter, property) {
