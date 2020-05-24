@@ -17,10 +17,12 @@ for (let libName in libs) {
         return new Promise((resolve, reject) => {
             lib.send(requestContext).toPromise().then((resp: petstore.ResponseContext) => {
                 assert.ok(resp.httpStatusCode, 200, "Expected status code to be 200");
-                let body = JSON.parse(resp.body);
+                return resp.body.text()
+            }).then((txtBody: string) => {
+                let body = JSON.parse(txtBody);
                 assert.ok(body["headers"]);
                 assert.equal(body["headers"]["X-Test-Token"],"Test-Token");
-                resolve()
+                resolve()    
             },
             (e: any) => {
                 console.error(e)
@@ -44,12 +46,14 @@ for (let libName in libs) {
             lib.send(requestContext).toPromise().then(
                 (resp: petstore.ResponseContext) => {
                 assert.ok(resp.httpStatusCode, 200, "Expected status code to be 200");
-                let body = JSON.parse(resp.body);
+                return resp.body.text()
+            }).then((txtBody: any) => {
+                let body = JSON.parse(txtBody);
                 assert.ok(body["headers"]);
                 assert.equal(body["headers"]["X-Test-Token"], "Test-Token");
                 assert.equal(body["files"]["testFile"], "abc");
                 assert.equal(body["form"]["test"], "test2");
-                resolve();
+                resolve();    
             },
             (e: any) => {
                 console.error(e)
