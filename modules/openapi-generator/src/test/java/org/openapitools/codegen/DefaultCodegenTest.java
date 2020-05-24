@@ -262,7 +262,9 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
-        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Schema bodySchema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Assert.assertEquals(bodySchema.get$ref(), "#/components/schemas/createStateBody");
+        Schema schema = openAPI.getComponents().getSchemas().get("createStateBody");
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
