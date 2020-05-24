@@ -1000,7 +1000,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/typescript/tests/default</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-client-tests-jquery</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
             </modules>
         </profile>
         <profile>
@@ -1271,8 +1283,10 @@
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/openapi3/client/petstore/python</module>
                 <module>samples/openapi3/client/petstore/python-experimental</module>
-                <module>samples/client/petstore/typescript/builds/default</module>
-                <module>samples/client/petstore/typescript/tests/default</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/default</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/default</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
