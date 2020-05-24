@@ -17,8 +17,8 @@ import unittest
 import petstore_api
 
 
-class TestBiologyPrimate(unittest.TestCase):
-    """BiologyPrimate unit test stubs"""
+class TestBasquePig(unittest.TestCase):
+    """BasquePig unit test stubs"""
 
     def setUp(self):
         pass
@@ -26,10 +26,10 @@ class TestBiologyPrimate(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testBiologyPrimate(self):
-        """Test BiologyPrimate"""
+    def testBasquePig(self):
+        """Test BasquePig"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.BiologyPrimate()  # noqa: E501
+        # model = petstore_api.BasquePig()  # noqa: E501
         pass
 
 

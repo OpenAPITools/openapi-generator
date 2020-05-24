@@ -1,4 +1,4 @@
-# biology_primate.BiologyPrimate
+# danish_pig.DanishPig
 
 ## Properties
 Name | Type | Description | Notes

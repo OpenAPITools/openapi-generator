@@ -1,4 +1,4 @@
-# biology_reptile.BiologyReptile
+# pig.Pig
 
 ## Properties
 Name | Type | Description | Notes

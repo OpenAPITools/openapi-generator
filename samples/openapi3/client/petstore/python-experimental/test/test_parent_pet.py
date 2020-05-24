@@ -32,8 +32,8 @@ class TestParentPet(unittest.TestCase):
         # test that we can make a ParentPet from a ParentPet
         # which requires that we travel back through ParentPet's allOf descendant
         # GrandparentAnimal, and we use the descendant's discriminator to make ParentPet
-        #model = petstore_api.ParentPet(pet_type="ParentPet")
-        #assert isinstance(model, petstore_api.ParentPet)
+        model = petstore_api.ParentPet(pet_type="ParentPet")
+        assert isinstance(model, petstore_api.ParentPet)
 
 if __name__ == '__main__':
     unittest.main()

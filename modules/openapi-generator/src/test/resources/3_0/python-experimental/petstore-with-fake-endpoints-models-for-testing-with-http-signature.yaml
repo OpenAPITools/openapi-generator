@@ -1833,11 +1833,9 @@ components:
       oneOf:
         - $ref: '#/components/schemas/whale'
         - $ref: '#/components/schemas/zebra'
+        - $ref: '#/components/schemas/Pig'
       discriminator:
         propertyName: className
-        mapping:
-          whale: '#/components/schemas/whale'
-          zebra: '#/components/schemas/zebra'
     whale:
       type: object
       properties:
@@ -1858,6 +1856,26 @@ components:
             - plains
             - mountain
             - grevys
+        className:
+          type: string
+      required:
+        - className
+    Pig:
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+      discriminator:
+        propertyName: className
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+      required:
+        - className
+    DanishPig:
+      type: object
+      properties:
         className:
           type: string
       required:
@@ -1992,26 +2010,23 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
-    # The following hierarchy is used to test discriminators
-    # that require recursive lookups.
-    biology.Chordate:
+    GrandparentAnimal:
       type: object
-      discriminator:
-        propertyName: className
       required:
-        - className
+        - pet_type
       properties:
-        className:
+        pet_type:
           type: string
-    biology.Reptile:
+      discriminator:
+        propertyName: pet_type
+    ParentPet:
+      type: object
       allOf:
-        - $ref: '#/components/schemas/biology.Chordate'
-    biology.Mammal:
+        - $ref: '#/components/schemas/GrandparentAnimal'
+    ChildCat:
       allOf:
-        - $ref: '#/components/schemas/biology.Chordate'
-    biology.Primate:
-      allOf:
-        - $ref: '#/components/schemas/biology.Mammal'
-    biology.Hominid:
-      allOf:
-        - $ref: '#/components/schemas/biology.Primate'
+        - $ref: '#/components/schemas/ParentPet'
+        - type: object
+          properties:
+            name:
+              type: string
