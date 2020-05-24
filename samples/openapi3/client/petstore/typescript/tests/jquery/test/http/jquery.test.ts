@@ -17,7 +17,7 @@ for (let libName in libs) {
         return new Promise((resolve, reject) => {
             lib.send(requestContext).toPromise().then((resp: petstore.ResponseContext) => {
                 assert.ok(resp.httpStatusCode, 200, "Expected status code to be 200");
-                return resp.body.text()
+                return resp.body.text();
             }).then((txtBody: string) => {
                 let body = JSON.parse(txtBody);
                 assert.ok(body["headers"]);
@@ -46,7 +46,7 @@ for (let libName in libs) {
             lib.send(requestContext).toPromise().then(
                 (resp: petstore.ResponseContext) => {
                 assert.ok(resp.httpStatusCode, 200, "Expected status code to be 200");
-                return resp.body.text()
+                return resp.body.text();
             }).then((txtBody: any) => {
                 let body = JSON.parse(txtBody);
                 assert.ok(body["headers"]);

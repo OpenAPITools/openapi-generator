@@ -21,14 +21,12 @@ export class JQueryHttpLibrary implements HttpLibrary {
             data: body
         };
 
-        /**
-         * Allow receiving binary data with jquery ajax
-         *
-         * Source: https://keyangxiang.com/2017/09/01/HTML5-XHR-download-binary-content-as-Blob/
-         */
-         requestOptions.beforeSend = (jqXHR: any, settings: any) => {
-             settings.xhr().responseType = "blob";
-         };
+		// If we want a blob, we have to set the xhrFields' responseType AND add a 
+		// custom converter to overwrite the default deserialization of JQuery...
+        requestOptions["xhrFields"] = { responseType: 'blob' };
+        requestOptions["converters"] = {} 
+        requestOptions["converters"]["* blob"] = (result:any) => result;
+        requestOptions["dataType"] = "blob";
 
 
         if (request.getHeaders()['Content-Type']) {
@@ -51,6 +49,7 @@ export class JQueryHttpLibrary implements HttpLibrary {
         if (body && body.constructor.name == "FormData") {
             requestOptions.contentType = false;
         }
+        
         const sentRequest = $.ajax(requestOptions);
         
         const resultPromise = new Promise<ResponseContext>((resolve, reject) => {
