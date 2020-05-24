@@ -155,26 +155,22 @@ class OpenApiModel(object):
             cls.discriminator is None or
             cls in visited_composed_classes
         ):
-            # This openapi schema (cls) does not have a discriminator
-            # Or we have already visited this class before and are sure that we
-            # want to instantiate it this time.
+            # Use case 1: this openapi schema (cls) does not have a discriminator
+            # Use case 2: we have already visited this class before and are sure that we
+            # want to instantiate it this time. We have visited this class deserializing
+            # a payload with a discriminator. During that process we traveled through
+            # this class but did not make an instance of it. Now we are making an
+            # instance of a composed class which contains cls in it, so this time make an instance of cls.
             #
-            # If we are making an instance of a composed schema Descendent
-            # which allOf includes Ancestor, then Ancestor contains
-            # a discriminator that includes Descendent.
-            # So if we make an instance of Descendent, we have to make an
-            # instance of Ancestor to hold the allOf properties.
-            # This code detects that use case and makes the instance of Ancestor
-            # For example:
-            # When making an instance of Dog, _visited_composed_classes = (Dog,)
-            # then we make an instance of Animal to include in dog._composed_instances
-            # so when we are here, cls is Animal
-            # cls.discriminator != None
-            # cls not in _visited_composed_classes
-            # new_cls = Dog
-            # but we know we know that we already have Dog
-            # because it is in visited_composed_classes
-            # so make Animal here
+            # Here's an example of use case 2: If Animal has a discriminator
+            # petType and we pass in "Dog", and the class Dog
+            # allOf includes Animal, we move through Animal
+            # once using the discriminator, and pick Dog.
+            # Then in the composed schema dog Dog, we will make an instance of the
+            # Animal class (because Dal has allOf: Animal) but this time we won't travel
+            # through Animal's discriminator because we passed in
+            # _visited_composed_classes = (Animal,)
+
             return super(OpenApiModel, cls).__new__(cls)
 
         # Get the name and value of the discriminator property.
@@ -213,8 +209,22 @@ class OpenApiModel(object):
             )
 
         if new_cls in visited_composed_classes:
-            # if we are coming from the chosen new_cls use cls instead
-            return super(OpenApiModel, cls).__new__(cls)
+            # if we are making an instance of a composed schema Descendent
+            # which allOf includes Ancestor, then Ancestor contains
+            # a discriminator that includes Descendent.
+            # So if we make an instance of Descendent, we have to make an
+            # instance of Ancestor to hold the allOf properties.
+            # This code detects that use case and makes the instance of Ancestor
+            # For example:
+            # When making an instance of Dog, _visited_composed_classes = (Dog,)
+            # then we make an instance of Animal to include in dog._composed_instances
+            # so when we are here, cls is Animal
+            # cls.discriminator != None
+            # cls not in _visited_composed_classes
+            # new_cls = Dog
+            # but we know we know that we already have Dog
+            # because it is in visited_composed_classes
+            # so make Animal here
 
         oneof_anyof_child = new_cls in oneof_anyof_classes
         kwargs['_visited_composed_classes'] = visited_composed_classes + (cls,)
