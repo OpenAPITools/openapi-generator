@@ -215,8 +215,9 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
-        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
-
+        Assert.assertEquals(requestBodySchema.get$ref(), "#/components/schemas/testEnumParametersBody");
+        Schema testParamSchema = openAPI.getComponents().getSchemas().get("testEnumParametersBody");
+        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) testParamSchema.getProperties().get("enum_form_string"), new HashSet<String>());
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
     }
 
