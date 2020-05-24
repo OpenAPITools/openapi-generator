@@ -110,7 +110,13 @@ describe 'FormatTest' do
     end
   end
 
-  describe 'test attribute "big_decimal"' do
+  describe 'test attribute "pattern_with_digits"' do
+    it 'should work' do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
+  describe 'test attribute "pattern_with_digits_and_delimiter"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end

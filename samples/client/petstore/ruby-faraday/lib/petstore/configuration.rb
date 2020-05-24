@@ -202,6 +202,14 @@ module Petstore
             key: 'api_key_query',
             value: api_key_with_prefix('api_key_query')
           },
+        'bearer_test' =>
+          {
+            type: 'bearer',
+            in: 'header',
+            format: 'JWT',
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
+          },
         'http_basic_test' =>
           {
             type: 'basic',
@@ -223,8 +231,41 @@ module Petstore
     def server_settings
       [
         {
-          url: "http://petstore.swagger.io:80/v2",
-          description: "No description provided",
+          url: "http://{server}.swagger.io:{port}/v2",
+          description: "petstore server",
+          variables: {
+            server: {
+                description: "No description provided",
+                default_value: "petstore",
+                enum_values: [
+                  "petstore",
+                  "qa-petstore",
+                  "dev-petstore"
+                ]
+              },
+            port: {
+                description: "No description provided",
+                default_value: "80",
+                enum_values: [
+                  "80",
+                  "8080"
+                ]
+              }
+            }
+        },
+        {
+          url: "https://localhost:8080/{version}",
+          description: "The local server",
+          variables: {
+            version: {
+                description: "No description provided",
+                default_value: "v2",
+                enum_values: [
+                  "v1",
+                  "v2"
+                ]
+              }
+            }
         }
       ]
     end

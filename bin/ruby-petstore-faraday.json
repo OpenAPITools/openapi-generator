@@ -2,6 +2,5 @@
   "gemName": "petstore",
   "moduleName": "Petstore",
   "library": "faraday",
-  "gemVersion": "1.0.0",
-  "strictSpecBehavior": false
+  "gemVersion": "1.0.0"
 }
