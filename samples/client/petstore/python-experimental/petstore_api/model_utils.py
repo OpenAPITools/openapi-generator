@@ -1044,18 +1044,20 @@ def get_discriminator_class(model_class,
         used_model_class = class_name_to_discr_class.get(discr_value)
     if used_model_class is None:
         # We didn't find a discriminated class in class_name_to_discr_class.
+        # So look in the ancestor or descendant discriminators
         # The discriminator mapping may exist in a descendant (anyOf, oneOf)
         # or ancestor (allOf).
-        # Ancestor example: in the "Dog -> Mammal -> Chordate -> Animal"
+        # Ancestor example: in the GrandparentAnimal -> ParentPet -> ChildCat
         #   hierarchy, the discriminator mappings may be defined at any level
-        #   in the hieararchy.
-        # Descendant example: a schema is oneOf[Plant, Mammal], and each
-        #   oneOf child may itself be an allOf with some arbitrary hierarchy,
-        #   and a graph traversal is required to find the discriminator.
-        composed_children = model_class._composed_schemas.get('oneOf', ()) + \
-            model_class._composed_schemas.get('anyOf', ()) + \
-            model_class._composed_schemas.get('allOf', ())
-        for cls in composed_children:
+        #   in the hierarchy.
+        # Descendant example:  mammal -> whale/zebra/Pig -> BasquePig/DanishPig
+        #   if we try to make BasquePig from mammal, we need to travel through
+        #   the oneOf descendant discriminators to find BasquePig
+        descendant_classes =  model_class._composed_schemas.get('oneOf', ()) + \
+            model_class._composed_schemas.get('anyOf', ())
+        ancestor_classes = model_class._composed_schemas.get('allOf', ())
+        possible_classes = descendant_classes + ancestor_classes
+        for cls in possible_classes:
             # Check if the schema has inherited discriminators.
             if cls.discriminator is not None:
                 used_model_class = get_discriminator_class(

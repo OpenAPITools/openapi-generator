@@ -195,7 +195,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_basque_pig.py
-test/test_danish_pig.py
-test/test_pig.py
 tox.ini
