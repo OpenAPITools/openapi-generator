@@ -68,6 +68,13 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
             } catch (Exception ignored) {
             }
         }
+
+        // support files without targeted extension (e.g. .gitignore, README.md), etc.
+        try {
+            return new StringReader(generator.getFullTemplateContents(name));
+        } catch (Exception ignored) {
+        }
+
         throw new TemplateNotFoundException(name);
     }
 
