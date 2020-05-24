@@ -1997,7 +1997,7 @@ public class DefaultCodegenTest {
                         .getSchemas()
                         .get("createStateBody")
                         .getExtensions()
-                        .get("x-oneOf-name"),
+                        .get("x-one-of-name"),
                 "CreateStateBody"
         );
         Assert.assertEquals(
@@ -2005,7 +2005,7 @@ public class DefaultCodegenTest {
                         .getSchemas()
                         .get("getStateResponse")
                         .getExtensions()
-                        .get("x-oneOf-name"),
+                        .get("x-one-of-name"),
                 "GetStateResponse"
         );
         // for the array schema, assert that a oneOf interface was added to schema map
@@ -2016,7 +2016,7 @@ public class DefaultCodegenTest {
                     .getSchemas()
                     .get("CustomOneOfArraySchemaItems")
                     .getExtensions()
-                    .get("x-oneOf-name"),
+                    .get("x-one-of-name"),
                 "CustomOneOfArraySchemaItems"
         );
     }
