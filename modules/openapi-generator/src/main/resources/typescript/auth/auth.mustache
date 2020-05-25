@@ -95,7 +95,7 @@ export class HttpBasicAuthentication extends SecurityAuthentication {
 	
 	public applySecurityAuthentication(context: RequestContext) {
 		let comb = this.username + ":" + this.password;
-		context.setHeaderParam("Authentication", "Basic " + btoa(comb));
+		context.setHeaderParam("Authorization", "Basic " + btoa(comb));
 	}
 }
 
@@ -120,7 +120,7 @@ export class HttpBearerAuthentication extends SecurityAuthentication {
     }
 
     public applySecurityAuthentication(context: RequestContext) {
-        context.setHeaderParam("Authentication", "Bearer " + this.tokenProvider.getToken());
+        context.setHeaderParam("Authorization", "Bearer " + this.tokenProvider.getToken());
     }
 }
 
