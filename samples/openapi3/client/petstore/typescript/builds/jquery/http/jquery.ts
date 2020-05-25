@@ -1,6 +1,6 @@
 import { HttpLibrary, RequestContext, ResponseContext, HttpException, SelfDecodingBody } from './http';
 import * as e6p from 'es6-promise'
-import { from, Observable } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
+import { from, Observable } from '../rxjsStub';
 e6p.polyfill();
 import * as $ from 'jquery';
 
