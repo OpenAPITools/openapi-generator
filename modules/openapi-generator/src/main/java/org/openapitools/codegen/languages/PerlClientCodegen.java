@@ -131,6 +131,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("password", "string");
         typeMapping.put("array", "ARRAY");
+        typeMapping.put("set", "ARRAY");
         typeMapping.put("map", "HASH");
         typeMapping.put("object", "object");
         typeMapping.put("binary", "string");

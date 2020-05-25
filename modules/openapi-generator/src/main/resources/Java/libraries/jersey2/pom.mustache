@@ -338,16 +338,18 @@
             <version>${commons-io-version}</version>
         </dependency>
         {{/supportJava6}}
+        {{#hasHttpSignatureMethods}}
         <dependency>
             <groupId>org.tomitribe</groupId>
             <artifactId>tomitribe-http-signatures</artifactId>
             <version>${http-signature-version}</version>
         </dependency>
+        {{/hasHttpSignatureMethods}}
         {{#hasOAuthMethods}}
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>
-            <version>6.9.0</version>
+            <version>${scribejava-apis-version}</version>
         </dependency>
         {{/hasOAuthMethods}}
         {{#useBeanValidation}}
@@ -378,13 +380,18 @@
         <commons-io-version>2.5</commons-io-version>
         <commons-lang3-version>3.6</commons-lang3-version>
         {{/supportJava6}}
-        <jackson-version>2.10.3</jackson-version>
-        <jackson-databind-version>2.10.3</jackson-databind-version>
+        <jackson-version>2.10.4</jackson-version>
+        <jackson-databind-version>2.10.4</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         {{#threetenbp}}
         <threetenbp-version>2.9.10</threetenbp-version>
         {{/threetenbp}}
         <junit-version>4.13</junit-version>
-        <http-signature-version>1.3</http-signature-version>
+        {{#hasHttpSignatureMethods}}
+        <http-signature-version>1.4</http-signature-version>
+        {{/hasHttpSignatureMethods}}
+        {{#hasOAuthMethods}}
+        <scribejava-apis-version>6.9.0</scribejava-apis-version>
+        {{/hasOAuthMethods}}
     </properties>
 </project>

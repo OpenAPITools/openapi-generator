@@ -43,3 +43,5 @@ func (src *{{classname}}) MarshalJSON() ([]byte, error) {
 {{/anyOf}}
 	return nil, nil // no data in anyOf schemas
 }
+
+{{>nullable_model}}

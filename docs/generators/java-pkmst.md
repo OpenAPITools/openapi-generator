@@ -63,6 +63,7 @@ sidebar_label: java-pkmst
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |LocalDate|org.joda.time.*|
 |LocalDateTime|org.joda.time.*|
@@ -80,6 +81,7 @@ sidebar_label: java-pkmst
 | ---------- | --------------- |
 |array|ArrayList|
 |map|HashMap|
+|set|LinkedHashSet|
 
 
 ## LANGUAGE PRIMITIVES

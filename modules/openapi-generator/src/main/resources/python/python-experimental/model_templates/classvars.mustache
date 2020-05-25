@@ -57,6 +57,9 @@
                 {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
             },
 {{/pattern}}
+{{#multipleOf}}
+            'multiple_of': {{multipleOf}},
+{{/multipleOf}}
         },
 {{/hasValidation}}
 {{/requiredVars}}
@@ -87,6 +90,9 @@
                 {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
             },
 {{/pattern}}
+{{#multipleOf}}
+            'multiple_of': {{multipleOf}},
+{{/multipleOf}}
         },
 {{/hasValidation}}
 {{/optionalVars}}

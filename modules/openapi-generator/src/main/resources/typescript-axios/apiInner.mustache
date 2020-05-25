@@ -292,6 +292,31 @@ export interface {{classname}}Interface {
 }
 
 {{/withInterfaces}}
+{{#useSingleRequestParameter}}
+{{#operation}}
+{{#allParams.0}}
+/**
+ * Request parameters for {{nickname}} operation in {{classname}}.
+ * @export
+ * @interface {{classname}}{{operationIdCamelCase}}Request
+ */
+export interface {{classname}}{{operationIdCamelCase}}Request {
+    {{#allParams}}
+    /**
+     * {{description}}
+     * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
+     * @memberof {{classname}}{{operationIdCamelCase}}
+     */
+    readonly {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}
+    {{^-last}}
+
+    {{/-last}}
+    {{/allParams}}
+}
+
+{{/allParams.0}}
+{{/operation}}
+{{/useSingleRequestParameter}}
 /**
  * {{classname}} - object-oriented interface{{#description}}
  * {{{description}}}{{/description}}
@@ -311,17 +336,33 @@ export class {{classname}} extends BaseAPI {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
+     {{#useSingleRequestParameter}}
+     {{#allParams.0}}
+     * @param {{=<% %>=}}{<%& classname %><%& operationIdCamelCase %>Request}<%={{ }}=%> requestParameters Request parameters.
+     {{/allParams.0}}
+     {{/useSingleRequestParameter}}
+     {{^useSingleRequestParameter}}
      {{#allParams}}
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
+     {{/useSingleRequestParameter}}
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof {{classname}}
      */
+    {{#useSingleRequestParameter}}
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: any) {
+        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
+    }
+    {{/useSingleRequestParameter}}
+    {{^useSingleRequestParameter}}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
     }
+    {{/useSingleRequestParameter}}
+    {{^-last}}
 
+    {{/-last}}
     {{/operation}}
 }
 {{/operations}}

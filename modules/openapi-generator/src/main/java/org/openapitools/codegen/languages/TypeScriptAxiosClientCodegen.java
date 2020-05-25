@@ -36,6 +36,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
     public static final String WITHOUT_PREFIX_ENUMS = "withoutPrefixEnums";
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
 
     protected String npmRepository = null;
 
@@ -57,6 +58,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -205,7 +207,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
         }
-        
+
         // Apply the model file name to the imports as well
         for (Map<String, String> m : (List<Map<String, String>>) objs.get("imports")) {
             String javaImport = m.get("import").substring(modelPackage.length() + 1);

@@ -61,6 +61,10 @@ function user_api:create_user(user)
 
 	req:set_body(dkjson.encode(user))
 
+	-- api key in headers 'api_key'
+	if self.api_key['api_key'] then
+		req.headers:upsert("api_key", self.api_key['api_key'])
+	end
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()
@@ -98,6 +102,10 @@ function user_api:create_users_with_array_input(user)
 
 	req:set_body(dkjson.encode(user))
 
+	-- api key in headers 'api_key'
+	if self.api_key['api_key'] then
+		req.headers:upsert("api_key", self.api_key['api_key'])
+	end
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()
@@ -135,6 +143,10 @@ function user_api:create_users_with_list_input(user)
 
 	req:set_body(dkjson.encode(user))
 
+	-- api key in headers 'api_key'
+	if self.api_key['api_key'] then
+		req.headers:upsert("api_key", self.api_key['api_key'])
+	end
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()
@@ -166,6 +178,10 @@ function user_api:delete_user(username)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "DELETE")
+	-- api key in headers 'api_key'
+	if self.api_key['api_key'] then
+		req.headers:upsert("api_key", self.api_key['api_key'])
+	end
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()
@@ -289,6 +305,10 @@ function user_api:logout_user()
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
+	-- api key in headers 'api_key'
+	if self.api_key['api_key'] then
+		req.headers:upsert("api_key", self.api_key['api_key'])
+	end
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()
@@ -326,6 +346,10 @@ function user_api:update_user(username, user)
 
 	req:set_body(dkjson.encode(user))
 
+	-- api key in headers 'api_key'
+	if self.api_key['api_key'] then
+		req.headers:upsert("api_key", self.api_key['api_key'])
+	end
 
 	-- make the HTTP call
 	local headers, stream, errno = req:go()

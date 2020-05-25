@@ -28,12 +28,10 @@ data class OuterComposite (
     val myString: kotlin.String? = null,
     @Json(name = "my_boolean")
     val myBoolean: kotlin.Boolean? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

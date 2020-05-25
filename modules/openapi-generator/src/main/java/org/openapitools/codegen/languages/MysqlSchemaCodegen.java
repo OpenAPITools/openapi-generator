@@ -155,6 +155,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         // https://dev.mysql.com/doc/refman/8.0/en/data-types.html
         typeMapping.put("array", "JSON");
+        typeMapping.put("set", "JSON");
         typeMapping.put("map", "JSON");
         typeMapping.put("List", "JSON");
         typeMapping.put("boolean", "BOOL");

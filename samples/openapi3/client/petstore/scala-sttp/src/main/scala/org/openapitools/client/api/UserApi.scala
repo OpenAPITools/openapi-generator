@@ -34,7 +34,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    *   code 0 :  (successful operation)
    * 
    * Available security schemes:
-   *   auth_cookie (apiKey)
+   *   api_key (apiKey)
    * 
    * @param user Created user object
    */
@@ -42,7 +42,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
-      .cookie("AUTH_KEY", apiKey.value)
+      .header("api_key", apiKey.value)
       .body(user)
       .response(asJson[Unit])
 
@@ -51,7 +51,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    *   code 0 :  (successful operation)
    * 
    * Available security schemes:
-   *   auth_cookie (apiKey)
+   *   api_key (apiKey)
    * 
    * @param user List of user object
    */
@@ -59,7 +59,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
-      .cookie("AUTH_KEY", apiKey.value)
+      .header("api_key", apiKey.value)
       .body(user)
       .response(asJson[Unit])
 
@@ -68,7 +68,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    *   code 0 :  (successful operation)
    * 
    * Available security schemes:
-   *   auth_cookie (apiKey)
+   *   api_key (apiKey)
    * 
    * @param user List of user object
    */
@@ -76,7 +76,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
-      .cookie("AUTH_KEY", apiKey.value)
+      .header("api_key", apiKey.value)
       .body(user)
       .response(asJson[Unit])
 
@@ -88,7 +88,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    *   code 404 :  (User not found)
    * 
    * Available security schemes:
-   *   auth_cookie (apiKey)
+   *   api_key (apiKey)
    * 
    * @param username The name that needs to be deleted
    */
@@ -96,7 +96,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
-      .cookie("AUTH_KEY", apiKey.value)
+      .header("api_key", apiKey.value)
       .response(asJson[Unit])
 
   /**
@@ -117,7 +117,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * Expected answers:
    *   code 200 : String (successful operation)
    *              Headers :
-   *                Set-Cookie - Cookie authentication key for use with the `auth_cookie` apiKey authentication.
+   *                Set-Cookie - Cookie authentication key for use with the `api_key` apiKey authentication.
    *                X-Rate-Limit - calls per hour allowed by the user
    *                X-Expires-After - date in UTC when toekn expires
    *   code 400 :  (Invalid username/password supplied)
@@ -136,13 +136,13 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    *   code 0 :  (successful operation)
    * 
    * Available security schemes:
-   *   auth_cookie (apiKey)
+   *   api_key (apiKey)
    */
   def logoutUser()(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
-      .cookie("AUTH_KEY", apiKey.value)
+      .header("api_key", apiKey.value)
       .response(asJson[Unit])
 
   /**
@@ -153,7 +153,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    *   code 404 :  (User not found)
    * 
    * Available security schemes:
-   *   auth_cookie (apiKey)
+   *   api_key (apiKey)
    * 
    * @param username name that need to be deleted
    * @param user Updated user object
@@ -162,7 +162,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
       .contentType("application/json")
-      .cookie("AUTH_KEY", apiKey.value)
+      .header("api_key", apiKey.value)
       .body(user)
       .response(asJson[Unit])
 

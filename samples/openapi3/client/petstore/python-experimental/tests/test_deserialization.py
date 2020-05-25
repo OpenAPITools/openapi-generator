@@ -162,6 +162,27 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized.type, zebra_type)
         self.assertEqual(deserialized.class_name, class_name)
 
+    def test_deserialize_float_value(self):
+        """
+        Deserialize floating point values.
+        """
+        data = {
+          'lengthCm': 3.1415
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Banana,), True)
+        self.assertTrue(isinstance(deserialized, petstore_api.Banana))
+        self.assertEqual(deserialized.length_cm, 3.1415)
+
+        # Float value is serialized without decimal point
+        data = {
+          'lengthCm': 3
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Banana,), True)
+        self.assertTrue(isinstance(deserialized, petstore_api.Banana))
+        self.assertEqual(deserialized.length_cm, 3.0)
+
     def test_deserialize_fruit_null_value(self):
         """
         deserialize fruit with null value.

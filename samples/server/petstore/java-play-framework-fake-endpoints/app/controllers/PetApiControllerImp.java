@@ -3,11 +3,13 @@ package controllers;
 import java.io.InputStream;
 import apimodels.ModelApiResponse;
 import apimodels.Pet;
+import java.util.Set;
 
 import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import javax.validation.constraints.*;
 
@@ -29,9 +31,9 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     }
 
     @Override
-    public List<Pet> findPetsByTags( @NotNull List<String> tags) throws Exception {
+    public Set<Pet> findPetsByTags( @NotNull Set<String> tags) throws Exception {
         //Do your magic!!!
-        return new ArrayList<Pet>();
+        return new LinkedHashSet<Pet>();
     }
 
     @Override

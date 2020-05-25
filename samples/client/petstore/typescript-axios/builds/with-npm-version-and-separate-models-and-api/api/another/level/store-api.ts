@@ -343,5 +343,4 @@ export class StoreApi extends BaseAPI {
     public placeOrder(body: Order, options?: any) {
         return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
-
 }

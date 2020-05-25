@@ -74,7 +74,7 @@ class TestFruit(unittest.TestCase):
         # with getattr
         # Per Python doc, if the named attribute does not exist,
         # default is returned if provided.
-        self.assertEquals(getattr(fruit, 'cultivar', 'some value'), 'some value')
+        self.assertEqual(getattr(fruit, 'cultivar', 'some value'), 'some value')
 
         # Per Python doc, if the named attribute does not exist,
         # default is returned if provided, otherwise AttributeError is raised.

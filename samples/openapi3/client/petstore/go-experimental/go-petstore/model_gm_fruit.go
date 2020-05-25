@@ -65,3 +65,39 @@ func (src *GmFruit) MarshalJSON() ([]byte, error) {
 	return nil, nil // no data in anyOf schemas
 }
 
+type NullableGmFruit struct {
+	value *GmFruit
+	isSet bool
+}
+
+func (v NullableGmFruit) Get() *GmFruit {
+	return v.value
+}
+
+func (v *NullableGmFruit) Set(val *GmFruit) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableGmFruit) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableGmFruit) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableGmFruit(val *GmFruit) *NullableGmFruit {
+	return &NullableGmFruit{value: val, isSet: true}
+}
+
+func (v NullableGmFruit) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableGmFruit) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}
+

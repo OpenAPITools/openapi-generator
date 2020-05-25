@@ -33,10 +33,20 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
+    from petstore_api.models import nullable_shape
+except ImportError:
+    nullable_shape = sys.modules[
+        'petstore_api.models.nullable_shape']
+try:
     from petstore_api.models import shape
 except ImportError:
     shape = sys.modules[
         'petstore_api.models.shape']
+try:
+    from petstore_api.models import shape_or_null
+except ImportError:
+    shape_or_null = sys.modules[
+        'petstore_api.models.shape_or_null']
 
 
 class Drawing(ModelNormal):
@@ -83,6 +93,8 @@ class Drawing(ModelNormal):
         """
         return {
             'main_shape': (shape.Shape,),  # noqa: E501
+            'shape_or_null': (shape_or_null.ShapeOrNull,),  # noqa: E501
+            'nullable_shape': (nullable_shape.NullableShape, none_type,),  # noqa: E501
             'shapes': ([shape.Shape],),  # noqa: E501
         }
 
@@ -92,6 +104,8 @@ class Drawing(ModelNormal):
 
     attribute_map = {
         'main_shape': 'mainShape',  # noqa: E501
+        'shape_or_null': 'shapeOrNull',  # noqa: E501
+        'nullable_shape': 'nullableShape',  # noqa: E501
         'shapes': 'shapes',  # noqa: E501
     }
 
@@ -100,14 +114,14 @@ class Drawing(ModelNormal):
     required_properties = set([
         '_data_store',
         '_check_type',
-        '_from_server',
+        '_spec_property_naming',
         '_path_to_item',
         '_configuration',
         '_visited_composed_classes',
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, _check_type=True, _spec_property_naming=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
         """drawing.Drawing - a model defined in OpenAPI
 
         Keyword Args:
@@ -118,8 +132,10 @@ class Drawing(ModelNormal):
             _path_to_item (tuple/list): This is a list of keys or values to
                                 drill down to the model in received_data
                                 when deserializing a response
-            _from_server (bool): True if the data is from the server
-                                False if the data is from the client (default)
+            _spec_property_naming (bool): True if the variable names in the input data
+                                are serialized names, as specified in the OpenAPI document.
+                                False if the variable names in the input data
+                                are pythonic names, e.g. snake case (default)
             _configuration (Configuration): the instance to use when
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
@@ -140,12 +156,14 @@ class Drawing(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             main_shape (shape.Shape): [optional]  # noqa: E501
+            shape_or_null (shape_or_null.ShapeOrNull): [optional]  # noqa: E501
+            nullable_shape (nullable_shape.NullableShape, none_type): [optional]  # noqa: E501
             shapes ([shape.Shape]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
         self._check_type = _check_type
-        self._from_server = _from_server
+        self._spec_property_naming = _spec_property_naming
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
