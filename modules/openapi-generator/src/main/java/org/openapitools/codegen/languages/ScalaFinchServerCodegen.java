@@ -240,9 +240,9 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
             // Converts GET /foo/bar => get("foo" :: "bar")
             generateScalaPath(op);
 
-            // Generates e.g. uuid :: header("boo") :: params("baa") under key "x-codegen-pathParams"
-            // Generates e.g. (id: UUID, headerBoo: String, paramBaa: String) under key "x-codegen-typedInputParams"
-            // Generates e.g. (id, headerBoo, paramBaa) under key "x-codegen-inputParams"
+            // Generates e.g. uuid :: header("boo") :: params("baa") under key "x-codegen-path-params"
+            // Generates e.g. (id: UUID, headerBoo: String, paramBaa: String) under key "x-codegen-typed-input-params"
+            // Generates e.g. (id, headerBoo, paramBaa) under key "x-codegen-input-params"
             generateInputParameters(op);
 
             //Generate Auth parameters using security: definition
@@ -407,9 +407,9 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
 
     private void concatParameters(CodegenOperation op) {
-        String path = colConcat(colConcat(op.vendorExtensions.get("x-codegen-path").toString(), op.vendorExtensions.get("x-codegen-pathParams").toString()), op.vendorExtensions.get("x-codegen-authParams").toString());
-        String parameters = csvConcat(op.vendorExtensions.get("x-codegen-inputParams").toString(), op.vendorExtensions.get("x-codegen-authInputParams").toString());
-        String typedParameters = csvConcat(op.vendorExtensions.get("x-codegen-typedInputParams").toString(), op.vendorExtensions.get("x-codegen-typedAuthInputParams").toString());
+        String path = colConcat(colConcat(op.vendorExtensions.get("x-codegen-path").toString(), op.vendorExtensions.get("x-codegen-path-params").toString()), op.vendorExtensions.get("x-codegen-auth-params").toString());
+        String parameters = csvConcat(op.vendorExtensions.get("x-codegen-input-params").toString(), op.vendorExtensions.get("x-codegen-auth-input-params").toString());
+        String typedParameters = csvConcat(op.vendorExtensions.get("x-codegen-typed-input-params").toString(), op.vendorExtensions.get("x-codegen-typed-auth-input-params").toString());
 
         // The input parameters for functions
         op.vendorExtensions.put("x-codegen-paths", path);
