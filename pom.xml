@@ -1405,7 +1405,7 @@
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/java-undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey2-java8</module>
+                <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
