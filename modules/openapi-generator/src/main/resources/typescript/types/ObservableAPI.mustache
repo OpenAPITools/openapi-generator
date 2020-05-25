@@ -1,7 +1,7 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
 import * as models from '../models/all';
 import { Configuration} from '../configuration'
-import { Observable, of } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
+import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
 import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
 
 {{#models}}
@@ -38,10 +38,10 @@ export class Observable{{classname}} {
      {{/allParams}}
      */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
-    	const requestContext = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+    	const requestContextPromise = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}

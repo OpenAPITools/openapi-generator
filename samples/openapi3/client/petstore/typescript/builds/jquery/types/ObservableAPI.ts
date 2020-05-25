@@ -1,7 +1,7 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
 import * as models from '../models/all';
 import { Configuration} from '../configuration'
-import { Observable, of } from '../rxjsStub';
+import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
 
 import { ApiResponse } from '../models/ApiResponse';
@@ -30,10 +30,10 @@ export class ObservablePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public addPet(pet: Pet, options?: Configuration): Observable<Pet> {
-    	const requestContext = this.requestFactory.addPet(pet, options);
+    	const requestContextPromise = this.requestFactory.addPet(pet, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -54,10 +54,10 @@ export class ObservablePetApi {
      * @param apiKey 
      */
     public deletePet(petId: number, apiKey?: string, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.deletePet(petId, apiKey, options);
+    	const requestContextPromise = this.requestFactory.deletePet(petId, apiKey, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -78,10 +78,10 @@ export class ObservablePetApi {
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Observable<Array<Pet>> {
-    	const requestContext = this.requestFactory.findPetsByStatus(status, options);
+    	const requestContextPromise = this.requestFactory.findPetsByStatus(status, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -102,10 +102,10 @@ export class ObservablePetApi {
      * @param tags Tags to filter by
      */
     public findPetsByTags(tags: Array<string>, options?: Configuration): Observable<Array<Pet>> {
-    	const requestContext = this.requestFactory.findPetsByTags(tags, options);
+    	const requestContextPromise = this.requestFactory.findPetsByTags(tags, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -126,10 +126,10 @@ export class ObservablePetApi {
      * @param petId ID of pet to return
      */
     public getPetById(petId: number, options?: Configuration): Observable<Pet> {
-    	const requestContext = this.requestFactory.getPetById(petId, options);
+    	const requestContextPromise = this.requestFactory.getPetById(petId, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -149,10 +149,10 @@ export class ObservablePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public updatePet(pet: Pet, options?: Configuration): Observable<Pet> {
-    	const requestContext = this.requestFactory.updatePet(pet, options);
+    	const requestContextPromise = this.requestFactory.updatePet(pet, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -174,10 +174,10 @@ export class ObservablePetApi {
      * @param status Updated status of the pet
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.updatePetWithForm(petId, name, status, options);
+    	const requestContextPromise = this.requestFactory.updatePetWithForm(petId, name, status, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -199,10 +199,10 @@ export class ObservablePetApi {
      * @param file file to upload
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): Observable<ApiResponse> {
-    	const requestContext = this.requestFactory.uploadFile(petId, additionalMetadata, file, options);
+    	const requestContextPromise = this.requestFactory.uploadFile(petId, additionalMetadata, file, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -241,10 +241,10 @@ export class ObservableStoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder(orderId: string, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.deleteOrder(orderId, options);
+    	const requestContextPromise = this.requestFactory.deleteOrder(orderId, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -264,10 +264,10 @@ export class ObservableStoreApi {
      * Returns pet inventories by status
      */
     public getInventory(options?: Configuration): Observable<{ [key: string]: number; }> {
-    	const requestContext = this.requestFactory.getInventory(options);
+    	const requestContextPromise = this.requestFactory.getInventory(options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -288,10 +288,10 @@ export class ObservableStoreApi {
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById(orderId: number, options?: Configuration): Observable<Order> {
-    	const requestContext = this.requestFactory.getOrderById(orderId, options);
+    	const requestContextPromise = this.requestFactory.getOrderById(orderId, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -311,10 +311,10 @@ export class ObservableStoreApi {
      * @param order order placed for purchasing the pet
      */
     public placeOrder(order: Order, options?: Configuration): Observable<Order> {
-    	const requestContext = this.requestFactory.placeOrder(order, options);
+    	const requestContextPromise = this.requestFactory.placeOrder(order, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -353,10 +353,10 @@ export class ObservableUserApi {
      * @param user Created user object
      */
     public createUser(user: User, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUser(user, options);
+    	const requestContextPromise = this.requestFactory.createUser(user, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -376,10 +376,10 @@ export class ObservableUserApi {
      * @param user List of user object
      */
     public createUsersWithArrayInput(user: Array<User>, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUsersWithArrayInput(user, options);
+    	const requestContextPromise = this.requestFactory.createUsersWithArrayInput(user, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -399,10 +399,10 @@ export class ObservableUserApi {
      * @param user List of user object
      */
     public createUsersWithListInput(user: Array<User>, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUsersWithListInput(user, options);
+    	const requestContextPromise = this.requestFactory.createUsersWithListInput(user, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -423,10 +423,10 @@ export class ObservableUserApi {
      * @param username The name that needs to be deleted
      */
     public deleteUser(username: string, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.deleteUser(username, options);
+    	const requestContextPromise = this.requestFactory.deleteUser(username, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -446,10 +446,10 @@ export class ObservableUserApi {
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByName(username: string, options?: Configuration): Observable<User> {
-    	const requestContext = this.requestFactory.getUserByName(username, options);
+    	const requestContextPromise = this.requestFactory.getUserByName(username, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -470,10 +470,10 @@ export class ObservableUserApi {
      * @param password The password for login in clear text
      */
     public loginUser(username: string, password: string, options?: Configuration): Observable<string> {
-    	const requestContext = this.requestFactory.loginUser(username, password, options);
+    	const requestContextPromise = this.requestFactory.loginUser(username, password, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -492,10 +492,10 @@ export class ObservableUserApi {
      * Logs out current logged in user session
      */
     public logoutUser(options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.logoutUser(options);
+    	const requestContextPromise = this.requestFactory.logoutUser(options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}
@@ -517,10 +517,10 @@ export class ObservableUserApi {
      * @param user Updated user object
      */
     public updateUser(username: string, user: User, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.updateUser(username, user, options);
+    	const requestContextPromise = this.requestFactory.updateUser(username, user, options);
 
 		// build promise chain
-    	let middlewarePreObservable = of(requestContext);
+    let middlewarePreObservable = from<RequestContext>(requestContextPromise);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
     	}

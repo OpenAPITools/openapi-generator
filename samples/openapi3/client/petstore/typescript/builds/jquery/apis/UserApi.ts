@@ -18,7 +18,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Create user
      * @param user Created user object
      */
-    public createUser(user: User, options?: Configuration): RequestContext {
+    public async createUser(user: User, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'user' is not null or undefined
@@ -51,22 +51,22 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["api_key"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["api_key"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithArrayInput(user: Array<User>, options?: Configuration): RequestContext {
+    public async createUsersWithArrayInput(user: Array<User>, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'user' is not null or undefined
@@ -99,22 +99,22 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["api_key"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["api_key"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithListInput(user: Array<User>, options?: Configuration): RequestContext {
+    public async createUsersWithListInput(user: Array<User>, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'user' is not null or undefined
@@ -147,23 +147,23 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["api_key"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["api_key"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * This can only be done by the logged in user.
      * Delete user
      * @param username The name that needs to be deleted
      */
-    public deleteUser(username: string, options?: Configuration): RequestContext {
+    public async deleteUser(username: string, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'username' is not null or undefined
@@ -188,22 +188,22 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["api_key"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["api_key"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public getUserByName(username: string, options?: Configuration): RequestContext {
+    public async getUserByName(username: string, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'username' is not null or undefined
@@ -228,18 +228,18 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-    	// Apply auth methods
-    	
-    	return requestContext;
+
+        // Apply auth methods
+
+        return requestContext;
     }
-			
+
     /**
      * Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUser(username: string, password: string, options?: Configuration): RequestContext {
+    public async loginUser(username: string, password: string, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'username' is not null or undefined
@@ -275,16 +275,16 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-    	// Apply auth methods
-    	
-    	return requestContext;
+
+        // Apply auth methods
+
+        return requestContext;
     }
-			
+
     /**
      * Logs out current logged in user session
      */
-    public logoutUser(options?: Configuration): RequestContext {
+    public async logoutUser(options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
 		// Path Params
@@ -302,24 +302,24 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["api_key"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["api_key"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * This can only be done by the logged in user.
      * Updated user
      * @param username name that need to be deleted
      * @param user Updated user object
      */
-    public updateUser(username: string, user: User, options?: Configuration): RequestContext {
+    public async updateUser(username: string, user: User, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'username' is not null or undefined
@@ -359,17 +359,17 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["api_key"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["api_key"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
 }
 
 

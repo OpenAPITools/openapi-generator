@@ -26,7 +26,7 @@ export abstract class SecurityAuthentication {
 	 * 
 	 * @params context the request context which should use this authentication scheme
 	 */
-	public abstract applySecurityAuthentication(context: RequestContext): void;
+   public abstract applySecurityAuthentication(context: RequestContext): void | Promise<void>;
 
 }
 
@@ -100,7 +100,7 @@ export class HttpBasicAuthentication extends SecurityAuthentication {
 }
 
 export interface TokenProvider {
-  getToken(): string;
+  getToken(): Promise<string> | string;
 }
 
 /**
@@ -119,8 +119,8 @@ export class HttpBearerAuthentication extends SecurityAuthentication {
         super(authName);
     }
 
-    public applySecurityAuthentication(context: RequestContext) {
-        context.setHeaderParam("Authorization", "Bearer " + this.tokenProvider.getToken());
+    public async applySecurityAuthentication(context: RequestContext) {
+        context.setHeaderParam("Authorization", "Bearer " + await this.tokenProvider.getToken());
     }
 }
 
