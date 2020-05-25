@@ -1293,8 +1293,8 @@
                 <module>samples/openapi3/client/petstore/go-experimental</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <!-- test java-related projects -->
-                <module>samples/openapi3/client/petstore/scala-akka</module>
-                <module>samples/openapi3/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
@@ -1387,10 +1387,10 @@
                 <!-- clients -->
                 <module>samples/client/petstore/ruby</module>
                 <!-- test java-related projects -->
-                <module>samples/openapi3/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
+                <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
