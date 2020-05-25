@@ -1,0 +1,120 @@
+{{>licenseInfo}}
+#include "{{classname}}.h"
+
+#include "{{classname}}Operations.h"
+#include "{{unrealModuleName}}Module.h"
+
+#include "HttpModule.h"
+#include "Serialization/JsonSerializer.h"
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} 
+{
+{{/cppNamespaceDeclarations}}
+
+{{classname}}::{{classname}}() 
+: Url(TEXT("{{basePath}}"))
+{
+}
+
+{{classname}}::~{{classname}}() {}
+
+void {{classname}}::SetURL(const FString& InUrl)
+{
+	Url = InUrl;
+}
+
+void {{classname}}::AddHeaderParam(const FString& Key, const FString& Value)
+{
+	AdditionalHeaderParams.Add(Key, Value);
+}
+
+void {{classname}}::ClearHeaderParams()
+{
+	AdditionalHeaderParams.Reset();
+}
+
+bool {{classname}}::IsValid() const
+{
+	if (Url.IsEmpty())
+	{
+		UE_LOG(Log{{unrealModuleName}}, Error, TEXT("{{classname}}: Endpoint Url is not set, request cannot be performed"));
+		return false;
+	}
+
+	return true;
+}
+
+void {{classname}}::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
+{
+	InOutResponse.SetHttpResponse(HttpResponse);
+	InOutResponse.SetSuccessful(bSucceeded);
+
+	if (bSucceeded && HttpResponse.IsValid())
+	{
+		InOutResponse.SetHttpResponseCode((EHttpResponseCodes::Type)HttpResponse->GetResponseCode());
+		FString ContentType = HttpResponse->GetContentType();
+		FString Content;
+
+		if (ContentType == TEXT("application/json"))
+		{
+			Content = HttpResponse->GetContentAsString();
+
+			TSharedPtr<FJsonValue> JsonValue;
+			auto Reader = TJsonReaderFactory<>::Create(Content);
+
+			if (FJsonSerializer::Deserialize(Reader, JsonValue) && JsonValue.IsValid())
+			{
+				if (InOutResponse.FromJson(JsonValue))
+					return; // Successfully parsed
+			}
+		}
+		else if(ContentType == TEXT("text/plain"))
+		{
+			Content = HttpResponse->GetContentAsString();
+			InOutResponse.SetResponseString(Content);
+			return; // Successfully parsed
+		}
+
+		// Report the parse error but do not mark the request as unsuccessful. Data could be partial or malformed, but the request succeeded.
+		UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Failed to deserialize Http response content (type:%s):\n%s"), *ContentType , *Content);
+		return;
+	}
+
+	// By default, assume we failed to establish connection
+	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
+}
+
+{{#operations}}
+{{#operation}}
+bool {{classname}}::{{operationIdCamelCase}}(const {{operationIdCamelCase}}Request& Request, const F{{operationIdCamelCase}}Delegate& Delegate /*= F{{operationIdCamelCase}}Delegate()*/) const
+{
+	if (!IsValid())
+		return false;
+
+	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+	
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &{{classname}}::On{{operationIdCamelCase}}Response, Delegate);
+	return HttpRequest->ProcessRequest();
+}
+
+void {{classname}}::On{{operationIdCamelCase}}Response(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, F{{operationIdCamelCase}}Delegate Delegate) const
+{
+	{{operationIdCamelCase}}Response Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
+{{/operation}}
+{{/operations}}
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
