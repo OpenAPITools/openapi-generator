@@ -18,6 +18,7 @@ import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
+    ApiTypeError,
     ModelComposed,
     ModelNormal,
     ModelSimple,
@@ -99,7 +100,7 @@ class OuterEnumDefaultValue(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, value='placed', _check_type=True, _spec_property_naming=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, *args, **kwargs):  # noqa: E501
         """outer_enum_default_value.OuterEnumDefaultValue - a model defined in OpenAPI
 
         Args:
@@ -137,6 +138,23 @@ class OuterEnumDefaultValue(ModelSimple):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
         """
+
+        value = kwargs.get('value', 'placed')
+        _check_type = kwargs.pop('_check_type', True)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _path_to_item = kwargs.pop('_path_to_item', ())
+        _configuration = kwargs.pop('_configuration', None)
+        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+
+        if args:
+            raise ApiTypeError(
+                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                    args,
+                    self.__class__.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )
 
         self._data_store = {}
         self._check_type = _check_type
