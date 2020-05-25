@@ -1075,7 +1075,6 @@
                 <module>samples/client/petstore/python</module>
             </modules>
         </profile>
-        <!--
         <profile>
             <id>ruby-client</id>
             <activation>
@@ -1088,7 +1087,6 @@
                 <module>samples/client/petstore/ruby</module>
             </modules>
         </profile>
-        -->
         <profile>
             <id>go-client</id>
             <activation>
@@ -1283,8 +1281,8 @@
                 <module>samples/openapi3/client/petstore/go-experimental</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <!-- test java-related projects -->
-                <module>samples/openapi3/client/petstore/scala-akka</module>
-                <module>samples/openapi3/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
@@ -1375,12 +1373,12 @@
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
                 <!-- clients -->
-                <module>samples/openapi3/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby</module>
                 <!-- test java-related projects -->
-                <module>samples/openapi3/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
+                <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>

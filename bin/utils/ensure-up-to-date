@@ -24,8 +24,6 @@ sleep 5
 declare -a samples=(
 "${root}/bin/ruby-client-petstore.sh"
 "${root}/bin/ruby-client-petstore-faraday.sh"
-"${root}/bin/openapi3/ruby-client-petstore.sh"
-"${root}/bin/openapi3/ruby-client-faraday-petstore.sh"
 "${root}/bin/java-petstore-all.sh"
 "${root}/bin/java-jaxrs-petstore-server-all.sh"
 "${root}/bin/java-msf4j-petstore-server.sh"
@@ -86,8 +84,7 @@ declare -a samples=(
 "${root}/bin/cpp-qt5-qhttpengine-server-petstore.sh"
 #"${root}/bin/openapi3/powershell-experimental-petstore.sh"
 "${root}/bin/scala-akka-petstore.sh"
-"${root}/bin/openapi3/scala-akka-petstore.sh"
-"${root}/bin/openapi3/scala-sttp-petstore.sh"
+"${root}/bin/scala-sttp-petstore.sh"
 "${root}/bin/lua-petstore.sh"
 )
 

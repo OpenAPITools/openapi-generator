@@ -43,7 +43,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.delete_order"
       end
       # resource path
-      local_var_path = '/store/order/{order_id}'.sub('{' + 'order_id' + '}', CGI.escape(order_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/store/order/{order_id}'.sub('{' + 'order_id' + '}', CGI.escape(order_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -167,7 +167,7 @@ module Petstore
       end
 
       # resource path
-      local_var_path = '/store/order/{order_id}'.sub('{' + 'order_id' + '}', CGI.escape(order_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/store/order/{order_id}'.sub('{' + 'order_id' + '}', CGI.escape(order_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -206,25 +206,25 @@ module Petstore
     end
 
     # Place an order for a pet
-    # @param body [Order] order placed for purchasing the pet
+    # @param order [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
     # @return [Order]
-    def place_order(body, opts = {})
-      data, _status_code, _headers = place_order_with_http_info(body, opts)
+    def place_order(order, opts = {})
+      data, _status_code, _headers = place_order_with_http_info(order, opts)
       data
     end
 
     # Place an order for a pet
-    # @param body [Order] order placed for purchasing the pet
+    # @param order [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
     # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers
-    def place_order_with_http_info(body, opts = {})
+    def place_order_with_http_info(order, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StoreApi.place_order ...'
       end
-      # verify the required parameter 'body' is set
-      if @api_client.config.client_side_validation && body.nil?
-        fail ArgumentError, "Missing the required parameter 'body' when calling StoreApi.place_order"
+      # verify the required parameter 'order' is set
+      if @api_client.config.client_side_validation && order.nil?
+        fail ArgumentError, "Missing the required parameter 'order' when calling StoreApi.place_order"
       end
       # resource path
       local_var_path = '/store/order'
@@ -236,12 +236,14 @@ module Petstore
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
+      post_body = opts[:body] || @api_client.object_to_http_body(order) 
 
       # return_type
       return_type = opts[:return_type] || 'Order' 

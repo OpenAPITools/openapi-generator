@@ -31,7 +31,9 @@ object PetApi {
 
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
-  def addPet(host: String, body: Pet): Task[Unit] = {
+  def addPet(host: String, pet: Pet): Task[Pet] = {
+    implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
+
     val path = "/pet"
     
     val httpMethod = Method.POST
@@ -44,8 +46,8 @@ object PetApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
-      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      resp          <- client.expect[Pet](req)
 
     } yield resp
   }
@@ -132,7 +134,9 @@ object PetApi {
     } yield resp
   }
   
-  def updatePet(host: String, body: Pet): Task[Unit] = {
+  def updatePet(host: String, pet: Pet): Task[Pet] = {
+    implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
+
     val path = "/pet"
     
     val httpMethod = Method.PUT
@@ -145,8 +149,8 @@ object PetApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
-      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      resp          <- client.expect[Pet](req)
 
     } yield resp
   }
@@ -198,7 +202,9 @@ class HttpServicePetApi(service: HttpService) {
 
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
-  def addPet(body: Pet): Task[Unit] = {
+  def addPet(pet: Pet): Task[Pet] = {
+    implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
+
     val path = "/pet"
     
     val httpMethod = Method.POST
@@ -211,8 +217,8 @@ class HttpServicePetApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
-      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      resp          <- client.expect[Pet](req)
 
     } yield resp
   }
@@ -299,7 +305,9 @@ class HttpServicePetApi(service: HttpService) {
     } yield resp
   }
   
-  def updatePet(body: Pet): Task[Unit] = {
+  def updatePet(pet: Pet): Task[Pet] = {
+    implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
+
     val path = "/pet"
     
     val httpMethod = Method.PUT
@@ -312,8 +320,8 @@ class HttpServicePetApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
-      resp          <- client.fetch[Unit](req)(_ => Task.now(()))
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      resp          <- client.expect[Pet](req)
 
     } yield resp
   }
