@@ -20,7 +20,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
     Param (
         [AllowEmptyString()]
         [string]$Json
-    ) 
+    )
 
     Process {
         $match = 0
@@ -53,6 +53,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
                 }
             } catch {
                 # fail to match the schema defined in anyOf, proceed to the next one
+                Write-Debug "Failed to match '{{{.}}}' defined in anyOf ({{{apiNamePrefix}}}{{{classname}}}). Proceeding to the next one if any."
             }
         }
 
