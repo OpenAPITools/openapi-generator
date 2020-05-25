@@ -1087,7 +1087,6 @@
                 <module>samples/client/petstore/python</module>
             </modules>
         </profile>
-        <!--
         <profile>
             <id>ruby-client</id>
             <activation>
@@ -1100,7 +1099,6 @@
                 <module>samples/client/petstore/ruby</module>
             </modules>
         </profile>
-        -->
         <profile>
             <id>go-client</id>
             <activation>
@@ -1387,7 +1385,7 @@
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
                 <!-- clients -->
-                <module>samples/openapi3/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby</module>
                 <!-- test java-related projects -->
                 <module>samples/openapi3/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/dart2/petstore</module>
