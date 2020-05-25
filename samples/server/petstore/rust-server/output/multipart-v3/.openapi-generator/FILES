@@ -3,7 +3,7 @@
 Cargo.toml
 README.md
 api/openapi.yaml
-docs/InlineObject.md
+docs/InlineBody.md
 docs/MultipartRelatedRequest.md
 docs/MultipartRequest.md
 docs/MultipartRequestObjectField.md

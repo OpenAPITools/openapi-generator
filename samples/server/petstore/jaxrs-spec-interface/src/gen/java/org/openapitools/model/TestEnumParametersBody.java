@@ -96,16 +96,17 @@ public enum EnumFormStringEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "Form parameter enum test (string array)")
   @JsonProperty("enum_form_string_array")
   public List<EnumFormStringArrayEnum> getEnumFormStringArray() {
     return enumFormStringArray;
   }
+
   public void setEnumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {
     this.enumFormStringArray = enumFormStringArray;
-  }
-
-  /**
+  }/**
    * Form parameter enum test (string)
    **/
   public TestEnumParametersBody enumFormString(EnumFormStringEnum enumFormString) {
@@ -114,15 +115,17 @@ public enum EnumFormStringEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "Form parameter enum test (string)")
   @JsonProperty("enum_form_string")
   public EnumFormStringEnum getEnumFormString() {
     return enumFormString;
   }
+
   public void setEnumFormString(EnumFormStringEnum enumFormString) {
     this.enumFormString = enumFormString;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -163,5 +166,7 @@ public enum EnumFormStringEnum {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

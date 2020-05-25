@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -75,7 +74,13 @@ src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
+src/main/java/org/openapitools/client/model/TestEndpointParametersBody.java
+src/main/java/org/openapitools/client/model/TestEnumParametersBody.java
+src/main/java/org/openapitools/client/model/TestJsonFormDataBody.java
 src/main/java/org/openapitools/client/model/TypeHolderDefault.java
 src/main/java/org/openapitools/client/model/TypeHolderExample.java
+src/main/java/org/openapitools/client/model/UpdatePetWithFormBody.java
+src/main/java/org/openapitools/client/model/UploadFileBody.java
+src/main/java/org/openapitools/client/model/UploadFileWithRequiredFileBody.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/XmlItem.java

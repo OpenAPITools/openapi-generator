@@ -1,4 +1,4 @@
-# Petstore::TestEndpointParametersBody
+# OpenapiClient::TestEndpointParametersBody
 
 ## Properties
 
@@ -22,9 +22,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'OpenapiClient'
 
-instance = Petstore::TestEndpointParametersBody.new(integer: null,
+instance = OpenapiClient::TestEndpointParametersBody.new(integer: null,
                                  int32: null,
                                  int64: null,
                                  number: null,

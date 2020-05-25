@@ -415,7 +415,7 @@ impl<C, F> Api<C> for Client<F> where
 
     fn dummy_put(
         &self,
-        param_nested_response: models::InlineObject,
+        param_nested_response: models::DummyPutBody,
         context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>
     {
         let mut uri = format!(

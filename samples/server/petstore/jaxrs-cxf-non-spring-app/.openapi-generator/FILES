@@ -8,5 +8,7 @@ src/gen/java/org/openapitools/model/ModelApiResponse.java
 src/gen/java/org/openapitools/model/Order.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/Tag.java
+src/gen/java/org/openapitools/model/UpdatePetWithFormBody.java
+src/gen/java/org/openapitools/model/UploadFileBody.java
 src/gen/java/org/openapitools/model/User.java
 src/main/webapp/WEB-INF/web.xml

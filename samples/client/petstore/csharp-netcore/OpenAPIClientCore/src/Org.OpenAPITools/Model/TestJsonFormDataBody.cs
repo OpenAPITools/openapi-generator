@@ -45,25 +45,9 @@ namespace Org.OpenAPITools.Model
         public TestJsonFormDataBody(string param = default(string), string param2 = default(string))
         {
             // to ensure "param" is required (not null)
-            if (param == null)
-            {
-                throw new InvalidDataException("param is a required property for TestJsonFormDataBody and cannot be null");
-            }
-            else
-            {
-                this.Param = param;
-            }
-
+            this.Param = param ?? throw new ArgumentNullException("param is a required property for TestJsonFormDataBody and cannot be null");
             // to ensure "param2" is required (not null)
-            if (param2 == null)
-            {
-                throw new InvalidDataException("param2 is a required property for TestJsonFormDataBody and cannot be null");
-            }
-            else
-            {
-                this.Param2 = param2;
-            }
-
+            this.Param2 = param2 ?? throw new ArgumentNullException("param2 is a required property for TestJsonFormDataBody and cannot be null");
         }
         
         /// <summary>

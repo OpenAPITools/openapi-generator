@@ -206,25 +206,25 @@ module Petstore
     end
 
     # Place an order for a pet
-    # @param order [Order] order placed for purchasing the pet
+    # @param body [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
     # @return [Order]
-    def place_order(order, opts = {})
-      data, _status_code, _headers = place_order_with_http_info(order, opts)
+    def place_order(body, opts = {})
+      data, _status_code, _headers = place_order_with_http_info(body, opts)
       data
     end
 
     # Place an order for a pet
-    # @param order [Order] order placed for purchasing the pet
+    # @param body [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
     # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers
-    def place_order_with_http_info(order, opts = {})
+    def place_order_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StoreApi.place_order ...'
       end
-      # verify the required parameter 'order' is set
-      if @api_client.config.client_side_validation && order.nil?
-        fail ArgumentError, "Missing the required parameter 'order' when calling StoreApi.place_order"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling StoreApi.place_order"
       end
       # resource path
       local_var_path = '/store/order'
@@ -236,14 +236,12 @@ module Petstore
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(order) 
+      post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
       # return_type
       return_type = opts[:return_type] || 'Order' 

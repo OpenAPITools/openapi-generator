@@ -1,4 +1,4 @@
-# petstore-resttemplate-withxml
+# petstore-resttemplate
 
 OpenAPI Petstore
 
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>petstore-resttemplate-withxml</artifactId>
+  <artifactId>petstore-resttemplate</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -50,7 +50,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-resttemplate-withxml:1.0.0"
+compile "org.openapitools:petstore-resttemplate:1.0.0"
 ```
 
 ### Others
@@ -63,7 +63,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-- `target/petstore-resttemplate-withxml-1.0.0.jar`
+- `target/petstore-resttemplate-1.0.0.jar`
 - `target/lib/*.jar`
 
 ## Getting Started
@@ -189,8 +189,14 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
+ - [TestEndpointParametersBody](docs/TestEndpointParametersBody.md)
+ - [TestEnumParametersBody](docs/TestEnumParametersBody.md)
+ - [TestJsonFormDataBody](docs/TestJsonFormDataBody.md)
  - [TypeHolderDefault](docs/TypeHolderDefault.md)
  - [TypeHolderExample](docs/TypeHolderExample.md)
+ - [UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
+ - [UploadFileBody](docs/UploadFileBody.md)
+ - [UploadFileWithRequiredFileBody](docs/UploadFileWithRequiredFileBody.md)
  - [User](docs/User.md)
  - [XmlItem](docs/XmlItem.md)
 

@@ -17,6 +17,8 @@ model/./category.ts
 model/./order.ts
 model/./pet.ts
 model/./tag.ts
+model/./updatePetWithFormBody.ts
+model/./uploadFileBody.ts
 model/./user.ts
 model/models.ts
 rxjs-operators.ts

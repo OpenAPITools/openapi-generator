@@ -26,9 +26,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import org.hibernate.validator.constraints.*;
 
 /**
  * ArrayOfArrayOfNumberOnly
@@ -59,7 +56,6 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
   **/
   @javax.annotation.Nullable
-  @Valid
   @ApiModelProperty(value = "")
 
   public List<List<BigDecimal>> getArrayArrayNumber() {

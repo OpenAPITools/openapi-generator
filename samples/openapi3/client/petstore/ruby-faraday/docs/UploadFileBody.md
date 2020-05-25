@@ -1,4 +1,4 @@
-# Petstore::UploadFileBody
+# OpenapiClient::UploadFileBody
 
 ## Properties
 
@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'OpenapiClient'
 
-instance = Petstore::UploadFileBody.new(additional_metadata: null,
+instance = OpenapiClient::UploadFileBody.new(additional_metadata: null,
                                  file: null)
 ```
 

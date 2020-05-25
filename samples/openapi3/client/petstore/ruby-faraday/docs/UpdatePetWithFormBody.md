@@ -1,4 +1,4 @@
-# Petstore::UpdatePetWithFormBody
+# OpenapiClient::UpdatePetWithFormBody
 
 ## Properties
 
@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'OpenapiClient'
 
-instance = Petstore::UpdatePetWithFormBody.new(name: null,
+instance = OpenapiClient::UpdatePetWithFormBody.new(name: null,
                                  status: null)
 ```
 

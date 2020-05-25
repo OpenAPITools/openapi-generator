@@ -29,16 +29,17 @@ public class UploadFileBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "Additional data to pass to server")
   @JsonProperty("additionalMetadata")
   public String getAdditionalMetadata() {
     return additionalMetadata;
   }
+
   public void setAdditionalMetadata(String additionalMetadata) {
     this.additionalMetadata = additionalMetadata;
-  }
-
-  /**
+  }/**
    * file to upload
    **/
   public UploadFileBody file(File file) {
@@ -47,15 +48,17 @@ public class UploadFileBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "file to upload")
   @JsonProperty("file")
   public File getFile() {
     return file;
   }
+
   public void setFile(File file) {
     this.file = file;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -96,5 +99,7 @@ public class UploadFileBody  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

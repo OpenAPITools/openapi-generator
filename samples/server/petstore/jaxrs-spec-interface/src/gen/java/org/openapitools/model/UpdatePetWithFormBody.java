@@ -28,16 +28,17 @@ public class UpdatePetWithFormBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "Updated name of the pet")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
-  }
-
-  /**
+  }/**
    * Updated status of the pet
    **/
   public UpdatePetWithFormBody status(String status) {
@@ -46,15 +47,17 @@ public class UpdatePetWithFormBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "Updated status of the pet")
   @JsonProperty("status")
   public String getStatus() {
     return status;
   }
+
   public void setStatus(String status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -95,5 +98,7 @@ public class UpdatePetWithFormBody  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

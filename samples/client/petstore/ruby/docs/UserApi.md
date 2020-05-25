@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## create_user
 
-> create_user(user)
+> create_user(body)
 
 Create user
 
@@ -30,11 +30,11 @@ This can only be done by the logged in user.
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-user = Petstore::User.new # User | Created user object
+body = Petstore::User.new # User | Created user object
 
 begin
   #Create user
-  api_instance.create_user(user)
+  api_instance.create_user(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_user: #{e}"
 end
@@ -45,7 +45,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -57,13 +57,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 
 ## create_users_with_array_input
 
-> create_users_with_array_input(user)
+> create_users_with_array_input(body)
 
 Creates list of users with given input array
 
@@ -74,11 +74,11 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-user = [Petstore::User.new] # Array<User> | List of user object
+body = [Petstore::User.new] # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
-  api_instance.create_users_with_array_input(user)
+  api_instance.create_users_with_array_input(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_users_with_array_input: #{e}"
 end
@@ -89,7 +89,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**Array&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**Array&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -101,13 +101,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 
 ## create_users_with_list_input
 
-> create_users_with_list_input(user)
+> create_users_with_list_input(body)
 
 Creates list of users with given input array
 
@@ -118,11 +118,11 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-user = [Petstore::User.new] # Array<User> | List of user object
+body = [Petstore::User.new] # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
-  api_instance.create_users_with_list_input(user)
+  api_instance.create_users_with_list_input(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_users_with_list_input: #{e}"
 end
@@ -133,7 +133,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**Array&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**Array&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -145,7 +145,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 
@@ -329,7 +329,7 @@ No authorization required
 
 ## update_user
 
-> update_user(username, user)
+> update_user(username, body)
 
 Updated user
 
@@ -343,11 +343,11 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 username = 'username_example' # String | name that need to be deleted
-user = Petstore::User.new # User | Updated user object
+body = Petstore::User.new # User | Updated user object
 
 begin
   #Updated user
-  api_instance.update_user(username, user)
+  api_instance.update_user(username, body)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->update_user: #{e}"
 end
@@ -359,7 +359,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -371,6 +371,6 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 

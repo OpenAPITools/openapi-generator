@@ -43,8 +43,14 @@ app/apimodels/Pet.java
 app/apimodels/ReadOnlyFirst.java
 app/apimodels/SpecialModelName.java
 app/apimodels/Tag.java
+app/apimodels/TestEndpointParametersBody.java
+app/apimodels/TestEnumParametersBody.java
+app/apimodels/TestJsonFormDataBody.java
 app/apimodels/TypeHolderDefault.java
 app/apimodels/TypeHolderExample.java
+app/apimodels/UpdatePetWithFormBody.java
+app/apimodels/UploadFileBody.java
+app/apimodels/UploadFileWithRequiredFileBody.java
 app/apimodels/User.java
 app/apimodels/XmlItem.java
 app/controllers/AnotherFakeApiController.java

@@ -10,4 +10,8 @@ Name | Type | Description | Notes
 **status** | **String** | Updated status of the pet |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

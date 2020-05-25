@@ -22,4 +22,8 @@ Name | Type | Description | Notes
 **callback** | **String** | None |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

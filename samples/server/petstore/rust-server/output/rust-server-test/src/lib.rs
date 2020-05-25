@@ -83,7 +83,7 @@ pub trait Api<C> {
 
     fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutBody,
         context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>;
 
     /// Get a file
@@ -132,7 +132,7 @@ pub trait ApiNoContext {
 
     fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutBody,
         ) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>;
 
     /// Get a file
@@ -198,7 +198,7 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutBody,
         ) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>
     {
         self.api().dummy_put(nested_response, &self.context())

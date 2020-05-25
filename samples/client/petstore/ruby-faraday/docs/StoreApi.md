@@ -156,7 +156,7 @@ No authorization required
 
 ## place_order
 
-> Order place_order(order)
+> Order place_order(body)
 
 Place an order for a pet
 
@@ -167,11 +167,11 @@ Place an order for a pet
 require 'petstore'
 
 api_instance = Petstore::StoreApi.new
-order = Petstore::Order.new # Order | order placed for purchasing the pet
+body = Petstore::Order.new # Order | order placed for purchasing the pet
 
 begin
   #Place an order for a pet
-  result = api_instance.place_order(order)
+  result = api_instance.place_order(body)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling StoreApi->place_order: #{e}"
@@ -183,7 +183,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -195,6 +195,6 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 

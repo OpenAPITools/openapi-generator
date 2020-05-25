@@ -44,12 +44,10 @@ data class User (
     /* User Status */
     @Json(name = "userStatus")
     val userStatus: kotlin.Int? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

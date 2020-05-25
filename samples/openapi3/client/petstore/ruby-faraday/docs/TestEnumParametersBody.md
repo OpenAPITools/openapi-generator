@@ -1,4 +1,4 @@
-# Petstore::TestEnumParametersBody
+# OpenapiClient::TestEnumParametersBody
 
 ## Properties
 
@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'OpenapiClient'
 
-instance = Petstore::TestEnumParametersBody.new(enum_form_string_array: null,
+instance = OpenapiClient::TestEnumParametersBody.new(enum_form_string_array: null,
                                  enum_form_string: null)
 ```
 

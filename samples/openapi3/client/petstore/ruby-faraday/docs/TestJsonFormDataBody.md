@@ -1,4 +1,4 @@
-# Petstore::TestJsonFormDataBody
+# OpenapiClient::TestJsonFormDataBody
 
 ## Properties
 
@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require 'Petstore'
+require 'OpenapiClient'
 
-instance = Petstore::TestJsonFormDataBody.new(param: null,
+instance = OpenapiClient::TestJsonFormDataBody.new(param: null,
                                  param2: null)
 ```
 

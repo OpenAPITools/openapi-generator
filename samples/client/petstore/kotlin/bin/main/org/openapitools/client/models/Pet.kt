@@ -40,13 +40,11 @@ data class Pet (
     /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
     /**
     * pet status in the store
     * Values: available,pending,sold

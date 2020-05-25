@@ -12,6 +12,8 @@ R/pet.R
 R/pet_api.R
 R/store_api.R
 R/tag.R
+R/update_pet_with_form_body.R
+R/upload_file_body.R
 R/user.R
 R/user_api.R
 README.md
@@ -22,6 +24,8 @@ docs/Pet.md
 docs/PetApi.md
 docs/StoreApi.md
 docs/Tag.md
+docs/UpdatePetWithFormBody.md
+docs/UploadFileBody.md
 docs/User.md
 docs/UserApi.md
 git_push.sh

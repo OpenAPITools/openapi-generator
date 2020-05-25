@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 build.gradle
 pom.xml
@@ -11,6 +10,8 @@ src/gen/java/org/openapitools/model/ModelApiResponse.java
 src/gen/java/org/openapitools/model/Order.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/Tag.java
+src/gen/java/org/openapitools/model/UpdatePetWithFormBody.java
+src/gen/java/org/openapitools/model/UploadFileBody.java
 src/gen/java/org/openapitools/model/User.java
 src/main/java/org/openapitools/api/JacksonConfig.java
 src/main/java/org/openapitools/api/RestApplication.java

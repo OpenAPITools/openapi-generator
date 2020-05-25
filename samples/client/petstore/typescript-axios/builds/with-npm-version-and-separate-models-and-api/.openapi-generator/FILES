@@ -15,6 +15,8 @@ model/some/levels/deep/index.ts
 model/some/levels/deep/order.ts
 model/some/levels/deep/pet.ts
 model/some/levels/deep/tag.ts
+model/some/levels/deep/update-pet-with-form-body.ts
+model/some/levels/deep/upload-file-body.ts
 model/some/levels/deep/user.ts
 package.json
 tsconfig.json

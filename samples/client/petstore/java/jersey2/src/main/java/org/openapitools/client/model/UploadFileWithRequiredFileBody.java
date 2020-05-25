@@ -15,28 +15,27 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.IOException;
 
 /**
  * UploadFileWithRequiredFileBody
  */
-@JsonPropertyOrder({
-  UploadFileWithRequiredFileBody.JSON_PROPERTY_ADDITIONAL_METADATA,
-  UploadFileWithRequiredFileBody.JSON_PROPERTY_REQUIRED_FILE
-})
 
 public class UploadFileWithRequiredFileBody {
-  public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";
+  public static final String SERIALIZED_NAME_ADDITIONAL_METADATA = "additionalMetadata";
+  @SerializedName(SERIALIZED_NAME_ADDITIONAL_METADATA)
   private String additionalMetadata;
 
-  public static final String JSON_PROPERTY_REQUIRED_FILE = "requiredFile";
+  public static final String SERIALIZED_NAME_REQUIRED_FILE = "requiredFile";
+  @SerializedName(SERIALIZED_NAME_REQUIRED_FILE)
   private File requiredFile;
 
 
@@ -52,8 +51,6 @@ public class UploadFileWithRequiredFileBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Additional data to pass to server")
-  @JsonProperty(JSON_PROPERTY_ADDITIONAL_METADATA)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getAdditionalMetadata() {
     return additionalMetadata;
@@ -76,8 +73,6 @@ public class UploadFileWithRequiredFileBody {
    * @return requiredFile
   **/
   @ApiModelProperty(required = true, value = "file to upload")
-  @JsonProperty(JSON_PROPERTY_REQUIRED_FILE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public File getRequiredFile() {
     return requiredFile;

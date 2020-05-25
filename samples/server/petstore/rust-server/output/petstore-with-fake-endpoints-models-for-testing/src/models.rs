@@ -5158,6 +5158,844 @@ impl Tag {
     }
 }
 
+// Methods for converting between header::IntoHeaderValue<TestEndpointParametersBody> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<TestEndpointParametersBody>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<TestEndpointParametersBody>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for TestEndpointParametersBody - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<TestEndpointParametersBody> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <TestEndpointParametersBody as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into TestEndpointParametersBody - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct TestEndpointParametersBody {
+    /// None
+    #[serde(rename = "integer")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub integer: Option<u32>,
+
+    /// None
+    #[serde(rename = "int32")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub int32: Option<u32>,
+
+    /// None
+    #[serde(rename = "int64")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub int64: Option<i64>,
+
+    /// None
+    #[serde(rename = "number")]
+    pub number: f64,
+
+    /// None
+    #[serde(rename = "float")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub float: Option<f32>,
+
+    /// None
+    #[serde(rename = "double")]
+    pub double: f64,
+
+    /// None
+    #[serde(rename = "string")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub string: Option<String>,
+
+    /// None
+    #[serde(rename = "pattern_without_delimiter")]
+    pub pattern_without_delimiter: String,
+
+    /// None
+    #[serde(rename = "byte")]
+    pub byte: swagger::ByteArray,
+
+    /// None
+    #[serde(rename = "binary")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub binary: Option<swagger::ByteArray>,
+
+    /// None
+    #[serde(rename = "date")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub date: Option<chrono::DateTime::<chrono::Utc>>,
+
+    /// None
+    #[serde(rename = "dateTime")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
+
+    /// None
+    #[serde(rename = "password")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub password: Option<String>,
+
+    /// None
+    #[serde(rename = "callback")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub callback: Option<String>,
+
+}
+
+impl TestEndpointParametersBody {
+    pub fn new(number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, ) -> TestEndpointParametersBody {
+        TestEndpointParametersBody {
+            integer: None,
+            int32: None,
+            int64: None,
+            number: number,
+            float: None,
+            double: double,
+            string: None,
+            pattern_without_delimiter: pattern_without_delimiter,
+            byte: byte,
+            binary: None,
+            date: None,
+            date_time: None,
+            password: None,
+            callback: None,
+        }
+    }
+}
+
+/// Converts the TestEndpointParametersBody value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for TestEndpointParametersBody {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref integer) = self.integer {
+            params.push("integer".to_string());
+            params.push(integer.to_string());
+        }
+
+
+        if let Some(ref int32) = self.int32 {
+            params.push("int32".to_string());
+            params.push(int32.to_string());
+        }
+
+
+        if let Some(ref int64) = self.int64 {
+            params.push("int64".to_string());
+            params.push(int64.to_string());
+        }
+
+
+        params.push("number".to_string());
+        params.push(self.number.to_string());
+
+
+        if let Some(ref float) = self.float {
+            params.push("float".to_string());
+            params.push(float.to_string());
+        }
+
+
+        params.push("double".to_string());
+        params.push(self.double.to_string());
+
+
+        if let Some(ref string) = self.string {
+            params.push("string".to_string());
+            params.push(string.to_string());
+        }
+
+
+        params.push("pattern_without_delimiter".to_string());
+        params.push(self.pattern_without_delimiter.to_string());
+
+        // Skipping byte in query parameter serialization
+        // Skipping byte in query parameter serialization
+
+        // Skipping binary in query parameter serialization
+        // Skipping binary in query parameter serialization
+
+        // Skipping date in query parameter serialization
+
+        // Skipping dateTime in query parameter serialization
+
+
+        if let Some(ref password) = self.password {
+            params.push("password".to_string());
+            params.push(password.to_string());
+        }
+
+
+        if let Some(ref callback) = self.callback {
+            params.push("callback".to_string());
+            params.push(callback.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a TestEndpointParametersBody value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for TestEndpointParametersBody {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub integer: Vec<u32>,
+            pub int32: Vec<u32>,
+            pub int64: Vec<i64>,
+            pub number: Vec<f64>,
+            pub float: Vec<f32>,
+            pub double: Vec<f64>,
+            pub string: Vec<String>,
+            pub pattern_without_delimiter: Vec<String>,
+            pub byte: Vec<swagger::ByteArray>,
+            pub binary: Vec<swagger::ByteArray>,
+            pub date: Vec<chrono::DateTime::<chrono::Utc>>,
+            pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
+            pub password: Vec<String>,
+            pub callback: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing TestEndpointParametersBody".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "integer" => intermediate_rep.integer.push(u32::from_str(val).map_err(|x| format!("{}", x))?),
+                    "int32" => intermediate_rep.int32.push(u32::from_str(val).map_err(|x| format!("{}", x))?),
+                    "int64" => intermediate_rep.int64.push(i64::from_str(val).map_err(|x| format!("{}", x))?),
+                    "number" => intermediate_rep.number.push(f64::from_str(val).map_err(|x| format!("{}", x))?),
+                    "float" => intermediate_rep.float.push(f32::from_str(val).map_err(|x| format!("{}", x))?),
+                    "double" => intermediate_rep.double.push(f64::from_str(val).map_err(|x| format!("{}", x))?),
+                    "string" => intermediate_rep.string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "pattern_without_delimiter" => intermediate_rep.pattern_without_delimiter.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "byte" => return std::result::Result::Err("Parsing binary data in this style is not supported in TestEndpointParametersBody".to_string()),
+                    "binary" => return std::result::Result::Err("Parsing binary data in this style is not supported in TestEndpointParametersBody".to_string()),
+                    "date" => intermediate_rep.date.push(chrono::DateTime::<chrono::Utc>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "dateTime" => intermediate_rep.date_time.push(chrono::DateTime::<chrono::Utc>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "password" => intermediate_rep.password.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "callback" => intermediate_rep.callback.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing TestEndpointParametersBody".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(TestEndpointParametersBody {
+            integer: intermediate_rep.integer.into_iter().next(),
+            int32: intermediate_rep.int32.into_iter().next(),
+            int64: intermediate_rep.int64.into_iter().next(),
+            number: intermediate_rep.number.into_iter().next().ok_or("number missing in TestEndpointParametersBody".to_string())?,
+            float: intermediate_rep.float.into_iter().next(),
+            double: intermediate_rep.double.into_iter().next().ok_or("double missing in TestEndpointParametersBody".to_string())?,
+            string: intermediate_rep.string.into_iter().next(),
+            pattern_without_delimiter: intermediate_rep.pattern_without_delimiter.into_iter().next().ok_or("pattern_without_delimiter missing in TestEndpointParametersBody".to_string())?,
+            byte: intermediate_rep.byte.into_iter().next().ok_or("byte missing in TestEndpointParametersBody".to_string())?,
+            binary: intermediate_rep.binary.into_iter().next(),
+            date: intermediate_rep.date.into_iter().next(),
+            date_time: intermediate_rep.date_time.into_iter().next(),
+            password: intermediate_rep.password.into_iter().next(),
+            callback: intermediate_rep.callback.into_iter().next(),
+        })
+    }
+}
+
+
+impl TestEndpointParametersBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<TestEnumParametersBody> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<TestEnumParametersBody>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<TestEnumParametersBody>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for TestEnumParametersBody - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<TestEnumParametersBody> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <TestEnumParametersBody as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into TestEnumParametersBody - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct TestEnumParametersBody {
+    /// Form parameter enum test (string)
+    // Note: inline enums are not fully supported by openapi-generator
+    #[serde(rename = "enum_form_string")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enum_form_string: Option<String>,
+
+}
+
+impl TestEnumParametersBody {
+    pub fn new() -> TestEnumParametersBody {
+        TestEnumParametersBody {
+            enum_form_string: Some("-efg".to_string()),
+        }
+    }
+}
+
+/// Converts the TestEnumParametersBody value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for TestEnumParametersBody {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref enum_form_string) = self.enum_form_string {
+            params.push("enum_form_string".to_string());
+            params.push(enum_form_string.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a TestEnumParametersBody value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for TestEnumParametersBody {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub enum_form_string: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing TestEnumParametersBody".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "enum_form_string" => intermediate_rep.enum_form_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing TestEnumParametersBody".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(TestEnumParametersBody {
+            enum_form_string: intermediate_rep.enum_form_string.into_iter().next(),
+        })
+    }
+}
+
+
+impl TestEnumParametersBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<TestJsonFormDataBody> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<TestJsonFormDataBody>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<TestJsonFormDataBody>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for TestJsonFormDataBody - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<TestJsonFormDataBody> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <TestJsonFormDataBody as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into TestJsonFormDataBody - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct TestJsonFormDataBody {
+    /// field1
+    #[serde(rename = "param")]
+    pub param: String,
+
+    /// field2
+    #[serde(rename = "param2")]
+    pub param2: String,
+
+}
+
+impl TestJsonFormDataBody {
+    pub fn new(param: String, param2: String, ) -> TestJsonFormDataBody {
+        TestJsonFormDataBody {
+            param: param,
+            param2: param2,
+        }
+    }
+}
+
+/// Converts the TestJsonFormDataBody value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for TestJsonFormDataBody {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        params.push("param".to_string());
+        params.push(self.param.to_string());
+
+
+        params.push("param2".to_string());
+        params.push(self.param2.to_string());
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a TestJsonFormDataBody value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for TestJsonFormDataBody {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub param: Vec<String>,
+            pub param2: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing TestJsonFormDataBody".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "param" => intermediate_rep.param.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "param2" => intermediate_rep.param2.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing TestJsonFormDataBody".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(TestJsonFormDataBody {
+            param: intermediate_rep.param.into_iter().next().ok_or("param missing in TestJsonFormDataBody".to_string())?,
+            param2: intermediate_rep.param2.into_iter().next().ok_or("param2 missing in TestJsonFormDataBody".to_string())?,
+        })
+    }
+}
+
+
+impl TestJsonFormDataBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<UpdatePetWithFormBody> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<UpdatePetWithFormBody>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<UpdatePetWithFormBody>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for UpdatePetWithFormBody - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<UpdatePetWithFormBody> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <UpdatePetWithFormBody as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into UpdatePetWithFormBody - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct UpdatePetWithFormBody {
+    /// Updated name of the pet
+    #[serde(rename = "name")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+
+    /// Updated status of the pet
+    #[serde(rename = "status")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub status: Option<String>,
+
+}
+
+impl UpdatePetWithFormBody {
+    pub fn new() -> UpdatePetWithFormBody {
+        UpdatePetWithFormBody {
+            name: None,
+            status: None,
+        }
+    }
+}
+
+/// Converts the UpdatePetWithFormBody value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for UpdatePetWithFormBody {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref name) = self.name {
+            params.push("name".to_string());
+            params.push(name.to_string());
+        }
+
+
+        if let Some(ref status) = self.status {
+            params.push("status".to_string());
+            params.push(status.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a UpdatePetWithFormBody value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for UpdatePetWithFormBody {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub name: Vec<String>,
+            pub status: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing UpdatePetWithFormBody".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "name" => intermediate_rep.name.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "status" => intermediate_rep.status.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing UpdatePetWithFormBody".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(UpdatePetWithFormBody {
+            name: intermediate_rep.name.into_iter().next(),
+            status: intermediate_rep.status.into_iter().next(),
+        })
+    }
+}
+
+
+impl UpdatePetWithFormBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<UploadFileBody> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<UploadFileBody>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<UploadFileBody>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for UploadFileBody - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<UploadFileBody> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <UploadFileBody as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into UploadFileBody - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct UploadFileBody {
+    /// Additional data to pass to server
+    #[serde(rename = "additionalMetadata")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub additional_metadata: Option<String>,
+
+    /// file to upload
+    #[serde(rename = "file")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub file: Option<swagger::ByteArray>,
+
+}
+
+impl UploadFileBody {
+    pub fn new() -> UploadFileBody {
+        UploadFileBody {
+            additional_metadata: None,
+            file: None,
+        }
+    }
+}
+
+/// Converts the UploadFileBody value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for UploadFileBody {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref additional_metadata) = self.additional_metadata {
+            params.push("additionalMetadata".to_string());
+            params.push(additional_metadata.to_string());
+        }
+
+        // Skipping file in query parameter serialization
+        // Skipping file in query parameter serialization
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a UploadFileBody value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for UploadFileBody {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub additional_metadata: Vec<String>,
+            pub file: Vec<swagger::ByteArray>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing UploadFileBody".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "additionalMetadata" => intermediate_rep.additional_metadata.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "file" => return std::result::Result::Err("Parsing binary data in this style is not supported in UploadFileBody".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing UploadFileBody".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(UploadFileBody {
+            additional_metadata: intermediate_rep.additional_metadata.into_iter().next(),
+            file: intermediate_rep.file.into_iter().next(),
+        })
+    }
+}
+
+
+impl UploadFileBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 // Methods for converting between header::IntoHeaderValue<User> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]

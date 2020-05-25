@@ -10,4 +10,8 @@ Name | Type | Description | Notes
 **param2** | **String** | field2 | 
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

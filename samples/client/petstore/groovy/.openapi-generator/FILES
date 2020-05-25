@@ -9,4 +9,6 @@ src/main/groovy/org/openapitools/model/ModelApiResponse.groovy
 src/main/groovy/org/openapitools/model/Order.groovy
 src/main/groovy/org/openapitools/model/Pet.groovy
 src/main/groovy/org/openapitools/model/Tag.groovy
+src/main/groovy/org/openapitools/model/UpdatePetWithFormBody.groovy
+src/main/groovy/org/openapitools/model/UploadFileBody.groovy
 src/main/groovy/org/openapitools/model/User.groovy

@@ -15,27 +15,26 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.IOException;
 
 /**
  * UpdatePetWithFormBody
  */
-@JsonPropertyOrder({
-  UpdatePetWithFormBody.JSON_PROPERTY_NAME,
-  UpdatePetWithFormBody.JSON_PROPERTY_STATUS
-})
 
 public class UpdatePetWithFormBody {
-  public static final String JSON_PROPERTY_NAME = "name";
+  public static final String SERIALIZED_NAME_NAME = "name";
+  @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public static final String JSON_PROPERTY_STATUS = "status";
+  public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
   private String status;
 
 
@@ -51,8 +50,6 @@ public class UpdatePetWithFormBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Updated name of the pet")
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
     return name;
@@ -76,8 +73,6 @@ public class UpdatePetWithFormBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Updated status of the pet")
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getStatus() {
     return status;

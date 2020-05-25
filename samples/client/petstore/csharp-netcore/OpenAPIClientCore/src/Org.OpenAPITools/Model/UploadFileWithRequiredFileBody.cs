@@ -45,15 +45,7 @@ namespace Org.OpenAPITools.Model
         public UploadFileWithRequiredFileBody(string additionalMetadata = default(string), System.IO.Stream requiredFile = default(System.IO.Stream))
         {
             // to ensure "requiredFile" is required (not null)
-            if (requiredFile == null)
-            {
-                throw new InvalidDataException("requiredFile is a required property for UploadFileWithRequiredFileBody and cannot be null");
-            }
-            else
-            {
-                this.RequiredFile = requiredFile;
-            }
-
+            this.RequiredFile = requiredFile ?? throw new ArgumentNullException("requiredFile is a required property for UploadFileWithRequiredFileBody and cannot be null");
             this.AdditionalMetadata = additionalMetadata;
         }
         

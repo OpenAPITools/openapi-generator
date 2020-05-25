@@ -10,6 +10,8 @@ model/Category.ts
 model/Order.ts
 model/Pet.ts
 model/Tag.ts
+model/UpdatePetWithFormBody.ts
+model/UploadFileBody.ts
 model/User.ts
 model/models.ts
 variables.ts

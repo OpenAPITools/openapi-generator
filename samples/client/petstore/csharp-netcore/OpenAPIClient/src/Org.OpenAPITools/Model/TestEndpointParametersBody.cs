@@ -56,46 +56,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="callback">None.</param>
         public TestEndpointParametersBody(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), string patternWithoutDelimiter = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), string password = default(string), string callback = default(string))
         {
-            // to ensure "number" is required (not null)
-            if (number == null)
-            {
-                throw new InvalidDataException("number is a required property for TestEndpointParametersBody and cannot be null");
-            }
-            else
-            {
-                this.Number = number;
-            }
-
-            // to ensure "_double" is required (not null)
-            if (_double == null)
-            {
-                throw new InvalidDataException("_double is a required property for TestEndpointParametersBody and cannot be null");
-            }
-            else
-            {
-                this.Double = _double;
-            }
-
+            this.Number = number;
+            this.Double = _double;
             // to ensure "patternWithoutDelimiter" is required (not null)
-            if (patternWithoutDelimiter == null)
-            {
-                throw new InvalidDataException("patternWithoutDelimiter is a required property for TestEndpointParametersBody and cannot be null");
-            }
-            else
-            {
-                this.PatternWithoutDelimiter = patternWithoutDelimiter;
-            }
-
+            this.PatternWithoutDelimiter = patternWithoutDelimiter ?? throw new ArgumentNullException("patternWithoutDelimiter is a required property for TestEndpointParametersBody and cannot be null");
             // to ensure "_byte" is required (not null)
-            if (_byte == null)
-            {
-                throw new InvalidDataException("_byte is a required property for TestEndpointParametersBody and cannot be null");
-            }
-            else
-            {
-                this.Byte = _byte;
-            }
-
+            this.Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for TestEndpointParametersBody and cannot be null");
             this.Integer = integer;
             this.Int32 = int32;
             this.Int64 = int64;

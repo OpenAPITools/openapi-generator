@@ -72,8 +72,14 @@ lib/Model/Pet.php
 lib/Model/ReadOnlyFirst.php
 lib/Model/SpecialModelName.php
 lib/Model/Tag.php
+lib/Model/TestEndpointParametersBody.php
+lib/Model/TestEnumParametersBody.php
+lib/Model/TestJsonFormDataBody.php
 lib/Model/TypeHolderDefault.php
 lib/Model/TypeHolderExample.php
+lib/Model/UpdatePetWithFormBody.php
+lib/Model/UploadFileBody.php
+lib/Model/UploadFileWithRequiredFileBody.php
 lib/Model/User.php
 lib/Model/XmlItem.php
 lib/SlimRouter.php

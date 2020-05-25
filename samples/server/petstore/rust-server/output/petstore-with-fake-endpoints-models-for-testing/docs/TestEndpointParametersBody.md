@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **pattern_without_delimiter** | **String** | None | 
 **byte** | [***swagger::ByteArray**](ByteArray.md) | None | 
 **binary** | [***swagger::ByteArray**](file.md) | None | [optional] [default to None]
-**date** | [***chrono::DateTime<chrono::Utc>**](date.md) | None | [optional] [default to None]
-**date_time** | [**chrono::DateTime<chrono::Utc>**](DateTime.md) | None | [optional] [default to None]
+**date** | [***chrono::DateTime::<chrono::Utc>**](date.md) | None | [optional] [default to None]
+**date_time** | [**chrono::DateTime::<chrono::Utc>**](DateTime.md) | None | [optional] [default to None]
 **password** | **String** | None | [optional] [default to None]
 **callback** | **String** | None | [optional] [default to None]
 

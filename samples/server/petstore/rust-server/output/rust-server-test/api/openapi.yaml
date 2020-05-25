@@ -17,18 +17,10 @@ paths:
     put:
       operationId: dummyPut
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           '*/*':
             schema:
-              properties:
-                id:
-                  type: string
-                password:
-                  type: string
-              required:
-              - id
-              type: object
+              $ref: '#/components/schemas/dummyPutBody'
         required: true
       responses:
         "200":
@@ -144,12 +136,6 @@ components:
             - id
             type: object
       required: true
-    inline_object:
-      content:
-        '*/*':
-          schema:
-            $ref: '#/components/schemas/inline_object'
-      required: true
   schemas:
     additionalPropertiesObject:
       additionalProperties:
@@ -185,7 +171,7 @@ components:
       description: An object of objects
       properties:
         inner:
-          $ref: '#/components/schemas/ObjectOfObjects_inner'
+          $ref: '#/components/schemas/ObjectOfObjectsInner'
       type: object
     get_yaml_response:
       description: structured response
@@ -194,7 +180,7 @@ components:
           description: Inner string
           type: string
       type: object
-    inline_object:
+    dummyPutBody:
       properties:
         id:
           type: string
@@ -203,7 +189,7 @@ components:
       required:
       - id
       type: object
-    ObjectOfObjects_inner:
+    ObjectOfObjectsInner:
       properties:
         required_thing:
           type: string
@@ -211,4 +197,5 @@ components:
           type: integer
       required:
       - required_thing
+      type: object
 

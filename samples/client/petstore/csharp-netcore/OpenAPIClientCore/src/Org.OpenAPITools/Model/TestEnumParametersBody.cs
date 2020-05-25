@@ -100,15 +100,7 @@ namespace Org.OpenAPITools.Model
         public TestEnumParametersBody(List<EnumFormStringArrayEnum> enumFormStringArray = default(List<EnumFormStringArrayEnum>), EnumFormStringEnum? enumFormString = EnumFormStringEnum.Efg)
         {
             this.EnumFormStringArray = enumFormStringArray;
-            // use default value if no "enumFormString" provided
-            if (enumFormString == null)
-            {
-                this.EnumFormString = EnumFormStringEnum.Efg;
-            }
-            else
-            {
-                this.EnumFormString = enumFormString;
-            }
+            this.EnumFormString = enumFormString;
         }
         
         /// <summary>

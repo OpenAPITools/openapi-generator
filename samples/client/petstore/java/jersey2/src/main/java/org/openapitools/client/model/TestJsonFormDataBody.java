@@ -15,27 +15,26 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.io.IOException;
 
 /**
  * TestJsonFormDataBody
  */
-@JsonPropertyOrder({
-  TestJsonFormDataBody.JSON_PROPERTY_PARAM,
-  TestJsonFormDataBody.JSON_PROPERTY_PARAM2
-})
 
 public class TestJsonFormDataBody {
-  public static final String JSON_PROPERTY_PARAM = "param";
+  public static final String SERIALIZED_NAME_PARAM = "param";
+  @SerializedName(SERIALIZED_NAME_PARAM)
   private String param;
 
-  public static final String JSON_PROPERTY_PARAM2 = "param2";
+  public static final String SERIALIZED_NAME_PARAM2 = "param2";
+  @SerializedName(SERIALIZED_NAME_PARAM2)
   private String param2;
 
 
@@ -50,8 +49,6 @@ public class TestJsonFormDataBody {
    * @return param
   **/
   @ApiModelProperty(required = true, value = "field1")
-  @JsonProperty(JSON_PROPERTY_PARAM)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getParam() {
     return param;
@@ -74,8 +71,6 @@ public class TestJsonFormDataBody {
    * @return param2
   **/
   @ApiModelProperty(required = true, value = "field2")
-  @JsonProperty(JSON_PROPERTY_PARAM2)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getParam2() {
     return param2;

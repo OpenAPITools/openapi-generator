@@ -49,8 +49,14 @@ src/App/DTO/Pet.php
 src/App/DTO/ReadOnlyFirst.php
 src/App/DTO/SpecialModelName.php
 src/App/DTO/Tag.php
+src/App/DTO/TestEndpointParametersBody.php
+src/App/DTO/TestEnumParametersBody.php
+src/App/DTO/TestJsonFormDataBody.php
 src/App/DTO/TypeHolderDefault.php
 src/App/DTO/TypeHolderExample.php
+src/App/DTO/UpdatePetWithFormBody.php
+src/App/DTO/UploadFileBody.php
+src/App/DTO/UploadFileWithRequiredFileBody.php
 src/App/DTO/User.php
 src/App/DTO/XmlItem.php
 src/App/Factory.php

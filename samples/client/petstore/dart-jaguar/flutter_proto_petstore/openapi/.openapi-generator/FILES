@@ -9,6 +9,8 @@ doc/Pet.md
 doc/PetApi.md
 doc/StoreApi.md
 doc/Tag.md
+doc/UpdatePetWithFormBody.md
+doc/UploadFileBody.md
 doc/User.md
 doc/UserApi.md
 git_push.sh
@@ -25,5 +27,7 @@ lib/model/category.proto
 lib/model/order.proto
 lib/model/pet.proto
 lib/model/tag.proto
+lib/model/update_pet_with_form_body.proto
+lib/model/upload_file_body.proto
 lib/model/user.proto
 pubspec.yaml

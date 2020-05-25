@@ -51,8 +51,14 @@ lib/openapi_petstore/model/read_only_first.ex
 lib/openapi_petstore/model/return.ex
 lib/openapi_petstore/model/special_model_name.ex
 lib/openapi_petstore/model/tag.ex
+lib/openapi_petstore/model/test_endpoint_parameters_body.ex
+lib/openapi_petstore/model/test_enum_parameters_body.ex
+lib/openapi_petstore/model/test_json_form_data_body.ex
 lib/openapi_petstore/model/type_holder_default.ex
 lib/openapi_petstore/model/type_holder_example.ex
+lib/openapi_petstore/model/update_pet_with_form_body.ex
+lib/openapi_petstore/model/upload_file_body.ex
+lib/openapi_petstore/model/upload_file_with_required_file_body.ex
 lib/openapi_petstore/model/user.ex
 lib/openapi_petstore/model/xml_item.ex
 lib/openapi_petstore/request_builder.ex

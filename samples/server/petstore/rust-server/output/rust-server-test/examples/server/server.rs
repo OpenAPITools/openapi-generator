@@ -140,7 +140,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutBody,
         context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>
     {
         let context = context.clone();

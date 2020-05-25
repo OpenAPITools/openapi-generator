@@ -27,12 +27,10 @@ data class UploadFileBody (
     /* file to upload */
     @Json(name = "file")
     val file: java.io.File? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

@@ -46,16 +46,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("integer")
  @Min(10) @Max(100)  public Integer getInteger() {
     return integer;
   }
+
   public void setInteger(Integer integer) {
     this.integer = integer;
-  }
-
-  /**
+  }/**
    * None
    * minimum: 20
    * maximum: 200
@@ -66,16 +67,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("int32")
  @Min(20) @Max(200)  public Integer getInt32() {
     return int32;
   }
+
   public void setInt32(Integer int32) {
     this.int32 = int32;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody int64(Long int64) {
@@ -84,16 +86,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("int64")
   public Long getInt64() {
     return int64;
   }
+
   public void setInt64(Long int64) {
     this.int64 = int64;
-  }
-
-  /**
+  }/**
    * None
    * minimum: 32.1
    * maximum: 543.2
@@ -104,17 +107,18 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "None")
   @JsonProperty("number")
   @NotNull
  @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
     return number;
   }
+
   public void setNumber(BigDecimal number) {
     this.number = number;
-  }
-
-  /**
+  }/**
    * None
    * maximum: 987.6
    **/
@@ -124,16 +128,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("float")
  @DecimalMax("987.6")  public Float getFloat() {
     return _float;
   }
+
   public void setFloat(Float _float) {
     this._float = _float;
-  }
-
-  /**
+  }/**
    * None
    * minimum: 67.8
    * maximum: 123.4
@@ -144,17 +149,18 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "None")
   @JsonProperty("double")
   @NotNull
  @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
     return _double;
   }
+
   public void setDouble(Double _double) {
     this._double = _double;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody string(String string) {
@@ -163,16 +169,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("string")
  @Pattern(regexp="/[a-z]/i")  public String getString() {
     return string;
   }
+
   public void setString(String string) {
     this.string = string;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody patternWithoutDelimiter(String patternWithoutDelimiter) {
@@ -181,17 +188,18 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "None")
   @JsonProperty("pattern_without_delimiter")
   @NotNull
  @Pattern(regexp="^[A-Z].*")  public String getPatternWithoutDelimiter() {
     return patternWithoutDelimiter;
   }
+
   public void setPatternWithoutDelimiter(String patternWithoutDelimiter) {
     this.patternWithoutDelimiter = patternWithoutDelimiter;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody _byte(byte[] _byte) {
@@ -200,17 +208,18 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "None")
   @JsonProperty("byte")
   @NotNull
   public byte[] getByte() {
     return _byte;
   }
+
   public void setByte(byte[] _byte) {
     this._byte = _byte;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody binary(File binary) {
@@ -219,16 +228,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("binary")
   public File getBinary() {
     return binary;
   }
+
   public void setBinary(File binary) {
     this.binary = binary;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody date(LocalDate date) {
@@ -237,16 +247,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("date")
   public LocalDate getDate() {
     return date;
   }
+
   public void setDate(LocalDate date) {
     this.date = date;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody dateTime(Date dateTime) {
@@ -255,16 +266,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("dateTime")
   public Date getDateTime() {
     return dateTime;
   }
+
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody password(String password) {
@@ -273,16 +285,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("password")
  @Size(min=10,max=64)  public String getPassword() {
     return password;
   }
+
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  /**
+  }/**
    * None
    **/
   public TestEndpointParametersBody callback(String callback) {
@@ -291,15 +304,17 @@ public class TestEndpointParametersBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "None")
   @JsonProperty("callback")
   public String getCallback() {
     return callback;
   }
+
   public void setCallback(String callback) {
     this.callback = callback;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -364,5 +379,7 @@ public class TestEndpointParametersBody  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

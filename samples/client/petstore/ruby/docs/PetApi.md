@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 ## add_pet
 
-> add_pet(pet)
+> add_pet(body)
 
 Add a new pet to the store
 
@@ -34,11 +34,11 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+body = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 begin
   #Add a new pet to the store
-  api_instance.add_pet(pet)
+  api_instance.add_pet(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->add_pet: #{e}"
 end
@@ -49,7 +49,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -278,7 +278,7 @@ Name | Type | Description  | Notes
 
 ## update_pet
 
-> update_pet(pet)
+> update_pet(body)
 
 Update an existing pet
 
@@ -294,11 +294,11 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+body = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 begin
   #Update an existing pet
-  api_instance.update_pet(pet)
+  api_instance.update_pet(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->update_pet: #{e}"
 end
@@ -309,7 +309,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

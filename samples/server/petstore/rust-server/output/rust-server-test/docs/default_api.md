@@ -69,7 +69,7 @@ No authorization required
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **nested_response** | [**InlineBody**](InlineBody.md)|  | 
+  **nested_response** | [**DummyPutBody**](DummyPutBody.md)|  | 
 
 ### Return type
 

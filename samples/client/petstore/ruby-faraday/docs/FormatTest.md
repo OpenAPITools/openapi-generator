@@ -17,8 +17,7 @@ Name | Type | Description | Notes
 **date_time** | **DateTime** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
-**pattern_with_digits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
-**pattern_with_digits_and_delimiter** | **String** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
+**big_decimal** | [**BigDecimal**](BigDecimal.md) |  | [optional] 
 
 ## Code Sample
 
@@ -38,8 +37,7 @@ instance = Petstore::FormatTest.new(integer: null,
                                  date_time: null,
                                  uuid: 72f98069-206d-4f12-9f12-3d1e525a8e84,
                                  password: null,
-                                 pattern_with_digits: null,
-                                 pattern_with_digits_and_delimiter: null)
+                                 big_decimal: null)
 ```
 
 

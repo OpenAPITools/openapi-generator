@@ -28,17 +28,18 @@ public class TestJsonFormDataBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "field1")
   @JsonProperty("param")
   @NotNull
   public String getParam() {
     return param;
   }
+
   public void setParam(String param) {
     this.param = param;
-  }
-
-  /**
+  }/**
    * field2
    **/
   public TestJsonFormDataBody param2(String param2) {
@@ -47,16 +48,18 @@ public class TestJsonFormDataBody  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "field2")
   @JsonProperty("param2")
   @NotNull
   public String getParam2() {
     return param2;
   }
+
   public void setParam2(String param2) {
     this.param2 = param2;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -97,5 +100,7 @@ public class TestJsonFormDataBody  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

@@ -15,79 +15,78 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * TestEndpointParametersBody
  */
-@JsonPropertyOrder({
-  TestEndpointParametersBody.JSON_PROPERTY_INTEGER,
-  TestEndpointParametersBody.JSON_PROPERTY_INT32,
-  TestEndpointParametersBody.JSON_PROPERTY_INT64,
-  TestEndpointParametersBody.JSON_PROPERTY_NUMBER,
-  TestEndpointParametersBody.JSON_PROPERTY_FLOAT,
-  TestEndpointParametersBody.JSON_PROPERTY_DOUBLE,
-  TestEndpointParametersBody.JSON_PROPERTY_STRING,
-  TestEndpointParametersBody.JSON_PROPERTY_PATTERN_WITHOUT_DELIMITER,
-  TestEndpointParametersBody.JSON_PROPERTY_BYTE,
-  TestEndpointParametersBody.JSON_PROPERTY_BINARY,
-  TestEndpointParametersBody.JSON_PROPERTY_DATE,
-  TestEndpointParametersBody.JSON_PROPERTY_DATE_TIME,
-  TestEndpointParametersBody.JSON_PROPERTY_PASSWORD,
-  TestEndpointParametersBody.JSON_PROPERTY_CALLBACK
-})
 
 public class TestEndpointParametersBody {
-  public static final String JSON_PROPERTY_INTEGER = "integer";
+  public static final String SERIALIZED_NAME_INTEGER = "integer";
+  @SerializedName(SERIALIZED_NAME_INTEGER)
   private Integer integer;
 
-  public static final String JSON_PROPERTY_INT32 = "int32";
+  public static final String SERIALIZED_NAME_INT32 = "int32";
+  @SerializedName(SERIALIZED_NAME_INT32)
   private Integer int32;
 
-  public static final String JSON_PROPERTY_INT64 = "int64";
+  public static final String SERIALIZED_NAME_INT64 = "int64";
+  @SerializedName(SERIALIZED_NAME_INT64)
   private Long int64;
 
-  public static final String JSON_PROPERTY_NUMBER = "number";
+  public static final String SERIALIZED_NAME_NUMBER = "number";
+  @SerializedName(SERIALIZED_NAME_NUMBER)
   private BigDecimal number;
 
-  public static final String JSON_PROPERTY_FLOAT = "float";
+  public static final String SERIALIZED_NAME_FLOAT = "float";
+  @SerializedName(SERIALIZED_NAME_FLOAT)
   private Float _float;
 
-  public static final String JSON_PROPERTY_DOUBLE = "double";
+  public static final String SERIALIZED_NAME_DOUBLE = "double";
+  @SerializedName(SERIALIZED_NAME_DOUBLE)
   private Double _double;
 
-  public static final String JSON_PROPERTY_STRING = "string";
+  public static final String SERIALIZED_NAME_STRING = "string";
+  @SerializedName(SERIALIZED_NAME_STRING)
   private String string;
 
-  public static final String JSON_PROPERTY_PATTERN_WITHOUT_DELIMITER = "pattern_without_delimiter";
+  public static final String SERIALIZED_NAME_PATTERN_WITHOUT_DELIMITER = "pattern_without_delimiter";
+  @SerializedName(SERIALIZED_NAME_PATTERN_WITHOUT_DELIMITER)
   private String patternWithoutDelimiter;
 
-  public static final String JSON_PROPERTY_BYTE = "byte";
+  public static final String SERIALIZED_NAME_BYTE = "byte";
+  @SerializedName(SERIALIZED_NAME_BYTE)
   private byte[] _byte;
 
-  public static final String JSON_PROPERTY_BINARY = "binary";
+  public static final String SERIALIZED_NAME_BINARY = "binary";
+  @SerializedName(SERIALIZED_NAME_BINARY)
   private File binary;
 
-  public static final String JSON_PROPERTY_DATE = "date";
+  public static final String SERIALIZED_NAME_DATE = "date";
+  @SerializedName(SERIALIZED_NAME_DATE)
   private LocalDate date;
 
-  public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
+  @SerializedName(SERIALIZED_NAME_DATE_TIME)
   private OffsetDateTime dateTime;
 
-  public static final String JSON_PROPERTY_PASSWORD = "password";
+  public static final String SERIALIZED_NAME_PASSWORD = "password";
+  @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
 
-  public static final String JSON_PROPERTY_CALLBACK = "callback";
+  public static final String SERIALIZED_NAME_CALLBACK = "callback";
+  @SerializedName(SERIALIZED_NAME_CALLBACK)
   private String callback;
 
 
@@ -105,8 +104,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInteger() {
     return integer;
@@ -132,8 +129,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_INT32)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getInt32() {
     return int32;
@@ -157,8 +152,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_INT64)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getInt64() {
     return int64;
@@ -183,8 +176,6 @@ public class TestEndpointParametersBody {
    * @return number
   **/
   @ApiModelProperty(required = true, value = "None")
-  @JsonProperty(JSON_PROPERTY_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public BigDecimal getNumber() {
     return number;
@@ -209,8 +200,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_FLOAT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Float getFloat() {
     return _float;
@@ -235,8 +224,6 @@ public class TestEndpointParametersBody {
    * @return _double
   **/
   @ApiModelProperty(required = true, value = "None")
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Double getDouble() {
     return _double;
@@ -260,8 +247,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getString() {
     return string;
@@ -284,8 +269,6 @@ public class TestEndpointParametersBody {
    * @return patternWithoutDelimiter
   **/
   @ApiModelProperty(required = true, value = "None")
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITHOUT_DELIMITER)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getPatternWithoutDelimiter() {
     return patternWithoutDelimiter;
@@ -308,8 +291,6 @@ public class TestEndpointParametersBody {
    * @return _byte
   **/
   @ApiModelProperty(required = true, value = "None")
-  @JsonProperty(JSON_PROPERTY_BYTE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public byte[] getByte() {
     return _byte;
@@ -333,8 +314,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_BINARY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public File getBinary() {
     return binary;
@@ -358,8 +337,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_DATE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public LocalDate getDate() {
     return date;
@@ -383,8 +360,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -408,8 +383,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPassword() {
     return password;
@@ -433,8 +406,6 @@ public class TestEndpointParametersBody {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "None")
-  @JsonProperty(JSON_PROPERTY_CALLBACK)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getCallback() {
     return callback;

@@ -78,7 +78,7 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/inline_response_201'
+                $ref: '#/components/schemas/InlineResponse201'
           description: XML rsp
         "202":
           content:
@@ -577,10 +577,11 @@ components:
       type: string
     Result:
       type: string
-    inline_response_201:
+    InlineResponse201:
       properties:
         foo:
           type: string
+      type: object
   securitySchemes:
     authScheme:
       flows:

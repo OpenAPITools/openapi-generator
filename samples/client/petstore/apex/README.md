@@ -93,6 +93,8 @@ Class | Method | HTTP request | Description
  - [OASOrder](OASOrder.md)
  - [OASPet](OASPet.md)
  - [OASTag](OASTag.md)
+ - [OASUpdatePetWithFormBody](OASUpdatePetWithFormBody.md)
+ - [OASUploadFileBody](OASUploadFileBody.md)
  - [OASUser](OASUser.md)
 
 

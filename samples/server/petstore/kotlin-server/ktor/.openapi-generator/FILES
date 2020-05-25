@@ -15,6 +15,8 @@ src/main/kotlin/org/openapitools/server/models/Category.kt
 src/main/kotlin/org/openapitools/server/models/Order.kt
 src/main/kotlin/org/openapitools/server/models/Pet.kt
 src/main/kotlin/org/openapitools/server/models/Tag.kt
+src/main/kotlin/org/openapitools/server/models/UpdatePetWithFormBody.kt
+src/main/kotlin/org/openapitools/server/models/UploadFileBody.kt
 src/main/kotlin/org/openapitools/server/models/User.kt
 src/main/resources/application.conf
 src/main/resources/logback.xml

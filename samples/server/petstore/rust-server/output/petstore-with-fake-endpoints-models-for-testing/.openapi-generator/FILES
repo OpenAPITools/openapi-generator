@@ -42,6 +42,11 @@ docs/Pet.md
 docs/ReadOnlyFirst.md
 docs/SpecialModelName.md
 docs/Tag.md
+docs/TestEndpointParametersBody.md
+docs/TestEnumParametersBody.md
+docs/TestJsonFormDataBody.md
+docs/UpdatePetWithFormBody.md
+docs/UploadFileBody.md
 docs/User.md
 docs/another_fake_api.md
 docs/fake_api.md

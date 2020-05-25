@@ -49,8 +49,14 @@ src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
 src/gen/java/org/openapitools/model/SpecialModelName.java
 src/gen/java/org/openapitools/model/Tag.java
+src/gen/java/org/openapitools/model/TestEndpointParametersBody.java
+src/gen/java/org/openapitools/model/TestEnumParametersBody.java
+src/gen/java/org/openapitools/model/TestJsonFormDataBody.java
 src/gen/java/org/openapitools/model/TypeHolderDefault.java
 src/gen/java/org/openapitools/model/TypeHolderExample.java
+src/gen/java/org/openapitools/model/UpdatePetWithFormBody.java
+src/gen/java/org/openapitools/model/UploadFileBody.java
+src/gen/java/org/openapitools/model/UploadFileWithRequiredFileBody.java
 src/gen/java/org/openapitools/model/User.java
 src/gen/java/org/openapitools/model/XmlItem.java
 src/main/openapi/openapi.yaml

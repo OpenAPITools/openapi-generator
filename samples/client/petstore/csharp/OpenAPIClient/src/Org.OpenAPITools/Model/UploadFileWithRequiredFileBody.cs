@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// file to upload
         /// </summary>
         /// <value>file to upload</value>
-        [DataMember(Name="requiredFile", EmitDefaultValue=false)]
+        [DataMember(Name="requiredFile", EmitDefaultValue=true)]
         public System.IO.Stream RequiredFile { get; set; }
 
         /// <summary>

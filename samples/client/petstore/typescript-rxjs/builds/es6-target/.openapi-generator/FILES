@@ -10,6 +10,8 @@ models/Category.ts
 models/Order.ts
 models/Pet.ts
 models/Tag.ts
+models/UpdatePetWithFormBody.ts
+models/UploadFileBody.ts
 models/User.ts
 models/index.ts
 package.json

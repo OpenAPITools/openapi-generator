@@ -29,4 +29,8 @@ _EFG | &quot;-efg&quot;
 _XYZ_ | &quot;(xyz)&quot;
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

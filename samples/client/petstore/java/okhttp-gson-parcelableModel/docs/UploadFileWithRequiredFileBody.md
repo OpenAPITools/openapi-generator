@@ -10,4 +10,8 @@ Name | Type | Description | Notes
 **requiredFile** | [**File**](File.md) | file to upload | 
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 
