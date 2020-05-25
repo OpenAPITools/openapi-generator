@@ -215,6 +215,8 @@ public class DefaultCodegen implements CodegenConfig {
     // flag to indicate whether enum value prefixes are removed
     protected boolean removeEnumValuePrefix = true;
 
+    // set to true to promote inline enums to their own separate models
+    protected boolean resolveInlineEnums = false;
     // Support legacy logic for evaluating discriminators
     protected boolean legacyDiscriminatorBehavior = true;
 
@@ -6110,6 +6112,26 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setEnableMinimalUpdate(boolean enableMinimalUpdate) {
         this.enableMinimalUpdate = enableMinimalUpdate;
+    }
+
+    /**
+     * Indicates whether the codegen configuration should promote inline enums to their own separate models.
+     *
+     * @return true promote inline enums to their own separate models
+     */
+    @Override
+    public boolean isResolveInlineEnums() {
+        return this.resolveInlineEnums;
+    }
+
+    /**
+     * Sets the boolean valid indicating whether generation will promote inline enums to their own separate models
+     *
+     * @param resolveInlineEnums true to promote inline enums to their own separate models
+     */
+    @Override
+    public void setResolveInlineEnums(final boolean resolveInlineEnums) {
+        this.resolveInlineEnums = resolveInlineEnums;
     }
 
     /**

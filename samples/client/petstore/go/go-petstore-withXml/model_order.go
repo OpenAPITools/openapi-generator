@@ -18,7 +18,6 @@ type Order struct {
 	PetId int64 `json:"petId,omitempty" xml:"petId"`
 	Quantity int32 `json:"quantity,omitempty" xml:"quantity"`
 	ShipDate time.Time `json:"shipDate,omitempty" xml:"shipDate"`
-	// Order Status
-	Status string `json:"status,omitempty" xml:"status"`
+	Status OrderStatus `json:"status,omitempty" xml:"status"`
 	Complete bool `json:"complete,omitempty" xml:"complete"`
 }

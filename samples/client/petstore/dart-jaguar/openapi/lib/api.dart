@@ -17,6 +17,8 @@ import 'package:openapi/model/category.dart';
 import 'package:openapi/model/order.dart';
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/tag.dart';
+import 'package:openapi/model/update_pet_with_form_body.dart';
+import 'package:openapi/model/upload_file_body.dart';
 import 'package:openapi/model/user.dart';
 
 
@@ -27,6 +29,8 @@ final _jsonJaguarRepo = JsonRepo()
 ..add(OrderSerializer())
 ..add(PetSerializer())
 ..add(TagSerializer())
+..add(UpdatePetWithFormBodySerializer())
+..add(UploadFileBodySerializer())
 ..add(UserSerializer())
 ;
 final Map<String, CodecRepo> defaultConverters = {

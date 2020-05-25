@@ -20,8 +20,7 @@ type Order struct {
 	PetId *int64 `json:"petId,omitempty"`
 	Quantity *int32 `json:"quantity,omitempty"`
 	ShipDate *time.Time `json:"shipDate,omitempty"`
-	// Order Status
-	Status *string `json:"status,omitempty"`
+	Status *OrderStatus `json:"status,omitempty"`
 	Complete *bool `json:"complete,omitempty"`
 }
 
@@ -175,9 +174,9 @@ func (o *Order) SetShipDate(v time.Time) {
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *Order) GetStatus() string {
+func (o *Order) GetStatus() OrderStatus {
 	if o == nil || o.Status == nil {
-		var ret string
+		var ret OrderStatus
 		return ret
 	}
 	return *o.Status
@@ -185,7 +184,7 @@ func (o *Order) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetStatusOk() (*string, bool) {
+func (o *Order) GetStatusOk() (*OrderStatus, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -201,8 +200,8 @@ func (o *Order) HasStatus() bool {
 	return false
 }
 
-// SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *Order) SetStatus(v string) {
+// SetStatus gets a reference to the given OrderStatus and assigns it to the Status field.
+func (o *Order) SetStatus(v OrderStatus) {
 	o.Status = &v
 }
 

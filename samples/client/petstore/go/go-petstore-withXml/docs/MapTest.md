@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MapMapOfString** | [**map[string]map[string]string**](map.md) |  | [optional] 
-**MapOfEnumString** | **map[string]string** |  | [optional] 
+**MapOfEnumString** | [**map[string]MapTestMapOfEnumStringAddlProps**](MapTestMapOfEnumStringAddlProps.md) |  | [optional] 
 **DirectMap** | **map[string]bool** |  | [optional] 
 **IndirectMap** | **map[string]bool** |  | [optional] 
 

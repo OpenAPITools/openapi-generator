@@ -38,7 +38,7 @@ func TestOAuth2(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextOAuth2, tokenSource)
 
 	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: &pending,
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background()).Body(newPet).Execute()
@@ -73,7 +73,7 @@ func TestBasicAuth(t *testing.T) {
 	})
 
 	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: &pending,
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(auth).Body(newPet).Execute()
@@ -103,7 +103,7 @@ func TestAccessToken(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAccessToken, "TESTFAKEACCESSTOKENISFAKE")
 
 	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: &pending,
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(nil).Body(newPet).Execute()
@@ -133,7 +133,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAPIKeys, map[string]sw.APIKey{"api_key": sw.APIKey{Key: "TEST123"}})
 
 	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: &pending,
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background()).Body(newPet).Execute()
@@ -168,7 +168,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAPIKeys, map[string]sw.APIKey{"api_key": sw.APIKey{Key: "TEST123", Prefix: "Bearer"}})
 
 	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: &pending,
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(nil).Body(newPet).Execute()
@@ -201,7 +201,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 
 func TestDefaultHeader(t *testing.T) {
 	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: &pending,
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background()).Body(newPet).Execute()

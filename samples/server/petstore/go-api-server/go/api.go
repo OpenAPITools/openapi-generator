@@ -59,7 +59,7 @@ type UserApiRouter interface {
 type PetApiServicer interface { 
 	AddPet(Pet) (interface{}, error)
 	DeletePet(int64, string) (interface{}, error)
-	FindPetsByStatus([]string) (interface{}, error)
+	FindPetsByStatus([]StatusItems) (interface{}, error)
 	FindPetsByTags([]string) (interface{}, error)
 	GetPetById(int64) (interface{}, error)
 	UpdatePet(Pet) (interface{}, error)

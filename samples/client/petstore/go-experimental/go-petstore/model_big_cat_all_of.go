@@ -15,7 +15,7 @@ import (
 
 // BigCatAllOf struct for BigCatAllOf
 type BigCatAllOf struct {
-	Kind *string `json:"kind,omitempty"`
+	Kind *BigCatAllOfKind `json:"kind,omitempty"`
 }
 
 // NewBigCatAllOf instantiates a new BigCatAllOf object
@@ -36,9 +36,9 @@ func NewBigCatAllOfWithDefaults() *BigCatAllOf {
 }
 
 // GetKind returns the Kind field value if set, zero value otherwise.
-func (o *BigCatAllOf) GetKind() string {
+func (o *BigCatAllOf) GetKind() BigCatAllOfKind {
 	if o == nil || o.Kind == nil {
-		var ret string
+		var ret BigCatAllOfKind
 		return ret
 	}
 	return *o.Kind
@@ -46,7 +46,7 @@ func (o *BigCatAllOf) GetKind() string {
 
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BigCatAllOf) GetKindOk() (*string, bool) {
+func (o *BigCatAllOf) GetKindOk() (*BigCatAllOfKind, bool) {
 	if o == nil || o.Kind == nil {
 		return nil, false
 	}
@@ -62,8 +62,8 @@ func (o *BigCatAllOf) HasKind() bool {
 	return false
 }
 
-// SetKind gets a reference to the given string and assigns it to the Kind field.
-func (o *BigCatAllOf) SetKind(v string) {
+// SetKind gets a reference to the given BigCatAllOfKind and assigns it to the Kind field.
+func (o *BigCatAllOf) SetKind(v BigCatAllOfKind) {
 	o.Kind = &v
 }
 

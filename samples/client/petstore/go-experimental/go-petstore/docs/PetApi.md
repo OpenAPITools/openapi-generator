@@ -35,7 +35,7 @@ import (
 )
 
 func main() {
-    body := openapiclient.Pet{Id: int64(123), Category: openapiclient.Category{Id: int64(123), Name: "Name_example"}, Name: "Name_example", PhotoUrls: []string{"PhotoUrls_example"), Tags: []Tag{openapiclient.Tag{Id: int64(123), Name: "Name_example"}), Status: "Status_example"} // Pet | Pet object that needs to be added to the store
+    body := openapiclient.Pet{Id: int64(123), Category: openapiclient.Category{Id: int64(123), Name: "Name_example"}, Name: "Name_example", PhotoUrls: []string{"PhotoUrls_example"), Tags: []Tag{openapiclient.Tag{Id: int64(123), Name: "Name_example"}), Status: openapiclient.PetStatus{}} // Pet | Pet object that needs to be added to the store
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -167,7 +167,7 @@ import (
 )
 
 func main() {
-    status := []string{"Status_example"} // []string | Status values that need to be considered for filter
+    status := []StatusItems{openapiclient.statusItems{}} // []StatusItems | Status values that need to be considered for filter
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -192,7 +192,7 @@ Other parameters are passed through a pointer to a apiFindPetsByStatusRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[]string**](string.md) | Status values that need to be considered for filter | 
+ **status** | [**[]StatusItems**](StatusItems.md) | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -367,7 +367,7 @@ import (
 )
 
 func main() {
-    body := openapiclient.Pet{Id: int64(123), Category: openapiclient.Category{Id: int64(123), Name: "Name_example"}, Name: "Name_example", PhotoUrls: []string{"PhotoUrls_example"), Tags: []Tag{openapiclient.Tag{Id: int64(123), Name: "Name_example"}), Status: "Status_example"} // Pet | Pet object that needs to be added to the store
+    body := openapiclient.Pet{Id: int64(123), Category: openapiclient.Category{Id: int64(123), Name: "Name_example"}, Name: "Name_example", PhotoUrls: []string{"PhotoUrls_example"), Tags: []Tag{openapiclient.Tag{Id: int64(123), Name: "Name_example"}), Status: openapiclient.PetStatus{}} // Pet | Pet object that needs to be added to the store
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

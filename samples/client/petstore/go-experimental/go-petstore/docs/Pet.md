@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Name** | Pointer to **string** |  | 
 **PhotoUrls** | Pointer to **[]string** |  | 
 **Tags** | Pointer to [**[]Tag**](Tag.md) |  | [optional] 
-**Status** | Pointer to **string** | pet status in the store | [optional] 
+**Status** | Pointer to [**PetStatus**](PetStatus.md) |  | [optional] 
 
 ## Methods
 
@@ -147,20 +147,20 @@ HasTags returns a boolean if a field has been set.
 
 ### GetStatus
 
-`func (o *Pet) GetStatus() string`
+`func (o *Pet) GetStatus() PetStatus`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *Pet) GetStatusOk() (*string, bool)`
+`func (o *Pet) GetStatusOk() (*PetStatus, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *Pet) SetStatus(v string)`
+`func (o *Pet) SetStatus(v PetStatus)`
 
 SetStatus sets Status field to given value.
 

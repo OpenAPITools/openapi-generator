@@ -49,7 +49,7 @@ class BigCatAllOf implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'BigCat_allOf';
+    protected static $openAPIModelName = 'BigCatAllOf';
 
     /**
       * Array of property to type mappings. Used for (de)serialization

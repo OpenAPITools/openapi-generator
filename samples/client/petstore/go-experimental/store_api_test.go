@@ -9,13 +9,15 @@ import (
 	sw "./go-petstore"
 )
 
+var placed = sw.ORDER_STATUS_PLACED
+
 func TestPlaceOrder(t *testing.T) {
 	newOrder := sw.Order{
 		Id:       sw.PtrInt64(0),
 		PetId:    sw.PtrInt64(0),
 		Quantity: sw.PtrInt32(0),
 		ShipDate: sw.PtrTime(time.Now().UTC()),
-		Status:   sw.PtrString("placed"),
+		Status:   &placed,
 		Complete: sw.PtrBool(false)}
 
 	_, r, err := client.StoreApi.PlaceOrder(context.Background()).Body(newOrder).Execute()

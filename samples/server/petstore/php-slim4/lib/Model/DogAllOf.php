@@ -29,6 +29,7 @@ class DogAllOf implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
+  "type" : "object",
   "properties" : {
     "breed" : {
       "type" : "string"

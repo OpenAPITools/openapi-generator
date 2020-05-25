@@ -32,7 +32,7 @@ class Dog implements ModelInterface
   "allOf" : [ {
     "$ref" : "#/components/schemas/Animal"
   }, {
-    "$ref" : "#/components/schemas/Dog_allOf"
+    "$ref" : "#/components/schemas/DogAllOf"
   } ]
 }
 SCHEMA;

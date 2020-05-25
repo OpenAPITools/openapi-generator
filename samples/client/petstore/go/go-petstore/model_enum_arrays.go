@@ -10,6 +10,6 @@
 package petstore
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
-	JustSymbol string `json:"just_symbol,omitempty"`
-	ArrayEnum []string `json:"array_enum,omitempty"`
+	JustSymbol EnumArraysJustSymbol `json:"just_symbol,omitempty"`
+	ArrayEnum []EnumArraysArrayEnumItems `json:"array_enum,omitempty"`
 }

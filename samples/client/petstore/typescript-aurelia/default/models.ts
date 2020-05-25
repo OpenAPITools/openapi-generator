@@ -81,6 +81,30 @@ export interface Tag {
 }
 
 
+export interface UpdatePetWithFormBody {
+  /**
+   * Updated name of the pet
+   */
+  name?: string;
+  /**
+   * Updated status of the pet
+   */
+  status?: string;
+}
+
+
+export interface UploadFileBody {
+  /**
+   * Additional data to pass to server
+   */
+  additionalMetadata?: string;
+  /**
+   * file to upload
+   */
+  file?: any;
+}
+
+
 /**
  * A User who is purchasing from the pet store
  */

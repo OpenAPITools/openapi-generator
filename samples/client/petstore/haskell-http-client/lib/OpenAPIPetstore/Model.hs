@@ -1706,6 +1706,156 @@ mkTag =
   , tagName = Nothing
   }
 
+-- ** TestEndpointParametersBody
+-- | TestEndpointParametersBody
+data TestEndpointParametersBody = TestEndpointParametersBody
+  { testEndpointParametersBodyInteger :: !(Maybe Int) -- ^ "integer" - None
+  , testEndpointParametersBodyInt32 :: !(Maybe Int) -- ^ "int32" - None
+  , testEndpointParametersBodyInt64 :: !(Maybe Integer) -- ^ "int64" - None
+  , testEndpointParametersBodyNumber :: !(Double) -- ^ /Required/ "number" - None
+  , testEndpointParametersBodyFloat :: !(Maybe Float) -- ^ "float" - None
+  , testEndpointParametersBodyDouble :: !(Double) -- ^ /Required/ "double" - None
+  , testEndpointParametersBodyString :: !(Maybe Text) -- ^ "string" - None
+  , testEndpointParametersBodyPatternWithoutDelimiter :: !(Text) -- ^ /Required/ "pattern_without_delimiter" - None
+  , testEndpointParametersBodyByte :: !(ByteArray) -- ^ /Required/ "byte" - None
+  , testEndpointParametersBodyBinary :: !(Maybe FilePath) -- ^ "binary" - None
+  , testEndpointParametersBodyDate :: !(Maybe Date) -- ^ "date" - None
+  , testEndpointParametersBodyDateTime :: !(Maybe DateTime) -- ^ "dateTime" - None
+  , testEndpointParametersBodyPassword :: !(Maybe Text) -- ^ "password" - None
+  , testEndpointParametersBodyCallback :: !(Maybe Text) -- ^ "callback" - None
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TestEndpointParametersBody
+instance A.FromJSON TestEndpointParametersBody where
+  parseJSON = A.withObject "TestEndpointParametersBody" $ \o ->
+    TestEndpointParametersBody
+      <$> (o .:? "integer")
+      <*> (o .:? "int32")
+      <*> (o .:? "int64")
+      <*> (o .:  "number")
+      <*> (o .:? "float")
+      <*> (o .:  "double")
+      <*> (o .:? "string")
+      <*> (o .:  "pattern_without_delimiter")
+      <*> (o .:  "byte")
+      <*> (o .:? "binary")
+      <*> (o .:? "date")
+      <*> (o .:? "dateTime")
+      <*> (o .:? "password")
+      <*> (o .:? "callback")
+
+-- | ToJSON TestEndpointParametersBody
+instance A.ToJSON TestEndpointParametersBody where
+  toJSON TestEndpointParametersBody {..} =
+   _omitNulls
+      [ "integer" .= testEndpointParametersBodyInteger
+      , "int32" .= testEndpointParametersBodyInt32
+      , "int64" .= testEndpointParametersBodyInt64
+      , "number" .= testEndpointParametersBodyNumber
+      , "float" .= testEndpointParametersBodyFloat
+      , "double" .= testEndpointParametersBodyDouble
+      , "string" .= testEndpointParametersBodyString
+      , "pattern_without_delimiter" .= testEndpointParametersBodyPatternWithoutDelimiter
+      , "byte" .= testEndpointParametersBodyByte
+      , "binary" .= testEndpointParametersBodyBinary
+      , "date" .= testEndpointParametersBodyDate
+      , "dateTime" .= testEndpointParametersBodyDateTime
+      , "password" .= testEndpointParametersBodyPassword
+      , "callback" .= testEndpointParametersBodyCallback
+      ]
+
+
+-- | Construct a value of type 'TestEndpointParametersBody' (by applying it's required fields, if any)
+mkTestEndpointParametersBody
+  :: Double -- ^ 'testEndpointParametersBodyNumber': None
+  -> Double -- ^ 'testEndpointParametersBodyDouble': None
+  -> Text -- ^ 'testEndpointParametersBodyPatternWithoutDelimiter': None
+  -> ByteArray -- ^ 'testEndpointParametersBodyByte': None
+  -> TestEndpointParametersBody
+mkTestEndpointParametersBody testEndpointParametersBodyNumber testEndpointParametersBodyDouble testEndpointParametersBodyPatternWithoutDelimiter testEndpointParametersBodyByte =
+  TestEndpointParametersBody
+  { testEndpointParametersBodyInteger = Nothing
+  , testEndpointParametersBodyInt32 = Nothing
+  , testEndpointParametersBodyInt64 = Nothing
+  , testEndpointParametersBodyNumber
+  , testEndpointParametersBodyFloat = Nothing
+  , testEndpointParametersBodyDouble
+  , testEndpointParametersBodyString = Nothing
+  , testEndpointParametersBodyPatternWithoutDelimiter
+  , testEndpointParametersBodyByte
+  , testEndpointParametersBodyBinary = Nothing
+  , testEndpointParametersBodyDate = Nothing
+  , testEndpointParametersBodyDateTime = Nothing
+  , testEndpointParametersBodyPassword = Nothing
+  , testEndpointParametersBodyCallback = Nothing
+  }
+
+-- ** TestEnumParametersBody
+-- | TestEnumParametersBody
+data TestEnumParametersBody = TestEnumParametersBody
+  { testEnumParametersBodyEnumFormStringArray :: !(Maybe [E'EnumFormStringArray]) -- ^ "enum_form_string_array" - Form parameter enum test (string array)
+  , testEnumParametersBodyEnumFormString :: !(Maybe E'EnumFormString) -- ^ "enum_form_string" - Form parameter enum test (string)
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TestEnumParametersBody
+instance A.FromJSON TestEnumParametersBody where
+  parseJSON = A.withObject "TestEnumParametersBody" $ \o ->
+    TestEnumParametersBody
+      <$> (o .:? "enum_form_string_array")
+      <*> (o .:? "enum_form_string")
+
+-- | ToJSON TestEnumParametersBody
+instance A.ToJSON TestEnumParametersBody where
+  toJSON TestEnumParametersBody {..} =
+   _omitNulls
+      [ "enum_form_string_array" .= testEnumParametersBodyEnumFormStringArray
+      , "enum_form_string" .= testEnumParametersBodyEnumFormString
+      ]
+
+
+-- | Construct a value of type 'TestEnumParametersBody' (by applying it's required fields, if any)
+mkTestEnumParametersBody
+  :: TestEnumParametersBody
+mkTestEnumParametersBody =
+  TestEnumParametersBody
+  { testEnumParametersBodyEnumFormStringArray = Nothing
+  , testEnumParametersBodyEnumFormString = Nothing
+  }
+
+-- ** TestJsonFormDataBody
+-- | TestJsonFormDataBody
+data TestJsonFormDataBody = TestJsonFormDataBody
+  { testJsonFormDataBodyParam :: !(Text) -- ^ /Required/ "param" - field1
+  , testJsonFormDataBodyParam2 :: !(Text) -- ^ /Required/ "param2" - field2
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TestJsonFormDataBody
+instance A.FromJSON TestJsonFormDataBody where
+  parseJSON = A.withObject "TestJsonFormDataBody" $ \o ->
+    TestJsonFormDataBody
+      <$> (o .:  "param")
+      <*> (o .:  "param2")
+
+-- | ToJSON TestJsonFormDataBody
+instance A.ToJSON TestJsonFormDataBody where
+  toJSON TestJsonFormDataBody {..} =
+   _omitNulls
+      [ "param" .= testJsonFormDataBodyParam
+      , "param2" .= testJsonFormDataBodyParam2
+      ]
+
+
+-- | Construct a value of type 'TestJsonFormDataBody' (by applying it's required fields, if any)
+mkTestJsonFormDataBody
+  :: Text -- ^ 'testJsonFormDataBodyParam': field1
+  -> Text -- ^ 'testJsonFormDataBodyParam2': field2
+  -> TestJsonFormDataBody
+mkTestJsonFormDataBody testJsonFormDataBodyParam testJsonFormDataBodyParam2 =
+  TestJsonFormDataBody
+  { testJsonFormDataBodyParam
+  , testJsonFormDataBodyParam2
+  }
+
 -- ** TypeHolderDefault
 -- | TypeHolderDefault
 data TypeHolderDefault = TypeHolderDefault
@@ -1807,6 +1957,103 @@ mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem type
   , typeHolderExampleIntegerItem
   , typeHolderExampleBoolItem
   , typeHolderExampleArrayItem
+  }
+
+-- ** UpdatePetWithFormBody
+-- | UpdatePetWithFormBody
+data UpdatePetWithFormBody = UpdatePetWithFormBody
+  { updatePetWithFormBodyName :: !(Maybe Text) -- ^ "name" - Updated name of the pet
+  , updatePetWithFormBodyStatus :: !(Maybe Text) -- ^ "status" - Updated status of the pet
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON UpdatePetWithFormBody
+instance A.FromJSON UpdatePetWithFormBody where
+  parseJSON = A.withObject "UpdatePetWithFormBody" $ \o ->
+    UpdatePetWithFormBody
+      <$> (o .:? "name")
+      <*> (o .:? "status")
+
+-- | ToJSON UpdatePetWithFormBody
+instance A.ToJSON UpdatePetWithFormBody where
+  toJSON UpdatePetWithFormBody {..} =
+   _omitNulls
+      [ "name" .= updatePetWithFormBodyName
+      , "status" .= updatePetWithFormBodyStatus
+      ]
+
+
+-- | Construct a value of type 'UpdatePetWithFormBody' (by applying it's required fields, if any)
+mkUpdatePetWithFormBody
+  :: UpdatePetWithFormBody
+mkUpdatePetWithFormBody =
+  UpdatePetWithFormBody
+  { updatePetWithFormBodyName = Nothing
+  , updatePetWithFormBodyStatus = Nothing
+  }
+
+-- ** UploadFileBody
+-- | UploadFileBody
+data UploadFileBody = UploadFileBody
+  { uploadFileBodyAdditionalMetadata :: !(Maybe Text) -- ^ "additionalMetadata" - Additional data to pass to server
+  , uploadFileBodyFile :: !(Maybe FilePath) -- ^ "file" - file to upload
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON UploadFileBody
+instance A.FromJSON UploadFileBody where
+  parseJSON = A.withObject "UploadFileBody" $ \o ->
+    UploadFileBody
+      <$> (o .:? "additionalMetadata")
+      <*> (o .:? "file")
+
+-- | ToJSON UploadFileBody
+instance A.ToJSON UploadFileBody where
+  toJSON UploadFileBody {..} =
+   _omitNulls
+      [ "additionalMetadata" .= uploadFileBodyAdditionalMetadata
+      , "file" .= uploadFileBodyFile
+      ]
+
+
+-- | Construct a value of type 'UploadFileBody' (by applying it's required fields, if any)
+mkUploadFileBody
+  :: UploadFileBody
+mkUploadFileBody =
+  UploadFileBody
+  { uploadFileBodyAdditionalMetadata = Nothing
+  , uploadFileBodyFile = Nothing
+  }
+
+-- ** UploadFileWithRequiredFileBody
+-- | UploadFileWithRequiredFileBody
+data UploadFileWithRequiredFileBody = UploadFileWithRequiredFileBody
+  { uploadFileWithRequiredFileBodyAdditionalMetadata :: !(Maybe Text) -- ^ "additionalMetadata" - Additional data to pass to server
+  , uploadFileWithRequiredFileBodyRequiredFile :: !(FilePath) -- ^ /Required/ "requiredFile" - file to upload
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON UploadFileWithRequiredFileBody
+instance A.FromJSON UploadFileWithRequiredFileBody where
+  parseJSON = A.withObject "UploadFileWithRequiredFileBody" $ \o ->
+    UploadFileWithRequiredFileBody
+      <$> (o .:? "additionalMetadata")
+      <*> (o .:  "requiredFile")
+
+-- | ToJSON UploadFileWithRequiredFileBody
+instance A.ToJSON UploadFileWithRequiredFileBody where
+  toJSON UploadFileWithRequiredFileBody {..} =
+   _omitNulls
+      [ "additionalMetadata" .= uploadFileWithRequiredFileBodyAdditionalMetadata
+      , "requiredFile" .= uploadFileWithRequiredFileBodyRequiredFile
+      ]
+
+
+-- | Construct a value of type 'UploadFileWithRequiredFileBody' (by applying it's required fields, if any)
+mkUploadFileWithRequiredFileBody
+  :: FilePath -- ^ 'uploadFileWithRequiredFileBodyRequiredFile': file to upload
+  -> UploadFileWithRequiredFileBody
+mkUploadFileWithRequiredFileBody uploadFileWithRequiredFileBodyRequiredFile =
+  UploadFileWithRequiredFileBody
+  { uploadFileWithRequiredFileBodyAdditionalMetadata = Nothing
+  , uploadFileWithRequiredFileBodyRequiredFile
   }
 
 -- ** User

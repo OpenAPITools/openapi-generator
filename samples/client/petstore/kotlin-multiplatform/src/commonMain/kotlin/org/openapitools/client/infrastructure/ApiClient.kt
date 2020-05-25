@@ -69,6 +69,8 @@ open class ApiClient(
             serializer.setMapper(org.openapitools.client.models.Order::class, org.openapitools.client.models.Order.serializer())
             serializer.setMapper(org.openapitools.client.models.Pet::class, org.openapitools.client.models.Pet.serializer())
             serializer.setMapper(org.openapitools.client.models.Tag::class, org.openapitools.client.models.Tag.serializer())
+            serializer.setMapper(org.openapitools.client.models.UpdatePetWithFormBody::class, org.openapitools.client.models.UpdatePetWithFormBody.serializer())
+            serializer.setMapper(org.openapitools.client.models.UploadFileBody::class, org.openapitools.client.models.UploadFileBody.serializer())
             serializer.setMapper(org.openapitools.client.models.User::class, org.openapitools.client.models.User.serializer())
         }
     }

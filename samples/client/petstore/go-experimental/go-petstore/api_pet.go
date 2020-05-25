@@ -227,11 +227,11 @@ func (r apiDeletePetRequest) Execute() (*_nethttp.Response, error) {
 type apiFindPetsByStatusRequest struct {
 	ctx _context.Context
 	apiService *PetApiService
-	status *[]string
+	status *[]StatusItems
 }
 
 
-func (r apiFindPetsByStatusRequest) Status(status []string) apiFindPetsByStatusRequest {
+func (r apiFindPetsByStatusRequest) Status(status []StatusItems) apiFindPetsByStatusRequest {
 	r.status = &status
 	return r
 }

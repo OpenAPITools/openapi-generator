@@ -22,11 +22,14 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.util.Strings;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ModelUtilsTest {
 
@@ -56,10 +59,12 @@ public class ModelUtilsTest {
                 "SomeObj15",
                 "SomeMapObj16",
                 "MapItem16",
+                "p17Response",
                 "SomeObj17",
                 "SomeObj18",
                 "Common18",
                 "SomeObj18_allOf",
+                "InlineBody",
                 "Obj19ByAge",
                 "Obj19ByType",
                 "SomeObj20",
@@ -78,6 +83,7 @@ public class ModelUtilsTest {
                 "AChild30",
                 "BChild30"
         );
+
         Assert.assertEquals(allUsedSchemas.size(), expectedallUsedSchemas.size());
         Assert.assertTrue(allUsedSchemas.containsAll(expectedallUsedSchemas));
     }
@@ -97,6 +103,7 @@ public class ModelUtilsTest {
                 "AChild29_allOf",
                 "BChild29_allOf"
         );
+
         Assert.assertEquals(unusedSchemas.size(), expectedUnusedSchemas.size());
         Assert.assertTrue(unusedSchemas.containsAll(expectedUnusedSchemas));
     }

@@ -49,7 +49,7 @@ class CatAllOf implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'Cat_allOf';
+    protected static $openAPIModelName = 'CatAllOf';
 
     /**
       * Array of property to type mappings. Used for (de)serialization

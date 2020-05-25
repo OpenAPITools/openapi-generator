@@ -14,6 +14,7 @@ paths:
           content:
             application/json:
               schema:
+                description: The response body for getState
                 oneOf:
                   - $ref: '#/components/schemas/ObjA'
                   - $ref: '#/components/schemas/ObjB'
@@ -28,6 +29,7 @@ paths:
         content:
             application/json:
               schema:
+                description: The request body for createState
                 oneOf:
                   - $ref: '#/components/schemas/ObjA'
                   - $ref: '#/components/schemas/ObjB'

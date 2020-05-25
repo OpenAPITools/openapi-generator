@@ -217,8 +217,9 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
-        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
-
+        Assert.assertEquals(requestBodySchema.get$ref(), "#/components/schemas/testEnumParametersBody");
+        Schema testParamSchema = openAPI.getComponents().getSchemas().get("testEnumParametersBody");
+        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) testParamSchema.getProperties().get("enum_form_string"), new HashSet<String>());
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
     }
 
@@ -263,7 +264,9 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
-        Schema schema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Schema bodySchema = ModelUtils.getSchemaFromRequestBody(operation.getRequestBody());
+        Assert.assertEquals(bodySchema.get$ref(), "#/components/schemas/createStateBody");
+        Schema schema = openAPI.getComponents().getSchemas().get("createStateBody");
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
@@ -931,11 +934,6 @@ public class DefaultCodegenTest {
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
-        // inline anyOf with inline anyOf model doesn't work because we have null $refs and we throw an exception
-        final String fmodelName = "FruitInlineInlineDisc";
-        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
-
         // ref anyOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
         sc = openAPI.getComponents().getSchemas().get(modelName);
@@ -1015,11 +1013,6 @@ public class DefaultCodegenTest {
         mn = "FruitInlineDisc_oneOf_1";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
-
-        // inline oneOf with inline oneOf model doesn't work because we have null $refs and we throw an exception
-        final String fmodelName = "FruitInlineInlineDisc";
-        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
 
         // ref oneOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
@@ -1694,10 +1687,9 @@ public class DefaultCodegenTest {
         Set<String> imports = new HashSet<>();
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/pony").getGet().getParameters().get(0), imports);
 
-        // TODO: This must be updated to work with flattened inline models
-        Assert.assertEquals(parameter.dataType, "PageQuery1");
+        Assert.assertEquals(parameter.dataType, "pageQuery");
         Assert.assertEquals(imports.size(), 1);
-        Assert.assertEquals(imports.iterator().next(), "PageQuery1");
+        Assert.assertEquals(imports.iterator().next(), "pageQuery");
     }
 
     @Test
@@ -1987,25 +1979,35 @@ public class DefaultCodegenTest {
                         .getContent()
                         .get("application/json")
                         .getSchema()
-                        .getExtensions()
-                        .get("x-one-of-name"),
-                "CreateState"
+                        .get$ref(),
+                "#/components/schemas/createStateBody"
         );
         Assert.assertEquals(
-                openAPI.getPaths()
-                        .get("/state")
-                        .getGet()
-                        .getResponses()
-                        .get("200")
-                        .getContent()
-                        .get("application/json")
-                        .getSchema()
+                openAPI.getComponents()
+                        .getSchemas()
+                        .get("createStateBody")
                         .getExtensions()
                         .get("x-one-of-name"),
-                "GetState200"
+                "CreateStateBody"
+        );
+        Assert.assertEquals(
+                openAPI.getComponents()
+                        .getSchemas()
+                        .get("getStateResponse")
+                        .getExtensions()
+                        .get("x-one-of-name"),
+                "GetStateResponse"
         );
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
-        Assert.assertEquals(items.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaOneOf");
+        Assert.assertEquals(items.get$ref(), "#/components/schemas/CustomOneOfArraySchemaItems");
+        Assert.assertEquals(
+                openAPI.getComponents()
+                    .getSchemas()
+                    .get("CustomOneOfArraySchemaItems")
+                    .getExtensions()
+                    .get("x-one-of-name"),
+                "CustomOneOfArraySchemaItems"
+        );
     }
 }
