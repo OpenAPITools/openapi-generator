@@ -99,6 +99,31 @@ export class HttpBasicAuthentication extends SecurityAuthentication {
 	}
 }
 
+export interface TokenProvider {
+  getToken(): string;
+}
+
+/**
+ * Applies http bearer authentication to a request.
+ *
+ */
+export class HttpBearerAuthentication extends SecurityAuthentication {
+    /**
+     * Configures the http authentication with the required details.
+     *
+     *
+     * @param authName name of the authentication scheme as defined in openapi specification
+     * @param tokenProvider service that can provide the up-to-date token when needed
+     */
+    public constructor(authName: string, private tokenProvider: TokenProvider) {
+        super(authName);
+    }
+
+    public applySecurityAuthentication(context: RequestContext) {
+        context.setHeaderParam("Authentication", "Bearer " + this.tokenProvider.getToken());
+    }
+}
+
 // TODO: How to handle oauth2 authentication!
 export class OAuth2Authentication extends SecurityAuthentication {
 	public constructor(authName: string) {
@@ -117,6 +142,7 @@ export type AuthMethods = {
 
 export type ApiKeyConfiguration = string;
 export type HttpBasicConfiguration = { "username": string, "password": string };
+export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
 export type OAuth2Configuration = string;
 
 export type AuthMethodsConfiguration = { "api_key"?:ApiKeyConfiguration,  "petstore_auth"?:OAuth2Configuration,   }
@@ -125,19 +151,18 @@ export type AuthMethodsConfiguration = { "api_key"?:ApiKeyConfiguration,  "petst
  * Creates the authentication methods from a swagger description.
  *
  */
-export function configureAuthMethods(conf: AuthMethodsConfiguration | undefined): AuthMethods {
-	let authMethods: AuthMethods = {
+export function configureAuthMethods(config: AuthMethodsConfiguration | undefined): AuthMethods {
+    let authMethods: AuthMethods = {}
+
+    if (!config) {
+        return authMethods;
+    }
+
+    if (config["api_key"]) {
+        authMethods["api_key"] = new APIKeyAuthentication("api_key",  "api_key", "header", <string> config["api_key"]);
 	}
 
-	if (!conf) {
-		return authMethods;
-	}		
-
-	if (conf["api_key"]) {
-		authMethods["api_key"] = new APIKeyAuthentication("api_key",  "api_key", "header", <string> conf["api_key"]);
-	}
-
-	if (conf["petstore_auth"]) {
+    if (config["petstore_auth"]) {
 		authMethods["petstore_auth"] = new OAuth2Authentication("petstore_auth");
 	}
 
