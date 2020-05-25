@@ -2,6 +2,11 @@ kind: pipeline
 name: default
 
 steps:
+# test ue4 cpp client
+- name: cpp-ue4
+  image: adamrehn/ue4-runtime:latest
+  commands:
+  - (cd samples/client/petstore/cpp-ue4/ && ue4 build)
 # test aspnetcore 3.x
 - name: aspnetcore-test
   image: mcr.microsoft.com/dotnet/core/sdk:3.1
