@@ -227,6 +227,7 @@
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
+                        <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
