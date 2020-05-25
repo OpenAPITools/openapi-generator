@@ -26,6 +26,6 @@
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
-    "typescript": "^2.9.2"
+    "typescript": "^3.9.3"
   }
 }

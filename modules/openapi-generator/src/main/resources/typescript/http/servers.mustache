@@ -6,25 +6,17 @@ import {RequestContext, HttpMethod} from './http/http';
  * url template and variable configuration based on the url.
  *
  */
-export class ServerConfiguration<T> {
-	
-    public constructor(private url: string, private variableConfiguration: T) {
+export class ServerConfiguration<T extends { [key: string]: string }> {
+    public constructor(private url: string, private variableConfiguration: T) {}
+
+    /**
+     * Sets the value of the variables of this server.
+     *
+     * @param variableConfiguration a partial variable configuration for the variables contained in the url
+     */
+    public setVariables(variableConfiguration: Partial<T>) {
+        Object.assign(this.variableConfiguration, variableConfiguration);
     }
-	
-	/**
-	 * Sets the value of the variables of this server.
-	 *
-	 * @param variableConfiguration a partial variable configuration for the variables contained in the url
-	 */
-	public setVariables(variableConfiguration: Partial<T>) {
-		for (const key in variableConfiguration) {
-			const val = variableConfiguration[key]
-			// We know that val isn't undefined here - hopefully
-			if (val !== undefined) {
-				this.variableConfiguration[key] = val as T[Extract<keyof T, string>];
-			}
-		}
-	}
 
 	public getConfiguration(): T {
 		return this.variableConfiguration
@@ -34,7 +26,7 @@ export class ServerConfiguration<T> {
 		let replacedUrl = this.url;
 		for (const key in this.variableConfiguration) {
 			var re = new RegExp("{" + key + "}","g");
-			replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key].toString());
+			replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
 		}
 		return replacedUrl
 	}
