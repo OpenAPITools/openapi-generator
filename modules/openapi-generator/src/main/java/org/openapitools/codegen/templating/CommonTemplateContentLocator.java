@@ -1,7 +1,7 @@
 package org.openapitools.codegen.templating;
 
-import com.google.common.io.Resources;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.TemplateManager;
 import org.openapitools.codegen.api.TemplatePathLocator;
 
 import java.io.File;
@@ -35,18 +35,14 @@ public class CommonTemplateContentLocator implements TemplatePathLocator {
      * @param relativeTemplateFile Template file
      * @return String Full template file path
      */
-    @SuppressWarnings("UnstableApiUsage")
     @Override
     public String getFullTemplatePath(String relativeTemplateFile) {
         if (StringUtils.isNotEmpty(relativeTemplateFile)) {
             String loc = this.resourceLocation + File.separator + relativeTemplateFile;
-            try {
-                URL url = Resources.getResource(loc);
-                if (url != null) {
-                    return loc;
-                }
-            } catch (IllegalArgumentException e) {
-                return null;
+
+            URL url = this.getClass().getClassLoader().getResource(TemplateManager.getCPResourcePath(loc));
+            if (url != null) {
+                return loc;
             }
         }
         return null;
