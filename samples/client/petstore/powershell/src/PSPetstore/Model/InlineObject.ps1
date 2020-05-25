@@ -78,6 +78,14 @@ function ConvertFrom-PSJsonToInlineObject {
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
+        # check if Json contains properties not defined in PSInlineObject
+        $AllProperties = ("name", "status")
+        foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            if (!($AllProperties.Contains($name))) {
+                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+            }
+        }
+
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) { #optional property not found
             $Name = $null
         } else {
