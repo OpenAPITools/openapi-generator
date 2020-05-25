@@ -12,7 +12,7 @@
 package org.openapitools.client.models
 
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -24,30 +24,30 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class Order (
-    @SerializedName("id")
+    @JsonProperty("id")
     val id: kotlin.Long? = null,
-    @SerializedName("petId")
+    @JsonProperty("petId")
     val petId: kotlin.Long? = null,
-    @SerializedName("quantity")
+    @JsonProperty("quantity")
     val quantity: kotlin.Int? = null,
-    @SerializedName("shipDate")
+    @JsonProperty("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
-    @SerializedName("status")
+    @JsonProperty("status")
     val status: Order.Status? = null,
-    @SerializedName("complete")
+    @JsonProperty("complete")
     val complete: kotlin.Boolean? = null
 ) {
 
     /**
     * Order Status
-    * Values: placed,approved,delivered
+    * Values: PLACED,APPROVED,DELIVERED
     */
     
     enum class Status(val value: kotlin.String){
-        @SerializedName(value = "placed") placed("placed"),
-        @SerializedName(value = "approved") approved("approved"),
-        @SerializedName(value = "delivered") delivered("delivered");
+        @JsonProperty(value = "placed") PLACED("placed"),
+        @JsonProperty(value = "approved") APPROVED("approved"),
+        @JsonProperty(value = "delivered") DELIVERED("delivered");
     }
 }
 

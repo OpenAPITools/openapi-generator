@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // EnumArraysJustSymbol the model 'EnumArraysJustSymbol'
@@ -23,25 +23,61 @@ const (
 	ENUM_ARRAYS_JUST_SYMBOL_DOLLAR EnumArraysJustSymbol = "$"
 )
 
+func (v *EnumArraysJustSymbol) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumArraysJustSymbol(value)
+	for _, existing := range []EnumArraysJustSymbol{ ">=", "$",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumArraysJustSymbol", *v)
+}
+
+// Ptr returns reference to EnumArraysJustSymbol value
+func (v EnumArraysJustSymbol) Ptr() *EnumArraysJustSymbol {
+	return &v
+}
+
 type NullableEnumArraysJustSymbol struct {
-	Value EnumArraysJustSymbol
-	ExplicitNull bool
+	value *EnumArraysJustSymbol
+	isSet bool
+}
+
+func (v NullableEnumArraysJustSymbol) Get() *EnumArraysJustSymbol {
+	return v.value
+}
+
+func (v *NullableEnumArraysJustSymbol) Set(val *EnumArraysJustSymbol) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumArraysJustSymbol) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumArraysJustSymbol) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumArraysJustSymbol(val *EnumArraysJustSymbol) *NullableEnumArraysJustSymbol {
+	return &NullableEnumArraysJustSymbol{value: val, isSet: true}
 }
 
 func (v NullableEnumArraysJustSymbol) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableEnumArraysJustSymbol) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

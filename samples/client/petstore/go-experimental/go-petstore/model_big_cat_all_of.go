@@ -46,16 +46,9 @@ func (o *BigCatAllOf) GetKind() BigCatAllOfKind {
 
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *BigCatAllOf) GetKindOk() (BigCatAllOfKind, bool) {
-	if o == nil || o.Kind == nil {
-		var ret BigCatAllOfKind
-		return ret, false
-=======
-func (o *BigCatAllOf) GetKindOk() (*string, bool) {
+func (o *BigCatAllOf) GetKindOk() (*BigCatAllOfKind, bool) {
 	if o == nil || o.Kind == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.Kind, true
 }

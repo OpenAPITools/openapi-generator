@@ -138,32 +138,22 @@ GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-<<<<<<< HEAD
-`func (o *Order) GetStatusOk() (OrderStatus, bool)`
-=======
-`func (o *Order) GetStatusOk() (*string, bool)`
->>>>>>> origin/master
+`func (o *Order) GetStatusOk() (*OrderStatus, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *Order) SetStatus(v string)`
+`func (o *Order) SetStatus(v OrderStatus)`
 
 SetStatus sets Status field to given value.
 
 ### HasStatus
 
-<<<<<<< HEAD
-`func (o *Order) SetStatus(v OrderStatus)`
-
-SetStatus gets a reference to the given OrderStatus and assigns it to the Status field.
-=======
 `func (o *Order) HasStatus() bool`
 
 HasStatus returns a boolean if a field has been set.
->>>>>>> origin/master
 
 ### GetComplete
 

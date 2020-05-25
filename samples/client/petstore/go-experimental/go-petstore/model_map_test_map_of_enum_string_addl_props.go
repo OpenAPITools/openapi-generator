@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // MapTestMapOfEnumStringAddlProps the model 'MapTestMapOfEnumStringAddlProps'
@@ -23,25 +23,61 @@ const (
 	MAP_TEST_MAP_OF_ENUM_STRING_ADDL_PROPS_LOWER MapTestMapOfEnumStringAddlProps = "lower"
 )
 
+func (v *MapTestMapOfEnumStringAddlProps) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := MapTestMapOfEnumStringAddlProps(value)
+	for _, existing := range []MapTestMapOfEnumStringAddlProps{ "UPPER", "lower",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid MapTestMapOfEnumStringAddlProps", *v)
+}
+
+// Ptr returns reference to MapTestMapOfEnumStringAddlProps value
+func (v MapTestMapOfEnumStringAddlProps) Ptr() *MapTestMapOfEnumStringAddlProps {
+	return &v
+}
+
 type NullableMapTestMapOfEnumStringAddlProps struct {
-	Value MapTestMapOfEnumStringAddlProps
-	ExplicitNull bool
+	value *MapTestMapOfEnumStringAddlProps
+	isSet bool
+}
+
+func (v NullableMapTestMapOfEnumStringAddlProps) Get() *MapTestMapOfEnumStringAddlProps {
+	return v.value
+}
+
+func (v *NullableMapTestMapOfEnumStringAddlProps) Set(val *MapTestMapOfEnumStringAddlProps) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableMapTestMapOfEnumStringAddlProps) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableMapTestMapOfEnumStringAddlProps) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableMapTestMapOfEnumStringAddlProps(val *MapTestMapOfEnumStringAddlProps) *NullableMapTestMapOfEnumStringAddlProps {
+	return &NullableMapTestMapOfEnumStringAddlProps{value: val, isSet: true}
 }
 
 func (v NullableMapTestMapOfEnumStringAddlProps) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableMapTestMapOfEnumStringAddlProps) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

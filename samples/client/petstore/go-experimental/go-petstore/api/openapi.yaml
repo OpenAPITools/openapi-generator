@@ -1260,15 +1260,15 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/DogAllOf'
+      - $ref: '#/components/schemas/Dog_allOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/CatAllOf'
+      - $ref: '#/components/schemas/Cat_allOf'
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCatAllOf'
+      - $ref: '#/components/schemas/BigCat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -2074,12 +2074,12 @@ components:
       - pending
       - sold
       type: string
-    DogAllOf:
+    Dog_allOf:
       properties:
         breed:
           type: string
       type: object
-    CatAllOf:
+    Cat_allOf:
       properties:
         declawed:
           type: boolean
@@ -2091,7 +2091,7 @@ components:
       - leopards
       - jaguars
       type: string
-    BigCatAllOf:
+    BigCat_allOf:
       properties:
         kind:
           $ref: '#/components/schemas/BigCatAllOfKind'

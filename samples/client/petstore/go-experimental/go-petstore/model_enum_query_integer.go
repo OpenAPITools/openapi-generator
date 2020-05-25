@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // EnumQueryInteger the model 'EnumQueryInteger'
@@ -23,25 +23,61 @@ const (
 	ENUM_QUERY_INTEGER__MINUS_2 EnumQueryInteger = -2
 )
 
+func (v *EnumQueryInteger) UnmarshalJSON(src []byte) error {
+	var value int32
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumQueryInteger(value)
+	for _, existing := range []EnumQueryInteger{ 1, -2,   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumQueryInteger", *v)
+}
+
+// Ptr returns reference to enum_query_integer value
+func (v EnumQueryInteger) Ptr() *EnumQueryInteger {
+	return &v
+}
+
 type NullableEnumQueryInteger struct {
-	Value EnumQueryInteger
-	ExplicitNull bool
+	value *EnumQueryInteger
+	isSet bool
+}
+
+func (v NullableEnumQueryInteger) Get() *EnumQueryInteger {
+	return v.value
+}
+
+func (v *NullableEnumQueryInteger) Set(val *EnumQueryInteger) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumQueryInteger) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumQueryInteger) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumQueryInteger(val *EnumQueryInteger) *NullableEnumQueryInteger {
+	return &NullableEnumQueryInteger{value: val, isSet: true}
 }
 
 func (v NullableEnumQueryInteger) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableEnumQueryInteger) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // TestEnumParametersBodyEnumFormStringArrayItems the model 'TestEnumParametersBodyEnumFormStringArrayItems'
@@ -23,25 +23,61 @@ const (
 	TEST_ENUM_PARAMETERS_BODY_ENUM_FORM_STRING_ARRAY_ITEMS_DOLLAR TestEnumParametersBodyEnumFormStringArrayItems = "$"
 )
 
+func (v *TestEnumParametersBodyEnumFormStringArrayItems) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := TestEnumParametersBodyEnumFormStringArrayItems(value)
+	for _, existing := range []TestEnumParametersBodyEnumFormStringArrayItems{ ">", "$",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid TestEnumParametersBodyEnumFormStringArrayItems", *v)
+}
+
+// Ptr returns reference to testEnumParametersBodyEnumFormStringArrayItems value
+func (v TestEnumParametersBodyEnumFormStringArrayItems) Ptr() *TestEnumParametersBodyEnumFormStringArrayItems {
+	return &v
+}
+
 type NullableTestEnumParametersBodyEnumFormStringArrayItems struct {
-	Value TestEnumParametersBodyEnumFormStringArrayItems
-	ExplicitNull bool
+	value *TestEnumParametersBodyEnumFormStringArrayItems
+	isSet bool
+}
+
+func (v NullableTestEnumParametersBodyEnumFormStringArrayItems) Get() *TestEnumParametersBodyEnumFormStringArrayItems {
+	return v.value
+}
+
+func (v *NullableTestEnumParametersBodyEnumFormStringArrayItems) Set(val *TestEnumParametersBodyEnumFormStringArrayItems) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableTestEnumParametersBodyEnumFormStringArrayItems) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableTestEnumParametersBodyEnumFormStringArrayItems) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableTestEnumParametersBodyEnumFormStringArrayItems(val *TestEnumParametersBodyEnumFormStringArrayItems) *NullableTestEnumParametersBodyEnumFormStringArrayItems {
+	return &NullableTestEnumParametersBodyEnumFormStringArrayItems{value: val, isSet: true}
 }
 
 func (v NullableTestEnumParametersBodyEnumFormStringArrayItems) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableTestEnumParametersBodyEnumFormStringArrayItems) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

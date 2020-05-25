@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // OrderStatus Order Status
@@ -24,25 +24,61 @@ const (
 	ORDER_STATUS_DELIVERED OrderStatus = "delivered"
 )
 
+func (v *OrderStatus) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := OrderStatus(value)
+	for _, existing := range []OrderStatus{ "placed", "approved", "delivered",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid OrderStatus", *v)
+}
+
+// Ptr returns reference to OrderStatus value
+func (v OrderStatus) Ptr() *OrderStatus {
+	return &v
+}
+
 type NullableOrderStatus struct {
-	Value OrderStatus
-	ExplicitNull bool
+	value *OrderStatus
+	isSet bool
+}
+
+func (v NullableOrderStatus) Get() *OrderStatus {
+	return v.value
+}
+
+func (v *NullableOrderStatus) Set(val *OrderStatus) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableOrderStatus) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableOrderStatus) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableOrderStatus(val *OrderStatus) *NullableOrderStatus {
+	return &NullableOrderStatus{value: val, isSet: true}
 }
 
 func (v NullableOrderStatus) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableOrderStatus) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

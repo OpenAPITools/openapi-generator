@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -19,6 +18,27 @@ type TestEnumParametersBody struct {
 	// Form parameter enum test (string array)
 	EnumFormStringArray *[]TestEnumParametersBodyEnumFormStringArrayItems `json:"enum_form_string_array,omitempty"`
 	EnumFormString *TestEnumParametersBodyEnumFormString `json:"enum_form_string,omitempty"`
+}
+
+// NewTestEnumParametersBody instantiates a new TestEnumParametersBody object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewTestEnumParametersBody() *TestEnumParametersBody {
+	this := TestEnumParametersBody{}
+	var enumFormString TestEnumParametersBodyEnumFormString = "-efg"
+	this.EnumFormString = &enumFormString
+	return &this
+}
+
+// NewTestEnumParametersBodyWithDefaults instantiates a new TestEnumParametersBody object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewTestEnumParametersBodyWithDefaults() *TestEnumParametersBody {
+	this := TestEnumParametersBody{}
+	var enumFormString TestEnumParametersBodyEnumFormString = "-efg"
+	this.EnumFormString = &enumFormString
+	return &this
 }
 
 // GetEnumFormStringArray returns the EnumFormStringArray field value if set, zero value otherwise.
@@ -30,14 +50,13 @@ func (o *TestEnumParametersBody) GetEnumFormStringArray() []TestEnumParametersBo
 	return *o.EnumFormStringArray
 }
 
-// GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field value if set, zero value otherwise
+// GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEnumParametersBody) GetEnumFormStringArrayOk() ([]TestEnumParametersBodyEnumFormStringArrayItems, bool) {
+func (o *TestEnumParametersBody) GetEnumFormStringArrayOk() (*[]TestEnumParametersBodyEnumFormStringArrayItems, bool) {
 	if o == nil || o.EnumFormStringArray == nil {
-		var ret []TestEnumParametersBodyEnumFormStringArrayItems
-		return ret, false
+		return nil, false
 	}
-	return *o.EnumFormStringArray, true
+	return o.EnumFormStringArray, true
 }
 
 // HasEnumFormStringArray returns a boolean if a field has been set.
@@ -63,14 +82,13 @@ func (o *TestEnumParametersBody) GetEnumFormString() TestEnumParametersBodyEnumF
 	return *o.EnumFormString
 }
 
-// GetEnumFormStringOk returns a tuple with the EnumFormString field value if set, zero value otherwise
+// GetEnumFormStringOk returns a tuple with the EnumFormString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestEnumParametersBody) GetEnumFormStringOk() (TestEnumParametersBodyEnumFormString, bool) {
+func (o *TestEnumParametersBody) GetEnumFormStringOk() (*TestEnumParametersBodyEnumFormString, bool) {
 	if o == nil || o.EnumFormString == nil {
-		var ret TestEnumParametersBodyEnumFormString
-		return ret, false
+		return nil, false
 	}
-	return *o.EnumFormString, true
+	return o.EnumFormString, true
 }
 
 // HasEnumFormString returns a boolean if a field has been set.
@@ -87,25 +105,50 @@ func (o *TestEnumParametersBody) SetEnumFormString(v TestEnumParametersBodyEnumF
 	o.EnumFormString = &v
 }
 
+func (o TestEnumParametersBody) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.EnumFormStringArray != nil {
+		toSerialize["enum_form_string_array"] = o.EnumFormStringArray
+	}
+	if o.EnumFormString != nil {
+		toSerialize["enum_form_string"] = o.EnumFormString
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableTestEnumParametersBody struct {
-	Value TestEnumParametersBody
-	ExplicitNull bool
+	value *TestEnumParametersBody
+	isSet bool
+}
+
+func (v NullableTestEnumParametersBody) Get() *TestEnumParametersBody {
+	return v.value
+}
+
+func (v *NullableTestEnumParametersBody) Set(val *TestEnumParametersBody) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableTestEnumParametersBody) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableTestEnumParametersBody) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableTestEnumParametersBody(val *TestEnumParametersBody) *NullableTestEnumParametersBody {
+	return &NullableTestEnumParametersBody{value: val, isSet: true}
 }
 
 func (v NullableTestEnumParametersBody) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableTestEnumParametersBody) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

@@ -26,7 +26,7 @@ type EnumTest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEnumTest(enumStringRequired string, ) *EnumTest {
+func NewEnumTest(enumStringRequired EnumTestEnumString, ) *EnumTest {
 	this := EnumTest{}
 	this.EnumStringRequired = enumStringRequired
 	return &this
@@ -51,16 +51,9 @@ func (o *EnumTest) GetEnumString() EnumTestEnumString {
 
 // GetEnumStringOk returns a tuple with the EnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *EnumTest) GetEnumStringOk() (EnumTestEnumString, bool) {
-	if o == nil || o.EnumString == nil {
-		var ret EnumTestEnumString
-		return ret, false
-=======
-func (o *EnumTest) GetEnumStringOk() (*string, bool) {
+func (o *EnumTest) GetEnumStringOk() (*EnumTestEnumString, bool) {
 	if o == nil || o.EnumString == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.EnumString, true
 }
@@ -80,15 +73,9 @@ func (o *EnumTest) SetEnumString(v EnumTestEnumString) {
 }
 
 // GetEnumStringRequired returns the EnumStringRequired field value
-<<<<<<< HEAD
 func (o *EnumTest) GetEnumStringRequired() EnumTestEnumString {
-	if o == nil {
-		var ret EnumTestEnumString
-=======
-func (o *EnumTest) GetEnumStringRequired() string {
 	if o == nil  {
-		var ret string
->>>>>>> origin/master
+		var ret EnumTestEnumString
 		return ret
 	}
 
@@ -97,7 +84,7 @@ func (o *EnumTest) GetEnumStringRequired() string {
 
 // GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field value
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool) {
+func (o *EnumTest) GetEnumStringRequiredOk() (*EnumTestEnumString, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -120,16 +107,9 @@ func (o *EnumTest) GetEnumInteger() EnumTestEnumInteger {
 
 // GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *EnumTest) GetEnumIntegerOk() (EnumTestEnumInteger, bool) {
-	if o == nil || o.EnumInteger == nil {
-		var ret EnumTestEnumInteger
-		return ret, false
-=======
-func (o *EnumTest) GetEnumIntegerOk() (*int32, bool) {
+func (o *EnumTest) GetEnumIntegerOk() (*EnumTestEnumInteger, bool) {
 	if o == nil || o.EnumInteger == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.EnumInteger, true
 }
@@ -159,16 +139,9 @@ func (o *EnumTest) GetEnumNumber() EnumQueryDouble {
 
 // GetEnumNumberOk returns a tuple with the EnumNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *EnumTest) GetEnumNumberOk() (EnumQueryDouble, bool) {
-	if o == nil || o.EnumNumber == nil {
-		var ret EnumQueryDouble
-		return ret, false
-=======
-func (o *EnumTest) GetEnumNumberOk() (*float64, bool) {
+func (o *EnumTest) GetEnumNumberOk() (*EnumQueryDouble, bool) {
 	if o == nil || o.EnumNumber == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.EnumNumber, true
 }

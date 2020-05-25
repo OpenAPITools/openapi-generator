@@ -184,16 +184,9 @@ func (o *Order) GetStatus() OrderStatus {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *Order) GetStatusOk() (OrderStatus, bool) {
-	if o == nil || o.Status == nil {
-		var ret OrderStatus
-		return ret, false
-=======
-func (o *Order) GetStatusOk() (*string, bool) {
+func (o *Order) GetStatusOk() (*OrderStatus, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.Status, true
 }

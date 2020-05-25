@@ -14,7 +14,7 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * A pet for sale in the pet store
  * @param name 
@@ -26,30 +26,30 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class Pet (
-    @SerializedName("name")
+    @JsonProperty("name")
     val name: kotlin.String,
-    @SerializedName("photoUrls")
+    @JsonProperty("photoUrls")
     val photoUrls: kotlin.Array<kotlin.String>,
-    @SerializedName("id")
+    @JsonProperty("id")
     val id: kotlin.Long? = null,
-    @SerializedName("category")
+    @JsonProperty("category")
     val category: Category? = null,
-    @SerializedName("tags")
+    @JsonProperty("tags")
     val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
-    @SerializedName("status")
+    @JsonProperty("status")
     val status: Pet.Status? = null
 ) {
 
     /**
     * pet status in the store
-    * Values: available,pending,sold
+    * Values: AVAILABLE,PENDING,SOLD
     */
     
     enum class Status(val value: kotlin.String){
-        @SerializedName(value = "available") available("available"),
-        @SerializedName(value = "pending") pending("pending"),
-        @SerializedName(value = "sold") sold("sold");
+        @JsonProperty(value = "available") AVAILABLE("available"),
+        @JsonProperty(value = "pending") PENDING("pending"),
+        @JsonProperty(value = "sold") SOLD("sold");
     }
 }
 

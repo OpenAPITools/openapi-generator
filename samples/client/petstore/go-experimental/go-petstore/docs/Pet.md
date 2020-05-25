@@ -153,32 +153,22 @@ GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-<<<<<<< HEAD
-`func (o *Pet) GetStatusOk() (PetStatus, bool)`
-=======
-`func (o *Pet) GetStatusOk() (*string, bool)`
->>>>>>> origin/master
+`func (o *Pet) GetStatusOk() (*PetStatus, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *Pet) SetStatus(v string)`
+`func (o *Pet) SetStatus(v PetStatus)`
 
 SetStatus sets Status field to given value.
 
 ### HasStatus
 
-<<<<<<< HEAD
-`func (o *Pet) SetStatus(v PetStatus)`
-
-SetStatus gets a reference to the given PetStatus and assigns it to the Status field.
-=======
 `func (o *Pet) HasStatus() bool`
 
 HasStatus returns a boolean if a field has been set.
->>>>>>> origin/master
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

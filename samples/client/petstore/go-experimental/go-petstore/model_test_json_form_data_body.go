@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -22,14 +21,42 @@ type TestJsonFormDataBody struct {
 	Param2 string `json:"param2"`
 }
 
+// NewTestJsonFormDataBody instantiates a new TestJsonFormDataBody object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewTestJsonFormDataBody(param string, param2 string, ) *TestJsonFormDataBody {
+	this := TestJsonFormDataBody{}
+	this.Param = param
+	this.Param2 = param2
+	return &this
+}
+
+// NewTestJsonFormDataBodyWithDefaults instantiates a new TestJsonFormDataBody object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewTestJsonFormDataBodyWithDefaults() *TestJsonFormDataBody {
+	this := TestJsonFormDataBody{}
+	return &this
+}
+
 // GetParam returns the Param field value
 func (o *TestJsonFormDataBody) GetParam() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
 
 	return o.Param
+}
+
+// GetParamOk returns a tuple with the Param field value
+// and a boolean to check if the value has been set.
+func (o *TestJsonFormDataBody) GetParamOk() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Param, true
 }
 
 // SetParam sets field value
@@ -39,7 +66,7 @@ func (o *TestJsonFormDataBody) SetParam(v string) {
 
 // GetParam2 returns the Param2 field value
 func (o *TestJsonFormDataBody) GetParam2() string {
-	if o == nil {
+	if o == nil  {
 		var ret string
 		return ret
 	}
@@ -47,30 +74,64 @@ func (o *TestJsonFormDataBody) GetParam2() string {
 	return o.Param2
 }
 
+// GetParam2Ok returns a tuple with the Param2 field value
+// and a boolean to check if the value has been set.
+func (o *TestJsonFormDataBody) GetParam2Ok() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Param2, true
+}
+
 // SetParam2 sets field value
 func (o *TestJsonFormDataBody) SetParam2(v string) {
 	o.Param2 = v
 }
 
+func (o TestJsonFormDataBody) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["param"] = o.Param
+	}
+	if true {
+		toSerialize["param2"] = o.Param2
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableTestJsonFormDataBody struct {
-	Value TestJsonFormDataBody
-	ExplicitNull bool
+	value *TestJsonFormDataBody
+	isSet bool
+}
+
+func (v NullableTestJsonFormDataBody) Get() *TestJsonFormDataBody {
+	return v.value
+}
+
+func (v *NullableTestJsonFormDataBody) Set(val *TestJsonFormDataBody) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableTestJsonFormDataBody) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableTestJsonFormDataBody) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableTestJsonFormDataBody(val *TestJsonFormDataBody) *NullableTestJsonFormDataBody {
+	return &NullableTestJsonFormDataBody{value: val, isSet: true}
 }
 
 func (v NullableTestJsonFormDataBody) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableTestJsonFormDataBody) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

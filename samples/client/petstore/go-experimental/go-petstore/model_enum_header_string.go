@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // EnumHeaderString the model 'EnumHeaderString'
@@ -24,25 +24,61 @@ const (
 	ENUM_HEADER_STRING_XYZ EnumHeaderString = "(xyz)"
 )
 
+func (v *EnumHeaderString) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumHeaderString(value)
+	for _, existing := range []EnumHeaderString{ "_abc", "-efg", "(xyz)",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumHeaderString", *v)
+}
+
+// Ptr returns reference to enum_header_string value
+func (v EnumHeaderString) Ptr() *EnumHeaderString {
+	return &v
+}
+
 type NullableEnumHeaderString struct {
-	Value EnumHeaderString
-	ExplicitNull bool
+	value *EnumHeaderString
+	isSet bool
+}
+
+func (v NullableEnumHeaderString) Get() *EnumHeaderString {
+	return v.value
+}
+
+func (v *NullableEnumHeaderString) Set(val *EnumHeaderString) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumHeaderString) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumHeaderString) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumHeaderString(val *EnumHeaderString) *NullableEnumHeaderString {
+	return &NullableEnumHeaderString{value: val, isSet: true}
 }
 
 func (v NullableEnumHeaderString) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableEnumHeaderString) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

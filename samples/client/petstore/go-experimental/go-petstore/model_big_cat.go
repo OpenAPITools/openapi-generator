@@ -15,15 +15,8 @@ import (
 
 // BigCat struct for BigCat
 type BigCat struct {
-<<<<<<< HEAD
-	ClassName string `json:"className"`
-	Color *string `json:"color,omitempty"`
-	Declawed *bool `json:"declawed,omitempty"`
-	Kind *BigCatAllOfKind `json:"kind,omitempty"`
-=======
 	Cat
-	Kind *string `json:"kind,omitempty"`
->>>>>>> origin/master
+	Kind *BigCatAllOfKind `json:"kind,omitempty"`
 }
 
 // NewBigCat instantiates a new BigCat object
@@ -44,9 +37,9 @@ func NewBigCatWithDefaults() *BigCat {
 }
 
 // GetKind returns the Kind field value if set, zero value otherwise.
-func (o *BigCat) GetKind() string {
+func (o *BigCat) GetKind() BigCatAllOfKind {
 	if o == nil || o.Kind == nil {
-		var ret string
+		var ret BigCatAllOfKind
 		return ret
 	}
 	return *o.Kind
@@ -54,7 +47,7 @@ func (o *BigCat) GetKind() string {
 
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BigCat) GetKindOk() (*string, bool) {
+func (o *BigCat) GetKindOk() (*BigCatAllOfKind, bool) {
 	if o == nil || o.Kind == nil {
 		return nil, false
 	}
@@ -70,8 +63,8 @@ func (o *BigCat) HasKind() bool {
 	return false
 }
 
-// SetKind gets a reference to the given string and assigns it to the Kind field.
-func (o *BigCat) SetKind(v string) {
+// SetKind gets a reference to the given BigCatAllOfKind and assigns it to the Kind field.
+func (o *BigCat) SetKind(v BigCatAllOfKind) {
 	o.Kind = &v
 }
 
@@ -96,25 +89,6 @@ type NullableBigCat struct {
 	isSet bool
 }
 
-<<<<<<< HEAD
-// GetKind returns the Kind field value if set, zero value otherwise.
-func (o *BigCat) GetKind() BigCatAllOfKind {
-	if o == nil || o.Kind == nil {
-		var ret BigCatAllOfKind
-		return ret
-	}
-	return *o.Kind
-}
-
-// GetKindOk returns a tuple with the Kind field value if set, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *BigCat) GetKindOk() (BigCatAllOfKind, bool) {
-	if o == nil || o.Kind == nil {
-		var ret BigCatAllOfKind
-		return ret, false
-	}
-	return *o.Kind, true
-=======
 func (v NullableBigCat) Get() *BigCat {
 	return v.value
 }
@@ -122,22 +96,15 @@ func (v NullableBigCat) Get() *BigCat {
 func (v *NullableBigCat) Set(val *BigCat) {
 	v.value = val
 	v.isSet = true
->>>>>>> origin/master
 }
 
 func (v NullableBigCat) IsSet() bool {
 	return v.isSet
 }
 
-<<<<<<< HEAD
-// SetKind gets a reference to the given BigCatAllOfKind and assigns it to the Kind field.
-func (o *BigCat) SetKind(v BigCatAllOfKind) {
-	o.Kind = &v
-=======
 func (v *NullableBigCat) Unset() {
 	v.value = nil
 	v.isSet = false
->>>>>>> origin/master
 }
 
 func NewNullableBigCat(val *BigCat) *NullableBigCat {

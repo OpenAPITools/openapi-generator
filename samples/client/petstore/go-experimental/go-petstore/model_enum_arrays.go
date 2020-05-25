@@ -47,16 +47,9 @@ func (o *EnumArrays) GetJustSymbol() EnumArraysJustSymbol {
 
 // GetJustSymbolOk returns a tuple with the JustSymbol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *EnumArrays) GetJustSymbolOk() (EnumArraysJustSymbol, bool) {
-	if o == nil || o.JustSymbol == nil {
-		var ret EnumArraysJustSymbol
-		return ret, false
-=======
-func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
+func (o *EnumArrays) GetJustSymbolOk() (*EnumArraysJustSymbol, bool) {
 	if o == nil || o.JustSymbol == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.JustSymbol, true
 }
@@ -86,16 +79,9 @@ func (o *EnumArrays) GetArrayEnum() []EnumArraysArrayEnumItems {
 
 // GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *EnumArrays) GetArrayEnumOk() ([]EnumArraysArrayEnumItems, bool) {
-	if o == nil || o.ArrayEnum == nil {
-		var ret []EnumArraysArrayEnumItems
-		return ret, false
-=======
-func (o *EnumArrays) GetArrayEnumOk() (*[]string, bool) {
+func (o *EnumArrays) GetArrayEnumOk() (*[]EnumArraysArrayEnumItems, bool) {
 	if o == nil || o.ArrayEnum == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.ArrayEnum, true
 }

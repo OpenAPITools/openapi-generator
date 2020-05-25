@@ -197,16 +197,9 @@ func (o *Pet) GetStatus() PetStatus {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *Pet) GetStatusOk() (PetStatus, bool) {
-	if o == nil || o.Status == nil {
-		var ret PetStatus
-		return ret, false
-=======
-func (o *Pet) GetStatusOk() (*string, bool) {
+func (o *Pet) GetStatusOk() (*PetStatus, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.Status, true
 }

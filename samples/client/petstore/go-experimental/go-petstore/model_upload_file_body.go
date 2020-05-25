@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 	"os"
 )
@@ -23,6 +22,23 @@ type UploadFileBody struct {
 	File **os.File `json:"file,omitempty"`
 }
 
+// NewUploadFileBody instantiates a new UploadFileBody object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewUploadFileBody() *UploadFileBody {
+	this := UploadFileBody{}
+	return &this
+}
+
+// NewUploadFileBodyWithDefaults instantiates a new UploadFileBody object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewUploadFileBodyWithDefaults() *UploadFileBody {
+	this := UploadFileBody{}
+	return &this
+}
+
 // GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
 func (o *UploadFileBody) GetAdditionalMetadata() string {
 	if o == nil || o.AdditionalMetadata == nil {
@@ -32,14 +48,13 @@ func (o *UploadFileBody) GetAdditionalMetadata() string {
 	return *o.AdditionalMetadata
 }
 
-// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, zero value otherwise
+// GetAdditionalMetadataOk returns a tuple with the AdditionalMetadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UploadFileBody) GetAdditionalMetadataOk() (string, bool) {
+func (o *UploadFileBody) GetAdditionalMetadataOk() (*string, bool) {
 	if o == nil || o.AdditionalMetadata == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.AdditionalMetadata, true
+	return o.AdditionalMetadata, true
 }
 
 // HasAdditionalMetadata returns a boolean if a field has been set.
@@ -65,14 +80,13 @@ func (o *UploadFileBody) GetFile() *os.File {
 	return *o.File
 }
 
-// GetFileOk returns a tuple with the File field value if set, zero value otherwise
+// GetFileOk returns a tuple with the File field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UploadFileBody) GetFileOk() (*os.File, bool) {
+func (o *UploadFileBody) GetFileOk() (**os.File, bool) {
 	if o == nil || o.File == nil {
-		var ret *os.File
-		return ret, false
+		return nil, false
 	}
-	return *o.File, true
+	return o.File, true
 }
 
 // HasFile returns a boolean if a field has been set.
@@ -89,25 +103,50 @@ func (o *UploadFileBody) SetFile(v *os.File) {
 	o.File = &v
 }
 
+func (o UploadFileBody) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.AdditionalMetadata != nil {
+		toSerialize["additionalMetadata"] = o.AdditionalMetadata
+	}
+	if o.File != nil {
+		toSerialize["file"] = o.File
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableUploadFileBody struct {
-	Value UploadFileBody
-	ExplicitNull bool
+	value *UploadFileBody
+	isSet bool
+}
+
+func (v NullableUploadFileBody) Get() *UploadFileBody {
+	return v.value
+}
+
+func (v *NullableUploadFileBody) Set(val *UploadFileBody) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableUploadFileBody) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableUploadFileBody) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableUploadFileBody(val *UploadFileBody) *NullableUploadFileBody {
+	return &NullableUploadFileBody{value: val, isSet: true}
 }
 
 func (v NullableUploadFileBody) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableUploadFileBody) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

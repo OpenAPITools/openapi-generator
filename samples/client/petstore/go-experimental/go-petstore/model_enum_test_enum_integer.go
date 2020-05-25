@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // EnumTestEnumInteger the model 'EnumTestEnumInteger'
@@ -23,25 +23,61 @@ const (
 	ENUM_TEST_ENUM_INTEGER__MINUS_1 EnumTestEnumInteger = -1
 )
 
+func (v *EnumTestEnumInteger) UnmarshalJSON(src []byte) error {
+	var value int32
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumTestEnumInteger(value)
+	for _, existing := range []EnumTestEnumInteger{ 1, -1,   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumTestEnumInteger", *v)
+}
+
+// Ptr returns reference to Enum_TestEnumInteger value
+func (v EnumTestEnumInteger) Ptr() *EnumTestEnumInteger {
+	return &v
+}
+
 type NullableEnumTestEnumInteger struct {
-	Value EnumTestEnumInteger
-	ExplicitNull bool
+	value *EnumTestEnumInteger
+	isSet bool
+}
+
+func (v NullableEnumTestEnumInteger) Get() *EnumTestEnumInteger {
+	return v.value
+}
+
+func (v *NullableEnumTestEnumInteger) Set(val *EnumTestEnumInteger) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumTestEnumInteger) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumTestEnumInteger) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumTestEnumInteger(val *EnumTestEnumInteger) *NullableEnumTestEnumInteger {
+	return &NullableEnumTestEnumInteger{value: val, isSet: true}
 }
 
 func (v NullableEnumTestEnumInteger) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableEnumTestEnumInteger) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

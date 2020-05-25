@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // EnumArraysArrayEnumItems the model 'EnumArraysArrayEnumItems'
@@ -23,25 +23,61 @@ const (
 	ENUM_ARRAYS_ARRAY_ENUM_ITEMS_CRAB EnumArraysArrayEnumItems = "crab"
 )
 
+func (v *EnumArraysArrayEnumItems) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumArraysArrayEnumItems(value)
+	for _, existing := range []EnumArraysArrayEnumItems{ "fish", "crab",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumArraysArrayEnumItems", *v)
+}
+
+// Ptr returns reference to EnumArraysArrayEnumItems value
+func (v EnumArraysArrayEnumItems) Ptr() *EnumArraysArrayEnumItems {
+	return &v
+}
+
 type NullableEnumArraysArrayEnumItems struct {
-	Value EnumArraysArrayEnumItems
-	ExplicitNull bool
+	value *EnumArraysArrayEnumItems
+	isSet bool
+}
+
+func (v NullableEnumArraysArrayEnumItems) Get() *EnumArraysArrayEnumItems {
+	return v.value
+}
+
+func (v *NullableEnumArraysArrayEnumItems) Set(val *EnumArraysArrayEnumItems) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumArraysArrayEnumItems) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumArraysArrayEnumItems) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumArraysArrayEnumItems(val *EnumArraysArrayEnumItems) *NullableEnumArraysArrayEnumItems {
+	return &NullableEnumArraysArrayEnumItems{value: val, isSet: true}
 }
 
 func (v NullableEnumArraysArrayEnumItems) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableEnumArraysArrayEnumItems) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

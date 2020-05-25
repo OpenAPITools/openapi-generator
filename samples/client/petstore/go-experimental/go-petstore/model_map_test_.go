@@ -81,16 +81,9 @@ func (o *MapTest) GetMapOfEnumString() map[string]MapTestMapOfEnumStringAddlProp
 
 // GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-<<<<<<< HEAD
-func (o *MapTest) GetMapOfEnumStringOk() (map[string]MapTestMapOfEnumStringAddlProps, bool) {
-	if o == nil || o.MapOfEnumString == nil {
-		var ret map[string]MapTestMapOfEnumStringAddlProps
-		return ret, false
-=======
-func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool) {
+func (o *MapTest) GetMapOfEnumStringOk() (*map[string]MapTestMapOfEnumStringAddlProps, bool) {
 	if o == nil || o.MapOfEnumString == nil {
 		return nil, false
->>>>>>> origin/master
 	}
 	return o.MapOfEnumString, true
 }

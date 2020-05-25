@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -22,6 +21,23 @@ type UpdatePetWithFormBody struct {
 	Status *string `json:"status,omitempty"`
 }
 
+// NewUpdatePetWithFormBody instantiates a new UpdatePetWithFormBody object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewUpdatePetWithFormBody() *UpdatePetWithFormBody {
+	this := UpdatePetWithFormBody{}
+	return &this
+}
+
+// NewUpdatePetWithFormBodyWithDefaults instantiates a new UpdatePetWithFormBody object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewUpdatePetWithFormBodyWithDefaults() *UpdatePetWithFormBody {
+	this := UpdatePetWithFormBody{}
+	return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *UpdatePetWithFormBody) GetName() string {
 	if o == nil || o.Name == nil {
@@ -31,14 +47,13 @@ func (o *UpdatePetWithFormBody) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdatePetWithFormBody) GetNameOk() (string, bool) {
+func (o *UpdatePetWithFormBody) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -64,14 +79,13 @@ func (o *UpdatePetWithFormBody) GetStatus() string {
 	return *o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value if set, zero value otherwise
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UpdatePetWithFormBody) GetStatusOk() (string, bool) {
+func (o *UpdatePetWithFormBody) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Status, true
+	return o.Status, true
 }
 
 // HasStatus returns a boolean if a field has been set.
@@ -88,25 +102,50 @@ func (o *UpdatePetWithFormBody) SetStatus(v string) {
 	o.Status = &v
 }
 
+func (o UpdatePetWithFormBody) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Name != nil {
+		toSerialize["name"] = o.Name
+	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
+	return json.Marshal(toSerialize)
+}
+
 type NullableUpdatePetWithFormBody struct {
-	Value UpdatePetWithFormBody
-	ExplicitNull bool
+	value *UpdatePetWithFormBody
+	isSet bool
+}
+
+func (v NullableUpdatePetWithFormBody) Get() *UpdatePetWithFormBody {
+	return v.value
+}
+
+func (v *NullableUpdatePetWithFormBody) Set(val *UpdatePetWithFormBody) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableUpdatePetWithFormBody) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableUpdatePetWithFormBody) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableUpdatePetWithFormBody(val *UpdatePetWithFormBody) *NullableUpdatePetWithFormBody {
+	return &NullableUpdatePetWithFormBody{value: val, isSet: true}
 }
 
 func (v NullableUpdatePetWithFormBody) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableUpdatePetWithFormBody) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+
