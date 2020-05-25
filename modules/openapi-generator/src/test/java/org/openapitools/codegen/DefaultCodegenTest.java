@@ -928,9 +928,9 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         hs = new java.util.LinkedHashSet();
-        mn = "FruitInlineDisc_anyOf";
+        mn = "FruitInlineDiscAnyOf";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
-        mn = "FruitInlineDisc_anyOf_1";
+        mn = "FruitInlineDiscAnyOf1";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
@@ -1008,9 +1008,9 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         hs = new java.util.LinkedHashSet();
-        mn = "FruitInlineDisc_oneOf";
+        mn = "FruitInlineDiscOneOf";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
-        mn = "FruitInlineDisc_oneOf_1";
+        mn = "FruitInlineDiscOneOf1";
         hs.add(new CodegenDiscriminator.MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 

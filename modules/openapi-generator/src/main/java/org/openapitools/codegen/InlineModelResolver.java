@@ -208,7 +208,7 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, modelPrefix + "AllOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_allOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "AllOf", inner);
                         newAllOf.add(refSchema); // replace with ref
                     } else {
                         newAllOf.add(inner);
@@ -222,7 +222,7 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, modelPrefix + "AnyOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_anyOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "AnyOf", inner);
                         newAnyOf.add(refSchema); // replace with ref
                     } else {
                         newAnyOf.add(inner);
@@ -236,7 +236,7 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, modelPrefix + "OneOf");
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "_oneOf", inner);
+                        Schema refSchema = this.makeSchemaResolve(modelPrefix, "OneOf", inner);
                         newOneOf.add(refSchema); // replace with ref
                     } else {
                         newOneOf.add(inner);
@@ -439,7 +439,7 @@ public class InlineModelResolver {
             if (!openapi.getComponents().getSchemas().containsKey(uniqueName)) {
                 return uniqueName;
             }
-            uniqueName = name + "_" + ++count;
+            uniqueName = name + ++count;
         }
         // TODO it would probably be a good idea to check against a list of used uniqueNames to make sure there are no collisions
     }

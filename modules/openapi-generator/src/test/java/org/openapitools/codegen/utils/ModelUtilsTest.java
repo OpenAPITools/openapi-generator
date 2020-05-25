@@ -63,7 +63,7 @@ public class ModelUtilsTest {
                 "SomeObj17",
                 "SomeObj18",
                 "Common18",
-                "SomeObj18_allOf",
+                "SomeObj18AllOf",
                 "InlineBody",
                 "Obj19ByAge",
                 "Obj19ByType",
@@ -100,8 +100,8 @@ public class ModelUtilsTest {
                 "Parent29",
                 "AChild29",
                 "BChild29",
-                "AChild29_allOf",
-                "BChild29_allOf"
+                "AChild29AllOf",
+                "BChild29AllOf"
         );
 
         Assert.assertEquals(unusedSchemas.size(), expectedUnusedSchemas.size());
