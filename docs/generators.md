@@ -15,6 +15,7 @@ The following generators are available:
 * [cpp-qt5-client](generators/cpp-qt5-client.md)  
 * [cpp-restsdk](generators/cpp-restsdk.md)  
 * [cpp-tizen](generators/cpp-tizen.md)  
+* [cpp-ue4 (beta)](generators/cpp-ue4.md)  
 * [csharp](generators/csharp.md)  
 * [csharp-dotnet2 (deprecated)](generators/csharp-dotnet2.md)  
 * [csharp-netcore](generators/csharp-netcore.md)  

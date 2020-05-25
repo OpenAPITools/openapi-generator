@@ -130,6 +130,14 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
+        # check if Json contains properties not defined in {{{apiNamePrefix}}}{{{classname}}}
+        $AllProperties = ({{#allVars}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{/allVars}})
+        foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            if (!($AllProperties.Contains($name))) {
+                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+            }
+        }
+
         {{#requiredVars}}
         {{#-first}}
         If ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") { # empty json
