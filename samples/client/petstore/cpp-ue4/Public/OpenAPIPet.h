@@ -34,8 +34,8 @@ public:
 	TOptional<int64> Id;
 	TOptional<OpenAPICategory> Category;
 	FString Name;
-	TArray<std::shared_ptr<FString>> PhotoUrls;
-	TOptional<TArray<std::shared_ptr<OpenAPIOpenAPITag>>> Tags;
+	TArray<FString> PhotoUrls;
+	TOptional<TArray<OpenAPITag>> Tags;
 	enum class StatusEnum
 	{
 		Available,
