@@ -331,18 +331,16 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         return outputFolder + File.separator + apiPackage().replace("::", File.separator);
     }
 
-    /*
     @Override
-    public String modelFilename(String templateName, String tag) {
+    public String modelFilename(String templateName, String modelName) {
         String suffix = modelTemplateFiles().get(templateName);
         String folder = privateFolder;
         if (suffix == ".h") {
             folder = publicFolder;
         }
 
-        return modelFileFolder() + File.separator + folder + File.separator + toModelFilename(tag) + suffix;
+        return modelFileFolder() + File.separator + folder + File.separator + toModelFilename(modelName) + suffix;
     }
-    */
 
     @Override
     public String toModelFilename(String name) {

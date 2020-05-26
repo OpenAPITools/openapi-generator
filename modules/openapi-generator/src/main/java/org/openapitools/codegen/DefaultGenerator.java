@@ -366,14 +366,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private String getModelFilenameByTemplate(String modelName, String templateName){
-        String suffix = config.modelTemplateFiles().get(templateName);
-        return config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
-    }
-
     private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelTemplateFiles().keySet()) {
-            String filename = getModelFilenameByTemplate(modelName, templateName);
+            String filename = config.modelFilename(templateName, modelName);
             if (!config.shouldOverwrite(filename)) {
                 LOGGER.info("Skipped overwriting {}", filename);
                 if (dryRun) {
@@ -444,7 +439,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     if (dryRun) {
                         // HACK: Because this returns early, could lead to some invalid model reporting.
                         for (String templateName : config.modelTemplateFiles().keySet()) {
-                            String filename = getModelFilenameByTemplate(name, templateName);
+                            String filename = config.modelFilename(templateName, name);
                             dryRunStatusMap.put(filename, new DryRunStatus(
                                     java.nio.file.Paths.get(filename),
                                     DryRunStatus.State.Skipped,
