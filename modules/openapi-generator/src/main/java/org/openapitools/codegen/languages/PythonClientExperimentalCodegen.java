@@ -284,40 +284,45 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    @Override
-    public String toModelImport(String name) {
-        String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from", "try:")) {
-            modelImport = name;
-        } else {
-            String[] moduleStruct = name.split("\\.");
-            // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-            modelImport = "    from " + modelPackage() + " import " + moduleStruct[0];
-            modelImport = "try:\n" +
-                                modelImport +
-                          "\nexcept ImportError:\n    " +
-                                moduleStruct[0] + " = sys.modules[\n        '" + modelPackage() + "." + moduleStruct[0] + "']";
-        }
-        return modelImport;
-    }
 
-    private String robustImport(String name) {
-        // name looks like cat.Cat
-        String moduleName = name.split("\\.")[0];
-        // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        String modelImport = "try:\n    from " + modelPackage() +
-          " import " + moduleName+ "\nexcept ImportError:\n    " +
-          moduleName + " = sys.modules[\n        '" + modelPackage() + "." + moduleName + "']";
-        return modelImport;
-    }
-
-    private String getPythonClassName(String name) {
+    protected String getPythonClassName(String name) {
         // name looks like cat.Cat or Cat
         String[] pieces = name.split("\\.");
         if (pieces.length == 1) {
             return pieces[0];
         }
         return pieces[1];
+    }
+
+    protected String getPythonFileName(String name) {
+        // name looks like cat.Cat or Cat
+        String[] pieces = name.split("\\.");
+        if (pieces.length == 2) {
+            return pieces[0];
+        }
+        else {
+            return toModelFilename(name);
+        }
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        String modelImport;
+        if (StringUtils.startsWithAny(name, "import", "from", "try:")) {
+            modelImport = name;
+        } else {
+            if (name.contains(".")) {
+                modelImport = "from " + modelPackage() + " import " + getPythonFileName(name);
+            }
+            else {
+                modelImport = "from ";
+                if (!"".equals(modelPackage())) {
+                    modelImport += modelPackage() + ".";
+                }
+                modelImport += toModelFilename(name) + " import " + name;
+            }
+        }
+        return modelImport;
     }
 
     private void fixOperationImports(Set<String> imports) {
@@ -356,18 +361,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return objs;
     }
 
-    private void fixModelImports(Set<String> imports) {
-        // loops through imports and converts them all from 'module.Class' to 'import models.module as module'
-        if (imports.size() == 0) {
-            return;
-        }
-        String[] modelNames = imports.toArray(new String[0]);
-        imports.clear();
-        for (String modelName : modelNames) {
-            imports.add(robustImport(modelName));
-        }
-    }
-
     // override with any special post-processing for all models
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
@@ -400,14 +393,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                         cm.imports.add(otherModelName);
                     }
                 }
-
-                /*
-                 * Moved this functionality into toModelImport.
-                 * 
-                 * Now the imports are one level higher, so the template has also been altered.
-                 */
-                //// fix the imports that each model has, change them to absolute
-                //fixModelImports(cm.imports);
 
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
