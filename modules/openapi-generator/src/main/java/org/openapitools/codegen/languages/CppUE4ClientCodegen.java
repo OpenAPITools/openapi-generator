@@ -397,6 +397,10 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         }
     }
 
+    @Override
+    public String getTypeDeclaration(String name) {
+        return name;
+    }
 
     @Override
     public String toDefaultValue(Schema p) {
