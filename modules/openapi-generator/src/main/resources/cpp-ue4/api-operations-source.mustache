@@ -139,19 +139,17 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSha
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
 		{{#bodyParams}}
 		{{#required}}
-		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{paramName}});
+		WriteJsonValue(Writer, {{paramName}});
 		{{/required}}
 		{{^required}}
 		if ({{paramName}}.IsSet())
 		{
-			Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{paramName}}.GetValue());
+			WriteJsonValue(Writer, {{paramName}}.GetValue());
 		}
 		{{/required}}
 		{{/bodyParams}}
-		Writer->WriteObjectEnd();
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
