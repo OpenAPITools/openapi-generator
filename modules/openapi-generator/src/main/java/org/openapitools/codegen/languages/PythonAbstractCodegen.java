@@ -64,7 +64,7 @@ public class PythonAbstractCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.add("file");
         languageSpecificPrimitives.add("byte");
         languageSpecificPrimitives.add("bytearray");
-
+        
         typeMapping.clear();
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
@@ -73,14 +73,17 @@ public class PythonAbstractCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("double", "float");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Dict");
+        typeMapping.put("set", "List");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "date");
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "object");
+        typeMapping.put("AnyType", "object");
         typeMapping.put("file", "file");
         typeMapping.put("byte", "bytearray");
         typeMapping.put("ByteArray", "bytearray");
+        typeMapping.put("null", "none_type");
         // map uuid to string for the time being
         typeMapping.put("UUID", "str");
         typeMapping.put("URI", "str");
@@ -286,7 +289,7 @@ public class PythonAbstractCodegen extends DefaultCodegen implements CodegenConf
         // remove multiline comment
         return input.replace("'''", "'_'_'");
     }
-
+    
     @Override
     public String toModelImport(String name) {
         String modelImport;
@@ -435,6 +438,9 @@ public class PythonAbstractCodegen extends DefaultCodegen implements CodegenConf
             }
         }
         mo.put("imports", pyImport);
+        // TODO: the following is added to maintain the import format used by the server generators.
+        // It should be removed, but has been left to maintain compatibility with customised templates.
+        mo.put("pyImports", pyImport);
     }
 
     // override with any special post-processing for all models
