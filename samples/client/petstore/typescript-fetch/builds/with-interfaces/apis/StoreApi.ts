@@ -34,6 +34,7 @@ export interface PlaceOrderRequest {
 
 /**
  * StoreApi - interface
+ * 
  * @export
  * @interface StoreApiInterface
  */
@@ -103,7 +104,7 @@ export interface StoreApiInterface {
 }
 
 /**
- * no description
+ * 
  */
 export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
 

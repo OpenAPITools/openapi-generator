@@ -24,6 +24,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -98,6 +100,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         ParameterFeature.Cookie
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
@@ -323,12 +329,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getName() {
-        return "swift4";
+        return "swift4-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Swift 4.x client library.";
+        return "Generates a Swift 4.x client library (Deprecated and will be removed in 5.x releases. Please use `swift5` instead.)";
     }
 
     @Override

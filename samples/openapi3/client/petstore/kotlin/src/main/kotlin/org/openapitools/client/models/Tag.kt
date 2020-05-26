@@ -25,12 +25,10 @@ data class Tag (
     val id: kotlin.Long? = null,
     @Json(name = "name")
     val name: kotlin.String? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

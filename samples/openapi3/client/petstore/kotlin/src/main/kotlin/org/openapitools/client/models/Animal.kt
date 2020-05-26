@@ -20,17 +20,14 @@ import java.io.Serializable
  * @param color 
  */
 
-data class Animal (
-    @Json(name = "className")
-    val className: kotlin.String,
-    @Json(name = "color")
-    val color: kotlin.String? = null
-) 
-: Serializable 
-
-{
+interface Animal : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
+    @Json(name = "className")
+    val className: kotlin.String
+    @Json(name = "color")
+    val color: kotlin.String?
 }
 

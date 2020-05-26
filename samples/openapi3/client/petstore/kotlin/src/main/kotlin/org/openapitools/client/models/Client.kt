@@ -22,12 +22,10 @@ import java.io.Serializable
 data class Client (
     @Json(name = "client")
     val client: kotlin.String? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

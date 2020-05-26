@@ -1,0 +1,5 @@
+{
+    "library": "jersey2",
+    "java8": false,
+    "artifactId": "petstore-jersey2-java7"
+}

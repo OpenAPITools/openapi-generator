@@ -55,6 +55,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     protected String controllerDirName = "Controller";
     protected String serviceDirName = "Service";
     protected String controllerPackage;
+    protected String controllerTestsPackage;
     protected String servicePackage;
     protected Boolean phpLegacySupport = Boolean.TRUE;
 
@@ -301,6 +302,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("servicePackage", servicePackage);
         additionalProperties.put("apiTestsPackage", apiTestsPackage);
         additionalProperties.put("modelTestsPackage", modelTestsPackage);
+        additionalProperties.put("controllerTestsPackage", controllerTestsPackage);
 
         // make Symonfy-specific properties available
         additionalProperties.put("bundleName", bundleName);
@@ -311,11 +313,13 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         // make api and model src path available in mustache template
         additionalProperties.put("apiSrcPath", "." + "/" + toSrcPath(apiPackage, srcBasePath));
         additionalProperties.put("modelSrcPath", "." + "/" + toSrcPath(modelPackage, srcBasePath));
+        additionalProperties.put("controllerSrcPath", "." + "/" + toSrcPath(controllerPackage, srcBasePath));
         additionalProperties.put("testsSrcPath", "." + "/" + toSrcPath(testsPackage, srcBasePath));
         additionalProperties.put("apiTestsSrcPath", "." + "/" + toSrcPath(apiTestsPackage, srcBasePath));
         additionalProperties.put("modelTestsSrcPath", "." + "/" + toSrcPath(modelTestsPackage, srcBasePath));
         additionalProperties.put("apiTestPath", "." + "/" + testsDirName + "/" + apiDirName);
         additionalProperties.put("modelTestPath", "." + "/" + testsDirName + "/" + modelDirName);
+        additionalProperties.put("controllerTestPath", "." + "/" + testsDirName + "/" + controllerDirName);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -346,6 +350,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile("testing/pom.xml", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("testing/AppKernel.php", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
+        supportingFiles.add(new SupportingFile("testing/ControllerTest.mustache", toSrcPath(controllerTestsPackage, srcBasePath), "ControllerTest.php"));
         supportingFiles.add(new SupportingFile("testing/test_config.yml", toSrcPath(testsPackage, srcBasePath), "test_config.yml"));
 
         supportingFiles.add(new SupportingFile("routing.mustache", configDir, "routing.yml"));
@@ -540,6 +545,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         apiTestsPackage = testsPackage + "\\" + apiDirName;
         modelTestsPackage = testsPackage + "\\" + modelDirName;
         controllerPackage = invokerPackage + "\\" + controllerDirName;
+        controllerTestsPackage = testsPackage + "\\" + controllerDirName;
         servicePackage = invokerPackage + "\\" + serviceDirName;
     }
 

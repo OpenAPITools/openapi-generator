@@ -51,6 +51,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
     public static final String SUPPORT_PYTHON2 = "supportPython2";
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
+    public static final String PYTHON_SRC_ROOT = "pythonSrcRoot";
     static final String MEDIA_TYPE = "mediaType";
 
     protected int serverPort = 8080;
@@ -61,6 +62,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
     protected Map<Character, String> regexModifiers;
     protected boolean fixBodyName;
     protected boolean useNose = Boolean.FALSE;
+    protected String pythonSrcRoot;
 
     public PythonAbstractConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
@@ -165,6 +167,8 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                 defaultValue("8080"));
         cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
                 defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(PYTHON_SRC_ROOT, "put python sources in this subdirectory of output folder (defaults to \"\" for). Use this for src/ layout.").
+                defaultValue(""));
     }
 
     protected void addSupportingFiles() {
@@ -212,6 +216,12 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         if (additionalProperties.containsKey(USE_NOSE)) {
             setUseNose((String) additionalProperties.get(USE_NOSE));
         }
+        if (additionalProperties.containsKey(PYTHON_SRC_ROOT)) {
+            setPythonSrcRoot((String) additionalProperties.get(PYTHON_SRC_ROOT));
+            additionalProperties.put(PYTHON_SRC_ROOT, pythonSrcRoot);
+        } else {
+            setPythonSrcRoot("");
+        }
         supportingFiles.add(new SupportingFile("__main__.mustache", packagePath(), "__main__.py"));
         supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
         supportingFiles.add(new SupportingFile("typing_utils.mustache", packagePath(), "typing_utils.py"));
@@ -228,6 +238,25 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
 
     public void setUseNose(String val) {
         this.useNose = Boolean.valueOf(val);
+    }
+
+    public void setPythonSrcRoot(String val) {
+        String pySrcRoot;
+        if (val == null) {
+            pySrcRoot = "";
+        } else {
+            pySrcRoot = val.replaceAll("[/\\\\]+$", "");
+        }
+
+        if (pySrcRoot.isEmpty() || pySrcRoot == ".") {
+            this.pythonSrcRoot = "";
+        } else {
+            this.pythonSrcRoot = pySrcRoot + File.separator;
+        }
+    }
+
+    public String pythonSrcOutputFolder() {
+        return outputFolder + File.separator + pythonSrcRoot;
     }
 
     private static String packageToPath(String pkg) {
@@ -304,7 +333,14 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        String pkgPath = apiPackage().replace('.', File.separatorChar);
+        return pythonSrcOutputFolder() + pkgPath;
+    }
+
+    @Override
+    public String modelFileFolder() {
+        String pkgPath = modelPackage().replace('.', File.separatorChar);
+        return pythonSrcOutputFolder() + pkgPath;
     }
 
     @Override
@@ -558,6 +594,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             }
         }
 
+        generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
 
         for (Map<String, Object> operations : getOperations(objs)) {
@@ -799,7 +836,8 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
     }
 
     public String packagePath() {
-        return packageName.replace('.', File.separatorChar);
+        String pkgPath = packageName.replace('.', File.separatorChar);
+        return pythonSrcRoot + pkgPath;
     }
 
     @Override

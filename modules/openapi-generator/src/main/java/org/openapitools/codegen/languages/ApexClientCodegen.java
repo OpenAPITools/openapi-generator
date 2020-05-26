@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -315,7 +314,8 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        writeOptional(outputFolder, new SupportingFile("README_ant.mustache", "README.md"));
+        supportingFiles.add(new SupportingFile("README_ant.mustache", "README.md")
+            .doNotOverwrite());
 
     }
 
@@ -324,7 +324,8 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         supportingFiles.add(new SupportingFile("sfdx-project-scratch-def.json", sfdxConfigPath, "project-scratch-def.json"));
         supportingFiles.add(new SupportingFile("sfdx-project.json.mustache", "sfdx-project.json"));
 
-        writeOptional(outputFolder, new SupportingFile("README_sfdx.mustache", "README.md"));
+        supportingFiles.add(new SupportingFile("README_sfdx.mustache", "README.md")
+            .doNotOverwrite());
 
     }
 

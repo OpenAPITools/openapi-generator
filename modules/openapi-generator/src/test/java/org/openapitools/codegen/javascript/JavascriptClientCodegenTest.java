@@ -18,11 +18,9 @@
 package org.openapitools.codegen.javascript;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.JavascriptClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -96,6 +94,23 @@ public class JavascriptClientCodegenTest {
         Assert.assertEquals(property2.defaultValueWithParam, " = ApiClient.convertToType(data['name'], 'String');");
         Assert.assertTrue(property2.required); // test required
         Assert.assertFalse(property2.isContainer);
+    }
+
+    @Test(description = "test isDefualt in the response")
+    public void testResponseIsDefault() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation textOperation = openAPI.getPaths().get("/user").getPost();
+        CodegenOperation coText = codegen.fromOperation("/user", "post", textOperation, null);
+
+        for (CodegenResponse cr : coText.responses) {
+            Assert.assertTrue(cr.isDefault);
+        }
+
+        Assert.assertEquals(coText.responses.size(), 1);
+
     }
 
 }

@@ -286,6 +286,8 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		}
 		{{#responses}}
 		{{#dataType}}
+		{{^is1xx}}
+		{{^is2xx}}
 		{{^wildcard}}
 		if localVarHTTPResponse.StatusCode == {{{code}}} {
 		{{/wildcard}}
@@ -302,6 +304,8 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		{{^wildcard}}
 		}
 		{{/wildcard}}
+		{{/is2xx}}
+		{{/is1xx}}
 		{{/dataType}}
 		{{/responses}}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr

@@ -49,15 +49,12 @@ public class AdditionalPropertiesClass  {
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   @ApiModelProperty(value = "")
-  @Valid
   private Object anytype1;
 
   @ApiModelProperty(value = "")
-  @Valid
   private Object anytype2;
 
   @ApiModelProperty(value = "")
-  @Valid
   private Object anytype3;
  /**
    * Get mapString

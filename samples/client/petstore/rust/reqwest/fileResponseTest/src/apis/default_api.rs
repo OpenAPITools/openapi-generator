@@ -29,6 +29,7 @@ impl DefaultApiClient {
     }
 }
 
+
 pub trait DefaultApi {
     fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error>;
 }

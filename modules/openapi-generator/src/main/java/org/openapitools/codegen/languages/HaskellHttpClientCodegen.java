@@ -759,11 +759,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
             if (typeMapping.containsKey(param.dataType)
                     || param.isMapContainer || param.isListContainer
-                    || param.isPrimitiveType || param.isFile || param.isEnum) {
+                    || param.isPrimitiveType || param.isFile || (param.isEnum || param.allowableValues != null) || !param.isBodyParam) {
 
                 String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
 
-                String paramNameType = toDedupedModelName(toTypeName("Param", param.paramName), dataType, !param.isEnum);
+                String paramNameType = toDedupedModelName(toTypeName("Param", param.paramName), dataType, !(param.isEnum || param.allowableValues != null));
                 param.vendorExtensions.put(X_PARAM_NAME_TYPE, paramNameType); // TODO: 5.0 Remove
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_PARAM_NAME_TYPE, paramNameType);
 

@@ -1,0 +1,15 @@
+{{>licenseInfo}}
+#pragma once
+
+#include "Modules/ModuleInterface.h"
+#include "Modules/ModuleManager.h"
+#include "Logging/LogMacros.h"
+
+DECLARE_LOG_CATEGORY_EXTERN(Log{{unrealModuleName}}, Log, All);
+
+class {{dllapi}} {{unrealModuleName}}Module : public IModuleInterface
+{
+public:
+	void StartupModule() final;
+	void ShutdownModule() final;
+};

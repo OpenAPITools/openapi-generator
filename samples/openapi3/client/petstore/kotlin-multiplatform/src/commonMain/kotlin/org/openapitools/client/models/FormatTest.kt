@@ -16,19 +16,19 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
 /**
  * 
+ * @param number 
+ * @param byte 
+ * @param date 
+ * @param password 
  * @param integer 
  * @param int32 
  * @param int64 
- * @param number 
  * @param float 
  * @param double 
  * @param string 
- * @param byte 
  * @param binary 
- * @param date 
  * @param dateTime 
  * @param uuid 
- * @param password 
  * @param patternWithDigits A string that is a 10 digit number. Can have leading zeros.
  * @param patternWithDigitsAndDelimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
  */
@@ -51,7 +51,5 @@ data class FormatTest (
     @SerialName(value = "pattern_with_digits") val patternWithDigits: kotlin.String? = null,
     /* A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. */
     @SerialName(value = "pattern_with_digits_and_delimiter") val patternWithDigitsAndDelimiter: kotlin.String? = null
-) 
-
-
+)
 

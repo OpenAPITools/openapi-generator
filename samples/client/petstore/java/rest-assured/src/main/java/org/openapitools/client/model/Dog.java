@@ -25,16 +25,23 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.DogAllOf;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * Dog
  */
+
 
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
+  public Dog() {
+    this.className = this.getClass().getSimpleName();
+  }
 
   public Dog breed(String breed) {
     

@@ -89,6 +89,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
+        typeMapping.put("AnyType", "Object");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
@@ -239,6 +240,12 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        final String authFolder = libFolder + File.separator + "auth";
+        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
         if ("core".equals(dateLibrary)) {
             additionalProperties.put("core", "true");

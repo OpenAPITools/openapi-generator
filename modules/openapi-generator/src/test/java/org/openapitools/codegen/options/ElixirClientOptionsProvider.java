@@ -43,6 +43,7 @@ public class ElixirClientOptionsProvider implements OptionsProvider {
                 .put("licenseHeader", "# Copyright 2017 Me\n#\n# Licensed under the Apache License")
                 .put(CodegenConstants.PACKAGE_NAME, "yay_pets")
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .build();
     }
 

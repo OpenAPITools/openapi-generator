@@ -29,6 +29,7 @@ impl UserApiClient {
     }
 }
 
+
 pub trait UserApi {
     fn create_user(&self, body: crate::models::User) -> Result<(), Error>;
     fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error>;

@@ -6,6 +6,7 @@ import org.openapitools.client.EncodingUtils;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public interface PetApi extends ApiClient.Api {
     "Accept: application/json",
     "api_key: {apiKey}"
   })
-  void deletePet(@Param("petId") Long petId, @Param("api_key") String apiKey);
+  void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey);
 
   /**
    * Finds Pets by status
@@ -90,13 +91,13 @@ public interface PetApi extends ApiClient.Api {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return List&lt;Pet&gt;
+   * @return Set&lt;Pet&gt;
    */
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
     "Accept: application/json",
   })
-  List<Pet> findPetsByTags(@Param("tags") List<String> tags);
+  Set<Pet> findPetsByTags(@Param("tags") Set<String> tags);
 
   /**
    * Finds Pets by tags
@@ -111,20 +112,20 @@ public interface PetApi extends ApiClient.Api {
    *   <ul>
    *   <li>tags - Tags to filter by (required)</li>
    *   </ul>
-   * @return List&lt;Pet&gt;
+   * @return Set&lt;Pet&gt;
    */
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
   "Accept: application/json",
   })
-  List<Pet> findPetsByTags(@QueryMap(encoded=true) Map<String, Object> queryParams);
+  Set<Pet> findPetsByTags(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
    * <code>findPetsByTags</code> method in a fluent style.
    */
   public static class FindPetsByTagsQueryParams extends HashMap<String, Object> {
-    public FindPetsByTagsQueryParams tags(final List<String> value) {
+    public FindPetsByTagsQueryParams tags(final Set<String> value) {
       put("tags", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }

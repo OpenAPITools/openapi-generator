@@ -1,0 +1,7 @@
+{{^formParams.isEmpty}}
+
+          formFields({{#formParams}}"{{baseName}}".as[{{#isPrimitiveType}}{{dataType}}{{/isPrimitiveType}}{{^isPrimitiveType}}String{{/isPrimitiveType}}]{{^required}}.?{{#vendorExtensions.x-has-default-value}}({{defaultValue}}){{/vendorExtensions.x-has-default-value}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/formParams}}) { ({{#formParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/formParams}}) =>{{/formParams.isEmpty}}
+            {{#bodyParam}}{{^isPrimitiveType}}entity(as[{{dataType}}]){ {{paramName}} =>
+              {{/isPrimitiveType}}{{/bodyParam}}{{classVarName}}Service.{{operationId}}({{#allParams}}{{paramName}} = {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#bodyParam}}{{^isPrimitiveType}}
+            }{{/isPrimitiveType}}{{/bodyParam}}{{^formParams.isEmpty}}
+          }{{/formParams.isEmpty}}

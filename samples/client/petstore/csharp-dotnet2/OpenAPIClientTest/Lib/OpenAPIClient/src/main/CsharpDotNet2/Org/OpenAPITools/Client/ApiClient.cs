@@ -261,11 +261,9 @@ namespace Org.OpenAPITools.Client
                 {
                     case "api_key":
                         headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
-                        
                         break;
                     case "petstore_auth":
-                        
-                        //TODO support oauth
+                        headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
                         break;
                     default:
                         //TODO show warning about security definition not found

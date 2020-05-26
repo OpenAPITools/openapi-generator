@@ -293,7 +293,7 @@ public class DartModelTest {
         final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);
-        Assert.assertEquals(cm.classname, expectedName);
+        Assert.assertEquals(cm.classname, codegen.toModelName(expectedName));
     }
 
     @Test(description = "test enum variable names for reserved words")

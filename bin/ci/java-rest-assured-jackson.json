@@ -1,0 +1,16 @@
+{
+  "!include": "bin/java-petstore-rest-assured-jackson.json",
+  "generatorName": "java",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/client/petstore/java/rest-assured-jackson",
+  "templateDir": "modules/openapi-generator/src/main/resources/Java/libraries/rest-assured",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "booleanGetterPrefix": "is",
+    "java8": "true",
+    "dateLibrary": "java8",
+    "serializationLibrary": "jackson",
+    "useBeanValidation": "true",
+    "performBeanValidation": "true"
+  }
+}

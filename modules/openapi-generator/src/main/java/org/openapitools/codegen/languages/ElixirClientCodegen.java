@@ -741,7 +741,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(returnBaseType);
                 sb.append(".t");
             } else {
-                if (returnContainer.equals("array")) {
+                if (returnContainer.equals("array") ||
+                    returnContainer.equals("set")) {
                     sb.append("list(");
                     if (!returnTypeIsPrimitive) {
                         sb.append(moduleName);
