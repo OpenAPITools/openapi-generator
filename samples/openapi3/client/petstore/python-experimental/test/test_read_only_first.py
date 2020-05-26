@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+from petstore_api.model.read_only_first import ReadOnlyFirst
 
 
 class TestReadOnlyFirst(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestReadOnlyFirst(unittest.TestCase):
     def testReadOnlyFirst(self):
         """Test ReadOnlyFirst"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ReadOnlyFirst()  # noqa: E501
+        # model = ReadOnlyFirst()  # noqa: E501
         pass
 
 

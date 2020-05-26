@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+from petstore_api.model.triangle_interface import TriangleInterface
 
 
 class TestTriangleInterface(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestTriangleInterface(unittest.TestCase):
     def testTriangleInterface(self):
         """Test TriangleInterface"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.TriangleInterface()  # noqa: E501
+        # model = TriangleInterface()  # noqa: E501
         pass
 
 

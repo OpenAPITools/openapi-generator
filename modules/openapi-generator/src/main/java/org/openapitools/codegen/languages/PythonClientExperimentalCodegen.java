@@ -97,6 +97,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
         apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
 
+        apiTestTemplateFiles.remove("api_test.mustache", ".py");
+        apiTestTemplateFiles.put("python-experimental/api_test.mustache", ".py");
+
         modelDocTemplateFiles.remove("model_doc.mustache");
         modelDocTemplateFiles.put("python-experimental/model_doc.mustache", ".md");
 
@@ -123,6 +126,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
+        modelPackage = packageName + "." + "model";
 
         supportingFiles.remove(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
         supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
@@ -130,11 +134,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
 
         supportingFiles.remove(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
-        supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
 
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 
+        // add the models and apis folders
+        supportingFiles.add(new SupportingFile("python-experimental/__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
@@ -518,9 +525,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // set the example value
             if (modelProp.isEnum) {
                 String value = modelProp._enum.get(0).toString();
-                result.example = this.packageName + "." + result.baseType + "(" + toEnumValue(value, simpleDataType) + ")";
+                result.example = result.dataType + "(" + toEnumValue(value, simpleDataType) + ")";
             } else {
-                result.example = this.packageName + "." + result.baseType + "(" + result.example + ")";
+                result.example = result.dataType + "(" + result.example + ")";
             }
         } else if (!result.isPrimitiveType) {
             // fix the baseType for the api docs so the .md link to the class's documentation file is correct
@@ -1064,7 +1071,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             example = "'" + escapeText(example) + "'";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. user.User
-            example = this.packageName + "." + getPythonClassName(type) + "()";
+            example = type + "()";
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }

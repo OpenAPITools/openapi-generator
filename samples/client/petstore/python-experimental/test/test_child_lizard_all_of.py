@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+from petstore_api.models.child_lizard_all_of import ChildLizardAllOf
 
 
 class TestChildLizardAllOf(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestChildLizardAllOf(unittest.TestCase):
     def testChildLizardAllOf(self):
         """Test ChildLizardAllOf"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ChildLizardAllOf()  # noqa: E501
+        # model = ChildLizardAllOf()  # noqa: E501
         pass
 
 

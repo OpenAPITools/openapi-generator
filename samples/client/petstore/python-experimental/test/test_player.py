@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+from petstore_api.models.player import Player
 
 
 class TestPlayer(unittest.TestCase):
@@ -29,13 +30,13 @@ class TestPlayer(unittest.TestCase):
     def testPlayer(self):
         """Test Player"""
         # we can make a player without an enemy_player property
-        jane = petstore_api.Player(name="Jane")
+        jane = Player(name="Jane")
         # we can make a player with an enemy_player
-        sally = petstore_api.Player(name="Sally", enemy_player=jane)
+        sally = Player(name="Sally", enemy_player=jane)
         # we can make a player with an inline enemy_player
-        jim = petstore_api.Player(
+        jim = Player(
             name="Jim",
-            enemy_player=petstore_api.Player(name="Sam")
+            enemy_player=Player(name="Sam")
         )
 
 

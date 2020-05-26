@@ -6,9 +6,13 @@ from __future__ import absolute_import
 
 import unittest
 
+import {{packageName}}
 {{#models}}
 {{#model}}
-import {{packageName}}
+{{#imports}}
+{{{.}}}
+{{/imports}}
+from {{modelPackage}}.{{classFilename}} import {{unescapedDescription}}
 
 
 class Test{{unescapedDescription}}(unittest.TestCase):
@@ -23,7 +27,7 @@ class Test{{unescapedDescription}}(unittest.TestCase):
     def test{{unescapedDescription}}(self):
         """Test {{unescapedDescription}}"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = {{packageName}}.{{unescapedDescription}}()  # noqa: E501
+        # model = {{unescapedDescription}}()  # noqa: E501
         pass
 
 {{/model}}

@@ -23,18 +23,17 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import store_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
-
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = store_api.StoreApi(api_client)
     order_id = 'order_id_example' # str | ID of the order that needs to be deleted
     
     # example passing only required values which don't have defaults set
@@ -86,6 +85,7 @@ Returns a map of status codes to quantities
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import store_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -111,7 +111,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = store_api.StoreApi(api_client)
     
     # example, this endpoint has no required or optional parameters
     try:
@@ -158,18 +158,18 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import store_api
+
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
-
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = store_api.StoreApi(api_client)
     order_id = 56 # int | ID of pet that needs to be fetched
     
     # example passing only required values which don't have defaults set
@@ -220,19 +220,19 @@ Place an order for a pet
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import store_api
+
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
-
-
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
-    order_order = petstore_api.Order() # order.Order | order placed for purchasing the pet
+    api_instance = store_api.StoreApi(api_client)
+    order_order = order.Order() # order.Order | order placed for purchasing the pet
     
     # example passing only required values which don't have defaults set
     try:

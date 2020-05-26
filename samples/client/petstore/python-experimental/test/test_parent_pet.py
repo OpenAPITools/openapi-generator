@@ -15,6 +15,27 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.models import child_cat
+except ImportError:
+    child_cat = sys.modules[
+        'petstore_api.models.child_cat']
+try:
+    from petstore_api.models import child_dog
+except ImportError:
+    child_dog = sys.modules[
+        'petstore_api.models.child_dog']
+try:
+    from petstore_api.models import child_lizard
+except ImportError:
+    child_lizard = sys.modules[
+        'petstore_api.models.child_lizard']
+try:
+    from petstore_api.models import grandparent_animal
+except ImportError:
+    grandparent_animal = sys.modules[
+        'petstore_api.models.grandparent_animal']
+from petstore_api.models.parent_pet import ParentPet
 
 
 class TestParentPet(unittest.TestCase):
@@ -29,7 +50,7 @@ class TestParentPet(unittest.TestCase):
     def testParentPet(self):
         """Test ParentPet"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ParentPet()  # noqa: E501
+        # model = ParentPet()  # noqa: E501
         pass
 
 

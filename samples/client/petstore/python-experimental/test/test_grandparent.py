@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+from petstore_api.models.grandparent import Grandparent
 
 
 class TestGrandparent(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestGrandparent(unittest.TestCase):
     def testGrandparent(self):
         """Test Grandparent"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.Grandparent()  # noqa: E501
+        # model = Grandparent()  # noqa: E501
         pass
 
 

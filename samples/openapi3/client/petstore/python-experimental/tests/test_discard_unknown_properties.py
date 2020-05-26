@@ -19,6 +19,7 @@ import unittest
 from six.moves.urllib.parse import urlencode, urlparse
 
 import petstore_api
+from petstore_api.model import cat, dog
 from petstore_api import Configuration, signing
 from petstore_api.rest import (
     RESTClientObject,
@@ -133,8 +134,8 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         # Deserializing with strict validation does not raise an exception because the even though
         # the 'dynamic-property' is undeclared, the 'Cat' schema defines the additionalProperties
         # attribute.
-        deserialized = api_client.deserialize(response, ((petstore_api.Cat),), True)
-        self.assertTrue(isinstance(deserialized, petstore_api.Cat))
+        deserialized = api_client.deserialize(response, ((cat.Cat),), True)
+        self.assertTrue(isinstance(deserialized, cat.Cat))
         self.assertIn('color', deserialized.to_dict())
         self.assertEqual(deserialized['color'], 'black')
 
@@ -156,8 +157,8 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         # The 'my_additional_property' is undeclared, but 'Cat' has a 'Address' type through
         # the allOf: [ $ref: '#/components/schemas/Address' ].
         response = MockResponse(data=json.dumps(data))
-        deserialized = api_client.deserialize(response, ((petstore_api.Cat),), True)
-        self.assertTrue(isinstance(deserialized, petstore_api.Cat))
+        deserialized = api_client.deserialize(response, ((cat.Cat),), True)
+        self.assertTrue(isinstance(deserialized, cat.Cat))
         # Check the 'unknown_property' and 'more-unknown' properties are not present in the
         # output.
         self.assertIn("declawed", deserialized.to_dict().keys())

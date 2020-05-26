@@ -15,8 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
-from petstore_api.models.outer_enum import OuterEnum  # noqa: E501
-from petstore_api.rest import ApiException
+from petstore_api.models.outer_enum import OuterEnum
 
 
 class TestOuterEnum(unittest.TestCase):
@@ -42,6 +41,7 @@ class TestOuterEnum(unittest.TestCase):
         # make sure valid value works
         valid_value = OuterEnum.allowed_values[('value',)]['PLACED']
         assert valid_value == OuterEnum(valid_value).value
+
 
 if __name__ == '__main__':
     unittest.main()

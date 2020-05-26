@@ -15,6 +15,17 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import whale
+except ImportError:
+    whale = sys.modules[
+        'petstore_api.model.whale']
+try:
+    from petstore_api.model import zebra
+except ImportError:
+    zebra = sys.modules[
+        'petstore_api.model.zebra']
+from petstore_api.model.mammal import Mammal
 
 
 class TestMammal(unittest.TestCase):

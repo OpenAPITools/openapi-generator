@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+from petstore_api.model.banana_req import BananaReq
 
 
 class TestBananaReq(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestBananaReq(unittest.TestCase):
     def testBananaReq(self):
         """Test BananaReq"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.BananaReq()  # noqa: E501
+        # model = BananaReq()  # noqa: E501
         pass
 
 

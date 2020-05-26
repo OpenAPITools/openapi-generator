@@ -15,8 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
-from petstore_api.models.string_boolean_map import StringBooleanMap  # noqa: E501
-from petstore_api.rest import ApiException
+from petstore_api.models.string_boolean_map import StringBooleanMap
 
 
 class TestStringBooleanMap(unittest.TestCase):
@@ -31,7 +30,7 @@ class TestStringBooleanMap(unittest.TestCase):
     def testStringBooleanMap(self):
         """Test StringBooleanMap"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.models.string_boolean_map.StringBooleanMap()  # noqa: E501
+        # model = StringBooleanMap()  # noqa: E501
         pass
 
 

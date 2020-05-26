@@ -2,6 +2,10 @@
 from __future__ import print_function
 import time
 import {{{packageName}}}
+from {{apiPackage}} import {{classVarName}}
+{{#imports}}
+{{{import}}}
+{{/imports}}
 from pprint import pprint
 {{> python_doc_auth_partial}}
 # Enter a context with an instance of the API client
@@ -12,7 +16,7 @@ with {{{packageName}}}.ApiClient(configuration) as api_client:
 with {{{packageName}}}.ApiClient() as api_client:
 {{/hasAuthMethods}}
     # Create an instance of the API class
-    api_instance = {{{packageName}}}.{{{classname}}}(api_client)
+    api_instance = {{classVarName}}.{{{classname}}}(api_client)
     {{#requiredParams}}{{^defaultValue}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}
     {{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}
     {{/optionalParams}}
