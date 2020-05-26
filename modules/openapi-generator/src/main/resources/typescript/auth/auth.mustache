@@ -7,126 +7,88 @@ import * as btoa from "btoa";
 {{/node}}
 {{/platforms}}
 /**
- * Base class for all authentication schemes.
- *
+ * Interface authentication schemes.
  */
-export abstract class SecurityAuthentication {
+export interface SecurityAuthentication {
+    /*
+     * @return returns the name of the security authentication as specified in OAI
+     */
+    getName(): string;
 
-	public constructor(private name: string) {
-	
-	}
-	
-	/*
-	 * 
-	 * @return returns the name of the security authentication as specified in OAI
-	 */
-	public getName(): string {
-		return this.name;
-	}
-	
-	/**
-	 * Applies the authentication scheme to the request context
-	 * 
-	 * @params context the request context which should use this authentication scheme
-	 */
-   public abstract applySecurityAuthentication(context: RequestContext): void | Promise<void>;
-
-}
-
-/**
- * Applies an api key to the request context. 
- *
- */
-export class APIKeyAuthentication extends SecurityAuthentication {
-	
-	/**
-	 * Configures this api key authentication with the necessary properties
-	 *
-	 * @param authName: name of this authentication scheme as specified in the swagger.json
-	 * @param paramName: Parameter name used for the api key
-	 * @param keyLocation: Parameter location, either query, header or cookie.
-	 * @param apiKey: The api key to be used for every request
-	 */
-	public constructor(authName: string, private paramName: string, private keyLocation: "query" | "header" | "cookie", private apiKey: string) {
-		super(authName);
-	}
-	
-	public applySecurityAuthentication(context: RequestContext) {
-		if (this.keyLocation === "header") {
-			context.setHeaderParam(this.paramName, this.apiKey);
-		} else if (this.keyLocation === "cookie") {
-			context.addCookie(this.paramName, this.apiKey);
-		} else if (this.keyLocation === "query") {
-			context.setQueryParam(this.paramName, this.apiKey);
-		}
-	}
-}
-
-
-/**
- * Applies basic http authentication to a request.
- *
- */
-export class HttpBasicAuthentication extends SecurityAuthentication {
-	
-	/**
-	 * Configures the http authentication with the required details.
-	 *
-	 *
-	 * @param authName name of the authentication scheme as defined in swagger json
-	 * @param username username for http basic authentication
-	 * @param password password for http basic authentication
-	 */
-	public constructor(authName: string, private username: string, private password: string) {
-		super(authName);
-	}
-	
-	public applySecurityAuthentication(context: RequestContext) {
-		let comb = this.username + ":" + this.password;
-		context.setHeaderParam("Authorization", "Basic " + btoa(comb));
-	}
+    /**
+     * Applies the authentication scheme to the request context
+     *
+     * @params context the request context which should use this authentication scheme
+     */
+    applySecurityAuthentication(context: RequestContext): void | Promise<void>;
 }
 
 export interface TokenProvider {
   getToken(): Promise<string> | string;
 }
 
+{{#authMethods}}
 /**
- * Applies http bearer authentication to a request.
- *
+ * Applies {{type}} authentication to the request context.
  */
-export class HttpBearerAuthentication extends SecurityAuthentication {
+export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication implements SecurityAuthentication {
+    {{#isApiKey}}
+    /**
+     * Configures this api key authentication with the necessary properties
+     *
+     * @param apiKey: The api key to be used for every request
+     */
+    public constructor(private apiKey: string) {}
+    {{/isApiKey}}
+    {{#isBasicBasic}}
     /**
      * Configures the http authentication with the required details.
      *
+     * @param username username for http basic authentication
+     * @param password password for http basic authentication
+     */
+    public constructor(private username: string, private password: string) {}
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    /**
+     * Configures the http authentication with the required details.
      *
-     * @param authName name of the authentication scheme as defined in openapi specification
      * @param tokenProvider service that can provide the up-to-date token when needed
      */
-    public constructor(authName: string, private tokenProvider: TokenProvider) {
-        super(authName);
+    public constructor(private tokenProvider: TokenProvider) {}
+    {{/isBasicBearer}}
+    {{#isOAuth}}
+    // TODO: How to handle oauth2 authentication!
+    public constructor() {}
+    {{/isOAuth}}
+
+    public getName(): string {
+        return "{{name}}";
     }
 
-    public async applySecurityAuthentication(context: RequestContext) {
+    public applySecurityAuthentication(context: RequestContext) {
+        {{#isApiKey}}
+        context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}addCookie{{/isKeyInQuery}}{{#isKeyInCookie}}setQueryParam{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
+        {{/isApiKey}}
+        {{#isBasicBasic}}
+        let comb = this.username + ":" + this.password;
+        context.setHeaderParam("Authorization", "Basic " + btoa(comb));
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
         context.setHeaderParam("Authorization", "Bearer " + await this.tokenProvider.getToken());
+        {{/isBasicBearer}}
+        {{#isOAuth}}
+        // TODO
+        {{/isOAuth}}
     }
 }
 
-// TODO: How to handle oauth2 authentication!
-export class OAuth2Authentication extends SecurityAuthentication {
-	public constructor(authName: string) {
-		super(authName);
-	}
-	
-	public applySecurityAuthentication(context: RequestContext) {
-		// TODO
-	}
-}
+{{/authMethods}}
 
 export type AuthMethods = {
-	{{#authMethods}}
-		"{{name}}"?: {{#isApiKey}}APIKeyAuthentication{{/isApiKey}}{{#isBasicBasic}}HttpBasicAuthentication{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuthentication{{/isBasicBearer}}{{#isOAuth}}OAuth2Authentication{{/isOAuth}},
-	{{/authMethods}}
+    {{#authMethods}}
+    "{{name}}"?: {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{#hasMore}},{{/hasMore}}
+    {{/authMethods}}
 }
 
 export type ApiKeyConfiguration = string;
@@ -134,7 +96,11 @@ export type HttpBasicConfiguration = { "username": string, "password": string };
 export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
 export type OAuth2Configuration = string;
 
-export type AuthMethodsConfiguration = { {{#authMethods}}"{{name}}"?:{{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}},  {{/authMethods}} }
+export type AuthMethodsConfiguration = {
+    {{#authMethods}}
+    "{{name}}"?: {{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}}{{#hasMore}},{{/hasMore}}
+    {{/authMethods}}
+}
 
 /**
  * Creates the authentication methods from a swagger description.
@@ -147,22 +113,24 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
         return authMethods;
     }
 
-	{{#authMethods}}
+    {{#authMethods}}
     if (config["{{name}}"]) {
-        {{#isApiKey}}
-        authMethods["{{name}}"] = new APIKeyAuthentication("{{name}}",  "{{keyParamName}}", {{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, <string> config["{{name}}"]);
-        {{/isApiKey}}
-        {{#isBasicBasic}}
-        authMethods["{{name}}"] = new HttpBasicAuthentication("{{name}}", config["{{name}}"]["username"], config["{{name}}"]["password"]);
-        {{/isBasicBasic}}
-        {{#isBasicBearer}}
-        authMethods["{{name}}"] = new HttpBearerAuthentication("{{name}}", config["{{name}}"]["tokenProvider"]);
-        {{/isBasicBearer}}
-		{{#isOAuth}}
-		authMethods["{{name}}"] = new OAuth2Authentication("{{name}}");
-		{{/isOAuth}}
-	}
+        authMethods["{{name}}"] = new {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(
+            {{#isApiKey}}
+            config["{{name}}"]
+            {{/isApiKey}}
+            {{#isBasicBasic}}
+            config["{{name}}"]["username"],
+            config["{{name}}"]["password"]
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            config["{{name}}"]["tokenProvider"]
+            {{/isBasicBearer}}
+            {{#isOAuth}}
+            {{/isOAuth}}
+        );
+    }
 
-	{{/authMethods}}
-	return authMethods;
+    {{/authMethods}}
+    return authMethods;
 }
