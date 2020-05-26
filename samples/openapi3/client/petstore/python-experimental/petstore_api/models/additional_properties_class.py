@@ -18,6 +18,7 @@ import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
+    ApiTypeError,
     ModelComposed,
     ModelNormal,
     ModelSimple,
@@ -116,7 +117,7 @@ class AdditionalPropertiesClass(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, _check_type=True, _spec_property_naming=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, *args, **kwargs):  # noqa: E501
         """additional_properties_class.AdditionalPropertiesClass - a model defined in OpenAPI
 
         Keyword Args:
@@ -159,6 +160,22 @@ class AdditionalPropertiesClass(ModelNormal):
             empty_map (bool, date, datetime, dict, float, int, list, str): an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.. [optional]  # noqa: E501
             map_with_undeclared_properties_string ({str: (str,)}): [optional]  # noqa: E501
         """
+
+        _check_type = kwargs.pop('_check_type', True)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _path_to_item = kwargs.pop('_path_to_item', ())
+        _configuration = kwargs.pop('_configuration', None)
+        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+
+        if args:
+            raise ApiTypeError(
+                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                    args,
+                    self.__class__.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )
 
         self._data_store = {}
         self._check_type = _check_type
