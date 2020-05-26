@@ -51,7 +51,6 @@ import java.util.regex.Pattern;
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
-import org.openapitools.client.auth.HttpSignatureAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.model.AbstractOpenApiSchema;
@@ -87,7 +86,19 @@ public class ApiClient {
 
   protected DateFormat dateFormat;
 
+  /**
+   * Constructs a new ApiClient with default parameters.
+   */
   public ApiClient() {
+    this(null);
+  }
+
+  /**
+   * Constructs a new ApiClient with the specified authentication parameters.
+   *
+   * @param authMap A hash map containing authentication parameters.
+   */
+  public ApiClient(Map<String, Authentication> authMap) {
     json = new JSON();
     httpClient = buildHttpClient(debugging);
 
@@ -98,10 +109,39 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-    authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-    authentications.put("http_basic_test", new HttpBasicAuth());
-    authentications.put("petstore_auth", new OAuth(basePath, ""));
+    Authentication auth = null;
+    if (authMap != null) {
+      auth = authMap.get("api_key");
+    }
+    if (auth instanceof ApiKeyAuth) {
+      authentications.put("api_key", auth);
+    } else {
+      authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    }
+    if (authMap != null) {
+      auth = authMap.get("api_key_query");
+    }
+    if (auth instanceof ApiKeyAuth) {
+      authentications.put("api_key_query", auth);
+    } else {
+      authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+    }
+    if (authMap != null) {
+      auth = authMap.get("http_basic_test");
+    }
+    if (auth instanceof HttpBasicAuth) {
+      authentications.put("http_basic_test", auth);
+    } else {
+      authentications.put("http_basic_test", new HttpBasicAuth());
+    }
+    if (authMap != null) {
+      auth = authMap.get("petstore_auth");
+    }
+    if (auth instanceof OAuth) {
+      authentications.put("petstore_auth", auth);
+    } else {
+      authentications.put("petstore_auth", new OAuth(basePath, ""));
+    }
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 

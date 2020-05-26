@@ -92,7 +92,7 @@ Access token for authentication/authorization
 .PARAMETER SkipCertificateCheck
 Skip certificate verification
 
-.PARAMETER DefaultHeaders 
+.PARAMETER DefaultHeaders
 Default HTTP headers to be included in the HTTP request
 
 .PARAMETER PassThru
@@ -130,7 +130,6 @@ function Set-PSConfiguration {
             if (!($null -ne $URL.AbsoluteURI -and $URL.Scheme -match '[http|https]')) {
                 throw "Invalid URL '$($BaseUrl)' cannot be used in the base URL."
             }
-    
             $Script:Configuration["BaseUrl"] = $BaseUrl
         }
 
@@ -162,7 +161,7 @@ function Set-PSConfiguration {
             $Script:Configuration['SkipCertificateCheck'] = $true
         } else {
             $Script:Configuration['SkipCertificateCheck'] = $false
-        } 
+        }
 
         If ($DefaultHeaders) {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
@@ -341,7 +340,7 @@ Get the URL from the host settings.
 .PARAMETER Index
 Index of the host settings (array)
 
-.PARAMETER Variables 
+.PARAMETER Variables
 Names and values of the variables (hashtable)
 
 .DESCRIPTION

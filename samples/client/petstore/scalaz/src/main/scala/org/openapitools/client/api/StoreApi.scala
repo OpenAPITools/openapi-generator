@@ -90,7 +90,7 @@ object StoreApi {
     } yield resp
   }
   
-  def placeOrder(host: String, body: Order): Task[Order] = {
+  def placeOrder(host: String, order: Order): Task[Order] = {
     implicit val returnTypeDecoder: EntityDecoder[Order] = jsonOf[Order]
 
     val path = "/store/order"
@@ -105,7 +105,7 @@ object StoreApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(order)
       resp          <- client.expect[Order](req)
 
     } yield resp
@@ -179,7 +179,7 @@ class HttpServiceStoreApi(service: HttpService) {
     } yield resp
   }
   
-  def placeOrder(body: Order): Task[Order] = {
+  def placeOrder(order: Order): Task[Order] = {
     implicit val returnTypeDecoder: EntityDecoder[Order] = jsonOf[Order]
 
     val path = "/store/order"
@@ -194,7 +194,7 @@ class HttpServiceStoreApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(order)
       resp          <- client.expect[Order](req)
 
     } yield resp
