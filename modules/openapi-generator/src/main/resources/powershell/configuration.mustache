@@ -463,7 +463,7 @@ function Set-{{apiNamePrefix}}ConfigurationHttpSigning{
     
 
     if($HttpSigningHeader -contains "(expires)" -and $SignatureValidityPeriod -le 0){
-        throw "SignatureValidityPeriod must be greater that 0 seconds."
+        throw "SignatureValidityPeriod must be greater than 0 seconds."
     }
 
     if($HttpSigningHeader -contains "(expires)"){
