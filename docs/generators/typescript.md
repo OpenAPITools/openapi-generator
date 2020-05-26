@@ -22,6 +22,7 @@ If false: the 'additionalProperties' implementation is compliant with the OAS an
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
+|useInversify|Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container.| |false|
 |useObjectParameters|useObjectParameters| |false|
 |useRxJS|Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.| |false|
 
